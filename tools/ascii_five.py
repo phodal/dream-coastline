@@ -85,6 +85,9 @@ def render(state: GameState, message: str = "") -> str:
     if location.get("combat"):
         lines.append(combat_status(state))
         lines.append("Combat: write name | attack | guard")
+    casts = available_casts(state)
+    if casts:
+        lines.append("Cast: " + ", ".join(casts))
     lines.append("Commands: look | go <exit> | inspect <item> | status | help | quit")
     return "\n".join(lines)
 
@@ -127,6 +130,8 @@ def apply_command(state: GameState, command: str) -> str:
         return inspect_item(state, parts[1] if len(parts) > 1 else "")
     if verb == "write":
         return write_glyph(state, parts[1] if len(parts) > 1 else "")
+    if verb == "cast":
+        return cast_glyph(state, parts[1] if len(parts) > 1 else "")
     if verb in {"attack", "hit"}:
         return attack(state)
     if verb in {"guard", "defend"}:
@@ -152,13 +157,43 @@ def inspect_item(state: GameState, item_id: str) -> str:
 
     missing = [flag for flag in item.get("requires", []) if flag not in state.flags]
     if missing:
-        return "你还缺少前置信息。先调查信纸，再决定是否碰那支笔。"
+        return "你还缺少前置信息。先完成当前场景的关键调查或修复。"
 
     state.elapsed_seconds += int(item.get("time_seconds", 30))
     for flag in item.get("flags", []):
         state.flags.add(flag)
     state.log.append(f"inspect {item_id}")
     return str(item["text"])
+
+
+def available_casts(state: GameState) -> list[str]:
+    casts: list[str] = []
+    casts.extend(state.location.get("glyph_actions", {}).keys())
+    casts.extend(state.combat.get("spells", {}).keys())
+    return casts
+
+
+def cast_glyph(state: GameState, glyph: str) -> str:
+    combat_active = bool(state.combat) and state.enemy_hp > 0 and state.combat["win_flag"] not in state.flags
+    if glyph in {"名", "name"} and combat_active:
+        return write_glyph(state, "name")
+
+    action = state.combat.get("spells", {}).get(glyph) if combat_active else None
+    if action is None:
+        action = state.location.get("glyph_actions", {}).get(glyph)
+    if action is None and state.combat:
+        action = state.combat.get("spells", {}).get(glyph)
+    if action is None:
+        return "这个字根现在派不上用场。"
+
+    missing = [flag for flag in action.get("requires", []) if flag not in state.flags]
+    if missing:
+        return "你还没理解这个术式的前置条件。"
+
+    state.elapsed_seconds += int(action.get("time_seconds", 45))
+    state.flags.update(action.get("flags", []))
+    state.log.append(f"cast {glyph}")
+    return str(action["text"])
 
 
 def enter_combat_if_needed(state: GameState) -> None:
@@ -200,7 +235,7 @@ def write_glyph(state: GameState, glyph: str) -> str:
     state.flags.add(combat["lock_flag"])
     state.flags.update(combat.get("success_flags", []))
     state.attacks_since_name = 0
-    return "“名”字亮起。敌人的轮廓被固定，系统终于显示：无名兽。"
+    return f"“名”字亮起。敌人的轮廓被固定，系统终于显示：{combat['revealed_name']}。"
 
 
 def attack(state: GameState) -> str:
@@ -212,6 +247,11 @@ def attack(state: GameState) -> str:
         state.player_hp -= 1
         state.log.append("attack")
         return "你挥笔却无法锁定目标。攻击穿过空白，自己反而被寒意擦伤。"
+    missing = [flag for flag in combat.get("required_attack_flags", []) if flag not in state.flags]
+    if missing:
+        state.elapsed_seconds += 25
+        state.log.append("attack")
+        return "目标已经显形，但战场规则还没被破解，攻击被契约挡下。"
 
     state.elapsed_seconds += int(combat.get("attack_seconds", 35))
     state.enemy_hp -= 1
@@ -225,8 +265,8 @@ def attack(state: GameState) -> str:
     if state.attacks_since_name >= int(combat.get("lose_name_every", 2)):
         state.flags.discard(combat["lock_flag"])
         state.attacks_since_name = 0
-        return "攻击命中，但无名兽开始失名。它的名字从 UI 上褪成？？？，必须重新写“名”。"
-    return "攻击命中。无名兽被迫后退，但边缘仍在空白化。"
+        return f"攻击命中，但{combat['revealed_name']}开始失名。必须重新写“名”。"
+    return f"攻击命中。{combat['revealed_name']}被迫后退，但边缘仍在空白化。"
 
 
 def guard(state: GameState) -> str:

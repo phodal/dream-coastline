@@ -1,0 +1,264 @@
+{
+  "id": "02-moqi-academy",
+  "title": "第二幕：墨颀书院",
+  "source": "five/scene/02-moqi-academy.md",
+  "min_minutes": 5.0,
+  "start": "academy",
+  "ending_flag": "viewed_parent_record",
+  "required_flags": [
+    "met_wensu",
+    "learned_name",
+    "learned_door",
+    "learned_fire",
+    "learned_stop",
+    "repaired_well",
+    "got_basic_dictionary",
+    "defeated_contract_officer",
+    "repaired_first_node",
+    "viewed_parent_record"
+  ],
+  "locations": {
+    "academy": {
+      "name": "隐秘书院",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  旧讲堂[书]      闻素        夏离                             |",
+        "|    名 门 火 止   @                                           |",
+        "|  黑板上写着：文字不是魔法，是接口。                           |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "夏离把你带到隐秘书院。闻素愿意教你基础墨文，但先让你承认自己真的不会。",
+      "exits": {
+        "village": "边境村落",
+        "archive": "地下藏书室"
+      },
+      "items": {
+        "wensu": {
+          "name": "闻素",
+          "time_seconds": 60,
+          "flags": ["met_wensu"],
+          "text": "闻素说：在墨颀，不会写字的人，不是愚笨。是不被允许存在得太完整。"
+        },
+        "name": {
+          "name": "名",
+          "time_seconds": 45,
+          "flags": ["learned_name"],
+          "text": "你复习“名”。它不是标签，而是让一个对象被世界承认。"
+        },
+        "door": {
+          "name": "门",
+          "time_seconds": 50,
+          "flags": ["learned_door"],
+          "text": "“门”不是木板，而是通行规则。理解它后，地图上多出许多原本看不见的入口。"
+        },
+        "fire": {
+          "name": "火",
+          "time_seconds": 50,
+          "flags": ["learned_fire"],
+          "text": "“火”是能源，也是警告。闻素让你先学会启动，再学会停止。"
+        },
+        "stop": {
+          "name": "止",
+          "time_seconds": 50,
+          "flags": ["learned_stop"],
+          "text": "“止”不是停下动作，而是稳定边界。它能让裂纹暂时不再扩大。"
+        }
+      }
+    },
+    "village": {
+      "name": "边境村落",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  村井[裂]        孩子们排队取水                               |",
+        "|  水符□□          墨力炉(火?)                                 |",
+        "|                       @                                      |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "村落水井的符文损坏。夏离想继续赶路，你却看见村民连基础维护都不会。",
+      "exits": {
+        "academy": "隐秘书院",
+        "archive": "地下藏书室"
+      },
+      "items": {
+        "well": {
+          "name": "裂开的水井",
+          "time_seconds": 45,
+          "flags": ["checked_broken_well"],
+          "text": "井沿的裂纹像被删掉的笔画。水源还在，但名字和流向都不稳定。"
+        },
+        "villagers": {
+          "name": "村民",
+          "time_seconds": 55,
+          "flags": ["saw_knowledge_lockout"],
+          "text": "老人说他们只会照着旧符抄，没人教过为什么这样写。"
+        }
+      },
+      "glyph_actions": {
+        "stop": {
+          "time_seconds": 45,
+          "requires": ["learned_stop", "checked_broken_well"],
+          "flags": ["stabilized_well_crack"],
+          "text": "你写下“止”，井沿裂纹不再扩大。"
+        },
+        "fire": {
+          "time_seconds": 45,
+          "requires": ["learned_fire", "stabilized_well_crack"],
+          "flags": ["started_ink_engine"],
+          "text": "你用“火”启动旧墨力炉，水声重新从井底传来。"
+        },
+        "name": {
+          "time_seconds": 45,
+          "requires": ["learned_name", "started_ink_engine"],
+          "flags": ["repaired_well"],
+          "text": "你用“名”确认水源。井口浮出清水，孩子们第一次喊出你的名字。"
+        }
+      }
+    },
+    "archive": {
+      "name": "地下藏书室",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  书架||||||||     封存柜[门]                                 |",
+        "|  日常文字 / 律文字 / 真文字                                  |",
+        "|                 @                                            |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "闻素解释三层文字结构。基础字典被封在旧柜里，封条属于墨律司。",
+      "exits": {
+        "academy": "隐秘书院",
+        "village": "边境村落",
+        "node": "第一个国书节点"
+      },
+      "items": {
+        "layers": {
+          "name": "三层文字",
+          "time_seconds": 65,
+          "flags": ["understood_text_layers"],
+          "text": "日常文字记录生活，律文字约束制度，真文字接近现实底层接口。"
+        },
+        "cabinet": {
+          "name": "封存柜",
+          "time_seconds": 45,
+          "flags": ["checked_dictionary_cabinet"],
+          "text": "柜门上的封条写着“未授权者不得授字”。夏离沉默了很久。"
+        }
+      },
+      "glyph_actions": {
+        "door": {
+          "time_seconds": 55,
+          "requires": ["learned_door", "checked_dictionary_cabinet"],
+          "flags": ["got_basic_dictionary"],
+          "text": "你写下“门”，不是破坏柜子，而是找到封条规则里的通行漏洞。基础字典到手。"
+        }
+      }
+    },
+    "node": {
+      "name": "第一个国书节点",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  国书节点[裂]        执契官                                   |",
+        "|  名册□□  门禁□□  火脉□□  止符□□                            |",
+        "|                 @                                            |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "第一座国书节点几乎失效。执契官守在节点前，说文字不该交给不会承担代价的人。",
+      "exits": {
+        "archive": "地下藏书室"
+      },
+      "items": {
+        "contract": {
+          "name": "契约封锁",
+          "time_seconds": 55,
+          "flags": ["checked_contract_lock"],
+          "text": "契约把节点、村落和你的行动绑在一起。硬闯会让井水再次停摆。"
+        },
+        "record": {
+          "name": "父母影像",
+          "time_seconds": 70,
+          "requires": ["repaired_first_node"],
+          "flags": ["viewed_parent_record"],
+          "text": "母亲的影像说：子轩，如果你看见这段记录，说明墨颀还没有结束。不要急着回来。"
+        }
+      },
+      "glyph_actions": {
+        "name": {
+          "time_seconds": 50,
+          "requires": ["learned_name", "defeated_contract_officer"],
+          "flags": ["named_first_node"],
+          "text": "你确认节点的名字。它不是废墟，而是仍在等待维护的公共系统。"
+        },
+        "stop": {
+          "time_seconds": 50,
+          "requires": ["learned_stop", "named_first_node"],
+          "flags": ["stabilized_first_node"],
+          "text": "你写下“止”，节点裂纹停止扩散。"
+        },
+        "fire": {
+          "time_seconds": 55,
+          "requires": ["learned_fire", "stabilized_first_node", "got_basic_dictionary"],
+          "flags": ["repaired_first_node"],
+          "text": "你用“火”重启墨力脉冲。国书节点亮起，基础字典开始同步。"
+        }
+      },
+      "combat": {
+        "hidden_name": "执契官",
+        "revealed_name": "墨律司执契官",
+        "enemy_hp": 3,
+        "player_hp": 5,
+        "lock_flag": "named_contract_officer",
+        "learn_flag": "learned_name",
+        "win_flag": "defeated_contract_officer",
+        "success_attempt": 1,
+        "required_attack_flags": ["found_contract_gap", "paused_contract"],
+        "success_flags": ["confirmed_contract_subject"],
+        "reward_flags": ["opened_node_core"],
+        "lose_name_every": 99,
+        "write_seconds": 45,
+        "attack_seconds": 35,
+        "spells": {
+          "door": {
+            "time_seconds": 45,
+            "requires": ["learned_door", "checked_contract_lock"],
+            "flags": ["found_contract_gap"],
+            "text": "你用“门”找到契约封锁里的漏洞：执契官也必须遵守他写下的规则。"
+          },
+          "stop": {
+            "time_seconds": 45,
+            "requires": ["learned_stop", "found_contract_gap"],
+            "flags": ["paused_contract"],
+            "text": "你用“止”暂停封锁条款。夏离终于能把攻击送到目标身上。"
+          }
+        }
+      }
+    }
+  },
+  "walkthrough": [
+    "inspect wensu",
+    "inspect name",
+    "inspect door",
+    "inspect fire",
+    "inspect stop",
+    "go village",
+    "inspect well",
+    "inspect villagers",
+    "cast stop",
+    "cast fire",
+    "cast name",
+    "go archive",
+    "inspect layers",
+    "inspect cabinet",
+    "cast door",
+    "go node",
+    "inspect contract",
+    "write name",
+    "cast door",
+    "cast stop",
+    "attack",
+    "attack",
+    "attack",
+    "cast name",
+    "cast stop",
+    "cast fire",
+    "inspect record"
+  ]
+}
