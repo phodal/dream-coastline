@@ -28,4 +28,7 @@
 
 ## 原始文件映射
 
-原素材包的中文文件名已整理为英文 slug，便于链接、检索和跨平台协作。原始清单保留在 [source-file-list.md](project/source-file-list.md)。
+原素材包的中文文件名已整理为英文 slug，便于链接、检索和跨平台协作。
+
+- 原始清单：[source-file-list.md](project/source-file-list.md)
+- 新旧路径映射：[source-map.md](project/source-map.md)
