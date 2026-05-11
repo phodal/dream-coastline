@@ -1,0 +1,246 @@
+{
+  "id": "00-prologue-lights-out",
+  "title": "序幕：灯未亮起的夜晚",
+  "source": "five/scene/00-prologue-lights-out.md",
+  "min_minutes": 5.0,
+  "start": "street",
+  "ending_flag": "entered_moqi",
+  "required_flags": [
+    "noticed_dark_window",
+    "checked_unlocked_door",
+    "checked_cold_dinner",
+    "checked_family_photo",
+    "checked_glasses",
+    "checked_mother_note",
+    "checked_phone_signal",
+    "read_continue_letter",
+    "entered_moqi"
+  ],
+  "locations": {
+    "street": {
+      "name": "居民楼外",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  便利店灯牌       自动售货机         旧居民楼                 |",
+        "|  [24H]              [==]             [ ][ ][ ]                |",
+        "|                                      [ ][暗][ ]                |",
+        "|                    @ 纪子轩                                  |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "晚风卷起寻人启事。自家窗户是黑的，厨房没有熟悉的人影。",
+      "exits": {
+        "building": "居民楼门口"
+      },
+      "items": {
+        "window": {
+          "name": "自家窗户",
+          "time_seconds": 45,
+          "flags": ["noticed_dark_window"],
+          "text": "平时这个时间厨房灯应该亮着。今天整扇窗像一块没有写字的黑纸。"
+        },
+        "poster": {
+          "name": "寻人启事",
+          "time_seconds": 30,
+          "flags": ["saw_missing_poster"],
+          "text": "纸边被风吹得发皱。你没有看清照片，心里却先空了一下。"
+        },
+        "vending": {
+          "name": "自动售货机",
+          "time_seconds": 25,
+          "flags": ["heard_vending_hum"],
+          "text": "机器嗡嗡作响，像是整条街唯一还在正常工作的东西。"
+        }
+      }
+    },
+    "building": {
+      "name": "居民楼门口",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|        声控灯                                                |",
+        "|          ( )       楼梯                                      |",
+        "|        /   \\       ////                                      |",
+        "|  @ 站在门禁前，整栋楼安静得过头。                            |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "楼道里没有脚步声。声控灯没有因为你的咳嗽亮起。",
+      "exits": {
+        "street": "回到街边",
+        "home": "家门口"
+      },
+      "items": {
+        "lamp": {
+          "name": "声控灯",
+          "time_seconds": 35,
+          "flags": ["checked_voice_lamp"],
+          "text": "你拍了拍手，灯泡没有反应。黑暗像故意留下的位置。"
+        },
+        "mailbox": {
+          "name": "信箱",
+          "time_seconds": 30,
+          "flags": ["checked_mailbox"],
+          "text": "信箱里只有广告纸。父亲订的报纸却不见了。"
+        }
+      }
+    },
+    "home": {
+      "name": "家门口",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  防盗门半掩                                                  |",
+        "|  [  ]                                                        |",
+        "|  [  ]  门锁没有扣上。                                        |",
+        "|        @                                                     |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "门没有锁。你叫了一声妈，屋里没有回应。",
+      "exits": {
+        "building": "返回楼道",
+        "living_room": "客厅"
+      },
+      "items": {
+        "lock": {
+          "name": "门锁",
+          "time_seconds": 40,
+          "flags": ["checked_unlocked_door"],
+          "text": "锁舌没有弹出。像有人出门太急，也像有人根本没有离开。"
+        },
+        "air": {
+          "name": "屋内气味",
+          "time_seconds": 35,
+          "flags": ["smelled_cold_food"],
+          "text": "凉掉的饭菜味混在黑暗里，比任何回答都更不对劲。"
+        }
+      }
+    },
+    "living_room": {
+      "name": "客厅",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  电视[ ]      沙发[____]        全家照[ ]                    |",
+        "|                                                              |",
+        "|  餐桌  +------------------+                                  |",
+        "|        | 冷饭  筷子  空碗 |        @                         |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "灯亮起后，房间整洁得异常。晚饭摆在桌上，电视关着。",
+      "exits": {
+        "home": "家门口",
+        "study": "父母书房",
+        "bedroom": "纪子轩房间"
+      },
+      "items": {
+        "dinner": {
+          "name": "冷掉的晚饭",
+          "time_seconds": 50,
+          "flags": ["checked_cold_dinner"],
+          "text": "饭菜已经凉透。筷子摆得很正，像时间在开饭前突然停住。"
+        },
+        "tv": {
+          "name": "电视",
+          "time_seconds": 30,
+          "flags": ["checked_tv"],
+          "text": "屏幕漆黑。遥控器放在父亲常坐的位置，新闻频道没有声音。"
+        },
+        "photo": {
+          "name": "全家照",
+          "time_seconds": 45,
+          "flags": ["checked_family_photo"],
+          "text": "照片里父亲站得很直，母亲笑得有些累。你第一次觉得照片像证物。"
+        }
+      }
+    },
+    "study": {
+      "name": "父母书房",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  书桌[========]        书架||||||||                          |",
+        "|  眼镜 o-o             笔记本[翻开]                           |",
+        "|                                                              |",
+        "|                      @                                       |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "父亲的眼镜留在桌上。母亲的笔记翻到一半，纸页边缘有淡淡墨味。",
+      "exits": {
+        "living_room": "客厅"
+      },
+      "items": {
+        "glasses": {
+          "name": "父亲眼镜",
+          "time_seconds": 45,
+          "flags": ["checked_glasses"],
+          "text": "父亲很少离开眼镜。镜片上有一道指纹，像他刚刚抬头看过什么。"
+        },
+        "note": {
+          "name": "母亲笔记",
+          "time_seconds": 60,
+          "flags": ["checked_mother_note"],
+          "text": "笔记停在半句：如果灯先灭，不要立刻续写。你不明白续写是什么意思。"
+        },
+        "phone": {
+          "name": "手机信号",
+          "time_seconds": 40,
+          "flags": ["checked_phone_signal"],
+          "text": "手机只闪过一格信号，随后任务栏像被墨水擦掉，剩下一排无法识别的方块。"
+        }
+      }
+    },
+    "bedroom": {
+      "name": "纪子轩房间",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  窗 / / /         书桌 +----------------+                   |",
+        "|                  | 信纸  黑色钢笔 === |                   |",
+        "|                  +----------------+                         |",
+        "|                         @                                    |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "你的房门半掩着。桌上放着一封没有署名的信和一支黑色钢笔。",
+      "exits": {
+        "living_room": "客厅"
+      },
+      "items": {
+        "window": {
+          "name": "打开的窗",
+          "time_seconds": 35,
+          "flags": ["checked_bedroom_window"],
+          "text": "窗户被打开一条缝。夜风掀起信纸一角，像有人刚从这里离开。"
+        },
+        "letter": {
+          "name": "信",
+          "time_seconds": 50,
+          "flags": ["read_continue_letter"],
+          "text": "信纸上只有一句英文：To be Continue ... 语法不对，却像一句命令。"
+        },
+        "pen": {
+          "name": "黑色钢笔",
+          "time_seconds": 70,
+          "requires": ["read_continue_letter"],
+          "flags": ["entered_moqi"],
+          "text": "你碰到钢笔，手指忽然刺痛。血滴在信上，英文被墨迹吞掉：墨颀历三百一十七年，王城陷落。灯灭了。"
+        }
+      }
+    }
+  },
+  "walkthrough": [
+    "inspect window",
+    "inspect poster",
+    "go building",
+    "inspect lamp",
+    "go home",
+    "inspect lock",
+    "inspect air",
+    "go living_room",
+    "inspect dinner",
+    "inspect tv",
+    "inspect photo",
+    "go study",
+    "inspect glasses",
+    "inspect note",
+    "inspect phone",
+    "go living_room",
+    "go bedroom",
+    "inspect window",
+    "inspect letter",
+    "inspect pen"
+  ]
+}

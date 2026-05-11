@@ -28,6 +28,14 @@ Validate the project can load:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit
 ```
 
+Run the fast ASCII prototype for `five/scene` work:
+
+```sh
+python3 tools/ascii_five.py
+python3 tools/ascii_five.py --verify
+python3 tools/ascii_five.py --report
+```
+
 Controls:
 
 - `Space` or left mouse click: advance the scene.
