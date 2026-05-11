@@ -1,0 +1,329 @@
+{
+  "id": "04-continuation-institute",
+  "title": "第四幕：续文院",
+  "source": "five/scene/04-continuation-institute.md",
+  "min_minutes": 5.0,
+  "start": "institute",
+  "initial_flags": ["learned_name", "learned_door", "learned_fire", "learned_stop", "got_basic_dictionary", "chose_public_books"],
+  "metrics": {
+    "literacy": 12,
+    "trust": 18,
+    "energy": 10,
+    "openness": 20,
+    "stability": 22,
+    "engineering": 8,
+    "noble_resistance": 70
+  },
+  "ending_flag": "archive_tower_built",
+  "required_flags": [
+    "founded_institute",
+    "opened_first_school",
+    "published_standard_dictionary",
+    "repaired_workshop_flow",
+    "solved_mine_safety",
+    "restored_communication_tower",
+    "defeated_seal_tower",
+    "archive_tower_built"
+  ],
+  "locations": {
+    "institute": {
+      "name": "续文院初址",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  旧仓库改成讲堂     夏离  闻素  工匠  学生                   |",
+        "|  标语：人人皆可续写墨颀                                      |",
+        "|                       @                                      |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "这里不是王宫，也不是旧书院，而是开放式研究、教育和工程组织的起点。",
+      "exits": {
+        "school": "平民学塾",
+        "workshop": "工坊区",
+        "mine": "符文矿场"
+      },
+      "items": {
+        "members": {
+          "name": "第一批成员",
+          "time_seconds": 65,
+          "flags": ["met_first_members"],
+          "text": "闻素带来学生，阿棠带来工匠，夏离带来旧军地图。第一次，墨颀的未来不只坐在王座旁。"
+        },
+        "charter": {
+          "name": "续文院章程",
+          "time_seconds": 70,
+          "flags": ["drafted_open_charter"],
+          "text": "章程写明：术式必须记录、复核、公开错误。知识开放不是放任，而是共同承担。"
+        }
+      },
+      "build_actions": {
+        "institute": {
+          "time_seconds": 80,
+          "requires": ["met_first_members", "drafted_open_charter"],
+          "flags": ["founded_institute"],
+          "metrics": {"trust": 8, "openness": 10, "noble_resistance": -8},
+          "text": "续文院挂牌。夏离宣布：墨颀不再等待一位王来续命。"
+        },
+        "dictionary": {
+          "time_seconds": 70,
+          "requires": ["founded_institute", "got_basic_dictionary"],
+          "flags": ["published_standard_dictionary"],
+          "metrics": {"literacy": 8, "stability": 8, "openness": 8},
+          "text": "标准字典第一版发布。字根写法第一次可以被普通人校验。"
+        }
+      }
+    },
+    "school": {
+      "name": "平民学塾",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  孩子们：名 门 火 止                                         |",
+        "|  黑板[公开字典]      闻素                                    |",
+        "|                 @                                            |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "平民第一次系统学习基础墨文。贵族派来的书记官站在门外，脸色很差。",
+      "exits": {
+        "institute": "续文院初址",
+        "workshop": "工坊区",
+        "tower": "通信塔遗址"
+      },
+      "items": {
+        "class": {
+          "name": "第一堂课",
+          "time_seconds": 60,
+          "flags": ["held_first_class"],
+          "text": "小砚把“名”写得歪歪扭扭，但他第一次能完整写出自己的名字。"
+        },
+        "mistake": {
+          "name": "错误记录",
+          "time_seconds": 55,
+          "flags": ["logged_student_errors"],
+          "text": "闻素没有擦掉错误，而是把错误抄到复盘板上：文明要学会从错误继续。"
+        }
+      },
+      "build_actions": {
+        "school": {
+          "time_seconds": 75,
+          "requires": ["founded_institute", "held_first_class", "logged_student_errors"],
+          "flags": ["opened_first_school"],
+          "metrics": {"literacy": 18, "trust": 6, "openness": 8},
+          "text": "第一座公开学塾开课。任务面板里，许多□□变成了可读的名字。"
+        }
+      }
+    },
+    "workshop": {
+      "name": "工坊区",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  阿棠的工坊  墨力炉[火]  桥梁模型[止]                        |",
+        "|  工程复盘板：失败 -> 修改 -> 再测试                           |",
+        "|                     @                                        |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "阿棠把字根知识转成工具、材料和维修流程。她比任何书记官都先知道机器为什么坏。",
+      "exits": {
+        "institute": "续文院初址",
+        "school": "平民学塾",
+        "mine": "符文矿场"
+      },
+      "items": {
+        "atang": {
+          "name": "阿棠",
+          "time_seconds": 60,
+          "flags": ["met_atang"],
+          "text": "阿棠说：坏掉的时候，明明是我第一个知道它为什么坏。"
+        },
+        "flood": {
+          "name": "防洪符文事故",
+          "time_seconds": 70,
+          "flags": ["reviewed_flood_failure"],
+          "text": "第一次共同修复失败，造成小规模回流。你没有隐藏事故，而是组织复盘。"
+        }
+      },
+      "build_actions": {
+        "workflow": {
+          "time_seconds": 80,
+          "requires": ["met_atang", "reviewed_flood_failure", "published_standard_dictionary"],
+          "flags": ["repaired_workshop_flow"],
+          "metrics": {"engineering": 18, "stability": 8, "trust": 5},
+          "text": "工坊建立测试流程：小样、复核、实地修复。第二次防洪符文修复成功。"
+        }
+      }
+    },
+    "mine": {
+      "name": "符文矿场",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  矿道[裂]  墨力矿***   工人排队等停工                         |",
+        "|  危险标记：火  止  门                                        |",
+        "|                  @                                           |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "符文矿场提供能源，也吞掉了太多人。旧制度只要求产量，不要求每个人都懂危险。",
+      "exits": {
+        "institute": "续文院初址",
+        "workshop": "工坊区",
+        "tower": "通信塔遗址"
+      },
+      "items": {
+        "hazard": {
+          "name": "危险作业",
+          "time_seconds": 65,
+          "flags": ["checked_mine_hazard"],
+          "text": "矿道裂纹被旧书记官标成低优先级。工人只能背口诀，没人知道为什么要停。"
+        }
+      },
+      "glyph_actions": {
+        "stop": {
+          "time_seconds": 50,
+          "requires": ["learned_stop", "checked_mine_hazard"],
+          "flags": ["stabilized_mine"],
+          "text": "你用“止”稳定矿道裂纹，给工人争取撤离和改造时间。"
+        }
+      },
+      "build_actions": {
+        "safety": {
+          "time_seconds": 80,
+          "requires": ["stabilized_mine", "repaired_workshop_flow"],
+          "flags": ["solved_mine_safety"],
+          "metrics": {"energy": 20, "trust": 8, "engineering": 8, "stability": 6},
+          "text": "矿场改成公开安全流程。能源提高，但每次作业都必须留下可追溯记录。"
+        }
+      }
+    },
+    "tower": {
+      "name": "通信塔遗址",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  断塔||||      旧通信符阵[门][火]                             |",
+        "|  远处村落信号：...                                           |",
+        "|                   @                                          |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "通信塔能恢复远距离协作。没有它，续文院只能救眼前这一小片地区。",
+      "exits": {
+        "school": "平民学塾",
+        "mine": "符文矿场",
+        "seal_tower": "封字塔"
+      },
+      "items": {
+        "array": {
+          "name": "通信符阵",
+          "time_seconds": 60,
+          "flags": ["checked_comm_array"],
+          "text": "符阵不是坏了，而是字典版本不一致。不同地区写同一个字，结果却略有偏差。"
+        }
+      },
+      "build_actions": {
+        "comms": {
+          "time_seconds": 90,
+          "requires": ["checked_comm_array", "published_standard_dictionary", "solved_mine_safety"],
+          "flags": ["restored_communication_tower"],
+          "metrics": {"trust": 10, "stability": 10, "engineering": 10},
+          "text": "通信塔恢复。各地学塾第一次能同步字典修订。"
+        }
+      }
+    },
+    "seal_tower": {
+      "name": "封字塔",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  封字塔[删]   学生名字□□   字典页□□                          |",
+        "|  墨律司遗忘机制启动                                          |",
+        "|                      @                                       |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "封字塔试图让整个地区的平民忘记新学会的文字。你必须保护学生和字典。",
+      "exits": {
+        "tower": "通信塔遗址"
+      },
+      "items": {
+        "students": {
+          "name": "学生",
+          "time_seconds": 55,
+          "flags": ["students_under_attack"],
+          "text": "学生刚学会的字开始乱码。小砚抱着字典，拼命重复自己的名字。"
+        },
+        "dictionary": {
+          "name": "公共字典",
+          "time_seconds": 55,
+          "flags": ["dictionary_under_attack"],
+          "text": "公共字典页边被擦白。如果它被删掉，所有人的学习都会断页。"
+        }
+      },
+      "build_actions": {
+        "protect": {
+          "time_seconds": 70,
+          "requires": ["students_under_attack", "dictionary_under_attack", "restored_communication_tower"],
+          "flags": ["protected_students", "protected_dictionary"],
+          "metrics": {"trust": 10, "openness": 10, "stability": 8},
+          "text": "学生、工匠、教师共同抄写备份。封字塔无法一次删掉所有副本。"
+        },
+        "archive": {
+          "time_seconds": 90,
+          "requires": ["defeated_seal_tower", "protected_dictionary"],
+          "flags": ["archive_tower_built"],
+          "metrics": {"openness": 18, "stability": 18, "noble_resistance": -14},
+          "text": "封字塔被改写成公共档案塔。墨颀进入百年续页。"
+        }
+      },
+      "combat": {
+        "hidden_name": "封字塔",
+        "revealed_name": "封字塔",
+        "enemy_hp": 4,
+        "player_hp": 5,
+        "lock_flag": "named_seal_tower",
+        "learn_flag": "learned_name",
+        "win_flag": "defeated_seal_tower",
+        "success_attempt": 1,
+        "required_attack_flags": ["protected_students", "protected_dictionary", "paused_forgetting"],
+        "success_flags": ["confirmed_archive_target"],
+        "reward_flags": ["defeated_seal_tower"],
+        "lose_name_every": 2,
+        "write_seconds": 45,
+        "attack_seconds": 35,
+        "spells": {
+          "stop": {
+            "time_seconds": 50,
+            "requires": ["learned_stop", "protected_students"],
+            "flags": ["paused_forgetting"],
+            "text": "你用“止”暂停遗忘扩散。学生们接上下一行字。"
+          }
+        }
+      }
+    }
+  },
+  "walkthrough": [
+    "inspect members",
+    "inspect charter",
+    "build institute",
+    "build dictionary",
+    "go school",
+    "inspect class",
+    "inspect mistake",
+    "build school",
+    "go workshop",
+    "inspect atang",
+    "inspect flood",
+    "build workflow",
+    "go mine",
+    "inspect hazard",
+    "cast stop",
+    "build safety",
+    "go tower",
+    "inspect array",
+    "build comms",
+    "go seal_tower",
+    "inspect students",
+    "inspect dictionary",
+    "build protect",
+    "write name",
+    "cast stop",
+    "attack",
+    "attack",
+    "write name",
+    "attack",
+    "attack",
+    "build archive"
+  ]
+}
