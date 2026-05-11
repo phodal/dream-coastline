@@ -1,0 +1,294 @@
+{
+  "id": "06-return-star-plan",
+  "title": "第六幕：归星计划",
+  "source": "five/scene/06-return-star-plan.md",
+  "min_minutes": 5.0,
+  "start": "astral_tower",
+  "initial_flags": ["learned_name", "learned_door", "learned_fire", "learned_stop", "built_statebook_network", "completed_astral_tower", "archive_tower_built"],
+  "metrics": {
+    "literacy": 72,
+    "trust": 78,
+    "energy": 70,
+    "openness": 82,
+    "stability": 80,
+    "engineering": 75,
+    "star_observation": 70,
+    "support": 0
+  },
+  "ending_flag": "returned_to_modern_with_moqi",
+  "required_flags": [
+    "confirmed_modern_disaster",
+    "won_return_star_council",
+    "built_return_vessel",
+    "bound_civilization_backups",
+    "opened_return_gate",
+    "defeated_invasion_probe",
+    "received_parent_truth",
+    "returned_to_modern_with_moqi"
+  ],
+  "locations": {
+    "astral_tower": {
+      "name": "星象塔",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  现代星球坐标：-- -- --                                      |",
+        "|  观测报告：灯光熄灭，地图空白，人名缺失                      |",
+        "|                       @                                      |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "现代星球坐标仍在快速消失。归星计划不再是回家，而是救援一个正在静默的文明。",
+      "exits": {
+        "council": "归星议会"
+      },
+      "items": {
+        "disaster": {
+          "name": "现代灾难",
+          "time_seconds": 80,
+          "flags": ["confirmed_modern_disaster"],
+          "text": "城市地图出现空白，人名从档案中消失。现代科技能发信号，却无法证明信号存在。"
+        },
+        "parents": {
+          "name": "父母研究摘要",
+          "time_seconds": 80,
+          "flags": ["read_parent_research_summary"],
+          "text": "父母早就知道：墨颀文字现实技术可能是唯一能抵抗静默的系统。"
+        }
+      }
+    },
+    "council": {
+      "name": "归星议会",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  续文院  工坊  学塾  国书网络  反对派                         |",
+        "|  问题：墨颀是否要跨过星空救另一个世界？                       |",
+        "|                      @                                       |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "支持者和反对者都不是工具人。一个刚复苏的文明，是否有资格承担跨世界救援？",
+      "exits": {
+        "astral_tower": "星象塔",
+        "dockyard": "浮空船坞"
+      },
+      "items": {
+        "supporters": {
+          "name": "支持派",
+          "time_seconds": 70,
+          "flags": ["heard_supporters"],
+          "text": "学生、工程师和档案员认为：纪子轩帮助过墨颀，墨颀也应回应另一个文明的求救。"
+        },
+        "opposition": {
+          "name": "反对派",
+          "time_seconds": 70,
+          "flags": ["heard_opposition"],
+          "text": "反对者说：墨颀刚从灭亡中恢复，归星计划可能让一切成果再次归零。"
+        }
+      },
+      "build_actions": {
+        "mandate": {
+          "time_seconds": 100,
+          "requires": ["confirmed_modern_disaster", "heard_supporters", "heard_opposition"],
+          "flags": ["won_return_star_council"],
+          "metrics": {"support": 72, "trust": 8, "openness": 6},
+          "text": "议会通过归星授权。支持度来自前期教育、公开知识、国书稳定和工程能力。"
+        }
+      }
+    },
+    "dockyard": {
+      "name": "浮空船坞",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  续页舰骨架[门][火]      工程师队列                           |",
+        "|  星门雏形       移动国书核心                                  |",
+        "|                      @                                       |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "归星需要跨界工程载体。它不是一艘船，而是一段可以移动的文明状态。",
+      "exits": {
+        "council": "归星议会",
+        "core": "国书核心",
+        "gate": "归星门"
+      },
+      "items": {
+        "blueprint": {
+          "name": "续页舰蓝图",
+          "time_seconds": 75,
+          "flags": ["checked_return_vessel_blueprint"],
+          "text": "蓝图把星象塔、国书节点、移动档案和续页系统写成同一个工程。"
+        }
+      },
+      "build_actions": {
+        "vessel": {
+          "time_seconds": 120,
+          "requires": ["won_return_star_council", "checked_return_vessel_blueprint"],
+          "flags": ["built_return_vessel"],
+          "metrics": {"engineering": 15, "energy": -12, "support": 8},
+          "text": "续页舰完工。它携带的不是军队，而是字典、档案、教师、工程师和国书核心。"
+        }
+      }
+    },
+    "core": {
+      "name": "国书核心",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  标准字典[备份] 公共档案[备份] 名册[备份] 夏离[稳定]           |",
+        "|                   @                                          |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "静默探针会删除字根、地图和名字。你必须把文明系统做成可恢复的备份链。",
+      "exits": {
+        "dockyard": "浮空船坞",
+        "gate": "归星门"
+      },
+      "items": {
+        "xiali": {
+          "name": "夏离稳定国书",
+          "time_seconds": 70,
+          "flags": ["xiali_stabilizes_core"],
+          "text": "夏离说：过去，王守国境。现在，墨颀的国境在星空之外。"
+        },
+        "backup": {
+          "name": "文明备份链",
+          "time_seconds": 70,
+          "flags": ["designed_backup_chain"],
+          "text": "标准字典、公共档案馆、国书网络和学生共同书写，将成为战斗中的恢复系统。"
+        }
+      },
+      "build_actions": {
+        "backups": {
+          "time_seconds": 110,
+          "requires": ["xiali_stabilizes_core", "designed_backup_chain", "built_return_vessel"],
+          "flags": ["bound_civilization_backups"],
+          "metrics": {"stability": 15, "support": 6},
+          "text": "备份链绑定完成。之后如果字根被删，国书网络能从多个城市共同恢复。"
+        }
+      }
+    },
+    "gate": {
+      "name": "归星门",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  星门 OOOOO        现代裂隙 ////                              |",
+        "|  坐标正在被擦除：-- -- --                                    |",
+        "|                      @                                       |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "归星门完成最终校准时，静默探针入侵。它不谈判，只执行删除协议。",
+      "exits": {
+        "dockyard": "浮空船坞",
+        "core": "国书核心",
+        "rift": "现代世界裂隙"
+      },
+      "items": {
+        "calibration": {
+          "name": "最终校准",
+          "time_seconds": 80,
+          "flags": ["checked_gate_calibration"],
+          "text": "星门需要现代坐标、墨颀国书和续页舰三者同时稳定。任何一项乱码都会坍缩。"
+        }
+      },
+      "build_actions": {
+        "gate": {
+          "time_seconds": 120,
+          "requires": ["bound_civilization_backups", "checked_gate_calibration"],
+          "flags": ["opened_return_gate"],
+          "metrics": {"energy": -18, "support": 8, "star_observation": 20},
+          "text": "归星门开启。纪子轩站在门前，身后不是一个人，而是一个成长起来的文明。"
+        }
+      }
+    },
+    "rift": {
+      "name": "现代世界裂隙",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  裂隙中：学校、街道、家门口                                  |",
+        "|  静默探针[删]  技能名□□  队友名□□                           |",
+        "|                      @                                       |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "静默探针正删除坐标、档案和名字。你必须调用整个文明的备份来战斗。",
+      "exits": {
+        "gate": "归星门"
+      },
+      "items": {
+        "probe": {
+          "name": "静默探针",
+          "time_seconds": 70,
+          "requires": ["opened_return_gate"],
+          "flags": ["identified_invasion_probe"],
+          "text": "它不是怪物，而是协议实体。它让技能名称变成□□，让地图失去标记。"
+        },
+        "truth": {
+          "name": "父母真相",
+          "time_seconds": 90,
+          "requires": ["defeated_invasion_probe"],
+          "flags": ["received_parent_truth"],
+          "text": "父母说：你不是被送去逃生。你是被送去点燃一支火种。"
+        }
+      },
+      "build_actions": {
+        "return": {
+          "time_seconds": 90,
+          "requires": ["received_parent_truth", "opened_return_gate"],
+          "flags": ["returned_to_modern_with_moqi"],
+          "metrics": {"support": 10},
+          "text": "纪子轩跨过归星门。夏离、续文院工程师、国书核心和墨颀星火随他进入现代。"
+        }
+      },
+      "combat": {
+        "hidden_name": "静默协议",
+        "revealed_name": "静默探针",
+        "enemy_hp": 5,
+        "player_hp": 5,
+        "lock_flag": "named_invasion_probe",
+        "learn_flag": "learned_name",
+        "win_flag": "defeated_invasion_probe",
+        "success_attempt": 1,
+        "required_attack_flags": ["identified_invasion_probe", "restored_deleted_glyphs"],
+        "success_flags": ["locked_invasion_signature"],
+        "reward_flags": ["defeated_invasion_probe"],
+        "lose_name_every": 2,
+        "write_seconds": 45,
+        "attack_seconds": 35,
+        "spells": {
+          "stop": {
+            "time_seconds": 55,
+            "requires": ["learned_stop", "bound_civilization_backups", "identified_invasion_probe"],
+            "flags": ["restored_deleted_glyphs"],
+            "text": "标准字典、档案馆和国书网络同时回写，被删的字根恢复。"
+          }
+        }
+      }
+    }
+  },
+  "walkthrough": [
+    "inspect disaster",
+    "inspect parents",
+    "go council",
+    "inspect supporters",
+    "inspect opposition",
+    "build mandate",
+    "go dockyard",
+    "inspect blueprint",
+    "build vessel",
+    "go core",
+    "inspect xiali",
+    "inspect backup",
+    "build backups",
+    "go gate",
+    "inspect calibration",
+    "build gate",
+    "go rift",
+    "inspect probe",
+    "write name",
+    "cast stop",
+    "attack",
+    "attack",
+    "write name",
+    "attack",
+    "attack",
+    "write name",
+    "attack",
+    "inspect truth",
+    "build return"
+  ]
+}
