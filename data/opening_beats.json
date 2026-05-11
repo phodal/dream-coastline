@@ -1,0 +1,78 @@
+[
+  {
+    "id": "room",
+    "title": "灯未亮起的夜晚",
+    "narration": "纪子轩推开房门。房间里没有人，只有一盏迟迟没亮起的灯。",
+    "letter": "",
+    "mode": "调查房间",
+    "ascii_hint": "走进空房，桌上有一封信。"
+  },
+  {
+    "id": "letter",
+    "title": "灯未亮起的夜晚",
+    "narration": "桌上的信只有一句英文。它不像父母会写的话，更像有人故意留下的。",
+    "letter": "To be Continue ...",
+    "mode": "阅读信纸",
+    "ascii_hint": "信纸上的英文显得格外突兀。"
+  },
+  {
+    "id": "pen",
+    "title": "灯未亮起的夜晚",
+    "narration": "那支钢笔通体漆黑，没有品牌，也没有金属反光。笔身刻着极细的古文字。",
+    "letter": "To be Continue ...",
+    "mode": "检查钢笔",
+    "ascii_hint": "黑色钢笔像一枚不属于现代的钥匙。"
+  },
+  {
+    "id": "blood",
+    "title": "灯未亮起的夜晚",
+    "narration": "纪子轩拿起笔，手指忽然刺痛。血滴落在信纸上。",
+    "letter": "To be Continue ...",
+    "mode": "触发异变",
+    "ascii_hint": "一点血落在信纸中央。"
+  },
+  {
+    "id": "ink",
+    "title": "灯未亮起的夜晚",
+    "narration": "墨水像活物一样扩散。原本不合理的英文，被一点点吞掉。",
+    "letter": "墨颀历三百一十七年\n王城陷落",
+    "mode": "墨迹扩散",
+    "auto_seconds": 4.2,
+    "ascii_hint": "墨迹蔓延成古老的纪年。"
+  },
+  {
+    "id": "flicker",
+    "title": "灯未亮起的夜晚",
+    "narration": "房间里的灯开始闪烁。窗外传来不属于现代城市的钟声。",
+    "letter": "墨颀历三百一十七年\n王城陷落",
+    "mode": "钟声响起",
+    "auto_seconds": 3.0,
+    "ascii_hint": "钟声从窗外压进房间。"
+  },
+  {
+    "id": "fade",
+    "title": "灯未亮起的夜晚",
+    "narration": "墙壁像被水浸开的墨画。现实褪色，家具、门缝和影子一层层剥落。",
+    "letter": "墨颀历三百一十七年\n王城陷落",
+    "mode": "现实剥落",
+    "auto_seconds": 4.0,
+    "ascii_hint": "房间边界开始碎裂。"
+  },
+  {
+    "id": "void",
+    "title": "灯未亮起的夜晚",
+    "narration": "黑暗里，一个陌生少年的声音响起：你终于来了。执笔者。",
+    "letter": "",
+    "mode": "黑暗回声",
+    "auto_seconds": 2.8,
+    "ascii_hint": "黑暗说：你终于来了，执笔者。"
+  },
+  {
+    "id": "ancient",
+    "title": "墨颀历三百一十七年",
+    "narration": "钟声落下后，纪子轩第一次看见夏离。远处的王城正在燃烧。",
+    "letter": "",
+    "mode": "探索王城",
+    "ascii_hint": "夏离站在燃烧的王城前。"
+  }
+]

@@ -1,7 +1,7 @@
 # OpenGameArt Assets
 
-All assets currently imported here are CC0. Attribution is not required, but the
-source is preserved so replacement and licensing checks stay simple.
+Asset sources and licenses are preserved here so replacement and attribution
+checks stay simple.
 
 ## RPG Tileset
 
@@ -37,3 +37,10 @@ source is preserved so replacement and licensing checks stay simple.
 - Author: rubberduck
 - License: CC0
 - Local files: `castle_tileset/castle_tileset_part*.png`
+
+## Dungeon Crawl 32x32 tiles
+
+- Source: https://opengameart.org/content/dungeon-crawl-32x32-tiles
+- Author: Chris Hamons (maintainer), submitted by MedicineStorm
+- License: CC0
+- Local file: `dungeon_crawl/DungeonCrawl_ProjectUtumnoTileset.png`
