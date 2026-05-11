@@ -1,0 +1,226 @@
+{
+  "id": "05-century-continuation",
+  "title": "第五幕：百年续页",
+  "source": "five/scene/05-century-continuation.md",
+  "min_minutes": 5.0,
+  "start": "industry",
+  "initial_flags": ["learned_name", "learned_door", "learned_fire", "learned_stop", "archive_tower_built"],
+  "metrics": {
+    "literacy": 48,
+    "trust": 60,
+    "energy": 38,
+    "openness": 58,
+    "stability": 56,
+    "engineering": 42,
+    "star_observation": 0
+  },
+  "ending_flag": "saw_modern_star_darkening",
+  "required_flags": [
+    "built_text_industry",
+    "bound_xiali_to_statebook",
+    "built_statebook_network",
+    "completed_astral_tower",
+    "defeated_silent_probe",
+    "saw_modern_star_darkening"
+  ],
+  "locations": {
+    "industry": {
+      "name": "文字工业时代",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  墨力炉[火]  符文车[门]  印刷符纸[名]                         |",
+        "|  第一批学生已经成为教师                                      |",
+        "|                         @                                    |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "百年续页开始。纪子轩会在关键节点被续笔召回，看见墨颀以年和十年为单位成长。",
+      "exits": {
+        "network": "国书网络时代"
+      },
+      "items": {
+        "teachers": {
+          "name": "第一批教师",
+          "time_seconds": 70,
+          "flags": ["first_students_teach"],
+          "text": "当年写歪“名”的学生站上讲台。教育系统开始自我复制。"
+        },
+        "wensu_book": {
+          "name": "闻素教材",
+          "time_seconds": 70,
+          "flags": ["wensu_textbook_survives"],
+          "text": "闻素的《初学墨字》被翻印到第七版。她本人离场后，书仍在教人。"
+        }
+      },
+      "build_actions": {
+        "industry": {
+          "time_seconds": 100,
+          "requires": ["archive_tower_built", "first_students_teach", "wensu_textbook_survives"],
+          "flags": ["built_text_industry"],
+          "metrics": {"energy": 20, "engineering": 18, "literacy": 16, "trust": 8},
+          "text": "墨力炉、符文车、公共照明和印刷符纸进入城市。基础设施不再只靠少数书记官。"
+        }
+      }
+    },
+    "network": {
+      "name": "国书网络时代",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  城市节点 o--o--o      档案馆||||                             |",
+        "|  小砚的后人成为国书网络工程师                                |",
+        "|                    @  夏离                                   |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "多个城市国书节点开始联网。夏离决定把自己的名字绑定进国书，陪墨颀跨过长时间。",
+      "exits": {
+        "industry": "文字工业时代",
+        "astral": "星象工程时代"
+      },
+      "items": {
+        "xiali": {
+          "name": "夏离的选择",
+          "time_seconds": 80,
+          "flags": ["xiali_accepts_cost"],
+          "text": "夏离说：正因为它不再属于我，它才终于活了。"
+        },
+        "engineers": {
+          "name": "新一代工程师",
+          "time_seconds": 70,
+          "flags": ["new_engineers_ready"],
+          "text": "小砚的后人维护节点，阿棠的学生维护墨力炉。墨颀第一次不依赖单个天才。"
+        }
+      },
+      "build_actions": {
+        "bind_xiali": {
+          "time_seconds": 90,
+          "requires": ["xiali_accepts_cost", "built_text_industry"],
+          "flags": ["bound_xiali_to_statebook"],
+          "metrics": {"stability": 18, "trust": 10},
+          "text": "夏离把名字绑定进国书。他能继续见证墨颀，但越来越像文明记忆本身。"
+        },
+        "network": {
+          "time_seconds": 110,
+          "requires": ["new_engineers_ready", "bound_xiali_to_statebook"],
+          "flags": ["built_statebook_network"],
+          "metrics": {"stability": 25, "openness": 16, "engineering": 15},
+          "text": "国书网络接通：名册、远程教育、灾害预警和术式版本管理开始跨城同步。"
+        }
+      }
+    },
+    "astral": {
+      "name": "星象工程时代",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  星象塔基座 /\\        星图文字化                              |",
+        "|            /##\\       坐标书写系统                            |",
+        "|           /####\\             @                                |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "墨颀开始把星空变成可书写、可验证的工程。纪子轩第一次觉得回家需要整个文明。",
+      "exits": {
+        "network": "国书网络时代",
+        "star_tower": "星象塔顶"
+      },
+      "items": {
+        "star_map": {
+          "name": "星图",
+          "time_seconds": 80,
+          "flags": ["mapped_stars_as_text"],
+          "text": "星图不再是神话，而是可以校验的坐标文本。每一颗星都需要名、义、约和史。"
+        },
+        "beacon": {
+          "name": "跨界信标",
+          "time_seconds": 75,
+          "flags": ["designed_cross_beacon"],
+          "text": "信标原型能证明：墨颀写出的坐标，可以触碰另一个世界的边缘。"
+        }
+      },
+      "build_actions": {
+        "astral_tower": {
+          "time_seconds": 130,
+          "requires": ["built_statebook_network", "mapped_stars_as_text", "designed_cross_beacon"],
+          "flags": ["completed_astral_tower"],
+          "metrics": {"star_observation": 70, "engineering": 20, "energy": 12},
+          "text": "星象塔竣工。墨颀终于拥有观测纪子轩世界的能力。"
+        }
+      }
+    },
+    "star_tower": {
+      "name": "星象塔顶",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  观测镜[星]       现代城市影像：灯光一片片熄灭                |",
+        "|  静默探针 ???                                               |",
+        "|                      @                                      |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "星象塔第一次看见现代星球。那里不是神界，而是正在变暗的文明现场。",
+      "exits": {
+        "astral": "星象工程时代"
+      },
+      "items": {
+        "city": {
+          "name": "现代城市",
+          "time_seconds": 85,
+          "requires": ["completed_astral_tower", "defeated_silent_probe"],
+          "flags": ["saw_modern_star_darkening"],
+          "text": "你看见学校、街道、家。灯一盏盏熄灭，信纸上的字变成：Continue failed."
+        },
+        "signal": {
+          "name": "静默信号",
+          "time_seconds": 60,
+          "requires": ["completed_astral_tower"],
+          "flags": ["identified_silent_probe"],
+          "text": "观测结果被擦白。熄星者的探针正在删除现代星球坐标。"
+        }
+      },
+      "combat": {
+        "hidden_name": "？？？",
+        "revealed_name": "静默探针",
+        "enemy_hp": 4,
+        "player_hp": 5,
+        "lock_flag": "named_silent_probe",
+        "learn_flag": "learned_name",
+        "win_flag": "defeated_silent_probe",
+        "success_attempt": 1,
+        "required_attack_flags": ["identified_silent_probe", "paused_signal_deletion"],
+        "success_flags": ["locked_probe_signature"],
+        "reward_flags": ["defeated_silent_probe"],
+        "lose_name_every": 2,
+        "write_seconds": 45,
+        "attack_seconds": 35,
+        "spells": {
+          "stop": {
+            "time_seconds": 55,
+            "requires": ["learned_stop", "identified_silent_probe"],
+            "flags": ["paused_signal_deletion"],
+            "text": "你用“止”暂停坐标删除。星象塔争取到一次完整观测窗口。"
+          }
+        }
+      }
+    }
+  },
+  "walkthrough": [
+    "inspect teachers",
+    "inspect wensu_book",
+    "build industry",
+    "go network",
+    "inspect xiali",
+    "build bind_xiali",
+    "inspect engineers",
+    "build network",
+    "go astral",
+    "inspect star_map",
+    "inspect beacon",
+    "build astral_tower",
+    "go star_tower",
+    "inspect signal",
+    "write name",
+    "cast stop",
+    "attack",
+    "attack",
+    "write name",
+    "attack",
+    "attack",
+    "inspect city"
+  ]
+}
