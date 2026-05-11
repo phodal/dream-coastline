@@ -39,6 +39,17 @@ const COLORS := {
 	"shadow": Color("#08080d"),
 }
 
+const RPG_TILESET := preload("res://assets/opengameart/rpg_tileset/open_tileset.png")
+const RPG_CHARACTERS := preload("res://assets/opengameart/rpg_characters/rpg_16x16.png")
+const PAPER_ICONS := preload("res://assets/opengameart/paper_icons/Paper.png")
+const CASTLE_WALLS := preload("res://assets/opengameart/castle_tileset/castle_tileset_part1.png")
+const CASTLE_METAL := preload("res://assets/opengameart/castle_tileset/castle_tileset_part2.png")
+const CASTLE_PROPS := preload("res://assets/opengameart/castle_tileset/castle_tileset_part3.png")
+const SPELL_DARKNESS := preload("res://assets/opengameart/spells/png/darkness_orb.png")
+const SPELL_MAGIC_ORB := preload("res://assets/opengameart/spells/png/magic_orb.png")
+const SPELL_SPARKS := preload("res://assets/opengameart/spells/png/magic_sparks.png")
+const SPELL_FIREBALL := preload("res://assets/opengameart/spells/png/fireball.png")
+
 var beat := Beat.ROOM
 var beat_time := 0.0
 var total_time := 0.0
@@ -236,9 +247,9 @@ func _draw_table_objects() -> void:
 	draw_rect(Rect2(Vector2(828.0, 438.0), Vector2(30.0, 126.0)), Color("#2b1c27"))
 
 	_draw_rgb_rect(Rect2(Vector2(486.0, 224.0), Vector2(312.0, 146.0)), COLORS.paper_shadow)
-	draw_rect(Rect2(Vector2(500.0, 214.0), Vector2(282.0, 138.0)), COLORS.paper)
-	draw_rect(Rect2(Vector2(512.0, 226.0), Vector2(258.0, 4.0)), Color("#d8bd82"))
-	draw_rect(Rect2(Vector2(520.0, 336.0), Vector2(226.0, 4.0)), Color("#d8bd82"))
+	_draw_sheet_region(PAPER_ICONS, Rect2(Vector2(0.0, 0.0), Vector2(32.0, 32.0)), Rect2(Vector2(548.0, 202.0), Vector2(192.0, 192.0)))
+	_draw_sheet_region(RPG_TILESET, Rect2(Vector2(112.0, 96.0), Vector2(16.0, 16.0)), Rect2(Vector2(470.0, 354.0), Vector2(48.0, 48.0)))
+	_draw_sheet_region(RPG_TILESET, Rect2(Vector2(0.0, 128.0), Vector2(16.0, 16.0)), Rect2(Vector2(788.0, 354.0), Vector2(48.0, 48.0)))
 
 	var pen_y: float = 320.0 + sin(total_time * 1.2) * 2.0
 	_draw_rgb_rect(Rect2(Vector2(596.0, pen_y), Vector2(154.0, 12.0)), Color("#07070b"))
@@ -260,6 +271,7 @@ func _draw_blood_drop() -> void:
 func _draw_ink_spread() -> void:
 	var spread: float = clamp(beat_time / 3.6, 0.0, 1.0)
 	var origin: Vector2 = Vector2(650.0, 274.0)
+	_draw_texture_centered(SPELL_DARKNESS, origin, Vector2(42.0, 42.0) + Vector2.ONE * spread * 118.0, Color("#141018", 0.88))
 	draw_circle(origin, 18.0 + spread * 34.0, Color("#090911", 0.88))
 	for i in range(18):
 		var angle: float = i * TAU / 18.0 + sin(total_time + i) * 0.18
@@ -278,6 +290,7 @@ func _draw_light_flicker() -> void:
 	for i in range(5):
 		var x: float = 968.0 + i * 26.0
 		draw_line(Vector2(x, 116.0), Vector2(x + 92.0, 294.0), Color("#80f3ff", 0.12), 3.0)
+	_draw_texture_centered(SPELL_MAGIC_ORB, Vector2(640.0, 130.0), Vector2(84.0, 84.0), Color("#fff0a6", 0.42))
 
 
 func _draw_reality_fade() -> void:
@@ -293,6 +306,10 @@ func _draw_reality_fade() -> void:
 	for y in range(96, 492, 36):
 		draw_line(Vector2(0.0, y + sin(y + total_time * 5.0) * 6.0), Vector2(BASE_SIZE.x, y), Color("#12111a", p * 0.18), 2.0)
 
+	for i in range(6):
+		var spark_center: Vector2 = Vector2(290.0 + i * 142.0, 162.0 + sin(total_time * 2.0 + i) * 44.0)
+		_draw_texture_centered(SPELL_SPARKS, spark_center, Vector2(54.0, 54.0), Color("#d5f8ff", p * 0.46))
+
 
 func _draw_void() -> void:
 	var p: float = clamp(beat_time / 2.4, 0.0, 1.0)
@@ -307,19 +324,17 @@ func _draw_ancient_world() -> void:
 	draw_rect(Rect2(Vector2(0.0, 0.0), Vector2(BASE_SIZE.x, 330.0)), Color("#26395d"))
 	draw_circle(Vector2(1020.0, 112.0), 58.0, Color("#e36c4d", 0.78))
 	draw_rect(Rect2(Vector2(0.0, 430.0), Vector2(BASE_SIZE.x, 290.0)), Color("#2b2630"))
+	_draw_rpg_ground()
 
 	for i in range(8):
 		var x: float = 84.0 + i * 150.0
 		_draw_tower(Vector2(x, 252.0 + (i % 2) * 30.0), 86.0 + (i % 3) * 16.0)
 
+	_draw_castle_gate(Vector2(560.0, 198.0))
 	draw_rect(Rect2(Vector2(0.0, 404.0), Vector2(BASE_SIZE.x, 34.0)), Color("#141522"))
 	for i in range(10):
 		var flame_base: Vector2 = Vector2(140.0 + i * 108.0, 398.0 + sin(total_time * 2.0 + i) * 6.0)
-		draw_polygon(PackedVector2Array([
-			flame_base + Vector2(-10.0, 34.0),
-			flame_base + Vector2(0.0, -18.0 - abs(sin(total_time * 3.0 + i)) * 16.0),
-			flame_base + Vector2(12.0, 34.0),
-		]), PackedColorArray([COLORS.red, COLORS.gold, COLORS.red]))
+		_draw_texture_centered(SPELL_FIREBALL, flame_base + Vector2(0.0, 8.0), Vector2(58.0, 58.0), Color("#ffca64", 0.96))
 
 	_draw_xiali(Vector2(735.0, 480.0))
 	_draw_protagonist(Vector2(542.0, 494.0))
@@ -330,31 +345,51 @@ func _draw_ancient_world() -> void:
 func _draw_tower(pos: Vector2, height: float) -> void:
 	draw_rect(Rect2(pos, Vector2(84.0, height)), Color("#111626"))
 	draw_rect(Rect2(pos + Vector2(-10.0, -22.0), Vector2(104.0, 24.0)), Color("#0a0d16"))
+	_draw_sheet_region(CASTLE_WALLS, Rect2(Vector2(0.0, 384.0), Vector2(96.0, 96.0)), Rect2(pos + Vector2(-8.0, -18.0), Vector2(100.0, 100.0)), Color("#d5c7e8", 0.62))
 	for i in range(3):
 		draw_rect(Rect2(pos + Vector2(12.0 + i * 24.0, 28.0), Vector2(10.0, 28.0)), Color("#e58549", 0.48))
 
 
 func _draw_xiali(pos: Vector2) -> void:
-	_draw_rgb_rect(Rect2(pos + Vector2(-20.0, 42.0), Vector2(42.0, 72.0)), Color("#283e67"))
-	draw_circle(pos + Vector2(0.0, 24.0), 19.0, COLORS.skin)
-	draw_rect(Rect2(pos + Vector2(-18.0, 10.0), Vector2(36.0, 14.0)), Color("#17101b"))
-	draw_rect(Rect2(pos + Vector2(-26.0, 64.0), Vector2(54.0, 20.0)), Color("#d6d2bc"))
-	draw_line(pos + Vector2(-38.0, 54.0), pos + Vector2(-12.0, 70.0), Color("#d6d2bc"), 6.0)
-	draw_line(pos + Vector2(38.0, 54.0), pos + Vector2(12.0, 70.0), Color("#d6d2bc"), 6.0)
-	draw_rect(Rect2(pos + Vector2(-5.0, 44.0), Vector2(10.0, 70.0)), COLORS.gold)
+	_draw_sheet_region(RPG_CHARACTERS, Rect2(Vector2(96.0, 64.0), Vector2(16.0, 16.0)), Rect2(pos + Vector2(-32.0, -8.0), Vector2(64.0, 64.0)))
+	_draw_sheet_region(RPG_CHARACTERS, Rect2(Vector2(112.0, 64.0), Vector2(16.0, 16.0)), Rect2(pos + Vector2(-32.0, 56.0), Vector2(64.0, 64.0)))
+	draw_rect(Rect2(pos + Vector2(-38.0, 112.0), Vector2(76.0, 10.0)), Color("#08080d", 0.46))
 
 
 func _draw_protagonist(pos: Vector2) -> void:
-	draw_circle(pos + Vector2(0.0, 24.0), 18.0, Color("#efbd84"))
-	draw_rect(Rect2(pos + Vector2(-22.0, 42.0), Vector2(44.0, 70.0)), Color("#20283d"))
-	draw_rect(Rect2(pos + Vector2(-16.0, 12.0), Vector2(32.0, 14.0)), Color("#18131a"))
-	draw_line(pos + Vector2(20.0, 48.0), pos + Vector2(48.0, 60.0), COLORS.ink, 5.0)
+	_draw_sheet_region(RPG_CHARACTERS, Rect2(Vector2(0.0, 0.0), Vector2(16.0, 16.0)), Rect2(pos + Vector2(-32.0, -8.0), Vector2(64.0, 64.0)))
+	_draw_sheet_region(RPG_CHARACTERS, Rect2(Vector2(16.0, 0.0), Vector2(16.0, 16.0)), Rect2(pos + Vector2(-32.0, 56.0), Vector2(64.0, 64.0)))
+	draw_rect(Rect2(pos + Vector2(-38.0, 112.0), Vector2(76.0, 10.0)), Color("#08080d", 0.46))
 
 
 func _draw_rgb_rect(rect: Rect2, base_color: Color) -> void:
 	draw_rect(Rect2(rect.position + Vector2(-PIXEL, 0.0), rect.size), Color("#ef3b48", 0.28))
 	draw_rect(Rect2(rect.position + Vector2(PIXEL, 0.0), rect.size), Color("#34d4e3", 0.24))
 	draw_rect(rect, base_color)
+
+
+func _draw_sheet_region(texture: Texture2D, source: Rect2, destination: Rect2, modulate: Color = Color.WHITE) -> void:
+	draw_texture_rect_region(texture, destination, source, modulate)
+
+
+func _draw_texture_centered(texture: Texture2D, center: Vector2, size: Vector2, modulate: Color = Color.WHITE) -> void:
+	draw_texture_rect(texture, Rect2(center - size * 0.5, size), false, modulate)
+
+
+func _draw_rpg_ground() -> void:
+	var tile_source := Rect2(Vector2(96.0, 144.0), Vector2(16.0, 16.0))
+	for row in range(6):
+		for column in range(22):
+			var dest := Rect2(Vector2(column * 64.0 - 32.0, 430.0 + row * 48.0), Vector2(64.0, 64.0))
+			_draw_sheet_region(RPG_TILESET, tile_source, dest, Color("#7d7686", 0.72))
+
+
+func _draw_castle_gate(pos: Vector2) -> void:
+	_draw_sheet_region(CASTLE_WALLS, Rect2(Vector2(0.0, 192.0), Vector2(192.0, 96.0)), Rect2(pos + Vector2(-246.0, 24.0), Vector2(244.0, 122.0)), Color("#d4b9a8", 0.9))
+	_draw_sheet_region(CASTLE_WALLS, Rect2(Vector2(0.0, 192.0), Vector2(192.0, 96.0)), Rect2(pos + Vector2(182.0, 24.0), Vector2(244.0, 122.0)), Color("#d4b9a8", 0.9))
+	_draw_sheet_region(CASTLE_PROPS, Rect2(Vector2(134.0, 0.0), Vector2(74.0, 132.0)), Rect2(pos + Vector2(-44.0, -22.0), Vector2(148.0, 264.0)))
+	_draw_sheet_region(CASTLE_PROPS, Rect2(Vector2(288.0, 0.0), Vector2(176.0, 112.0)), Rect2(pos + Vector2(190.0, -10.0), Vector2(260.0, 166.0)), Color("#c29b75", 0.92))
+	_draw_sheet_region(CASTLE_METAL, Rect2(Vector2(384.0, 0.0), Vector2(96.0, 64.0)), Rect2(pos + Vector2(-300.0, -18.0), Vector2(144.0, 96.0)), Color("#d8d6dc", 0.76))
 
 
 func _draw_rgb_noise() -> void:
