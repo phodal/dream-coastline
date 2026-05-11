@@ -104,6 +104,9 @@ def render(state: GameState, message: str = "") -> str:
     builds = state.location.get("build_actions", {})
     if builds:
         lines.append("Build: " + ", ".join(builds.keys()))
+    combos = state.location.get("combos", {})
+    if combos:
+        lines.append("Combine: " + ", ".join(combos.keys()))
     if state.metrics:
         lines.extend(wrap("Metrics: " + ", ".join(f"{key}={value}" for key, value in state.metrics.items()), MAX_UI_WIDTH))
     lines.append("Commands: look | go <exit> | inspect <item> | status | help | quit")
@@ -154,6 +157,8 @@ def apply_command(state: GameState, command: str) -> str:
         return choose_route(state, parts[1] if len(parts) > 1 else "")
     if verb == "build":
         return build_project(state, parts[1] if len(parts) > 1 else "")
+    if verb == "combine":
+        return combine_words(state, parts[1] if len(parts) > 1 else "")
     if verb in {"attack", "hit"}:
         return attack(state)
     if verb in {"guard", "defend"}:
@@ -243,6 +248,19 @@ def build_project(state: GameState, project: str) -> str:
     for key, delta in action.get("metrics", {}).items():
         state.metrics[key] = state.metrics.get(key, 0) + int(delta)
     state.log.append(f"build {project}")
+    return str(action["text"])
+
+
+def combine_words(state: GameState, combo: str) -> str:
+    action = state.location.get("combos", {}).get(combo)
+    if action is None:
+        return "这里不能组合这组字。"
+    missing = [flag for flag in action.get("requires", []) if flag not in state.flags]
+    if missing:
+        return "字义还没有稳定，组合会碎掉。先完成前置任务。"
+    state.elapsed_seconds += int(action.get("time_seconds", 90))
+    state.flags.update(action.get("flags", []))
+    state.log.append(f"combine {combo}")
     return str(action["text"])
 
 

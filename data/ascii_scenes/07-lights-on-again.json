@@ -1,0 +1,315 @@
+{
+  "id": "07-lights-on-again",
+  "title": "第七幕：灯重新亮起",
+  "source": "five/scene/07-lights-on-again.md",
+  "min_minutes": 5.0,
+  "start": "home",
+  "initial_flags": ["learned_name", "learned_door", "learned_fire", "learned_stop", "returned_to_modern_with_moqi", "bound_civilization_backups"],
+  "metrics": {
+    "modern_observability": 8,
+    "rescued_names": 0,
+    "node_stability": 0,
+    "bridge_sync": 0
+  },
+  "ending_flag": "rejected_silence_protocol",
+  "required_flags": [
+    "confirmed_home_silenced",
+    "confirmed_school_erasure",
+    "lit_city_grid",
+    "rescued_clerk_name",
+    "modern_node_stable",
+    "bridge_stable",
+    "defeated_final_protocol",
+    "rejected_silence_protocol"
+  ],
+  "locations": {
+    "home": {
+      "name": "纪子轩家",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  门牌[  ]  客厅灯[灭]  餐桌[冷]  信纸[To be Continue ...]    |",
+        "|  父母不在，空间像序幕那晚被复制后擦掉了一半                  |",
+        "|                         @                                    |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "你回到家。熟悉的房间半静默化：门牌号消失，灯没有亮，手机联系人全是未知。",
+      "exits": {
+        "school": "学校",
+        "street": "城市街道"
+      },
+      "items": {
+        "room": {
+          "name": "半静默的家",
+          "time_seconds": 75,
+          "flags": ["confirmed_home_silenced"],
+          "text": "同一张餐桌，同一封信。这一次你知道，灯没亮不是家事，而是星球级静默。"
+        },
+        "contacts": {
+          "name": "手机联系人",
+          "time_seconds": 55,
+          "flags": ["checked_unknown_contacts"],
+          "text": "联系人列表全是未知联系人。你必须先让城市重新被观测，名字才有地方落下。"
+        }
+      }
+    },
+    "school": {
+      "name": "学校",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  走廊 -> -> -> 没有尽头                                      |",
+        "|  公告栏[空白]   同学名牌[???]                                |",
+        "|                       @                                      |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "学校还在，却像没有人记得它为什么存在。公告栏只剩空白纸。",
+      "exits": {
+        "home": "纪子轩家",
+        "street": "城市街道"
+      },
+      "items": {
+        "corridor": {
+          "name": "无尽走廊",
+          "time_seconds": 70,
+          "flags": ["confirmed_school_erasure"],
+          "text": "走廊没有尽头。地图上的学校轮廓被擦掉，只剩一个没有意义的方框。"
+        },
+        "classmates": {
+          "name": "同学名牌",
+          "time_seconds": 60,
+          "flags": ["saw_classmate_names_lost"],
+          "text": "名牌上只剩？？？。第一幕的无名兽不再是怪物，而是现代每个人可能的未来。"
+        }
+      }
+    },
+    "street": {
+      "name": "城市街道",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  路灯[灭][灭][灭]  便利店[OPEN?]  无脸市民                   |",
+        "|  临时国书节点基座                                            |",
+        "|                       @                                      |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "城市灯光成片熄灭。墨颀文字在现代不稳定，必须先建立临时国书节点。",
+      "exits": {
+        "home": "纪子轩家",
+        "school": "学校",
+        "store": "便利店",
+        "lab": "父母实验室"
+      },
+      "items": {
+        "grid": {
+          "name": "城市电网",
+          "time_seconds": 70,
+          "flags": ["checked_city_grid"],
+          "text": "现代电网还能供电，但可观测性被削弱。普通灯光必须和符灯一起点亮。"
+        },
+        "node_base": {
+          "name": "节点基座",
+          "time_seconds": 70,
+          "flags": ["prepared_node_base"],
+          "text": "续文院工程师把国书核心接到路口变电箱。两个文明的接口很不稳定。"
+        }
+      },
+      "build_actions": {
+        "lights": {
+          "time_seconds": 90,
+          "requires": ["checked_city_grid"],
+          "flags": ["lit_city_grid"],
+          "metrics": {"modern_observability": 32},
+          "text": "路灯和符灯同时亮起一排。城市重新获得一点可观测性。"
+        },
+        "node": {
+          "time_seconds": 110,
+          "requires": ["prepared_node_base", "lit_city_grid"],
+          "flags": ["temporary_node_built"],
+          "metrics": {"node_stability": 38},
+          "text": "现代第一座临时国书节点建立。它很粗糙，但足以承载名字样本。"
+        }
+      }
+    },
+    "store": {
+      "name": "便利店",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  收银台[哔--]  店员[无脸]  货架标签[???]                     |",
+        "|  墨颀工程师守住门口                                          |",
+        "|                      @                                       |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "便利店店员忘记了自己的名字。呼名任务把第一幕的“名”系统带回现代。",
+      "exits": {
+        "street": "城市街道"
+      },
+      "items": {
+        "clerk": {
+          "name": "无脸店员",
+          "time_seconds": 65,
+          "flags": ["found_faceless_clerk"],
+          "text": "店员反复问：我是谁？收银机屏幕显示未知员工。"
+        }
+      },
+      "glyph_actions": {
+        "name": {
+          "time_seconds": 75,
+          "requires": ["learned_name", "temporary_node_built", "found_faceless_clerk"],
+          "flags": ["rescued_clerk_name"],
+          "metrics": {"rescued_names": 1, "modern_observability": 12},
+          "text": "你呼出店员的名字。她的脸重新出现，货架标签也恢复了第一行文字。"
+        }
+      }
+    },
+    "lab": {
+      "name": "父母实验室",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  现代信标[星]  墨颀国书接口[门]  父母记录[续]                 |",
+        "|  静默层包围实验室                                            |",
+        "|                       @                                      |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "父母实验室把现代信标和墨颀国书系统接在一起。这里能稳定归桥。",
+      "exits": {
+        "street": "城市街道",
+        "orbit": "轨道静默层"
+      },
+      "items": {
+        "formula": {
+          "name": "最终字组合",
+          "time_seconds": 90,
+          "flags": ["learned_star", "learned_return", "learned_continue"],
+          "text": "父母留下最终提示：名，门，星，归，续。确认其名，开启其门，使星归位，令文明继续。"
+        },
+        "beacon": {
+          "name": "现代信标",
+          "time_seconds": 70,
+          "flags": ["checked_modern_beacon"],
+          "text": "现代信标能给出物理坐标，墨颀国书能确认意义坐标。二者缺一不可。"
+        }
+      },
+      "build_actions": {
+        "modern_node": {
+          "time_seconds": 120,
+          "requires": ["temporary_node_built", "checked_modern_beacon", "rescued_clerk_name"],
+          "flags": ["modern_node_stable"],
+          "metrics": {"node_stability": 42, "modern_observability": 20},
+          "text": "现代节点稳定。墨颀文字不再像异物，而像一层能被现代设备读取的协议。"
+        },
+        "bridge": {
+          "time_seconds": 120,
+          "requires": ["modern_node_stable", "learned_star", "learned_return", "learned_continue"],
+          "flags": ["bridge_stable"],
+          "metrics": {"bridge_sync": 70},
+          "text": "归桥稳定。墨颀星象塔和现代节点完成双向同步。"
+        }
+      }
+    },
+    "orbit": {
+      "name": "轨道静默层",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  静默协议：该文明不可控。该文明应静默。                      |",
+        "|  技能□□  地图□□  队友名□□                                  |",
+        "|                       @                                      |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "最终敌人不是怪物，而是一套判定系统。它要删除意义，而不只是摧毁物体。",
+      "exits": {
+        "lab": "父母实验室"
+      },
+      "items": {
+        "protocol": {
+          "name": "静默协议",
+          "time_seconds": 80,
+          "requires": ["bridge_stable"],
+          "flags": ["identified_final_protocol"],
+          "text": "协议判定：该文明不可控。该文明应静默。该文明不再续写。"
+        }
+      },
+      "build_actions": {
+        "restore": {
+          "time_seconds": 100,
+          "requires": ["identified_final_protocol", "bound_civilization_backups", "modern_node_stable"],
+          "flags": ["restored_final_ui"],
+          "metrics": {"bridge_sync": 20, "modern_observability": 20},
+          "text": "标准字典、公共档案馆、国书网络、工程师和父母信标一起恢复被删的 UI。"
+        }
+      },
+      "combat": {
+        "hidden_name": "最终协议",
+        "revealed_name": "静默协议",
+        "enemy_hp": 5,
+        "player_hp": 5,
+        "lock_flag": "named_final_protocol",
+        "learn_flag": "learned_name",
+        "win_flag": "defeated_final_protocol",
+        "success_attempt": 1,
+        "required_attack_flags": ["identified_final_protocol", "restored_final_ui"],
+        "success_flags": ["locked_final_protocol"],
+        "reward_flags": ["defeated_final_protocol"],
+        "lose_name_every": 2,
+        "write_seconds": 45,
+        "attack_seconds": 35,
+        "spells": {
+          "stop": {
+            "time_seconds": 55,
+            "requires": ["learned_stop", "restored_final_ui"],
+            "flags": ["paused_final_deletion"],
+            "text": "你用“止”让最终删除判定停在一瞬。两个文明把这一瞬写进续页。"
+          }
+        }
+      },
+      "combos": {
+        "continue": {
+          "time_seconds": 140,
+          "requires": [
+            "defeated_final_protocol",
+            "learned_star",
+            "learned_return",
+            "learned_continue",
+            "lit_city_grid",
+            "rescued_clerk_name",
+            "modern_node_stable",
+            "bridge_stable"
+          ],
+          "flags": ["rejected_silence_protocol"],
+          "text": "名，门，星，归，续。两个文明共同写下 Continue。静默协议被拒绝，家里的灯重新亮起。"
+        }
+      }
+    }
+  },
+  "walkthrough": [
+    "inspect room",
+    "inspect contacts",
+    "go school",
+    "inspect corridor",
+    "inspect classmates",
+    "go street",
+    "inspect grid",
+    "build lights",
+    "inspect node_base",
+    "build node",
+    "go store",
+    "inspect clerk",
+    "cast name",
+    "go street",
+    "go lab",
+    "inspect formula",
+    "inspect beacon",
+    "build modern_node",
+    "build bridge",
+    "go orbit",
+    "inspect protocol",
+    "build restore",
+    "write name",
+    "cast stop",
+    "attack",
+    "attack",
+    "write name",
+    "attack",
+    "attack",
+    "write name",
+    "attack",
+    "combine continue"
+  ]
+}
