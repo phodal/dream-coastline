@@ -1,0 +1,12 @@
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+*.translation
+*.tmp
+*.log
+node_modules/
+dist/
+godot-headless.log
+tools/godot-mcp/
+.idea
