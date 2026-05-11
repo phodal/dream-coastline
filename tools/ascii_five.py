@@ -64,6 +64,10 @@ def load_scene(scene_id: str) -> dict:
     return json.loads(scene_path(scene_id).read_text(encoding="utf-8"))
 
 
+def new_state(scene: dict) -> GameState:
+    return GameState(scene=scene, location_id=scene["start"], flags=set(scene.get("initial_flags", [])))
+
+
 def wrap(text: str, width: int = VIEW_WIDTH) -> list[str]:
     return textwrap.wrap(text, width=width, break_long_words=False, replace_whitespace=False) or [""]
 
@@ -88,6 +92,9 @@ def render(state: GameState, message: str = "") -> str:
     casts = available_casts(state)
     if casts:
         lines.append("Cast: " + ", ".join(casts))
+    choices = state.location.get("choices", {})
+    if choices:
+        lines.append("Choose: " + ", ".join(choices.keys()))
     lines.append("Commands: look | go <exit> | inspect <item> | status | help | quit")
     return "\n".join(lines)
 
@@ -132,6 +139,8 @@ def apply_command(state: GameState, command: str) -> str:
         return write_glyph(state, parts[1] if len(parts) > 1 else "")
     if verb == "cast":
         return cast_glyph(state, parts[1] if len(parts) > 1 else "")
+    if verb == "choose":
+        return choose_route(state, parts[1] if len(parts) > 1 else "")
     if verb in {"attack", "hit"}:
         return attack(state)
     if verb in {"guard", "defend"}:
@@ -194,6 +203,19 @@ def cast_glyph(state: GameState, glyph: str) -> str:
     state.flags.update(action.get("flags", []))
     state.log.append(f"cast {glyph}")
     return str(action["text"])
+
+
+def choose_route(state: GameState, route: str) -> str:
+    choice = state.location.get("choices", {}).get(route)
+    if choice is None:
+        return "这里没有这个选择。"
+    missing = [flag for flag in choice.get("requires", []) if flag not in state.flags]
+    if missing:
+        return "你还没有掌握足够信息，不能做这个选择。"
+    state.elapsed_seconds += int(choice.get("time_seconds", 45))
+    state.flags.update(choice.get("flags", []))
+    state.log.append(f"choose {route}")
+    return str(choice["text"])
 
 
 def enter_combat_if_needed(state: GameState) -> None:
@@ -278,7 +300,7 @@ def guard(state: GameState) -> str:
 
 
 def run_walkthrough(scene: dict, commands: Iterable[str] | None = None) -> tuple[GameState, list[str]]:
-    state = GameState(scene=scene, location_id=scene["start"])
+    state = new_state(scene)
     enter_combat_if_needed(state)
     transcript = [render(state)]
     for command in commands or scene["walkthrough"]:
@@ -312,7 +334,7 @@ def report(scene: dict, state: GameState) -> str:
 
 
 def verify_ui(scene: dict) -> tuple[bool, list[str]]:
-    state = GameState(scene=scene, location_id=scene["start"])
+    state = new_state(scene)
     problems: list[str] = []
     for location_id in scene["locations"].keys():
         state.location_id = location_id
@@ -355,7 +377,7 @@ def main() -> int:
             return 0 if ui_ok and duration_ok and complete else 1
         return 0
 
-    state = GameState(scene=scene, location_id=scene["start"])
+    state = new_state(scene)
     message = ""
     while not state.ended:
         print("\033[2J\033[H", end="")

@@ -1,0 +1,259 @@
+{
+  "id": "03-dead-kingdom",
+  "title": "第三幕：死去的王国",
+  "source": "five/scene/03-dead-kingdom.md",
+  "min_minutes": 5.0,
+  "start": "outer_city",
+  "initial_flags": ["learned_name", "learned_door", "learned_stop", "got_basic_dictionary"],
+  "ending_flag": "read_parent_full_plan",
+  "required_flags": [
+    "saw_dead_city_order",
+    "found_reform_records",
+    "found_lockdown_logs",
+    "restored_fall_route",
+    "chose_public_books",
+    "defeated_royal_shadow",
+    "opened_main_core",
+    "read_parent_full_plan"
+  ],
+  "locations": {
+    "outer_city": {
+      "name": "旧王都外城",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  城门[封]       告示：夏离罪人                               |",
+        "|  空街  巡逻符器  巡逻符器                                    |",
+        "|              @  夏离沉默                                     |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "旧王都没有完全毁灭，而是被墨律司维持成一座有秩序的死城。",
+      "exits": {
+        "library": "贵族藏书楼",
+        "hq": "墨律司总部"
+      },
+      "items": {
+        "order": {
+          "name": "死城秩序",
+          "time_seconds": 60,
+          "flags": ["saw_dead_city_order"],
+          "text": "巡逻符器还在执行旧命令。它们保护街道，却不保护街上的人。"
+        },
+        "poster": {
+          "name": "罪人告示",
+          "time_seconds": 50,
+          "flags": ["saw_xiali_propaganda"],
+          "text": "告示宣称夏离导致王城陷落。夏离没有辩解，只把手攥得发白。"
+        }
+      }
+    },
+    "library": {
+      "name": "贵族藏书楼",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  改革前文献||||     改革后禁令XXXX                           |",
+        "|  藏书处理权：royal / public / engineers / parents             |",
+        "|                    @                                         |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "藏书楼里保存着改革前后的文献差异。这里能证明夏离曾经试图开放基础文字教育。",
+      "exits": {
+        "outer_city": "旧王都外城",
+        "hq": "墨律司总部",
+        "palace": "残破宫城"
+      },
+      "items": {
+        "records": {
+          "name": "改革文献",
+          "time_seconds": 70,
+          "flags": ["found_reform_records"],
+          "text": "你找到夏离签过的旧令：基础字根可向平民开放试教。墨律司在旁边写了危险二字。"
+        },
+        "ban": {
+          "name": "禁令抄本",
+          "time_seconds": 55,
+          "flags": ["found_knowledge_ban"],
+          "text": "禁令没有说平民不能学，只说未授权学习会导致国书不稳定。它把恐惧写成法律。"
+        }
+      },
+      "choices": {
+        "public": {
+          "time_seconds": 60,
+          "requires": ["found_reform_records"],
+          "flags": ["chose_public_books"],
+          "text": "你决定把王都藏书交给闻素建立公开书院。夏离第一次没有立刻反对。"
+        },
+        "royal": {
+          "time_seconds": 60,
+          "requires": ["found_reform_records"],
+          "flags": ["chose_royal_books"],
+          "text": "你把藏书交给夏离作为复国资本。这会强化王权路线，但削弱公开教育速度。"
+        },
+        "engineers": {
+          "time_seconds": 60,
+          "requires": ["found_reform_records"],
+          "flags": ["chose_engineer_books"],
+          "text": "你把藏书交给工匠组织。工程路线会更快，但闻素担心基础教育跟不上。"
+        },
+        "parents": {
+          "time_seconds": 60,
+          "requires": ["found_reform_records"],
+          "flags": ["chose_parent_books"],
+          "text": "你保留资料优先寻找父母线索。夏离提醒你：墨颀不会等你慢慢选择。"
+        }
+      }
+    },
+    "hq": {
+      "name": "墨律司总部",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  封锁记录[卷]   国书权限[锁]   名册[缺页]                    |",
+        "|                                                              |",
+        "|                         @                                    |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "墨律司总部比王宫更完整。这里保存着国书封锁的真实操作记录。",
+      "exits": {
+        "outer_city": "旧王都外城",
+        "library": "贵族藏书楼",
+        "palace": "残破宫城"
+      },
+      "items": {
+        "logs": {
+          "name": "封锁日志",
+          "time_seconds": 75,
+          "flags": ["found_lockdown_logs"],
+          "text": "日志显示：墨律司强行封锁国书后，城市符文出现连锁崩坏。王城陷落不是单一叛乱。"
+        },
+        "names": {
+          "name": "缺页名册",
+          "time_seconds": 55,
+          "flags": ["found_missing_rolls"],
+          "text": "大量平民名册被标记为低优先级维护。死城不是一天死的。"
+        }
+      }
+    },
+    "palace": {
+      "name": "残破宫城",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  倒塌长廊 -> 王座厅 -> 主国书殿                              |",
+        "|  火痕////   门符断裂   路线残影                              |",
+        "|                   @  夏离                                    |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "宫城里残留着王城陷落当晚的路线。夏离终于承认改革太急，但拒绝回到封闭制度。",
+      "exits": {
+        "library": "贵族藏书楼",
+        "hq": "墨律司总部",
+        "hall": "主国书殿"
+      },
+      "items": {
+        "route": {
+          "name": "陷落路线",
+          "time_seconds": 80,
+          "requires": ["found_lockdown_logs", "found_reform_records"],
+          "flags": ["restored_fall_route"],
+          "text": "你用日志和文献复原路线：夏离的改革太急，墨律司的封锁更致命，两者共同撕裂王都。"
+        },
+        "xiali": {
+          "name": "夏离",
+          "time_seconds": 55,
+          "flags": ["xiali_faces_failure"],
+          "text": "夏离说：我想救墨颀，但我以为只要我写得足够快，所有人就会跟上。"
+        }
+      }
+    },
+    "hall": {
+      "name": "主国书殿",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  主国书核心[王权锁]                                          |",
+        "|  历代王残影：无王之国，何以为国？                            |",
+        "|                 @  夏离                                      |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "国书殿召出历代王的残影。它不问你能不能打赢，只问墨颀是否必须有王。",
+      "exits": {
+        "palace": "残破宫城"
+      },
+      "items": {
+        "question": {
+          "name": "王权质问",
+          "time_seconds": 60,
+          "flags": ["heard_royal_question"],
+          "text": "残影问：无王之国，何以为国？夏离沉默得像一座快塌的城。"
+        },
+        "plan": {
+          "name": "父母完整计划",
+          "time_seconds": 90,
+          "requires": ["opened_main_core"],
+          "flags": ["read_parent_full_plan"],
+          "text": "父亲说：现代星球的坐标正在消失。母亲说：墨颀必须发展到能够观测星空。"
+        }
+      },
+      "glyph_actions": {
+        "door": {
+          "time_seconds": 55,
+          "requires": ["defeated_royal_shadow", "chose_public_books"],
+          "flags": ["opened_main_core"],
+          "text": "你用“门”打开国书核心。它不再只承认王族权限，也承认公共字典路线。"
+        }
+      },
+      "combat": {
+        "hidden_name": "历代王残影",
+        "revealed_name": "国书残影",
+        "enemy_hp": 4,
+        "player_hp": 5,
+        "lock_flag": "named_royal_shadow",
+        "learn_flag": "learned_name",
+        "win_flag": "defeated_royal_shadow",
+        "success_attempt": 1,
+        "required_attack_flags": ["broken_royal_rule", "paused_royal_lock"],
+        "success_flags": ["confirmed_shadow_subject"],
+        "reward_flags": ["xiali_rejects_old_kings"],
+        "lose_name_every": 99,
+        "write_seconds": 45,
+        "attack_seconds": 35,
+        "spells": {
+          "door": {
+            "time_seconds": 45,
+            "requires": ["learned_door", "heard_royal_question"],
+            "flags": ["broken_royal_rule"],
+            "text": "你写下“门”，让国书看见王以外的通路：书院、工匠、村落、共同维护者。"
+          },
+          "stop": {
+            "time_seconds": 45,
+            "requires": ["learned_stop", "broken_royal_rule"],
+            "flags": ["paused_royal_lock"],
+            "text": "你用“止”暂停王权锁。夏离终于回答：若国只能靠王活着，那它早已死了。"
+          }
+        }
+      }
+    }
+  },
+  "walkthrough": [
+    "inspect order",
+    "inspect poster",
+    "go library",
+    "inspect records",
+    "inspect ban",
+    "choose public",
+    "go hq",
+    "inspect logs",
+    "inspect names",
+    "go palace",
+    "inspect route",
+    "inspect xiali",
+    "go hall",
+    "inspect question",
+    "write name",
+    "cast door",
+    "cast stop",
+    "attack",
+    "attack",
+    "attack",
+    "attack",
+    "cast door",
+    "inspect plan"
+  ]
+}
