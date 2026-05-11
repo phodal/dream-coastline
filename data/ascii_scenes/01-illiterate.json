@@ -1,0 +1,198 @@
+{
+  "id": "01-illiterate",
+  "title": "第一幕：不会写字的人",
+  "source": "five/scene/01-illiterate.md",
+  "min_minutes": 5.0,
+  "start": "mud_road",
+  "ending_flag": "defeated_nameless",
+  "required_flags": [
+    "checked_phone_no_service",
+    "checked_broken_sign",
+    "saw_burning_city",
+    "met_xiaoyan",
+    "saw_molusi",
+    "met_xiali",
+    "learned_name_strokes",
+    "named_beast",
+    "defeated_nameless"
+  ],
+  "locations": {
+    "mud_road": {
+      "name": "泥路边",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  远处火光 ~~~~~         破损路牌[□□□]                       |",
+        "|                                                              |",
+        "|       @ 纪子轩       黑色钢笔===       手机[无服务]           |",
+        "|                                                              |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "黄昏将尽。你趴在泥地上，手里仍攥着那支黑色钢笔。任务目标显示为□□□。",
+      "exits": {
+        "camp": "边境流民营"
+      },
+      "items": {
+        "phone": {
+          "name": "手机",
+          "time_seconds": 45,
+          "flags": ["checked_phone_no_service"],
+          "text": "屏幕显示无服务，随后爬满黑色墨痕。连系统语言都变成无法识别的方块。"
+        },
+        "sign": {
+          "name": "破损路牌",
+          "time_seconds": 45,
+          "flags": ["checked_broken_sign"],
+          "text": "路牌写着□□□ / □□ / □□□。你意识到自己不是看不清，而是根本不认识这里的字。"
+        },
+        "city": {
+          "name": "燃烧的城",
+          "time_seconds": 40,
+          "flags": ["saw_burning_city"],
+          "text": "远处的城墙在燃烧。那不是晚霞，是一整座城正在陷落。"
+        },
+        "pen": {
+          "name": "黑色钢笔",
+          "time_seconds": 30,
+          "flags": ["checked_black_pen_again"],
+          "text": "你不记得自己什么时候握住了它。它在这个世界里像一件危险的身份证明。"
+        }
+      }
+    },
+    "camp": {
+      "name": "边境流民营",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  帐篷/\\    篝火***       孩子?                              |",
+        "|       /__\\      ***       小砚                               |",
+        "|                                                              |",
+        "|  @  听见许多□□□，没有一句能懂。                              |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "流民营里的人压低声音。一个瘦小孩子看见你手里的笔，惊得后退半步。",
+      "exits": {
+        "mud_road": "泥路边",
+        "chase": "树林逃跑路线"
+      },
+      "items": {
+        "xiaoyan": {
+          "name": "小砚",
+          "time_seconds": 60,
+          "flags": ["met_xiaoyan"],
+          "text": "小砚急切地说：□□？□□□！你听不懂。他只能指向你的笔，又指向树林。"
+        },
+        "notice": {
+          "name": "布告",
+          "time_seconds": 40,
+          "flags": ["checked_refugee_notice"],
+          "text": "布告上的字像活墨一样抖动。你只看懂它们正在拒绝你。"
+        }
+      }
+    },
+    "chase": {
+      "name": "树林逃跑路线",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  树树树树树      墨律司士兵 !!                               |",
+        "|  树  石门[符]       刀上刻着字                                |",
+        "|                                                              |",
+        "|        小砚 ->    @                                          |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "金属碰撞声逼近。两个深色长袍士兵看见黑色钢笔，立刻拔刃。",
+      "exits": {
+        "camp": "边境流民营",
+        "station": "废弃驿站"
+      },
+      "items": {
+        "soldiers": {
+          "name": "墨律司士兵",
+          "time_seconds": 55,
+          "flags": ["saw_molusi"],
+          "text": "他们喊着你听不懂的话，短刃上的文字却让空气发紧。小砚拉住你就跑。"
+        },
+        "gate": {
+          "name": "破损石门",
+          "time_seconds": 50,
+          "flags": ["checked_broken_gate"],
+          "text": "门上符文亮了一半。你说“我不会写”，下一秒，一道墨色笔画从旁边划过。"
+        },
+        "xiali": {
+          "name": "夏离",
+          "time_seconds": 70,
+          "requires": ["checked_broken_gate"],
+          "flags": ["met_xiali"],
+          "text": "夏离看着你手中的笔：拿着那支笔还敢站在路中间。你是疯子，还是根本不知道自己是什么？"
+        }
+      }
+    },
+    "station": {
+      "name": "废弃驿站",
+      "art": [
+        "+--------------------------------------------------------------+",
+        "|  墙字正在消失：名  门  火  □  □                             |",
+        "|                                                              |",
+        "|      小砚□□        @纪子轩        X夏离                     |",
+        "|                              ????? 无脸轮廓                  |",
+        "+--------------------------------------------------------------+"
+      ],
+      "description": "木门反复开合，但门外没有路。角落里站着一个没有脸、没有名字的人形轮廓。",
+      "exits": {
+        "chase": "树林逃跑路线"
+      },
+      "items": {
+        "strokes": {
+          "name": "夏离写下的名",
+          "time_seconds": 65,
+          "flags": ["learned_name_strokes"],
+          "text": "夏离在地上写下“名”。他说：不是描形，是理解它为什么这样写。"
+        },
+        "xiaoyan": {
+          "name": "小砚的名字",
+          "time_seconds": 45,
+          "flags": ["saw_xiaoyan_name_fading"],
+          "text": "小砚的名字在 UI 上变成□□。你终于明白：它不是杀人，是让人被世界忘掉。"
+        }
+      },
+      "combat": {
+        "hidden_name": "？？？",
+        "revealed_name": "无名兽",
+        "enemy_hp": 4,
+        "player_hp": 5,
+        "lock_flag": "named_beast",
+        "learn_flag": "learned_name_strokes",
+        "win_flag": "defeated_nameless",
+        "success_attempt": 3,
+        "failure_flags": ["name_broke_once", "xiaoyan_name_faded"],
+        "success_flags": ["learned_name"],
+        "reward_flags": ["received_broken_nameplate"],
+        "lose_name_every": 2,
+        "write_seconds": 45,
+        "attack_seconds": 35
+      }
+    }
+  },
+  "walkthrough": [
+    "inspect phone",
+    "inspect sign",
+    "inspect city",
+    "inspect pen",
+    "go camp",
+    "inspect xiaoyan",
+    "inspect notice",
+    "go chase",
+    "inspect soldiers",
+    "inspect gate",
+    "inspect xiali",
+    "go station",
+    "inspect strokes",
+    "inspect xiaoyan",
+    "write name",
+    "write name",
+    "write name",
+    "attack",
+    "attack",
+    "write name",
+    "attack",
+    "attack"
+  ]
+}

@@ -30,6 +30,10 @@ class GameState:
     flags: set[str] = field(default_factory=set)
     elapsed_seconds: int = 0
     log: list[str] = field(default_factory=list)
+    enemy_hp: int = 0
+    player_hp: int = 5
+    name_attempts: int = 0
+    attacks_since_name: int = 0
 
     @property
     def location(self) -> dict:
@@ -38,6 +42,10 @@ class GameState:
     @property
     def ended(self) -> bool:
         return self.scene["ending_flag"] in self.flags
+
+    @property
+    def combat(self) -> dict:
+        return self.location.get("combat", {})
 
 
 def scene_path(scene_id: str) -> Path:
@@ -74,6 +82,9 @@ def render(state: GameState, message: str = "") -> str:
     lines.append("")
     lines.append("Exits: " + ", ".join(f"{key}({label})" for key, label in location["exits"].items()))
     lines.append("Inspect: " + ", ".join(f"{key}({item['name']})" for key, item in location["items"].items()))
+    if location.get("combat"):
+        lines.append(combat_status(state))
+        lines.append("Combat: write name | attack | guard")
     lines.append("Commands: look | go <exit> | inspect <item> | status | help | quit")
     return "\n".join(lines)
 
@@ -114,6 +125,12 @@ def apply_command(state: GameState, command: str) -> str:
         return move(state, parts[1] if len(parts) > 1 else "")
     if verb in {"inspect", "check", "x"}:
         return inspect_item(state, parts[1] if len(parts) > 1 else "")
+    if verb == "write":
+        return write_glyph(state, parts[1] if len(parts) > 1 else "")
+    if verb in {"attack", "hit"}:
+        return attack(state)
+    if verb in {"guard", "defend"}:
+        return guard(state)
     return f"无法识别命令：{command}"
 
 
@@ -124,6 +141,7 @@ def move(state: GameState, exit_id: str) -> str:
     state.location_id = exit_id
     state.elapsed_seconds += 20
     state.log.append(f"go {exit_id}")
+    enter_combat_if_needed(state)
     return f"你前往：{state.location['name']}。"
 
 
@@ -143,8 +161,85 @@ def inspect_item(state: GameState, item_id: str) -> str:
     return str(item["text"])
 
 
+def enter_combat_if_needed(state: GameState) -> None:
+    combat = state.combat
+    if not combat or state.enemy_hp > 0 or combat["win_flag"] in state.flags:
+        return
+    state.enemy_hp = int(combat["enemy_hp"])
+    state.player_hp = int(combat.get("player_hp", 5))
+    state.name_attempts = 0
+    state.attacks_since_name = 0
+
+
+def combat_status(state: GameState) -> str:
+    combat = state.combat
+    if not combat:
+        return ""
+    lock_flag = combat["lock_flag"]
+    enemy = combat["revealed_name"] if lock_flag in state.flags else combat["hidden_name"]
+    return f"Enemy: {enemy} HP {state.enemy_hp}/{combat['enemy_hp']} | You HP {state.player_hp}"
+
+
+def write_glyph(state: GameState, glyph: str) -> str:
+    combat = state.combat
+    if not combat:
+        return "现在不需要写字。"
+    if glyph not in {"name", "名"}:
+        return "你现在只学得出一个字：名。"
+    if combat.get("learn_flag") and combat["learn_flag"] not in state.flags:
+        return "你还没有看清夏离写下的笔画。先 inspect strokes。"
+
+    state.elapsed_seconds += int(combat.get("write_seconds", 45))
+    state.name_attempts += 1
+    state.log.append("write name")
+    if state.name_attempts < int(combat.get("success_attempt", 1)):
+        state.flags.update(combat.get("failure_flags", [])[:state.name_attempts])
+        state.player_hp -= 1
+        return "符文碎开。无名兽又靠近一步，小砚的名字在 UI 上短暂变成□□。"
+
+    state.flags.add(combat["lock_flag"])
+    state.flags.update(combat.get("success_flags", []))
+    state.attacks_since_name = 0
+    return "“名”字亮起。敌人的轮廓被固定，系统终于显示：无名兽。"
+
+
+def attack(state: GameState) -> str:
+    combat = state.combat
+    if not combat:
+        return "这里没有敌人。"
+    if combat["lock_flag"] not in state.flags:
+        state.elapsed_seconds += 25
+        state.player_hp -= 1
+        state.log.append("attack")
+        return "你挥笔却无法锁定目标。攻击穿过空白，自己反而被寒意擦伤。"
+
+    state.elapsed_seconds += int(combat.get("attack_seconds", 35))
+    state.enemy_hp -= 1
+    state.attacks_since_name += 1
+    state.log.append("attack")
+    if state.enemy_hp <= 0:
+        state.flags.add(combat["win_flag"])
+        state.flags.update(combat.get("reward_flags", []))
+        return "夏离的笔画压住空白，你维持住“名”。无名兽碎成灰白墨点，地上只剩半张旧名牌。"
+
+    if state.attacks_since_name >= int(combat.get("lose_name_every", 2)):
+        state.flags.discard(combat["lock_flag"])
+        state.attacks_since_name = 0
+        return "攻击命中，但无名兽开始失名。它的名字从 UI 上褪成？？？，必须重新写“名”。"
+    return "攻击命中。无名兽被迫后退，但边缘仍在空白化。"
+
+
+def guard(state: GameState) -> str:
+    if not state.combat:
+        return "这里不需要防御。"
+    state.elapsed_seconds += 30
+    state.log.append("guard")
+    return "你护住小砚。夏离争取到半步距离，空白没有继续扩大。"
+
+
 def run_walkthrough(scene: dict, commands: Iterable[str] | None = None) -> tuple[GameState, list[str]]:
     state = GameState(scene=scene, location_id=scene["start"])
+    enter_combat_if_needed(state)
     transcript = [render(state)]
     for command in commands or scene["walkthrough"]:
         message = apply_command(state, command)
@@ -178,9 +273,13 @@ def report(scene: dict, state: GameState) -> str:
 
 def verify_ui(scene: dict) -> tuple[bool, list[str]]:
     state = GameState(scene=scene, location_id=scene["start"])
-    rendered = render(state)
-    too_wide = [(index + 1, len(line), line) for index, line in enumerate(rendered.splitlines()) if len(line) > MAX_UI_WIDTH]
-    problems = [f"line {line_no} is {width} chars: {line}" for line_no, width, line in too_wide]
+    problems: list[str] = []
+    for location_id in scene["locations"].keys():
+        state.location_id = location_id
+        enter_combat_if_needed(state)
+        rendered = render(state)
+        too_wide = [(index + 1, len(line), line) for index, line in enumerate(rendered.splitlines()) if len(line) > MAX_UI_WIDTH]
+        problems.extend(f"{location_id}: line {line_no} is {width} chars: {line}" for line_no, width, line in too_wide)
     return not problems, problems
 
 
