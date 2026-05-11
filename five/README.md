@@ -4,13 +4,13 @@
 
 ## 建议阅读路径
 
-1. [项目总览](project/overview.md)
-2. [七幕故事大纲](project/seven-act-outline.md)
-3. [主题与叙事原则](project/themes.md)
-4. [墨颀文明](world/moqi-civilization.md)
-5. [纪子轩](people/jizi-xuan.md) 与 [夏离](people/xiali.md)
-6. [序幕：灯未亮起的夜晚](scene/00-prologue-lights-out.md)
-7. [第一幕：不会写字的人](scene/01-illiterate.md)
+1. [主线入口](storyline.md)
+2. [项目总览](project/overview.md)
+3. [七幕故事大纲](project/seven-act-outline.md)
+4. [场景入口](scene/README.md)
+5. [主题与叙事原则](project/themes.md)
+6. [墨颀文明](world/moqi-civilization.md)
+7. [纪子轩](people/jizi-xuan.md) 与 [夏离](people/xiali.md)
 8. [文字学习与 UI 解码](system/text-learning-ui-decoding.md)
 9. [组字战斗系统](system/glyph-combat.md)
 10. [文明建设系统](system/civilization-building.md)
