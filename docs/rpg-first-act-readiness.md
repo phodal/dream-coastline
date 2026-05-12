@@ -31,9 +31,9 @@ Steam-ready first act.
   flow.
 - Dialogue has a reusable overlay shell, but it still needs speaker portraits,
   paging, skip behavior, and localization-ready text flow.
-- Player movement now has step timing and interpolated drawing, but it still
-  needs proper directional animation frames, blocked feedback, and scene
-  transitions.
+- Player movement now has step timing, interpolated drawing, basic facing
+  frames, and blocked-tile feedback, but it still needs artist-approved
+  animation frames and scene transitions.
 - There is no audio layer yet: music, ambience, UI sounds, and interaction SFX
   need to be added and licensed.
 - There is no release/export setup for Steam: export presets, icon/splash,
@@ -44,8 +44,8 @@ Steam-ready first act.
 
 ## Next Implementation Order
 
-1. Add proper directional player sprite frames and blocked feedback.
-2. Add title/pause/settings/save-load flow.
-3. Author visual maps and keyboard paths for the remaining scenes.
-4. Add rendered frame sanity checks.
+1. Add title/pause/settings/save-load flow.
+2. Author visual maps and keyboard paths for the remaining scenes.
+3. Add rendered frame sanity checks.
+4. Replace placeholder facing frames with artist-approved animation frames.
 5. Add audio and export presets once the first act loop is stable.

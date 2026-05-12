@@ -121,7 +121,13 @@ func _refresh_ui() -> void:
 	time_label.text = "时长 %s" % session.format_time()
 
 	scene_canvas.refresh(session)
-	scene_canvas.set_player_motion(player_controller.visual_tile(), player_controller.is_moving)
+	scene_canvas.set_player_motion(
+		player_controller.visual_tile(),
+		player_controller.is_moving,
+		player_controller.facing,
+		player_controller.blocked_tile,
+		player_controller.has_blocked_feedback()
+	)
 	dialogue_overlay.refresh(
 		str(location.get("name", session.location_id)),
 		player_controller.prompt_text(),

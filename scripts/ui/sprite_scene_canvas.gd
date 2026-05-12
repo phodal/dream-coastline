@@ -17,6 +17,9 @@ var session
 var visual_repository
 var player_tile := Vector2(7, 6)
 var player_moving := false
+var player_facing := Vector2i(0, -1)
+var blocked_tile := Vector2i.ZERO
+var show_blocked_feedback := false
 
 
 func _ready() -> void:
@@ -40,9 +43,12 @@ func set_player_tile(tile: Vector2) -> void:
 	queue_redraw()
 
 
-func set_player_motion(tile: Vector2, moving: bool) -> void:
+func set_player_motion(tile: Vector2, moving: bool, facing: Vector2i, blocked: Vector2i, blocked_feedback: bool) -> void:
 	player_tile = tile
 	player_moving = moving
+	player_facing = facing
+	blocked_tile = blocked
+	show_blocked_feedback = blocked_feedback
 	queue_redraw()
 
 
@@ -59,6 +65,7 @@ func _draw() -> void:
 	var visual := _current_visual()
 	_draw_map(origin, tile_size, visual)
 	_draw_location_objects(origin, tile_size, visual)
+	_draw_blocked_feedback(origin, tile_size)
 	_draw_actors(origin, tile_size, visual)
 	_draw_letterbox(canvas_size)
 
@@ -122,7 +129,9 @@ func _draw_actors(origin: Vector2, tile_size: float, _visual: Dictionary) -> voi
 	var bob := 0.0
 	if player_moving and fmod(Time.get_ticks_msec() / 120.0, 2.0) >= 1.0:
 		bob = -2.0
-	_draw_character(Vector2i(0, 0), origin + player_tile * tile_size + Vector2(0, bob), tile_size)
+	var player_top_left := origin + player_tile * tile_size + Vector2(0, bob)
+	_draw_character(_player_frame(), player_top_left, tile_size)
+	_draw_facing_marker(player_top_left, tile_size)
 	if session.scene_index >= 2:
 		_draw_character(Vector2i(3, 0), origin + Vector2(6, 5) * tile_size, tile_size)
 	if session.scene_index >= 4:
@@ -163,6 +172,16 @@ func _draw_prop(item_id: String, top_left: Vector2, tile_size: float) -> void:
 			_draw_dungeon_tile(Vector2i(49, 12), top_left, tile_size)
 		_:
 			_draw_dungeon_tile(Vector2i(18, 15), top_left, tile_size)
+
+
+func _draw_blocked_feedback(origin: Vector2, tile_size: float) -> void:
+	if not show_blocked_feedback:
+		return
+	if blocked_tile.x < 0 or blocked_tile.y < 0 or blocked_tile.x >= COLUMNS or blocked_tile.y >= ROWS:
+		return
+	var rect := Rect2(origin + Vector2(blocked_tile) * tile_size, Vector2(tile_size, tile_size))
+	draw_rect(rect, Color("#d45c55", 0.36))
+	draw_rect(rect, Color("#f1ead4", 0.5), false, 2.0)
 
 
 func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> void:
@@ -226,6 +245,27 @@ func _draw_character(tile: Vector2i, top_left: Vector2, tile_size: float) -> voi
 		Rect2(top_left + Vector2(tile_size * 0.1, 0), Vector2(tile_size * 0.8, tile_size)),
 		Rect2(Vector2(tile) * CHAR_TILE, Vector2(CHAR_TILE, CHAR_TILE))
 	)
+
+
+func _player_frame() -> Vector2i:
+	return Vector2i(0, 0)
+
+
+func _draw_facing_marker(top_left: Vector2, tile_size: float) -> void:
+	var center := top_left + Vector2(tile_size * 0.5, tile_size * 0.5)
+	var radius := tile_size * 0.18
+	var tip := center + Vector2(player_facing) * radius
+	var left := tip.rotated(0.0)
+	var points: PackedVector2Array
+	if player_facing == Vector2i(0, -1):
+		points = [tip, center + Vector2(-radius, radius), center + Vector2(radius, radius)]
+	elif player_facing == Vector2i(0, 1):
+		points = [tip, center + Vector2(-radius, -radius), center + Vector2(radius, -radius)]
+	elif player_facing == Vector2i(-1, 0):
+		points = [tip, center + Vector2(radius, -radius), center + Vector2(radius, radius)]
+	else:
+		points = [tip, center + Vector2(-radius, -radius), center + Vector2(-radius, radius)]
+	draw_colored_polygon(points, Color("#f1ead4", 0.72))
 
 
 func _palette_for_scene(terrain: String = "") -> Dictionary:

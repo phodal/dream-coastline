@@ -11,6 +11,9 @@ var move_elapsed := 0.0
 var is_moving := false
 var queued_direction := Vector2i.ZERO
 var has_queued_direction := false
+var blocked_tile := Vector2i.ZERO
+var blocked_feedback_elapsed := 0.0
+var blocked_feedback_duration := 0.18
 
 
 func _init(game_session, repository) -> void:
@@ -26,6 +29,7 @@ func reset_for_location() -> void:
 	is_moving = false
 	queued_direction = Vector2i.ZERO
 	has_queued_direction = false
+	blocked_feedback_elapsed = 0.0
 
 
 func try_move(direction: Vector2i) -> bool:
@@ -36,6 +40,8 @@ func try_move(direction: Vector2i) -> bool:
 	facing = direction
 	var target := tile + direction
 	if visual_repository.is_blocked(session.scene_id, session.location_id, target):
+		blocked_tile = target
+		blocked_feedback_elapsed = blocked_feedback_duration
 		return false
 	previous_tile = tile
 	tile = target
@@ -45,8 +51,12 @@ func try_move(direction: Vector2i) -> bool:
 
 
 func update(delta: float) -> bool:
+	var changed := false
+	if blocked_feedback_elapsed > 0.0:
+		blocked_feedback_elapsed = maxf(0.0, blocked_feedback_elapsed - delta)
+		changed = true
 	if not is_moving:
-		return false
+		return changed
 	move_elapsed += delta
 	if move_elapsed >= move_duration:
 		complete_movement()
@@ -69,6 +79,10 @@ func visual_tile() -> Vector2:
 		return Vector2(tile)
 	var t := clampf(move_elapsed / move_duration, 0.0, 1.0)
 	return Vector2(previous_tile).lerp(Vector2(tile), t)
+
+
+func has_blocked_feedback() -> bool:
+	return blocked_feedback_elapsed > 0.0
 
 
 func interact() -> void:
