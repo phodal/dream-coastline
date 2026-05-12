@@ -73,10 +73,12 @@ func _move(direction: Vector2i, count: int) -> void:
 		if not controller.try_move(direction):
 			failures.append("movement blocked at step %s direction=%s tile=%s" % [step + 1, direction, controller.tile])
 			return
+		controller.complete_movement()
 
 
 func _face(direction: Vector2i) -> void:
 	controller.try_move(direction)
+	controller.complete_movement()
 
 
 func _expect_location(expected: String) -> void:

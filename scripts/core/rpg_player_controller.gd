@@ -3,8 +3,14 @@ extends RefCounted
 
 var session
 var visual_repository
+var move_duration := 0.16
 var tile := Vector2i(7, 6)
+var previous_tile := Vector2i(7, 6)
 var facing := Vector2i(0, -1)
+var move_elapsed := 0.0
+var is_moving := false
+var queued_direction := Vector2i.ZERO
+var has_queued_direction := false
 
 
 func _init(game_session, repository) -> void:
@@ -14,19 +20,60 @@ func _init(game_session, repository) -> void:
 
 func reset_for_location() -> void:
 	tile = visual_repository.spawn_for(session.scene_id, session.location_id)
+	previous_tile = tile
 	facing = Vector2i(0, -1)
+	move_elapsed = 0.0
+	is_moving = false
+	queued_direction = Vector2i.ZERO
+	has_queued_direction = false
 
 
 func try_move(direction: Vector2i) -> bool:
+	if is_moving:
+		queued_direction = direction
+		has_queued_direction = true
+		return false
 	facing = direction
 	var target := tile + direction
 	if visual_repository.is_blocked(session.scene_id, session.location_id, target):
 		return false
+	previous_tile = tile
 	tile = target
+	move_elapsed = 0.0
+	is_moving = true
 	return true
 
 
+func update(delta: float) -> bool:
+	if not is_moving:
+		return false
+	move_elapsed += delta
+	if move_elapsed >= move_duration:
+		complete_movement()
+		if has_queued_direction:
+			var next_direction := queued_direction
+			has_queued_direction = false
+			queued_direction = Vector2i.ZERO
+			try_move(next_direction)
+	return true
+
+
+func complete_movement() -> void:
+	previous_tile = tile
+	move_elapsed = move_duration
+	is_moving = false
+
+
+func visual_tile() -> Vector2:
+	if not is_moving:
+		return Vector2(tile)
+	var t := clampf(move_elapsed / move_duration, 0.0, 1.0)
+	return Vector2(previous_tile).lerp(Vector2(tile), t)
+
+
 func interact() -> void:
+	if is_moving:
+		return
 	var interaction := current_interaction()
 	if interaction.is_empty():
 		session.event_log.append("这里没有可以互动的东西。")

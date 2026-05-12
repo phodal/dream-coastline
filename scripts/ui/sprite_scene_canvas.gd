@@ -15,7 +15,8 @@ const ROWS := 9
 
 var session
 var visual_repository
-var player_tile := Vector2i(7, 6)
+var player_tile := Vector2(7, 6)
+var player_moving := false
 
 
 func _ready() -> void:
@@ -34,8 +35,14 @@ func refresh(game_session) -> void:
 	queue_redraw()
 
 
-func set_player_tile(tile: Vector2i) -> void:
+func set_player_tile(tile: Vector2) -> void:
 	player_tile = tile
+	queue_redraw()
+
+
+func set_player_motion(tile: Vector2, moving: bool) -> void:
+	player_tile = tile
+	player_moving = moving
 	queue_redraw()
 
 
@@ -112,7 +119,10 @@ func _draw_location_objects(origin: Vector2, tile_size: float, visual: Dictionar
 
 
 func _draw_actors(origin: Vector2, tile_size: float, _visual: Dictionary) -> void:
-	_draw_character(Vector2i(0, 0), origin + Vector2(player_tile) * tile_size, tile_size)
+	var bob := 0.0
+	if player_moving and fmod(Time.get_ticks_msec() / 120.0, 2.0) >= 1.0:
+		bob = -2.0
+	_draw_character(Vector2i(0, 0), origin + player_tile * tile_size + Vector2(0, bob), tile_size)
 	if session.scene_index >= 2:
 		_draw_character(Vector2i(3, 0), origin + Vector2(6, 5) * tile_size, tile_size)
 	if session.scene_index >= 4:

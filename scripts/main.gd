@@ -40,9 +40,11 @@ func _ready() -> void:
 	_load_scene(0)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if root != null:
 		root.size = get_viewport_rect().size
+	if player_controller != null and player_controller.update(delta):
+		_refresh_ui()
 
 
 func _draw() -> void:
@@ -119,7 +121,7 @@ func _refresh_ui() -> void:
 	time_label.text = "时长 %s" % session.format_time()
 
 	scene_canvas.refresh(session)
-	scene_canvas.set_player_tile(player_controller.tile)
+	scene_canvas.set_player_motion(player_controller.visual_tile(), player_controller.is_moving)
 	dialogue_overlay.refresh(
 		str(location.get("name", session.location_id)),
 		player_controller.prompt_text(),
