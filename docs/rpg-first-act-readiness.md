@@ -48,9 +48,9 @@ Steam-ready first act.
   surface is still minimal and the quit flow is not polished for release.
 - Dialogue has a reusable overlay shell, but it still needs speaker portraits,
   paging, skip behavior, and localization-ready text flow.
-- Player movement now has step timing, interpolated drawing, basic facing
-  frames, and blocked-tile feedback, but it still needs artist-approved
-  animation frames and scene transitions.
+- Player movement now has step timing, interpolated drawing, sprite-sheet
+  walking frames, facing rows, and blocked-tile feedback, but it still needs
+  artist-approved bespoke hero frames and scene transitions.
 - There is no audio layer yet: music, ambience, UI sounds, and interaction SFX
   need to be added and licensed.
 - There is no release/export setup for Steam: export presets, icon/splash,
@@ -62,6 +62,6 @@ Steam-ready first act.
 
 ## Next Implementation Order
 
-1. Replace placeholder facing frames with artist-approved animation frames.
+1. Replace generic sheet player frames with artist-approved bespoke hero frames.
 2. Expand settings beyond fullscreen and polish quit/title transitions.
 3. Add audio and export presets once the first act loop is stable.

@@ -10,6 +10,7 @@ const PAPER_ICON := preload("res://assets/opengameart/paper_icons/Paper.png")
 
 const ATLAS_TILE := 32.0
 const CHAR_TILE := 16.0
+const PLAYER_FRAME_ORIGIN := Vector2i(0, 0)
 const COLUMNS := 15
 const ROWS := 9
 
@@ -267,7 +268,19 @@ func _draw_character(tile: Vector2i, top_left: Vector2, tile_size: float) -> voi
 
 
 func _player_frame() -> Vector2i:
-	return Vector2i(0, 0)
+	var column := 1
+	if player_moving:
+		var cycle := [0, 1, 2, 1]
+		column = cycle[int(Time.get_ticks_msec() / 120) % cycle.size()]
+
+	var row := 0
+	if player_facing == Vector2i(0, -1):
+		row = 2
+	elif player_facing == Vector2i(-1, 0) or player_facing == Vector2i(1, 0):
+		row = 1
+	else:
+		row = 0
+	return PLAYER_FRAME_ORIGIN + Vector2i(column, row)
 
 
 func _draw_facing_marker(top_left: Vector2, tile_size: float) -> void:
