@@ -1,0 +1,7 @@
+[deepseek]
+api_key="set-via-DEEPSEEK_API_KEY-or-copy-this-file-to-deepseek.local.cfg"
+endpoint="https://api.deepseek.com/chat/completions"
+model="deepseek-v4-flash"
+max_tokens=420
+temperature=0.4
+thinking_enabled=false

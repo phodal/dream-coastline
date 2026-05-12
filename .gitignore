@@ -6,6 +6,7 @@ export_presets.cfg
 *.translation
 *.tmp
 *.log
+deepseek.local.cfg
 node_modules/
 dist/
 godot-headless.log

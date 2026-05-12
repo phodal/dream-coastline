@@ -3,6 +3,7 @@ extends Node2D
 const BASE_SIZE := Vector2(1280.0, 720.0)
 const SCENE_DIR := "res://data/ascii_scenes"
 const MAX_LOG_LINES := 8
+const DeepSeekClientScript := preload("res://scripts/deepseek_client.gd")
 const SCENE_IDS := [
 	"00-prologue-lights-out",
 	"01-illiterate",
@@ -52,6 +53,8 @@ var action_grid: GridContainer
 var prev_button: Button
 var next_button: Button
 var reset_button: Button
+var ai_button: Button
+var deepseek_client: Node
 
 
 func _ready() -> void:
@@ -62,6 +65,7 @@ func _ready() -> void:
 		return
 
 	_build_ui()
+	_setup_deepseek()
 	_load_scene(0)
 
 
@@ -137,6 +141,11 @@ func _build_top_bar() -> Control:
 	reset_button.custom_minimum_size = Vector2(110, 38)
 	reset_button.pressed.connect(func(): _load_scene(scene_index))
 	row.add_child(reset_button)
+
+	ai_button = _make_button("AI", "AI 解读")
+	ai_button.custom_minimum_size = Vector2(112, 38)
+	ai_button.pressed.connect(_request_ai_scene_notes)
+	row.add_child(ai_button)
 	return panel
 
 
@@ -297,6 +306,8 @@ func _refresh_ui() -> void:
 	time_label.text = "时长 %s" % _format_time(elapsed_seconds)
 	prev_button.disabled = scene_index <= 0
 	next_button.disabled = scene_index >= SCENE_IDS.size() - 1
+	if ai_button != null:
+		ai_button.disabled = deepseek_client != null and deepseek_client.is_pending()
 
 	location_label.text = str(location.get("name", location_id))
 	art_label.text = "\n".join(location.get("art", []))
@@ -307,6 +318,42 @@ func _refresh_ui() -> void:
 
 	_rebuild_actions()
 	queue_redraw()
+
+
+func _setup_deepseek() -> void:
+	deepseek_client = DeepSeekClientScript.new()
+	deepseek_client.name = "DeepSeekClient"
+	deepseek_client.completed.connect(_on_ai_completed)
+	deepseek_client.failed.connect(_on_ai_failed)
+	add_child(deepseek_client)
+
+
+func _request_ai_scene_notes() -> void:
+	if deepseek_client == null:
+		_log("AI 客户端尚未初始化。")
+		_refresh_ui()
+		return
+	if not deepseek_client.is_configured():
+		_log("DeepSeek 未配置：设置 DEEPSEEK_API_KEY，或复制 deepseek.local.cfg.example 为 deepseek.local.cfg。")
+		_refresh_ui()
+		return
+
+	_log("正在请求 DeepSeek 解读本幕...")
+	_refresh_ui()
+	var recent_log: Array[String] = []
+	for line in event_log.slice(max(0, event_log.size() - MAX_LOG_LINES), event_log.size()):
+		recent_log.append(str(line))
+	deepseek_client.request_scene_notes(scene, _current_location(), recent_log, metrics)
+
+
+func _on_ai_completed(text: String) -> void:
+	_log("AI 解读：%s" % text)
+	_refresh_ui()
+
+
+func _on_ai_failed(message: String) -> void:
+	_log("AI 请求失败：%s" % message)
+	_refresh_ui()
 
 
 func _rebuild_actions() -> void:

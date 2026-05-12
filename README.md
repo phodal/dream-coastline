@@ -33,6 +33,12 @@ Validate the Godot scene runner can complete every implemented scene:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-autoplay
 ```
 
+## DeepSeek AI
+
+The project includes a small DeepSeek client for scene design assistance. Configure
+it with `DEEPSEEK_API_KEY` or a local ignored `deepseek.local.cfg`; see
+`docs/deepseek-ai.md`.
+
 Run the fast ASCII prototype for `five/scene` work:
 
 ```sh
