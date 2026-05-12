@@ -18,8 +18,8 @@ showing ASCII art in the window.
 - `scripts/core/scene_visual_repository.gd` loads per-location visual maps.
 - `scripts/ui/sprite_scene_canvas.gd` renders the 90s RPG-style tile scene from
   the visual data and OpenGameArt spritesheets.
-- `scripts/ui/story_hud.gd`, `scripts/ui/action_panel.gd`, and
-  `scripts/ui/game_theme.gd` keep HUD, action controls, and styling separate.
+- `scripts/ui/game_theme.gd` keeps the small HUD styling separate from gameplay
+  rules.
 
 ## Development
 
@@ -61,9 +61,9 @@ python3 tools/ascii_five.py --verify
 python3 tools/ascii_five.py --report
 ```
 
-Controls are button-driven inside the Godot window. Use the top bar to switch
-scenes and the bottom action panel to move, inspect, cast glyphs, build, choose
-routes, fight, or complete word combinations.
+Controls are keyboard-driven inside the Godot window. Use WASD or the arrow keys
+to move, and Space or Enter to interact with nearby exits and investigation
+targets.
 
 MCP integration is configured for Codex through `~/.codex/config.toml`. See
 `docs/godot-mcp.md` for details.

@@ -15,6 +15,7 @@ const ROWS := 9
 
 var session
 var visual_repository
+var player_tile := Vector2i(7, 6)
 
 
 func _ready() -> void:
@@ -30,6 +31,11 @@ func set_visual_repository(repository) -> void:
 
 func refresh(game_session) -> void:
 	session = game_session
+	queue_redraw()
+
+
+func set_player_tile(tile: Vector2i) -> void:
+	player_tile = tile
 	queue_redraw()
 
 
@@ -105,14 +111,8 @@ func _draw_location_objects(origin: Vector2, tile_size: float, visual: Dictionar
 		draw_texture_rect(FIREBALL, Rect2(origin + Vector2(9, 4) * tile_size, Vector2(tile_size, tile_size)), false)
 
 
-func _draw_actors(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
-	if not visual.is_empty():
-		for actor in visual.get("actors", []):
-			var coord := Vector2(float(actor.get("x", 7)), float(actor.get("y", 6)))
-			_draw_actor(str(actor.get("kind", "jizi")), origin + coord * tile_size, tile_size)
-		return
-
-	_draw_character(Vector2i(0, 0), origin + Vector2(7, 6) * tile_size, tile_size)
+func _draw_actors(origin: Vector2, tile_size: float, _visual: Dictionary) -> void:
+	_draw_character(Vector2i(0, 0), origin + Vector2(player_tile) * tile_size, tile_size)
 	if session.scene_index >= 2:
 		_draw_character(Vector2i(3, 0), origin + Vector2(6, 5) * tile_size, tile_size)
 	if session.scene_index >= 4:

@@ -1,13 +1,13 @@
 extends Node2D
 
-const DeepSeekClientScript := preload("res://scripts/deepseek_client.gd")
 const SceneDatabaseScript := preload("res://scripts/core/scene_database.gd")
 const SceneVisualRepositoryScript := preload("res://scripts/core/scene_visual_repository.gd")
 const GameSessionScript := preload("res://scripts/core/game_session.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const SpriteSceneCanvasScript := preload("res://scripts/ui/sprite_scene_canvas.gd")
-const StoryHudScript := preload("res://scripts/ui/story_hud.gd")
-const ActionPanelScript := preload("res://scripts/ui/action_panel.gd")
+
+const TILE_COLUMNS := 15
+const TILE_ROWS := 9
 
 var database
 var visual_repository
@@ -17,13 +17,10 @@ var title_label: Label
 var time_label: Label
 var location_label: Label
 var scene_canvas
-var story_hud
-var action_panel
-var prev_button: Button
-var next_button: Button
-var reset_button: Button
-var ai_button: Button
-var deepseek_client: Node
+var prompt_label: Label
+var log_label: RichTextLabel
+var player_tile := Vector2i(7, 6)
+var facing := Vector2i(0, -1)
 
 
 func _ready() -> void:
@@ -38,8 +35,12 @@ func _ready() -> void:
 		return
 
 	_build_ui()
-	_setup_deepseek()
 	_load_scene(0)
+
+
+func _process(_delta: float) -> void:
+	if root != null:
+		root.size = get_viewport_rect().size
 
 
 func _draw() -> void:
@@ -48,47 +49,35 @@ func _draw() -> void:
 
 func _build_ui() -> void:
 	root = Control.new()
-	root.name = "GodotPlayableSceneUI"
-	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.name = "GodotRpgScene"
+	root.position = Vector2.ZERO
+	root.size = get_viewport_rect().size
 	add_child(root)
 
-	var outer := VBoxContainer.new()
-	outer.set_anchors_preset(Control.PRESET_FULL_RECT)
-	outer.add_theme_constant_override("separation", 8)
-	outer.offset_left = 16
-	outer.offset_top = 14
-	outer.offset_right = -16
-	outer.offset_bottom = -14
-	root.add_child(outer)
+	scene_canvas = SpriteSceneCanvasScript.new()
+	scene_canvas.name = "SpriteSceneCanvas"
+	scene_canvas.set_anchors_preset(Control.PRESET_FULL_RECT, false)
+	scene_canvas.offset_left = 0
+	scene_canvas.offset_top = 0
+	scene_canvas.offset_right = 0
+	scene_canvas.offset_bottom = 0
+	scene_canvas.set_visual_repository(visual_repository)
+	root.add_child(scene_canvas)
 
-	outer.add_child(_build_top_bar())
-
-	var main_row := HBoxContainer.new()
-	main_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	main_row.add_theme_constant_override("separation", 10)
-	outer.add_child(main_row)
-
-	main_row.add_child(_build_scene_panel())
-	main_row.add_child(_build_info_panel())
-	outer.add_child(_build_action_panel())
+	root.add_child(_build_top_bar())
+	root.add_child(_build_status_overlay())
 
 
 func _build_top_bar() -> Control:
 	var panel := GameThemeScript.make_panel("TopBar", GameThemeScript.COLORS.panel_alt)
-	panel.custom_minimum_size = Vector2(0, 54)
+	panel.set_anchors_preset(Control.PRESET_TOP_WIDE, false)
+	panel.offset_left = 16
+	panel.offset_top = 14
+	panel.offset_right = -16
+	panel.offset_bottom = 62
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
 	panel.add_child(row)
-
-	prev_button = GameThemeScript.make_button("<", "上一幕")
-	prev_button.custom_minimum_size = Vector2(54, 38)
-	prev_button.pressed.connect(func(): _load_scene(max(session.scene_index - 1, 0)))
-	row.add_child(prev_button)
-
-	next_button = GameThemeScript.make_button(">", "下一幕")
-	next_button.custom_minimum_size = Vector2(54, 38)
-	next_button.pressed.connect(func(): _load_scene(min(session.scene_index + 1, session.scene_count() - 1)))
-	row.add_child(next_button)
 
 	title_label = GameThemeScript.make_label("SceneTitle", 24, GameThemeScript.COLORS.text)
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -98,65 +87,47 @@ func _build_top_bar() -> Control:
 	time_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	time_label.custom_minimum_size = Vector2(180, 34)
 	row.add_child(time_label)
-
-	reset_button = GameThemeScript.make_button("Reset", "重置本幕")
-	reset_button.custom_minimum_size = Vector2(110, 38)
-	reset_button.pressed.connect(func(): _load_scene(session.scene_index))
-	row.add_child(reset_button)
-
-	ai_button = GameThemeScript.make_button("AI", "AI 解读")
-	ai_button.custom_minimum_size = Vector2(112, 38)
-	ai_button.pressed.connect(_request_ai_scene_notes)
-	row.add_child(ai_button)
 	return panel
 
 
-func _build_scene_panel() -> Control:
-	var panel := GameThemeScript.make_panel("ScenePanel", GameThemeScript.COLORS.panel)
-	panel.custom_minimum_size = Vector2(610, 0)
-	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+func _build_status_overlay() -> Control:
+	var panel := GameThemeScript.make_panel("StatusOverlay", Color("#080a12", 0.76))
+	panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE, false)
+	panel.offset_left = 16
+	panel.offset_top = -120
+	panel.offset_right = -16
+	panel.offset_bottom = -14
 
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 8)
-	panel.add_child(box)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 14)
+	panel.add_child(row)
+
+	var left := VBoxContainer.new()
+	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(left)
 
 	location_label = GameThemeScript.make_label("Location", 22, GameThemeScript.COLORS.gold)
-	box.add_child(location_label)
+	left.add_child(location_label)
 
-	scene_canvas = SpriteSceneCanvasScript.new()
-	scene_canvas.name = "SpriteSceneCanvas"
-	scene_canvas.set_visual_repository(visual_repository)
-	box.add_child(scene_canvas)
-	return panel
+	prompt_label = GameThemeScript.make_label("Prompt", 17, GameThemeScript.COLORS.text)
+	prompt_label.custom_minimum_size = Vector2(0, 44)
+	left.add_child(prompt_label)
 
-
-func _build_info_panel() -> Control:
-	var panel := GameThemeScript.make_panel("InfoPanel", GameThemeScript.COLORS.panel)
-	panel.custom_minimum_size = Vector2(610, 0)
-	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-
-	story_hud = StoryHudScript.new()
-	story_hud.name = "StoryHud"
-	story_hud.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	panel.add_child(story_hud)
-	return panel
-
-
-func _build_action_panel() -> Control:
-	var panel := GameThemeScript.make_panel("ActionPanel", GameThemeScript.COLORS.panel_alt)
-	panel.custom_minimum_size = Vector2(0, 188)
-
-	action_panel = ActionPanelScript.new()
-	action_panel.name = "ActionPanelScroll"
-	action_panel.action_requested.connect(_on_action_requested)
-	panel.add_child(action_panel)
+	log_label = RichTextLabel.new()
+	log_label.name = "CompactLog"
+	log_label.custom_minimum_size = Vector2(480, 88)
+	log_label.fit_content = false
+	log_label.scroll_active = false
+	log_label.bbcode_enabled = false
+	log_label.add_theme_font_size_override("normal_font_size", 16)
+	log_label.add_theme_color_override("default_color", GameThemeScript.COLORS.text)
+	row.add_child(log_label)
 	return panel
 
 
 func _load_scene(index: int) -> void:
 	session.load_scene(index)
+	_reset_player_for_location()
 	_refresh_ui()
 
 
@@ -167,54 +138,72 @@ func _refresh_ui() -> void:
 	var location: Dictionary = session.current_location()
 	title_label.text = "%s/%s  %s" % [session.scene_index + 1, session.scene_count(), session.scene.get("title", "")]
 	time_label.text = "时长 %s" % session.format_time()
-	prev_button.disabled = session.scene_index <= 0
-	next_button.disabled = session.scene_index >= session.scene_count() - 1
-	if ai_button != null:
-		ai_button.disabled = deepseek_client != null and deepseek_client.is_pending()
 
 	location_label.text = str(location.get("name", session.location_id))
 	scene_canvas.refresh(session)
-	story_hud.refresh(session)
-	action_panel.refresh(session)
+	scene_canvas.set_player_tile(player_tile)
+	prompt_label.text = _prompt_text()
+	log_label.text = session.visible_log(4)
 	queue_redraw()
 
 
-func _on_action_requested(action: Dictionary) -> void:
-	session.apply_action(action)
-	_refresh_ui()
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("move_up"):
+		_try_move(Vector2i(0, -1))
+	elif event.is_action_pressed("move_down"):
+		_try_move(Vector2i(0, 1))
+	elif event.is_action_pressed("move_left"):
+		_try_move(Vector2i(-1, 0))
+	elif event.is_action_pressed("move_right"):
+		_try_move(Vector2i(1, 0))
+	elif event.is_action_pressed("ui_accept"):
+		_interact()
 
 
-func _setup_deepseek() -> void:
-	deepseek_client = DeepSeekClientScript.new()
-	deepseek_client.name = "DeepSeekClient"
-	deepseek_client.completed.connect(_on_ai_completed)
-	deepseek_client.failed.connect(_on_ai_failed)
-	add_child(deepseek_client)
-
-
-func _request_ai_scene_notes() -> void:
-	if deepseek_client == null:
-		session.event_log.append("AI 客户端尚未初始化。")
+func _try_move(direction: Vector2i) -> void:
+	facing = direction
+	var target := player_tile + direction
+	if visual_repository.is_blocked(session.scene_id, session.location_id, target):
 		_refresh_ui()
 		return
-	if not deepseek_client.is_configured():
-		session.event_log.append("DeepSeek 未配置：设置 DEEPSEEK_API_KEY，或复制 deepseek.local.cfg.example 为 deepseek.local.cfg。")
+	player_tile = target
+	_refresh_ui()
+
+
+func _interact() -> void:
+	var target := player_tile + facing
+	var interaction: Dictionary = visual_repository.interaction_at(session.scene_id, session.location_id, target)
+	if interaction.is_empty():
+		interaction = visual_repository.interaction_at(session.scene_id, session.location_id, player_tile)
+	if interaction.is_empty():
+		session.event_log.append("这里没有可以互动的东西。")
 		_refresh_ui()
 		return
 
-	session.event_log.append("正在请求 DeepSeek 解读本幕...")
-	_refresh_ui()
-	var recent_log: Array[String] = []
-	for line in session.event_log.slice(max(0, session.event_log.size() - StoryHudScript.MAX_LOG_LINES), session.event_log.size()):
-		recent_log.append(str(line))
-	deepseek_client.request_scene_notes(session.scene, session.current_location(), recent_log, session.metrics)
-
-
-func _on_ai_completed(text: String) -> void:
-	session.event_log.append("AI 解读：%s" % text)
+	if interaction.has("exit"):
+		session.apply_action({"verb": "go", "arg": str(interaction["exit"])})
+		_reset_player_for_location()
+	elif interaction.has("item"):
+		session.apply_action({"verb": "inspect", "arg": str(interaction["item"])})
 	_refresh_ui()
 
 
-func _on_ai_failed(message: String) -> void:
-	session.event_log.append("AI 请求失败：%s" % message)
-	_refresh_ui()
+func _reset_player_for_location() -> void:
+	player_tile = visual_repository.spawn_for(session.scene_id, session.location_id)
+	facing = Vector2i(0, -1)
+
+
+func _prompt_text() -> String:
+	var target := player_tile + facing
+	var interaction: Dictionary = visual_repository.interaction_at(session.scene_id, session.location_id, target)
+	if interaction.is_empty():
+		interaction = visual_repository.interaction_at(session.scene_id, session.location_id, player_tile)
+	if interaction.has("exit"):
+		var exit_id := str(interaction["exit"])
+		var exits: Dictionary = session.current_location().get("exits", {})
+		return "Space/Enter 进入：%s" % exits.get(exit_id, exit_id)
+	if interaction.has("item"):
+		var item_id := str(interaction["item"])
+		var items: Dictionary = session.current_location().get("items", {})
+		return "Space/Enter 调查：%s" % items.get(item_id, {}).get("name", item_id)
+	return "WASD/方向键移动，Space/Enter 互动"
