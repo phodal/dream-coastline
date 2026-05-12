@@ -26,6 +26,8 @@ Steam-ready first act.
   state, reloads it, and checks the restored location, tile, and elapsed time.
 - Menu verification: `--smoke-menu-flow` builds the UI and checks title, new
   game, pause/resume, and settings open/close states.
+- Render verification: `--smoke-render-frame` starts the real Godot renderer,
+  captures the viewport image, and checks that the game frame is not blank.
 
 ## Not Yet Steam-Ready
 
@@ -44,13 +46,12 @@ Steam-ready first act.
   controller mapping, fullscreen/window settings, build metadata, and platform
   smoke checks are missing.
 - Automated verification covers story walkthrough rules, a first-act keyboard
-  path, save/load restoration, and menu state flow, but not rendered frame sanity
-  or later-scene keyboard paths.
+  path, save/load restoration, menu state flow, and a rendered frame sanity
+  check, but not later-scene keyboard paths.
 
 ## Next Implementation Order
 
 1. Author visual maps and keyboard paths for the remaining scenes.
-2. Add rendered frame sanity checks.
-3. Replace placeholder facing frames with artist-approved animation frames.
-4. Expand settings beyond fullscreen and polish quit/title transitions.
-5. Add audio and export presets once the first act loop is stable.
+2. Replace placeholder facing frames with artist-approved animation frames.
+3. Expand settings beyond fullscreen and polish quit/title transitions.
+4. Add audio and export presets once the first act loop is stable.

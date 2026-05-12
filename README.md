@@ -65,6 +65,13 @@ Validate title/pause/settings flow:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-menu-flow
 ```
 
+Validate a rendered game frame. This uses the real renderer, so run it without
+`--headless`:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --quit-after 120 -- --smoke-render-frame
+```
+
 ## DeepSeek AI
 
 The project includes a small DeepSeek client for scene design assistance. Configure

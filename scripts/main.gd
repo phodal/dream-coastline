@@ -61,6 +61,11 @@ func _ready() -> void:
 		var ok := _run_menu_smoke()
 		get_tree().quit(0 if ok else 1)
 		return
+	if OS.get_cmdline_user_args().has("--smoke-render-frame"):
+		_build_ui()
+		_start_new_game()
+		call_deferred("_finish_render_smoke")
+		return
 
 	_build_ui()
 	_load_scene(0)
@@ -347,4 +352,60 @@ func _run_menu_smoke() -> bool:
 	])
 	for failure in failures:
 		print("failure=", failure)
+	return ok
+
+
+func _finish_render_smoke() -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var image: Image = get_viewport().get_texture().get_image()
+	var ok: bool = _verify_render_image(image)
+	get_tree().quit(0 if ok else 1)
+
+
+func _verify_render_image(image: Image) -> bool:
+	if image == null:
+		print("render-frame-smoke status=FAIL reason=no-image")
+		return false
+
+	var width: int = image.get_width()
+	var height: int = image.get_height()
+	if width <= 0 or height <= 0:
+		print("render-frame-smoke status=FAIL reason=empty-image size=%sx%s" % [width, height])
+		return false
+
+	var step_x: int = int(ceil(float(width) / 48.0))
+	var step_y: int = int(ceil(float(height) / 36.0))
+	if step_x < 1:
+		step_x = 1
+	if step_y < 1:
+		step_y = 1
+
+	var sampled_count := 0
+	var non_dark_count := 0
+	var color_keys := {}
+	for y in range(0, height, step_y):
+		for x in range(0, width, step_x):
+			var color: Color = image.get_pixel(x, y)
+			sampled_count += 1
+			if color.r > 0.08 or color.g > 0.08 or color.b > 0.08:
+				non_dark_count += 1
+			var key := "%02x%02x%02x" % [
+				int(color.r * 255.0) / 32,
+				int(color.g * 255.0) / 32,
+				int(color.b * 255.0) / 32,
+			]
+			color_keys[key] = true
+
+	var distinct_count: int = color_keys.size()
+	var ok := sampled_count > 0 and non_dark_count >= 16 and distinct_count >= 6
+	print("render-frame-smoke status=%s size=%sx%s sampled=%s non_dark=%s distinct=%s" % [
+		"PASS" if ok else "FAIL",
+		width,
+		height,
+		sampled_count,
+		non_dark_count,
+		distinct_count,
+	])
 	return ok
