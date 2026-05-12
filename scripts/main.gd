@@ -18,7 +18,7 @@ const SaveLoadSmokeScript := preload("res://scripts/core/save_load_smoke.gd")
 const SettingsRepositoryScript := preload("res://scripts/core/settings_repository.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const SpriteSceneCanvasScript := preload("res://scripts/ui/sprite_scene_canvas.gd")
-const DialogueOverlayScript := preload("res://scripts/ui/dialogue_overlay.gd")
+const PromptOverlayScript := preload("res://scripts/ui/prompt_overlay.gd")
 const PauseMenuScript := preload("res://scripts/ui/pause_menu.gd")
 const TitleScreenScript := preload("res://scripts/ui/title_screen.gd")
 const SettingsMenuScript := preload("res://scripts/ui/settings_menu.gd")
@@ -34,7 +34,7 @@ var root: Control
 var title_label: Label
 var time_label: Label
 var scene_canvas
-var dialogue_overlay
+var prompt_overlay
 var pause_menu
 var title_screen
 var settings_menu
@@ -155,10 +155,11 @@ func _build_ui() -> void:
 	root.add_child(scene_canvas)
 
 	root.add_child(_build_top_bar())
-	root.add_child(_build_status_overlay())
+	root.add_child(_build_prompt_overlay())
 	root.add_child(_build_pause_menu())
 	root.add_child(_build_title_screen())
 	root.add_child(_build_settings_menu())
+	call_deferred("_focus_visible_menu")
 
 
 func _build_top_bar() -> Control:
@@ -183,15 +184,15 @@ func _build_top_bar() -> Control:
 	return panel
 
 
-func _build_status_overlay() -> Control:
-	dialogue_overlay = DialogueOverlayScript.new()
-	dialogue_overlay.name = "DialogueOverlay"
-	var panel: Control = dialogue_overlay
-	panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE, false)
+func _build_prompt_overlay() -> Control:
+	prompt_overlay = PromptOverlayScript.new()
+	prompt_overlay.name = "PromptOverlay"
+	var panel: Control = prompt_overlay
+	panel.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
 	panel.offset_left = 16
-	panel.offset_top = -120
-	panel.offset_right = -16
-	panel.offset_bottom = -14
+	panel.offset_top = 74
+	panel.offset_right = 482
+	panel.offset_bottom = 166
 	return panel
 
 
@@ -226,6 +227,7 @@ func _build_title_screen() -> Control:
 	title_screen.settings_requested.connect(_open_settings)
 	title_screen.quit_requested.connect(_request_title_quit)
 	title_screen.set_continue_enabled(save_repository.has_save())
+	title_screen.call_deferred("focus_default")
 	return title_screen
 
 
@@ -267,12 +269,21 @@ func _refresh_ui() -> void:
 		player_controller.blocked_tile,
 		player_controller.has_blocked_feedback()
 	)
-	dialogue_overlay.refresh(
+	prompt_overlay.refresh(
 		str(location.get("name", session.location_id)),
 		player_controller.prompt_text(),
-		session.visible_log(4)
+		session.visible_log(1)
 	)
 	queue_redraw()
+
+
+func _focus_visible_menu() -> void:
+	if settings_menu != null and settings_menu.visible:
+		settings_menu.focus_default()
+	elif pause_menu != null and pause_menu.visible:
+		pause_menu.focus_default()
+	elif title_screen != null and title_screen.visible:
+		title_screen.focus_default()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -334,6 +345,7 @@ func _toggle_pause() -> void:
 		audio_director.play_ui()
 	if pause_menu.visible:
 		pause_menu.set_status("ESC 返回游戏")
+		pause_menu.focus_default()
 
 
 func _resume_game() -> void:
@@ -400,6 +412,7 @@ func _open_settings() -> void:
 	settings_menu.visible = true
 	settings_menu.set_fullscreen(settings_repository.fullscreen)
 	settings_menu.set_master_volume(settings_repository.master_volume)
+	settings_menu.focus_default()
 	if audio_director != null:
 		audio_director.play_ui()
 
@@ -408,6 +421,7 @@ func _close_settings() -> void:
 	settings_menu.visible = false
 	if not game_started:
 		title_screen.visible = true
+		title_screen.focus_default()
 	if audio_director != null:
 		audio_director.play_ui()
 
@@ -456,6 +470,7 @@ func _return_to_title() -> void:
 	title_screen.visible = true
 	title_screen.set_continue_enabled(save_repository.has_save())
 	title_screen.set_status("")
+	title_screen.focus_default()
 	_load_scene(0)
 	if audio_director != null:
 		audio_director.play_transition()
@@ -463,8 +478,11 @@ func _return_to_title() -> void:
 
 func _run_menu_smoke() -> bool:
 	var failures: Array[String] = []
+	_focus_visible_menu()
 	if not title_screen.visible:
 		failures.append("title screen should be visible at boot")
+	if get_viewport().gui_get_focus_owner() == null:
+		failures.append("title screen should have keyboard focus")
 	if game_started:
 		failures.append("game should not be marked started at boot")
 
@@ -477,6 +495,8 @@ func _run_menu_smoke() -> bool:
 	_toggle_pause()
 	if not pause_menu.visible:
 		failures.append("pause should open after ESC")
+	if get_viewport().gui_get_focus_owner() == null:
+		failures.append("pause menu should have keyboard focus")
 	_resume_game()
 	if pause_menu.visible:
 		failures.append("pause should close on resume")
@@ -484,6 +504,8 @@ func _run_menu_smoke() -> bool:
 	_open_settings()
 	if not settings_menu.visible:
 		failures.append("settings should open")
+	if get_viewport().gui_get_focus_owner() == null:
+		failures.append("settings should have keyboard focus")
 	_close_settings()
 	if settings_menu.visible:
 		failures.append("settings should close")

@@ -9,6 +9,7 @@ signal quit_requested
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 
 var status_label: Label
+var resume_button: Button
 
 
 func _ready() -> void:
@@ -37,7 +38,8 @@ func _ready() -> void:
 	title.text = "暂停"
 	box.add_child(title)
 
-	box.add_child(_make_menu_button("继续", resume_requested.emit))
+	resume_button = _make_menu_button("继续", resume_requested.emit)
+	box.add_child(resume_button)
 	box.add_child(_make_menu_button("保存", save_requested.emit))
 	box.add_child(_make_menu_button("读取", load_requested.emit))
 	box.add_child(_make_menu_button("返回标题", quit_requested.emit))
@@ -49,6 +51,11 @@ func _ready() -> void:
 
 func set_status(text: String) -> void:
 	status_label.text = text
+
+
+func focus_default() -> void:
+	if resume_button != null:
+		resume_button.grab_focus()
 
 
 func _make_menu_button(text: String, callback: Callable) -> Button:

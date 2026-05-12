@@ -6,13 +6,13 @@ Steam-ready first act.
 ## Current Evidence
 
 - Real RPG rendering: `scripts/ui/sprite_scene_canvas.gd` draws the play field
-  from OpenGameArt spritesheets, not from ASCII art.
+  from OpenGameArt spritesheets and visual scene data.
 - Keyboard play: `scripts/core/rpg_player_controller.gd` owns player tile,
   facing, collision checks, movement timing, exits, investigation targets, and
   prompt text.
-- Dialogue shell: `scripts/ui/dialogue_overlay.gd` owns the bottom dialogue and
-  prompt surface, so it can evolve toward portraits and paged dialogue without
-  bloating `scripts/main.gd`.
+- Keyboard-first HUD: `scripts/ui/prompt_overlay.gd` owns the compact location,
+  action prompt, and latest feedback surface without reserving bottom or right
+  screen regions.
 - Visual map data: `data/visual_scenes/00-prologue-lights-out.json`,
   `data/visual_scenes/01-illiterate.json`, and
   `data/visual_scenes/02-moqi-academy.json`, and
@@ -36,7 +36,8 @@ Steam-ready first act.
 - Save/load verification: `--smoke-save-load` writes a save, mutates runtime
   state, reloads it, and checks the restored location, tile, and elapsed time.
 - Menu verification: `--smoke-menu-flow` builds the UI and checks title, new
-  game, pause/resume, and settings open/close states.
+  game, pause/resume, settings open/close states, return-to-title confirmation,
+  title quit confirmation, and keyboard focus.
 - Render verification: `--smoke-render-frame` starts the real Godot renderer,
   captures the viewport image, and checks that the game frame is not blank.
 - Audio verification: `--smoke-audio-director` checks that the generated
@@ -51,10 +52,12 @@ Steam-ready first act.
 
 - All eight current scenes have explicit visual map data and keyboard smoke
   paths.
-- Title, settings, pause, and save/load foundations exist. Settings now include
-  fullscreen and master volume, but the quit flow is not polished for release.
-- Dialogue has a reusable overlay shell, but it still needs speaker portraits,
-  paging, skip behavior, and localization-ready text flow.
+- Title, settings, pause, save/load, return-to-title confirmation, and title
+  quit confirmation exist. Release UX still needs final controller tuning and
+  platform smoke checks.
+- Story feedback is currently a compact latest-line prompt. Full dialogue still
+  needs speaker portraits, paging, skip behavior, and localization-ready text
+  flow.
 - Player movement now has step timing, interpolated drawing, sprite-sheet
   walking frames, facing rows, and blocked-tile feedback, but it still needs
   artist-approved bespoke hero frames and scene transitions.
@@ -74,5 +77,5 @@ Steam-ready first act.
 ## Next Implementation Order
 
 1. Replace generic sheet player frames with artist-approved bespoke hero frames.
-2. Polish quit/title transitions.
-3. Install export templates and add platform export smoke checks.
+2. Install export templates and add platform export smoke checks.
+3. Add final music, ambience, icon/splash, and release metadata.

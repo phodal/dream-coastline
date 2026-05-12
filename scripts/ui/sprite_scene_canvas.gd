@@ -68,7 +68,6 @@ func _draw() -> void:
 	_draw_location_objects(origin, tile_size, visual)
 	_draw_blocked_feedback(origin, tile_size)
 	_draw_actors(origin, tile_size, visual)
-	_draw_letterbox(canvas_size)
 
 
 func _draw_map(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
@@ -137,20 +136,6 @@ func _draw_actors(origin: Vector2, tile_size: float, _visual: Dictionary) -> voi
 		_draw_character(Vector2i(3, 0), origin + Vector2(6, 5) * tile_size, tile_size)
 	if session.scene_index >= 4:
 		_draw_character(Vector2i(5, 1), origin + Vector2(8, 5) * tile_size, tile_size)
-
-
-func _draw_letterbox(canvas_size: Vector2) -> void:
-	var location: Dictionary = session.current_location()
-	draw_rect(Rect2(Vector2.ZERO, Vector2(canvas_size.x, 34)), Color("#000000", 0.58))
-	draw_string(
-		ThemeDB.fallback_font,
-		Vector2(12, 23),
-		str(location.get("name", session.location_id)),
-		HORIZONTAL_ALIGNMENT_LEFT,
-		canvas_size.x - 24,
-		18,
-		GameThemeScript.COLORS.gold
-	)
 
 
 func _draw_prop(item_id: String, top_left: Vector2, tile_size: float) -> void:

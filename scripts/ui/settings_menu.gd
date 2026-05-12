@@ -24,6 +24,7 @@ func _ready() -> void:
 
 	fullscreen_check = CheckBox.new()
 	fullscreen_check.text = "全屏"
+	fullscreen_check.focus_mode = Control.FOCUS_ALL
 	fullscreen_check.add_theme_font_size_override("font_size", 18)
 	fullscreen_check.add_theme_color_override("font_color", GameThemeScript.COLORS.text)
 	fullscreen_check.toggled.connect(func(enabled: bool): fullscreen_changed.emit(enabled))
@@ -36,6 +37,7 @@ func _ready() -> void:
 	volume_slider.min_value = 0.0
 	volume_slider.max_value = 1.0
 	volume_slider.step = 0.05
+	volume_slider.focus_mode = Control.FOCUS_ALL
 	volume_slider.custom_minimum_size = Vector2(300, 32)
 	volume_slider.value_changed.connect(func(value: float):
 		_set_volume_label(value)
@@ -57,6 +59,11 @@ func set_master_volume(value: float) -> void:
 	var clamped := clampf(value, 0.0, 1.0)
 	volume_slider.set_value_no_signal(clamped)
 	_set_volume_label(clamped)
+
+
+func focus_default() -> void:
+	if fullscreen_check != null:
+		fullscreen_check.grab_focus()
 
 
 func _set_volume_label(value: float) -> void:

@@ -45,9 +45,9 @@ GameSession  <-------------  RpgPlayerController
         |                         |
         v                         v
 main.gd  ---------------->  SpriteSceneCanvas
-        ^                         ^
-        |                         |
-GameTheme                 data/visual_scenes/*.json
+   |    \                         ^
+   v     v                        |
+GameTheme PromptOverlay   data/visual_scenes/*.json
 ```
 
 ### Source Layers
@@ -59,9 +59,10 @@ GameTheme                 data/visual_scenes/*.json
 - `scripts/core/game_session.gd`: owns progression, flags, metrics, combat, action execution, and smoke verification.
 - `scripts/core/scene_visual_repository.gd`: reads visual maps and answers spawn, collision, and interaction queries.
 - `scripts/core/rpg_player_controller.gd`: owns tile movement, facing, prompt selection, and interaction dispatch.
-- `scripts/ui/sprite_scene_canvas.gd`: renders tile maps, props, actors, location label, and visual fallback.
+- `scripts/ui/sprite_scene_canvas.gd`: renders tile maps, props, actors, and visual fallback.
+- `scripts/ui/prompt_overlay.gd`: renders the compact location, keyboard prompt, and latest feedback.
 - `scripts/ui/game_theme.gd`: centralizes panel, label, button styling.
-- `scripts/main.gd`: composes the scene canvas, top bar, status overlay, input routing, and UI refresh.
+- `scripts/main.gd`: composes the scene canvas, top bar, prompt overlay, input routing, and UI refresh.
 
 ## UI Information Architecture
 
@@ -69,9 +70,10 @@ The Sprint Sheet should describe UI as a screen contract with named regions.
 
 ```text
 +--------------------------------------------------------------+
-| Top Bar                                                      |
-| Scene title / progress                         elapsed time  |
+| Top Bar: scene progress / title / elapsed time               |
 +--------------------------------------------------------------+
+| Prompt Overlay                                               |
+| Location / current Space-Enter action / latest feedback      |
 |                                                              |
 | Full-screen RPG Scene Canvas                                 |
 | - tile terrain                                               |
@@ -79,11 +81,6 @@ The Sprint Sheet should describe UI as a screen contract with named regions.
 | - props / exits / investigation hotspots                     |
 | - scene-state effects                                        |
 |                                                              |
-+--------------------------------------------------------------+
-| Bottom Status Overlay                                        |
-| Location name                                                |
-| Context prompt                                               |
-| Recent story/event log                                       |
 +--------------------------------------------------------------+
 ```
 
@@ -94,8 +91,7 @@ The Sprint Sheet should describe UI as a screen contract with named regions.
 | Top Bar | `GameSession` | `scripts/main.gd` | scene number, title, elapsed time. |
 | Scene Canvas | `SceneVisualRepository` + `GameSession` | `scripts/ui/sprite_scene_canvas.gd` | where the player is, what can be approached, what has changed. |
 | Player Controls | `RpgPlayerController` | `scripts/core/rpg_player_controller.gd` | movement, facing, current interaction target. |
-| Prompt | `RpgPlayerController` + story items/exits | `scripts/main.gd` | exact action available at the current tile. |
-| Event Log | `GameSession` | `scripts/main.gd` | last few consequences, not full dialogue history. |
+| Prompt Overlay | `RpgPlayerController` + `GameSession` | `scripts/ui/prompt_overlay.gd` | exact action available at the current tile and latest consequence. |
 | Theme | `GameTheme` | `scripts/ui/game_theme.gd` | restrained 90s RPG HUD style, readable text, no decorative clutter. |
 
 ## Data Contract For UI Drawing
@@ -182,8 +178,7 @@ Use this exact template for future sprint tickets.
 
 - Top Bar:
 - Scene Canvas:
-- Prompt:
-- Event Log:
+- Prompt Overlay:
 
 ### States
 
@@ -201,9 +196,9 @@ Use this exact template for future sprint tickets.
 
 ## Acceptance
 
-- `python3 tools/ascii_five.py --verify`
 - `/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit`
 - `/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-autoplay`
+- `/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-first-act`
 - Visual review: <what must be visible on screen>
 
 ## Affected Files
@@ -225,7 +220,7 @@ Turn the prologue from a text-driven scene into a playable 90s RPG map where the
 ### Player Loop
 
 1. Player moves with WASD or arrow keys.
-2. Facing or standing on a hotspot updates the bottom prompt.
+2. Facing or standing on a hotspot updates the compact prompt overlay.
 3. Space or Enter applies the current exit or investigation.
 4. The event log records the consequence.
 5. The visual canvas updates props, portal state, and player spawn.
@@ -243,7 +238,7 @@ Turn the prologue from a text-driven scene into a playable 90s RPG map where the
 
 - A visual scene map for each location in the prologue.
 - Collision and interaction props for all required story flags.
-- A bottom prompt that always tells the player what Space/Enter will do.
+- A compact prompt that always tells the player what Space/Enter will do.
 - Smoke verification that still completes all story scenes.
 
 ### UI Contract
@@ -252,8 +247,7 @@ Turn the prologue from a text-driven scene into a playable 90s RPG map where the
 
 - Top Bar: show `1/8`, scene title, elapsed time.
 - Scene Canvas: fill screen behind HUD with tile map, props, player, and portal state.
-- Prompt: show movement help or exact interaction label.
-- Event Log: show the last four consequences.
+- Prompt Overlay: show movement help or exact interaction label plus the latest consequence.
 
 #### States
 
@@ -272,10 +266,9 @@ Turn the prologue from a text-driven scene into a playable 90s RPG map where the
 
 ### Acceptance
 
-- `python3 tools/ascii_five.py --verify` passes.
 - Godot headless load passes.
 - Godot smoke autoplay passes all eight scenes.
-- Manual visual review confirms the prologue shows a top bar, tile scene, player marker, interactable props, prompt, and event log.
+- Manual visual review confirms the prologue shows a top bar, tile scene, player marker, interactable props, and compact prompt overlay.
 
 ### Non-Goals
 

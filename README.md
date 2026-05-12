@@ -5,8 +5,7 @@ A Godot 4 RPG slice.
 The current playable slice loads narrative scene data from `data/story_scenes/`
 and renders the first act with explicit visual scene data from
 `data/visual_scenes/`. The Godot version uses OpenGameArt spritesheets for the
-play field, character markers, props, portals, and action feedback instead of
-showing ASCII art in the window.
+play field, character markers, props, portals, and action feedback.
 
 ## Godot Structure
 
@@ -18,8 +17,9 @@ showing ASCII art in the window.
 - `scripts/core/scene_visual_repository.gd` loads per-location visual maps.
 - `scripts/ui/sprite_scene_canvas.gd` renders the 90s RPG-style tile scene from
   the visual data and OpenGameArt spritesheets.
-- `scripts/ui/game_theme.gd` keeps the small HUD styling separate from gameplay
-  rules.
+- `scripts/ui/prompt_overlay.gd` keeps the compact keyboard prompt and latest
+  feedback out of the play field.
+- `scripts/ui/game_theme.gd` keeps HUD styling separate from gameplay rules.
 
 ## Development
 
@@ -137,14 +137,6 @@ Validate a rendered game frame. This uses the real renderer, so run it without
 The project includes a small DeepSeek client for scene design assistance. Configure
 it with `DEEPSEEK_API_KEY` or a local ignored `deepseek.local.cfg`; see
 `docs/deepseek-ai.md`.
-
-Run the fast scene verifier for `five/scene` work:
-
-```sh
-python3 tools/ascii_five.py
-python3 tools/ascii_five.py --verify
-python3 tools/ascii_five.py --report
-```
 
 Controls work with keyboard or gamepad inside the Godot window. Use the title
 screen to start or continue. Move with WASD, arrow keys, or D-pad; interact with

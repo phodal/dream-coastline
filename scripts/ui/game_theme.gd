@@ -51,7 +51,7 @@ static func make_button(button_name: String, text: String) -> Button:
 	var button := Button.new()
 	button.name = button_name
 	button.text = text
-	button.focus_mode = Control.FOCUS_NONE
+	button.focus_mode = Control.FOCUS_ALL
 	button.custom_minimum_size = Vector2(270, 40)
 	button.add_theme_font_size_override("font_size", 16)
 	return button

@@ -11,6 +11,7 @@ const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 var continue_button: Button
 var status_label: Label
 var pending_continue_enabled := false
+var new_game_button: Button
 
 
 func _ready() -> void:
@@ -27,7 +28,8 @@ func _ready() -> void:
 	subtitle.text = "灯未亮起的夜晚"
 	box.add_child(subtitle)
 
-	box.add_child(_make_button("新游戏", new_game_requested.emit))
+	new_game_button = _make_button("新游戏", new_game_requested.emit)
+	box.add_child(new_game_button)
 	continue_button = _make_button("继续", continue_requested.emit)
 	box.add_child(continue_button)
 	box.add_child(_make_button("设置", settings_requested.emit))
@@ -47,6 +49,11 @@ func set_continue_enabled(enabled: bool) -> void:
 
 func set_status(text: String) -> void:
 	status_label.text = text
+
+
+func focus_default() -> void:
+	if new_game_button != null:
+		new_game_button.grab_focus()
 
 
 func _make_button(text: String, callback: Callable) -> Button:
