@@ -13,6 +13,10 @@ Steam-ready first act.
 - Keyboard-first HUD: `scripts/ui/prompt_overlay.gd` owns the compact location,
   action prompt, and latest feedback surface without reserving bottom or right
   screen regions.
+- UI composition boundary: `scripts/ui/game_hud.gd` owns the top bar, prompt
+  overlay, title screen, pause menu, settings menu, and canvas wiring so
+  `scripts/main.gd` can stay focused on game state, input routing, and
+  persistence.
 - Visual map data: `data/visual_scenes/00-prologue-lights-out.json`,
   `data/visual_scenes/01-illiterate.json`, and
   `data/visual_scenes/02-moqi-academy.json`, and

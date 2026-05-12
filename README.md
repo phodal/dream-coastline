@@ -15,6 +15,8 @@ play field, character markers, props, portals, and action feedback.
 - `scripts/core/game_session.gd` owns progression, flags, combat, metrics, and
   smoke-test walkthrough execution.
 - `scripts/core/scene_visual_repository.gd` loads per-location visual maps.
+- `scripts/ui/game_hud.gd` composes the canvas, top bar, prompt overlay, title,
+  pause, and settings menus behind a small game-facing API.
 - `scripts/ui/sprite_scene_canvas.gd` renders the 90s RPG-style tile scene from
   the visual data and OpenGameArt spritesheets.
 - `scripts/ui/prompt_overlay.gd` keeps the compact keyboard prompt and latest

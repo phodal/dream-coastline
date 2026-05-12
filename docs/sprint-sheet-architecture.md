@@ -44,10 +44,13 @@ data/story_scenes/*.json  --->  SceneDatabase
 GameSession  <-------------  RpgPlayerController
         |                         |
         v                         v
-main.gd  ---------------->  SpriteSceneCanvas
-   |    \                         ^
-   v     v                        |
-GameTheme PromptOverlay   data/visual_scenes/*.json
+main.gd  -------------------->  GameHud
+                                  |
+                                  v
+                         SpriteSceneCanvas
+                                  ^
+                                  |
+                         data/visual_scenes/*.json
 ```
 
 ### Source Layers
@@ -59,10 +62,11 @@ GameTheme PromptOverlay   data/visual_scenes/*.json
 - `scripts/core/game_session.gd`: owns progression, flags, metrics, combat, action execution, and smoke verification.
 - `scripts/core/scene_visual_repository.gd`: reads visual maps and answers spawn, collision, and interaction queries.
 - `scripts/core/rpg_player_controller.gd`: owns tile movement, facing, prompt selection, and interaction dispatch.
+- `scripts/ui/game_hud.gd`: composes the game canvas, top bar, prompt overlay, title screen, pause menu, and settings menu behind game-level methods and signals.
 - `scripts/ui/sprite_scene_canvas.gd`: renders tile maps, props, actors, and visual fallback.
 - `scripts/ui/prompt_overlay.gd`: renders the compact location, keyboard prompt, and latest feedback.
 - `scripts/ui/game_theme.gd`: centralizes panel, label, button styling.
-- `scripts/main.gd`: composes the scene canvas, top bar, prompt overlay, input routing, and UI refresh.
+- `scripts/main.gd`: owns startup, smoke dispatch, input routing, persistence, audio event selection, and high-level UI state calls.
 
 ## UI Information Architecture
 
@@ -88,10 +92,11 @@ The Sprint Sheet should describe UI as a screen contract with named regions.
 
 | Region | Data Owner | Current File | Must Communicate |
 | --- | --- | --- | --- |
-| Top Bar | `GameSession` | `scripts/main.gd` | scene number, title, elapsed time. |
+| Top Bar | `GameSession` | `scripts/ui/game_hud.gd` | scene number, title, elapsed time. |
 | Scene Canvas | `SceneVisualRepository` + `GameSession` | `scripts/ui/sprite_scene_canvas.gd` | where the player is, what can be approached, what has changed. |
 | Player Controls | `RpgPlayerController` | `scripts/core/rpg_player_controller.gd` | movement, facing, current interaction target. |
 | Prompt Overlay | `RpgPlayerController` + `GameSession` | `scripts/ui/prompt_overlay.gd` | exact action available at the current tile and latest consequence. |
+| Menus | `GameHud` + menu widgets | `scripts/ui/game_hud.gd` | title, pause, settings, save/load entry points, and keyboard focus. |
 | Theme | `GameTheme` | `scripts/ui/game_theme.gd` | restrained 90s RPG HUD style, readable text, no decorative clutter. |
 
 ## Data Contract For UI Drawing

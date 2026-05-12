@@ -17,11 +17,7 @@ const SaveGameRepositoryScript := preload("res://scripts/core/save_game_reposito
 const SaveLoadSmokeScript := preload("res://scripts/core/save_load_smoke.gd")
 const SettingsRepositoryScript := preload("res://scripts/core/settings_repository.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
-const SpriteSceneCanvasScript := preload("res://scripts/ui/sprite_scene_canvas.gd")
-const PromptOverlayScript := preload("res://scripts/ui/prompt_overlay.gd")
-const PauseMenuScript := preload("res://scripts/ui/pause_menu.gd")
-const TitleScreenScript := preload("res://scripts/ui/title_screen.gd")
-const SettingsMenuScript := preload("res://scripts/ui/settings_menu.gd")
+const GameHudScript := preload("res://scripts/ui/game_hud.gd")
 
 var database
 var visual_repository
@@ -30,14 +26,7 @@ var settings_repository
 var session
 var player_controller
 var audio_director
-var root: Control
-var title_label: Label
-var time_label: Label
-var scene_canvas
-var prompt_overlay
-var pause_menu
-var title_screen
-var settings_menu
+var hud
 var game_started := false
 var pending_title_quit := false
 var pending_return_to_title := false
@@ -127,8 +116,6 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if root != null:
-		root.size = get_viewport_rect().size
 	if player_controller != null and player_controller.update(delta):
 		_refresh_ui()
 
@@ -138,113 +125,20 @@ func _draw() -> void:
 
 
 func _build_ui() -> void:
-	root = Control.new()
-	root.name = "GodotRpgScene"
-	root.position = Vector2.ZERO
-	root.size = get_viewport_rect().size
-	add_child(root)
-
-	scene_canvas = SpriteSceneCanvasScript.new()
-	scene_canvas.name = "SpriteSceneCanvas"
-	scene_canvas.set_anchors_preset(Control.PRESET_FULL_RECT, false)
-	scene_canvas.offset_left = 0
-	scene_canvas.offset_top = 0
-	scene_canvas.offset_right = 0
-	scene_canvas.offset_bottom = 0
-	scene_canvas.set_visual_repository(visual_repository)
-	root.add_child(scene_canvas)
-
-	root.add_child(_build_top_bar())
-	root.add_child(_build_prompt_overlay())
-	root.add_child(_build_pause_menu())
-	root.add_child(_build_title_screen())
-	root.add_child(_build_settings_menu())
-	call_deferred("_focus_visible_menu")
-
-
-func _build_top_bar() -> Control:
-	var panel := GameThemeScript.make_panel("TopBar", GameThemeScript.COLORS.panel_alt)
-	panel.set_anchors_preset(Control.PRESET_TOP_WIDE, false)
-	panel.offset_left = 16
-	panel.offset_top = 14
-	panel.offset_right = -16
-	panel.offset_bottom = 62
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
-	panel.add_child(row)
-
-	title_label = GameThemeScript.make_label("SceneTitle", 24, GameThemeScript.COLORS.text)
-	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(title_label)
-
-	time_label = GameThemeScript.make_label("SceneTime", 18, GameThemeScript.COLORS.cyan)
-	time_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	time_label.custom_minimum_size = Vector2(180, 34)
-	row.add_child(time_label)
-	return panel
-
-
-func _build_prompt_overlay() -> Control:
-	prompt_overlay = PromptOverlayScript.new()
-	prompt_overlay.name = "PromptOverlay"
-	var panel: Control = prompt_overlay
-	panel.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
-	panel.offset_left = 16
-	panel.offset_top = 74
-	panel.offset_right = 482
-	panel.offset_bottom = 166
-	return panel
-
-
-func _build_pause_menu() -> Control:
-	pause_menu = PauseMenuScript.new()
-	pause_menu.name = "PauseMenu"
-	pause_menu.visible = false
-	pause_menu.set_anchors_preset(Control.PRESET_CENTER, false)
-	pause_menu.custom_minimum_size = Vector2(340, 280)
-	pause_menu.offset_left = -170
-	pause_menu.offset_top = -150
-	pause_menu.offset_right = 170
-	pause_menu.offset_bottom = 150
-	pause_menu.resume_requested.connect(_resume_game)
-	pause_menu.save_requested.connect(_save_game)
-	pause_menu.load_requested.connect(_load_game)
-	pause_menu.quit_requested.connect(_request_return_to_title)
-	return pause_menu
-
-
-func _build_title_screen() -> Control:
-	title_screen = TitleScreenScript.new()
-	title_screen.name = "TitleScreen"
-	title_screen.set_anchors_preset(Control.PRESET_CENTER, false)
-	title_screen.custom_minimum_size = Vector2(360, 330)
-	title_screen.offset_left = -180
-	title_screen.offset_top = -180
-	title_screen.offset_right = 180
-	title_screen.offset_bottom = 180
-	title_screen.new_game_requested.connect(_start_new_game)
-	title_screen.continue_requested.connect(_continue_from_title)
-	title_screen.settings_requested.connect(_open_settings)
-	title_screen.quit_requested.connect(_request_title_quit)
-	title_screen.set_continue_enabled(save_repository.has_save())
-	title_screen.call_deferred("focus_default")
-	return title_screen
-
-
-func _build_settings_menu() -> Control:
-	settings_menu = SettingsMenuScript.new()
-	settings_menu.name = "SettingsMenu"
-	settings_menu.visible = false
-	settings_menu.set_anchors_preset(Control.PRESET_CENTER, false)
-	settings_menu.custom_minimum_size = Vector2(360, 250)
-	settings_menu.offset_left = -180
-	settings_menu.offset_top = -130
-	settings_menu.offset_right = 180
-	settings_menu.offset_bottom = 130
-	settings_menu.fullscreen_changed.connect(_set_fullscreen)
-	settings_menu.master_volume_changed.connect(_set_master_volume)
-	settings_menu.back_requested.connect(_close_settings)
-	return settings_menu
+	hud = GameHudScript.new()
+	hud.configure(visual_repository, save_repository.has_save())
+	hud.resume_requested.connect(_resume_game)
+	hud.save_requested.connect(_save_game)
+	hud.load_requested.connect(_load_game)
+	hud.return_to_title_requested.connect(_request_return_to_title)
+	hud.new_game_requested.connect(_start_new_game)
+	hud.continue_requested.connect(_continue_from_title)
+	hud.settings_requested.connect(_open_settings)
+	hud.title_quit_requested.connect(_request_title_quit)
+	hud.settings_back_requested.connect(_close_settings)
+	hud.fullscreen_changed.connect(_set_fullscreen)
+	hud.master_volume_changed.connect(_set_master_volume)
+	add_child(hud)
 
 
 func _load_scene(index: int) -> void:
@@ -254,49 +148,29 @@ func _load_scene(index: int) -> void:
 
 
 func _refresh_ui() -> void:
-	if title_label == null:
+	if hud == null:
 		return
 
-	var location: Dictionary = session.current_location()
-	title_label.text = "%s/%s  %s" % [session.scene_index + 1, session.scene_count(), session.scene.get("title", "")]
-	time_label.text = "时长 %s" % session.format_time()
-
-	scene_canvas.refresh(session)
-	scene_canvas.set_player_motion(
-		player_controller.visual_tile(),
-		player_controller.is_moving,
-		player_controller.facing,
-		player_controller.blocked_tile,
-		player_controller.has_blocked_feedback()
-	)
-	prompt_overlay.refresh(
-		str(location.get("name", session.location_id)),
-		player_controller.prompt_text(),
-		session.visible_log(1)
-	)
+	hud.refresh(session, player_controller)
 	queue_redraw()
 
 
 func _focus_visible_menu() -> void:
-	if settings_menu != null and settings_menu.visible:
-		settings_menu.focus_default()
-	elif pause_menu != null and pause_menu.visible:
-		pause_menu.focus_default()
-	elif title_screen != null and title_screen.visible:
-		title_screen.focus_default()
+	if hud != null:
+		hud.focus_visible_menu()
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if settings_menu != null and settings_menu.visible:
+	if hud != null and hud.is_settings_visible():
 		if _is_action_pressed(event, ["ui_cancel", "pause"]):
 			_close_settings()
 		return
-	if title_screen != null and title_screen.visible:
+	if hud != null and hud.is_title_visible():
 		return
 	if _is_action_pressed(event, ["ui_cancel", "pause"]):
 		_toggle_pause()
 		return
-	if pause_menu != null and pause_menu.visible:
+	if hud != null and hud.is_pause_visible():
 		return
 	if event.is_action_pressed("move_up"):
 		_try_move(Vector2i(0, -1))
@@ -337,19 +211,16 @@ func _interact() -> void:
 
 
 func _toggle_pause() -> void:
-	if pause_menu == null or not game_started:
+	if hud == null or not game_started:
 		return
 	pending_return_to_title = false
-	pause_menu.visible = not pause_menu.visible
+	hud.toggle_pause("ESC 返回游戏")
 	if audio_director != null:
 		audio_director.play_ui()
-	if pause_menu.visible:
-		pause_menu.set_status("ESC 返回游戏")
-		pause_menu.focus_default()
 
 
 func _resume_game() -> void:
-	pause_menu.visible = false
+	hud.hide_pause()
 	pending_return_to_title = false
 	if audio_director != null:
 		audio_director.play_ui()
@@ -357,7 +228,7 @@ func _resume_game() -> void:
 
 func _save_game() -> void:
 	var ok: bool = save_repository.save(session, player_controller)
-	pause_menu.set_status("已保存" if ok else "保存失败")
+	hud.set_pause_status("已保存" if ok else "保存失败")
 	if audio_director != null:
 		if ok:
 			audio_director.play_success()
@@ -369,12 +240,12 @@ func _load_game() -> void:
 	var ok: bool = save_repository.load_into(session, player_controller)
 	if ok:
 		game_started = true
-		pause_menu.visible = false
+		hud.hide_pause()
 		_refresh_ui()
 		if audio_director != null:
 			audio_director.play_transition()
 	else:
-		pause_menu.set_status("没有可读取的存档")
+		hud.set_pause_status("没有可读取的存档")
 		if audio_director != null:
 			audio_director.play_blocked()
 
@@ -383,7 +254,7 @@ func _start_new_game() -> void:
 	game_started = true
 	pending_title_quit = false
 	pending_return_to_title = false
-	title_screen.visible = false
+	hud.hide_title()
 	_load_scene(0)
 	if audio_director != null:
 		audio_director.play_transition()
@@ -395,12 +266,12 @@ func _continue_from_title() -> void:
 		game_started = true
 		pending_title_quit = false
 		pending_return_to_title = false
-		title_screen.visible = false
+		hud.hide_title()
 		_refresh_ui()
 		if audio_director != null:
 			audio_director.play_transition()
 	else:
-		title_screen.set_status("没有可读取的存档")
+		hud.set_title_status("没有可读取的存档")
 		if audio_director != null:
 			audio_director.play_blocked()
 
@@ -408,20 +279,13 @@ func _continue_from_title() -> void:
 func _open_settings() -> void:
 	pending_title_quit = false
 	pending_return_to_title = false
-	title_screen.visible = false
-	settings_menu.visible = true
-	settings_menu.set_fullscreen(settings_repository.fullscreen)
-	settings_menu.set_master_volume(settings_repository.master_volume)
-	settings_menu.focus_default()
+	hud.show_settings(settings_repository.fullscreen, settings_repository.master_volume)
 	if audio_director != null:
 		audio_director.play_ui()
 
 
 func _close_settings() -> void:
-	settings_menu.visible = false
-	if not game_started:
-		title_screen.visible = true
-		title_screen.focus_default()
+	hud.hide_settings(not game_started)
 	if audio_director != null:
 		audio_director.play_ui()
 
@@ -445,7 +309,7 @@ func _set_master_volume(value: float) -> void:
 func _request_title_quit() -> void:
 	if not pending_title_quit:
 		pending_title_quit = true
-		title_screen.set_status("再次选择退出以关闭游戏")
+		hud.set_title_status("再次选择退出以关闭游戏")
 		if audio_director != null:
 			audio_director.play_blocked()
 		return
@@ -455,7 +319,7 @@ func _request_title_quit() -> void:
 func _request_return_to_title() -> void:
 	if not pending_return_to_title:
 		pending_return_to_title = true
-		pause_menu.set_status("再次选择返回标题，未保存进度会丢失")
+		hud.set_pause_status("再次选择返回标题，未保存进度会丢失")
 		if audio_director != null:
 			audio_director.play_blocked()
 		return
@@ -466,11 +330,7 @@ func _return_to_title() -> void:
 	game_started = false
 	pending_return_to_title = false
 	pending_title_quit = false
-	pause_menu.visible = false
-	title_screen.visible = true
-	title_screen.set_continue_enabled(save_repository.has_save())
-	title_screen.set_status("")
-	title_screen.focus_default()
+	hud.show_title(save_repository.has_save(), "")
 	_load_scene(0)
 	if audio_director != null:
 		audio_director.play_transition()
@@ -479,63 +339,63 @@ func _return_to_title() -> void:
 func _run_menu_smoke() -> bool:
 	var failures: Array[String] = []
 	_focus_visible_menu()
-	if not title_screen.visible:
+	if not hud.is_title_visible():
 		failures.append("title screen should be visible at boot")
-	if get_viewport().gui_get_focus_owner() == null:
+	if not hud.has_menu_focus():
 		failures.append("title screen should have keyboard focus")
 	if game_started:
 		failures.append("game should not be marked started at boot")
 
 	_start_new_game()
-	if title_screen.visible:
+	if hud.is_title_visible():
 		failures.append("title screen should hide after new game")
 	if not game_started:
 		failures.append("new game should mark game started")
 
 	_toggle_pause()
-	if not pause_menu.visible:
+	if not hud.is_pause_visible():
 		failures.append("pause should open after ESC")
-	if get_viewport().gui_get_focus_owner() == null:
+	if not hud.has_menu_focus():
 		failures.append("pause menu should have keyboard focus")
 	_resume_game()
-	if pause_menu.visible:
+	if hud.is_pause_visible():
 		failures.append("pause should close on resume")
 
 	_open_settings()
-	if not settings_menu.visible:
+	if not hud.is_settings_visible():
 		failures.append("settings should open")
-	if get_viewport().gui_get_focus_owner() == null:
+	if not hud.has_menu_focus():
 		failures.append("settings should have keyboard focus")
 	_close_settings()
-	if settings_menu.visible:
+	if hud.is_settings_visible():
 		failures.append("settings should close")
-	if title_screen.visible:
+	if hud.is_title_visible():
 		failures.append("title should not return when settings closes during game")
-	settings_menu.set_master_volume(0.55)
+	hud.set_settings_master_volume(0.55)
 	_set_master_volume(0.55)
 	if not is_equal_approx(settings_repository.master_volume, 0.55):
 		failures.append("settings should update master volume")
 
 	_toggle_pause()
 	_request_return_to_title()
-	if title_screen.visible:
+	if hud.is_title_visible():
 		failures.append("return-to-title should require confirmation")
 	_request_return_to_title()
-	if not title_screen.visible:
+	if not hud.is_title_visible():
 		failures.append("return-to-title should show title after confirmation")
 	if game_started:
 		failures.append("return-to-title should clear game started")
 
 	_request_title_quit()
-	if not title_screen.visible:
+	if not hud.is_title_visible():
 		failures.append("title quit should require confirmation")
 
 	var ok := failures.is_empty()
 	print("menu-flow-smoke status=%s title=%s pause=%s settings=%s" % [
 		"PASS" if ok else "FAIL",
-		title_screen.visible,
-		pause_menu.visible,
-		settings_menu.visible,
+		hud.is_title_visible(),
+		hud.is_pause_visible(),
+		hud.is_settings_visible(),
 	])
 	for failure in failures:
 		print("failure=", failure)
