@@ -50,7 +50,8 @@ Steam-ready first act.
   and Linux/X11 desktop presets, and `--smoke-export-config` verifies preset
   presence while reporting whether local export templates are installed.
 - Input verification: `--smoke-input-map` checks that movement, interact, and
-  pause actions include gamepad button mappings.
+  pause actions include gamepad button mappings, and that movement also has
+  left-stick axis mappings.
 
 ## Not Yet Steam-Ready
 

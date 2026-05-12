@@ -143,7 +143,7 @@ it with `DEEPSEEK_API_KEY` or a local ignored `deepseek.local.cfg`; see
 Controls work with keyboard or gamepad inside the Godot window. Use the title
 screen to start or continue. Move with WASD, arrow keys, or D-pad; interact with
 Space, Enter, or gamepad south button; pause with Esc, gamepad east button, or
-Start.
+Start. Movement also supports the left stick.
 
 MCP integration is configured for Codex through `~/.codex/config.toml`. See
 `docs/godot-mcp.md` for details.

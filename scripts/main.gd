@@ -474,12 +474,12 @@ func _is_action_pressed(event: InputEvent, actions: Array[String]) -> bool:
 
 func _run_input_map_smoke() -> bool:
 	var required := {
-		"move_left": TYPE_OBJECT,
-		"move_right": TYPE_OBJECT,
-		"move_up": TYPE_OBJECT,
-		"move_down": TYPE_OBJECT,
-		"interact": TYPE_OBJECT,
-		"pause": TYPE_OBJECT,
+		"move_left": true,
+		"move_right": true,
+		"move_up": true,
+		"move_down": true,
+		"interact": false,
+		"pause": false,
 	}
 	var missing: Array[String] = []
 	for action in required.keys():
@@ -487,11 +487,16 @@ func _run_input_map_smoke() -> bool:
 			missing.append("%s missing" % action)
 			continue
 		var has_joypad := false
+		var has_motion := false
 		for input_event in InputMap.action_get_events(action):
 			if input_event is InputEventJoypadButton:
 				has_joypad = true
+			elif input_event is InputEventJoypadMotion:
+				has_motion = true
 		if not has_joypad:
 			missing.append("%s has no joypad button" % action)
+		if required[action] and not has_motion:
+			missing.append("%s has no joypad axis" % action)
 
 	var ok := missing.is_empty()
 	print("input-map-smoke status=%s actions=%s" % ["PASS" if ok else "FAIL", required.size()])
