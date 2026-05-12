@@ -2,7 +2,7 @@
 
 A Godot 4 RPG slice.
 
-The current playable slice loads narrative scene data from `data/ascii_scenes/`
+The current playable slice loads narrative scene data from `data/story_scenes/`
 and renders the first act with explicit visual scene data from
 `data/visual_scenes/`. The Godot version uses OpenGameArt spritesheets for the
 play field, character markers, props, portals, and action feedback instead of
@@ -53,7 +53,7 @@ The project includes a small DeepSeek client for scene design assistance. Config
 it with `DEEPSEEK_API_KEY` or a local ignored `deepseek.local.cfg`; see
 `docs/deepseek-ai.md`.
 
-Run the fast ASCII prototype for `five/scene` work:
+Run the fast scene verifier for `five/scene` work:
 
 ```sh
 python3 tools/ascii_five.py

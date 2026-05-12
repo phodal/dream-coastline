@@ -18,7 +18,7 @@ from typing import Iterable
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCENE_DIR = ROOT / "data" / "ascii_scenes"
+SCENE_DIR = ROOT / "data" / "story_scenes"
 VIEW_WIDTH = 72
 MAX_UI_WIDTH = 96
 

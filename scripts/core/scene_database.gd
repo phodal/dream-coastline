@@ -1,7 +1,7 @@
 class_name SceneDatabase
 extends RefCounted
 
-const SCENE_DIR := "res://data/ascii_scenes"
+const SCENE_DIR := "res://data/story_scenes"
 const SCENE_IDS := [
 	"00-prologue-lights-out",
 	"01-illiterate",
