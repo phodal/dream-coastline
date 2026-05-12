@@ -9,6 +9,9 @@ Steam-ready first act.
   from OpenGameArt spritesheets, not from ASCII art.
 - Keyboard play: `scripts/core/rpg_player_controller.gd` owns player tile,
   facing, collision checks, exits, investigation targets, and prompt text.
+- Dialogue shell: `scripts/ui/dialogue_overlay.gd` owns the bottom dialogue and
+  prompt surface, so it can evolve toward portraits and paged dialogue without
+  bloating `scripts/main.gd`.
 - Visual map data: `data/visual_scenes/00-prologue-lights-out.json` defines the
   first act locations, props, exits, spawn points, and solid tiles.
 - Story runtime: `scripts/core/game_session.gd` owns flags, metrics, elapsed
@@ -25,9 +28,8 @@ Steam-ready first act.
   fallback rendering and need authored `data/visual_scenes/*.json` maps.
 - There is no save/load system, pause menu, settings menu, title screen, or quit
   flow.
-- Dialogue is still a compact log overlay; it needs a proper dialogue/cutscene
-  system with speaker portraits, paging, skip behavior, and localization-ready
-  text flow.
+- Dialogue has a reusable overlay shell, but it still needs speaker portraits,
+  paging, skip behavior, and localization-ready text flow.
 - Player movement is tile-step only. It needs animation frames, movement timing,
   facing sprites, blocked feedback, and scene transitions.
 - There is no audio layer yet: music, ambience, UI sounds, and interaction SFX
@@ -40,9 +42,8 @@ Steam-ready first act.
 
 ## Next Implementation Order
 
-1. Replace the compact log overlay with a reusable dialogue box node.
-2. Add animated player sprites and movement timing.
-3. Add title/pause/settings/save-load flow.
-4. Author visual maps and keyboard paths for the remaining scenes.
-5. Add rendered frame sanity checks.
-6. Add audio and export presets once the first act loop is stable.
+1. Add animated player sprites and movement timing.
+2. Add title/pause/settings/save-load flow.
+3. Author visual maps and keyboard paths for the remaining scenes.
+4. Add rendered frame sanity checks.
+5. Add audio and export presets once the first act loop is stable.

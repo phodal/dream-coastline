@@ -7,6 +7,7 @@ const RpgPlayerControllerScript := preload("res://scripts/core/rpg_player_contro
 const RpgFirstActSmokeScript := preload("res://scripts/core/rpg_first_act_smoke.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const SpriteSceneCanvasScript := preload("res://scripts/ui/sprite_scene_canvas.gd")
+const DialogueOverlayScript := preload("res://scripts/ui/dialogue_overlay.gd")
 
 var database
 var visual_repository
@@ -15,10 +16,8 @@ var player_controller
 var root: Control
 var title_label: Label
 var time_label: Label
-var location_label: Label
 var scene_canvas
-var prompt_label: Label
-var log_label: RichTextLabel
+var dialogue_overlay
 
 
 func _ready() -> void:
@@ -94,37 +93,14 @@ func _build_top_bar() -> Control:
 
 
 func _build_status_overlay() -> Control:
-	var panel := GameThemeScript.make_panel("StatusOverlay", Color("#080a12", 0.76))
+	dialogue_overlay = DialogueOverlayScript.new()
+	dialogue_overlay.name = "DialogueOverlay"
+	var panel: Control = dialogue_overlay
 	panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE, false)
 	panel.offset_left = 16
 	panel.offset_top = -120
 	panel.offset_right = -16
 	panel.offset_bottom = -14
-
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 14)
-	panel.add_child(row)
-
-	var left := VBoxContainer.new()
-	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(left)
-
-	location_label = GameThemeScript.make_label("Location", 22, GameThemeScript.COLORS.gold)
-	left.add_child(location_label)
-
-	prompt_label = GameThemeScript.make_label("Prompt", 17, GameThemeScript.COLORS.text)
-	prompt_label.custom_minimum_size = Vector2(0, 44)
-	left.add_child(prompt_label)
-
-	log_label = RichTextLabel.new()
-	log_label.name = "CompactLog"
-	log_label.custom_minimum_size = Vector2(480, 88)
-	log_label.fit_content = false
-	log_label.scroll_active = false
-	log_label.bbcode_enabled = false
-	log_label.add_theme_font_size_override("normal_font_size", 16)
-	log_label.add_theme_color_override("default_color", GameThemeScript.COLORS.text)
-	row.add_child(log_label)
 	return panel
 
 
@@ -142,11 +118,13 @@ func _refresh_ui() -> void:
 	title_label.text = "%s/%s  %s" % [session.scene_index + 1, session.scene_count(), session.scene.get("title", "")]
 	time_label.text = "时长 %s" % session.format_time()
 
-	location_label.text = str(location.get("name", session.location_id))
 	scene_canvas.refresh(session)
 	scene_canvas.set_player_tile(player_controller.tile)
-	prompt_label.text = player_controller.prompt_text()
-	log_label.text = session.visible_log(4)
+	dialogue_overlay.refresh(
+		str(location.get("name", session.location_id)),
+		player_controller.prompt_text(),
+		session.visible_log(4)
+	)
 	queue_redraw()
 
 
