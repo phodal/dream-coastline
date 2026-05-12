@@ -59,6 +59,12 @@ Validate save/load:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-save-load
 ```
 
+Validate title/pause/settings flow:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-menu-flow
+```
+
 ## DeepSeek AI
 
 The project includes a small DeepSeek client for scene design assistance. Configure
@@ -73,9 +79,9 @@ python3 tools/ascii_five.py --verify
 python3 tools/ascii_five.py --report
 ```
 
-Controls are keyboard-driven inside the Godot window. Use WASD or the arrow keys
-to move, Space or Enter to interact with nearby exits and investigation targets,
-and Esc to pause, save, or load.
+Controls are keyboard-driven inside the Godot window. Use the title screen to
+start or continue, WASD or the arrow keys to move, Space or Enter to interact
+with nearby exits and investigation targets, and Esc to pause, save, or load.
 
 MCP integration is configured for Codex through `~/.codex/config.toml`. See
 `docs/godot-mcp.md` for details.

@@ -7,14 +7,18 @@ const RpgPlayerControllerScript := preload("res://scripts/core/rpg_player_contro
 const RpgFirstActSmokeScript := preload("res://scripts/core/rpg_first_act_smoke.gd")
 const SaveGameRepositoryScript := preload("res://scripts/core/save_game_repository.gd")
 const SaveLoadSmokeScript := preload("res://scripts/core/save_load_smoke.gd")
+const SettingsRepositoryScript := preload("res://scripts/core/settings_repository.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const SpriteSceneCanvasScript := preload("res://scripts/ui/sprite_scene_canvas.gd")
 const DialogueOverlayScript := preload("res://scripts/ui/dialogue_overlay.gd")
 const PauseMenuScript := preload("res://scripts/ui/pause_menu.gd")
+const TitleScreenScript := preload("res://scripts/ui/title_screen.gd")
+const SettingsMenuScript := preload("res://scripts/ui/settings_menu.gd")
 
 var database
 var visual_repository
 var save_repository
+var settings_repository
 var session
 var player_controller
 var root: Control
@@ -23,6 +27,9 @@ var time_label: Label
 var scene_canvas
 var dialogue_overlay
 var pause_menu
+var title_screen
+var settings_menu
+var game_started := false
 
 
 func _ready() -> void:
@@ -31,6 +38,9 @@ func _ready() -> void:
 	visual_repository = SceneVisualRepositoryScript.new()
 	visual_repository.load_for_scene_ids(database.SCENE_IDS)
 	save_repository = SaveGameRepositoryScript.new()
+	settings_repository = SettingsRepositoryScript.new()
+	settings_repository.load()
+	settings_repository.apply()
 	session = GameSessionScript.new(database)
 	player_controller = RpgPlayerControllerScript.new(session, visual_repository)
 	if OS.get_cmdline_user_args().has("--smoke-autoplay"):
@@ -43,6 +53,12 @@ func _ready() -> void:
 		return
 	if OS.get_cmdline_user_args().has("--smoke-save-load"):
 		var ok: bool = SaveLoadSmokeScript.new(session, player_controller, save_repository).run()
+		get_tree().quit(0 if ok else 1)
+		return
+	if OS.get_cmdline_user_args().has("--smoke-menu-flow"):
+		_build_ui()
+		_load_scene(0)
+		var ok := _run_menu_smoke()
 		get_tree().quit(0 if ok else 1)
 		return
 
@@ -81,6 +97,8 @@ func _build_ui() -> void:
 	root.add_child(_build_top_bar())
 	root.add_child(_build_status_overlay())
 	root.add_child(_build_pause_menu())
+	root.add_child(_build_title_screen())
+	root.add_child(_build_settings_menu())
 
 
 func _build_top_bar() -> Control:
@@ -134,6 +152,38 @@ func _build_pause_menu() -> Control:
 	return pause_menu
 
 
+func _build_title_screen() -> Control:
+	title_screen = TitleScreenScript.new()
+	title_screen.name = "TitleScreen"
+	title_screen.set_anchors_preset(Control.PRESET_CENTER, false)
+	title_screen.custom_minimum_size = Vector2(360, 330)
+	title_screen.offset_left = -180
+	title_screen.offset_top = -180
+	title_screen.offset_right = 180
+	title_screen.offset_bottom = 180
+	title_screen.new_game_requested.connect(_start_new_game)
+	title_screen.continue_requested.connect(_continue_from_title)
+	title_screen.settings_requested.connect(_open_settings)
+	title_screen.quit_requested.connect(func(): get_tree().quit())
+	title_screen.set_continue_enabled(save_repository.has_save())
+	return title_screen
+
+
+func _build_settings_menu() -> Control:
+	settings_menu = SettingsMenuScript.new()
+	settings_menu.name = "SettingsMenu"
+	settings_menu.visible = false
+	settings_menu.set_anchors_preset(Control.PRESET_CENTER, false)
+	settings_menu.custom_minimum_size = Vector2(340, 180)
+	settings_menu.offset_left = -170
+	settings_menu.offset_top = -100
+	settings_menu.offset_right = 170
+	settings_menu.offset_bottom = 100
+	settings_menu.fullscreen_changed.connect(_set_fullscreen)
+	settings_menu.back_requested.connect(_close_settings)
+	return settings_menu
+
+
 func _load_scene(index: int) -> void:
 	session.load_scene(index)
 	player_controller.reset_for_location()
@@ -165,6 +215,12 @@ func _refresh_ui() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if settings_menu != null and settings_menu.visible:
+		if event.is_action_pressed("ui_cancel"):
+			_close_settings()
+		return
+	if title_screen != null and title_screen.visible:
+		return
 	if event.is_action_pressed("ui_cancel"):
 		_toggle_pause()
 		return
@@ -193,7 +249,7 @@ func _interact() -> void:
 
 
 func _toggle_pause() -> void:
-	if pause_menu == null:
+	if pause_menu == null or not game_started:
 		return
 	pause_menu.visible = not pause_menu.visible
 	if pause_menu.visible:
@@ -212,7 +268,83 @@ func _save_game() -> void:
 func _load_game() -> void:
 	var ok: bool = save_repository.load_into(session, player_controller)
 	if ok:
+		game_started = true
 		pause_menu.visible = false
 		_refresh_ui()
 	else:
 		pause_menu.set_status("没有可读取的存档")
+
+
+func _start_new_game() -> void:
+	game_started = true
+	title_screen.visible = false
+	_load_scene(0)
+
+
+func _continue_from_title() -> void:
+	var ok: bool = save_repository.load_into(session, player_controller)
+	if ok:
+		game_started = true
+		title_screen.visible = false
+		_refresh_ui()
+	else:
+		title_screen.set_status("没有可读取的存档")
+
+
+func _open_settings() -> void:
+	title_screen.visible = false
+	settings_menu.visible = true
+	settings_menu.set_fullscreen(settings_repository.fullscreen)
+
+
+func _close_settings() -> void:
+	settings_menu.visible = false
+	if not game_started:
+		title_screen.visible = true
+
+
+func _set_fullscreen(enabled: bool) -> void:
+	settings_repository.fullscreen = enabled
+	settings_repository.apply()
+	settings_repository.save()
+
+
+func _run_menu_smoke() -> bool:
+	var failures: Array[String] = []
+	if not title_screen.visible:
+		failures.append("title screen should be visible at boot")
+	if game_started:
+		failures.append("game should not be marked started at boot")
+
+	_start_new_game()
+	if title_screen.visible:
+		failures.append("title screen should hide after new game")
+	if not game_started:
+		failures.append("new game should mark game started")
+
+	_toggle_pause()
+	if not pause_menu.visible:
+		failures.append("pause should open after ESC")
+	_resume_game()
+	if pause_menu.visible:
+		failures.append("pause should close on resume")
+
+	_open_settings()
+	if not settings_menu.visible:
+		failures.append("settings should open")
+	_close_settings()
+	if settings_menu.visible:
+		failures.append("settings should close")
+	if title_screen.visible:
+		failures.append("title should not return when settings closes during game")
+
+	var ok := failures.is_empty()
+	print("menu-flow-smoke status=%s title=%s pause=%s settings=%s" % [
+		"PASS" if ok else "FAIL",
+		title_screen.visible,
+		pause_menu.visible,
+		settings_menu.visible,
+	])
+	for failure in failures:
+		print("failure=", failure)
+	return ok

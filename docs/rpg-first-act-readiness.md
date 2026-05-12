@@ -24,13 +24,15 @@ Steam-ready first act.
   `--smoke-rpg-first-act`.
 - Save/load verification: `--smoke-save-load` writes a save, mutates runtime
   state, reloads it, and checks the restored location, tile, and elapsed time.
+- Menu verification: `--smoke-menu-flow` builds the UI and checks title, new
+  game, pause/resume, and settings open/close states.
 
 ## Not Yet Steam-Ready
 
 - Only the first act has explicit visual map data. Later scenes still rely on
   fallback rendering and need authored `data/visual_scenes/*.json` maps.
-- Pause and save/load foundations exist, but there is no title screen, settings
-  menu, or polished quit flow.
+- Title, settings, pause, and save/load foundations exist, but the settings
+  surface is still minimal and the quit flow is not polished for release.
 - Dialogue has a reusable overlay shell, but it still needs speaker portraits,
   paging, skip behavior, and localization-ready text flow.
 - Player movement now has step timing, interpolated drawing, basic facing
@@ -42,13 +44,13 @@ Steam-ready first act.
   controller mapping, fullscreen/window settings, build metadata, and platform
   smoke checks are missing.
 - Automated verification covers story walkthrough rules, a first-act keyboard
-  path, and save/load restoration, but not rendered frame sanity or later-scene
-  keyboard paths.
+  path, save/load restoration, and menu state flow, but not rendered frame sanity
+  or later-scene keyboard paths.
 
 ## Next Implementation Order
 
-1. Add title screen and settings menu.
-2. Author visual maps and keyboard paths for the remaining scenes.
-3. Add rendered frame sanity checks.
-4. Replace placeholder facing frames with artist-approved animation frames.
+1. Author visual maps and keyboard paths for the remaining scenes.
+2. Add rendered frame sanity checks.
+3. Replace placeholder facing frames with artist-approved animation frames.
+4. Expand settings beyond fullscreen and polish quit/title transitions.
 5. Add audio and export presets once the first act loop is stable.
