@@ -41,6 +41,9 @@ Steam-ready first act.
   captures the viewport image, and checks that the game frame is not blank.
 - Audio verification: `--smoke-audio-director` checks that the generated
   fallback SFX streams are available before licensed audio assets are added.
+- Export configuration: `export_presets.cfg` defines macOS, Windows Desktop,
+  and Linux/X11 desktop presets, and `--smoke-export-config` verifies preset
+  presence while reporting whether local export templates are installed.
 
 ## Not Yet Steam-Ready
 
@@ -56,15 +59,18 @@ Steam-ready first act.
 - The audio layer has generated fallback SFX for UI, movement, blocked movement,
   interaction, transitions, and success events, but licensed music, ambience,
   and final SFX assets still need to be added.
-- There is no release/export setup for Steam: export presets, icon/splash,
-  controller mapping, fullscreen/window settings, build metadata, and platform
-  smoke checks are missing.
+- Release/export setup has desktop presets and a preset smoke check, but release
+  exports are still blocked until export templates, icon/splash, controller
+  mapping, final fullscreen/window settings, build metadata, and platform smoke
+  checks are completed.
 - Automated verification covers story walkthrough rules, all authored keyboard
   paths, save/load restoration, menu state flow, generated fallback audio, and a
-  rendered frame sanity check.
+  rendered frame sanity check. Export preset configuration is covered by
+  `--smoke-export-config`, but binary export is not covered until local export
+  templates are installed.
 
 ## Next Implementation Order
 
 1. Replace generic sheet player frames with artist-approved bespoke hero frames.
 2. Expand settings beyond fullscreen and polish quit/title transitions.
-3. Add audio and export presets once the first act loop is stable.
+3. Install export templates and add platform export smoke checks.

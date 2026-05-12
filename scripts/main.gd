@@ -60,6 +60,10 @@ func _ready() -> void:
 		print("audio-director-smoke status=%s streams=%s" % ["PASS" if ok else "FAIL", audio_director.streams.size()])
 		get_tree().quit(0 if ok else 1)
 		return
+	if OS.get_cmdline_user_args().has("--smoke-export-config"):
+		var ok: bool = _run_export_config_smoke()
+		get_tree().quit(0 if ok else 1)
+		return
 	if OS.get_cmdline_user_args().has("--smoke-autoplay"):
 		var ok: bool = session.run_smoke_verification()
 		get_tree().quit(0 if ok else 1)
@@ -502,3 +506,53 @@ func _is_smoke_run(args: Array) -> bool:
 		if str(arg).begins_with("--smoke-"):
 			return true
 	return false
+
+
+func _run_export_config_smoke() -> bool:
+	var config := ConfigFile.new()
+	var error := config.load("res://export_presets.cfg")
+	if error != OK:
+		print("export-config-smoke status=FAIL reason=missing-export-presets error=%s" % error)
+		return false
+
+	var expected := ["macOS", "Windows Desktop", "Linux/X11"]
+	var found: Array[String] = []
+	for section in config.get_sections():
+		if not str(section).begins_with("preset.") or str(section).ends_with(".options"):
+			continue
+		var preset_name := str(config.get_value(section, "name", ""))
+		if expected.has(preset_name):
+			found.append(preset_name)
+
+	var missing: Array[String] = []
+	for preset_name in expected:
+		if not found.has(preset_name):
+			missing.append(preset_name)
+
+	var templates_path := _export_templates_path()
+	var templates_installed := DirAccess.dir_exists_absolute(templates_path)
+	var ok := missing.is_empty()
+	print("export-config-smoke status=%s presets=%s/%s templates=%s path=%s" % [
+		"PASS" if ok else "FAIL",
+		found.size(),
+		expected.size(),
+		"installed" if templates_installed else "missing",
+		templates_path,
+	])
+	if not missing.is_empty():
+		print("missing=", missing)
+	return ok
+
+
+func _export_templates_path() -> String:
+	var version := Engine.get_version_info()
+	var template_version := "%s.%s.%s.%s" % [
+		version.get("major", 0),
+		version.get("minor", 0),
+		version.get("patch", 0),
+		version.get("status", "stable"),
+	]
+	return "%s/Library/Application Support/Godot/export_templates/%s" % [
+		OS.get_environment("HOME"),
+		template_version,
+	]

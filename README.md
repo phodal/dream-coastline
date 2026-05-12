@@ -113,6 +113,12 @@ Validate generated fallback audio streams:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-audio-director
 ```
 
+Validate export preset configuration:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-export-config
+```
+
 Validate a rendered game frame. This uses the real renderer, so run it without
 `--headless`:
 
@@ -142,6 +148,7 @@ MCP integration is configured for Codex through `~/.codex/config.toml`. See
 `docs/godot-mcp.md` for details.
 
 Sprint Sheet architecture guidance is in `docs/sprint-sheet-architecture.md`.
+Release/export notes are in `docs/release.md`.
 
 OpenGameArt sources and license notes are listed in
 `assets/opengameart/CREDITS.md`.
