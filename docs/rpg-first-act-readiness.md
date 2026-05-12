@@ -17,17 +17,19 @@ Steam-ready first act.
   `data/visual_scenes/01-illiterate.json`, and
   `data/visual_scenes/02-moqi-academy.json`, and
   `data/visual_scenes/03-dead-kingdom.json`, and
-  `data/visual_scenes/04-continuation-institute.json` define authored
-  locations, props, exits, spawn points, and solid tiles.
+  `data/visual_scenes/04-continuation-institute.json`, and
+  `data/visual_scenes/05-century-continuation.json` define authored locations,
+  props, exits, spawn points, and solid tiles.
 - Story runtime: `scripts/core/game_session.gd` owns flags, metrics, elapsed
   time, combat rules, and story progression.
 - Data separation: `data/story_scenes/` holds narrative scene data, while
   `data/visual_scenes/` holds playable map layout.
 - Verification: the Godot smoke walkthrough completes every implemented scene
-  with `--smoke-autoplay`, and the first five authored keyboard paths are
+  with `--smoke-autoplay`, and the first six authored keyboard paths are
   covered by `--smoke-rpg-first-act`, `--smoke-rpg-illiterate`, and
   `--smoke-rpg-moqi-academy`, `--smoke-rpg-dead-kingdom`, and
-  `--smoke-rpg-continuation-institute`.
+  `--smoke-rpg-continuation-institute`, and
+  `--smoke-rpg-century-continuation`.
 - Save/load verification: `--smoke-save-load` writes a save, mutates runtime
   state, reloads it, and checks the restored location, tile, and elapsed time.
 - Menu verification: `--smoke-menu-flow` builds the UI and checks title, new
@@ -37,7 +39,7 @@ Steam-ready first act.
 
 ## Not Yet Steam-Ready
 
-- Only the opening five scenes have explicit visual map data. Later scenes
+- Only the opening six scenes have explicit visual map data. Later scenes
   still rely on fallback rendering and need authored `data/visual_scenes/*.json`
   maps.
 - Title, settings, pause, and save/load foundations exist, but the settings
@@ -52,7 +54,7 @@ Steam-ready first act.
 - There is no release/export setup for Steam: export presets, icon/splash,
   controller mapping, fullscreen/window settings, build metadata, and platform
   smoke checks are missing.
-- Automated verification covers story walkthrough rules, the first five
+- Automated verification covers story walkthrough rules, the first six
   authored keyboard paths, save/load restoration, menu state flow, and a rendered
   frame sanity check, but not later-scene keyboard paths.
 

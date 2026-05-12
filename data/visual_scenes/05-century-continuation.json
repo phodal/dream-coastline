@@ -1,0 +1,51 @@
+{
+  "id": "05-century-continuation",
+  "tile_size": 32,
+  "locations": {
+    "industry": {
+      "terrain": "industry",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "student", "x": 4, "y": 3, "item": "teachers", "solid": true},
+        {"kind": "record", "x": 7, "y": 3, "item": "wensu_book", "solid": true},
+        {"kind": "rune", "x": 9, "y": 3, "label": "建设文字工业", "action": {"verb": "build", "arg": "industry"}, "solid": true},
+        {"kind": "exit", "x": 13, "y": 4, "exit": "network"}
+      ]
+    },
+    "network": {
+      "terrain": "node",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "xiali", "x": 4, "y": 3, "item": "xiali", "solid": true},
+        {"kind": "rune", "x": 6, "y": 3, "label": "绑定夏离", "action": {"verb": "build", "arg": "bind_xiali"}, "solid": true},
+        {"kind": "villager", "x": 8, "y": 3, "item": "engineers", "solid": true},
+        {"kind": "rune", "x": 10, "y": 3, "label": "建设国书网络", "action": {"verb": "build", "arg": "network"}, "solid": true},
+        {"kind": "exit", "x": 1, "y": 4, "exit": "industry"},
+        {"kind": "exit", "x": 13, "y": 4, "exit": "astral"}
+      ]
+    },
+    "astral": {
+      "terrain": "node",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "record", "x": 4, "y": 3, "item": "star_map", "solid": true},
+        {"kind": "node", "x": 7, "y": 3, "item": "beacon", "solid": true},
+        {"kind": "rune", "x": 9, "y": 3, "label": "建设星象塔", "action": {"verb": "build", "arg": "astral_tower"}, "solid": true},
+        {"kind": "exit", "x": 1, "y": 4, "exit": "network"},
+        {"kind": "exit", "x": 13, "y": 4, "exit": "star_tower"}
+      ]
+    },
+    "star_tower": {
+      "terrain": "node",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "node", "x": 4, "y": 3, "item": "signal", "solid": true},
+        {"kind": "rune", "x": 6, "y": 5, "label": "写：名", "action": {"verb": "write", "arg": ""}, "solid": true},
+        {"kind": "rune", "x": 7, "y": 5, "label": "写：止", "action": {"verb": "cast", "arg": "stop"}, "solid": true},
+        {"kind": "enemy", "x": 11, "y": 4, "label": "攻击静默探针", "action": {"verb": "attack", "arg": ""}, "solid": true},
+        {"kind": "city_fire", "x": 12, "y": 2, "item": "city", "solid": true},
+        {"kind": "exit", "x": 1, "y": 4, "exit": "astral"}
+      ]
+    }
+  }
+}
