@@ -83,6 +83,12 @@ Validate the century continuation RPG keyboard path:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-century-continuation
 ```
 
+Validate the return star plan RPG keyboard path:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-return-star-plan
+```
+
 Validate save/load:
 
 ```sh
