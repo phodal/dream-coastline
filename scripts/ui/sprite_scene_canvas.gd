@@ -205,6 +205,13 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			_draw_block(Vector2i(13, 12), position, tile_size, width, height)
 		"bookcase":
 			_draw_block(Vector2i(24, 11), position, tile_size, 1, height)
+		"cabinet":
+			_draw_dungeon_tile(Vector2i(24, 11), position, tile_size)
+		"well":
+			_draw_dungeon_tile(Vector2i(11, 14), position, tile_size)
+		"node":
+			_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
+			draw_texture_rect(MAGIC_ORB, Rect2(position, Vector2(tile_size, tile_size)), false)
 		"portal":
 			if session.has_flag(str(session.scene.get("ending_flag", ""))):
 				draw_texture_rect(MAGIC_ORB, Rect2(position, Vector2(tile_size, tile_size)), false)
@@ -212,10 +219,12 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 				_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
 		"lamp":
 			_draw_dungeon_tile(Vector2i(32, 12), position, tile_size)
-		"soldier", "xiaoyan", "xiali", "enemy":
+		"soldier", "xiaoyan", "xiali", "enemy", "wensu", "villager", "officer":
 			_draw_actor(kind, position, tile_size)
 		"gate", "rune":
 			_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
+		"record":
+			draw_texture_rect(PAPER_ICON, Rect2(position + Vector2(tile_size * 0.15, tile_size * 0.1), Vector2(tile_size * 0.7, tile_size * 0.8)), false)
 		"window_dark":
 			_draw_dungeon_tile(Vector2i(12, 12), position, tile_size)
 			draw_rect(Rect2(position + Vector2(tile_size * 0.2, tile_size * 0.2), Vector2(tile_size * 0.6, tile_size * 0.6)), Color("#050608", 0.75))

@@ -59,6 +59,12 @@ Validate the illiterate scene RPG keyboard path:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-illiterate
 ```
 
+Validate the Moqi Academy RPG keyboard path:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-moqi-academy
+```
+
 Validate save/load:
 
 ```sh

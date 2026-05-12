@@ -1,0 +1,61 @@
+{
+  "id": "02-moqi-academy",
+  "tile_size": 32,
+  "locations": {
+    "academy": {
+      "terrain": "academy",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "rune", "x": 3, "y": 2, "item": "name", "solid": true},
+        {"kind": "rune", "x": 4, "y": 2, "item": "door", "solid": true},
+        {"kind": "rune", "x": 5, "y": 2, "item": "fire", "solid": true},
+        {"kind": "rune", "x": 6, "y": 2, "item": "stop", "solid": true},
+        {"kind": "wensu", "x": 8, "y": 3, "item": "wensu", "solid": true},
+        {"kind": "xiali", "x": 10, "y": 3, "solid": true},
+        {"kind": "exit", "x": 1, "y": 4, "exit": "archive"},
+        {"kind": "exit", "x": 13, "y": 4, "exit": "village"}
+      ]
+    },
+    "village": {
+      "terrain": "village",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "well", "x": 3, "y": 3, "item": "well", "solid": true},
+        {"kind": "rune", "x": 5, "y": 2, "label": "写：止", "action": {"verb": "cast", "arg": "stop"}, "solid": true},
+        {"kind": "rune", "x": 6, "y": 2, "label": "写：火", "action": {"verb": "cast", "arg": "fire"}, "solid": true},
+        {"kind": "rune", "x": 7, "y": 2, "label": "写：名", "action": {"verb": "cast", "arg": "name"}, "solid": true},
+        {"kind": "villager", "x": 9, "y": 4, "item": "villagers", "solid": true},
+        {"kind": "exit", "x": 1, "y": 4, "exit": "academy"},
+        {"kind": "exit", "x": 13, "y": 4, "exit": "archive"}
+      ]
+    },
+    "archive": {
+      "terrain": "archive",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "bookcase", "x": 2, "y": 2, "h": 4, "solid": true},
+        {"kind": "rune", "x": 4, "y": 3, "item": "layers", "solid": true},
+        {"kind": "cabinet", "x": 8, "y": 3, "item": "cabinet", "solid": true},
+        {"kind": "rune", "x": 9, "y": 3, "label": "写：门", "action": {"verb": "cast", "arg": "door"}, "solid": true},
+        {"kind": "exit", "x": 1, "y": 3, "exit": "academy"},
+        {"kind": "exit", "x": 1, "y": 5, "exit": "village"},
+        {"kind": "exit", "x": 13, "y": 4, "exit": "node"}
+      ]
+    },
+    "node": {
+      "terrain": "node",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "node", "x": 4, "y": 3, "item": "contract", "solid": true},
+        {"kind": "rune", "x": 6, "y": 3, "label": "写：名", "action": {"verb": "write", "arg": ""}, "solid": true},
+        {"kind": "rune", "x": 7, "y": 3, "label": "写：门", "action": {"verb": "cast", "arg": "door"}, "solid": true},
+        {"kind": "rune", "x": 8, "y": 3, "label": "写：止", "action": {"verb": "cast", "arg": "stop"}, "solid": true},
+        {"kind": "rune", "x": 6, "y": 5, "label": "命名节点", "action": {"verb": "cast", "arg": "name"}, "solid": true},
+        {"kind": "rune", "x": 9, "y": 3, "label": "写：火", "action": {"verb": "cast", "arg": "fire"}, "solid": true},
+        {"kind": "officer", "x": 11, "y": 4, "label": "攻击执契官", "action": {"verb": "attack", "arg": ""}, "solid": true},
+        {"kind": "record", "x": 12, "y": 2, "item": "record", "solid": true},
+        {"kind": "exit", "x": 1, "y": 4, "exit": "archive"}
+      ]
+    }
+  }
+}
