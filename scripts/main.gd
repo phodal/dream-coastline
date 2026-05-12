@@ -39,6 +39,8 @@ var pause_menu
 var title_screen
 var settings_menu
 var game_started := false
+var pending_title_quit := false
+var pending_return_to_title := false
 
 
 func _ready() -> void:
@@ -206,7 +208,7 @@ func _build_pause_menu() -> Control:
 	pause_menu.resume_requested.connect(_resume_game)
 	pause_menu.save_requested.connect(_save_game)
 	pause_menu.load_requested.connect(_load_game)
-	pause_menu.quit_requested.connect(func(): get_tree().quit())
+	pause_menu.quit_requested.connect(_request_return_to_title)
 	return pause_menu
 
 
@@ -222,7 +224,7 @@ func _build_title_screen() -> Control:
 	title_screen.new_game_requested.connect(_start_new_game)
 	title_screen.continue_requested.connect(_continue_from_title)
 	title_screen.settings_requested.connect(_open_settings)
-	title_screen.quit_requested.connect(func(): get_tree().quit())
+	title_screen.quit_requested.connect(_request_title_quit)
 	title_screen.set_continue_enabled(save_repository.has_save())
 	return title_screen
 
@@ -326,6 +328,7 @@ func _interact() -> void:
 func _toggle_pause() -> void:
 	if pause_menu == null or not game_started:
 		return
+	pending_return_to_title = false
 	pause_menu.visible = not pause_menu.visible
 	if audio_director != null:
 		audio_director.play_ui()
@@ -335,6 +338,7 @@ func _toggle_pause() -> void:
 
 func _resume_game() -> void:
 	pause_menu.visible = false
+	pending_return_to_title = false
 	if audio_director != null:
 		audio_director.play_ui()
 
@@ -365,6 +369,8 @@ func _load_game() -> void:
 
 func _start_new_game() -> void:
 	game_started = true
+	pending_title_quit = false
+	pending_return_to_title = false
 	title_screen.visible = false
 	_load_scene(0)
 	if audio_director != null:
@@ -375,6 +381,8 @@ func _continue_from_title() -> void:
 	var ok: bool = save_repository.load_into(session, player_controller)
 	if ok:
 		game_started = true
+		pending_title_quit = false
+		pending_return_to_title = false
 		title_screen.visible = false
 		_refresh_ui()
 		if audio_director != null:
@@ -386,6 +394,8 @@ func _continue_from_title() -> void:
 
 
 func _open_settings() -> void:
+	pending_title_quit = false
+	pending_return_to_title = false
 	title_screen.visible = false
 	settings_menu.visible = true
 	settings_menu.set_fullscreen(settings_repository.fullscreen)
@@ -416,6 +426,39 @@ func _set_master_volume(value: float) -> void:
 	settings_repository.save()
 	if audio_director != null:
 		audio_director.play_ui()
+
+
+func _request_title_quit() -> void:
+	if not pending_title_quit:
+		pending_title_quit = true
+		title_screen.set_status("再次选择退出以关闭游戏")
+		if audio_director != null:
+			audio_director.play_blocked()
+		return
+	get_tree().quit()
+
+
+func _request_return_to_title() -> void:
+	if not pending_return_to_title:
+		pending_return_to_title = true
+		pause_menu.set_status("再次选择返回标题，未保存进度会丢失")
+		if audio_director != null:
+			audio_director.play_blocked()
+		return
+	_return_to_title()
+
+
+func _return_to_title() -> void:
+	game_started = false
+	pending_return_to_title = false
+	pending_title_quit = false
+	pause_menu.visible = false
+	title_screen.visible = true
+	title_screen.set_continue_enabled(save_repository.has_save())
+	title_screen.set_status("")
+	_load_scene(0)
+	if audio_director != null:
+		audio_director.play_transition()
 
 
 func _run_menu_smoke() -> bool:
@@ -450,6 +493,20 @@ func _run_menu_smoke() -> bool:
 	_set_master_volume(0.55)
 	if not is_equal_approx(settings_repository.master_volume, 0.55):
 		failures.append("settings should update master volume")
+
+	_toggle_pause()
+	_request_return_to_title()
+	if title_screen.visible:
+		failures.append("return-to-title should require confirmation")
+	_request_return_to_title()
+	if not title_screen.visible:
+		failures.append("return-to-title should show title after confirmation")
+	if game_started:
+		failures.append("return-to-title should clear game started")
+
+	_request_title_quit()
+	if not title_screen.visible:
+		failures.append("title quit should require confirmation")
 
 	var ok := failures.is_empty()
 	print("menu-flow-smoke status=%s title=%s pause=%s settings=%s" % [

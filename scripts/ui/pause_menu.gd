@@ -40,7 +40,7 @@ func _ready() -> void:
 	box.add_child(_make_menu_button("继续", resume_requested.emit))
 	box.add_child(_make_menu_button("保存", save_requested.emit))
 	box.add_child(_make_menu_button("读取", load_requested.emit))
-	box.add_child(_make_menu_button("退出", quit_requested.emit))
+	box.add_child(_make_menu_button("返回标题", quit_requested.emit))
 
 	status_label = GameThemeScript.make_label("PauseStatus", 15, GameThemeScript.COLORS.muted)
 	status_label.custom_minimum_size = Vector2(300, 40)
