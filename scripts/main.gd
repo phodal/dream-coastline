@@ -3,6 +3,7 @@ extends Node2D
 const SceneDatabaseScript := preload("res://scripts/core/scene_database.gd")
 const SceneVisualRepositoryScript := preload("res://scripts/core/scene_visual_repository.gd")
 const GameSessionScript := preload("res://scripts/core/game_session.gd")
+const RpgPlayerControllerScript := preload("res://scripts/core/rpg_player_controller.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const SpriteSceneCanvasScript := preload("res://scripts/ui/sprite_scene_canvas.gd")
 
@@ -12,6 +13,7 @@ const TILE_ROWS := 9
 var database
 var visual_repository
 var session
+var player_controller
 var root: Control
 var title_label: Label
 var time_label: Label
@@ -19,8 +21,6 @@ var location_label: Label
 var scene_canvas
 var prompt_label: Label
 var log_label: RichTextLabel
-var player_tile := Vector2i(7, 6)
-var facing := Vector2i(0, -1)
 
 
 func _ready() -> void:
@@ -29,6 +29,7 @@ func _ready() -> void:
 	visual_repository = SceneVisualRepositoryScript.new()
 	visual_repository.load_for_scene_ids(database.SCENE_IDS)
 	session = GameSessionScript.new(database)
+	player_controller = RpgPlayerControllerScript.new(session, visual_repository)
 	if OS.get_cmdline_user_args().has("--smoke-autoplay"):
 		var ok: bool = session.run_smoke_verification()
 		get_tree().quit(0 if ok else 1)
@@ -127,7 +128,7 @@ func _build_status_overlay() -> Control:
 
 func _load_scene(index: int) -> void:
 	session.load_scene(index)
-	_reset_player_for_location()
+	player_controller.reset_for_location()
 	_refresh_ui()
 
 
@@ -141,8 +142,8 @@ func _refresh_ui() -> void:
 
 	location_label.text = str(location.get("name", session.location_id))
 	scene_canvas.refresh(session)
-	scene_canvas.set_player_tile(player_tile)
-	prompt_label.text = _prompt_text()
+	scene_canvas.set_player_tile(player_controller.tile)
+	prompt_label.text = player_controller.prompt_text()
 	log_label.text = session.visible_log(4)
 	queue_redraw()
 
@@ -161,49 +162,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _try_move(direction: Vector2i) -> void:
-	facing = direction
-	var target := player_tile + direction
-	if visual_repository.is_blocked(session.scene_id, session.location_id, target):
-		_refresh_ui()
-		return
-	player_tile = target
+	player_controller.try_move(direction)
 	_refresh_ui()
 
 
 func _interact() -> void:
-	var target := player_tile + facing
-	var interaction: Dictionary = visual_repository.interaction_at(session.scene_id, session.location_id, target)
-	if interaction.is_empty():
-		interaction = visual_repository.interaction_at(session.scene_id, session.location_id, player_tile)
-	if interaction.is_empty():
-		session.event_log.append("这里没有可以互动的东西。")
-		_refresh_ui()
-		return
-
-	if interaction.has("exit"):
-		session.apply_action({"verb": "go", "arg": str(interaction["exit"])})
-		_reset_player_for_location()
-	elif interaction.has("item"):
-		session.apply_action({"verb": "inspect", "arg": str(interaction["item"])})
+	player_controller.interact()
 	_refresh_ui()
-
-
-func _reset_player_for_location() -> void:
-	player_tile = visual_repository.spawn_for(session.scene_id, session.location_id)
-	facing = Vector2i(0, -1)
-
-
-func _prompt_text() -> String:
-	var target := player_tile + facing
-	var interaction: Dictionary = visual_repository.interaction_at(session.scene_id, session.location_id, target)
-	if interaction.is_empty():
-		interaction = visual_repository.interaction_at(session.scene_id, session.location_id, player_tile)
-	if interaction.has("exit"):
-		var exit_id := str(interaction["exit"])
-		var exits: Dictionary = session.current_location().get("exits", {})
-		return "Space/Enter 进入：%s" % exits.get(exit_id, exit_id)
-	if interaction.has("item"):
-		var item_id := str(interaction["item"])
-		var items: Dictionary = session.current_location().get("items", {})
-		return "Space/Enter 调查：%s" % items.get(item_id, {}).get("name", item_id)
-	return "WASD/方向键移动，Space/Enter 互动"
