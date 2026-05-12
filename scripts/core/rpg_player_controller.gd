@@ -118,6 +118,9 @@ func interact() -> void:
 		reset_for_location()
 	elif interaction.has("item"):
 		session.apply_action({"verb": "inspect", "arg": str(interaction["item"])})
+	elif interaction.has("action"):
+		var action: Dictionary = interaction["action"]
+		session.apply_action(action)
 
 
 func prompt_text() -> String:
@@ -130,6 +133,9 @@ func prompt_text() -> String:
 		var item_id := str(interaction["item"])
 		var items: Dictionary = session.current_location().get("items", {})
 		return "Space/Enter 调查：%s" % items.get(item_id, {}).get("name", item_id)
+	if interaction.has("action"):
+		var action: Dictionary = interaction["action"]
+		return "Space/Enter %s" % str(interaction.get("label", action.get("verb", "行动")))
 	return "WASD/方向键移动，Space/Enter 互动"
 
 

@@ -36,7 +36,7 @@ func interaction_at(scene_id: String, location_id: String, position: Vector2i) -
 	for prop in visual.get("props", []):
 		var rect := _prop_rect(prop)
 		if rect.has_point(position):
-			if prop.has("exit") or prop.has("item"):
+			if prop.has("exit") or prop.has("item") or prop.has("action"):
 				return prop
 	return {}
 

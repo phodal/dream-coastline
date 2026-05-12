@@ -13,15 +13,16 @@ Steam-ready first act.
 - Dialogue shell: `scripts/ui/dialogue_overlay.gd` owns the bottom dialogue and
   prompt surface, so it can evolve toward portraits and paged dialogue without
   bloating `scripts/main.gd`.
-- Visual map data: `data/visual_scenes/00-prologue-lights-out.json` defines the
-  first act locations, props, exits, spawn points, and solid tiles.
+- Visual map data: `data/visual_scenes/00-prologue-lights-out.json` and
+  `data/visual_scenes/01-illiterate.json` define authored locations, props,
+  exits, spawn points, and solid tiles.
 - Story runtime: `scripts/core/game_session.gd` owns flags, metrics, elapsed
   time, combat rules, and story progression.
 - Data separation: `data/story_scenes/` holds narrative scene data, while
   `data/visual_scenes/` holds playable map layout.
 - Verification: the Godot smoke walkthrough completes every implemented scene
-  with `--smoke-autoplay`, and the first act keyboard path is covered by
-  `--smoke-rpg-first-act`.
+  with `--smoke-autoplay`, and the first two authored keyboard paths are covered
+  by `--smoke-rpg-first-act` and `--smoke-rpg-illiterate`.
 - Save/load verification: `--smoke-save-load` writes a save, mutates runtime
   state, reloads it, and checks the restored location, tile, and elapsed time.
 - Menu verification: `--smoke-menu-flow` builds the UI and checks title, new
@@ -31,8 +32,8 @@ Steam-ready first act.
 
 ## Not Yet Steam-Ready
 
-- Only the first act has explicit visual map data. Later scenes still rely on
-  fallback rendering and need authored `data/visual_scenes/*.json` maps.
+- Only the opening two scenes have explicit visual map data. Later scenes still
+  rely on fallback rendering and need authored `data/visual_scenes/*.json` maps.
 - Title, settings, pause, and save/load foundations exist, but the settings
   surface is still minimal and the quit flow is not polished for release.
 - Dialogue has a reusable overlay shell, but it still needs speaker portraits,
@@ -46,8 +47,8 @@ Steam-ready first act.
   controller mapping, fullscreen/window settings, build metadata, and platform
   smoke checks are missing.
 - Automated verification covers story walkthrough rules, a first-act keyboard
-  path, save/load restoration, menu state flow, and a rendered frame sanity
-  check, but not later-scene keyboard paths.
+  path, the illiterate-scene keyboard path, save/load restoration, menu state
+  flow, and a rendered frame sanity check, but not later-scene keyboard paths.
 
 ## Next Implementation Order
 

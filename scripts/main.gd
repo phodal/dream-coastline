@@ -5,6 +5,7 @@ const SceneVisualRepositoryScript := preload("res://scripts/core/scene_visual_re
 const GameSessionScript := preload("res://scripts/core/game_session.gd")
 const RpgPlayerControllerScript := preload("res://scripts/core/rpg_player_controller.gd")
 const RpgFirstActSmokeScript := preload("res://scripts/core/rpg_first_act_smoke.gd")
+const RpgIlliterateSmokeScript := preload("res://scripts/core/rpg_illiterate_smoke.gd")
 const SaveGameRepositoryScript := preload("res://scripts/core/save_game_repository.gd")
 const SaveLoadSmokeScript := preload("res://scripts/core/save_load_smoke.gd")
 const SettingsRepositoryScript := preload("res://scripts/core/settings_repository.gd")
@@ -49,6 +50,10 @@ func _ready() -> void:
 		return
 	if OS.get_cmdline_user_args().has("--smoke-rpg-first-act"):
 		var ok: bool = RpgFirstActSmokeScript.new(session, player_controller).run()
+		get_tree().quit(0 if ok else 1)
+		return
+	if OS.get_cmdline_user_args().has("--smoke-rpg-illiterate"):
+		var ok: bool = RpgIlliterateSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
 	if OS.get_cmdline_user_args().has("--smoke-save-load"):

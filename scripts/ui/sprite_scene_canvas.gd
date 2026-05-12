@@ -193,6 +193,12 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 		"building":
 			_draw_block(Vector2i(4, 13), position, tile_size, width, height)
 			_draw_dungeon_tile(Vector2i(12, 12), position + Vector2(tile_size, tile_size), tile_size)
+		"tent":
+			_draw_block(Vector2i(18, 15), position, tile_size, width, height)
+		"tree":
+			_draw_block(Vector2i(13, 15), position, tile_size, width, height)
+		"campfire", "city_fire":
+			draw_texture_rect(FIREBALL, Rect2(position, Vector2(tile_size, tile_size)), false)
 		"sofa", "bed":
 			_draw_block(Vector2i(6, 14), position, tile_size, width, height)
 		"table", "desk":
@@ -206,6 +212,10 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 				_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
 		"lamp":
 			_draw_dungeon_tile(Vector2i(32, 12), position, tile_size)
+		"soldier", "xiaoyan", "xiali", "enemy":
+			_draw_actor(kind, position, tile_size)
+		"gate", "rune":
+			_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
 		"window_dark":
 			_draw_dungeon_tile(Vector2i(12, 12), position, tile_size)
 			draw_rect(Rect2(position + Vector2(tile_size * 0.2, tile_size * 0.2), Vector2(tile_size * 0.6, tile_size * 0.6)), Color("#050608", 0.75))

@@ -1,0 +1,52 @@
+{
+  "id": "01-illiterate",
+  "tile_size": 32,
+  "locations": {
+    "mud_road": {
+      "terrain": "wilderness",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "city_fire", "x": 2, "y": 2, "item": "city", "solid": true},
+        {"kind": "sign", "x": 11, "y": 2, "item": "sign", "solid": true},
+        {"kind": "pen", "x": 6, "y": 6, "item": "pen"},
+        {"kind": "phone", "x": 10, "y": 5, "item": "phone", "solid": true},
+        {"kind": "exit", "x": 13, "y": 4, "exit": "camp"}
+      ]
+    },
+    "camp": {
+      "terrain": "wilderness",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "tent", "x": 2, "y": 2, "w": 2, "h": 2, "solid": true},
+        {"kind": "notice", "x": 4, "y": 3, "item": "notice", "solid": true},
+        {"kind": "campfire", "x": 6, "y": 3, "solid": true},
+        {"kind": "xiaoyan", "x": 9, "y": 4, "item": "xiaoyan", "solid": true},
+        {"kind": "exit", "x": 1, "y": 4, "exit": "mud_road"},
+        {"kind": "exit", "x": 13, "y": 4, "exit": "chase"}
+      ]
+    },
+    "chase": {
+      "terrain": "forest",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "tree", "x": 2, "y": 1, "w": 2, "h": 5, "solid": true},
+        {"kind": "gate", "x": 5, "y": 3, "item": "gate", "solid": true},
+        {"kind": "xiali", "x": 8, "y": 3, "item": "xiali", "solid": true},
+        {"kind": "soldier", "x": 10, "y": 3, "item": "soldiers", "solid": true},
+        {"kind": "exit", "x": 1, "y": 4, "exit": "camp"},
+        {"kind": "exit", "x": 13, "y": 4, "exit": "station"}
+      ]
+    },
+    "station": {
+      "terrain": "ruin",
+      "spawn": {"x": 7, "y": 6},
+      "props": [
+        {"kind": "rune", "x": 5, "y": 3, "item": "strokes", "solid": true},
+        {"kind": "xiaoyan", "x": 3, "y": 4, "item": "xiaoyan", "solid": true},
+        {"kind": "rune", "x": 7, "y": 3, "label": "写：名", "action": {"verb": "write", "arg": ""}, "solid": true},
+        {"kind": "enemy", "x": 10, "y": 4, "label": "攻击无名兽", "action": {"verb": "attack", "arg": ""}, "solid": true},
+        {"kind": "exit", "x": 1, "y": 4, "exit": "chase"}
+      ]
+    }
+  }
+}
