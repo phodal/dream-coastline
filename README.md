@@ -47,6 +47,12 @@ Validate the Godot scene runner can complete every implemented scene:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-autoplay
 ```
 
+Validate the first act RPG keyboard path:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-first-act
+```
+
 ## DeepSeek AI
 
 The project includes a small DeepSeek client for scene design assistance. Configure

@@ -16,7 +16,8 @@ Steam-ready first act.
 - Data separation: `data/story_scenes/` holds narrative scene data, while
   `data/visual_scenes/` holds playable map layout.
 - Verification: the Godot smoke walkthrough completes every implemented scene
-  with `--smoke-autoplay`.
+  with `--smoke-autoplay`, and the first act keyboard path is covered by
+  `--smoke-rpg-first-act`.
 
 ## Not Yet Steam-Ready
 
@@ -34,15 +35,14 @@ Steam-ready first act.
 - There is no release/export setup for Steam: export presets, icon/splash,
   controller mapping, fullscreen/window settings, build metadata, and platform
   smoke checks are missing.
-- Automated verification covers story walkthrough rules, but not keyboard
-  movement paths, collision, interaction prompts, or rendered frame sanity.
+- Automated verification covers story walkthrough rules and a first-act keyboard
+  path, but not rendered frame sanity or later-scene keyboard paths.
 
 ## Next Implementation Order
 
-1. Add an automated first-act keyboard path smoke test that verifies movement,
-   exits, investigation prompts, and expected flags.
-2. Replace the compact log overlay with a reusable dialogue box node.
-3. Add animated player sprites and movement timing.
-4. Add title/pause/settings/save-load flow.
-5. Author visual maps for the remaining scenes.
+1. Replace the compact log overlay with a reusable dialogue box node.
+2. Add animated player sprites and movement timing.
+3. Add title/pause/settings/save-load flow.
+4. Author visual maps and keyboard paths for the remaining scenes.
+5. Add rendered frame sanity checks.
 6. Add audio and export presets once the first act loop is stable.

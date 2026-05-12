@@ -4,11 +4,9 @@ const SceneDatabaseScript := preload("res://scripts/core/scene_database.gd")
 const SceneVisualRepositoryScript := preload("res://scripts/core/scene_visual_repository.gd")
 const GameSessionScript := preload("res://scripts/core/game_session.gd")
 const RpgPlayerControllerScript := preload("res://scripts/core/rpg_player_controller.gd")
+const RpgFirstActSmokeScript := preload("res://scripts/core/rpg_first_act_smoke.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const SpriteSceneCanvasScript := preload("res://scripts/ui/sprite_scene_canvas.gd")
-
-const TILE_COLUMNS := 15
-const TILE_ROWS := 9
 
 var database
 var visual_repository
@@ -32,6 +30,10 @@ func _ready() -> void:
 	player_controller = RpgPlayerControllerScript.new(session, visual_repository)
 	if OS.get_cmdline_user_args().has("--smoke-autoplay"):
 		var ok: bool = session.run_smoke_verification()
+		get_tree().quit(0 if ok else 1)
+		return
+	if OS.get_cmdline_user_args().has("--smoke-rpg-first-act"):
+		var ok: bool = RpgFirstActSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
 
