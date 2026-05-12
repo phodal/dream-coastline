@@ -53,6 +53,12 @@ Validate the first act RPG keyboard path:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-first-act
 ```
 
+Validate save/load:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-save-load
+```
+
 ## DeepSeek AI
 
 The project includes a small DeepSeek client for scene design assistance. Configure
@@ -68,8 +74,8 @@ python3 tools/ascii_five.py --report
 ```
 
 Controls are keyboard-driven inside the Godot window. Use WASD or the arrow keys
-to move, and Space or Enter to interact with nearby exits and investigation
-targets.
+to move, Space or Enter to interact with nearby exits and investigation targets,
+and Esc to pause, save, or load.
 
 MCP integration is configured for Codex through `~/.codex/config.toml`. See
 `docs/godot-mcp.md` for details.

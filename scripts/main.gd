@@ -5,12 +5,16 @@ const SceneVisualRepositoryScript := preload("res://scripts/core/scene_visual_re
 const GameSessionScript := preload("res://scripts/core/game_session.gd")
 const RpgPlayerControllerScript := preload("res://scripts/core/rpg_player_controller.gd")
 const RpgFirstActSmokeScript := preload("res://scripts/core/rpg_first_act_smoke.gd")
+const SaveGameRepositoryScript := preload("res://scripts/core/save_game_repository.gd")
+const SaveLoadSmokeScript := preload("res://scripts/core/save_load_smoke.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const SpriteSceneCanvasScript := preload("res://scripts/ui/sprite_scene_canvas.gd")
 const DialogueOverlayScript := preload("res://scripts/ui/dialogue_overlay.gd")
+const PauseMenuScript := preload("res://scripts/ui/pause_menu.gd")
 
 var database
 var visual_repository
+var save_repository
 var session
 var player_controller
 var root: Control
@@ -18,6 +22,7 @@ var title_label: Label
 var time_label: Label
 var scene_canvas
 var dialogue_overlay
+var pause_menu
 
 
 func _ready() -> void:
@@ -25,6 +30,7 @@ func _ready() -> void:
 	database.load_all()
 	visual_repository = SceneVisualRepositoryScript.new()
 	visual_repository.load_for_scene_ids(database.SCENE_IDS)
+	save_repository = SaveGameRepositoryScript.new()
 	session = GameSessionScript.new(database)
 	player_controller = RpgPlayerControllerScript.new(session, visual_repository)
 	if OS.get_cmdline_user_args().has("--smoke-autoplay"):
@@ -33,6 +39,10 @@ func _ready() -> void:
 		return
 	if OS.get_cmdline_user_args().has("--smoke-rpg-first-act"):
 		var ok: bool = RpgFirstActSmokeScript.new(session, player_controller).run()
+		get_tree().quit(0 if ok else 1)
+		return
+	if OS.get_cmdline_user_args().has("--smoke-save-load"):
+		var ok: bool = SaveLoadSmokeScript.new(session, player_controller, save_repository).run()
 		get_tree().quit(0 if ok else 1)
 		return
 
@@ -70,6 +80,7 @@ func _build_ui() -> void:
 
 	root.add_child(_build_top_bar())
 	root.add_child(_build_status_overlay())
+	root.add_child(_build_pause_menu())
 
 
 func _build_top_bar() -> Control:
@@ -106,6 +117,23 @@ func _build_status_overlay() -> Control:
 	return panel
 
 
+func _build_pause_menu() -> Control:
+	pause_menu = PauseMenuScript.new()
+	pause_menu.name = "PauseMenu"
+	pause_menu.visible = false
+	pause_menu.set_anchors_preset(Control.PRESET_CENTER, false)
+	pause_menu.custom_minimum_size = Vector2(340, 280)
+	pause_menu.offset_left = -170
+	pause_menu.offset_top = -150
+	pause_menu.offset_right = 170
+	pause_menu.offset_bottom = 150
+	pause_menu.resume_requested.connect(_resume_game)
+	pause_menu.save_requested.connect(_save_game)
+	pause_menu.load_requested.connect(_load_game)
+	pause_menu.quit_requested.connect(func(): get_tree().quit())
+	return pause_menu
+
+
 func _load_scene(index: int) -> void:
 	session.load_scene(index)
 	player_controller.reset_for_location()
@@ -137,6 +165,11 @@ func _refresh_ui() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		_toggle_pause()
+		return
+	if pause_menu != null and pause_menu.visible:
+		return
 	if event.is_action_pressed("move_up"):
 		_try_move(Vector2i(0, -1))
 	elif event.is_action_pressed("move_down"):
@@ -157,3 +190,29 @@ func _try_move(direction: Vector2i) -> void:
 func _interact() -> void:
 	player_controller.interact()
 	_refresh_ui()
+
+
+func _toggle_pause() -> void:
+	if pause_menu == null:
+		return
+	pause_menu.visible = not pause_menu.visible
+	if pause_menu.visible:
+		pause_menu.set_status("ESC 返回游戏")
+
+
+func _resume_game() -> void:
+	pause_menu.visible = false
+
+
+func _save_game() -> void:
+	var ok: bool = save_repository.save(session, player_controller)
+	pause_menu.set_status("已保存" if ok else "保存失败")
+
+
+func _load_game() -> void:
+	var ok: bool = save_repository.load_into(session, player_controller)
+	if ok:
+		pause_menu.visible = false
+		_refresh_ui()
+	else:
+		pause_menu.set_status("没有可读取的存档")

@@ -178,6 +178,40 @@ func visible_log(max_lines: int) -> String:
 	return "\n".join(event_log.slice(max(0, event_log.size() - max_lines), event_log.size()))
 
 
+func to_save_data() -> Dictionary:
+	return {
+		"scene_index": scene_index,
+		"location_id": location_id,
+		"flags": flags.keys(),
+		"metrics": metrics,
+		"elapsed_seconds": elapsed_seconds,
+		"enemy_hp": enemy_hp,
+		"player_hp": player_hp,
+		"name_attempts": name_attempts,
+		"attacks_since_name": attacks_since_name,
+		"event_log": event_log,
+	}
+
+
+func load_save_data(data: Dictionary) -> void:
+	scene_index = clamp(int(data.get("scene_index", 0)), 0, database.count() - 1)
+	scene_id = database.scene_id_at(scene_index)
+	scene = database.scene_at(scene_index)
+	location_id = str(data.get("location_id", scene.get("start", "")))
+	flags.clear()
+	for flag in data.get("flags", []):
+		flags[str(flag)] = true
+	metrics = data.get("metrics", {}).duplicate(true)
+	elapsed_seconds = int(data.get("elapsed_seconds", 0))
+	enemy_hp = int(data.get("enemy_hp", 0))
+	player_hp = int(data.get("player_hp", 5))
+	name_attempts = int(data.get("name_attempts", 0))
+	attacks_since_name = int(data.get("attacks_since_name", 0))
+	event_log.clear()
+	for line in data.get("event_log", []):
+		event_log.append(str(line))
+
+
 func run_smoke_verification() -> bool:
 	var all_ok := true
 	for index in range(database.count()):

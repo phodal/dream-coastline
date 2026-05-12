@@ -85,6 +85,26 @@ func has_blocked_feedback() -> bool:
 	return blocked_feedback_elapsed > 0.0
 
 
+func to_save_data() -> Dictionary:
+	return {
+		"tile": [tile.x, tile.y],
+		"facing": [facing.x, facing.y],
+	}
+
+
+func load_save_data(data: Dictionary) -> void:
+	var tile_data: Array = data.get("tile", [7, 6])
+	var facing_data: Array = data.get("facing", [0, -1])
+	tile = Vector2i(int(tile_data[0]), int(tile_data[1]))
+	previous_tile = tile
+	facing = Vector2i(int(facing_data[0]), int(facing_data[1]))
+	move_elapsed = 0.0
+	is_moving = false
+	queued_direction = Vector2i.ZERO
+	has_queued_direction = false
+	blocked_feedback_elapsed = 0.0
+
+
 func interact() -> void:
 	if is_moving:
 		return

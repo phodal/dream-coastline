@@ -22,13 +22,15 @@ Steam-ready first act.
 - Verification: the Godot smoke walkthrough completes every implemented scene
   with `--smoke-autoplay`, and the first act keyboard path is covered by
   `--smoke-rpg-first-act`.
+- Save/load verification: `--smoke-save-load` writes a save, mutates runtime
+  state, reloads it, and checks the restored location, tile, and elapsed time.
 
 ## Not Yet Steam-Ready
 
 - Only the first act has explicit visual map data. Later scenes still rely on
   fallback rendering and need authored `data/visual_scenes/*.json` maps.
-- There is no save/load system, pause menu, settings menu, title screen, or quit
-  flow.
+- Pause and save/load foundations exist, but there is no title screen, settings
+  menu, or polished quit flow.
 - Dialogue has a reusable overlay shell, but it still needs speaker portraits,
   paging, skip behavior, and localization-ready text flow.
 - Player movement now has step timing, interpolated drawing, basic facing
@@ -39,12 +41,13 @@ Steam-ready first act.
 - There is no release/export setup for Steam: export presets, icon/splash,
   controller mapping, fullscreen/window settings, build metadata, and platform
   smoke checks are missing.
-- Automated verification covers story walkthrough rules and a first-act keyboard
-  path, but not rendered frame sanity or later-scene keyboard paths.
+- Automated verification covers story walkthrough rules, a first-act keyboard
+  path, and save/load restoration, but not rendered frame sanity or later-scene
+  keyboard paths.
 
 ## Next Implementation Order
 
-1. Add title/pause/settings/save-load flow.
+1. Add title screen and settings menu.
 2. Author visual maps and keyboard paths for the remaining scenes.
 3. Add rendered frame sanity checks.
 4. Replace placeholder facing frames with artist-approved animation frames.
