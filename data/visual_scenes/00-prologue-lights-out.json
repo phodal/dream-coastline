@@ -1,0 +1,88 @@
+{
+  "id": "00-prologue-lights-out",
+  "tile_size": 32,
+  "locations": {
+    "street": {
+      "terrain": "street",
+      "props": [
+        {"kind": "building", "x": 10, "y": 1, "w": 3, "h": 4},
+        {"kind": "vending", "x": 4, "y": 4},
+        {"kind": "poster", "x": 2, "y": 3},
+        {"kind": "window_dark", "x": 11, "y": 2},
+        {"kind": "exit", "x": 13, "y": 4}
+      ],
+      "actors": [
+        {"kind": "jizi", "x": 7, "y": 6}
+      ]
+    },
+    "building": {
+      "terrain": "interior",
+      "props": [
+        {"kind": "lamp", "x": 7, "y": 1},
+        {"kind": "mailbox", "x": 3, "y": 4},
+        {"kind": "stairs", "x": 11, "y": 4},
+        {"kind": "exit", "x": 13, "y": 4},
+        {"kind": "exit", "x": 1, "y": 4}
+      ],
+      "actors": [
+        {"kind": "jizi", "x": 7, "y": 6}
+      ]
+    },
+    "home": {
+      "terrain": "interior",
+      "props": [
+        {"kind": "door_open", "x": 6, "y": 2},
+        {"kind": "shadow", "x": 8, "y": 3},
+        {"kind": "exit", "x": 13, "y": 4},
+        {"kind": "exit", "x": 1, "y": 4}
+      ],
+      "actors": [
+        {"kind": "jizi", "x": 7, "y": 6}
+      ]
+    },
+    "living_room": {
+      "terrain": "room",
+      "props": [
+        {"kind": "sofa", "x": 3, "y": 3, "w": 3, "h": 1},
+        {"kind": "table", "x": 7, "y": 4, "w": 2, "h": 1},
+        {"kind": "dinner", "x": 8, "y": 4},
+        {"kind": "tv", "x": 11, "y": 3},
+        {"kind": "photo", "x": 11, "y": 1},
+        {"kind": "exit", "x": 13, "y": 4},
+        {"kind": "exit", "x": 1, "y": 4}
+      ],
+      "actors": [
+        {"kind": "jizi", "x": 7, "y": 6}
+      ]
+    },
+    "study": {
+      "terrain": "room",
+      "props": [
+        {"kind": "desk", "x": 4, "y": 3, "w": 3, "h": 1},
+        {"kind": "bookcase", "x": 10, "y": 2, "h": 3},
+        {"kind": "glasses", "x": 5, "y": 3},
+        {"kind": "note", "x": 6, "y": 3},
+        {"kind": "phone", "x": 8, "y": 5},
+        {"kind": "exit", "x": 1, "y": 4}
+      ],
+      "actors": [
+        {"kind": "jizi", "x": 7, "y": 6}
+      ]
+    },
+    "bedroom": {
+      "terrain": "room",
+      "props": [
+        {"kind": "bed", "x": 3, "y": 4, "w": 3, "h": 1},
+        {"kind": "window", "x": 11, "y": 1},
+        {"kind": "desk", "x": 8, "y": 3, "w": 2, "h": 1},
+        {"kind": "letter", "x": 8, "y": 3},
+        {"kind": "pen", "x": 9, "y": 3},
+        {"kind": "portal", "x": 12, "y": 4},
+        {"kind": "exit", "x": 1, "y": 4}
+      ],
+      "actors": [
+        {"kind": "jizi", "x": 7, "y": 6}
+      ]
+    }
+  }
+}

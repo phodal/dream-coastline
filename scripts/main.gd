@@ -2,6 +2,7 @@ extends Node2D
 
 const DeepSeekClientScript := preload("res://scripts/deepseek_client.gd")
 const SceneDatabaseScript := preload("res://scripts/core/scene_database.gd")
+const SceneVisualRepositoryScript := preload("res://scripts/core/scene_visual_repository.gd")
 const GameSessionScript := preload("res://scripts/core/game_session.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const SpriteSceneCanvasScript := preload("res://scripts/ui/sprite_scene_canvas.gd")
@@ -9,6 +10,7 @@ const StoryHudScript := preload("res://scripts/ui/story_hud.gd")
 const ActionPanelScript := preload("res://scripts/ui/action_panel.gd")
 
 var database
+var visual_repository
 var session
 var root: Control
 var title_label: Label
@@ -27,6 +29,8 @@ var deepseek_client: Node
 func _ready() -> void:
 	database = SceneDatabaseScript.new()
 	database.load_all()
+	visual_repository = SceneVisualRepositoryScript.new()
+	visual_repository.load_for_scene_ids(database.SCENE_IDS)
 	session = GameSessionScript.new(database)
 	if OS.get_cmdline_user_args().has("--smoke-autoplay"):
 		var ok: bool = session.run_smoke_verification()
@@ -122,6 +126,7 @@ func _build_scene_panel() -> Control:
 
 	scene_canvas = SpriteSceneCanvasScript.new()
 	scene_canvas.name = "SpriteSceneCanvas"
+	scene_canvas.set_visual_repository(visual_repository)
 	box.add_child(scene_canvas)
 	return panel
 

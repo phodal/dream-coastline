@@ -14,6 +14,7 @@ const COLUMNS := 15
 const ROWS := 9
 
 var session
+var visual_repository
 
 
 func _ready() -> void:
@@ -21,6 +22,10 @@ func _ready() -> void:
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+
+func set_visual_repository(repository) -> void:
+	visual_repository = repository
 
 
 func refresh(game_session) -> void:
@@ -38,14 +43,15 @@ func _draw() -> void:
 	var map_size := Vector2(tile_size * COLUMNS, tile_size * ROWS)
 	var origin := (canvas_size - map_size) * 0.5
 
-	_draw_map(origin, tile_size)
-	_draw_location_objects(origin, tile_size)
-	_draw_actors(origin, tile_size)
+	var visual := _current_visual()
+	_draw_map(origin, tile_size, visual)
+	_draw_location_objects(origin, tile_size, visual)
+	_draw_actors(origin, tile_size, visual)
 	_draw_letterbox(canvas_size)
 
 
-func _draw_map(origin: Vector2, tile_size: float) -> void:
-	var palette := _palette_for_scene()
+func _draw_map(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
+	var palette := _palette_for_scene(str(visual.get("terrain", "")))
 	for y in range(ROWS):
 		for x in range(COLUMNS):
 			var tile: Vector2i = palette.floor
@@ -60,7 +66,14 @@ func _draw_map(origin: Vector2, tile_size: float) -> void:
 			_draw_dungeon_tile(tile, origin + Vector2(x, y) * tile_size, tile_size)
 
 
-func _draw_location_objects(origin: Vector2, tile_size: float) -> void:
+func _draw_location_objects(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
+	if not visual.is_empty():
+		for prop in visual.get("props", []):
+			_draw_visual_prop(prop, origin, tile_size)
+		if session.has_flag(str(session.scene.get("ending_flag", ""))):
+			draw_texture_rect(MAGIC_ORB, Rect2(origin + Vector2(12, 4) * tile_size, Vector2(tile_size, tile_size)), false)
+		return
+
 	var location: Dictionary = session.current_location()
 	var item_ids: Array = location.get("items", {}).keys()
 	var slots := [
@@ -92,7 +105,13 @@ func _draw_location_objects(origin: Vector2, tile_size: float) -> void:
 		draw_texture_rect(FIREBALL, Rect2(origin + Vector2(9, 4) * tile_size, Vector2(tile_size, tile_size)), false)
 
 
-func _draw_actors(origin: Vector2, tile_size: float) -> void:
+func _draw_actors(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
+	if not visual.is_empty():
+		for actor in visual.get("actors", []):
+			var coord := Vector2(float(actor.get("x", 7)), float(actor.get("y", 6)))
+			_draw_actor(str(actor.get("kind", "jizi")), origin + coord * tile_size, tile_size)
+		return
+
 	_draw_character(Vector2i(0, 0), origin + Vector2(7, 6) * tile_size, tile_size)
 	if session.scene_index >= 2:
 		_draw_character(Vector2i(3, 0), origin + Vector2(6, 5) * tile_size, tile_size)
@@ -136,6 +155,53 @@ func _draw_prop(item_id: String, top_left: Vector2, tile_size: float) -> void:
 			_draw_dungeon_tile(Vector2i(18, 15), top_left, tile_size)
 
 
+func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> void:
+	var kind := str(prop.get("kind", "decor"))
+	var position := origin + Vector2(float(prop.get("x", 0)), float(prop.get("y", 0))) * tile_size
+	var width := int(prop.get("w", 1))
+	var height := int(prop.get("h", 1))
+	match kind:
+		"building":
+			_draw_block(Vector2i(4, 13), position, tile_size, width, height)
+			_draw_dungeon_tile(Vector2i(12, 12), position + Vector2(tile_size, tile_size), tile_size)
+		"sofa", "bed":
+			_draw_block(Vector2i(6, 14), position, tile_size, width, height)
+		"table", "desk":
+			_draw_block(Vector2i(13, 12), position, tile_size, width, height)
+		"bookcase":
+			_draw_block(Vector2i(24, 11), position, tile_size, 1, height)
+		"portal":
+			if session.has_flag(str(session.scene.get("ending_flag", ""))):
+				draw_texture_rect(MAGIC_ORB, Rect2(position, Vector2(tile_size, tile_size)), false)
+			else:
+				_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
+		"lamp":
+			_draw_dungeon_tile(Vector2i(32, 12), position, tile_size)
+		"window_dark":
+			_draw_dungeon_tile(Vector2i(12, 12), position, tile_size)
+			draw_rect(Rect2(position + Vector2(tile_size * 0.2, tile_size * 0.2), Vector2(tile_size * 0.6, tile_size * 0.6)), Color("#050608", 0.75))
+		"shadow":
+			draw_rect(Rect2(position, Vector2(tile_size, tile_size)), Color("#000000", 0.45))
+		_:
+			_draw_prop(kind, position, tile_size)
+
+
+func _draw_block(tile: Vector2i, top_left: Vector2, tile_size: float, width: int, height: int) -> void:
+	for y in range(max(1, height)):
+		for x in range(max(1, width)):
+			_draw_dungeon_tile(tile, top_left + Vector2(x, y) * tile_size, tile_size)
+
+
+func _draw_actor(kind: String, top_left: Vector2, tile_size: float) -> void:
+	match kind:
+		"xiali":
+			_draw_character(Vector2i(3, 0), top_left, tile_size)
+		"guardian":
+			_draw_character(Vector2i(5, 1), top_left, tile_size)
+		_:
+			_draw_character(Vector2i(0, 0), top_left, tile_size)
+
+
 func _draw_dungeon_tile(tile: Vector2i, top_left: Vector2, tile_size: float) -> void:
 	draw_texture_rect_region(
 		DUNGEON_CRAWL,
@@ -152,8 +218,16 @@ func _draw_character(tile: Vector2i, top_left: Vector2, tile_size: float) -> voi
 	)
 
 
-func _palette_for_scene() -> Dictionary:
-	if _is_modern_home():
+func _palette_for_scene(terrain: String = "") -> Dictionary:
+	if terrain == "street":
+		return {
+			"floor": Vector2i(1, 15),
+			"wall": Vector2i(4, 13),
+			"path": Vector2i(9, 14),
+			"room_shadow": Vector2i(6, 14),
+			"accent": Vector2i(18, 15),
+		}
+	if terrain in ["interior", "room"] or _is_modern_home():
 		return {
 			"floor": Vector2i(1, 15),
 			"wall": Vector2i(4, 13),
@@ -188,3 +262,9 @@ func _is_modern_home() -> bool:
 
 func _is_moqi_location() -> bool:
 	return session.scene_index in [2, 3, 5, 6] or session.location_id.contains("moqi") or session.location_id.contains("academy")
+
+
+func _current_visual() -> Dictionary:
+	if visual_repository == null:
+		return {}
+	return visual_repository.location_visual(session.scene_id, session.location_id)
