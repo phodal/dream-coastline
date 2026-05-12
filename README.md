@@ -119,6 +119,12 @@ Validate export preset configuration:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-export-config
 ```
 
+Validate keyboard/gamepad input mapping:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-input-map
+```
+
 Validate a rendered game frame. This uses the real renderer, so run it without
 `--headless`:
 
@@ -140,9 +146,10 @@ python3 tools/ascii_five.py --verify
 python3 tools/ascii_five.py --report
 ```
 
-Controls are keyboard-driven inside the Godot window. Use the title screen to
-start or continue, WASD or the arrow keys to move, Space or Enter to interact
-with nearby exits and investigation targets, and Esc to pause, save, or load.
+Controls work with keyboard or gamepad inside the Godot window. Use the title
+screen to start or continue. Move with WASD, arrow keys, or D-pad; interact with
+Space, Enter, or gamepad south button; pause with Esc, gamepad east button, or
+Start.
 
 MCP integration is configured for Codex through `~/.codex/config.toml`. See
 `docs/godot-mcp.md` for details.

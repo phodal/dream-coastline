@@ -2,11 +2,14 @@ class_name SettingsMenu
 extends PanelContainer
 
 signal fullscreen_changed(enabled: bool)
+signal master_volume_changed(value: float)
 signal back_requested
 
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 
 var fullscreen_check: CheckBox
+var volume_slider: HSlider
+var volume_label: Label
 
 
 func _ready() -> void:
@@ -26,6 +29,20 @@ func _ready() -> void:
 	fullscreen_check.toggled.connect(func(enabled: bool): fullscreen_changed.emit(enabled))
 	box.add_child(fullscreen_check)
 
+	volume_label = GameThemeScript.make_label("SettingsVolumeLabel", 18, GameThemeScript.COLORS.text)
+	box.add_child(volume_label)
+
+	volume_slider = HSlider.new()
+	volume_slider.min_value = 0.0
+	volume_slider.max_value = 1.0
+	volume_slider.step = 0.05
+	volume_slider.custom_minimum_size = Vector2(300, 32)
+	volume_slider.value_changed.connect(func(value: float):
+		_set_volume_label(value)
+		master_volume_changed.emit(value)
+	)
+	box.add_child(volume_slider)
+
 	var back := GameThemeScript.make_button("SettingsBack", "返回")
 	back.custom_minimum_size = Vector2(300, 42)
 	back.pressed.connect(back_requested.emit)
@@ -34,6 +51,16 @@ func _ready() -> void:
 
 func set_fullscreen(enabled: bool) -> void:
 	fullscreen_check.button_pressed = enabled
+
+
+func set_master_volume(value: float) -> void:
+	var clamped := clampf(value, 0.0, 1.0)
+	volume_slider.set_value_no_signal(clamped)
+	_set_volume_label(clamped)
+
+
+func _set_volume_label(value: float) -> void:
+	volume_label.text = "主音量 %d%%" % int(round(value * 100.0))
 
 
 func _apply_panel_style() -> void:

@@ -44,13 +44,15 @@ Steam-ready first act.
 - Export configuration: `export_presets.cfg` defines macOS, Windows Desktop,
   and Linux/X11 desktop presets, and `--smoke-export-config` verifies preset
   presence while reporting whether local export templates are installed.
+- Input verification: `--smoke-input-map` checks that movement, interact, and
+  pause actions include gamepad button mappings.
 
 ## Not Yet Steam-Ready
 
 - All eight current scenes have explicit visual map data and keyboard smoke
   paths.
-- Title, settings, pause, and save/load foundations exist, but the settings
-  surface is still minimal and the quit flow is not polished for release.
+- Title, settings, pause, and save/load foundations exist. Settings now include
+  fullscreen and master volume, but the quit flow is not polished for release.
 - Dialogue has a reusable overlay shell, but it still needs speaker portraits,
   paging, skip behavior, and localization-ready text flow.
 - Player movement now has step timing, interpolated drawing, sprite-sheet
@@ -61,16 +63,16 @@ Steam-ready first act.
   and final SFX assets still need to be added.
 - Release/export setup has desktop presets and a preset smoke check, but release
   exports are still blocked until export templates, icon/splash, controller
-  mapping, final fullscreen/window settings, build metadata, and platform smoke
-  checks are completed.
+  dead-zone tuning, icon/splash, final fullscreen/window settings, build
+  metadata, and platform smoke checks are completed.
 - Automated verification covers story walkthrough rules, all authored keyboard
-  paths, save/load restoration, menu state flow, generated fallback audio, and a
-  rendered frame sanity check. Export preset configuration is covered by
-  `--smoke-export-config`, but binary export is not covered until local export
-  templates are installed.
+  paths, save/load restoration, menu state flow, generated fallback audio,
+  gamepad button mappings, and a rendered frame sanity check. Export preset
+  configuration is covered by `--smoke-export-config`, but binary export is not
+  covered until local export templates are installed.
 
 ## Next Implementation Order
 
 1. Replace generic sheet player frames with artist-approved bespoke hero frames.
-2. Expand settings beyond fullscreen and polish quit/title transitions.
+2. Polish quit/title transitions.
 3. Install export templates and add platform export smoke checks.

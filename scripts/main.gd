@@ -64,6 +64,10 @@ func _ready() -> void:
 		var ok: bool = _run_export_config_smoke()
 		get_tree().quit(0 if ok else 1)
 		return
+	if OS.get_cmdline_user_args().has("--smoke-input-map"):
+		var ok: bool = _run_input_map_smoke()
+		get_tree().quit(0 if ok else 1)
+		return
 	if OS.get_cmdline_user_args().has("--smoke-autoplay"):
 		var ok: bool = session.run_smoke_verification()
 		get_tree().quit(0 if ok else 1)
@@ -228,12 +232,13 @@ func _build_settings_menu() -> Control:
 	settings_menu.name = "SettingsMenu"
 	settings_menu.visible = false
 	settings_menu.set_anchors_preset(Control.PRESET_CENTER, false)
-	settings_menu.custom_minimum_size = Vector2(340, 180)
-	settings_menu.offset_left = -170
-	settings_menu.offset_top = -100
-	settings_menu.offset_right = 170
-	settings_menu.offset_bottom = 100
+	settings_menu.custom_minimum_size = Vector2(360, 250)
+	settings_menu.offset_left = -180
+	settings_menu.offset_top = -130
+	settings_menu.offset_right = 180
+	settings_menu.offset_bottom = 130
 	settings_menu.fullscreen_changed.connect(_set_fullscreen)
+	settings_menu.master_volume_changed.connect(_set_master_volume)
 	settings_menu.back_requested.connect(_close_settings)
 	return settings_menu
 
@@ -270,12 +275,12 @@ func _refresh_ui() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if settings_menu != null and settings_menu.visible:
-		if event.is_action_pressed("ui_cancel"):
+		if _is_action_pressed(event, ["ui_cancel", "pause"]):
 			_close_settings()
 		return
 	if title_screen != null and title_screen.visible:
 		return
-	if event.is_action_pressed("ui_cancel"):
+	if _is_action_pressed(event, ["ui_cancel", "pause"]):
 		_toggle_pause()
 		return
 	if pause_menu != null and pause_menu.visible:
@@ -288,7 +293,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_try_move(Vector2i(-1, 0))
 	elif event.is_action_pressed("move_right"):
 		_try_move(Vector2i(1, 0))
-	elif event.is_action_pressed("ui_accept"):
+	elif _is_action_pressed(event, ["ui_accept", "interact"]):
 		_interact()
 
 
@@ -384,6 +389,7 @@ func _open_settings() -> void:
 	title_screen.visible = false
 	settings_menu.visible = true
 	settings_menu.set_fullscreen(settings_repository.fullscreen)
+	settings_menu.set_master_volume(settings_repository.master_volume)
 	if audio_director != null:
 		audio_director.play_ui()
 
@@ -398,6 +404,14 @@ func _close_settings() -> void:
 
 func _set_fullscreen(enabled: bool) -> void:
 	settings_repository.fullscreen = enabled
+	settings_repository.apply()
+	settings_repository.save()
+	if audio_director != null:
+		audio_director.play_ui()
+
+
+func _set_master_volume(value: float) -> void:
+	settings_repository.master_volume = clampf(value, 0.0, 1.0)
 	settings_repository.apply()
 	settings_repository.save()
 	if audio_director != null:
@@ -432,6 +446,10 @@ func _run_menu_smoke() -> bool:
 		failures.append("settings should close")
 	if title_screen.visible:
 		failures.append("title should not return when settings closes during game")
+	settings_menu.set_master_volume(0.55)
+	_set_master_volume(0.55)
+	if not is_equal_approx(settings_repository.master_volume, 0.55):
+		failures.append("settings should update master volume")
 
 	var ok := failures.is_empty()
 	print("menu-flow-smoke status=%s title=%s pause=%s settings=%s" % [
@@ -506,6 +524,41 @@ func _is_smoke_run(args: Array) -> bool:
 		if str(arg).begins_with("--smoke-"):
 			return true
 	return false
+
+
+func _is_action_pressed(event: InputEvent, actions: Array[String]) -> bool:
+	for action in actions:
+		if event.is_action_pressed(action):
+			return true
+	return false
+
+
+func _run_input_map_smoke() -> bool:
+	var required := {
+		"move_left": TYPE_OBJECT,
+		"move_right": TYPE_OBJECT,
+		"move_up": TYPE_OBJECT,
+		"move_down": TYPE_OBJECT,
+		"interact": TYPE_OBJECT,
+		"pause": TYPE_OBJECT,
+	}
+	var missing: Array[String] = []
+	for action in required.keys():
+		if not InputMap.has_action(action):
+			missing.append("%s missing" % action)
+			continue
+		var has_joypad := false
+		for input_event in InputMap.action_get_events(action):
+			if input_event is InputEventJoypadButton:
+				has_joypad = true
+		if not has_joypad:
+			missing.append("%s has no joypad button" % action)
+
+	var ok := missing.is_empty()
+	print("input-map-smoke status=%s actions=%s" % ["PASS" if ok else "FAIL", required.size()])
+	for failure in missing:
+		print("failure=", failure)
+	return ok
 
 
 func _run_export_config_smoke() -> bool:
