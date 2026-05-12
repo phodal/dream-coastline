@@ -2,11 +2,10 @@
 
 A Godot 4 game prototype.
 
-The current playable slice implements `five/scene/1.md` as a short interactive
-opening: a modern room, the strange letter, the black engraved pen, ink
-spreading over the page, a flickering-light transition, and the first arrival in
-the ancient world with Xia Li. It now uses OpenGameArt CC0 spritesheets for RPG
-tiles, characters, spell effects, paper props, and castle scenery.
+The current playable slice loads the scene data in `data/ascii_scenes/` and
+presents it through a Godot UI: scene navigation, location art, story text,
+progress, metrics, event log, and action buttons for movement, investigation,
+glyph casting, building, choices, combat, and final word combinations.
 
 ## Development
 
@@ -28,6 +27,12 @@ Validate the project can load:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit
 ```
 
+Validate the Godot scene runner can complete every implemented scene:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-autoplay
+```
+
 Run the fast ASCII prototype for `five/scene` work:
 
 ```sh
@@ -36,10 +41,9 @@ python3 tools/ascii_five.py --verify
 python3 tools/ascii_five.py --report
 ```
 
-Controls:
-
-- `Space` or left mouse click: advance the scene.
-- `Esc`: restart the opening scene.
+Controls are button-driven inside the Godot window. Use the top bar to switch
+scenes and the bottom action panel to move, inspect, cast glyphs, build, choose
+routes, fight, or complete word combinations.
 
 MCP integration is configured for Codex through `~/.codex/config.toml`. See
 `docs/godot-mcp.md` for details.
