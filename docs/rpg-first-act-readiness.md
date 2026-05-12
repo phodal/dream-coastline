@@ -18,19 +18,21 @@ Steam-ready first act.
   `data/visual_scenes/02-moqi-academy.json`, and
   `data/visual_scenes/03-dead-kingdom.json`, and
   `data/visual_scenes/04-continuation-institute.json`, and
-  `data/visual_scenes/05-century-continuation.json`, and
-  `data/visual_scenes/06-return-star-plan.json` define authored locations,
-  props, exits, spawn points, and solid tiles.
+  `data/visual_scenes/05-century-continuation.json`,
+  `data/visual_scenes/06-return-star-plan.json`, and
+  `data/visual_scenes/07-lights-on-again.json` define authored locations, props,
+  exits, spawn points, and solid tiles.
 - Story runtime: `scripts/core/game_session.gd` owns flags, metrics, elapsed
   time, combat rules, and story progression.
 - Data separation: `data/story_scenes/` holds narrative scene data, while
   `data/visual_scenes/` holds playable map layout.
 - Verification: the Godot smoke walkthrough completes every implemented scene
-  with `--smoke-autoplay`, and the first seven authored keyboard paths are
+  with `--smoke-autoplay`, and all eight authored keyboard paths are
   covered by `--smoke-rpg-first-act`, `--smoke-rpg-illiterate`, and
   `--smoke-rpg-moqi-academy`, `--smoke-rpg-dead-kingdom`, and
   `--smoke-rpg-continuation-institute`, and
-  `--smoke-rpg-century-continuation`, and `--smoke-rpg-return-star-plan`.
+  `--smoke-rpg-century-continuation`, `--smoke-rpg-return-star-plan`, and
+  `--smoke-rpg-lights-on-again`.
 - Save/load verification: `--smoke-save-load` writes a save, mutates runtime
   state, reloads it, and checks the restored location, tile, and elapsed time.
 - Menu verification: `--smoke-menu-flow` builds the UI and checks title, new
@@ -40,9 +42,8 @@ Steam-ready first act.
 
 ## Not Yet Steam-Ready
 
-- Only the opening seven scenes have explicit visual map data. Later scenes
-  still rely on fallback rendering and need authored `data/visual_scenes/*.json`
-  maps.
+- All eight current scenes have explicit visual map data and keyboard smoke
+  paths.
 - Title, settings, pause, and save/load foundations exist, but the settings
   surface is still minimal and the quit flow is not polished for release.
 - Dialogue has a reusable overlay shell, but it still needs speaker portraits,
@@ -55,13 +56,12 @@ Steam-ready first act.
 - There is no release/export setup for Steam: export presets, icon/splash,
   controller mapping, fullscreen/window settings, build metadata, and platform
   smoke checks are missing.
-- Automated verification covers story walkthrough rules, the first seven
-  authored keyboard paths, save/load restoration, menu state flow, and a rendered
-  frame sanity check, but not later-scene keyboard paths.
+- Automated verification covers story walkthrough rules, all authored keyboard
+  paths, save/load restoration, menu state flow, and a rendered frame sanity
+  check.
 
 ## Next Implementation Order
 
-1. Author visual maps and keyboard paths for the remaining scenes.
-2. Replace placeholder facing frames with artist-approved animation frames.
-3. Expand settings beyond fullscreen and polish quit/title transitions.
-4. Add audio and export presets once the first act loop is stable.
+1. Replace placeholder facing frames with artist-approved animation frames.
+2. Expand settings beyond fullscreen and polish quit/title transitions.
+3. Add audio and export presets once the first act loop is stable.

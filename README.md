@@ -89,6 +89,12 @@ Validate the return star plan RPG keyboard path:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-return-star-plan
 ```
 
+Validate the lights on again RPG keyboard path:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-lights-on-again
+```
+
 Validate save/load:
 
 ```sh

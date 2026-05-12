@@ -11,6 +11,7 @@ const RpgDeadKingdomSmokeScript := preload("res://scripts/core/rpg_dead_kingdom_
 const RpgContinuationInstituteSmokeScript := preload("res://scripts/core/rpg_continuation_institute_smoke.gd")
 const RpgCenturyContinuationSmokeScript := preload("res://scripts/core/rpg_century_continuation_smoke.gd")
 const RpgReturnStarPlanSmokeScript := preload("res://scripts/core/rpg_return_star_plan_smoke.gd")
+const RpgLightsOnAgainSmokeScript := preload("res://scripts/core/rpg_lights_on_again_smoke.gd")
 const SaveGameRepositoryScript := preload("res://scripts/core/save_game_repository.gd")
 const SaveLoadSmokeScript := preload("res://scripts/core/save_load_smoke.gd")
 const SettingsRepositoryScript := preload("res://scripts/core/settings_repository.gd")
@@ -79,6 +80,10 @@ func _ready() -> void:
 		return
 	if OS.get_cmdline_user_args().has("--smoke-rpg-return-star-plan"):
 		var ok: bool = RpgReturnStarPlanSmokeScript.new(session, player_controller).run()
+		get_tree().quit(0 if ok else 1)
+		return
+	if OS.get_cmdline_user_args().has("--smoke-rpg-lights-on-again"):
+		var ok: bool = RpgLightsOnAgainSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
 	if OS.get_cmdline_user_args().has("--smoke-save-load"):
