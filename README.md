@@ -1,11 +1,25 @@
 # Dream Coastline
 
-A Godot 4 game prototype.
+A Godot 4 RPG slice.
 
-The current playable slice loads the scene data in `data/ascii_scenes/` and
-presents it through a Godot UI: scene navigation, location art, story text,
-progress, metrics, event log, and action buttons for movement, investigation,
-glyph casting, building, choices, combat, and final word combinations.
+The current playable slice loads narrative scene data from `data/ascii_scenes/`
+and renders the first act with explicit visual scene data from
+`data/visual_scenes/`. The Godot version uses OpenGameArt spritesheets for the
+play field, character markers, props, portals, and action feedback instead of
+showing ASCII art in the window.
+
+## Godot Structure
+
+- `scripts/main.gd` wires the Godot scene together and handles top-level UI
+  actions.
+- `scripts/core/scene_database.gd` loads narrative scene JSON.
+- `scripts/core/game_session.gd` owns progression, flags, combat, metrics, and
+  smoke-test walkthrough execution.
+- `scripts/core/scene_visual_repository.gd` loads per-location visual maps.
+- `scripts/ui/sprite_scene_canvas.gd` renders the 90s RPG-style tile scene from
+  the visual data and OpenGameArt spritesheets.
+- `scripts/ui/story_hud.gd`, `scripts/ui/action_panel.gd`, and
+  `scripts/ui/game_theme.gd` keep HUD, action controls, and styling separate.
 
 ## Development
 
