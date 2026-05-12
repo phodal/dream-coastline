@@ -219,7 +219,7 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 				_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
 		"lamp":
 			_draw_dungeon_tile(Vector2i(32, 12), position, tile_size)
-		"soldier", "xiaoyan", "xiali", "enemy", "wensu", "villager", "officer":
+		"soldier", "xiaoyan", "xiali", "enemy", "wensu", "villager", "officer", "student":
 			_draw_actor(kind, position, tile_size)
 		"gate", "rune":
 			_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
