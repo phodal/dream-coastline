@@ -107,6 +107,12 @@ Validate title/pause/settings flow:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-menu-flow
 ```
 
+Validate generated fallback audio streams:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-audio-director
+```
+
 Validate a rendered game frame. This uses the real renderer, so run it without
 `--headless`:
 

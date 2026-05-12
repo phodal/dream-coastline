@@ -3,6 +3,7 @@ extends Node2D
 const SceneDatabaseScript := preload("res://scripts/core/scene_database.gd")
 const SceneVisualRepositoryScript := preload("res://scripts/core/scene_visual_repository.gd")
 const GameSessionScript := preload("res://scripts/core/game_session.gd")
+const AudioDirectorScript := preload("res://scripts/core/audio_director.gd")
 const RpgPlayerControllerScript := preload("res://scripts/core/rpg_player_controller.gd")
 const RpgFirstActSmokeScript := preload("res://scripts/core/rpg_first_act_smoke.gd")
 const RpgIlliterateSmokeScript := preload("res://scripts/core/rpg_illiterate_smoke.gd")
@@ -28,6 +29,7 @@ var save_repository
 var settings_repository
 var session
 var player_controller
+var audio_director
 var root: Control
 var title_label: Label
 var time_label: Label
@@ -50,6 +52,14 @@ func _ready() -> void:
 	settings_repository.apply()
 	session = GameSessionScript.new(database)
 	player_controller = RpgPlayerControllerScript.new(session, visual_repository)
+	audio_director = AudioDirectorScript.new()
+	audio_director.enabled = not _is_smoke_run(OS.get_cmdline_user_args())
+	add_child(audio_director)
+	if OS.get_cmdline_user_args().has("--smoke-audio-director"):
+		var ok: bool = audio_director.verify_streams()
+		print("audio-director-smoke status=%s streams=%s" % ["PASS" if ok else "FAIL", audio_director.streams.size()])
+		get_tree().quit(0 if ok else 1)
+		return
 	if OS.get_cmdline_user_args().has("--smoke-autoplay"):
 		var ok: bool = session.run_smoke_verification()
 		get_tree().quit(0 if ok else 1)
@@ -279,12 +289,28 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _try_move(direction: Vector2i) -> void:
-	player_controller.try_move(direction)
+	var was_moving: bool = player_controller.is_moving
+	var moved: bool = player_controller.try_move(direction)
+	if audio_director != null:
+		if moved:
+			audio_director.play_step()
+		elif not was_moving and player_controller.has_blocked_feedback():
+			audio_director.play_blocked()
 	_refresh_ui()
 
 
 func _interact() -> void:
+	var before_location: String = session.location_id
+	var before_log_count: int = session.event_log.size()
+	var before_complete: bool = session.has_flag(str(session.scene.get("ending_flag", "")))
 	player_controller.interact()
+	if audio_director != null:
+		if session.location_id != before_location:
+			audio_director.play_transition()
+		elif not before_complete and session.has_flag(str(session.scene.get("ending_flag", ""))):
+			audio_director.play_success()
+		elif session.event_log.size() > before_log_count:
+			audio_director.play_interact()
 	_refresh_ui()
 
 
@@ -292,17 +318,26 @@ func _toggle_pause() -> void:
 	if pause_menu == null or not game_started:
 		return
 	pause_menu.visible = not pause_menu.visible
+	if audio_director != null:
+		audio_director.play_ui()
 	if pause_menu.visible:
 		pause_menu.set_status("ESC 返回游戏")
 
 
 func _resume_game() -> void:
 	pause_menu.visible = false
+	if audio_director != null:
+		audio_director.play_ui()
 
 
 func _save_game() -> void:
 	var ok: bool = save_repository.save(session, player_controller)
 	pause_menu.set_status("已保存" if ok else "保存失败")
+	if audio_director != null:
+		if ok:
+			audio_director.play_success()
+		else:
+			audio_director.play_blocked()
 
 
 func _load_game() -> void:
@@ -311,14 +346,20 @@ func _load_game() -> void:
 		game_started = true
 		pause_menu.visible = false
 		_refresh_ui()
+		if audio_director != null:
+			audio_director.play_transition()
 	else:
 		pause_menu.set_status("没有可读取的存档")
+		if audio_director != null:
+			audio_director.play_blocked()
 
 
 func _start_new_game() -> void:
 	game_started = true
 	title_screen.visible = false
 	_load_scene(0)
+	if audio_director != null:
+		audio_director.play_transition()
 
 
 func _continue_from_title() -> void:
@@ -327,26 +368,36 @@ func _continue_from_title() -> void:
 		game_started = true
 		title_screen.visible = false
 		_refresh_ui()
+		if audio_director != null:
+			audio_director.play_transition()
 	else:
 		title_screen.set_status("没有可读取的存档")
+		if audio_director != null:
+			audio_director.play_blocked()
 
 
 func _open_settings() -> void:
 	title_screen.visible = false
 	settings_menu.visible = true
 	settings_menu.set_fullscreen(settings_repository.fullscreen)
+	if audio_director != null:
+		audio_director.play_ui()
 
 
 func _close_settings() -> void:
 	settings_menu.visible = false
 	if not game_started:
 		title_screen.visible = true
+	if audio_director != null:
+		audio_director.play_ui()
 
 
 func _set_fullscreen(enabled: bool) -> void:
 	settings_repository.fullscreen = enabled
 	settings_repository.apply()
 	settings_repository.save()
+	if audio_director != null:
+		audio_director.play_ui()
 
 
 func _run_menu_smoke() -> bool:
@@ -444,3 +495,10 @@ func _verify_render_image(image: Image) -> bool:
 		distinct_count,
 	])
 	return ok
+
+
+func _is_smoke_run(args: Array) -> bool:
+	for arg in args:
+		if str(arg).begins_with("--smoke-"):
+			return true
+	return false

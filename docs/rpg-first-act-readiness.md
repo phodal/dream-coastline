@@ -39,6 +39,8 @@ Steam-ready first act.
   game, pause/resume, and settings open/close states.
 - Render verification: `--smoke-render-frame` starts the real Godot renderer,
   captures the viewport image, and checks that the game frame is not blank.
+- Audio verification: `--smoke-audio-director` checks that the generated
+  fallback SFX streams are available before licensed audio assets are added.
 
 ## Not Yet Steam-Ready
 
@@ -51,14 +53,15 @@ Steam-ready first act.
 - Player movement now has step timing, interpolated drawing, sprite-sheet
   walking frames, facing rows, and blocked-tile feedback, but it still needs
   artist-approved bespoke hero frames and scene transitions.
-- There is no audio layer yet: music, ambience, UI sounds, and interaction SFX
-  need to be added and licensed.
+- The audio layer has generated fallback SFX for UI, movement, blocked movement,
+  interaction, transitions, and success events, but licensed music, ambience,
+  and final SFX assets still need to be added.
 - There is no release/export setup for Steam: export presets, icon/splash,
   controller mapping, fullscreen/window settings, build metadata, and platform
   smoke checks are missing.
 - Automated verification covers story walkthrough rules, all authored keyboard
-  paths, save/load restoration, menu state flow, and a rendered frame sanity
-  check.
+  paths, save/load restoration, menu state flow, generated fallback audio, and a
+  rendered frame sanity check.
 
 ## Next Implementation Order
 
