@@ -65,6 +65,12 @@ Validate the Moqi Academy RPG keyboard path:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-moqi-academy
 ```
 
+Validate the dead kingdom RPG keyboard path:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-dead-kingdom
+```
+
 Validate save/load:
 
 ```sh

@@ -7,6 +7,7 @@ const RpgPlayerControllerScript := preload("res://scripts/core/rpg_player_contro
 const RpgFirstActSmokeScript := preload("res://scripts/core/rpg_first_act_smoke.gd")
 const RpgIlliterateSmokeScript := preload("res://scripts/core/rpg_illiterate_smoke.gd")
 const RpgMoqiAcademySmokeScript := preload("res://scripts/core/rpg_moqi_academy_smoke.gd")
+const RpgDeadKingdomSmokeScript := preload("res://scripts/core/rpg_dead_kingdom_smoke.gd")
 const SaveGameRepositoryScript := preload("res://scripts/core/save_game_repository.gd")
 const SaveLoadSmokeScript := preload("res://scripts/core/save_load_smoke.gd")
 const SettingsRepositoryScript := preload("res://scripts/core/settings_repository.gd")
@@ -59,6 +60,10 @@ func _ready() -> void:
 		return
 	if OS.get_cmdline_user_args().has("--smoke-rpg-moqi-academy"):
 		var ok: bool = RpgMoqiAcademySmokeScript.new(session, player_controller).run()
+		get_tree().quit(0 if ok else 1)
+		return
+	if OS.get_cmdline_user_args().has("--smoke-rpg-dead-kingdom"):
+		var ok: bool = RpgDeadKingdomSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
 	if OS.get_cmdline_user_args().has("--smoke-save-load"):
