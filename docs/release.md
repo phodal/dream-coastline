@@ -10,6 +10,11 @@ This project targets Godot 4.6.2 desktop exports for Steam-oriented testing.
 - `Windows Desktop` -> `builds/windows/Dream Coastline.exe`
 - `Linux/X11` -> `builds/linux/dream-coastline.x86_64`
 
+`project.godot` defines version, description, project icon, and boot splash
+image. The current icon/splash image is a CC0 derivative placeholder from the
+bundled 16x16 RPG character sheet and should be replaced before final store
+submission.
+
 ## Local Checks
 
 Validate export preset configuration and report whether local export templates

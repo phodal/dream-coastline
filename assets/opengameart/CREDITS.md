@@ -16,6 +16,7 @@ checks stay simple.
 - Author: devurandom
 - License: CC0
 - Local file: `rpg_characters/rpg_16x16.png`
+- Derived local file: `../branding/dream-coastline-icon.png`
 
 ## Paper Icons
 

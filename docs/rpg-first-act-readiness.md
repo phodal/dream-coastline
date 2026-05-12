@@ -48,7 +48,8 @@ Steam-ready first act.
   fallback SFX streams are available before licensed audio assets are added.
 - Export configuration: `export_presets.cfg` defines macOS, Windows Desktop,
   and Linux/X11 desktop presets, and `--smoke-export-config` verifies preset
-  presence while reporting whether local export templates are installed.
+  presence, release branding metadata, and whether local export templates are
+  installed.
 - Input verification: `--smoke-input-map` checks that movement, interact, and
   pause actions include gamepad button mappings, and that movement also has
   left-stick axis mappings.
@@ -69,10 +70,10 @@ Steam-ready first act.
 - The audio layer has generated fallback SFX for UI, movement, blocked movement,
   interaction, transitions, and success events, but licensed music, ambience,
   and final SFX assets still need to be added.
-- Release/export setup has desktop presets and a preset smoke check, but release
-  exports are still blocked until export templates, icon/splash, controller
-  dead-zone tuning, icon/splash, final fullscreen/window settings, build
-  metadata, and platform smoke checks are completed.
+- Release/export setup has desktop presets, project version/description, and
+  icon/splash configuration. Release exports are still blocked until export
+  templates, final fullscreen/window settings, final bespoke branding art, and
+  platform smoke checks are completed.
 - Automated verification covers story walkthrough rules, all authored keyboard
   paths, save/load restoration, menu state flow, generated fallback audio,
   gamepad button mappings, and a rendered frame sanity check. Export preset

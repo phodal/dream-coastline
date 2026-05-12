@@ -528,17 +528,38 @@ func _run_export_config_smoke() -> bool:
 
 	var templates_path := _export_templates_path()
 	var templates_installed := DirAccess.dir_exists_absolute(templates_path)
-	var ok := missing.is_empty()
-	print("export-config-smoke status=%s presets=%s/%s templates=%s path=%s" % [
+	var branding_missing := _release_branding_missing()
+	var ok := missing.is_empty() and branding_missing.is_empty()
+	print("export-config-smoke status=%s presets=%s/%s templates=%s branding=%s path=%s" % [
 		"PASS" if ok else "FAIL",
 		found.size(),
 		expected.size(),
 		"installed" if templates_installed else "missing",
+		"ok" if branding_missing.is_empty() else "missing",
 		templates_path,
 	])
 	if not missing.is_empty():
 		print("missing=", missing)
+	for failure in branding_missing:
+		print("failure=", failure)
 	return ok
+
+
+func _release_branding_missing() -> Array[String]:
+	var missing: Array[String] = []
+	var icon_path := str(ProjectSettings.get_setting("application/config/icon", ""))
+	var splash_path := str(ProjectSettings.get_setting("application/boot_splash/image", ""))
+	var version := str(ProjectSettings.get_setting("application/config/version", ""))
+	var description := str(ProjectSettings.get_setting("application/config/description", ""))
+	if icon_path.is_empty() or not FileAccess.file_exists(icon_path):
+		missing.append("application icon missing")
+	if splash_path.is_empty() or not FileAccess.file_exists(splash_path):
+		missing.append("boot splash image missing")
+	if version.is_empty():
+		missing.append("application version missing")
+	if description.is_empty():
+		missing.append("application description missing")
+	return missing
 
 
 func _export_templates_path() -> String:
