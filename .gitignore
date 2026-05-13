@@ -14,3 +14,8 @@ godot-import.log
 tools/godot-mcp/
 .idea
 assets/opengameart/spells/Pixelart Spells/
+
+
+# Added by cargo
+
+/target
