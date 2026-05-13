@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  smoke-tests:
+    name: Headless Smoke Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Godot 4.6.2 headless
+        run: |
+          wget -q https://github.com/godotengine/godot/releases/download/4.6.2-stable/Godot_v4.6.2-stable_linux.x86_64.zip
+          unzip -q Godot_v4.6.2-stable_linux.x86_64.zip
+          mv Godot_v4.6.2-stable_linux.x86_64 godot
+          chmod +x godot
+
+      - name: Validate project loads
+        run: ./godot --path . --headless --quit
+
+      - name: Smoke — autoplay
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-autoplay
+
+      - name: Smoke — RPG first act
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-rpg-first-act
+
+      - name: Smoke — illiterate path
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-rpg-illiterate
+
+      - name: Smoke — Moqi Academy
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-rpg-moqi-academy
+
+      - name: Smoke — dead kingdom
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-rpg-dead-kingdom
+
+      - name: Smoke — continuation institute
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-rpg-continuation-institute
+
+      - name: Smoke — century continuation
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-rpg-century-continuation
+
+      - name: Smoke — return star plan
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-rpg-return-star-plan
+
+      - name: Smoke — lights on again
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-rpg-lights-on-again
+
+      - name: Smoke — save/load
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-save-load
+
+      - name: Smoke — menu flow
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-menu-flow
+
+      - name: Smoke — audio director
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-audio-director
+
+      - name: Smoke — export config
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-export-config
+
+      - name: Smoke — input map
+        run: ./godot --path . --headless --quit-after 100 -- --smoke-input-map
