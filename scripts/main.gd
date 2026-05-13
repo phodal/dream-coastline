@@ -1,7 +1,5 @@
 extends Node2D
 
-const SceneDatabaseScript := preload("res://scripts/core/scene_database.gd")
-const SceneVisualRepositoryScript := preload("res://scripts/core/scene_visual_repository.gd")
 const GameSessionScript := preload("res://scripts/core/game_session.gd")
 const AudioDirectorScript := preload("res://scripts/core/audio_director.gd")
 const RpgPlayerControllerScript := preload("res://scripts/core/rpg_player_controller.gd")
@@ -13,9 +11,7 @@ const RpgContinuationInstituteSmokeScript := preload("res://scripts/core/rpg_con
 const RpgCenturyContinuationSmokeScript := preload("res://scripts/core/rpg_century_continuation_smoke.gd")
 const RpgReturnStarPlanSmokeScript := preload("res://scripts/core/rpg_return_star_plan_smoke.gd")
 const RpgLightsOnAgainSmokeScript := preload("res://scripts/core/rpg_lights_on_again_smoke.gd")
-const SaveGameRepositoryScript := preload("res://scripts/core/save_game_repository.gd")
 const SaveLoadSmokeScript := preload("res://scripts/core/save_load_smoke.gd")
-const SettingsRepositoryScript := preload("res://scripts/core/settings_repository.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const GameHudScript := preload("res://scripts/ui/game_hud.gd")
 
@@ -33,12 +29,12 @@ var pending_return_to_title := false
 
 
 func _ready() -> void:
-	database = SceneDatabaseScript.new()
+	database = RustSceneDatabase.new()
 	database.load_all()
-	visual_repository = SceneVisualRepositoryScript.new()
-	visual_repository.load_for_scene_ids(database.SCENE_IDS)
-	save_repository = SaveGameRepositoryScript.new()
-	settings_repository = SettingsRepositoryScript.new()
+	visual_repository = RustSceneVisualRepository.new()
+	visual_repository.load_for_scene_ids(database.scene_ids())
+	save_repository = RustSaveGameRepository.new()
+	settings_repository = RustSettingsRepository.new()
 	settings_repository.load()
 	settings_repository.apply()
 	session = GameSessionScript.new(database)
@@ -279,7 +275,7 @@ func _continue_from_title() -> void:
 func _open_settings() -> void:
 	pending_title_quit = false
 	pending_return_to_title = false
-	hud.show_settings(settings_repository.fullscreen, settings_repository.master_volume)
+	hud.show_settings(settings_repository.fullscreen_enabled(), settings_repository.master_volume_value())
 	if audio_director != null:
 		audio_director.play_ui()
 
@@ -291,7 +287,7 @@ func _close_settings() -> void:
 
 
 func _set_fullscreen(enabled: bool) -> void:
-	settings_repository.fullscreen = enabled
+	settings_repository.set_fullscreen_enabled(enabled)
 	settings_repository.apply()
 	settings_repository.save()
 	if audio_director != null:
@@ -299,7 +295,7 @@ func _set_fullscreen(enabled: bool) -> void:
 
 
 func _set_master_volume(value: float) -> void:
-	settings_repository.master_volume = clampf(value, 0.0, 1.0)
+	settings_repository.set_master_volume_value(clampf(value, 0.0, 1.0))
 	settings_repository.apply()
 	settings_repository.save()
 	if audio_director != null:
@@ -373,7 +369,7 @@ func _run_menu_smoke() -> bool:
 		failures.append("title should not return when settings closes during game")
 	hud.set_settings_master_volume(0.55)
 	_set_master_volume(0.55)
-	if not is_equal_approx(settings_repository.master_volume, 0.55):
+	if not is_equal_approx(settings_repository.master_volume_value(), 0.55):
 		failures.append("settings should update master volume")
 
 	_toggle_pause()
