@@ -1,11 +1,24 @@
 # Dream Coastline
 
-A Godot 4 RPG slice.
+A Godot 4.6 RPG slice with keyboard and gamepad support, save/load, and
+desktop export readiness for macOS, Windows, and Linux.
 
-The current playable slice loads narrative scene data from `data/story_scenes/`
-and renders the first act with explicit visual scene data from
+The playable slice loads narrative scene data from `data/story_scenes/` and
+renders multiple story arcs with explicit visual scene data from
 `data/visual_scenes/`. The Godot version uses OpenGameArt spritesheets for the
 play field, character markers, props, portals, and action feedback.
+
+## Features
+
+- Tile-based 90s RPG exploration with animated player sprites and facing
+- Eight complete story paths: First Act, Illiterate, Moqi Academy, Dead Kingdom,
+  Continuation Institute, Century Continuation, Return Star Plan, Lights On Again
+- Title screen with new game, continue, and return-to-title confirmations
+- Pause menu and settings with volume control
+- Save/load via `SaveGameRepository`
+- Fallback audio director for generated sound streams
+- Gamepad and left stick support alongside keyboard
+- Desktop export presets for macOS, Windows, and Linux
 
 ## Godot Structure
 
@@ -14,18 +27,27 @@ play field, character markers, props, portals, and action feedback.
 - `scripts/core/scene_database.gd` loads narrative scene JSON.
 - `scripts/core/game_session.gd` owns progression, flags, combat, metrics, and
   smoke-test walkthrough execution.
+- `scripts/core/rpg_player_controller.gd` handles tile movement, facing, and
+  blocked feedback.
 - `scripts/core/scene_visual_repository.gd` loads per-location visual maps.
+- `scripts/core/audio_director.gd` provides generated fallback audio streams.
+- `scripts/core/settings_repository.gd` persists volume and preferences.
+- `scripts/core/save_game_repository.gd` handles save/load serialization.
 - `scripts/ui/game_hud.gd` composes the canvas, top bar, prompt overlay, title,
   pause, and settings menus behind a small game-facing API.
-- `scripts/ui/sprite_scene_canvas.gd` renders the 90s RPG-style tile scene from
-  the visual data and OpenGameArt spritesheets.
+- `scripts/ui/title_screen.gd` renders the title with new game and continue
+  options.
+- `scripts/ui/pause_menu.gd` provides in-game pause with save/load/settings.
+- `scripts/ui/settings_menu.gd` exposes volume and preference controls.
+- `scripts/ui/sprite_scene_canvas.gd` renders the tile scene from the visual
+  data and OpenGameArt spritesheets.
 - `scripts/ui/prompt_overlay.gd` keeps the compact keyboard prompt and latest
   feedback out of the play field.
 - `scripts/ui/game_theme.gd` keeps HUD styling separate from gameplay rules.
 
 ## Development
 
-Godot is available at:
+Godot 4.6.2 is available at:
 
 ```sh
 /Applications/Godot.app/Contents/MacOS/Godot
@@ -134,16 +156,22 @@ Validate a rendered game frame. This uses the real renderer, so run it without
 /Applications/Godot.app/Contents/MacOS/Godot --path . --quit-after 120 -- --smoke-render-frame
 ```
 
+## Controls
+
+Keyboard or gamepad inside the Godot window. Use the title screen to start or
+continue.
+
+| Action | Keyboard | Gamepad |
+|--------|----------|---------|
+| Move | WASD / Arrow keys | D-pad / Left stick |
+| Interact | Space / Enter | South button |
+| Pause | Esc | East button / Start |
+
 ## DeepSeek AI
 
 The project includes a small DeepSeek client for scene design assistance. Configure
 it with `DEEPSEEK_API_KEY` or a local ignored `deepseek.local.cfg`; see
 `docs/deepseek-ai.md`.
-
-Controls work with keyboard or gamepad inside the Godot window. Use the title
-screen to start or continue. Move with WASD, arrow keys, or D-pad; interact with
-Space, Enter, or gamepad south button; pause with Esc, gamepad east button, or
-Start. Movement also supports the left stick.
 
 MCP integration is configured for Codex through `~/.codex/config.toml`. See
 `docs/godot-mcp.md` for details.
