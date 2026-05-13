@@ -1,14 +1,11 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use godot::prelude::*;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+mod save_game_repository;
+mod scene_database;
+mod scene_visual_repository;
+mod settings_repository;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+struct DreamCoastlineExtension;
+
+#[gdextension]
+unsafe impl ExtensionLibrary for DreamCoastlineExtension {}

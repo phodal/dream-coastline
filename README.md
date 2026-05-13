@@ -6,6 +6,9 @@ The current playable slice loads narrative scene data from `data/story_scenes/`
 and renders the first act with explicit visual scene data from
 `data/visual_scenes/`. The Godot version uses OpenGameArt spritesheets for the
 play field, character markers, props, portals, and action feedback.
+The repository-backed data, save, and settings services also have Rust
+GDExtension equivalents under `src/`, loaded through
+`dream_coastline.gdextension`.
 
 ## Godot Structure
 
@@ -35,6 +38,12 @@ Open the project:
 
 ```sh
 /Applications/Godot.app/Contents/MacOS/Godot --editor --path .
+```
+
+Build the Rust GDExtension library:
+
+```sh
+cargo build
 ```
 
 Validate the project can load:
