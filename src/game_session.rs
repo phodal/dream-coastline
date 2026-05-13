@@ -618,7 +618,7 @@ impl RustGameSession {
 
     fn cast_glyph(&mut self, glyph: &str) {
         let combat_active = self.combat_active();
-        if (glyph == "name" || glyph == "\u{540d}") && combat_active {
+        if (glyph == "name" || glyph == "名") && combat_active {
             self.write_name();
             return;
         }
@@ -719,12 +719,12 @@ impl RustGameSession {
     fn write_name(&mut self) {
         let combat = dict_value_as_dict(&self.current_location_dict(), "combat");
         if combat.is_empty() {
-            self.log_internal("\u{73b0}\u{5728}\u{4e0d}\u{9700}\u{8981}\u{5199}\u{201c}\u{540d}\u{201d}\u{3002}");
+            self.log_internal("现在不需要写“名”。");
             return;
         }
         let learn_flag = dict_str(&combat, "learn_flag", "");
         if !learn_flag.is_empty() && !self.has_flag_internal(&learn_flag) {
-            self.log_internal("\u{4f60}\u{8fd8}\u{6ca1}\u{6709}\u{7406}\u{89e3}\u{201c}\u{540d}\u{201d}\u{7684}\u{7b14}\u{753b}\u{3002}");
+            self.log_internal("你还没有理解“名”的笔画。");
             return;
         }
 
@@ -732,7 +732,7 @@ impl RustGameSession {
         self.name_attempts += 1;
         if self.name_attempts < dict_i32(&combat, "success_attempt", 1) {
             self.player_hp -= 1;
-            self.log_internal("\u{7b26}\u{6587}\u{788e}\u{5f00}\u{3002}\u{654c}\u{4eba}\u{7ee7}\u{7eed}\u{9032}\u{9003}\u{ff0c}UI \u{4e0a}\u{7684}\u{540d}\u{5b57}\u{77ed}\u{6682}\u{53d8}\u{6210}\u{25a1}\u{25a1}\u{3002}");
+            self.log_internal("符文碎开。敌人继续進逃，UI 上的名字短暂变成□□。");
         } else {
             let lock_flag = dict_str(&combat, "lock_flag", "");
             if !lock_flag.is_empty() {
@@ -741,9 +741,9 @@ impl RustGameSession {
             let success_flags = dict_value_as_array(&combat, "success_flags");
             self.add_flags_from_array(&success_flags);
             self.attacks_since_name = 0;
-            let revealed_name = dict_str(&combat, "revealed_name", "\u{654c}\u{4eba}");
+            let revealed_name = dict_str(&combat, "revealed_name", "敌人");
             self.log_internal(&format!(
-                "\u{201c}\u{540d}\u{201d}\u{5b57}\u{4eae}\u{8d77}\u{3002}\u{76ee}\u{6807}\u{663e}\u{5f62}\u{ff1a}{}\u{3002}",
+                "“名”字亮起。目标显形：{}。",
                 revealed_name
             ));
         }
@@ -752,20 +752,20 @@ impl RustGameSession {
     fn attack(&mut self) {
         let combat = dict_value_as_dict(&self.current_location_dict(), "combat");
         if combat.is_empty() {
-            self.log_internal("\u{8fd9}\u{91cc}\u{6ca1}\u{6709}\u{654c}\u{4eba}\u{3002}");
+            self.log_internal("这里没有敌人。");
             return;
         }
         let lock_flag = dict_str(&combat, "lock_flag", "");
         if !self.has_flag_internal(&lock_flag) {
             self.elapsed_seconds += 25;
             self.player_hp -= 1;
-            self.log_internal("\u{65e0}\u{6cd5}\u{9501}\u{5b9a}\u{76ee}\u{6807}\u{ff0c}\u{653b}\u{51fb}\u{7a7f}\u{8fc7}\u{7a7a}\u{767d}\u{3002}");
+            self.log_internal("无法锁定目标，攻击穿过空白。");
             return;
         }
         let required_flags = dict_value_as_array(&combat, "required_attack_flags");
         if !self.requirements_met(&required_flags) {
             self.elapsed_seconds += 25;
-            self.log_internal("\u{76ee}\u{6807}\u{5df2}\u{663e}\u{5f62}\u{ff0c}\u{4f46}\u{6218}\u{573a}\u{89c4}\u{5219}\u{8fd8}\u{6ca1}\u{7834}\u{89e3}\u{3002}");
+            self.log_internal("目标已显形，但战场规则还没破解。");
             return;
         }
 
@@ -780,26 +780,26 @@ impl RustGameSession {
             }
             let reward_flags = dict_value_as_array(&combat, "reward_flags");
             self.add_flags_from_array(&reward_flags);
-            let revealed_name = dict_str(&combat, "revealed_name", "\u{654c}\u{4eba}");
-            self.log_internal(&format!("{} \u{88ab}\u{51fb}\u{9000}\u{3002}", revealed_name));
+            let revealed_name = dict_str(&combat, "revealed_name", "敌人");
+            self.log_internal(&format!("{} 被击退。", revealed_name));
         } else if self.attacks_since_name >= dict_i32(&combat, "lose_name_every", 2) {
             let lock_flag = dict_str(&combat, "lock_flag", "");
             self.flags.remove(&lock_flag);
             self.attacks_since_name = 0;
-            let revealed_name = dict_str(&combat, "revealed_name", "\u{654c}\u{4eba}");
+            let revealed_name = dict_str(&combat, "revealed_name", "敌人");
             self.log_internal(&format!(
-                "{} \u{5f00}\u{59cb}\u{5931}\u{540d}\u{ff0c}\u{5fc5}\u{987b}\u{91cd}\u{65b0}\u{5199}\u{201c}\u{540d}\u{201d}\u{3002}",
+                "{} 开始失名，必须重新写“名”。",
                 revealed_name
             ));
         } else {
-            let revealed_name = dict_str(&combat, "revealed_name", "\u{654c}\u{4eba}");
-            self.log_internal(&format!("\u{653b}\u{51fb}\u{547d}\u{4e2d}\u{ff1a}{}\u{3002}", revealed_name));
+            let revealed_name = dict_str(&combat, "revealed_name", "敌人");
+            self.log_internal(&format!("攻击命中：{}。", revealed_name));
         }
     }
 
     fn guard(&mut self) {
         self.elapsed_seconds += 30;
-        self.log_internal("\u{4f60}\u{7a33}\u{4f4f}\u{9635}\u{7ebf}\u{ff0c}\u{4e89}\u{53d6}\u{5230}\u{534a}\u{6b65}\u{8ddd}\u{79bb}\u{3002}");
+        self.log_internal("你稳住阵线，争取到半步距离。");
     }
 
     fn verify_current_scene(&mut self) -> bool {

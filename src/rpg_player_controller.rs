@@ -70,8 +70,10 @@ impl RustRpgPlayerController {
             return;
         };
 
-        let scene_id = session.bind().scene_id.clone();
-        let location_id = session.bind().location_id.clone();
+        let (scene_id, location_id) = {
+            let b = session.bind();
+            (b.scene_id.clone(), b.location_id.clone())
+        };
 
         let spawn = visual_repo
             .to_variant()
@@ -203,7 +205,7 @@ impl RustRpgPlayerController {
         let interaction = self.current_interaction_dict();
         if interaction.is_empty() {
             if let Some(session) = self.session.as_ref() {
-                let msg = GString::from("\u{8fd9}\u{91cc}\u{6ca1}\u{6709}\u{53ef}\u{4ee5}\u{4e92}\u{52a8}\u{7684}\u{4e1c}\u{897f}\u{3002}");
+                let msg = GString::from("这里没有可以互动的东西。");
                 session.to_variant().call("append_event_log", &[msg.to_variant()]);
             }
             return;
@@ -269,7 +271,7 @@ impl RustRpgPlayerController {
                 .map(|s| s.to_string())
                 .unwrap_or_else(|| exit_id.clone());
             return GString::from(
-                format!("Space/Enter \u{8fdb}\u{5165}\u{ff1a}{}", exit_name).as_str(),
+                format!("Space/Enter 进入：{}", exit_name).as_str(),
             );
         }
 
@@ -295,7 +297,7 @@ impl RustRpgPlayerController {
                 .map(|s| s.to_string())
                 .unwrap_or_else(|| item_id.clone());
             return GString::from(
-                format!("Space/Enter \u{8c03}\u{67e5}\u{ff1a}{}", item_name).as_str(),
+                format!("Space/Enter 调查：{}", item_name).as_str(),
             );
         }
 
@@ -313,12 +315,12 @@ impl RustRpgPlayerController {
                         .and_then(|v| v.try_to::<GString>().ok())
                         .map(|s| s.to_string())
                 })
-                .unwrap_or_else(|| "\u{884c}\u{52a8}".to_string());
+                .unwrap_or_else(|| "行动".to_string());
             return GString::from(format!("Space/Enter {}", label).as_str());
         }
 
         GString::from(
-            "WASD/\u{65b9}\u{5411}\u{952e}\u{79fb}\u{52a8}\u{ff0c}Space/Enter \u{4e92}\u{52a8}",
+            "WASD/方向键移动，Space/Enter 互动",
         )
     }
 }
@@ -339,8 +341,10 @@ impl RustRpgPlayerController {
         let Some(visual_repo) = self.visual_repository.as_ref() else {
             return true;
         };
-        let scene_id = session.bind().scene_id.clone();
-        let location_id = session.bind().location_id.clone();
+        let (scene_id, location_id) = {
+            let b = session.bind();
+            (b.scene_id.clone(), b.location_id.clone())
+        };
         visual_repo
             .to_variant()
             .call(
@@ -362,8 +366,10 @@ impl RustRpgPlayerController {
         let Some(visual_repo) = self.visual_repository.as_ref() else {
             return VarDictionary::new();
         };
-        let scene_id = session.bind().scene_id.clone();
-        let location_id = session.bind().location_id.clone();
+        let (scene_id, location_id) = {
+            let b = session.bind();
+            (b.scene_id.clone(), b.location_id.clone())
+        };
 
         // Try facing-direction target first
         let target = self.tile + self.facing;
@@ -381,16 +387,14 @@ impl RustRpgPlayerController {
             }
         }
 
-        // Fallback: current tile
-        let scene_id2 = session.bind().scene_id.clone();
-        let location_id2 = session.bind().location_id.clone();
+        // Fallback: current tile (reuse scene_id / location_id already read above)
         visual_repo
             .to_variant()
             .call(
                 "interaction_at",
                 &[
-                    scene_id2.to_variant(),
-                    location_id2.to_variant(),
+                    scene_id.to_variant(),
+                    location_id.to_variant(),
                     self.tile.to_variant(),
                 ],
             )
