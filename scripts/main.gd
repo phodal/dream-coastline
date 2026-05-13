@@ -1,8 +1,6 @@
 extends Node2D
 
-const GameSessionScript := preload("res://scripts/core/game_session.gd")
 const AudioDirectorScript := preload("res://scripts/core/audio_director.gd")
-const RpgPlayerControllerScript := preload("res://scripts/core/rpg_player_controller.gd")
 const RpgFirstActSmokeScript := preload("res://scripts/core/rpg_first_act_smoke.gd")
 const RpgIlliterateSmokeScript := preload("res://scripts/core/rpg_illiterate_smoke.gd")
 const RpgMoqiAcademySmokeScript := preload("res://scripts/core/rpg_moqi_academy_smoke.gd")
@@ -37,8 +35,11 @@ func _ready() -> void:
 	settings_repository = RustSettingsRepository.new()
 	settings_repository.load()
 	settings_repository.apply()
-	session = GameSessionScript.new(database)
-	player_controller = RpgPlayerControllerScript.new(session, visual_repository)
+	session = RustGameSession.new()
+	session.set_database(database)
+	player_controller = RustRpgPlayerController.new()
+	player_controller.set_session(session)
+	player_controller.set_visual_repository(visual_repository)
 	audio_director = AudioDirectorScript.new()
 	audio_director.enabled = not _is_smoke_run(OS.get_cmdline_user_args())
 	add_child(audio_director)
