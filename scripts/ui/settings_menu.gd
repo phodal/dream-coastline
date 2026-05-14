@@ -15,22 +15,21 @@ var volume_label: Label
 func _ready() -> void:
 	_apply_panel_style()
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 12)
+	box.add_theme_constant_override("separation", 9)
 	add_child(box)
 
-	var title := GameThemeScript.make_label("SettingsTitle", 26, GameThemeScript.COLORS.gold)
+	var title := GameThemeScript.make_label("SettingsTitle", 23, GameThemeScript.COLORS.gold)
 	title.text = "设置"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title)
 
 	fullscreen_check = CheckBox.new()
-	fullscreen_check.text = "全屏"
-	fullscreen_check.focus_mode = Control.FOCUS_ALL
-	fullscreen_check.add_theme_font_size_override("font_size", 18)
-	fullscreen_check.add_theme_color_override("font_color", GameThemeScript.COLORS.text)
+	GameThemeScript.style_command_button(fullscreen_check, "全屏")
+	fullscreen_check.custom_minimum_size = Vector2(320, 42)
 	fullscreen_check.toggled.connect(func(enabled: bool): fullscreen_changed.emit(enabled))
 	box.add_child(fullscreen_check)
 
-	volume_label = GameThemeScript.make_label("SettingsVolumeLabel", 18, GameThemeScript.COLORS.text)
+	volume_label = GameThemeScript.make_label("SettingsVolumeLabel", 17, GameThemeScript.COLORS.text)
 	box.add_child(volume_label)
 
 	volume_slider = HSlider.new()
@@ -38,15 +37,24 @@ func _ready() -> void:
 	volume_slider.max_value = 1.0
 	volume_slider.step = 0.05
 	volume_slider.focus_mode = Control.FOCUS_ALL
-	volume_slider.custom_minimum_size = Vector2(300, 32)
+	volume_slider.custom_minimum_size = Vector2(320, 34)
+	volume_slider.add_theme_stylebox_override("slider", _make_slider_track())
+	volume_slider.add_theme_stylebox_override("grabber_area", _make_slider_fill())
+	volume_slider.add_theme_stylebox_override("grabber_area_highlight", _make_slider_fill(true))
+	volume_slider.focus_entered.connect(func() -> void:
+		volume_label.add_theme_color_override("font_color", GameThemeScript.COLORS.gold)
+	)
+	volume_slider.focus_exited.connect(func() -> void:
+		volume_label.add_theme_color_override("font_color", GameThemeScript.COLORS.text)
+	)
 	volume_slider.value_changed.connect(func(value: float):
 		_set_volume_label(value)
 		master_volume_changed.emit(value)
 	)
 	box.add_child(volume_slider)
 
-	var back := GameThemeScript.make_button("SettingsBack", "返回")
-	back.custom_minimum_size = Vector2(300, 42)
+	var back := GameThemeScript.make_command_button("SettingsBack", "返回")
+	back.custom_minimum_size = Vector2(320, 42)
 	back.pressed.connect(back_requested.emit)
 	box.add_child(back)
 
@@ -71,19 +79,34 @@ func _set_volume_label(value: float) -> void:
 
 
 func _apply_panel_style() -> void:
+	GameThemeScript.style_dialogue_panel(self)
+
+
+func _make_slider_track() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#080a12", 0.94)
-	style.border_color = GameThemeScript.COLORS.border
+	style.bg_color = GameThemeScript.COLORS.panel_deep
+	style.border_color = GameThemeScript.COLORS.border_shadow
 	style.border_width_left = 2
 	style.border_width_top = 2
 	style.border_width_right = 2
 	style.border_width_bottom = 2
-	style.corner_radius_top_left = 4
-	style.corner_radius_top_right = 4
-	style.corner_radius_bottom_left = 4
-	style.corner_radius_bottom_right = 4
-	style.content_margin_left = 20
-	style.content_margin_top = 18
-	style.content_margin_right = 20
-	style.content_margin_bottom = 18
-	add_theme_stylebox_override("panel", style)
+	style.corner_radius_top_left = 0
+	style.corner_radius_top_right = 0
+	style.corner_radius_bottom_left = 0
+	style.corner_radius_bottom_right = 0
+	return style
+
+
+func _make_slider_fill(highlighted: bool = false) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = GameThemeScript.COLORS.border_light if highlighted else GameThemeScript.COLORS.gold
+	style.border_color = GameThemeScript.COLORS.border_shadow
+	style.border_width_left = 1
+	style.border_width_top = 1
+	style.border_width_right = 1
+	style.border_width_bottom = 1
+	style.corner_radius_top_left = 0
+	style.corner_radius_top_right = 0
+	style.corner_radius_bottom_left = 0
+	style.corner_radius_bottom_right = 0
+	return style

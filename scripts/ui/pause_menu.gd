@@ -13,29 +13,15 @@ var resume_button: Button
 
 
 func _ready() -> void:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#080a12", 0.92)
-	style.border_color = GameThemeScript.COLORS.border
-	style.border_width_left = 2
-	style.border_width_top = 2
-	style.border_width_right = 2
-	style.border_width_bottom = 2
-	style.corner_radius_top_left = 4
-	style.corner_radius_top_right = 4
-	style.corner_radius_bottom_left = 4
-	style.corner_radius_bottom_right = 4
-	style.content_margin_left = 18
-	style.content_margin_top = 18
-	style.content_margin_right = 18
-	style.content_margin_bottom = 18
-	add_theme_stylebox_override("panel", style)
+	GameThemeScript.style_dialogue_panel(self)
 
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 10)
+	box.add_theme_constant_override("separation", 8)
 	add_child(box)
 
-	var title := GameThemeScript.make_label("PauseTitle", 26, GameThemeScript.COLORS.gold)
+	var title := GameThemeScript.make_label("PauseTitle", 23, GameThemeScript.COLORS.gold)
 	title.text = "暂停"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title)
 
 	resume_button = _make_menu_button("继续", resume_requested.emit)
@@ -59,7 +45,7 @@ func focus_default() -> void:
 
 
 func _make_menu_button(text: String, callback: Callable) -> Button:
-	var button := GameThemeScript.make_button("PauseButton", text)
+	var button := GameThemeScript.make_command_button("PauseButton", text)
 	button.custom_minimum_size = Vector2(300, 42)
 	button.pressed.connect(callback)
 	return button

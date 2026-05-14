@@ -17,15 +17,17 @@ var new_game_button: Button
 func _ready() -> void:
 	_apply_panel_style()
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 10)
+	box.add_theme_constant_override("separation", 8)
 	add_child(box)
 
-	var title := GameThemeScript.make_label("GameTitle", 30, GameThemeScript.COLORS.gold)
+	var title := GameThemeScript.make_label("GameTitle", 28, GameThemeScript.COLORS.gold)
 	title.text = "Dream Coastline"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title)
 
-	var subtitle := GameThemeScript.make_label("Subtitle", 16, GameThemeScript.COLORS.muted)
+	var subtitle := GameThemeScript.make_label("Subtitle", 15, GameThemeScript.COLORS.muted)
 	subtitle.text = "灯未亮起的夜晚"
+	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(subtitle)
 
 	new_game_button = _make_button("新游戏", new_game_requested.emit)
@@ -57,26 +59,11 @@ func focus_default() -> void:
 
 
 func _make_button(text: String, callback: Callable) -> Button:
-	var button := GameThemeScript.make_button("TitleButton", text)
+	var button := GameThemeScript.make_command_button("TitleButton", text)
 	button.custom_minimum_size = Vector2(320, 42)
 	button.pressed.connect(callback)
 	return button
 
 
 func _apply_panel_style() -> void:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#080a12", 0.94)
-	style.border_color = GameThemeScript.COLORS.border
-	style.border_width_left = 2
-	style.border_width_top = 2
-	style.border_width_right = 2
-	style.border_width_bottom = 2
-	style.corner_radius_top_left = 4
-	style.corner_radius_top_right = 4
-	style.corner_radius_bottom_left = 4
-	style.corner_radius_bottom_right = 4
-	style.content_margin_left = 20
-	style.content_margin_top = 18
-	style.content_margin_right = 20
-	style.content_margin_bottom = 18
-	add_theme_stylebox_override("panel", style)
+	GameThemeScript.style_dialogue_panel(self)
