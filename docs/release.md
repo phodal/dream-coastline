@@ -40,6 +40,14 @@ mkdir -p builds/macos builds/windows builds/linux
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --export-release "Linux/X11" "builds/linux/dream-coastline.x86_64"
 ```
 
+Current local status:
+
+- macOS release export succeeds after `cargo build --release`.
+- Windows and Linux export presets are configured, but fail until matching
+  GDExtension release libraries are built at
+  `target/release/dream_coastline.dll` and
+  `target/release/libdream_coastline.so`.
+
 Pack-only export can be used before templates are installed to validate resource
 selection. The presets exclude `tools/**`, `docs/**`, and `five/**` so MCP
 tooling, local notes, and design sources are not shipped:

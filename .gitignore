@@ -14,6 +14,9 @@ godot-import.log
 tools/godot-mcp/
 .idea
 assets/opengameart/spells/Pixelart Spells/
+builds/
+*.gd.uid
+*.gdextension.uid
 
 
 # Added by cargo
