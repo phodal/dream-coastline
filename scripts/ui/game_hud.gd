@@ -21,6 +21,7 @@ const TitleScreenScript := preload("res://scripts/ui/title_screen.gd")
 const SettingsMenuScript := preload("res://scripts/ui/settings_menu.gd")
 
 var visual_repository
+var top_bar: Control
 var title_label: Label
 var time_label: Label
 var scene_canvas
@@ -60,11 +61,13 @@ func _ready() -> void:
 	add_child(_build_pause_menu())
 	add_child(_build_title_screen())
 	add_child(_build_settings_menu())
+	_layout_hud_regions()
 	call_deferred("focus_visible_menu")
 
 
 func _process(_delta: float) -> void:
 	size = get_viewport_rect().size
+	_layout_hud_regions()
 
 
 func refresh(session, player_controller) -> void:
@@ -168,23 +171,26 @@ func set_settings_master_volume(value: float) -> void:
 
 
 func _build_top_bar() -> Control:
-	var panel := GameThemeScript.make_panel("TopBar", GameThemeScript.COLORS.panel_alt)
-	panel.set_anchors_preset(Control.PRESET_TOP_WIDE, false)
-	panel.offset_left = 16
-	panel.offset_top = 14
-	panel.offset_right = -16
-	panel.offset_bottom = 62
+	var top_color := Color(
+		GameThemeScript.COLORS.panel_alt.r,
+		GameThemeScript.COLORS.panel_alt.g,
+		GameThemeScript.COLORS.panel_alt.b,
+		0.88
+	)
+	var panel := GameThemeScript.make_rpg_panel("TopBar", top_color)
+	top_bar = panel
+	panel.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
+	row.add_theme_constant_override("separation", 8)
 	panel.add_child(row)
 
-	title_label = GameThemeScript.make_label("SceneTitle", 24, GameThemeScript.COLORS.text)
+	title_label = GameThemeScript.make_label("SceneTitle", 18, GameThemeScript.COLORS.paper)
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(title_label)
 
-	time_label = GameThemeScript.make_label("SceneTime", 18, GameThemeScript.COLORS.cyan)
+	time_label = GameThemeScript.make_label("SceneTime", 15, GameThemeScript.COLORS.muted)
 	time_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	time_label.custom_minimum_size = Vector2(180, 34)
+	time_label.custom_minimum_size = Vector2(130, 28)
 	row.add_child(time_label)
 	return panel
 
@@ -193,11 +199,7 @@ func _build_prompt_overlay() -> Control:
 	prompt_overlay = PromptOverlayScript.new()
 	prompt_overlay.name = "PromptOverlay"
 	var panel: Control = prompt_overlay
-	panel.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
-	panel.offset_left = 16
-	panel.offset_top = 74
-	panel.offset_right = 482
-	panel.offset_bottom = 166
+	panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE, false)
 	return panel
 
 
@@ -250,3 +252,29 @@ func _build_settings_menu() -> Control:
 	settings_menu.master_volume_changed.connect(master_volume_changed.emit)
 	settings_menu.back_requested.connect(settings_back_requested.emit)
 	return settings_menu
+
+
+func _layout_hud_regions() -> void:
+	var view_size := get_viewport_rect().size
+	if view_size.x <= 0.0 or view_size.y <= 0.0:
+		return
+
+	if top_bar != null:
+		var top_margin := 14.0
+		var top_width := minf(view_size.x - 36.0, 640.0)
+		top_width = maxf(340.0, top_width)
+		top_bar.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
+		top_bar.offset_left = 18.0
+		top_bar.offset_top = top_margin
+		top_bar.offset_right = 18.0 + top_width
+		top_bar.offset_bottom = top_margin + 42.0
+
+	if prompt_overlay != null:
+		var side_margin := 24.0
+		var bottom_margin := 18.0
+		var dialogue_height := clampf(view_size.y * 0.22, 118.0, 168.0)
+		prompt_overlay.set_anchors_preset(Control.PRESET_BOTTOM_WIDE, false)
+		prompt_overlay.offset_left = side_margin
+		prompt_overlay.offset_top = -dialogue_height - bottom_margin
+		prompt_overlay.offset_right = -side_margin
+		prompt_overlay.offset_bottom = -bottom_margin
