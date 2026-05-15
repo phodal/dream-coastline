@@ -9,7 +9,9 @@ The target reader is a designer, UI artist, or implementation agent that needs t
 The current scene material already contains narrative intent, playable JSON, visual map data, runtime systems, and readiness notes. A Sprint Sheet that only repeats the story goal is not enough for implementation because it does not say:
 
 - what the player sees first;
+- what the source scene says the screen must mean;
 - what data drives each visible UI region;
+- which screenshots exposed the current mismatch;
 - which files must change;
 - what counts as done;
 - what is explicitly out of scope.
@@ -23,12 +25,35 @@ Every Sprint Sheet should use this structure.
 | Section | Purpose | UI Drawing Impact |
 | --- | --- | --- |
 | Goal | One sentence describing the player-visible outcome. | Decides the primary screen state to mock. |
+| Source Scene Contract | Scene evidence mapped to required screen meaning. | Prevents a generic RPG look that contradicts the story. |
 | Player Loop | The repeated action sequence in play order. | Defines control prompts, focus order, and feedback placement. |
 | Inputs | Existing files, scene IDs, assets, and constraints. | Tells the UI artist what data labels and assets are real. |
 | Outputs | Concrete files or screens produced by the sprint. | Prevents vague deliverables like "improve UI". |
+| Visual Direction | What the screen must and must not read as. | Keeps era, tone, and material choices aligned. |
+| Screenshot Review Gate | Concrete screenshots and mismatch checks. | Makes style review evidence-based, not preference-only. |
 | Acceptance | Observable checks, commands, and visual criteria. | Makes review objective. |
 | Affected Files | Exact modules or data files expected to change. | Keeps implementation scoped. |
 | Non-Goals | Things the sprint must not solve yet. | Prevents UI sprawl and accidental systems work. |
+
+## Scene Alignment Gate
+
+Before implementing visual or UI work, the Sprint Sheet must answer three questions:
+
+1. Which source scene lines define the emotional tone and era?
+2. Which visual elements would make the screen read as the wrong genre, era, or location?
+3. Which screenshot states will prove the implementation matches the scene instead of only passing smoke tests?
+
+For Dream Coastline this matters because "RPG" is not specific enough. A modern silent prologue, an ancient Moqi city, a continuation institute, and a star-engineering chapter should not share the same visual semantics just because they share the same HUD shell.
+
+## AI Generation
+
+Use `tools/build_sprint_sheet_prompt.py` to package a scene for AI-assisted Sprint Sheet generation. The prompt includes the scene source, story JSON summary, visual prop summary, art direction, and this architecture guide.
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate
+```
+
+The generated prompt is an input to an AI model, not an acceptance gate. The output still needs source review, screenshot review states, and file-level implementation tasks before it is considered usable.
 
 ## Current Architecture Evidence
 
@@ -158,6 +183,12 @@ Use this exact template for future sprint tickets.
 
 <One player-visible outcome.>
 
+## Source Scene Contract
+
+| Scene Evidence | Required Screen Meaning |
+| --- | --- |
+| <line or summary from five/scene or system doc> | <what the player must understand visually> |
+
 ## Player Loop
 
 1. <Player action.>
@@ -176,6 +207,16 @@ Use this exact template for future sprint tickets.
 
 - <file or screen>
 - <file or screen>
+
+## Visual Direction
+
+### Must Read As
+
+- <era, place, mood>
+
+### Must Not Read As
+
+- <wrong genre, wrong era, wrong material language>
 
 ## UI Contract
 
@@ -206,6 +247,15 @@ Use this exact template for future sprint tickets.
 - `/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-first-act`
 - Visual review: <what must be visible on screen>
 
+## Screenshot Review Gate
+
+- Title:
+- First playable screen:
+- First required interaction:
+- Scene-specific state:
+- Menu overlay:
+- Mismatch check:
+
 ## Affected Files
 
 - <file>
@@ -216,19 +266,28 @@ Use this exact template for future sprint tickets.
 - <thing not handled in this sprint>
 ```
 
-## Example: First-Act Visual Map Sprint
+## Example: Prologue Modern Silence Map Sprint
 
 ### Goal
 
-Turn the prologue from a text-driven scene into a playable 90s RPG map where the player can walk to the dark window, enter the building, inspect the home, and trigger the black pen transition.
+Turn the prologue from a text-driven scene into a playable modern-silence RPG map where the player can walk through a familiar night street, enter the apartment building, inspect the home, and trigger the black pen transition.
+
+### Source Scene Contract
+
+| Scene Evidence | Required Screen Meaning |
+| --- | --- |
+| Modern city, early night. | Street, apartment, vending machine, windows, and home props must read as modern. |
+| Familiar but slightly wrong. | Abnormality should come from darkness, silence, blankness, and ink traces, not from fantasy scenery. |
+| Home lights and voice lamp do not turn on. | Lamps and dark windows must be readable scene signals. |
+| Phone signal and text changes foreshadow later UI decoding. | UI feedback can glitch or lose information, but should not become a generic sci-fi dashboard. |
 
 ### Player Loop
 
 1. Player moves with WASD or arrow keys.
-2. Facing or standing on a hotspot updates the compact prompt overlay.
+2. Facing or standing on a modern hotspot updates the bottom dialogue prompt.
 3. Space or Enter applies the current exit or investigation.
-4. The event log records the consequence.
-5. The visual canvas updates props, portal state, and player spawn.
+4. The event log records one abnormal detail for that room.
+5. The visual canvas keeps modern material cues while gradually introducing ink/paper intrusion.
 
 ### Inputs
 
@@ -237,22 +296,38 @@ Turn the prologue from a text-driven scene into a playable 90s RPG map where the
 - Visual data: `data/visual_scenes/00-prologue-lights-out.json`.
 - Runtime: `GameSession`, `SceneVisualRepository`, `RpgPlayerController`.
 - Renderer: `SpriteSceneCanvas`.
-- Assets: OpenGameArt dungeon crawl atlas, RPG character atlas, paper icon, spell effects.
+- Assets: RPG character atlas, paper icon, spell effects, scoped pixel primitives for modern props when atlas tiles read as the wrong era.
 
 ### Outputs
 
-- A visual scene map for each location in the prologue.
+- A modern-silence visual scene map for each location in the prologue.
 - Collision and interaction props for all required story flags.
 - A compact prompt that always tells the player what Space/Enter will do.
 - Smoke verification that still completes all story scenes.
+
+### Visual Direction
+
+#### Must Read As
+
+- Modern night street.
+- Apartment common area.
+- Domestic interior.
+- Quiet abnormality.
+
+#### Must Not Read As
+
+- Dungeon.
+- Ancient city.
+- Generic fantasy village.
+- Web app dashboard.
 
 ### UI Contract
 
 #### Screen Regions
 
-- Top Bar: show `1/8`, scene title, elapsed time.
-- Scene Canvas: fill screen behind HUD with tile map, props, player, and portal state.
-- Prompt Overlay: show movement help or exact interaction label plus the latest consequence.
+- Top Bar: show `1/8`, scene title, elapsed time only during gameplay.
+- Scene Canvas: fill screen behind HUD with tile map, modern props, player, and portal state.
+- Dialogue Prompt: bottom RPG text window with movement help or exact interaction label plus the latest consequence.
 
 #### States
 
@@ -261,6 +336,7 @@ Turn the prologue from a text-driven scene into a playable 90s RPG map where the
 - Action succeeded: new story text appears in log.
 - Action blocked: player stays on tile; prompt remains stable.
 - Chapter complete: portal/magic effect appears after `entered_moqi`.
+- Title: command menu over scene background, without gameplay top bar or prompt.
 
 ### Data Contract
 
@@ -273,11 +349,20 @@ Turn the prologue from a text-driven scene into a playable 90s RPG map where the
 
 - Godot headless load passes.
 - Godot smoke autoplay passes all eight scenes.
-- Manual visual review confirms the prologue shows a top bar, tile scene, player marker, interactable props, and compact prompt overlay.
+- First-act RPG smoke passes.
+- Manual visual review confirms the prologue reads as a modern night street/home scene, not a dungeon with modern labels.
+
+### Screenshot Review Gate
+
+- Title screen over modern street background.
+- Street near vending machine.
+- Building near voice lamp.
+- Living room after cold dinner investigation.
+- Pause menu over gameplay.
+- Mismatch check: no modern prop should use chest, crate, rune, altar, or castle-room semantics.
 
 ### Non-Goals
 
-- Animated movement.
 - Save/load.
 - Dialogue portraits.
 - Audio.
@@ -288,8 +373,10 @@ Turn the prologue from a text-driven scene into a playable 90s RPG map where the
 Before a Sprint Sheet is considered ready for UI drawing:
 
 - It names the screen regions and their data source.
+- It maps scene evidence to required screen meaning.
+- It states what the screen must not read as.
 - It maps every player action to a visible prompt or feedback state.
 - It lists the exact JSON and GDScript files expected to change.
-- It includes at least one concrete visual acceptance criterion.
+- It includes concrete screenshot states for visual review.
 - It states what the sprint is not solving.
 - It is narrow enough for one implementation pass and one review pass.

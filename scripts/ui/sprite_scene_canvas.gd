@@ -146,8 +146,16 @@ func _draw_prop(item_id: String, top_left: Vector2, tile_size: float) -> void:
 			draw_texture_rect(PAPER_ICON, Rect2(top_left + Vector2(tile_size * 0.15, tile_size * 0.1), Vector2(tile_size * 0.7, tile_size * 0.8)), false)
 		"pen":
 			_draw_dungeon_tile(Vector2i(34, 28), top_left, tile_size)
-		"vending", "phone", "tv":
-			_draw_dungeon_tile(Vector2i(24, 11), top_left, tile_size)
+		"vending":
+			_draw_vending_machine(top_left, tile_size)
+		"phone":
+			_draw_phone_device(top_left, tile_size)
+		"tv":
+			_draw_tv_device(top_left, tile_size)
+		"mailbox":
+			_draw_mailbox(top_left, tile_size)
+		"door_open":
+			_draw_open_door(top_left, tile_size)
 		"lock", "door":
 			_draw_dungeon_tile(Vector2i(28, 11), top_left, tile_size)
 		"stairs":
@@ -218,6 +226,114 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			draw_rect(Rect2(position, Vector2(tile_size, tile_size)), Color("#000000", 0.45))
 		_:
 			_draw_prop(kind, position, tile_size)
+
+
+func _draw_vending_machine(top_left: Vector2, tile_size: float) -> void:
+	var body := Rect2(
+		top_left + Vector2(tile_size * 0.18, tile_size * 0.05),
+		Vector2(tile_size * 0.64, tile_size * 0.9)
+	)
+	var trim := maxf(1.0, tile_size * 0.04)
+	draw_rect(body, Color("#8b241d"))
+	draw_rect(body, Color("#f0d18a"), false, trim)
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.28, tile_size * 0.16), Vector2(tile_size * 0.3, tile_size * 0.28)),
+		Color("#101820")
+	)
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.32, tile_size * 0.2), Vector2(tile_size * 0.22, tile_size * 0.08)),
+		Color("#b9d1c4")
+	)
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.62, tile_size * 0.18), Vector2(tile_size * 0.1, tile_size * 0.34)),
+		Color("#2b1d10")
+	)
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.3, tile_size * 0.62), Vector2(tile_size * 0.38, tile_size * 0.12)),
+		Color("#120e0a")
+	)
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.24, tile_size * 0.86), Vector2(tile_size * 0.52, tile_size * 0.08)),
+		Color("#3f2a18")
+	)
+
+
+func _draw_phone_device(top_left: Vector2, tile_size: float) -> void:
+	var body := Rect2(
+		top_left + Vector2(tile_size * 0.28, tile_size * 0.08),
+		Vector2(tile_size * 0.44, tile_size * 0.78)
+	)
+	draw_rect(body, Color("#101820"))
+	draw_rect(body, Color("#8f7040"), false, maxf(1.0, tile_size * 0.035))
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.34, tile_size * 0.17), Vector2(tile_size * 0.32, tile_size * 0.42)),
+		Color("#060708")
+	)
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.4, tile_size * 0.23), Vector2(tile_size * 0.2, tile_size * 0.08)),
+		Color("#b9d1c4")
+	)
+	draw_circle(top_left + Vector2(tile_size * 0.5, tile_size * 0.72), tile_size * 0.045, Color("#f0d18a"))
+
+
+func _draw_tv_device(top_left: Vector2, tile_size: float) -> void:
+	var frame := Rect2(
+		top_left + Vector2(tile_size * 0.12, tile_size * 0.2),
+		Vector2(tile_size * 0.76, tile_size * 0.48)
+	)
+	draw_rect(frame, Color("#2a2a2a"))
+	draw_rect(frame, Color("#8f7040"), false, maxf(1.0, tile_size * 0.035))
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.2, tile_size * 0.28), Vector2(tile_size * 0.6, tile_size * 0.32)),
+		Color("#050608")
+	)
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.42, tile_size * 0.68), Vector2(tile_size * 0.16, tile_size * 0.14)),
+		Color("#3f2a18")
+	)
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.28, tile_size * 0.8), Vector2(tile_size * 0.44, tile_size * 0.08)),
+		Color("#3f2a18")
+	)
+
+
+func _draw_mailbox(top_left: Vector2, tile_size: float) -> void:
+	var box_rect := Rect2(
+		top_left + Vector2(tile_size * 0.16, tile_size * 0.28),
+		Vector2(tile_size * 0.68, tile_size * 0.42)
+	)
+	draw_rect(box_rect, Color("#273747"))
+	draw_rect(box_rect, Color("#f0d18a"), false, maxf(1.0, tile_size * 0.035))
+	for row in range(2):
+		for column in range(3):
+			draw_rect(
+				Rect2(
+					top_left + Vector2(tile_size * (0.22 + column * 0.18), tile_size * (0.34 + row * 0.16)),
+					Vector2(tile_size * 0.12, tile_size * 0.08)
+				),
+				Color("#0d0b08")
+			)
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.42, tile_size * 0.7), Vector2(tile_size * 0.16, tile_size * 0.18)),
+		Color("#3f2a18")
+	)
+
+
+func _draw_open_door(top_left: Vector2, tile_size: float) -> void:
+	var frame := Rect2(
+		top_left + Vector2(tile_size * 0.2, tile_size * 0.08),
+		Vector2(tile_size * 0.6, tile_size * 0.84)
+	)
+	draw_rect(frame, Color("#4b2c17"), false, maxf(2.0, tile_size * 0.055))
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.3, tile_size * 0.18), Vector2(tile_size * 0.4, tile_size * 0.68)),
+		Color("#050608")
+	)
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.36, tile_size * 0.18), Vector2(tile_size * 0.18, tile_size * 0.68)),
+		Color("#2b1d10")
+	)
+	draw_circle(top_left + Vector2(tile_size * 0.58, tile_size * 0.5), tile_size * 0.035, Color("#f0d18a"))
 
 
 func _draw_block(tile: Vector2i, top_left: Vector2, tile_size: float, width: int, height: int) -> void:

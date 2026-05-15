@@ -30,6 +30,7 @@ var pause_menu
 var title_screen
 var settings_menu
 var pending_continue_enabled := false
+var gameplay_hud_visible := false
 
 
 func configure(repository, has_save: bool) -> void:
@@ -62,6 +63,7 @@ func _ready() -> void:
 	add_child(_build_title_screen())
 	add_child(_build_settings_menu())
 	_layout_hud_regions()
+	_sync_gameplay_hud_visibility()
 	call_deferred("focus_visible_menu")
 
 
@@ -120,14 +122,18 @@ func focus_visible_menu() -> void:
 
 func hide_title() -> void:
 	title_screen.visible = false
+	gameplay_hud_visible = true
+	_sync_gameplay_hud_visibility()
 
 
 func show_title(has_save: bool, status: String = "") -> void:
+	gameplay_hud_visible = false
 	pause_menu.visible = false
 	settings_menu.visible = false
 	title_screen.visible = true
 	title_screen.set_continue_enabled(has_save)
 	title_screen.set_status(status)
+	_sync_gameplay_hud_visibility()
 	title_screen.focus_default()
 
 
@@ -156,6 +162,7 @@ func show_settings(fullscreen: bool, master_volume: float) -> void:
 	settings_menu.visible = true
 	settings_menu.set_fullscreen(fullscreen)
 	settings_menu.set_master_volume(master_volume)
+	_sync_gameplay_hud_visibility()
 	settings_menu.focus_default()
 
 
@@ -163,6 +170,9 @@ func hide_settings(show_title_after: bool) -> void:
 	settings_menu.visible = false
 	if show_title_after:
 		title_screen.visible = true
+		gameplay_hud_visible = false
+	_sync_gameplay_hud_visibility()
+	if show_title_after:
 		title_screen.focus_default()
 
 
@@ -271,10 +281,17 @@ func _layout_hud_regions() -> void:
 
 	if prompt_overlay != null:
 		var side_margin := 24.0
-		var bottom_margin := 18.0
-		var dialogue_height := clampf(view_size.y * 0.22, 118.0, 168.0)
+		var bottom_margin := 14.0
+		var dialogue_height := clampf(view_size.y * 0.17, 104.0, 128.0)
 		prompt_overlay.set_anchors_preset(Control.PRESET_BOTTOM_WIDE, false)
 		prompt_overlay.offset_left = side_margin
 		prompt_overlay.offset_top = -dialogue_height - bottom_margin
 		prompt_overlay.offset_right = -side_margin
 		prompt_overlay.offset_bottom = -bottom_margin
+
+
+func _sync_gameplay_hud_visibility() -> void:
+	if top_bar != null:
+		top_bar.visible = gameplay_hud_visible
+	if prompt_overlay != null:
+		prompt_overlay.visible = gameplay_hud_visible

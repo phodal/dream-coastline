@@ -5,3 +5,5 @@
 - Sprint Sheet 如果只有叙事/愿景描述，AI 很难直接执行；需要补成“目标、输入、输出、验收、涉及文件、非目标”的任务契约。
 - godot-rust 的集合与字符串参数常区分 ByRef/ByValue；写 `Dictionary`/`Json` 逻辑时，最好显式标注 `VarDictionary` 并传引用，能少踩很多编译坑。
 - UI 的 render smoke 只能证明画面不空，不能证明风格像 RPG；涉及视觉风格时，Sprint Sheet 要写清楚屏幕区域、状态、截图验收和非目标。
+- 视觉 Sprint Sheet 不能只写“像 RPG”；必须把 scene 的时代、情绪、物件语义和“不能读成什么”写成验收，否则会出现 UI 对但 scene 错的实现。
+- 要基于 scene 借助 AI 生成 Sprint Sheet 时，先用 `tools/build_sprint_sheet_prompt.py <scene-id>` 打包 scene、story JSON、visual JSON、美术方向和架构模板，再审查输出是否有 Source Scene Contract 和 Screenshot Review Gate。

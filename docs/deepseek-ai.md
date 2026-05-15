@@ -33,6 +33,16 @@ This gives the project a first AI capability without coupling game logic to a sp
 - quest hint generation.
 - design QA against the `five/scene` source documents.
 
+## Sprint Sheet Prompt Builder
+
+Sprint Sheets should be generated from scene evidence rather than a generic UI request. Use the local prompt builder to package the source scene, story JSON, visual JSON, art direction, and Sprint Sheet architecture into one model-ready prompt:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --output /tmp/01-sprint-prompt.md
+```
+
+Send the generated prompt to Codex, DeepSeek, or another model. Review the output against `docs/sprint-sheets/README.md` before committing it.
+
 ## Defaults
 
 - endpoint: `https://api.deepseek.com/chat/completions`

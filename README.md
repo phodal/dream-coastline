@@ -198,8 +198,8 @@ MCP integration is configured for Codex through `~/.codex/config.toml`. See
 `docs/godot-mcp.md` for details.
 
 Sprint Sheet architecture guidance is in `docs/sprint-sheet-architecture.md`.
-The current RPG UI style pass is in
-`docs/sprint-sheets/rpg-ui-style-pass.md`.
+Scene-aligned Sprint Sheets and the AI prompt workflow are in
+`docs/sprint-sheets/`.
 Release/export notes are in `docs/release.md`.
 
 OpenGameArt sources and license notes are listed in
