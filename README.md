@@ -68,6 +68,12 @@ Build the Rust GDExtension library:
 cargo build
 ```
 
+Build release GDExtension libraries for desktop export:
+
+```sh
+tools/build_release_libraries.sh
+```
+
 Validate the project can load:
 
 ```sh
@@ -150,6 +156,12 @@ Validate export preset configuration:
 
 ```sh
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-export-config
+```
+
+Validate release GDExtension libraries for macOS, Windows, and Linux:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-release-libraries
 ```
 
 Validate keyboard/gamepad input mapping:

@@ -17,6 +17,7 @@ assets/opengameart/spells/Pixelart Spells/
 builds/
 *.gd.uid
 *.gdextension.uid
+.zig-cache/
 
 
 # Added by cargo

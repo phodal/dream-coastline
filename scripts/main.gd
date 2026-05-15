@@ -52,6 +52,10 @@ func _ready() -> void:
 		var ok: bool = _run_export_config_smoke()
 		get_tree().quit(0 if ok else 1)
 		return
+	if OS.get_cmdline_user_args().has("--smoke-release-libraries"):
+		var ok: bool = _run_release_libraries_smoke()
+		get_tree().quit(0 if ok else 1)
+		return
 	if OS.get_cmdline_user_args().has("--smoke-input-map"):
 		var ok: bool = _run_input_map_smoke()
 		get_tree().quit(0 if ok else 1)
@@ -538,6 +542,29 @@ func _run_export_config_smoke() -> bool:
 	if not missing.is_empty():
 		print("missing=", missing)
 	for failure in branding_missing:
+		print("failure=", failure)
+	return ok
+
+
+func _run_release_libraries_smoke() -> bool:
+	var expected := {
+		"macos": "res://target/release/libdream_coastline.dylib",
+		"windows": "res://target/release/dream_coastline.dll",
+		"linux": "res://target/release/libdream_coastline.so",
+	}
+	var missing: Array[String] = []
+	for platform in expected.keys():
+		var path := str(expected[platform])
+		if not FileAccess.file_exists(path):
+			missing.append("%s library missing at %s" % [platform, path])
+
+	var ok := missing.is_empty()
+	print("release-libraries-smoke status=%s libraries=%s/%s" % [
+		"PASS" if ok else "FAIL",
+		expected.size() - missing.size(),
+		expected.size(),
+	])
+	for failure in missing:
 		print("failure=", failure)
 	return ok
 

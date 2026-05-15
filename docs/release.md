@@ -34,6 +34,8 @@ platform binaries. On macOS, Godot 4.6.2 expects them under:
 Once templates are installed, create build directories and export:
 
 ```sh
+tools/build_release_libraries.sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-release-libraries
 mkdir -p builds/macos builds/windows builds/linux
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --export-release "macOS" "builds/macos/Dream Coastline.zip"
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --export-release "Windows Desktop" "builds/windows/Dream Coastline.exe"
@@ -42,11 +44,11 @@ mkdir -p builds/macos builds/windows builds/linux
 
 Current local status:
 
-- macOS release export succeeds after `cargo build --release`.
-- Windows and Linux export presets are configured, but fail until matching
-  GDExtension release libraries are built at
-  `target/release/dream_coastline.dll` and
-  `target/release/libdream_coastline.so`.
+- macOS, Windows, and Linux release exports succeed after
+  `tools/build_release_libraries.sh`.
+- The Windows and Linux release libraries are cross-linked with `zig` through
+  `cargo-zigbuild`, then copied to the `target/release/` paths referenced by
+  `dream_coastline.gdextension`.
 
 Pack-only export can be used before templates are installed to validate resource
 selection. The presets exclude `tools/**`, `docs/**`, and `five/**` so MCP
