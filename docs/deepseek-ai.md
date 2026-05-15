@@ -47,6 +47,12 @@ Review the generated `scene_sprint_map` first. It should map source evidence to 
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode sheet-from-map --map-input /tmp/01-scene-map.json --output /tmp/01-sheet-from-map-prompt.md
 ```
 
+For UI implementation work, generate a UI brief prompt instead of a broad Sprint Sheet prompt:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode ui-brief-from-map --map-input /tmp/01-scene-map.json --output /tmp/01-ui-brief-prompt.md
+```
+
 ```sh
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate --output /tmp/01-sprint-prompt.md
 ```

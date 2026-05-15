@@ -198,7 +198,7 @@ MCP integration is configured for Codex through `~/.codex/config.toml`. See
 `docs/godot-mcp.md` for details.
 
 Sprint Sheet architecture guidance is in `docs/sprint-sheet-architecture.md`.
-Scene-aligned Sprint Sheets, the `scene_sprint_map` AI mapping contract, and the prompt workflow are in
+Scene-aligned Sprint Sheets, the `scene_sprint_map` AI mapping contract, UI implementation brief workflow, and prompt workflow are in
 `docs/sprint-sheets/`.
 Release/export notes are in `docs/release.md`.
 

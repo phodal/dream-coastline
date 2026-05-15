@@ -14,6 +14,36 @@ DEFAULT_GAME_ACCEPTANCE_COMMANDS = [
     "/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-autoplay",
     "/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-first-act",
 ]
+UI_STACK_CONTRACT = """Current Dream Coastline UI implementation surfaces:
+
+- scripts/ui/game_hud.gd
+  - Owns the Godot Control tree.
+  - Creates SpriteSceneCanvas, top bar, PromptOverlay, PauseMenu, TitleScreen, SettingsMenu.
+  - refresh(session, player_controller) pushes scene title, time, location, prompt text, visible log, player tile, facing, and blocked feedback into UI.
+  - _layout_hud_regions() owns responsive top bar and bottom prompt geometry.
+- scripts/ui/sprite_scene_canvas.gd
+  - Owns full-screen tile rendering.
+  - Reads visual_repository.location_visual(session.scene_id, session.location_id).
+  - Draws terrain palettes, visual props, actors, blocked feedback, player animation, facing marker, and ending portal/orb state.
+  - New prop kinds normally need _draw_visual_prop() routing and a small draw helper.
+- scripts/ui/prompt_overlay.gd
+  - Owns the bottom RPG text window.
+  - refresh(location_name, prompt_text, latest_feedback) sets location, current Space/Enter action, and latest feedback.
+- scripts/ui/game_theme.gd
+  - Owns shared RPG panel, label, and command-button styling.
+  - Use this for shell-level polish before adding local styling.
+- scripts/core/rpg_player_controller.gd
+  - Owns tile movement, facing, current_interaction(), prompt_text(), interact(), and blocked-tile feedback.
+  - Prompt wording for a new interaction should usually be solved here or through visual prop labels.
+- scripts/core/scene_visual_repository.gd
+  - Owns visual_scenes JSON loading, spawn_for(), interaction_at(), and is_blocked().
+  - New clickable/blocking map semantics should usually be expressible through visual JSON props.
+- scripts/core/game_session.gd
+  - Owns scene flags, metrics, action application, visible_log(), status_text(), combat state, and scene completion.
+- scripts/core/rpg_*_smoke.gd and scripts/main.gd
+  - Own scene-specific smoke paths and top-level smoke dispatch.
+  - Any new UI-critical progression state should have either a smoke expectation or a screenshot review state.
+"""
 
 
 def read_text(path: Path) -> str:
@@ -317,6 +347,48 @@ Scene Sprint Map `{map_input}`：
 """
 
 
+def build_ui_brief_from_map_prompt(scene_id: str, map_input: Path) -> str:
+    scene_map = load_scene_sprint_map(map_input, scene_id)
+
+    return f"""你是 Dream Coastline 的 Godot RPG UI implementation brief 作者。
+
+任务：把已审查的 `scene_sprint_map` 转换成 `{scene_id}` 的 UI 编写 brief。
+这个 brief 给未来写 Godot UI 的工程师或 agent 使用，不是剧情复述，也不是最终 Sprint Sheet。
+
+硬性要求：
+- 输出中文 Markdown。
+- 所有建议必须落到现有 UI 文件、函数、数据 owner 或 visual JSON 字段。
+- 每个 `prop_risks` 都要映射到 renderer、HUD、prompt、data 或 screenshot review 中的至少一个动作。
+- 每个 `screenshot_states` 都要变成可执行的 UI 验收状态，说明 location、flags、TopBar、SceneCanvas、PromptOverlay、交互提示和 mismatch check。
+- 每个 UI 任务必须写清楚：目标文件、目标函数或数据字段、输入、输出、验收。
+- 不要提出重写 UI 框架、换引擎、引入大型资产管线、做通用编辑器或做无关系统。
+- 如果需要新增 helper 或 prop kind，写清楚为什么现有函数不足。
+
+当前 UI 实现边界：
+```text
+{UI_STACK_CONTRACT}
+```
+
+Scene Sprint Map `{map_input}`：
+```json
+{json.dumps(scene_map, ensure_ascii=False, indent=2)}
+```
+
+请输出 UI Implementation Brief，章节结构使用：
+1. UI Objective
+2. Screen Region Contract
+3. Data Hook Matrix
+4. Scene Canvas Rendering Contract
+5. Prompt And Feedback Contract
+6. Interaction State Matrix
+7. Prop Risk To UI Task Map
+8. Component Tasks
+9. Screenshot Capture Plan
+10. Acceptance Commands
+11. Non-Goals
+"""
+
+
 def build_prompt(
     scene_id: str,
     mode: str = "sheet",
@@ -328,6 +400,10 @@ def build_prompt(
         if map_input is None:
             raise SystemExit("--map-input is required for --mode sheet-from-map")
         return build_sheet_from_map_prompt(scene_id, map_input)
+    if mode == "ui-brief-from-map":
+        if map_input is None:
+            raise SystemExit("--map-input is required for --mode ui-brief-from-map")
+        return build_ui_brief_from_map_prompt(scene_id, map_input)
     return build_sheet_prompt(scene_id)
 
 
@@ -336,7 +412,7 @@ def main() -> None:
     parser.add_argument("scene_id", help="Scene id such as 01-illiterate")
     parser.add_argument(
         "--mode",
-        choices=("sheet", "map", "sheet-from-map"),
+        choices=("sheet", "map", "sheet-from-map", "ui-brief-from-map"),
         default="sheet",
         help="Prompt type to build. Use map before sheet for AI-assisted review.",
     )

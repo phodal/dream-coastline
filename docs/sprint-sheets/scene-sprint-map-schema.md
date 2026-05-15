@@ -28,6 +28,15 @@ python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
   --output /tmp/01-sheet-from-map-prompt.md
 ```
 
+Or convert the same map into an implementation-facing UI brief prompt:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
+  --mode ui-brief-from-map \
+  --map-input /tmp/01-scene-map.json \
+  --output /tmp/01-ui-brief-prompt.md
+```
+
 ## Fields
 
 | Field | Purpose | Review Rule |

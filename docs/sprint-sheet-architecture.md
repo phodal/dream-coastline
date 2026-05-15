@@ -64,6 +64,14 @@ After the map is reviewed, convert it into the final Sprint Sheet prompt:
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode sheet-from-map --map-input /tmp/01-scene-map.json
 ```
 
+For UI implementation work, convert the same map into a file-level UI brief:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode ui-brief-from-map --map-input /tmp/01-scene-map.json
+```
+
+The UI brief is different from the Sprint Sheet. It must name the real Godot owner files, data hooks, screen regions, prop renderer changes, prompt states, screenshot states, and smoke checks that make the UI task executable.
+
 The direct Sprint Sheet prompt remains available when the mapping is already understood. It includes the scene source, story JSON summary, visual prop summary, art direction, and this architecture guide.
 
 ```sh

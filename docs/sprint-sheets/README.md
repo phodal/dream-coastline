@@ -9,9 +9,10 @@ The important rule is: do not ask AI to make something "more RPG" without tellin
 Prefer a two-step AI workflow:
 
 1. Generate a `scene_sprint_map` JSON object from the scene and JSON data.
-2. Review the map, then turn it into a Sprint Sheet.
+2. Review the map, then turn it into a Sprint Sheet or UI Implementation Brief.
 
 The map schema is documented in `scene-sprint-map-schema.md`.
+The UI writing schema is documented in `ui-implementation-brief-schema.md`.
 
 Build the intermediate map prompt:
 
@@ -23,6 +24,12 @@ After the AI returns reviewed JSON, build the final Sprint Sheet prompt from tha
 
 ```sh
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode sheet-from-map --map-input /tmp/01-scene-map.json
+```
+
+For implementation-facing UI work, build a UI brief prompt from the same map:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode ui-brief-from-map --map-input /tmp/01-scene-map.json
 ```
 
 Build an AI prompt from a scene ID:
@@ -49,8 +56,10 @@ Send that prompt to Codex, DeepSeek, or another model. The model output is only 
 ## Existing Sheets
 
 - `scene-sprint-map-schema.md`: intermediate AI mapping contract between scene evidence and Sprint Sheets.
+- `ui-implementation-brief-schema.md`: file-level UI authoring contract generated from a reviewed map.
 - `rpg-ui-style-pass.md`: scene-aligned pass for the prologue modern-silence RPG UI.
 - `01-illiterate.md`: first act survival, illiteracy, and first glyph-learning pass.
+- `01-illiterate-ui-brief.md`: file-level UI implementation brief for the first act.
 - `02-moqi-academy.md`: academy, literacy engineering, and first repair pass.
 - `03-dead-kingdom.md`: dead capital investigation and anti-restoration pass.
 - `04-continuation-institute.md`: civilization-building and public knowledge pass.
