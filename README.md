@@ -177,6 +177,20 @@ Validate a rendered game frame. This uses the real renderer, so run it without
 /Applications/Godot.app/Contents/MacOS/Godot --path . --quit-after 120 -- --smoke-render-frame
 ```
 
+Capture a visual review set for every authored location. This also writes
+`manifest.json` and a local `index.html` contact sheet under
+`artifacts/scene-screenshots/latest/`:
+
+```sh
+python3 tools/capture_scene_screenshots.py
+```
+
+Capture only the opening state for each scene:
+
+```sh
+python3 tools/capture_scene_screenshots.py --scope starts
+```
+
 ## Controls
 
 Keyboard or gamepad inside the Godot window. Use the title screen to start or

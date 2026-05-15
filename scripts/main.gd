@@ -111,6 +111,12 @@ func _ready() -> void:
 		_start_new_game()
 		call_deferred("_finish_render_smoke")
 		return
+	if OS.get_cmdline_user_args().has("--capture-scene-screenshots"):
+		_build_ui()
+		game_started = true
+		hud.hide_title()
+		call_deferred("_capture_scene_screenshots")
+		return
 
 	_build_ui()
 	_load_scene(0)
@@ -410,6 +416,204 @@ func _finish_render_smoke() -> void:
 	var image: Image = get_viewport().get_texture().get_image()
 	var ok: bool = _verify_render_image(image)
 	get_tree().quit(0 if ok else 1)
+
+
+func _capture_scene_screenshots() -> void:
+	var args := OS.get_cmdline_user_args()
+	var output_dir := _global_capture_path(_arg_value(args, "--capture-output", "user://scene-screenshots"))
+	var scene_filter := _arg_value(args, "--capture-scene", "all")
+	var scope := _arg_value(args, "--capture-scope", "locations")
+	var warmup_frames := maxi(1, int(_arg_value(args, "--capture-warmup-frames", "3")))
+	var mkdir_error := DirAccess.make_dir_recursive_absolute(output_dir)
+	if mkdir_error != OK:
+		print("scene-screenshot-capture status=FAIL reason=mkdir path=%s error=%s" % [output_dir, mkdir_error])
+		get_tree().quit(1)
+		return
+
+	var screenshots: Array[Dictionary] = []
+	var failures: Array[String] = []
+	for scene_index in range(database.count()):
+		var scene_id := str(database.scene_id_at(scene_index))
+		if scene_filter != "all" and scene_filter != scene_id:
+			continue
+		var story_scene: Dictionary = database.scene_at(scene_index)
+		var location_ids := _capture_location_ids(story_scene, scope)
+		for location_index in range(location_ids.size()):
+			var location_id := str(location_ids[location_index])
+			var entry := await _capture_location_screenshot(
+				scene_index,
+				scene_id,
+				story_scene,
+				location_id,
+				location_index,
+				output_dir,
+				warmup_frames
+			)
+			if bool(entry.get("ok", false)):
+				screenshots.append(entry)
+			else:
+				failures.append(str(entry.get("failure", "unknown")))
+
+	var manifest := {
+		"version": 1,
+		"generated_by": "--capture-scene-screenshots",
+		"scope": scope,
+		"scene_filter": scene_filter,
+		"viewport": {
+			"width": int(get_viewport_rect().size.x),
+			"height": int(get_viewport_rect().size.y),
+		},
+		"screenshot_count": screenshots.size(),
+		"screenshots": screenshots,
+		"failures": failures,
+	}
+	var manifest_path := output_dir.path_join("manifest.json")
+	var manifest_file := FileAccess.open(manifest_path, FileAccess.WRITE)
+	if manifest_file == null:
+		print("scene-screenshot-capture status=FAIL reason=manifest path=%s" % manifest_path)
+		get_tree().quit(1)
+		return
+	manifest_file.store_string(JSON.stringify(manifest, "\t"))
+	manifest_file.close()
+
+	var ok := failures.is_empty() and not screenshots.is_empty()
+	print("scene-screenshot-capture status=%s output=%s screenshots=%s failures=%s" % [
+		"PASS" if ok else "FAIL",
+		output_dir,
+		screenshots.size(),
+		failures.size(),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _capture_location_screenshot(
+	scene_index: int,
+	scene_id: String,
+	story_scene: Dictionary,
+	location_id: String,
+	location_index: int,
+	output_dir: String,
+	warmup_frames: int
+) -> Dictionary:
+	var locations: Dictionary = story_scene.get("locations", {})
+	var location: Dictionary = locations.get(location_id, {})
+	if location.is_empty():
+		return {"ok": false, "failure": "missing location %s/%s" % [scene_id, location_id]}
+
+	_prepare_capture_state(scene_index, story_scene, location_id, location)
+	for _frame in range(warmup_frames):
+		await get_tree().process_frame
+
+	var image: Image = get_viewport().get_texture().get_image()
+	if image == null or image.get_width() <= 0 or image.get_height() <= 0:
+		return {"ok": false, "failure": "empty image %s/%s" % [scene_id, location_id]}
+
+	var filename := "%02d-%s__%02d-%s.png" % [
+		scene_index,
+		_safe_filename(scene_id),
+		location_index,
+		_safe_filename(location_id),
+	]
+	var path := output_dir.path_join(filename)
+	var save_error := image.save_png(path)
+	if save_error != OK:
+		return {"ok": false, "failure": "save failed %s error=%s" % [path, save_error]}
+
+	var visual: Dictionary = visual_repository.location_visual(scene_id, location_id)
+	return {
+		"ok": true,
+		"scene_index": scene_index,
+		"scene_id": scene_id,
+		"scene_title": str(story_scene.get("title", "")),
+		"location_id": location_id,
+		"location_name": str(location.get("name", location_id)),
+		"terrain": str(visual.get("terrain", "")),
+		"props": _capture_prop_summary(visual),
+		"path": path,
+		"file": filename,
+	}
+
+
+func _prepare_capture_state(scene_index: int, story_scene: Dictionary, location_id: String, location: Dictionary) -> void:
+	var event_log: Array[String] = ["开始：%s" % str(story_scene.get("title", ""))]
+	if location_id != str(story_scene.get("start", "")):
+		event_log.append("前往：%s" % str(location.get("name", location_id)))
+
+	var flags: Array[String] = []
+	for flag in story_scene.get("initial_flags", []):
+		flags.append(str(flag))
+
+	var combat: Dictionary = location.get("combat", {})
+	var state := {
+		"scene_index": scene_index,
+		"location_id": location_id,
+		"flags": flags,
+		"metrics": story_scene.get("metrics", {}).duplicate(true),
+		"elapsed_seconds": 0,
+		"enemy_hp": int(combat.get("enemy_hp", 0)) if not combat.is_empty() else 0,
+		"player_hp": 5,
+		"name_attempts": 0,
+		"attacks_since_name": 0,
+		"event_log": event_log,
+	}
+	session.load_save_data(state)
+	player_controller.reset_for_location()
+	_refresh_ui()
+
+
+func _capture_location_ids(story_scene: Dictionary, scope: String) -> Array[String]:
+	var start_location := str(story_scene.get("start", ""))
+	if scope == "starts":
+		return [start_location]
+
+	var locations: Dictionary = story_scene.get("locations", {})
+	var location_ids: Array[String] = []
+	for location_id in locations.keys():
+		location_ids.append(str(location_id))
+	location_ids.sort()
+	if start_location in location_ids:
+		location_ids.erase(start_location)
+		location_ids.push_front(start_location)
+	return location_ids
+
+
+func _capture_prop_summary(visual: Dictionary) -> Array[Dictionary]:
+	var summary: Array[Dictionary] = []
+	for prop in visual.get("props", []):
+		if typeof(prop) != TYPE_DICTIONARY:
+			continue
+		summary.append({
+			"kind": str(prop.get("kind", "")),
+			"item": str(prop.get("item", "")),
+			"exit": str(prop.get("exit", "")),
+			"action": str(prop.get("action", "")),
+			"x": int(prop.get("x", 0)),
+			"y": int(prop.get("y", 0)),
+		})
+	return summary
+
+
+func _global_capture_path(path: String) -> String:
+	if path.begins_with("res://") or path.begins_with("user://"):
+		return ProjectSettings.globalize_path(path)
+	return path
+
+
+func _arg_value(args: Array, key: String, default_value: String) -> String:
+	for index in range(args.size()):
+		var arg := str(args[index])
+		if arg == key and index + 1 < args.size():
+			return str(args[index + 1])
+		if arg.begins_with(key + "="):
+			return arg.substr(key.length() + 1)
+	return default_value
+
+
+func _safe_filename(value: String) -> String:
+	var safe := value.strip_edges().to_lower()
+	for character in ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", " "]:
+		safe = safe.replace(character, "_")
+	return safe
 
 
 func _verify_render_image(image: Image) -> bool:

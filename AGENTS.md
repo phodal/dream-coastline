@@ -13,3 +13,4 @@
 - 半自动实现前先跑 `tools/validate_scene_ai_contract.py` 校验 map/brief，再用 `--mode implementation-from-brief` 生成实现提示，最后用 `--mode screenshot-review-from-map` 按截图审查语义是否跑偏。
 - 改 background 时只画 canvas backdrop 不够，因为满屏 tile 会盖住它；需要同步改 terrain tile / overlay，否则截图仍会像重复素材铺底。
 - 现代楼体不能只画方块外壳；要有楼层线、窗格、邻居窗光和关键黑窗/灯具对比，否则“大楼”“灯未亮”都读不出来。
+- 做视觉对比不要依赖 macOS 窗口截图；优先跑 `python3 tools/capture_scene_screenshots.py`，用 Godot viewport 直接生成 PNG、manifest 和 contact sheet。

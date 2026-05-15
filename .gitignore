@@ -8,6 +8,7 @@ export_presets.cfg
 *.log
 deepseek.local.cfg
 node_modules/
+__pycache__/
 dist/
 godot-headless.log
 godot-import.log
@@ -15,6 +16,7 @@ tools/godot-mcp/
 .idea
 assets/opengameart/spells/Pixelart Spells/
 builds/
+artifacts/scene-screenshots/
 *.gd.uid
 *.gdextension.uid
 .zig-cache/

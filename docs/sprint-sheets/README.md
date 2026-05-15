@@ -65,10 +65,12 @@ python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
 After implementation captures screenshots, build a screenshot-review prompt:
 
 ```sh
+python3 tools/capture_scene_screenshots.py --scene 01-illiterate
+
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
   --mode screenshot-review-from-map \
   --map-input /tmp/01-scene-map.json \
-  --screenshot-manifest /tmp/01-screenshots.json \
+  --screenshot-manifest artifacts/scene-screenshots/latest/manifest.json \
   --output /tmp/01-screenshot-review-prompt.md
 ```
 
