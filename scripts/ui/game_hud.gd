@@ -23,6 +23,7 @@ const SettingsMenuScript := preload("res://scripts/ui/settings_menu.gd")
 var visual_repository
 var top_bar: Control
 var title_label: Label
+var objective_label: Label
 var time_label: Label
 var scene_canvas
 var prompt_overlay
@@ -78,6 +79,9 @@ func refresh(session, player_controller) -> void:
 
 	var location: Dictionary = session.current_location()
 	title_label.text = "%s/%s  %s" % [session.scene_index + 1, session.scene_count(), session.scene.get("title", "")]
+	var objective_text := _objective_text(session)
+	objective_label.text = objective_text
+	objective_label.visible = not objective_text.is_empty()
 	time_label.text = "时长 %s" % session.format_time()
 
 	scene_canvas.refresh(session)
@@ -89,9 +93,9 @@ func refresh(session, player_controller) -> void:
 		player_controller.has_blocked_feedback()
 	)
 	prompt_overlay.refresh(
-		str(location.get("name", session.location_id)),
+		_display_location_name(session, location),
 		player_controller.prompt_text(),
-		session.visible_log(1)
+		session.visible_log(_visible_log_lines(session))
 	)
 
 
@@ -198,6 +202,12 @@ func _build_top_bar() -> Control:
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(title_label)
 
+	objective_label = GameThemeScript.make_label("SceneObjective", 15, GameThemeScript.COLORS.gold)
+	objective_label.custom_minimum_size = Vector2(220, 28)
+	objective_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	objective_label.visible = false
+	row.add_child(objective_label)
+
 	time_label = GameThemeScript.make_label("SceneTime", 15, GameThemeScript.COLORS.muted)
 	time_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	time_label.custom_minimum_size = Vector2(130, 28)
@@ -295,3 +305,23 @@ func _sync_gameplay_hud_visibility() -> void:
 		top_bar.visible = gameplay_hud_visible
 	if prompt_overlay != null:
 		prompt_overlay.visible = gameplay_hud_visible
+
+
+func _objective_text(session) -> String:
+	if session.scene_id != "01-illiterate":
+		return ""
+	if session.has_flag("learned_name_strokes") or session.has_flag("named_beast") or session.has_flag("defeated_nameless"):
+		return "目标：记住它的名，然后活下去"
+	return "目标：□□□"
+
+
+func _display_location_name(session, location: Dictionary) -> String:
+	if session.scene_id == "01-illiterate" and not session.has_flag("learned_name_strokes"):
+		return "□□□"
+	return str(location.get("name", session.location_id))
+
+
+func _visible_log_lines(session) -> int:
+	if session.scene_id == "01-illiterate":
+		return 2
+	return 1

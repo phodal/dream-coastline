@@ -135,6 +135,11 @@ func prompt_text() -> String:
 		return "Space/Enter 调查：%s" % items.get(item_id, {}).get("name", item_id)
 	if interaction.has("action"):
 		var action: Dictionary = interaction["action"]
+		if str(action.get("verb", "")) == "attack":
+			var combat: Dictionary = session.current_location().get("combat", {})
+			var lock_flag := str(combat.get("lock_flag", ""))
+			if lock_flag != "" and not session.has_flag(lock_flag):
+				return "Space/Enter 无法锁定：%s" % str(combat.get("hidden_name", "???"))
 		return "Space/Enter %s" % str(interaction.get("label", action.get("verb", "行动")))
 	return "WASD/方向键移动，Space/Enter 互动"
 

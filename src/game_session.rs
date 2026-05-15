@@ -69,10 +69,7 @@ impl RustGameSession {
             return;
         };
         let db_v = db.to_variant();
-        let count = db_v
-            .call("count", &[])
-            .try_to::<i32>()
-            .unwrap_or(0);
+        let count = db_v.call("count", &[]).try_to::<i32>().unwrap_or(0);
         self.scene_index = index.clamp(0, (count - 1).max(0));
 
         let idx_v = self.scene_index.to_variant();
@@ -81,9 +78,7 @@ impl RustGameSession {
             .try_to::<GString>()
             .unwrap_or_default();
         let scene_var = db_v.call("scene_at", &[idx_v]);
-        self.scene = scene_var
-            .try_to::<VarDictionary>()
-            .unwrap_or_default();
+        self.scene = scene_var.try_to::<VarDictionary>().unwrap_or_default();
 
         let start = dict_str(&self.scene, "start", "");
         self.location_id = GString::from(start.as_str());
@@ -332,8 +327,12 @@ impl RustGameSession {
     #[func]
     fn format_time(&self) -> GString {
         GString::from(
-            format!("{:02}:{:02}", self.elapsed_seconds / 60, self.elapsed_seconds % 60)
-                .as_str(),
+            format!(
+                "{:02}:{:02}",
+                self.elapsed_seconds / 60,
+                self.elapsed_seconds % 60
+            )
+            .as_str(),
         )
     }
 
@@ -343,7 +342,12 @@ impl RustGameSession {
         let start = (total - max_lines).max(0) as usize;
         let mut lines: Vec<String> = Vec::new();
         for i in start..total as usize {
-            lines.push(self.event_log.get(i).map(|s| s.to_string()).unwrap_or_default());
+            lines.push(
+                self.event_log
+                    .get(i)
+                    .map(|s| s.to_string())
+                    .unwrap_or_default(),
+            );
         }
         GString::from(lines.join("\n").as_str())
     }
@@ -630,10 +634,18 @@ impl RustGameSession {
 
         let action = if combat_active {
             let a = dict_value_as_dict(&spells, glyph);
-            if a.is_empty() { dict_value_as_dict(&glyph_actions, glyph) } else { a }
+            if a.is_empty() {
+                dict_value_as_dict(&glyph_actions, glyph)
+            } else {
+                a
+            }
         } else {
             let a = dict_value_as_dict(&glyph_actions, glyph);
-            if a.is_empty() { dict_value_as_dict(&spells, glyph) } else { a }
+            if a.is_empty() {
+                dict_value_as_dict(&spells, glyph)
+            } else {
+                a
+            }
         };
 
         if action.is_empty() {
@@ -732,7 +744,9 @@ impl RustGameSession {
         self.name_attempts += 1;
         if self.name_attempts < dict_i32(&combat, "success_attempt", 1) {
             self.player_hp -= 1;
-            self.log_internal("符文碎开。敌人继续進逃，UI 上的名字短暂变成□□。");
+            let failure_flags = dict_value_as_array(&combat, "failure_flags");
+            self.add_flags_from_array(&failure_flags);
+            self.log_internal("符文碎开。敌人继续逼近，UI 上的名字短暂变成□□。");
         } else {
             let lock_flag = dict_str(&combat, "lock_flag", "");
             if !lock_flag.is_empty() {
@@ -742,10 +756,7 @@ impl RustGameSession {
             self.add_flags_from_array(&success_flags);
             self.attacks_since_name = 0;
             let revealed_name = dict_str(&combat, "revealed_name", "敌人");
-            self.log_internal(&format!(
-                "“名”字亮起。目标显形：{}。",
-                revealed_name
-            ));
+            self.log_internal(&format!("“名”字亮起。目标显形：{}。", revealed_name));
         }
     }
 
@@ -787,10 +798,7 @@ impl RustGameSession {
             self.flags.remove(&lock_flag);
             self.attacks_since_name = 0;
             let revealed_name = dict_str(&combat, "revealed_name", "敌人");
-            self.log_internal(&format!(
-                "{} 开始失名，必须重新写“名”。",
-                revealed_name
-            ));
+            self.log_internal(&format!("{} 开始失名，必须重新写“名”。", revealed_name));
         } else {
             let revealed_name = dict_str(&combat, "revealed_name", "敌人");
             self.log_internal(&format!("攻击命中：{}。", revealed_name));

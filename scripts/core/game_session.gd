@@ -366,6 +366,7 @@ func _write_name() -> void:
 	name_attempts += 1
 	if name_attempts < int(combat.get("success_attempt", 1)):
 		player_hp -= 1
+		_add_flags(combat.get("failure_flags", []))
 		_log("符文碎开。敌人继续逼近，UI 上的名字短暂变成□□。")
 	else:
 		_add_flags([combat["lock_flag"]])

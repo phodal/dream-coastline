@@ -126,8 +126,7 @@ impl RustRpgPlayerController {
     fn update(&mut self, delta: f64) -> bool {
         let mut changed = false;
         if self.blocked_feedback_elapsed > 0.0 {
-            self.blocked_feedback_elapsed =
-                (self.blocked_feedback_elapsed - delta).max(0.0);
+            self.blocked_feedback_elapsed = (self.blocked_feedback_elapsed - delta).max(0.0);
             changed = true;
         }
         if !self.is_moving {
@@ -155,10 +154,7 @@ impl RustRpgPlayerController {
     fn visual_tile(&self) -> Vector2 {
         if self.is_moving && self.move_duration > 0.0 {
             let t = (self.move_elapsed / self.move_duration).min(1.0) as f32;
-            let from = Vector2::new(
-                self.previous_tile.x as f32,
-                self.previous_tile.y as f32,
-            );
+            let from = Vector2::new(self.previous_tile.x as f32, self.previous_tile.y as f32);
             let to = Vector2::new(self.tile.x as f32, self.tile.y as f32);
             from.lerp(to, t)
         } else {
@@ -206,7 +202,9 @@ impl RustRpgPlayerController {
         if interaction.is_empty() {
             if let Some(session) = self.session.as_ref() {
                 let msg = GString::from("这里没有可以互动的东西。");
-                session.to_variant().call("append_event_log", &[msg.to_variant()]);
+                session
+                    .to_variant()
+                    .call("append_event_log", &[msg.to_variant()]);
             }
             return;
         }
@@ -242,7 +240,9 @@ impl RustRpgPlayerController {
                 .and_then(|v| v.try_to::<VarDictionary>().ok())
                 .unwrap_or_default();
             if let Some(session) = self.session.as_ref() {
-                session.to_variant().call("apply_action", &[action.to_variant()]);
+                session
+                    .to_variant()
+                    .call("apply_action", &[action.to_variant()]);
             }
         }
     }
@@ -270,9 +270,7 @@ impl RustRpgPlayerController {
                 .and_then(|v| v.try_to::<GString>().ok())
                 .map(|s| s.to_string())
                 .unwrap_or_else(|| exit_id.clone());
-            return GString::from(
-                format!("Space/Enter 进入：{}", exit_name).as_str(),
-            );
+            return GString::from(format!("Space/Enter 进入：{}", exit_name).as_str());
         }
 
         if interaction.contains_key("item") {
@@ -296,22 +294,55 @@ impl RustRpgPlayerController {
                 .and_then(|v| v.try_to::<GString>().ok())
                 .map(|s| s.to_string())
                 .unwrap_or_else(|| item_id.clone());
-            return GString::from(
-                format!("Space/Enter 调查：{}", item_name).as_str(),
-            );
+            return GString::from(format!("Space/Enter 调查：{}", item_name).as_str());
         }
 
         if interaction.contains_key("action") {
+            let action = interaction
+                .get("action")
+                .and_then(|v| v.try_to::<VarDictionary>().ok())
+                .unwrap_or_default();
+            if dict_str(&action, "verb", "") == "attack" {
+                let loc = self
+                    .session
+                    .as_ref()
+                    .map(|s| s.to_variant().call("current_location", &[]))
+                    .unwrap_or_else(Variant::nil);
+                let combat = loc
+                    .try_to::<VarDictionary>()
+                    .ok()
+                    .as_ref()
+                    .map(|d| dict_value_as_dict(d, "combat"))
+                    .unwrap_or_default();
+                let lock_flag = dict_str(&combat, "lock_flag", "");
+                let has_lock = lock_flag.is_empty()
+                    || self
+                        .session
+                        .as_ref()
+                        .map(|s| {
+                            s.to_variant()
+                                .call(
+                                    "has_flag",
+                                    &[GString::from(lock_flag.as_str()).to_variant()],
+                                )
+                                .try_to::<bool>()
+                                .unwrap_or(false)
+                        })
+                        .unwrap_or(false);
+                if !has_lock {
+                    let hidden_name = dict_str(&combat, "hidden_name", "???");
+                    return GString::from(
+                        format!("Space/Enter 无法锁定：{}", hidden_name).as_str(),
+                    );
+                }
+            }
             let label = interaction
                 .get("label")
                 .and_then(|v| v.try_to::<GString>().ok())
                 .map(|s| s.to_string())
                 .or_else(|| {
-                    interaction
-                        .get("action")
-                        .and_then(|v| v.try_to::<VarDictionary>().ok())
-                        .as_ref()
-                        .and_then(|d| d.get("verb"))
+                    action
+                        .get("verb")
                         .and_then(|v| v.try_to::<GString>().ok())
                         .map(|s| s.to_string())
                 })
@@ -319,9 +350,7 @@ impl RustRpgPlayerController {
             return GString::from(format!("Space/Enter {}", label).as_str());
         }
 
-        GString::from(
-            "WASD/方向键移动，Space/Enter 互动",
-        )
+        GString::from("WASD/方向键移动，Space/Enter 互动")
     }
 }
 
