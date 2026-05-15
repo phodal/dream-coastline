@@ -2,11 +2,15 @@ class_name SpriteSceneCanvas
 extends Control
 
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
-const DUNGEON_CRAWL := preload("res://assets/opengameart/dungeon_crawl/DungeonCrawl_ProjectUtumnoTileset.png")
-const RPG_CHARACTERS := preload("res://assets/opengameart/rpg_characters/rpg_16x16.png")
-const FIREBALL := preload("res://assets/opengameart/spells/png/fireball.png")
-const MAGIC_ORB := preload("res://assets/opengameart/spells/png/magic_orb.png")
-const PAPER_ICON := preload("res://assets/opengameart/paper_icons/Paper.png")
+const AnimationClipRepositoryScript := preload("res://scripts/core/animation_clip_repository.gd")
+const VisualAssetRegistryScript := preload("res://scripts/core/visual_asset_registry.gd")
+
+const DUNGEON_CRAWL_PATH := "res://assets/opengameart/dungeon_crawl/DungeonCrawl_ProjectUtumnoTileset.png"
+const RPG_CHARACTERS_PATH := "res://assets/opengameart/rpg_characters/rpg_16x16.png"
+const FIREBALL_PATH := "res://assets/opengameart/spells/png/fireball.png"
+const MAGIC_ORB_PATH := "res://assets/opengameart/spells/png/magic_orb.png"
+const PAPER_ICON_PATH := "res://assets/opengameart/paper_icons/Paper.png"
+const PLAYER_DEFAULT_CLIP_ID := "player_default"
 
 const ATLAS_TILE := 32.0
 const CHAR_TILE := 16.0
@@ -22,9 +26,26 @@ var player_facing := Vector2i(0, -1)
 var blocked_tile := Vector2i.ZERO
 var show_blocked_feedback := false
 var animation_time := 0.0
+var player_actor_id := "jizixuan"
+var visual_assets
+var animation_clips
+var dungeon_crawl_texture
+var rpg_characters_texture
+var fireball_texture
+var magic_orb_texture
+var paper_icon_texture
 
 
 func _ready() -> void:
+	visual_assets = VisualAssetRegistryScript.new()
+	visual_assets.load_all()
+	animation_clips = AnimationClipRepositoryScript.new()
+	animation_clips.load_all()
+	dungeon_crawl_texture = _load_optional_texture(DUNGEON_CRAWL_PATH)
+	rpg_characters_texture = _load_optional_texture(RPG_CHARACTERS_PATH)
+	fireball_texture = _load_optional_texture(FIREBALL_PATH)
+	magic_orb_texture = _load_optional_texture(MAGIC_ORB_PATH)
+	paper_icon_texture = _load_optional_texture(PAPER_ICON_PATH)
 	custom_minimum_size = Vector2(560, 420)
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -38,6 +59,15 @@ func _process(delta: float) -> void:
 		queue_redraw()
 
 
+func _load_optional_texture(path: String):
+	if not ResourceLoader.exists(path):
+		return null
+	var texture = load(path)
+	if texture == null:
+		push_warning("Optional visual texture is unavailable: %s" % path)
+	return texture
+
+
 func set_visual_repository(repository) -> void:
 	visual_repository = repository
 
@@ -49,6 +79,11 @@ func refresh(game_session) -> void:
 
 func set_player_tile(tile: Vector2) -> void:
 	player_tile = tile
+	queue_redraw()
+
+
+func set_player_actor(actor_id: String) -> void:
+	player_actor_id = actor_id
 	queue_redraw()
 
 
@@ -359,7 +394,7 @@ func _draw_location_objects(origin: Vector2, tile_size: float, visual: Dictionar
 		for prop in visual.get("props", []):
 			_draw_visual_prop(prop, origin, tile_size)
 		if session.has_flag(str(session.scene.get("ending_flag", ""))):
-			draw_texture_rect(MAGIC_ORB, Rect2(origin + Vector2(12, 4) * tile_size, Vector2(tile_size, tile_size)), false)
+			_draw_magic_orb(Rect2(origin + Vector2(12, 4) * tile_size, Vector2(tile_size, tile_size)))
 		return
 
 	var location: Dictionary = session.current_location()
@@ -385,12 +420,12 @@ func _draw_location_objects(origin: Vector2, tile_size: float, visual: Dictionar
 		_draw_prop("stairs", origin + Vector2(1, 4) * tile_size, tile_size)
 
 	if session.has_flag(str(session.scene.get("ending_flag", ""))):
-		draw_texture_rect(MAGIC_ORB, Rect2(origin + Vector2(7, 4) * tile_size, Vector2(tile_size, tile_size)), false)
+		_draw_magic_orb(Rect2(origin + Vector2(7, 4) * tile_size, Vector2(tile_size, tile_size)))
 
 	var combat: Dictionary = location.get("combat", {})
 	if not combat.is_empty() and session.enemy_hp > 0:
 		_draw_dungeon_tile(Vector2i(6, 2), origin + Vector2(10, 4) * tile_size, tile_size)
-		draw_texture_rect(FIREBALL, Rect2(origin + Vector2(9, 4) * tile_size, Vector2(tile_size, tile_size)), false)
+		_draw_fireball(Rect2(origin + Vector2(9, 4) * tile_size, Vector2(tile_size, tile_size)))
 
 
 func _draw_actors(origin: Vector2, tile_size: float, _visual: Dictionary) -> void:
@@ -398,7 +433,7 @@ func _draw_actors(origin: Vector2, tile_size: float, _visual: Dictionary) -> voi
 	if player_moving:
 		bob = -tile_size * 0.045 if fmod(animation_time / 0.12, 2.0) >= 1.0 else 0.0
 	var player_top_left := origin + player_tile * tile_size + Vector2(0, bob)
-	_draw_character(_player_frame(), player_top_left, tile_size)
+	_draw_player_actor(player_top_left, tile_size)
 	_draw_facing_marker(player_top_left, tile_size)
 	if session.scene_index >= 2:
 		_draw_character(Vector2i(3, 0), origin + Vector2(6, 5) * tile_size, tile_size)
@@ -411,7 +446,7 @@ func _draw_prop(item_id: String, top_left: Vector2, tile_size: float) -> void:
 		"window":
 			_draw_dungeon_tile(Vector2i(12, 12), top_left, tile_size)
 		"poster", "letter", "note":
-			draw_texture_rect(PAPER_ICON, Rect2(top_left + Vector2(tile_size * 0.15, tile_size * 0.1), Vector2(tile_size * 0.7, tile_size * 0.8)), false)
+			_draw_paper_icon(Rect2(top_left + Vector2(tile_size * 0.15, tile_size * 0.1), Vector2(tile_size * 0.7, tile_size * 0.8)))
 		"pen":
 			_draw_dungeon_tile(Vector2i(34, 28), top_left, tile_size)
 		"vending":
@@ -498,10 +533,10 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			_draw_dungeon_tile(Vector2i(11, 14), position, tile_size)
 		"node":
 			_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
-			draw_texture_rect(MAGIC_ORB, Rect2(position, Vector2(tile_size, tile_size)), false)
+			_draw_magic_orb(Rect2(position, Vector2(tile_size, tile_size)))
 		"portal":
 			if session.has_flag(str(session.scene.get("ending_flag", ""))):
-				draw_texture_rect(MAGIC_ORB, Rect2(position, Vector2(tile_size, tile_size)), false)
+				_draw_magic_orb(Rect2(position, Vector2(tile_size, tile_size)))
 			else:
 				_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
 		"lamp":
@@ -527,7 +562,7 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			else:
 				_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
 		"record":
-			draw_texture_rect(PAPER_ICON, Rect2(position + Vector2(tile_size * 0.15, tile_size * 0.1), Vector2(tile_size * 0.7, tile_size * 0.8)), false)
+			_draw_paper_icon(Rect2(position + Vector2(tile_size * 0.15, tile_size * 0.1), Vector2(tile_size * 0.7, tile_size * 0.8)))
 		"window_dark":
 			_draw_dark_window(position, tile_size)
 		"shadow":
@@ -1079,17 +1114,96 @@ func _draw_actor(kind: String, top_left: Vector2, tile_size: float) -> void:
 			_draw_character(Vector2i(0, 0), top_left, tile_size)
 
 
+func _draw_magic_orb(rect: Rect2) -> void:
+	if magic_orb_texture != null:
+		draw_texture_rect(magic_orb_texture, rect, false)
+		return
+	var center := rect.get_center()
+	var radius: float = minf(rect.size.x, rect.size.y) * 0.34
+	var pulse := 0.72 + sin(animation_time * 2.2) * 0.16
+	draw_circle(center, radius * 1.35, Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.14 * pulse))
+	draw_circle(center, radius, Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.58 * pulse))
+	draw_circle(center, radius * 0.42, Color("#f1ead4", 0.72))
+
+
+func _draw_fireball(rect: Rect2) -> void:
+	if fireball_texture != null:
+		draw_texture_rect(fireball_texture, rect, false)
+		return
+	_draw_flame(rect.get_center(), min(rect.size.x, rect.size.y) * 0.34, 0.4)
+
+
+func _draw_paper_icon(rect: Rect2) -> void:
+	if paper_icon_texture != null:
+		draw_texture_rect(paper_icon_texture, rect, false)
+		return
+	draw_rect(rect, Color("#d8ceb0"))
+	draw_rect(rect, GameThemeScript.COLORS.border_light, false, maxf(1.0, rect.size.x * 0.04))
+	for row in range(3):
+		draw_rect(
+			Rect2(rect.position + Vector2(rect.size.x * 0.18, rect.size.y * (0.25 + row * 0.18)), Vector2(rect.size.x * 0.64, rect.size.y * 0.05)),
+			Color("#17110d", 0.62)
+		)
+
+
+func _draw_missing_tile(tile: Vector2i, top_left: Vector2, tile_size: float) -> void:
+	var hue := float((abs(tile.x * 17 + tile.y * 31)) % 100) / 100.0
+	var base := Color.from_hsv(0.08 + hue * 0.1, 0.35, 0.24)
+	draw_rect(Rect2(top_left, Vector2(tile_size, tile_size)), base)
+	draw_rect(Rect2(top_left, Vector2(tile_size, tile_size)), Color("#f1ead4", 0.18), false, maxf(1.0, tile_size * 0.02))
+
+
 func _draw_dungeon_tile(tile: Vector2i, top_left: Vector2, tile_size: float) -> void:
+	if dungeon_crawl_texture == null:
+		_draw_missing_tile(tile, top_left, tile_size)
+		return
 	draw_texture_rect_region(
-		DUNGEON_CRAWL,
+		dungeon_crawl_texture,
 		Rect2(top_left, Vector2(tile_size, tile_size)),
 		Rect2(Vector2(tile) * ATLAS_TILE, Vector2(ATLAS_TILE, ATLAS_TILE))
+	)
+
+
+func _draw_player_actor(top_left: Vector2, tile_size: float) -> void:
+	var clip_id := PLAYER_DEFAULT_CLIP_ID
+	if visual_assets != null:
+		clip_id = visual_assets.character_clip(player_actor_id, PLAYER_DEFAULT_CLIP_ID)
+	var frame := {}
+	if animation_clips != null:
+		frame = animation_clips.resolve_frame(clip_id, player_moving, player_facing, animation_time)
+	if frame.is_empty():
+		_draw_character(_fallback_player_frame(), top_left, tile_size)
+	else:
+		_draw_animation_frame(frame, top_left, tile_size)
+
+
+func _draw_animation_frame(frame: Dictionary, top_left: Vector2, tile_size: float) -> void:
+	if bool(frame.get("shadow", true)):
+		_draw_character_shadow(top_left, tile_size)
+	var render_size := tile_size * float(frame.get("render_size", 0.74))
+	var sprite_top_left := top_left + Vector2((tile_size - render_size) * 0.5, tile_size - render_size - tile_size * 0.08)
+	draw_texture_rect_region(
+		frame.get("texture"),
+		Rect2(sprite_top_left, Vector2(render_size, render_size)),
+		frame.get("source")
 	)
 
 
 func _draw_character(tile: Vector2i, top_left: Vector2, tile_size: float) -> void:
 	var sprite_size := tile_size * 0.74
 	var sprite_top_left := top_left + Vector2((tile_size - sprite_size) * 0.5, tile_size - sprite_size - tile_size * 0.08)
+	_draw_character_shadow(top_left, tile_size)
+	if rpg_characters_texture == null:
+		_draw_fallback_character(tile, sprite_top_left, sprite_size)
+		return
+	draw_texture_rect_region(
+		rpg_characters_texture,
+		Rect2(sprite_top_left, Vector2(sprite_size, sprite_size)),
+		Rect2(Vector2(tile) * CHAR_TILE, Vector2(CHAR_TILE, CHAR_TILE))
+	)
+
+
+func _draw_character_shadow(top_left: Vector2, tile_size: float) -> void:
 	draw_rect(
 		Rect2(
 			top_left + Vector2(tile_size * 0.24, tile_size * 0.82),
@@ -1097,14 +1211,23 @@ func _draw_character(tile: Vector2i, top_left: Vector2, tile_size: float) -> voi
 		),
 		Color("#000000", 0.32)
 	)
-	draw_texture_rect_region(
-		RPG_CHARACTERS,
-		Rect2(sprite_top_left, Vector2(sprite_size, sprite_size)),
-		Rect2(Vector2(tile) * CHAR_TILE, Vector2(CHAR_TILE, CHAR_TILE))
+
+
+func _draw_fallback_character(tile: Vector2i, sprite_top_left: Vector2, sprite_size: float) -> void:
+	var body := Rect2(
+		sprite_top_left + Vector2(sprite_size * 0.32, sprite_size * 0.34),
+		Vector2(sprite_size * 0.36, sprite_size * 0.38)
 	)
+	var head := sprite_top_left + Vector2(sprite_size * 0.5, sprite_size * 0.24)
+	var accent := GameThemeScript.COLORS.gold if tile.x % 2 == 0 else GameThemeScript.COLORS.cyan
+	draw_circle(head, sprite_size * 0.16, Color("#d8ceb0"))
+	draw_rect(body, Color("#293647"))
+	draw_rect(body, accent, false, maxf(1.0, sprite_size * 0.035))
+	draw_rect(Rect2(sprite_top_left + Vector2(sprite_size * 0.26, sprite_size * 0.72), Vector2(sprite_size * 0.18, sprite_size * 0.12)), Color("#17110d"))
+	draw_rect(Rect2(sprite_top_left + Vector2(sprite_size * 0.56, sprite_size * 0.72), Vector2(sprite_size * 0.18, sprite_size * 0.12)), Color("#17110d"))
 
 
-func _player_frame() -> Vector2i:
+func _fallback_player_frame() -> Vector2i:
 	var column := 1
 	if player_moving:
 		var cycle := [0, 1, 2, 1]

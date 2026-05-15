@@ -10,6 +10,7 @@ const RpgCenturyContinuationSmokeScript := preload("res://scripts/core/rpg_centu
 const RpgReturnStarPlanSmokeScript := preload("res://scripts/core/rpg_return_star_plan_smoke.gd")
 const RpgLightsOnAgainSmokeScript := preload("res://scripts/core/rpg_lights_on_again_smoke.gd")
 const SaveLoadSmokeScript := preload("res://scripts/core/save_load_smoke.gd")
+const AnimationClipRepositorySmokeScript := preload("res://scripts/core/animation_clip_repository_smoke.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const GameHudScript := preload("res://scripts/ui/game_hud.gd")
 
@@ -58,6 +59,10 @@ func _ready() -> void:
 		return
 	if OS.get_cmdline_user_args().has("--smoke-input-map"):
 		var ok: bool = _run_input_map_smoke()
+		get_tree().quit(0 if ok else 1)
+		return
+	if OS.get_cmdline_user_args().has("--smoke-animation-clips"):
+		var ok: bool = AnimationClipRepositorySmokeScript.new().run()
 		get_tree().quit(0 if ok else 1)
 		return
 	if OS.get_cmdline_user_args().has("--smoke-autoplay"):

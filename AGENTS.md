@@ -14,3 +14,4 @@
 - 改 background 时只画 canvas backdrop 不够，因为满屏 tile 会盖住它；需要同步改 terrain tile / overlay，否则截图仍会像重复素材铺底。
 - 现代楼体不能只画方块外壳；要有楼层线、窗格、邻居窗光和关键黑窗/灯具对比，否则“大楼”“灯未亮”都读不出来。
 - 做视觉对比不要依赖 macOS 窗口截图；优先跑 `python3 tools/capture_scene_screenshots.py`，用 Godot viewport 直接生成 PNG、manifest 和 contact sheet。
+- 角色动画不要再写死在 `SpriteSceneCanvas`；新角色包先落到 `data/visual_assets/characters.json` 和 `data/animation_clips/*.json`，再用 Animation Sheet Contract 和 `--smoke-animation-clips` 验证状态。

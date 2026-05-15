@@ -11,9 +11,14 @@ This project targets Godot 4.6.2 desktop exports for Steam-oriented testing.
 - `Linux/X11` -> `builds/linux/dream-coastline.x86_64`
 
 `project.godot` defines version, description, project icon, and boot splash
-image. The current icon/splash image is a CC0 derivative placeholder from the
-bundled 16x16 RPG character sheet and should be replaced before final store
-submission.
+image. Branding assets live under `assets/branding/`: the app icon is a compact
+square PNG and the splash is a separate 16:9 image.
+
+Resize local branding assets after regeneration:
+
+```sh
+tools/resize_branding_assets.py
+```
 
 ## Local Checks
 

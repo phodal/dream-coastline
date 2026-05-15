@@ -7,6 +7,9 @@ The playable slice loads narrative scene data from `data/story_scenes/` and
 renders multiple story arcs with explicit visual scene data from
 `data/visual_scenes/`. The Godot version uses OpenGameArt spritesheets for the
 play field, character markers, props, portals, and action feedback.
+Character animation metadata is now described by `data/animation_clips/` and
+selected through `data/visual_assets/`, so generated sprite packages can enter
+the renderer through a small asset contract instead of hard-coded frame logic.
 The repository-backed data, save, and settings services also have Rust
 GDExtension equivalents under `src/`, loaded through
 `dream_coastline.gdextension`.
@@ -33,6 +36,10 @@ GDExtension equivalents under `src/`, loaded through
 - `scripts/core/rpg_player_controller.gd` handles tile movement, facing, and
   blocked feedback.
 - `scripts/core/scene_visual_repository.gd` loads per-location visual maps.
+- `scripts/core/visual_asset_registry.gd` maps semantic asset ids such as
+  `jizixuan` to animation clips and future prop/effect asset records.
+- `scripts/core/animation_clip_repository.gd` resolves animation clip JSON into
+  deterministic atlas frames for the renderer.
 - `scripts/core/audio_director.gd` provides generated fallback audio streams.
 - `scripts/core/settings_repository.gd` persists volume and preferences.
 - `scripts/core/save_game_repository.gd` handles save/load serialization.
@@ -43,7 +50,8 @@ GDExtension equivalents under `src/`, loaded through
 - `scripts/ui/pause_menu.gd` provides in-game pause with save/load/settings.
 - `scripts/ui/settings_menu.gd` exposes volume and preference controls.
 - `scripts/ui/sprite_scene_canvas.gd` renders the tile scene from the visual
-  data and OpenGameArt spritesheets.
+  data, asset registry, animation clips, procedural fallbacks, and OpenGameArt
+  spritesheets.
 - `scripts/ui/prompt_overlay.gd` keeps the compact keyboard prompt and latest
   feedback out of the play field.
 - `scripts/ui/game_theme.gd` keeps HUD styling separate from gameplay rules.
@@ -168,6 +176,12 @@ Validate keyboard/gamepad input mapping:
 
 ```sh
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-input-map
+```
+
+Validate animation clip contracts for the current player actor:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-animation-clips
 ```
 
 Validate a rendered game frame. This uses the real renderer, so run it without

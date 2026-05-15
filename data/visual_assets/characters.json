@@ -1,0 +1,8 @@
+{
+  "jizixuan": {
+    "type": "character",
+    "clip": "player_default",
+    "role": "player",
+    "fallback": "rpg_characters.default_boy"
+  }
+}
