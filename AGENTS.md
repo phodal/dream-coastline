@@ -11,3 +11,4 @@
 - 未来写 UI 时不要只给 Sprint Sheet；用 `--mode ui-brief-from-map` 把映射转换成 UI brief，明确 `GameHud`、`SpriteSceneCanvas`、`PromptOverlay`、数据 hook、prop renderer 和截图状态。
 - 当前主流程使用 `RustGameSession` / `RustRpgPlayerController`；改交互或存档状态时要同步 Rust 与 GDScript 参考实现，否则窗口验证不会反映 GDScript 修复。
 - 半自动实现前先跑 `tools/validate_scene_ai_contract.py` 校验 map/brief，再用 `--mode implementation-from-brief` 生成实现提示，最后用 `--mode screenshot-review-from-map` 按截图审查语义是否跑偏。
+- 改 background 时只画 canvas backdrop 不够，因为满屏 tile 会盖住它；需要同步改 terrain tile / overlay，否则截图仍会像重复素材铺底。

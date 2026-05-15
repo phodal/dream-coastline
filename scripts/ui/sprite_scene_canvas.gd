@@ -21,6 +21,7 @@ var player_moving := false
 var player_facing := Vector2i(0, -1)
 var blocked_tile := Vector2i.ZERO
 var show_blocked_feedback := false
+var animation_time := 0.0
 
 
 func _ready() -> void:
@@ -28,6 +29,13 @@ func _ready() -> void:
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	set_process(true)
+
+
+func _process(delta: float) -> void:
+	animation_time += delta
+	if session != null:
+		queue_redraw()
 
 
 func set_visual_repository(repository) -> void:
@@ -64,18 +72,97 @@ func _draw() -> void:
 	var origin := (canvas_size - map_size) * 0.5
 
 	var visual := _current_visual()
+	_draw_scene_backdrop(canvas_size, origin, map_size, tile_size, visual)
 	_draw_map(origin, tile_size, visual)
 	_draw_location_objects(origin, tile_size, visual)
 	_draw_blocked_feedback(origin, tile_size)
 	_draw_actors(origin, tile_size, visual)
 
 
+func _draw_scene_backdrop(canvas_size: Vector2, origin: Vector2, map_size: Vector2, tile_size: float, visual: Dictionary) -> void:
+	var terrain := str(visual.get("terrain", ""))
+	var base := _ambient_base_color(terrain)
+	draw_rect(Rect2(Vector2.ZERO, canvas_size), base)
+	_draw_backdrop_texture(canvas_size, tile_size, terrain)
+	if terrain in ["wilderness", "forest"]:
+		_draw_wilderness_horizon(origin, map_size, tile_size, terrain)
+	elif terrain in ["ruin", "dead_city"]:
+		_draw_ruin_haze(origin, map_size, tile_size)
+	elif terrain == "node":
+		_draw_node_backdrop(origin, map_size, tile_size)
+	elif _uses_modern_scene_tiles(terrain):
+		_draw_modern_backdrop(origin, map_size, tile_size, terrain)
+	draw_rect(Rect2(origin - Vector2(tile_size * 0.16, tile_size * 0.16), map_size + Vector2(tile_size * 0.32, tile_size * 0.32)), Color("#000000", 0.2), false, maxf(2.0, tile_size * 0.04))
+
+
+func _draw_backdrop_texture(canvas_size: Vector2, tile_size: float, terrain: String) -> void:
+	var speck_color := _ambient_speck_color(terrain)
+	for index in range(28):
+		var x := fposmod(float(index * 47) + animation_time * 7.0, canvas_size.x)
+		var y := fposmod(float(index * 31) + sin(animation_time * 0.6 + index) * 8.0, canvas_size.y)
+		var size := maxf(1.0, tile_size * (0.018 + float(index % 3) * 0.006))
+		draw_rect(Rect2(Vector2(x, y), Vector2(size, size)), speck_color)
+
+
+func _draw_wilderness_horizon(origin: Vector2, map_size: Vector2, tile_size: float, terrain: String) -> void:
+	var horizon_y := origin.y + tile_size * 0.55
+	draw_rect(Rect2(Vector2(origin.x, horizon_y), Vector2(map_size.x, tile_size * 0.12)), Color("#d7b15e", 0.16))
+	for index in range(7):
+		var x := origin.x + tile_size * (0.8 + index * 2.1)
+		var height := tile_size * (0.28 + float(index % 3) * 0.12)
+		var color := Color("#10100e", 0.72) if terrain == "wilderness" else Color("#0b130e", 0.78)
+		draw_rect(Rect2(Vector2(x, horizon_y - height), Vector2(tile_size * 0.28, height)), color)
+		if terrain == "forest":
+			draw_circle(Vector2(x + tile_size * 0.14, horizon_y - height), tile_size * 0.24, Color("#102013", 0.62))
+	var drift := fposmod(animation_time * tile_size * 0.08, tile_size * 2.0)
+	for index in range(5):
+		var y := origin.y + tile_size * (1.0 + index * 0.8)
+		draw_rect(Rect2(Vector2(origin.x + drift - tile_size * 2.0, y), Vector2(map_size.x + tile_size * 3.0, tile_size * 0.04)), Color("#d8ceb0", 0.045))
+
+
+func _draw_ruin_haze(origin: Vector2, map_size: Vector2, tile_size: float) -> void:
+	for index in range(5):
+		var y := origin.y + tile_size * (1.0 + index * 1.2)
+		var shift := sin(animation_time * 0.35 + float(index)) * tile_size * 0.18
+		draw_rect(Rect2(Vector2(origin.x + shift, y), Vector2(map_size.x - tile_size * 0.5, tile_size * 0.18)), Color("#050608", 0.18))
+	for index in range(8):
+		var x := origin.x + tile_size * (1.0 + index * 1.55)
+		var y := origin.y + tile_size * (1.2 + fposmod(animation_time * 0.18 + index * 0.37, 4.8))
+		draw_rect(Rect2(Vector2(x, y), Vector2(tile_size * 0.08, tile_size * 0.025)), GameThemeScript.COLORS.paper)
+
+
+func _draw_node_backdrop(origin: Vector2, map_size: Vector2, tile_size: float) -> void:
+	var pulse := 0.14 + sin(animation_time * 1.4) * 0.05
+	draw_rect(Rect2(origin + Vector2(tile_size, tile_size), map_size - Vector2(tile_size * 2.0, tile_size * 2.0)), Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, pulse))
+	for index in range(6):
+		var x := origin.x + tile_size * (1.0 + index * 2.2)
+		draw_line(Vector2(x, origin.y + tile_size * 1.2), Vector2(x + tile_size * 0.8, origin.y + map_size.y - tile_size * 1.2), Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.2), maxf(1.0, tile_size * 0.025))
+
+
+func _draw_modern_backdrop(origin: Vector2, map_size: Vector2, tile_size: float, terrain: String) -> void:
+	var light_alpha := 0.08 + sin(animation_time * 0.75) * 0.025
+	for index in range(4):
+		var x := origin.x + tile_size * (1.3 + index * 3.2)
+		draw_rect(Rect2(Vector2(x, origin.y + tile_size * 0.2), Vector2(tile_size * 0.42, map_size.y - tile_size * 0.6)), Color("#d8ceb0", light_alpha))
+	if terrain == "street":
+		for index in range(9):
+			var x := origin.x + fposmod(index * tile_size * 1.7 + animation_time * tile_size * 0.16, map_size.x)
+			draw_line(Vector2(x, origin.y + tile_size * 0.5), Vector2(x - tile_size * 0.12, origin.y + map_size.y - tile_size), Color("#b9d1c4", 0.14), maxf(1.0, tile_size * 0.018))
+
+
 func _draw_map(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
 	var terrain := str(visual.get("terrain", ""))
+	if _uses_first_act_scene_tiles(terrain):
+		for y in range(ROWS):
+			for x in range(COLUMNS):
+				_draw_first_act_scene_tile(terrain, x, y, origin + Vector2(x, y) * tile_size, tile_size)
+		_draw_terrain_overlay(origin, tile_size, terrain)
+		return
 	if _uses_modern_scene_tiles(terrain):
 		for y in range(ROWS):
 			for x in range(COLUMNS):
 				_draw_modern_scene_tile(terrain, x, y, origin + Vector2(x, y) * tile_size, tile_size)
+		_draw_terrain_overlay(origin, tile_size, terrain)
 		return
 
 	var palette := _palette_for_scene(terrain)
@@ -91,6 +178,77 @@ func _draw_map(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
 			elif _is_moqi_location() and (x + y) % 7 == 0:
 				tile = palette.accent
 			_draw_dungeon_tile(tile, origin + Vector2(x, y) * tile_size, tile_size)
+	_draw_terrain_overlay(origin, tile_size, terrain)
+
+
+func _draw_first_act_scene_tile(terrain: String, x: int, y: int, top_left: Vector2, tile_size: float) -> void:
+	var rect := Rect2(top_left, Vector2(tile_size, tile_size))
+	var edge := y == 0 or y == ROWS - 1 or x == 0 or x == COLUMNS - 1
+	if terrain == "wilderness":
+		if edge:
+			draw_rect(rect, Color("#17220f"))
+			_draw_tile_noise(top_left, tile_size, Color("#526b2b", 0.38))
+		elif session.location_id == "camp":
+			_draw_camp_ground_tile(x, y, top_left, tile_size)
+		elif y in [5, 6]:
+			draw_rect(rect, Color("#4b3721"))
+			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.44), Vector2(tile_size, tile_size * 0.12)), Color("#2d2115", 0.45))
+			if (x + y) % 3 == 0:
+				draw_rect(Rect2(top_left + Vector2(tile_size * 0.16, tile_size * 0.18), Vector2(tile_size * 0.18, tile_size * 0.08)), Color("#8a7142", 0.34))
+		elif y <= 2:
+			draw_rect(rect, Color("#1b1b12"))
+			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.74), Vector2(tile_size, tile_size * 0.12)), Color("#3a2a18", 0.65))
+			if (x + y) % 4 == 0:
+				draw_rect(Rect2(top_left + Vector2(tile_size * 0.12, tile_size * 0.28), Vector2(tile_size * 0.32, tile_size * 0.12)), Color("#080706", 0.62))
+		else:
+			draw_rect(rect, Color("#23351a"))
+			_draw_tile_noise(top_left, tile_size, Color("#7b8d3a", 0.24))
+	elif terrain == "forest":
+		if edge:
+			draw_rect(rect, Color("#081007"))
+			draw_circle(top_left + Vector2(tile_size * 0.52, tile_size * 0.48), tile_size * 0.42, Color("#10240f", 0.82))
+		elif y in [4, 5]:
+			draw_rect(rect, Color("#342918"))
+			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.45), Vector2(tile_size, tile_size * 0.1)), Color("#6b5a31", 0.3))
+		else:
+			draw_rect(rect, Color("#10200f"))
+			draw_circle(top_left + Vector2(tile_size * 0.38, tile_size * 0.34), tile_size * 0.28, Color("#1f3a1a", 0.54))
+			draw_rect(Rect2(top_left + Vector2(tile_size * 0.44, tile_size * 0.16), Vector2(tile_size * 0.08, tile_size * 0.76)), Color("#14110b", 0.42))
+	elif terrain == "ruin":
+		var floor_color := Color("#1a1713") if not edge else Color("#0d0c0a")
+		draw_rect(rect, floor_color)
+		draw_rect(rect, Color("#4b3a24", 0.38), false, maxf(1.0, tile_size * 0.015))
+		if (x + y) % 3 == 0:
+			draw_line(top_left + Vector2(tile_size * 0.16, tile_size * 0.72), top_left + Vector2(tile_size * 0.68, tile_size * 0.24), Color("#050608", 0.38), maxf(1.0, tile_size * 0.018))
+		if y <= 1:
+			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.68), Vector2(tile_size, tile_size * 0.12)), Color("#050608", 0.44))
+	else:
+		draw_rect(rect, Color("#15120d"))
+
+
+func _draw_camp_ground_tile(x: int, y: int, top_left: Vector2, tile_size: float) -> void:
+	if y in [4, 5]:
+		draw_rect(Rect2(top_left, Vector2(tile_size, tile_size)), Color("#3b2c18"))
+		draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.5), Vector2(tile_size, tile_size * 0.08)), Color("#6b5a31", 0.34))
+	else:
+		draw_rect(Rect2(top_left, Vector2(tile_size, tile_size)), Color("#25351b"))
+		if (x + y) % 2 == 0:
+			draw_rect(Rect2(top_left + Vector2(tile_size * 0.18, tile_size * 0.2), Vector2(tile_size * 0.16, tile_size * 0.08)), Color("#6e7e36", 0.24))
+
+
+func _draw_terrain_overlay(origin: Vector2, tile_size: float, terrain: String) -> void:
+	if terrain in ["wilderness", "forest"]:
+		var shadow := Color("#050608", 0.12 if terrain == "wilderness" else 0.22)
+		for index in range(4):
+			var x := origin.x + tile_size * (float(index) * 3.6 + 0.5)
+			draw_rect(Rect2(Vector2(x, origin.y + tile_size), Vector2(tile_size * 0.28, tile_size * (ROWS - 2))), shadow)
+	elif terrain in ["ruin", "dead_city"]:
+		var pulse := 0.1 + sin(animation_time * 0.8) * 0.03
+		draw_rect(Rect2(origin + Vector2(tile_size, tile_size), Vector2(tile_size * (COLUMNS - 2), tile_size * (ROWS - 2))), Color("#050608", pulse))
+	elif terrain == "node":
+		for index in range(5):
+			var y := origin.y + tile_size * (2.0 + index)
+			draw_line(Vector2(origin.x + tile_size * 1.5, y), Vector2(origin.x + tile_size * 13.5, y), Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.12), maxf(1.0, tile_size * 0.018))
 
 
 func _draw_modern_scene_tile(terrain: String, x: int, y: int, top_left: Vector2, tile_size: float) -> void:
@@ -182,8 +340,8 @@ func _draw_location_objects(origin: Vector2, tile_size: float, visual: Dictionar
 
 func _draw_actors(origin: Vector2, tile_size: float, _visual: Dictionary) -> void:
 	var bob := 0.0
-	if player_moving and fmod(Time.get_ticks_msec() / 120.0, 2.0) >= 1.0:
-		bob = -2.0
+	if player_moving:
+		bob = -tile_size * 0.045 if fmod(animation_time / 0.12, 2.0) >= 1.0 else 0.0
 	var player_top_left := origin + player_tile * tile_size + Vector2(0, bob)
 	_draw_character(_player_frame(), player_top_left, tile_size)
 	_draw_facing_marker(player_top_left, tile_size)
@@ -251,7 +409,7 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 		"tree":
 			_draw_block(Vector2i(13, 15), position, tile_size, width, height)
 		"campfire":
-			draw_texture_rect(FIREBALL, Rect2(position, Vector2(tile_size, tile_size)), false)
+			_draw_campfire(position, tile_size)
 		"city_fire":
 			_draw_city_fire(position, tile_size)
 		"sign":
@@ -480,29 +638,37 @@ func _draw_city_fire(top_left: Vector2, tile_size: float) -> void:
 	for column in range(3):
 		var tower := Rect2(
 			top_left + Vector2(tile_size * (0.12 + column * 0.28), tile_size * 0.16),
-			Vector2(tile_size * 0.14, tile_size * 0.28)
+			Vector2(tile_size * 0.14, tile_size * (0.28 + sin(animation_time * 1.5 + column) * 0.025))
 		)
 		draw_rect(tower, Color("#1d1611"))
 		draw_rect(tower, Color("#8f7040"), false, maxf(1.0, tile_size * 0.025))
-	_draw_flame(top_left + Vector2(tile_size * 0.23, tile_size * 0.28), tile_size * 0.22)
-	_draw_flame(top_left + Vector2(tile_size * 0.52, tile_size * 0.22), tile_size * 0.28)
-	_draw_flame(top_left + Vector2(tile_size * 0.76, tile_size * 0.32), tile_size * 0.2)
+	_draw_flame(top_left + Vector2(tile_size * 0.23, tile_size * 0.28), tile_size * 0.22, 0.0)
+	_draw_flame(top_left + Vector2(tile_size * 0.52, tile_size * 0.22), tile_size * 0.28, 0.7)
+	_draw_flame(top_left + Vector2(tile_size * 0.76, tile_size * 0.32), tile_size * 0.2, 1.4)
 	draw_rect(
 		Rect2(top_left + Vector2(tile_size * 0.08, tile_size * 0.68), Vector2(tile_size * 0.84, tile_size * 0.08)),
 		Color("#000000", 0.42)
 	)
 
 
-func _draw_flame(center: Vector2, size: float) -> void:
+func _draw_campfire(top_left: Vector2, tile_size: float) -> void:
+	draw_rect(Rect2(top_left + Vector2(tile_size * 0.28, tile_size * 0.7), Vector2(tile_size * 0.44, tile_size * 0.08)), Color("#2b1d10"))
+	_draw_flame(top_left + Vector2(tile_size * 0.5, tile_size * 0.52), tile_size * 0.28, 2.1)
+	draw_circle(top_left + Vector2(tile_size * 0.5, tile_size * 0.58), tile_size * 0.32, Color("#d45c55", 0.12 + sin(animation_time * 2.4) * 0.04))
+
+
+func _draw_flame(center: Vector2, size: float, phase: float = 0.0) -> void:
+	var flicker := 1.0 + sin(animation_time * 6.0 + phase) * 0.12
+	var flame_size := size * flicker
 	var outer := PackedVector2Array([
-		center + Vector2(0, -size),
-		center + Vector2(size * 0.52, size * 0.55),
-		center + Vector2(-size * 0.52, size * 0.55),
+		center + Vector2(0, -flame_size),
+		center + Vector2(flame_size * 0.52, flame_size * 0.55),
+		center + Vector2(-flame_size * 0.52, flame_size * 0.55),
 	])
 	var inner := PackedVector2Array([
-		center + Vector2(0, -size * 0.45),
-		center + Vector2(size * 0.25, size * 0.35),
-		center + Vector2(-size * 0.25, size * 0.35),
+		center + Vector2(0, -flame_size * 0.45),
+		center + Vector2(flame_size * 0.25, flame_size * 0.35),
+		center + Vector2(-flame_size * 0.25, flame_size * 0.35),
 	])
 	draw_colored_polygon(outer, Color("#d45c55"))
 	draw_colored_polygon(inner, Color("#f0d18a"))
@@ -518,7 +684,7 @@ func _draw_text_surface(top_left: Vector2, tile_size: float, live_ink: bool) -> 
 	draw_rect(body, GameThemeScript.COLORS.border_light, false, maxf(1.0, tile_size * 0.035))
 	var ink_offset := 0.0
 	if live_ink:
-		ink_offset = sin(Time.get_ticks_msec() / 180.0) * tile_size * 0.035
+		ink_offset = sin(animation_time * 5.5) * tile_size * 0.035
 	for index in range(3):
 		var block := Rect2(
 			top_left + Vector2(tile_size * (0.2 + index * 0.2), tile_size * 0.36 + ink_offset),
@@ -600,6 +766,7 @@ func _draw_xiali_judgement(top_left: Vector2, tile_size: float) -> void:
 
 
 func _draw_gate_rune(top_left: Vector2, tile_size: float) -> void:
+	var glow := 0.28 + sin(animation_time * 2.0) * 0.08
 	var pillar_color := Color("#2a2722")
 	draw_rect(Rect2(top_left + Vector2(tile_size * 0.12, tile_size * 0.2), Vector2(tile_size * 0.18, tile_size * 0.68)), pillar_color)
 	draw_rect(Rect2(top_left + Vector2(tile_size * 0.7, tile_size * 0.2), Vector2(tile_size * 0.18, tile_size * 0.68)), pillar_color)
@@ -608,13 +775,13 @@ func _draw_gate_rune(top_left: Vector2, tile_size: float) -> void:
 	draw_line(
 		top_left + Vector2(tile_size * 0.36, tile_size * 0.34),
 		top_left + Vector2(tile_size * 0.52, tile_size * 0.48),
-		GameThemeScript.COLORS.cyan,
+		Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.7 + glow),
 		maxf(1.0, tile_size * 0.035)
 	)
 	draw_line(
 		top_left + Vector2(tile_size * 0.52, tile_size * 0.48),
 		top_left + Vector2(tile_size * 0.64, tile_size * 0.38),
-		Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.32),
+		Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, glow),
 		maxf(1.0, tile_size * 0.035)
 	)
 
@@ -623,12 +790,14 @@ func _draw_name_rune(top_left: Vector2, tile_size: float, teaching: bool) -> voi
 	var slab := Rect2(top_left + Vector2(tile_size * 0.18, tile_size * 0.18), Vector2(tile_size * 0.64, tile_size * 0.64))
 	draw_rect(slab, Color("#17110d"))
 	draw_rect(slab, GameThemeScript.COLORS.border_light if teaching else GameThemeScript.COLORS.border, false, maxf(1.0, tile_size * 0.035))
-	var ink := GameThemeScript.COLORS.gold if session.has_flag("learned_name_strokes") else GameThemeScript.COLORS.paper
+	var learned: bool = session.has_flag("learned_name_strokes")
+	var pulse: float = 0.72 + sin(animation_time * 2.2) * 0.18
+	var ink := Color(GameThemeScript.COLORS.gold.r, GameThemeScript.COLORS.gold.g, GameThemeScript.COLORS.gold.b, pulse) if learned else GameThemeScript.COLORS.paper
 	draw_line(top_left + Vector2(tile_size * 0.35, tile_size * 0.34), top_left + Vector2(tile_size * 0.65, tile_size * 0.34), ink, maxf(2.0, tile_size * 0.045))
 	draw_line(top_left + Vector2(tile_size * 0.48, tile_size * 0.32), top_left + Vector2(tile_size * 0.34, tile_size * 0.58), ink, maxf(2.0, tile_size * 0.045))
 	draw_line(top_left + Vector2(tile_size * 0.42, tile_size * 0.58), top_left + Vector2(tile_size * 0.68, tile_size * 0.58), ink, maxf(2.0, tile_size * 0.045))
 	if session.has_flag("name_broke_once") and not session.has_flag("named_beast"):
-		draw_line(top_left + Vector2(tile_size * 0.28, tile_size * 0.26), top_left + Vector2(tile_size * 0.72, tile_size * 0.74), GameThemeScript.COLORS.danger, maxf(2.0, tile_size * 0.045))
+		draw_line(top_left + Vector2(tile_size * 0.28, tile_size * 0.26), top_left + Vector2(tile_size * 0.72, tile_size * 0.74), Color(GameThemeScript.COLORS.danger.r, GameThemeScript.COLORS.danger.g, GameThemeScript.COLORS.danger.b, 0.7 + sin(animation_time * 5.0) * 0.2), maxf(2.0, tile_size * 0.045))
 
 
 func _draw_nameless_enemy(top_left: Vector2, tile_size: float) -> void:
@@ -637,9 +806,10 @@ func _draw_nameless_enemy(top_left: Vector2, tile_size: float) -> void:
 			draw_circle(top_left + Vector2(tile_size * (0.3 + index * 0.16), tile_size * 0.5), tile_size * 0.04, Color("#050608", 0.28))
 		return
 	var named: bool = session.has_flag("named_beast")
-	var alpha: float = 0.86 if named else 0.72
+	var shimmer := sin(animation_time * 2.6) * 0.06
+	var alpha: float = 0.86 if named else 0.72 + shimmer
 	var trim := maxf(1.0, tile_size * 0.035)
-	var body := Rect2(top_left + Vector2(tile_size * 0.2, tile_size * 0.22), Vector2(tile_size * 0.6, tile_size * 0.58))
+	var body := Rect2(top_left + Vector2(tile_size * (0.2 + shimmer * 0.04), tile_size * 0.22), Vector2(tile_size * 0.6, tile_size * 0.58))
 	draw_rect(body, Color("#050608", alpha))
 	draw_circle(top_left + Vector2(tile_size * 0.5, tile_size * 0.2), tile_size * 0.2, Color("#050608", alpha))
 	if named:
@@ -654,7 +824,7 @@ func _draw_nameless_enemy(top_left: Vector2, tile_size: float) -> void:
 				GameThemeScript.COLORS.paper
 			)
 	if session.has_flag("name_broke_once") and not named:
-		draw_line(top_left + Vector2(tile_size * 0.2, tile_size * 0.18), top_left + Vector2(tile_size * 0.8, tile_size * 0.82), GameThemeScript.COLORS.danger, maxf(2.0, tile_size * 0.04))
+		draw_line(top_left + Vector2(tile_size * 0.2, tile_size * 0.18), top_left + Vector2(tile_size * 0.8, tile_size * 0.82), Color(GameThemeScript.COLORS.danger.r, GameThemeScript.COLORS.danger.g, GameThemeScript.COLORS.danger.b, 0.74 + sin(animation_time * 5.5) * 0.2), maxf(2.0, tile_size * 0.04))
 
 
 func _draw_station_blankening(origin: Vector2, tile_size: float) -> void:
@@ -713,10 +883,11 @@ func _draw_phone_device(top_left: Vector2, tile_size: float, corrupted: bool = f
 		Color("#b9d1c4")
 	)
 	if corrupted:
+		var pulse := 0.54 + sin(animation_time * 6.5) * 0.24
 		draw_line(
 			top_left + Vector2(tile_size * 0.36, tile_size * 0.2),
 			top_left + Vector2(tile_size * 0.63, tile_size * 0.55),
-			Color("#000000"),
+			Color("#000000", pulse),
 			maxf(2.0, tile_size * 0.055)
 		)
 		for index in range(2):
@@ -832,7 +1003,7 @@ func _player_frame() -> Vector2i:
 	var column := 1
 	if player_moving:
 		var cycle := [0, 1, 2, 1]
-		column = cycle[int(Time.get_ticks_msec() / 120) % cycle.size()]
+		column = cycle[int(animation_time / 0.12) % cycle.size()]
 
 	var row := 0
 	if player_facing == Vector2i(0, -1):
@@ -842,6 +1013,32 @@ func _player_frame() -> Vector2i:
 	else:
 		row = 0
 	return PLAYER_FRAME_ORIGIN + Vector2i(column, row)
+
+
+func _ambient_base_color(terrain: String) -> Color:
+	if _uses_modern_scene_tiles(terrain):
+		if terrain == "street":
+			return Color("#0b0e10")
+		return Color("#100d0b")
+	if terrain in ["wilderness", "forest"]:
+		return Color("#0e120b")
+	if terrain in ["ruin", "dead_city"]:
+		return Color("#090807")
+	if terrain == "node":
+		return Color("#061114")
+	if _is_moqi_location():
+		return Color("#10110b")
+	return GameThemeScript.COLORS.panel_deep
+
+
+func _ambient_speck_color(terrain: String) -> Color:
+	if terrain == "node":
+		return Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.18)
+	if terrain in ["ruin", "dead_city"]:
+		return Color("#d8ceb0", 0.1)
+	if _uses_modern_scene_tiles(terrain):
+		return Color("#b9d1c4", 0.08)
+	return Color("#d7b15e", 0.08)
 
 
 func _draw_facing_marker(top_left: Vector2, tile_size: float) -> void:
@@ -915,6 +1112,10 @@ func _is_illiterate_station() -> bool:
 
 func _uses_modern_scene_tiles(terrain: String) -> bool:
 	return session != null and session.scene_id in ["00-prologue-lights-out", "07-lights-on-again"] and terrain in ["street", "interior", "room"]
+
+
+func _uses_first_act_scene_tiles(terrain: String) -> bool:
+	return session != null and session.scene_id == "01-illiterate" and terrain in ["wilderness", "forest", "ruin"]
 
 
 func _uses_modern_scene_props() -> bool:
