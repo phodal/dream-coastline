@@ -72,6 +72,21 @@ python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode ui-brief-from-ma
 
 The UI brief is different from the Sprint Sheet. It must name the real Godot owner files, data hooks, screen regions, prop renderer changes, prompt states, screenshot states, and smoke checks that make the UI task executable.
 
+Before implementation, validate the contracts and build an implementation prompt from the reviewed brief:
+
+```sh
+python3 tools/validate_scene_ai_contract.py --scene-id 01-illiterate --map /tmp/01-scene-map.json --brief /tmp/01-ui-brief.md
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode implementation-from-brief --map-input /tmp/01-scene-map.json --brief-input /tmp/01-ui-brief.md
+```
+
+After implementation, use the same map for screenshot review:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode screenshot-review-from-map --map-input /tmp/01-scene-map.json --screenshot-manifest /tmp/01-screenshots.json
+```
+
+This keeps the mapper, planner, implementer, and reviewer roles separate. The implementer can write code, but the source scene contract and screenshots decide whether the result is accepted.
+
 The direct Sprint Sheet prompt remains available when the mapping is already understood. It includes the scene source, story JSON summary, visual prop summary, art direction, and this architecture guide.
 
 ```sh

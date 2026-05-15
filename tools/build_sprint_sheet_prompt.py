@@ -69,6 +69,12 @@ def load_scene_sprint_map(path: Path, scene_id: str) -> dict:
     return scene_map
 
 
+def read_required_text(path: Path, label: str) -> str:
+    if not path.exists():
+        raise SystemExit(f"Missing {label}: {path}")
+    return read_text(path)
+
+
 def scene_summary(story: dict, visual: dict) -> str:
     location_lines = []
     for location_id, location in story.get("locations", {}).items():
@@ -389,10 +395,94 @@ Scene Sprint Map `{map_input}`：
 """
 
 
+def build_implementation_from_brief_prompt(
+    scene_id: str,
+    map_input: Path,
+    brief_input: Path,
+) -> str:
+    bundle = load_scene_bundle(scene_id)
+    scene_map = load_scene_sprint_map(map_input, scene_id)
+    ui_brief = read_required_text(brief_input, "UI Implementation Brief")
+
+    return f"""你是 Dream Coastline 的 Godot UI implementation agent。
+
+任务：根据已审查的 `scene_sprint_map` 和 UI Implementation Brief 实现 `{scene_id}` 的视觉/UI 工作。
+
+硬性执行规则：
+- 先检查 `git status --short --branch`，不要覆盖用户未提交改动。
+- 只实现 UI brief 明确要求的内容；不要重新解释 scene，也不要扩大到 unrelated systems。
+- 视觉语义优先于泛 RPG 风格：如果截图读成错误时代、地点、物件或情绪，即使 smoke 通过也算失败。
+- 新增 renderer/helper 时优先落在现有 UI owner；不要引入大型资产管线或远程资源。
+- 如果改到 runtime interaction、prompt、save/load 或 Rust-backed 当前主流程，必须同步 Rust 和 GDScript 参考实现，或明确说明为何不需要。
+- 实现后必须运行 contract 校验、Godot smoke，并捕获截图到 `/private/tmp/dream-coastline-{scene_id}-<state>.png`。
+- 最终报告必须包含：改动摘要、验证命令、截图路径、未覆盖风险、工作树状态。
+
+建议前置校验：
+```sh
+python3 tools/validate_scene_ai_contract.py --scene-id {scene_id} --map {map_input} --brief {brief_input}
+```
+
+当前 UI 实现边界：
+```text
+{UI_STACK_CONTRACT}
+```
+
+Scene 源文件 `{bundle["story"].get("source", "")}`：
+```md
+{bundle["scene_source"]}
+```
+
+Scene Sprint Map `{map_input}`：
+```json
+{json.dumps(scene_map, ensure_ascii=False, indent=2)}
+```
+
+UI Implementation Brief `{brief_input}`：
+```md
+{ui_brief}
+```
+"""
+
+
+def build_screenshot_review_prompt(
+    scene_id: str,
+    map_input: Path,
+    screenshot_manifest: Path | None = None,
+) -> str:
+    scene_map = load_scene_sprint_map(map_input, scene_id)
+    manifest_text = "{}"
+    if screenshot_manifest is not None:
+        manifest_text = read_required_text(screenshot_manifest, "screenshot manifest")
+
+    return f"""你是 Dream Coastline 的视觉语义审查 agent。
+
+任务：根据 `scene_sprint_map` 和截图清单审查 `{scene_id}` 是否真正符合 scene contract。
+
+审查规则：
+- 不要只判断画面是否好看；必须逐条检查 `must_read_as`、`must_not_read_as`、`prop_risks`、`screenshot_states`。
+- 如果 smoke 通过但截图读成错误时代、地点、类型或情绪，结论必须是 FAIL。
+- 对每张截图输出：state id、PASS/FAIL、证据、需要改的 UI/data/renderer owner。
+- 最终输出一个总体结论：PASS、FAIL、或 PASS_WITH_RISK。
+- 不要提出超出 Sprint Sheet non-goals 的重做方案。
+
+Scene Sprint Map `{map_input}`：
+```json
+{json.dumps(scene_map, ensure_ascii=False, indent=2)}
+```
+
+截图清单：
+```json
+{manifest_text}
+```
+"""
+
+
 def build_prompt(
     scene_id: str,
     mode: str = "sheet",
     map_input: Path | None = None,
+    brief_input: Path | None = None,
+    screenshot_manifest: Path | None = None,
 ) -> str:
     if mode == "map":
         return build_map_prompt(scene_id)
@@ -404,6 +494,16 @@ def build_prompt(
         if map_input is None:
             raise SystemExit("--map-input is required for --mode ui-brief-from-map")
         return build_ui_brief_from_map_prompt(scene_id, map_input)
+    if mode == "implementation-from-brief":
+        if map_input is None:
+            raise SystemExit("--map-input is required for --mode implementation-from-brief")
+        if brief_input is None:
+            raise SystemExit("--brief-input is required for --mode implementation-from-brief")
+        return build_implementation_from_brief_prompt(scene_id, map_input, brief_input)
+    if mode == "screenshot-review-from-map":
+        if map_input is None:
+            raise SystemExit("--map-input is required for --mode screenshot-review-from-map")
+        return build_screenshot_review_prompt(scene_id, map_input, screenshot_manifest)
     return build_sheet_prompt(scene_id)
 
 
@@ -412,19 +512,42 @@ def main() -> None:
     parser.add_argument("scene_id", help="Scene id such as 01-illiterate")
     parser.add_argument(
         "--mode",
-        choices=("sheet", "map", "sheet-from-map", "ui-brief-from-map"),
+        choices=(
+            "sheet",
+            "map",
+            "sheet-from-map",
+            "ui-brief-from-map",
+            "implementation-from-brief",
+            "screenshot-review-from-map",
+        ),
         default="sheet",
         help="Prompt type to build. Use map before sheet for AI-assisted review.",
     )
     parser.add_argument(
         "--map-input",
         type=Path,
-        help="scene_sprint_map JSON file used by --mode sheet-from-map",
+        help="scene_sprint_map JSON file used by map-derived modes",
+    )
+    parser.add_argument(
+        "--brief-input",
+        type=Path,
+        help="UI Implementation Brief Markdown file used by --mode implementation-from-brief",
+    )
+    parser.add_argument(
+        "--screenshot-manifest",
+        type=Path,
+        help="Optional JSON or Markdown screenshot manifest used by --mode screenshot-review-from-map",
     )
     parser.add_argument("--output", help="Optional file path to write the prompt")
     args = parser.parse_args()
 
-    prompt = build_prompt(args.scene_id, args.mode, args.map_input)
+    prompt = build_prompt(
+        args.scene_id,
+        args.mode,
+        args.map_input,
+        args.brief_input,
+        args.screenshot_manifest,
+    )
     if args.output:
         output_path = Path(args.output)
         output_path.write_text(prompt, encoding="utf-8")

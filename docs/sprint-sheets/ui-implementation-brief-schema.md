@@ -17,6 +17,25 @@ python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
 
 Send the prompt to Codex, DeepSeek, or another model. The generated brief must stay implementation-facing.
 
+Validate the brief before giving it to an implementation agent:
+
+```sh
+python3 tools/validate_scene_ai_contract.py \
+  --scene-id 01-illiterate \
+  --map /tmp/01-scene-map.json \
+  --brief /tmp/01-ui-brief.md
+```
+
+Then build the implementation prompt:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
+  --mode implementation-from-brief \
+  --map-input /tmp/01-scene-map.json \
+  --brief-input /tmp/01-ui-brief.md \
+  --output /tmp/01-implementation-prompt.md
+```
+
 ## Required Sections
 
 | Section | Purpose |
@@ -49,3 +68,5 @@ Send the prompt to Codex, DeepSeek, or another model. The generated brief must s
 ## Review Rule
 
 A UI brief is ready only if an engineer can open the listed files and implement the next pass without re-reading the whole scene. If a task says only "make it more RPG" or "improve style", it is not a UI brief.
+
+The implementation is ready only after screenshots are reviewed against the original `scene_sprint_map`. Passing Godot smoke checks without matching `must_read_as` / `must_not_read_as` is not sufficient.

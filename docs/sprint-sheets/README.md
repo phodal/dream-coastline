@@ -6,10 +6,13 @@ The important rule is: do not ask AI to make something "more RPG" without tellin
 
 ## AI Generation Workflow
 
-Prefer a two-step AI workflow:
+Prefer a contract-first AI workflow:
 
 1. Generate a `scene_sprint_map` JSON object from the scene and JSON data.
-2. Review the map, then turn it into a Sprint Sheet or UI Implementation Brief.
+2. Validate and review the map.
+3. Turn the map into a Sprint Sheet or UI Implementation Brief.
+4. Use the reviewed UI brief to build an implementation prompt.
+5. Review screenshots against the same map before accepting the implementation.
 
 The map schema is documented in `scene-sprint-map-schema.md`.
 The UI writing schema is documented in `ui-implementation-brief-schema.md`.
@@ -20,7 +23,15 @@ Build the intermediate map prompt:
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode map --output /tmp/01-scene-map-prompt.md
 ```
 
-After the AI returns reviewed JSON, build the final Sprint Sheet prompt from that map:
+After the AI returns JSON, validate it before converting it:
+
+```sh
+python3 tools/validate_scene_ai_contract.py \
+  --scene-id 01-illiterate \
+  --map /tmp/01-scene-map.json
+```
+
+Then build the final Sprint Sheet prompt from that map:
 
 ```sh
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode sheet-from-map --map-input /tmp/01-scene-map.json
@@ -32,13 +43,36 @@ For implementation-facing UI work, build a UI brief prompt from the same map:
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode ui-brief-from-map --map-input /tmp/01-scene-map.json
 ```
 
-Build an AI prompt from a scene ID:
+Validate the generated UI brief before implementation:
 
 ```sh
-python3 tools/build_sprint_sheet_prompt.py 01-illiterate
+python3 tools/validate_scene_ai_contract.py \
+  --scene-id 01-illiterate \
+  --map /tmp/01-scene-map.json \
+  --brief /tmp/01-ui-brief.md
 ```
 
-Optionally write the prompt to a temporary file:
+Build a semi-automated implementation prompt from the reviewed map and brief:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
+  --mode implementation-from-brief \
+  --map-input /tmp/01-scene-map.json \
+  --brief-input /tmp/01-ui-brief.md \
+  --output /tmp/01-implementation-prompt.md
+```
+
+After implementation captures screenshots, build a screenshot-review prompt:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
+  --mode screenshot-review-from-map \
+  --map-input /tmp/01-scene-map.json \
+  --screenshot-manifest /tmp/01-screenshots.json \
+  --output /tmp/01-screenshot-review-prompt.md
+```
+
+Direct Sprint Sheet prompt generation remains available only when the mapping is already understood:
 
 ```sh
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate --output /tmp/01-sprint-prompt.md
@@ -70,3 +104,5 @@ Send that prompt to Codex, DeepSeek, or another model. The model output is only 
 ## Review Rule
 
 A generated Sprint Sheet is not ready just because it follows the headings. It must be reviewed against the source scene, the current visual props, and at least one screenshot or planned screenshot state.
+
+For visual work, smoke tests are not enough. A change is accepted only after the screenshot review confirms the screen reads as the correct era, place, object semantics, and emotional state from the source scene.

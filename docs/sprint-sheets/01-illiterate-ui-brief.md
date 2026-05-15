@@ -60,6 +60,16 @@ Make the first act readable as illiterate survival: the player should see that J
 | Name breaks again | after two attacks | lock flag removed | Enemy returns to `？？？` or fades; attack prompt is blocked again. |
 | Victory | defeat enemy | `defeated_nameless` | Enemy is gone and an exit/transition is visible. |
 
+## Prop Risk To UI Task Map
+
+| Risk | Required UI Task |
+| --- | --- |
+| `city_fire` can read as a campfire or generic spell effect. | Route it to a burning-city silhouette helper and verify it in the mud-road opening screenshot. |
+| `sign` and `notice` can look like normal readable signs. | Render block text/live ink and keep prompt feedback unreadable before learning `名`. |
+| `phone` can read as a normal modern prop. | Corrupt the phone after `checked_phone_no_service` and include black-ink/no-service feedback. |
+| `soldier`, `xiali`, and `gate` can read as generic fantasy NPCs/props. | Add threat, judgment, and half-lit rune helpers with screenshot states in `chase`. |
+| `rune` and `enemy` can read as ordinary combat markers. | Gate enemy lock and attack prompt on `named_beast`, with failure-state screenshots. |
+
 ## Component Tasks
 
 | ID | Target | Inputs | Output | Acceptance |

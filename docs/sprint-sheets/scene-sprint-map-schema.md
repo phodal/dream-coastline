@@ -37,6 +37,23 @@ python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
   --output /tmp/01-ui-brief-prompt.md
 ```
 
+Before either conversion, run the repository validator:
+
+```sh
+python3 tools/validate_scene_ai_contract.py \
+  --scene-id 01-illiterate \
+  --map /tmp/01-scene-map.json
+```
+
+For semi-automated implementation, use the validated map as the source of truth:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
+  --mode implementation-from-brief \
+  --map-input /tmp/01-scene-map.json \
+  --brief-input /tmp/01-ui-brief.md
+```
+
 ## Fields
 
 | Field | Purpose | Review Rule |
@@ -67,3 +84,5 @@ A Sprint Sheet can be generated from this map only after these checks pass:
 - `acceptance_commands` includes Godot load and relevant smoke checks.
 
 If any of these fail, regenerate or patch the map before writing the Sprint Sheet.
+
+The validator is intentionally structural. It proves the map is complete enough for automation, not that the art direction is correct. Screenshot review still decides whether the implementation reads as the intended scene.
