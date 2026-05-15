@@ -6,6 +6,25 @@ The important rule is: do not ask AI to make something "more RPG" without tellin
 
 ## AI Generation Workflow
 
+Prefer a two-step AI workflow:
+
+1. Generate a `scene_sprint_map` JSON object from the scene and JSON data.
+2. Review the map, then turn it into a Sprint Sheet.
+
+The map schema is documented in `scene-sprint-map-schema.md`.
+
+Build the intermediate map prompt:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode map --output /tmp/01-scene-map-prompt.md
+```
+
+After the AI returns reviewed JSON, build the final Sprint Sheet prompt from that map:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode sheet-from-map --map-input /tmp/01-scene-map.json
+```
+
 Build an AI prompt from a scene ID:
 
 ```sh
@@ -29,6 +48,7 @@ Send that prompt to Codex, DeepSeek, or another model. The model output is only 
 
 ## Existing Sheets
 
+- `scene-sprint-map-schema.md`: intermediate AI mapping contract between scene evidence and Sprint Sheets.
 - `rpg-ui-style-pass.md`: scene-aligned pass for the prologue modern-silence RPG UI.
 - `01-illiterate.md`: first act survival, illiteracy, and first glyph-learning pass.
 - `02-moqi-academy.md`: academy, literacy engineering, and first repair pass.

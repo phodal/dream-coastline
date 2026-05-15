@@ -47,13 +47,32 @@ For Dream Coastline this matters because "RPG" is not specific enough. A modern 
 
 ## AI Generation
 
-Use `tools/build_sprint_sheet_prompt.py` to package a scene for AI-assisted Sprint Sheet generation. The prompt includes the scene source, story JSON summary, visual prop summary, art direction, and this architecture guide.
+Use `tools/build_sprint_sheet_prompt.py` to package a scene for AI-assisted Sprint Sheet generation. The safest flow is two-step:
+
+1. Generate a `scene_sprint_map` intermediate JSON object.
+2. Review that map, then generate or edit the final Sprint Sheet.
+
+The map prompt includes the source scene, full Story JSON, full Visual JSON, and art direction. It exists because an AI model can usually infer the scene-to-screen mapping, but a raw Sprint Sheet prompt makes it too easy to skip evidence and write generic RPG advice.
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode map
+```
+
+After the map is reviewed, convert it into the final Sprint Sheet prompt:
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode sheet-from-map --map-input /tmp/01-scene-map.json
+```
+
+The direct Sprint Sheet prompt remains available when the mapping is already understood. It includes the scene source, story JSON summary, visual prop summary, art direction, and this architecture guide.
 
 ```sh
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate
 ```
 
-The generated prompt is an input to an AI model, not an acceptance gate. The output still needs source review, screenshot review states, and file-level implementation tasks before it is considered usable.
+Both generated prompts are inputs to an AI model, not acceptance gates. The output still needs source review, screenshot review states, and file-level implementation tasks before it is considered usable.
+
+The `scene_sprint_map` schema lives in `docs/sprint-sheets/scene-sprint-map-schema.md`.
 
 ## Current Architecture Evidence
 

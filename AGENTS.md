@@ -7,3 +7,4 @@
 - UI 的 render smoke 只能证明画面不空，不能证明风格像 RPG；涉及视觉风格时，Sprint Sheet 要写清楚屏幕区域、状态、截图验收和非目标。
 - 视觉 Sprint Sheet 不能只写“像 RPG”；必须把 scene 的时代、情绪、物件语义和“不能读成什么”写成验收，否则会出现 UI 对但 scene 错的实现。
 - 要基于 scene 借助 AI 生成 Sprint Sheet 时，先用 `tools/build_sprint_sheet_prompt.py <scene-id>` 打包 scene、story JSON、visual JSON、美术方向和架构模板，再审查输出是否有 Source Scene Contract 和 Screenshot Review Gate。
+- AI 可以读懂 scene 和 playable JSON，但直接生成 Sprint Sheet 仍容易跳步；先用 `--mode map` 生成 `scene_sprint_map`，审查后再用 `--mode sheet-from-map` 转成 Sheet，能把证据、地点、物件风险和截图验收固定下来。

@@ -38,10 +38,20 @@ This gives the project a first AI capability without coupling game logic to a sp
 Sprint Sheets should be generated from scene evidence rather than a generic UI request. Use the local prompt builder to package the source scene, story JSON, visual JSON, art direction, and Sprint Sheet architecture into one model-ready prompt:
 
 ```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode map --output /tmp/01-scene-map-prompt.md
+```
+
+Review the generated `scene_sprint_map` first. It should map source evidence to screen meaning, prop risks, screenshot states, and implementation tasks before asking a model to write a full Sprint Sheet.
+
+```sh
+python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode sheet-from-map --map-input /tmp/01-scene-map.json --output /tmp/01-sheet-from-map-prompt.md
+```
+
+```sh
 python3 tools/build_sprint_sheet_prompt.py 01-illiterate --output /tmp/01-sprint-prompt.md
 ```
 
-Send the generated prompt to Codex, DeepSeek, or another model. Review the output against `docs/sprint-sheets/README.md` before committing it.
+Send either generated prompt to Codex, DeepSeek, or another model. Review the output against `docs/sprint-sheets/README.md` and `docs/sprint-sheets/scene-sprint-map-schema.md` before committing it.
 
 ## Defaults
 
