@@ -236,12 +236,45 @@ func _draw_camp_ground_tile(x: int, y: int, top_left: Vector2, tile_size: float)
 			draw_rect(Rect2(top_left + Vector2(tile_size * 0.18, tile_size * 0.2), Vector2(tile_size * 0.16, tile_size * 0.08)), Color("#6e7e36", 0.24))
 
 
+func _draw_prologue_street_lights(origin: Vector2, tile_size: float) -> void:
+	var sign := Rect2(origin + Vector2(tile_size * 1.9, tile_size * 1.28), Vector2(tile_size * 1.28, tile_size * 0.58))
+	var glow := 0.74 + sin(animation_time * 2.0) * 0.08
+	var buzz := 0.82 + sin(animation_time * 9.0) * 0.18
+	draw_rect(sign.grow(tile_size * 0.24), Color("#f0d18a", 0.1 * glow * buzz))
+	draw_rect(sign, Color("#1b1208"))
+	draw_rect(sign, Color("#f0d18a", 0.82), false, maxf(1.0, tile_size * 0.025))
+	var glyph_y := sign.position.y + sign.size.y * 0.34
+	for index in range(3):
+		var x := sign.position.x + tile_size * (0.22 + index * 0.28)
+		var glyph_alpha := glow * (0.58 + buzz * 0.42)
+		draw_rect(Rect2(Vector2(x, glyph_y), Vector2(tile_size * 0.16, tile_size * 0.06)), Color("#ffd87a", glyph_alpha))
+		draw_rect(Rect2(Vector2(x + tile_size * 0.05, glyph_y + tile_size * 0.12), Vector2(tile_size * 0.11, tile_size * 0.05)), Color("#ffd87a", glyph_alpha * 0.86))
+	var lamp_x := origin.x + tile_size * 13.15
+	var lamp_center := Vector2(lamp_x + tile_size * 0.03, origin.y + tile_size * 2.72)
+	var lamp_pulse := 0.72 + sin(animation_time * 1.7) * 0.12
+	draw_rect(Rect2(Vector2(lamp_x, origin.y + tile_size * 2.8), Vector2(tile_size * 0.06, tile_size * 2.0)), Color("#12100c"))
+	draw_rect(Rect2(Vector2(lamp_x - tile_size * 0.82, origin.y + tile_size * 4.68), Vector2(tile_size * 1.7, tile_size * 0.22)), Color("#ffd87a", 0.055 * lamp_pulse))
+	draw_circle(lamp_center, tile_size * 0.14, Color("#ffd87a", 0.78))
+	draw_circle(lamp_center, tile_size * 0.9, Color("#ffd87a", 0.065 * lamp_pulse))
+	for index in range(4):
+		var dust := fposmod(animation_time * 0.24 + float(index) * 0.31, 1.0)
+		draw_rect(
+			Rect2(
+				Vector2(lamp_x - tile_size * (0.42 - dust * 0.78), origin.y + tile_size * (3.15 + float(index) * 0.28)),
+				Vector2(tile_size * 0.045, tile_size * 0.018)
+			),
+			Color("#f0d18a", 0.18 * lamp_pulse)
+		)
+
+
 func _draw_terrain_overlay(origin: Vector2, tile_size: float, terrain: String) -> void:
 	if terrain in ["wilderness", "forest"]:
 		var shadow := Color("#050608", 0.12 if terrain == "wilderness" else 0.22)
 		for index in range(4):
 			var x := origin.x + tile_size * (float(index) * 3.6 + 0.5)
 			draw_rect(Rect2(Vector2(x, origin.y + tile_size), Vector2(tile_size * 0.28, tile_size * (ROWS - 2))), shadow)
+	elif terrain == "street" and session.scene_id == "00-prologue-lights-out":
+		_draw_prologue_street_lights(origin, tile_size)
 	elif terrain in ["ruin", "dead_city"]:
 		var pulse := 0.1 + sin(animation_time * 0.8) * 0.03
 		draw_rect(Rect2(origin + Vector2(tile_size, tile_size), Vector2(tile_size * (COLUMNS - 2), tile_size * (ROWS - 2))), Color("#050608", pulse))
@@ -271,7 +304,9 @@ func _draw_modern_scene_tile(terrain: String, x: int, y: int, top_left: Vector2,
 			if (x + y) % 2 == 0:
 				draw_rect(Rect2(top_left + Vector2(tile_size * 0.08, tile_size * 0.1), Vector2(tile_size * 0.1, tile_size * 0.04)), Color("#2b3036", 0.35))
 	elif terrain == "interior":
-		if edge or y <= 1:
+		if _is_building_lobby():
+			_draw_lobby_tile(x, y, top_left, tile_size)
+		elif edge or y <= 1:
 			draw_rect(rect, Color("#24201c"))
 			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.84), Vector2(tile_size, tile_size * 0.08)), Color("#3f2a18"))
 		else:
@@ -289,6 +324,26 @@ func _draw_modern_scene_tile(terrain: String, x: int, y: int, top_left: Vector2,
 			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.46), Vector2(tile_size, board_height)), Color("#5a3a20", 0.42))
 			if x % 2 == 0:
 				draw_rect(Rect2(top_left + Vector2(tile_size * 0.04, 0), Vector2(maxf(1.0, tile_size * 0.02), tile_size)), Color("#24160d", 0.34))
+
+
+func _draw_lobby_tile(x: int, y: int, top_left: Vector2, tile_size: float) -> void:
+	var rect := Rect2(top_left, Vector2(tile_size, tile_size))
+	if y <= 1:
+		draw_rect(rect, Color("#1a1815"))
+		draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.82), Vector2(tile_size, tile_size * 0.08)), Color("#45301d", 0.62))
+		if x in [6, 7, 8]:
+			draw_rect(Rect2(top_left + Vector2(tile_size * 0.1, tile_size * 0.2), Vector2(tile_size * 0.8, tile_size * 0.1)), Color("#080706"))
+	elif y in [2, 3]:
+		draw_rect(rect, Color("#24201b"))
+		if x in [2, 12]:
+			draw_rect(Rect2(top_left + Vector2(tile_size * 0.24, 0), Vector2(tile_size * 0.1, tile_size)), Color("#0b0907", 0.68))
+	else:
+		draw_rect(rect, Color("#2b2e30"))
+		draw_rect(rect, Color("#43484b", 0.42), false, maxf(1.0, tile_size * 0.015))
+		if y == 5:
+			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.46), Vector2(tile_size, tile_size * 0.08)), Color("#62676a", 0.28))
+		if x in [5, 9]:
+			draw_rect(Rect2(top_left + Vector2(tile_size * 0.46, 0), Vector2(tile_size * 0.06, tile_size)), Color("#151719", 0.25))
 
 
 func _draw_tile_noise(top_left: Vector2, tile_size: float, color: Color) -> void:
@@ -508,19 +563,51 @@ func _draw_modern_prop(kind: String, top_left: Vector2, tile_size: float) -> voi
 
 func _draw_apartment_block(top_left: Vector2, tile_size: float, width: int, height: int) -> void:
 	var rect := Rect2(top_left, Vector2(tile_size * max(1, width), tile_size * max(1, height)))
-	draw_rect(rect, Color("#262523"))
-	draw_rect(rect, Color("#3f2a18"), false, maxf(2.0, tile_size * 0.035))
-	for row in range(max(1, height)):
-		for column in range(max(1, width)):
-			if row == 0 and column == 0:
-				continue
-			var window := Rect2(
-				top_left + Vector2(tile_size * (column + 0.22), tile_size * (row + 0.22)),
-				Vector2(tile_size * 0.36, tile_size * 0.22)
+	var floor_count: int = maxi(3, height)
+	var column_count: int = maxi(3, width)
+	draw_rect(rect, Color("#282923"))
+	draw_rect(Rect2(rect.position + Vector2(tile_size * 0.08, 0), Vector2(rect.size.x * 0.22, rect.size.y)), Color("#1a1b17", 0.48))
+	draw_rect(Rect2(rect.position + Vector2(rect.size.x * 0.72, 0), Vector2(rect.size.x * 0.16, rect.size.y)), Color("#161714", 0.36))
+	draw_rect(rect, Color("#5a472c"), false, maxf(2.0, tile_size * 0.035))
+	draw_rect(Rect2(top_left + Vector2(-tile_size * 0.05, -tile_size * 0.12), Vector2(rect.size.x + tile_size * 0.1, tile_size * 0.18)), Color("#16120e"))
+	draw_rect(Rect2(top_left + Vector2(-tile_size * 0.05, -tile_size * 0.12), Vector2(rect.size.x + tile_size * 0.1, tile_size * 0.18)), Color("#8f7040", 0.52), false, maxf(1.0, tile_size * 0.025))
+	for floor in range(floor_count):
+		var floor_y := top_left.y + tile_size * (0.28 + floor * 0.82)
+		draw_rect(Rect2(Vector2(top_left.x, floor_y + tile_size * 0.52), Vector2(rect.size.x, tile_size * 0.05)), Color("#100f0c", 0.36))
+		for column in range(column_count):
+			var window_pos := top_left + Vector2(tile_size * (0.18 + column * 0.86), tile_size * (0.22 + floor * 0.82))
+			var window_rect := Rect2(window_pos, Vector2(tile_size * 0.46, tile_size * 0.36))
+			var home_window := floor == 1 and column == 1
+			var lit := (floor + column) % 2 == 0 and not home_window
+			var flicker := clampf(
+				0.78
+					+ sin(animation_time * (1.6 + float(column) * 0.27) + float(floor)) * 0.12
+					+ sin(animation_time * 8.0 + float(floor + column) * 1.7) * 0.08,
+				0.54,
+				1.0
 			)
-			draw_rect(window, Color("#0b0d10"))
-			draw_rect(window, Color("#6d695f", 0.45), false, maxf(1.0, tile_size * 0.018))
-	draw_rect(Rect2(top_left + Vector2(tile_size * 0.35, tile_size * (height - 0.95)), Vector2(tile_size * 0.42, tile_size * 0.72)), Color("#101010"))
+			if lit:
+				draw_rect(window_rect.grow(tile_size * 0.14), Color("#f0d18a", 0.16 * flicker))
+			draw_rect(window_rect, Color("#07090a"))
+			if lit:
+				draw_rect(window_rect.grow(-tile_size * 0.05), Color("#ffd87a", 0.95 * flicker))
+				draw_rect(Rect2(window_rect.position + Vector2(tile_size * 0.04, tile_size * 0.04), Vector2(window_rect.size.x * 0.34, window_rect.size.y - tile_size * 0.08)), Color("#d45c55", 0.24))
+				draw_rect(Rect2(window_rect.position + Vector2(window_rect.size.x * 0.62, tile_size * 0.04), Vector2(window_rect.size.x * 0.16, window_rect.size.y - tile_size * 0.08)), Color("#3f2a18", 0.34))
+			else:
+				draw_rect(window_rect.grow(-tile_size * 0.05), Color("#050608", 0.86))
+			draw_rect(window_rect, Color("#b7a780", 0.62), false, maxf(1.0, tile_size * 0.018))
+			draw_line(window_rect.position + Vector2(window_rect.size.x * 0.5, 0), window_rect.position + Vector2(window_rect.size.x * 0.5, window_rect.size.y), Color("#1d2023", 0.7), maxf(1.0, tile_size * 0.012))
+			if home_window:
+				draw_rect(window_rect.grow(tile_size * 0.05), Color("#050608", 0.42))
+				draw_rect(window_rect.grow(tile_size * 0.05), Color(GameThemeScript.COLORS.paper.r, GameThemeScript.COLORS.paper.g, GameThemeScript.COLORS.paper.b, 0.46), false, maxf(1.0, tile_size * 0.02))
+	for column in range(column_count - 1):
+		var balcony := Rect2(top_left + Vector2(tile_size * (0.72 + column * 0.86), tile_size * 2.6), Vector2(tile_size * 0.5, tile_size * 0.08))
+		draw_rect(balcony, Color("#5a472c"))
+		draw_rect(balcony, Color("#d8ceb0", 0.34), false, maxf(1.0, tile_size * 0.012))
+	var entrance := Rect2(top_left + Vector2(tile_size * 0.36, rect.size.y - tile_size * 0.78), Vector2(tile_size * 0.58, tile_size * 0.68))
+	draw_rect(entrance, Color("#050608"))
+	draw_rect(entrance, Color("#8f7040"), false, maxf(1.0, tile_size * 0.025))
+	draw_rect(Rect2(entrance.position + Vector2(tile_size * 0.12, tile_size * 0.1), Vector2(tile_size * 0.34, tile_size * 0.12)), Color("#d7b15e", 0.26 + sin(animation_time * 1.8) * 0.06))
 
 
 func _draw_apartment_exit(top_left: Vector2, tile_size: float) -> void:
@@ -532,19 +619,32 @@ func _draw_apartment_exit(top_left: Vector2, tile_size: float) -> void:
 
 
 func _draw_dark_window(top_left: Vector2, tile_size: float) -> void:
-	var frame := Rect2(top_left + Vector2(tile_size * 0.18, tile_size * 0.12), Vector2(tile_size * 0.64, tile_size * 0.62))
-	draw_rect(frame, Color("#1d2023"))
-	draw_rect(frame, Color("#8f7040"), false, maxf(1.0, tile_size * 0.035))
-	draw_rect(Rect2(top_left + Vector2(tile_size * 0.26, tile_size * 0.2), Vector2(tile_size * 0.48, tile_size * 0.46)), Color("#050608"))
-	draw_line(top_left + Vector2(tile_size * 0.5, tile_size * 0.2), top_left + Vector2(tile_size * 0.5, tile_size * 0.66), Color("#2a2f34"), maxf(1.0, tile_size * 0.018))
-	draw_line(top_left + Vector2(tile_size * 0.26, tile_size * 0.43), top_left + Vector2(tile_size * 0.74, tile_size * 0.43), Color("#2a2f34"), maxf(1.0, tile_size * 0.018))
+	var frame := Rect2(top_left + Vector2(tile_size * 0.08, tile_size * 0.08), Vector2(tile_size * 0.84, tile_size * 0.76))
+	draw_rect(frame, Color("#161817"))
+	draw_rect(frame, Color("#f1ead4", 0.54), false, maxf(1.0, tile_size * 0.035))
+	var glass := Rect2(top_left + Vector2(tile_size * 0.18, tile_size * 0.18), Vector2(tile_size * 0.64, tile_size * 0.52))
+	draw_rect(glass, Color("#030405"))
+	draw_rect(glass, Color("#050608", 0.82 + sin(animation_time * 1.7) * 0.06))
+	draw_line(glass.position + Vector2(glass.size.x * 0.5, 0), glass.position + Vector2(glass.size.x * 0.5, glass.size.y), Color("#2a2f34"), maxf(1.0, tile_size * 0.018))
+	draw_line(glass.position + Vector2(0, glass.size.y * 0.5), glass.position + Vector2(glass.size.x, glass.size.y * 0.5), Color("#2a2f34"), maxf(1.0, tile_size * 0.018))
+	draw_rect(Rect2(top_left + Vector2(tile_size * 0.22, tile_size * 0.76), Vector2(tile_size * 0.56, tile_size * 0.06)), Color("#8f7040", 0.72))
 
 
 func _draw_voice_lamp(top_left: Vector2, tile_size: float) -> void:
-	draw_line(top_left + Vector2(tile_size * 0.5, 0), top_left + Vector2(tile_size * 0.5, tile_size * 0.18), Color("#3f2a18"), maxf(1.0, tile_size * 0.025))
-	draw_circle(top_left + Vector2(tile_size * 0.5, tile_size * 0.32), tile_size * 0.18, Color("#2d2a25"))
-	draw_circle(top_left + Vector2(tile_size * 0.5, tile_size * 0.32), tile_size * 0.1, Color("#5d5548", 0.5))
-	draw_rect(Rect2(top_left + Vector2(tile_size * 0.34, tile_size * 0.54), Vector2(tile_size * 0.32, tile_size * 0.06)), Color("#050608", 0.55))
+	var center := top_left + Vector2(tile_size * 0.5, tile_size * 0.3)
+	var failed_glow := 0.08 + maxf(0.0, sin(animation_time * 5.0)) * 0.08
+	var spark := maxf(0.0, sin(animation_time * 11.0))
+	draw_line(top_left + Vector2(tile_size * 0.5, 0), center, Color("#3f2a18"), maxf(1.0, tile_size * 0.035))
+	draw_circle(center, tile_size * 0.5, Color("#d7b15e", failed_glow))
+	draw_circle(center, tile_size * 0.22, Color("#26231d"))
+	draw_circle(center, tile_size * 0.12, Color("#050608"))
+	draw_circle(center, tile_size * 0.22, Color("#d8ceb0", 0.62), false, maxf(1.0, tile_size * 0.028))
+	draw_line(center + Vector2(-tile_size * 0.12, -tile_size * 0.04), center + Vector2(tile_size * 0.1, tile_size * 0.06), Color("#ffd87a", 0.36 * spark), maxf(1.0, tile_size * 0.018))
+	draw_line(center + Vector2(tile_size * 0.1, -tile_size * 0.06), center + Vector2(-tile_size * 0.04, tile_size * 0.1), Color("#ffd87a", 0.26 * spark), maxf(1.0, tile_size * 0.018))
+	draw_rect(Rect2(top_left + Vector2(tile_size * 0.25, tile_size * 0.58), Vector2(tile_size * 0.5, tile_size * 0.08)), Color("#050608", 0.65))
+	for index in range(2):
+		var mark_x := tile_size * (0.36 + index * 0.18)
+		draw_rect(Rect2(top_left + Vector2(mark_x, tile_size * 0.72), Vector2(tile_size * 0.08, tile_size * 0.04)), Color("#f1ead4", 0.42))
 
 
 func _draw_sofa(top_left: Vector2, tile_size: float, width: int) -> void:
@@ -618,11 +718,12 @@ func _draw_glasses(top_left: Vector2, tile_size: float) -> void:
 
 
 func _draw_paper_note(top_left: Vector2, tile_size: float, kind: String) -> void:
-	var page := Rect2(top_left + Vector2(tile_size * 0.22, tile_size * 0.12), Vector2(tile_size * 0.56, tile_size * 0.72))
+	var flutter := sin(animation_time * 3.0) * tile_size * 0.025 if kind == "poster" else 0.0
+	var page := Rect2(top_left + Vector2(tile_size * 0.22 + flutter, tile_size * 0.12), Vector2(tile_size * 0.56, tile_size * 0.72))
 	draw_rect(page, Color("#d8ceb0"))
 	draw_rect(page, Color("#8f7040"), false, maxf(1.0, tile_size * 0.025))
 	for row in range(3):
-		draw_rect(Rect2(top_left + Vector2(tile_size * 0.3, tile_size * (0.28 + row * 0.13)), Vector2(tile_size * 0.38, tile_size * 0.035)), Color("#17110d", 0.7))
+		draw_rect(Rect2(top_left + Vector2(tile_size * 0.3 + flutter, tile_size * (0.28 + row * 0.13)), Vector2(tile_size * 0.38, tile_size * 0.035)), Color("#17110d", 0.7))
 	if kind == "letter":
 		draw_line(top_left + Vector2(tile_size * 0.28, tile_size * 0.18), top_left + Vector2(tile_size * 0.5, tile_size * 0.38), Color("#17110d", 0.52), maxf(1.0, tile_size * 0.018))
 		draw_line(top_left + Vector2(tile_size * 0.72, tile_size * 0.18), top_left + Vector2(tile_size * 0.5, tile_size * 0.38), Color("#17110d", 0.52), maxf(1.0, tile_size * 0.018))
@@ -850,8 +951,12 @@ func _draw_vending_machine(top_left: Vector2, tile_size: float) -> void:
 		Color("#101820")
 	)
 	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.22, tile_size * 0.12), Vector2(tile_size * 0.38, tile_size * 0.42)),
+		Color("#b9d1c4", 0.06 + sin(animation_time * 1.3) * 0.025)
+	)
+	draw_rect(
 		Rect2(top_left + Vector2(tile_size * 0.32, tile_size * 0.2), Vector2(tile_size * 0.22, tile_size * 0.08)),
-		Color("#b9d1c4")
+		Color("#b9d1c4", 0.72 + sin(animation_time * 2.2) * 0.12)
 	)
 	draw_rect(
 		Rect2(top_left + Vector2(tile_size * 0.62, tile_size * 0.18), Vector2(tile_size * 0.1, tile_size * 0.34)),
@@ -1100,6 +1205,10 @@ func _is_road_location() -> bool:
 
 func _is_modern_home() -> bool:
 	return session.location_id in ["street", "building", "home", "living_room", "study", "bedroom"]
+
+
+func _is_building_lobby() -> bool:
+	return session != null and session.scene_id == "00-prologue-lights-out" and session.location_id == "building"
 
 
 func _is_moqi_location() -> bool:
