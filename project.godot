@@ -11,14 +11,22 @@ config_version=5
 [application]
 
 config/name="Dream Coastline"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://src/main.tscn"
 config/description="A 90s-style keyboard RPG first act about names, memory, and a city without lights."
 config/version="0.1.0"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://assets/branding/dream-coastline-icon.png"
 boot_splash/bg_color=Color(0.027451, 0.035294, 0.05098, 1)
 boot_splash/use_filter=false
 boot_splash/image="res://assets/branding/dream-coastline-splash.png"
+
+[autoload]
+
+Camera="*res://src/field/field_camera.gd"
+FieldEvents="*res://src/field/field_events.gd"
+Gameboard="*res://src/field/gameboard/gameboard.gd"
+GamepieceRegistry="*res://src/field/gamepieces/gamepiece_registry.gd"
+Player="*res://src/common/player.gd"
 
 [display]
 
@@ -80,3 +88,5 @@ pause={
 
 textures/vram_compression/import_etc2_astc=true
 textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

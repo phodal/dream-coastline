@@ -55,6 +55,11 @@ def parse_args() -> argparse.Namespace:
         help="Runtime visual style profile to use for UI and canvas grading.",
     )
     parser.add_argument(
+        "--godot-scene",
+        default="res://scenes/main.tscn",
+        help="Godot scene that owns the legacy screenshot capture flags.",
+    )
+    parser.add_argument(
         "--quit-after",
         type=int,
         default=240,
@@ -73,6 +78,8 @@ def run_capture(args: argparse.Namespace) -> int:
         str(args.godot.expanduser()),
         "--path",
         str(ROOT),
+        "--scene",
+        args.godot_scene,
         "--quit-after",
         str(args.quit_after),
         "--",

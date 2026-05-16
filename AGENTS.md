@@ -35,3 +35,5 @@
 - 试玩输入问题不能只靠 `_unhandled_input`；隐藏菜单焦点可能吞掉真实窗口按键，gameplay 键要走 `_input` 并在退出菜单时释放 focus，再用 menu smoke 模拟移动验证。
 - Computer Use 看到 Godot 窗口不代表键鼠已经送进游戏；如果点击只出现 hover、按键无效，先显式激活 Godot，再复测标题页进入、移动、交互和暂停恢复。
 - 菜单按钮如果同时支持 Godot GUI 焦点和根节点兜底输入，`focus_entered` 要同步 selected index，并给 Enter/Space 加原始 keycode 兜底；否则保存后返回标题可能选中了“继续”却无法触发读取。
+- 复制 `godot-open-rpg` 的 `class_name` 脚本后要补齐依赖脚本（例如 `GameboardLayer`）并跑一次 Godot editor/headless editor 扫描；旧 `.godot/global_script_class_cache` 会让 autoload 误报找不到类型。
+- OpenRPG 示例动画资源可能带旧 UID/path 依赖；迁移角色时优先做项目本地的最小 `GamepieceAnimation` 场景，避免 `.res` 继续引用原项目路径。

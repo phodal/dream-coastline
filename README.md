@@ -1,18 +1,14 @@
 # Dream Coastline
 
-A Godot 4.6 RPG slice with keyboard and gamepad support, save/load, and
-desktop export readiness for macOS, Windows, and Linux.
+A Godot 4.6 RPG slice now re-architected around the copied
+`godot-open-rpg` field runtime: autoloaded field services, grid movement,
+gamepieces, cutscenes, and interactions drive the playable spine.
 
-The playable slice loads narrative scene data from `data/story_scenes/` and
-renders multiple story arcs with explicit visual scene data from
-`data/visual_scenes/`. The Godot version uses OpenGameArt spritesheets for the
-play field, character markers, props, portals, and action feedback.
-Character animation metadata is now described by `data/animation_clips/` and
-selected through `data/visual_assets/`, so generated sprite packages can enter
-the renderer through a small asset contract instead of hard-coded frame logic.
-The repository-backed data, save, and settings services also have Rust
-GDExtension equivalents under `src/`, loaded through
-`dream_coastline.gdextension`.
+The current main scene is `res://src/main.tscn`. It loads Dream Coastline story
+data from `data/story_scenes/` and presents those scenes through OpenRPG-style
+`Gameboard`, `Gamepiece`, `PlayerController`, `Interaction`, and `Cutscene`
+objects. The previous `scripts/ui/*` HUD/title/pause stack is retained in the
+repository for reference, but it is not part of the current main runtime.
 
 ## Features
 
@@ -28,35 +24,20 @@ GDExtension equivalents under `src/`, loaded through
 
 ## Godot Structure
 
-- `scripts/main.gd` wires the Godot scene together and handles top-level UI
-  actions.
-- `scripts/core/scene_database.gd` loads narrative scene JSON.
-- `scripts/core/game_session.gd` owns progression, flags, combat, metrics, and
-  smoke-test walkthrough execution.
-- `scripts/core/rpg_player_controller.gd` handles tile movement, facing, and
-  blocked feedback.
-- `scripts/core/scene_visual_repository.gd` loads per-location visual maps.
-- `scripts/core/visual_asset_registry.gd` maps semantic asset ids such as
-  `jizixuan` to animation clips and future prop/effect asset records.
-- `scripts/core/animation_clip_repository.gd` resolves animation clip JSON into
-  deterministic atlas frames for the renderer.
-- `scripts/core/audio_director.gd` provides generated fallback audio streams.
-- `scripts/core/settings_repository.gd` persists volume and preferences.
-- `scripts/core/save_game_repository.gd` handles save/load serialization.
-- `scripts/ui/game_hud.gd` composes the canvas, top bar, prompt overlay, title,
-  pause, and settings menus behind a small game-facing API.
-- `scripts/ui/title_screen.gd` renders the title with new game and continue
-  options.
-- `scripts/ui/pause_menu.gd` provides in-game pause with save/load/settings.
-- `scripts/ui/settings_menu.gd` exposes volume, visual style, and preference
-  controls.
-- `scripts/ui/sprite_scene_canvas.gd` renders the tile scene from the visual
-  data, asset registry, animation clips, procedural fallbacks, and OpenGameArt
-  spritesheets.
-- `scripts/ui/prompt_overlay.gd` keeps the compact keyboard prompt and latest
-  feedback out of the play field.
-- `scripts/ui/game_theme.gd` keeps HUD styling and visual style profiles
-  separate from gameplay rules.
+- `src/main.tscn` is the active main scene.
+- `src/common/` and `src/field/` are copied OpenRPG runtime components:
+  directions, player state, field camera, gameboard/pathfinder, gamepieces,
+  player controller, cutscenes, triggers, and interactions.
+- `project.godot` autoloads `Camera`, `FieldEvents`, `Gameboard`,
+  `GamepieceRegistry`, and `Player` for the OpenRPG field model.
+- `src/dream/dream_field.gd` adapts Dream Coastline data to OpenRPG rooms,
+  player movement, world labels, and interactions.
+- `src/dream/dream_story_repository.gd` loads all eight story JSON files and
+  applies inspect/go/cast/build/choose/engage/combat/combo progression.
+- `src/dream/dream_story_interaction.gd` turns story records into OpenRPG
+  `Interaction` cutscenes.
+- `src/dream/dream_dialogue_layer.gd` provides the new minimal dialogue layer;
+  it does not reuse the previous HUD/title/pause UI.
 
 ## Development
 
@@ -88,6 +69,14 @@ Validate the project can load:
 
 ```sh
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit
+```
+
+Validate the OpenRPG migration:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-story
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-runtime
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-actions
 ```
 
 Run the tiered automated test gates:
