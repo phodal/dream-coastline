@@ -91,6 +91,14 @@
 					"y": 5.0
 				},
 				{
+					"h": 3.0,
+					"kind": "factory_stack",
+					"overlay": true,
+					"w": 3.0,
+					"x": 1.0,
+					"y": 1.0
+				},
+				{
 					"item": "night_school",
 					"kind": "student",
 					"solid": false,
@@ -121,7 +129,8 @@
 			},
 			"terrain": "industry",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "industry"
+			"visual_family": "industry",
+			"visual_mood": "industrial"
 		},
 		"network": {
 			"asset_scene": "res://scenes/visual_locations/05-century-continuation/network.tscn",

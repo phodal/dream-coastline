@@ -276,6 +276,14 @@
 					"y": 3.0
 				},
 				{
+					"h": 3.0,
+					"kind": "order_monument",
+					"overlay": true,
+					"w": 2.0,
+					"x": 7.0,
+					"y": 1.0
+				},
+				{
 					"kind": "officer",
 					"solid": true,
 					"x": 11.0,

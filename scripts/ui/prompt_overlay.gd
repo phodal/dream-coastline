@@ -11,6 +11,7 @@ var actor_label: Label
 var state_label: Label
 var action_label: Label
 var action_chip: PanelContainer
+var history_label: Label
 var location_divider: ColorRect
 var portrait_panel: Control
 var player_texture
@@ -88,8 +89,14 @@ func _ready() -> void:
 	feedback_label.clip_text = true
 	box.add_child(feedback_label)
 
+	history_label = GameThemeScript.make_label("FeedbackHistory", 12, GameThemeScript.COLORS.muted)
+	history_label.custom_minimum_size = Vector2(360, 20)
+	history_label.clip_text = true
+	history_label.visible = false
+	box.add_child(history_label)
 
-func refresh(location_name: String, prompt_text: String, latest_feedback: String) -> void:
+
+func refresh(location_name: String, prompt_text: String, latest_feedback: String, history_text: String = "") -> void:
 	location_label.text = _compact_location_name(location_name)
 	location_label.add_theme_color_override("font_color", GameThemeScript.COLORS.gold)
 	action_label.text = _action_text(prompt_text)
@@ -100,6 +107,9 @@ func refresh(location_name: String, prompt_text: String, latest_feedback: String
 		feedback_label.text = "%s：沿着地图移动，靠近发光或可疑的物件。" % location_name
 	else:
 		feedback_label.text = "%s：%s" % [location_name, latest_feedback]
+	history_label.visible = not history_text.is_empty()
+	if history_label.visible:
+		history_label.text = "记录：%s" % history_text.replace("\n", " / ")
 	queue_redraw()
 
 
@@ -163,7 +173,7 @@ func _action_text(prompt_text: String) -> String:
 		return "战斗"
 	if prompt_text.find("选择") >= 0 or prompt_text.find("建立") >= 0:
 		return "抉择"
-	if prompt_text.find("移动探索") >= 0:
+	if prompt_text.begins_with("WASD/方向键移动") or prompt_text.find("移动探索") >= 0:
 		return "移动"
 	return "行动"
 

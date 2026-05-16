@@ -201,6 +201,7 @@ func _draw_asset_scene_texture(origin: Vector2, map_size: Vector2) -> void:
 func _draw_asset_scene_tone(origin: Vector2, map_size: Vector2, tile_size: float, visual: Dictionary) -> void:
 	var terrain := str(visual.get("terrain", ""))
 	var family := str(visual.get("visual_family", ""))
+	var mood := _visual_mood(visual)
 	var tone := Color("#050608", 0.08)
 	if GameThemeScript.visual_style() == GameThemeScript.STYLE_CLASSIC_DARK:
 		draw_rect(Rect2(origin, map_size), Color("#050608", 0.18))
@@ -227,9 +228,23 @@ func _draw_asset_scene_tone(origin: Vector2, map_size: Vector2, tile_size: float
 			var end := start + Vector2(tile_size * 1.4, map_size.y)
 			draw_line(start, end, Color("#fff6b8", 0.055), maxf(2.0, tile_size * 0.04))
 		return
+	if mood == "moqi_shadow":
+		tone = Color("#07110c", 0.24)
+		draw_rect(Rect2(origin, map_size), Color("#0d2418", 0.18))
+		draw_rect(Rect2(origin + Vector2(0, map_size.y * 0.42), Vector2(map_size.x, map_size.y * 0.2)), Color("#050608", 0.08))
+	elif mood == "institutional":
+		tone = Color("#0b0f10", 0.2)
+		draw_rect(Rect2(origin, map_size), Color("#263426", 0.12))
+		draw_rect(Rect2(origin + Vector2(0, map_size.y * 0.18), Vector2(map_size.x, tile_size * 0.5)), Color("#050608", 0.1))
+	elif mood == "industrial":
+		tone = Color("#090807", 0.18)
+		draw_rect(Rect2(origin, map_size), Color("#3c2418", 0.12))
+	elif mood == "astral":
+		tone = Color("#001824", 0.14)
+		draw_rect(Rect2(origin, map_size), Color("#00334a", 0.12))
 	if session != null and session.scene_id == "00-prologue-lights-out":
 		tone = Color("#03060b", 0.18)
-	elif family == "node":
+	elif family == "node" and mood != "astral":
 		tone = Color("#00202a", 0.11)
 	elif family in ["wilderness", "forest"]:
 		tone = Color("#170f07", 0.12)
@@ -325,6 +340,23 @@ func _draw_screen_grade(canvas_size: Vector2, origin: Vector2, map_size: Vector2
 		side_shade = Color("#24451f", 0.035)
 		frame_color = Color("#f6d978", 0.34)
 		inner_frame = Color("#fff7be", 0.12)
+	elif mood == "moqi_shadow":
+		shade = Color("#07110c", 0.24)
+		side_shade = Color("#07110c", 0.18)
+		frame_color = Color("#b9d1c4", 0.28)
+		inner_frame = Color("#d7b15e", 0.06)
+	elif mood == "institutional":
+		shade = Color("#10120d", 0.22)
+		side_shade = Color("#10120d", 0.16)
+		frame_color = Color("#d7b15e", 0.26)
+	elif mood == "industrial":
+		shade = Color("#120c08", 0.2)
+		side_shade = Color("#120c08", 0.18)
+		frame_color = Color("#d45c55", 0.22)
+	elif mood == "astral":
+		shade = Color("#00121d", 0.2)
+		side_shade = Color("#00121d", 0.16)
+		frame_color = Color("#75d9e6", 0.3)
 	elif GameThemeScript.visual_style() == GameThemeScript.STYLE_CLASSIC_DARK:
 		shade = Color("#000000", 0.3)
 		side_shade = Color("#000000", 0.22)
@@ -981,6 +1013,16 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			_draw_bridge_static(position, tile_size)
 		"route_marker":
 			_draw_route_marker(str(prop.get("route", "")), position, tile_size)
+		"academy_seal":
+			_draw_academy_seal(position, tile_size, width, height)
+		"construction_frame":
+			_draw_construction_frame(position, tile_size, width, height)
+		"order_monument":
+			_draw_order_monument(position, tile_size, width, height)
+		"factory_stack":
+			_draw_factory_stack(position, tile_size, width, height)
+		"astral_dial":
+			_draw_astral_dial(position, tile_size, width, height)
 		"enemy":
 			_draw_nameless_enemy(position, tile_size)
 		"wensu", "villager", "officer", "student":
@@ -1446,6 +1488,72 @@ func _draw_route_marker(route: String, top_left: Vector2, tile_size: float) -> v
 			draw_line(top_left + Vector2(tile_size * 0.72, tile_size * 0.38), top_left + Vector2(tile_size * 0.5, tile_size * 0.56), base, maxf(2.0, tile_size * 0.04))
 			for index in range(3):
 				draw_circle(top_left + Vector2(tile_size * (0.35 + float(index) * 0.15), tile_size * 0.72), tile_size * 0.035, base)
+
+
+func _draw_academy_seal(top_left: Vector2, tile_size: float, width: int, height: int) -> void:
+	var rect := Rect2(top_left, Vector2(tile_size * max(1, width), tile_size * max(1, height)))
+	var center := rect.get_center()
+	draw_circle(center, minf(rect.size.x, rect.size.y) * 0.42, Color("#0b130e", 0.28))
+	draw_circle(center, minf(rect.size.x, rect.size.y) * 0.31, Color("#d7b15e", 0.12))
+	draw_circle(center, minf(rect.size.x, rect.size.y) * 0.31, Color("#d7b15e", 0.44), false, maxf(2.0, tile_size * 0.035))
+	draw_line(center + Vector2(-rect.size.x * 0.18, 0), center + Vector2(rect.size.x * 0.18, 0), Color("#f1ead4", 0.56), maxf(2.0, tile_size * 0.04))
+	draw_line(center + Vector2(0, -rect.size.y * 0.22), center + Vector2(0, rect.size.y * 0.22), Color("#f1ead4", 0.42), maxf(2.0, tile_size * 0.035))
+	for index in range(6):
+		var angle := float(index) * TAU / 6.0
+		draw_line(center + Vector2(cos(angle), sin(angle)) * rect.size.y * 0.16, center + Vector2(cos(angle), sin(angle)) * rect.size.y * 0.28, Color("#b9d1c4", 0.45), maxf(1.0, tile_size * 0.025))
+
+
+func _draw_construction_frame(top_left: Vector2, tile_size: float, width: int, height: int) -> void:
+	var rect := Rect2(top_left, Vector2(tile_size * max(1, width), tile_size * max(1, height)))
+	var beam := maxf(2.0, tile_size * 0.06)
+	draw_rect(rect, Color("#050608", 0.16))
+	draw_rect(rect.grow(-tile_size * 0.12), Color("#d7b15e", 0.22), false, beam)
+	for index in range(maxi(2, width + 1)):
+		var x := rect.position.x + rect.size.x * float(index) / float(maxi(1, width))
+		draw_line(Vector2(x, rect.position.y + tile_size * 0.2), Vector2(x, rect.end.y - tile_size * 0.2), Color("#d7b15e", 0.34), beam)
+	for index in range(maxi(2, height + 1)):
+		var y := rect.position.y + rect.size.y * float(index) / float(maxi(1, height))
+		draw_line(Vector2(rect.position.x + tile_size * 0.2, y), Vector2(rect.end.x - tile_size * 0.2, y), Color("#8f7040", 0.36), beam)
+	draw_line(rect.position + Vector2(tile_size * 0.2, rect.size.y - tile_size * 0.2), rect.end - Vector2(tile_size * 0.2, rect.size.y - tile_size * 0.2), Color("#f0d18a", 0.28), beam)
+
+
+func _draw_order_monument(top_left: Vector2, tile_size: float, width: int, height: int) -> void:
+	var rect := Rect2(top_left, Vector2(tile_size * max(1, width), tile_size * max(1, height)))
+	var center := rect.get_center()
+	draw_rect(Rect2(Vector2(center.x - rect.size.x * 0.23, rect.position.y + rect.size.y * 0.15), Vector2(rect.size.x * 0.46, rect.size.y * 0.7)), Color("#1c2020", 0.72))
+	draw_rect(Rect2(Vector2(center.x - rect.size.x * 0.23, rect.position.y + rect.size.y * 0.15), Vector2(rect.size.x * 0.46, rect.size.y * 0.7)), Color("#8f7040", 0.54), false, maxf(2.0, tile_size * 0.04))
+	for index in range(4):
+		var y := rect.position.y + rect.size.y * (0.28 + float(index) * 0.12)
+		draw_line(Vector2(center.x - rect.size.x * 0.14, y), Vector2(center.x + rect.size.x * 0.14, y), Color("#d8ceb0", 0.45), maxf(1.0, tile_size * 0.025))
+	draw_circle(center + Vector2(0, rect.size.y * 0.18), tile_size * 0.18, Color("#75d9e6", 0.16))
+
+
+func _draw_factory_stack(top_left: Vector2, tile_size: float, width: int, height: int) -> void:
+	var rect := Rect2(top_left, Vector2(tile_size * max(1, width), tile_size * max(1, height)))
+	var stack_rect := Rect2(rect.position + Vector2(rect.size.x * 0.18, rect.size.y * 0.12), Vector2(rect.size.x * 0.18, rect.size.y * 0.78))
+	draw_rect(stack_rect, Color("#2c211b", 0.76))
+	draw_rect(stack_rect, Color("#d7b15e", 0.42), false, maxf(2.0, tile_size * 0.035))
+	for index in range(4):
+		var smoke_center := rect.position + Vector2(rect.size.x * (0.38 + float(index) * 0.12), rect.size.y * (0.16 - float(index % 2) * 0.04))
+		draw_circle(smoke_center, tile_size * (0.18 + float(index) * 0.02), Color("#b9d1c4", 0.1))
+	var conveyor := Rect2(rect.position + Vector2(rect.size.x * 0.28, rect.size.y * 0.66), Vector2(rect.size.x * 0.58, rect.size.y * 0.14))
+	draw_rect(conveyor, Color("#050608", 0.34))
+	draw_rect(conveyor, Color("#d45c55", 0.3), false, maxf(1.0, tile_size * 0.03))
+
+
+func _draw_astral_dial(top_left: Vector2, tile_size: float, width: int, height: int) -> void:
+	var rect := Rect2(top_left, Vector2(tile_size * max(1, width), tile_size * max(1, height)))
+	var center := rect.get_center()
+	var radius := minf(rect.size.x, rect.size.y) * 0.36
+	draw_circle(center, radius * 1.18, Color("#001824", 0.36))
+	draw_circle(center, radius, Color("#75d9e6", 0.12))
+	draw_circle(center, radius, Color("#75d9e6", 0.42), false, maxf(2.0, tile_size * 0.035))
+	for index in range(8):
+		var angle := float(index) * TAU / 8.0 + animation_time * 0.08
+		var inner := center + Vector2(cos(angle), sin(angle)) * radius * 0.42
+		var outer := center + Vector2(cos(angle), sin(angle)) * radius
+		draw_line(inner, outer, Color("#b9d1c4", 0.42), maxf(1.0, tile_size * 0.022))
+	draw_line(center, center + Vector2(cos(animation_time * 0.35), sin(animation_time * 0.35)) * radius * 0.82, Color("#f0d18a", 0.56), maxf(2.0, tile_size * 0.035))
 
 
 func _draw_gate_rune(top_left: Vector2, tile_size: float) -> void:

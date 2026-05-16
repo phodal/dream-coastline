@@ -27,6 +27,14 @@
 					"y": 3.0
 				},
 				{
+					"h": 3.0,
+					"kind": "construction_frame",
+					"overlay": true,
+					"w": 3.0,
+					"x": 6.0,
+					"y": 1.0
+				},
+				{
 					"kind": "route_marker",
 					"overlay": true,
 					"requires_flags": [
@@ -114,7 +122,7 @@
 			"terrain": "institute",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "modern_interior",
-			"visual_mood": "sunlit"
+			"visual_mood": "institutional"
 		},
 		"mine": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/mine.tscn",

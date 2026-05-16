@@ -110,10 +110,12 @@ func refresh(session, player_controller) -> void:
 		feedback_text = ""
 	if feedback_text.is_empty():
 		feedback_text = _ambient_feedback_text(session, location)
+	feedback_text = _tutorial_feedback_text(session, raw_prompt, feedback_text)
 	prompt_overlay.refresh(
 		_display_location_name(session, location),
 		_display_prompt_text(raw_prompt),
-		feedback_text
+		feedback_text,
+		_history_log_text(session, feedback_text)
 	)
 	_layout_hud_regions()
 
@@ -401,7 +403,7 @@ func _layout_hud_regions() -> void:
 	if prompt_overlay != null:
 		var side_margin := clampf(view_size.x * 0.04, 36.0, 56.0)
 		var bottom_margin := 12.0
-		var dialogue_height := clampf(view_size.y * 0.115, 78.0, 88.0)
+		var dialogue_height := clampf(view_size.y * 0.155, 104.0, 124.0)
 		prompt_overlay.set_anchors_preset(Control.PRESET_BOTTOM_WIDE, false)
 		prompt_overlay.offset_left = side_margin
 		prompt_overlay.offset_top = -dialogue_height - bottom_margin
@@ -479,7 +481,7 @@ func _objective_text(session) -> String:
 	if session.scene_id == "01-illiterate":
 		if session.has_flag("learned_name_strokes") or session.has_flag("named_beast") or session.has_flag("defeated_nameless"):
 			return "目标：记住它的名，然后活下去"
-		return "目标：□□□"
+		return "目标：辨认失字符号"
 	if session.scene_id == "04-continuation-institute":
 		return _continuation_objective_text(session)
 	if session.scene_id == "06-return-star-plan":
@@ -572,16 +574,50 @@ func _return_star_objective_text(session) -> String:
 
 func _display_location_name(session, location: Dictionary) -> String:
 	if session.scene_id == "01-illiterate" and not session.has_flag("learned_name_strokes"):
-		return "□□□"
+		return "失字之路"
 	return str(location.get("name", session.location_id))
 
 
 func _display_prompt_text(raw_prompt: String) -> String:
 	if raw_prompt.begins_with("Space/Enter "):
-		return raw_prompt.trim_prefix("Space/Enter ")
+		return raw_prompt
 	if raw_prompt.begins_with("WASD/方向键移动"):
-		return "移动探索，靠近发光或可疑的物件"
+		return "WASD/方向键移动，Space/Enter 互动，Esc 暂停"
 	return raw_prompt
+
+
+func _tutorial_feedback_text(session, raw_prompt: String, fallback: String) -> String:
+	if session.scene_id == "00-prologue-lights-out" and session.location_id == "street" and _event_log_size(session) <= 1:
+		return "操作：WASD/方向键移动，Space/Enter 互动，Esc 暂停。先靠近发光物件。"
+	if raw_prompt.begins_with("WASD/方向键移动") and _event_log_size(session) <= 1:
+		return "操作：WASD/方向键移动，Space/Enter 互动，Esc 暂停。"
+	return fallback
+
+
+func _history_log_text(session, current_feedback: String) -> String:
+	var history := str(session.visible_log(3)).strip_edges()
+	if history.is_empty() or history == current_feedback:
+		return ""
+	var lines := history.split("\n", false)
+	var kept: Array[String] = []
+	for line in lines:
+		var compact := str(line).strip_edges()
+		if compact.is_empty() or compact == current_feedback:
+			continue
+		if compact.begins_with("开始："):
+			continue
+		if compact.length() > 42:
+			compact = compact.substr(0, 39) + "..."
+		kept.append(compact)
+	if kept.is_empty():
+		return ""
+	return " / ".join(kept)
+
+
+func _event_log_size(session) -> int:
+	if session.event_log is Array:
+		return session.event_log.size()
+	return 0
 
 
 func _ambient_feedback_text(session, location: Dictionary) -> String:

@@ -491,11 +491,11 @@ func _run_menu_smoke() -> bool:
 	if game_started:
 		failures.append("game should not be marked started at boot")
 
-	_press_action_for_smoke("interact")
+	_press_key_for_smoke(KEY_ENTER)
 	if hud.is_title_visible():
-		failures.append("title keyboard activation should start a new game")
+		failures.append("title Enter keycode activation should start a new game")
 	if not game_started:
-		failures.append("title keyboard activation should mark game started")
+		failures.append("title Enter keycode activation should mark game started")
 	if hud.has_menu_focus():
 		failures.append("gameplay should release title menu focus")
 	var start_tile: Vector2i = player_controller.tile
@@ -509,9 +509,9 @@ func _run_menu_smoke() -> bool:
 		failures.append("pause should open after ESC")
 	if not hud.has_menu_focus():
 		failures.append("pause menu should have keyboard focus")
-	_press_action_for_smoke("interact")
+	_press_key_for_smoke(KEY_KP_ENTER)
 	if hud.is_pause_visible():
-		failures.append("pause keyboard activation should close on resume")
+		failures.append("pause keypad Enter keycode should close on resume")
 	if hud.has_menu_focus():
 		failures.append("gameplay should release pause menu focus")
 	var resumed_tile: Vector2i = player_controller.tile
@@ -519,6 +519,13 @@ func _run_menu_smoke() -> bool:
 	player_controller.complete_movement()
 	if player_controller.tile != resumed_tile + Vector2i(-1, 0):
 		failures.append("gameplay input should move after pause resume")
+
+	_toggle_pause()
+	if not hud.is_pause_visible():
+		failures.append("pause should reopen for Space keycode check")
+	_press_key_for_smoke(KEY_SPACE)
+	if hud.is_pause_visible():
+		failures.append("pause Space keycode should close on resume")
 
 	_open_settings()
 	if not hud.is_settings_visible():
@@ -573,6 +580,14 @@ func _run_menu_smoke() -> bool:
 func _press_action_for_smoke(action_name: String) -> void:
 	var event := InputEventAction.new()
 	event.action = action_name
+	event.pressed = true
+	_input(event)
+
+
+func _press_key_for_smoke(keycode: Key) -> void:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.physical_keycode = keycode
 	event.pressed = true
 	_input(event)
 
