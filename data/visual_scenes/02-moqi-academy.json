@@ -41,6 +41,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "baseline",
+					"kind": "record",
+					"solid": false,
+					"x": 9.0,
+					"y": 2.0
+				},
+				{
 					"kind": "xiali",
 					"solid": true,
 					"x": 10.0,
@@ -84,6 +91,13 @@
 					"kind": "rune",
 					"solid": true,
 					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "margins",
+					"kind": "record",
+					"solid": false,
+					"x": 6.0,
 					"y": 3.0
 				},
 				{
@@ -216,6 +230,13 @@
 					"y": 2.0
 				},
 				{
+					"item": "mother_annotation",
+					"kind": "record",
+					"solid": false,
+					"x": 12.0,
+					"y": 5.0
+				},
+				{
 					"exit": "archive",
 					"kind": "exit",
 					"x": 1.0,
@@ -240,6 +261,13 @@
 					"solid": true,
 					"x": 3.0,
 					"y": 3.0
+				},
+				{
+					"item": "first_failure",
+					"kind": "record",
+					"solid": false,
+					"x": 4.0,
+					"y": 4.0
 				},
 				{
 					"action": {

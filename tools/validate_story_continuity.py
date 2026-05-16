@@ -7,6 +7,7 @@ This catches narrative regressions that normal smoke tests can miss:
 - scene slices missing the previous scene's ending fact;
 - choice branches that only work for the canonical walkthrough route;
 - authored requirements that reference flags no action can produce.
+- story interactions that exist in JSON but cannot be reached from the RPG map.
 """
 
 from __future__ import annotations
@@ -21,6 +22,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 SCENE_DIR = ROOT / "data" / "story_scenes"
+VISUAL_DIR = ROOT / "data" / "visual_scenes"
 
 
 def load_scene(path: Path) -> dict[str, Any]:
@@ -182,6 +184,54 @@ def validate_branch_visible_feedback(scenes_by_id: dict[str, dict[str, Any]], fa
             )
 
 
+def validate_visual_interaction_contract(scenes: list[dict[str, Any]], failures: list[str]) -> None:
+    for scene in scenes:
+        visual_path = VISUAL_DIR / f"{scene['id']}.json"
+        if not visual_path.exists():
+            failures.append(f"{scene['id']} is missing visual scene file {visual_path.relative_to(ROOT)}")
+            continue
+        visual = load_scene(visual_path)
+        visual_locations = visual.get("locations", {})
+        if not isinstance(visual_locations, dict):
+            failures.append(f"{scene['id']} visual scene has no locations dictionary")
+            continue
+
+        for location_id, location in scene.get("locations", {}).items():
+            visual_location = visual_locations.get(location_id, {})
+            if not isinstance(visual_location, dict):
+                failures.append(f"{scene['id']} location {location_id} is missing from visual scene")
+                continue
+
+            props = visual_location.get("props", [])
+            if not isinstance(props, list):
+                failures.append(f"{scene['id']} location {location_id} visual props must be a list")
+                continue
+
+            item_props = {
+                str(prop.get("item", ""))
+                for prop in props
+                if isinstance(prop, dict) and prop.get("item")
+            }
+            missing_items = sorted(set(location.get("items", {}).keys()) - item_props)
+            if missing_items:
+                failures.append(
+                    f"{scene['id']} location {location_id} visual props missing story items: {', '.join(missing_items)}"
+                )
+
+            choice_actions = {
+                str(prop.get("action", {}).get("arg", ""))
+                for prop in props
+                if isinstance(prop, dict)
+                and isinstance(prop.get("action"), dict)
+                and prop["action"].get("verb") == "choose"
+            }
+            missing_choices = sorted(set(location.get("choices", {}).keys()) - choice_actions)
+            if missing_choices:
+                failures.append(
+                    f"{scene['id']} location {location_id} visual props missing choice actions: {', '.join(missing_choices)}"
+                )
+
+
 def validate_branch_walkthroughs(scene: dict[str, Any], failures: list[str]) -> None:
     runner = load_ascii_runner()
     walkthrough = scene.get("walkthrough", [])
@@ -226,6 +276,7 @@ def main() -> int:
         validate_branch_contract(dead_kingdom, failures)
         validate_branch_walkthroughs(dead_kingdom, failures)
     validate_branch_visible_feedback(scenes_by_id, failures)
+    validate_visual_interaction_contract(scenes, failures)
 
     if failures:
         for failure in failures:

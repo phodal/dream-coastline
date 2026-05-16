@@ -20,6 +20,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "coordinate_standard",
+					"kind": "record",
+					"solid": false,
+					"x": 8.0,
+					"y": 5.0
+				},
+				{
 					"action": {
 						"arg": "astral_tower",
 						"verb": "build"
@@ -28,6 +35,13 @@
 					"label": "建设星象塔",
 					"solid": true,
 					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"item": "failed_signal",
+					"kind": "record",
+					"solid": false,
+					"x": 11.0,
 					"y": 3.0
 				},
 				{
@@ -68,6 +82,20 @@
 					"solid": true,
 					"x": 7.0,
 					"y": 3.0
+				},
+				{
+					"item": "wensu_absence",
+					"kind": "private_anchor",
+					"solid": false,
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
+					"item": "night_school",
+					"kind": "student",
+					"solid": false,
+					"x": 8.0,
+					"y": 5.0
 				},
 				{
 					"action": {

@@ -46,6 +46,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "answer",
+					"kind": "record",
+					"solid": false,
+					"x": 9.0,
+					"y": 5.0
+				},
+				{
 					"action": {
 						"arg": "",
 						"verb": "attack"
@@ -87,6 +94,13 @@
 					"kind": "record",
 					"solid": true,
 					"x": 5.0,
+					"y": 3.0
+				},
+				{
+					"item": "transcripts",
+					"kind": "record",
+					"solid": false,
+					"x": 7.0,
 					"y": 3.0
 				},
 				{
@@ -149,11 +163,30 @@
 					"y": 3.0
 				},
 				{
+					"item": "letters",
+					"kind": "record",
+					"solid": false,
+					"x": 5.0,
+					"y": 5.0
+				},
+				{
 					"item": "ban",
 					"kind": "record",
 					"solid": true,
 					"x": 7.0,
 					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "royal",
+						"verb": "choose"
+					},
+					"kind": "route_marker",
+					"label": "选择王族藏书",
+					"route": "royal",
+					"solid": false,
+					"x": 8.0,
+					"y": 5.0
 				},
 				{
 					"action": {
@@ -165,6 +198,30 @@
 					"solid": true,
 					"x": 9.0,
 					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "engineers",
+						"verb": "choose"
+					},
+					"kind": "route_marker",
+					"label": "选择工匠藏书",
+					"route": "engineer",
+					"solid": false,
+					"x": 10.0,
+					"y": 5.0
+				},
+				{
+					"action": {
+						"arg": "parents",
+						"verb": "choose"
+					},
+					"kind": "route_marker",
+					"label": "选择父母线索",
+					"route": "parent",
+					"solid": false,
+					"x": 11.0,
+					"y": 5.0
 				},
 				{
 					"exit": "outer_city",
@@ -203,6 +260,13 @@
 					"solid": true,
 					"x": 4.0,
 					"y": 2.0
+				},
+				{
+					"item": "market",
+					"kind": "record",
+					"solid": false,
+					"x": 6.0,
+					"y": 3.0
 				},
 				{
 					"item": "order",
@@ -248,6 +312,13 @@
 					"kind": "gate",
 					"solid": true,
 					"x": 5.0,
+					"y": 3.0
+				},
+				{
+					"item": "ash_wall",
+					"kind": "record",
+					"solid": false,
+					"x": 7.0,
 					"y": 3.0
 				},
 				{

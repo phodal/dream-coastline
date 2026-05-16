@@ -20,6 +20,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "noble_observer",
+					"kind": "officer",
+					"solid": false,
+					"x": 10.0,
+					"y": 3.0
+				},
+				{
 					"kind": "route_marker",
 					"overlay": true,
 					"requires_flags": [
@@ -140,6 +147,13 @@
 					"label": "建设矿场安全流程",
 					"solid": true,
 					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"item": "safety_board",
+					"kind": "record",
+					"solid": false,
+					"x": 10.0,
 					"y": 3.0
 				},
 				{

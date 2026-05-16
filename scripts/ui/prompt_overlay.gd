@@ -11,6 +11,7 @@ var actor_label: Label
 var state_label: Label
 var action_label: Label
 var action_chip: PanelContainer
+var location_divider: ColorRect
 var portrait_panel: Control
 var player_texture
 
@@ -22,31 +23,31 @@ func _ready() -> void:
 		player_texture = load(PLAYER_SHEET_PATH)
 
 	var root := HBoxContainer.new()
-	root.add_theme_constant_override("separation", 12)
+	root.add_theme_constant_override("separation", 10)
 	add_child(root)
 
 	var actor_box := VBoxContainer.new()
-	actor_box.custom_minimum_size = Vector2(96, 64)
-	actor_box.add_theme_constant_override("separation", 2)
+	actor_box.custom_minimum_size = Vector2(84, 54)
+	actor_box.add_theme_constant_override("separation", 1)
 	root.add_child(actor_box)
 
 	portrait_panel = Control.new()
-	portrait_panel.custom_minimum_size = Vector2(72, 24)
+	portrait_panel.custom_minimum_size = Vector2(60, 22)
 	portrait_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	actor_box.add_child(portrait_panel)
 
-	actor_label = GameThemeScript.make_label("ActorName", 15, GameThemeScript.COLORS.gold)
+	actor_label = GameThemeScript.make_label("ActorName", 14, GameThemeScript.COLORS.gold)
 	actor_label.text = "纪子轩"
 	actor_box.add_child(actor_label)
 
-	state_label = GameThemeScript.make_label("ActorState", 12, GameThemeScript.COLORS.muted)
+	state_label = GameThemeScript.make_label("ActorState", 11, GameThemeScript.COLORS.muted)
 	state_label.clip_text = true
 	state_label.text = "独自回家"
 	actor_box.add_child(state_label)
 
 	var box := VBoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	box.add_theme_constant_override("separation", 5)
+	box.add_theme_constant_override("separation", 3)
 	root.add_child(box)
 
 	var first_line := HBoxContainer.new()
@@ -54,24 +55,26 @@ func _ready() -> void:
 	box.add_child(first_line)
 
 	location_label = GameThemeScript.make_label("Location", 15, GameThemeScript.COLORS.gold)
-	location_label.custom_minimum_size = Vector2(132, 24)
+	location_label.custom_minimum_size = Vector2(0, 0)
 	location_label.clip_text = true
+	location_label.visible = false
 	first_line.add_child(location_label)
 
-	var divider := ColorRect.new()
-	divider.color = Color(GameThemeScript.COLORS.border.r, GameThemeScript.COLORS.border.g, GameThemeScript.COLORS.border.b, 0.7)
-	divider.custom_minimum_size = Vector2(2, 24)
-	first_line.add_child(divider)
+	location_divider = ColorRect.new()
+	location_divider.color = Color(GameThemeScript.COLORS.border.r, GameThemeScript.COLORS.border.g, GameThemeScript.COLORS.border.b, 0.7)
+	location_divider.custom_minimum_size = Vector2(2, 22)
+	location_divider.visible = false
+	first_line.add_child(location_divider)
 
 	action_chip = GameThemeScript.make_status_chip("PromptActionChip", "移动", GameThemeScript.COLORS.gold)
-	action_chip.custom_minimum_size = Vector2(58, 24)
+	action_chip.custom_minimum_size = Vector2(58, 22)
 	action_label = action_chip.get_child(0) as Label
 	action_label.custom_minimum_size = Vector2(42, 18)
 	first_line.add_child(action_chip)
 
-	prompt_label = GameThemeScript.make_label("Prompt", 16, GameThemeScript.COLORS.paper)
+	prompt_label = GameThemeScript.make_label("Prompt", 15, GameThemeScript.COLORS.paper)
 	prompt_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	prompt_label.custom_minimum_size = Vector2(300, 24)
+	prompt_label.custom_minimum_size = Vector2(300, 22)
 	prompt_label.clip_text = true
 	first_line.add_child(prompt_label)
 
@@ -80,22 +83,23 @@ func _ready() -> void:
 	accent.custom_minimum_size = Vector2(0, 2)
 	box.add_child(accent)
 
-	feedback_label = GameThemeScript.make_label("LatestFeedback", 14, GameThemeScript.COLORS.text)
-	feedback_label.custom_minimum_size = Vector2(360, 30)
+	feedback_label = GameThemeScript.make_label("LatestFeedback", 13, GameThemeScript.COLORS.text)
+	feedback_label.custom_minimum_size = Vector2(360, 24)
 	feedback_label.clip_text = true
 	box.add_child(feedback_label)
 
 
 func refresh(location_name: String, prompt_text: String, latest_feedback: String) -> void:
-	location_label.text = location_name
+	location_label.text = _compact_location_name(location_name)
+	location_label.add_theme_color_override("font_color", GameThemeScript.COLORS.gold)
 	action_label.text = _action_text(prompt_text)
 	action_label.add_theme_color_override("font_color", _action_color(prompt_text))
 	prompt_label.text = prompt_text
 	state_label.text = _state_text(location_name)
 	if latest_feedback.is_empty():
-		feedback_label.text = "沿着地图移动，靠近发光或可疑的物件。"
+		feedback_label.text = "%s：沿着地图移动，靠近发光或可疑的物件。" % location_name
 	else:
-		feedback_label.text = latest_feedback
+		feedback_label.text = "%s：%s" % [location_name, latest_feedback]
 	queue_redraw()
 
 
@@ -107,7 +111,7 @@ func _draw() -> void:
 	draw_rect(rect, Color(GameThemeScript.COLORS.border.r, GameThemeScript.COLORS.border.g, GameThemeScript.COLORS.border.b, 0.72), false, 2.0)
 	draw_rect(rect.grow(-4.0), Color("#101820", 0.46))
 	if player_texture != null:
-		var sprite_size := minf(rect.size.x * 0.42, rect.size.y * 1.45)
+		var sprite_size := minf(rect.size.x * 0.52, rect.size.y * 1.62)
 		var sprite_rect := Rect2(
 			rect.position + Vector2(rect.size.x * 0.5 - sprite_size * 0.5, rect.size.y - sprite_size + 8.0),
 			Vector2(sprite_size, sprite_size)
@@ -140,6 +144,12 @@ func _state_text(location_name: String) -> String:
 			return "黑笔在等"
 		_:
 			return "独自前进"
+
+
+func _compact_location_name(location_name: String) -> String:
+	if location_name.length() > 7:
+		return location_name.substr(0, 6) + "..."
+	return location_name
 
 
 func _action_text(prompt_text: String) -> String:

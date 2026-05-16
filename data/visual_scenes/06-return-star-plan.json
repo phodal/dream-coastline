@@ -53,6 +53,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "backup_drill",
+					"kind": "record",
+					"solid": false,
+					"x": 8.0,
+					"y": 5.0
+				},
+				{
 					"action": {
 						"arg": "backups",
 						"verb": "build"
@@ -101,6 +108,13 @@
 					"solid": true,
 					"x": 7.0,
 					"y": 3.0
+				},
+				{
+					"item": "risk_ledger",
+					"kind": "record",
+					"solid": false,
+					"x": 8.0,
+					"y": 5.0
 				},
 				{
 					"kind": "route_marker",
@@ -186,6 +200,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "empty_seats",
+					"kind": "student",
+					"solid": false,
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
 					"action": {
 						"arg": "vessel",
 						"verb": "build"
@@ -243,6 +264,13 @@
 					"label": "开启归星门",
 					"solid": true,
 					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"item": "farewell",
+					"kind": "xiali",
+					"solid": false,
+					"x": 9.0,
 					"y": 3.0
 				},
 				{

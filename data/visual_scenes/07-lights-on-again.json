@@ -13,6 +13,20 @@
 					"y": 3.0
 				},
 				{
+					"item": "parents_echo",
+					"kind": "parent_echo",
+					"solid": false,
+					"x": 6.0,
+					"y": 3.0
+				},
+				{
+					"item": "city_first",
+					"kind": "window_dark",
+					"solid": false,
+					"x": 7.0,
+					"y": 5.0
+				},
+				{
 					"item": "contacts",
 					"kind": "phone",
 					"solid": true,
@@ -147,6 +161,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "deleted_party_names",
+					"kind": "record",
+					"solid": false,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
 					"action": {
 						"arg": "",
 						"verb": "write"
@@ -191,6 +212,13 @@
 					"y": 5.0
 				},
 				{
+					"item": "civilization_response",
+					"kind": "node",
+					"solid": false,
+					"x": 10.0,
+					"y": 5.0
+				},
+				{
 					"exit": "lab",
 					"kind": "exit",
 					"x": 1.0,
@@ -214,6 +242,13 @@
 					"kind": "gate",
 					"solid": true,
 					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "missing_teacher",
+					"kind": "record",
+					"solid": false,
+					"x": 6.0,
 					"y": 3.0
 				},
 				{
@@ -268,6 +303,13 @@
 					"y": 5.0
 				},
 				{
+					"item": "receipt",
+					"kind": "record",
+					"solid": false,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
 					"exit": "street",
 					"kind": "exit",
 					"x": 13.0,
@@ -303,6 +345,13 @@
 					"solid": true,
 					"x": 6.0,
 					"y": 3.0
+				},
+				{
+					"item": "neighbors",
+					"kind": "villager",
+					"solid": false,
+					"x": 7.0,
+					"y": 5.0
 				},
 				{
 					"item": "node_base",

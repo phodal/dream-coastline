@@ -133,7 +133,7 @@ static func style_dialogue_panel(panel: PanelContainer) -> void:
 static func style_compact_dialogue_panel(panel: PanelContainer) -> void:
 	panel.add_theme_stylebox_override(
 		"panel",
-		_make_pixel_box(COLORS.dialogue_panel, COLORS.border_light, COLORS.border_shadow, 14, 10, 14, 10, 2)
+		_make_pixel_box(COLORS.dialogue_panel, COLORS.border_light, COLORS.border_shadow, 12, 8, 12, 8, 2)
 	)
 
 

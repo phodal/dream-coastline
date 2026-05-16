@@ -380,7 +380,7 @@ func _layout_hud_regions() -> void:
 		return
 
 	if top_bar != null:
-		var top_margin := 12.0
+		var top_margin := 10.0
 		var has_top_details := false
 		if objective_label != null and objective_label.visible:
 			has_top_details = true
@@ -389,9 +389,9 @@ func _layout_hud_regions() -> void:
 		var top_max_width := 880.0 if has_top_details else 640.0
 		var top_width := minf(view_size.x - 48.0, top_max_width)
 		top_width = maxf(500.0, top_width)
-		var top_height := 48.0
+		var top_height := 42.0
 		if progression_chip_row != null and progression_chip_row.visible:
-			top_height = 72.0
+			top_height = 66.0
 		top_bar.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
 		top_bar.offset_left = 20.0
 		top_bar.offset_top = top_margin
@@ -399,9 +399,9 @@ func _layout_hud_regions() -> void:
 		top_bar.offset_bottom = top_margin + top_height
 
 	if prompt_overlay != null:
-		var side_margin := clampf(view_size.x * 0.035, 28.0, 44.0)
-		var bottom_margin := 16.0
-		var dialogue_height := clampf(view_size.y * 0.135, 88.0, 102.0)
+		var side_margin := clampf(view_size.x * 0.04, 36.0, 56.0)
+		var bottom_margin := 12.0
+		var dialogue_height := clampf(view_size.y * 0.115, 78.0, 88.0)
 		prompt_overlay.set_anchors_preset(Control.PRESET_BOTTOM_WIDE, false)
 		prompt_overlay.offset_left = side_margin
 		prompt_overlay.offset_top = -dialogue_height - bottom_margin

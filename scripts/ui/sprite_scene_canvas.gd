@@ -1746,8 +1746,16 @@ func _draw_player_actor(top_left: Vector2, tile_size: float) -> void:
 func _draw_animation_frame(frame: Dictionary, top_left: Vector2, tile_size: float) -> void:
 	if bool(frame.get("shadow", true)):
 		_draw_character_shadow(top_left, tile_size)
-	var render_size := tile_size * float(frame.get("render_size", 0.74))
+	_draw_player_focus_ring(top_left, tile_size)
+	var render_size := tile_size * maxf(float(frame.get("render_size", 0.74)), 0.9)
 	var sprite_top_left := top_left + Vector2((tile_size - render_size) * 0.5, tile_size - render_size - tile_size * 0.08)
+	var outline_rect := Rect2(sprite_top_left + Vector2(tile_size * 0.02, tile_size * 0.02), Vector2(render_size, render_size))
+	draw_texture_rect_region(
+		frame.get("texture"),
+		outline_rect,
+		frame.get("source"),
+		Color("#050608", 0.5)
+	)
 	draw_texture_rect_region(
 		frame.get("texture"),
 		Rect2(sprite_top_left, Vector2(render_size, render_size)),
@@ -1756,12 +1764,19 @@ func _draw_animation_frame(frame: Dictionary, top_left: Vector2, tile_size: floa
 
 
 func _draw_character(tile: Vector2i, top_left: Vector2, tile_size: float) -> void:
-	var sprite_size := tile_size * 0.74
+	var sprite_size := tile_size * 0.9
 	var sprite_top_left := top_left + Vector2((tile_size - sprite_size) * 0.5, tile_size - sprite_size - tile_size * 0.08)
 	_draw_character_shadow(top_left, tile_size)
+	_draw_player_focus_ring(top_left, tile_size)
 	if rpg_characters_texture == null:
 		_draw_fallback_character(tile, sprite_top_left, sprite_size)
 		return
+	draw_texture_rect_region(
+		rpg_characters_texture,
+		Rect2(sprite_top_left + Vector2(tile_size * 0.02, tile_size * 0.02), Vector2(sprite_size, sprite_size)),
+		Rect2(Vector2(tile) * CHAR_TILE, Vector2(CHAR_TILE, CHAR_TILE)),
+		Color("#050608", 0.5)
+	)
 	draw_texture_rect_region(
 		rpg_characters_texture,
 		Rect2(sprite_top_left, Vector2(sprite_size, sprite_size)),
@@ -1777,6 +1792,12 @@ func _draw_character_shadow(top_left: Vector2, tile_size: float) -> void:
 		),
 		Color("#000000", 0.32)
 	)
+
+
+func _draw_player_focus_ring(top_left: Vector2, tile_size: float) -> void:
+	var center := top_left + Vector2(tile_size * 0.5, tile_size * 0.82)
+	draw_circle(center, tile_size * 0.34, Color("#f0d18a", 0.12))
+	draw_circle(center, tile_size * 0.2, Color("#050608", 0.22))
 
 
 func _draw_fallback_character(tile: Vector2i, sprite_top_left: Vector2, sprite_size: float) -> void:
