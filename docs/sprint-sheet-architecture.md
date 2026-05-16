@@ -30,10 +30,54 @@ Every Sprint Sheet should use this structure.
 | Inputs | Existing files, scene IDs, assets, and constraints. | Tells the UI artist what data labels and assets are real. |
 | Outputs | Concrete files or screens produced by the sprint. | Prevents vague deliverables like "improve UI". |
 | Visual Direction | What the screen must and must not read as. | Keeps era, tone, and material choices aligned. |
+| Sprint Trace Map | Stable IDs mapped to runtime owners, screenshot states, and acceptance gates. | Makes each visual/animation point executable by one task ID. |
 | Screenshot Review Gate | Concrete screenshots and mismatch checks. | Makes style review evidence-based, not preference-only. |
 | Acceptance | Observable checks, commands, and visual criteria. | Makes review objective. |
 | Affected Files | Exact modules or data files expected to change. | Keeps implementation scoped. |
 | Non-Goals | Things the sprint must not solve yet. | Prevents UI sprawl and accidental systems work. |
+
+## Sprint Trace Map
+
+The Sprint Sheet is not complete until its visual and animation points can be
+traced to runtime owners. Use a Sprint Trace Map to bind source evidence to the
+exact data, renderer, screenshot, and acceptance gate that will prove the work.
+
+```text
+Scene Evidence
+  -> Runtime Function
+  -> Visual Object / Animation Asset
+  -> Owner File / Function
+  -> Screenshot State
+  -> Acceptance Gate
+```
+
+### Stable IDs
+
+Every traceable point needs a stable ID. AI implementation prompts should ask
+for one ID at a time instead of asking for broad visual polish.
+
+| Prefix | Owns | Example | Required Target |
+| --- | --- | --- | --- |
+| `VIS` | screen-level visual reading | `VIS-00-01 自家黑窗` | visual JSON, renderer, screenshot state. |
+| `PROP` | interactable or semantic prop | `PROP-00-02 声控灯失效` | visual prop kind, story item, prop renderer. |
+| `ANIM` | character or prop motion asset | `ANIM-JZX-01 纪子轩现代步行动画` | asset registry, animation clip, frame review. |
+| `HUD` | HUD, menu, prompt, or overlay state | `HUD-00-01 标题界面/开始按钮层级` | `GameHud`, `PromptOverlay`, `TitleScreen`, or theme. |
+| `SHOT` | screenshot review state | `SHOT-00-01 初始街道截图验收` | capture setup and visible-fact checklist. |
+
+Stable IDs are the coordination layer between `scene_sprint_map`, UI briefs,
+Animation Sheets, code changes, generated art, screenshots, and review notes.
+If a prompt cannot name the ID it is implementing, it is too broad for
+semi-automated work.
+
+### Functional Trace Example
+
+| Stable ID | Scene Evidence | Runtime Function | Visual Object / Animation Asset | Owner File / Function | Screenshot State | Acceptance Gate |
+| --- | --- | --- | --- | --- | --- | --- |
+| `VIS-00-01` | "家里灯没亮" and `noticed_dark_window`. | `GameSession` flag/item text from `data/story_scenes/00-prologue-lights-out.json`. | `window_dark` prop in `data/visual_scenes/00-prologue-lights-out.json`. | `scripts/ui/sprite_scene_canvas.gd` / `_draw_dark_window()` and building window rendering. | `SHOT-00-01` street start near the apartment building. | Screenshot must read as one specific dark home window, not ordinary night scenery. |
+| `PROP-00-02` | "声控灯没有因为你的咳嗽亮起" and `checked_voice_lamp`. | `RpgPlayerController.current_interaction()` -> `GameSession.apply_action()`. | `lamp` prop with item `lamp`. | `scripts/ui/sprite_scene_canvas.gd` / `_draw_voice_lamp()`. | `SHOT-00-02` building lobby facing the lamp. | Lamp must read as failed voice light, not a working torch or decorative glow. |
+| `ANIM-JZX-01` | "普通现代少年" walking home while tired and unsettled. | `GameHud.refresh()` -> `SpriteSceneCanvas.set_player_motion()`. | `jizixuan` in `data/visual_assets/characters.json` and `player_default` in `data/animation_clips/player_default.json`. | `scripts/core/animation_clip_repository.gd` / `resolve_frame()` and `SpriteSceneCanvas._draw_player_actor()`. | `SHOT-00-03` street movement frame or contact sheet. | Walking loop must face controller direction, keep foot anchor stable, and not read as injured combat. |
+| `HUD-00-01` | Title starts from the night of "灯未亮起". | `GameHud.show_title()` / title startup. | Title menu over scene background. | `scripts/ui/game_hud.gd` / `_build_title_screen()` and `scripts/ui/title_screen.gd`. | `SHOT-00-04` title screen. | Start/continue hierarchy is readable and does not expose gameplay HUD before start. |
+| `SHOT-00-01` | First playable street must establish modern silence. | `tools/capture_scene_screenshots.py --scene 00-prologue-lights-out --scope starts`. | PNG plus manifest entry. | `scripts/main.gd` / `--capture-scene-screenshots`. | `artifacts/scene-screenshots/latest/manifest.json`. | Review asks whether the shot satisfies visible facts, not whether it is generally attractive. |
 
 ## Scene Alignment Gate
 
@@ -47,10 +91,17 @@ For Dream Coastline this matters because "RPG" is not specific enough. A modern 
 
 ## AI Generation
 
-Use `tools/build_sprint_sheet_prompt.py` to package a scene for AI-assisted Sprint Sheet generation. The safest flow is two-step:
+Use `tools/build_sprint_sheet_prompt.py` to package a scene for AI-assisted Sprint Sheet generation. The safest flow is contract-first:
 
-1. Generate a `scene_sprint_map` intermediate JSON object.
-2. Review that map, then generate or edit the final Sprint Sheet.
+1. Generate a `scene_sprint_map` intermediate JSON object. It maps evidence to
+   function; it does not write code or make art.
+2. Review `must_read_as`, `must_not_read_as`, stable IDs, and Sprint Trace Map
+   rows.
+3. Generate a UI Implementation Brief or Animation Sheet from the reviewed map.
+4. Implement or generate assets only for a named task ID such as `PROP-00-02`
+   or `ANIM-JZX-01`.
+5. Review screenshots by checking each `SHOT-*` visible fact against the same
+   map.
 
 The map prompt includes the source scene, full Story JSON, full Visual JSON, and art direction. It exists because an AI model can usually infer the scene-to-screen mapping, but a raw Sprint Sheet prompt makes it too easy to skip evidence and write generic RPG advice.
 
@@ -71,6 +122,10 @@ python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode ui-brief-from-ma
 ```
 
 The UI brief is different from the Sprint Sheet. It must name the real Godot owner files, data hooks, screen regions, prop renderer changes, prompt states, screenshot states, and smoke checks that make the UI task executable.
+
+Animation work follows the same coordinate system. If a trace row points to
+`ANIM-*`, create an `animation_sprint_map` before generating art or code. That
+schema lives in `docs/animation-sheets/animation-sprint-map-schema.md`.
 
 Before implementation, validate the contracts and build an implementation prompt from the reviewed brief:
 
@@ -118,6 +173,18 @@ main.gd  -------------------->  GameHud
                                   ^
                                   |
                          data/visual_scenes/*.json
+```
+
+Animation and generated visual assets enter through a separate data path:
+
+```text
+data/visual_assets/characters.json
+        |
+        v
+VisualAssetRegistry  --->  data/animation_clips/*.json
+        |                         |
+        v                         v
+SpriteSceneCanvas  <---  AnimationClipRepository.resolve_frame()
 ```
 
 ### Source Layers
@@ -214,6 +281,18 @@ Prop fields:
 - optional `item`: story item ID for investigation.
 - optional `exit`: story exit ID for movement.
 
+### Animation Asset Data
+
+Required fields when a Sprint Trace row points to `ANIM-*`:
+
+- visual asset registry entry in `data/visual_assets/characters.json`.
+- clip JSON in `data/animation_clips/<clip_id>.json`.
+- required state set such as `idle_down`, `idle_up`, `idle_left`, `idle_right`,
+  `walk_down`, `walk_up`, `walk_left`, `walk_right`.
+- tile size, render size, anchor, loop, and fps values that match the renderer.
+- screenshot or contact-sheet review state proving the motion reads correctly at
+  gameplay scale.
+
 ## Sprint Sheet Template
 
 Use this exact template for future sprint tickets.
@@ -297,6 +376,12 @@ Use this exact template for future sprint tickets.
 - Scene-specific state:
 - Menu overlay:
 - Mismatch check:
+
+## Sprint Trace Map
+
+| Stable ID | Scene Evidence | Runtime Function | Visual Object / Animation Asset | Owner File / Function | Screenshot State | Acceptance Gate |
+| --- | --- | --- | --- | --- | --- | --- |
+| <VIS/PROP/ANIM/HUD/SHOT id> | <source evidence> | <runtime state/function> | <prop, HUD state, or asset> | <file/function> | <SHOT id or manifest entry> | <visible or command gate> |
 
 ## Affected Files
 
@@ -416,6 +501,8 @@ Before a Sprint Sheet is considered ready for UI drawing:
 
 - It names the screen regions and their data source.
 - It maps scene evidence to required screen meaning.
+- It assigns stable IDs for visual, prop, animation, HUD, and screenshot work.
+- It includes a Sprint Trace Map row for every implementation task.
 - It states what the screen must not read as.
 - It maps every player action to a visible prompt or feedback state.
 - It lists the exact JSON and GDScript files expected to change.

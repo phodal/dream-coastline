@@ -56,6 +56,8 @@ static func make_label(label_name: String, font_size: int, color: Color = COLORS
 	label.name = label_name
 	label.add_theme_font_size_override("font_size", font_size)
 	label.add_theme_color_override("font_color", color)
+	label.add_theme_color_override("font_outline_color", Color("#050608", 0.82))
+	label.add_theme_constant_override("outline_size", 2)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return label

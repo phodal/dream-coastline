@@ -9,13 +9,18 @@ The important rule is: do not ask AI to make something "more RPG" without tellin
 Prefer a contract-first AI workflow:
 
 1. Generate a `scene_sprint_map` JSON object from the scene and JSON data.
-2. Validate and review the map.
+2. Validate and review the map, including stable IDs and Sprint Trace Map rows.
 3. Turn the map into a Sprint Sheet or UI Implementation Brief.
-4. Use the reviewed UI brief to build an implementation prompt.
-5. Review screenshots against the same map before accepting the implementation.
+4. For animation work, derive an `animation_sprint_map` from the selected
+   `ANIM-*` row before generating assets.
+5. Use the reviewed UI brief or Animation Sheet to build an implementation
+   prompt for one named ID.
+6. Review screenshots against the same map before accepting the implementation.
 
 The map schema is documented in `scene-sprint-map-schema.md`.
 The UI writing schema is documented in `ui-implementation-brief-schema.md`.
+The animation map schema is documented in
+`../animation-sheets/animation-sprint-map-schema.md`.
 
 Build the intermediate map prompt:
 
@@ -86,6 +91,7 @@ Send that prompt to Codex, DeepSeek, or another model. The model output is only 
 - `Visual Direction`: `Must Read As` and `Must Not Read As`.
 - `UI Contract`: named states and data owners.
 - `Implementation Tasks`: concrete file-level work.
+- `Sprint Trace Map`: stable IDs mapped to runtime owners, screenshots, and gates.
 - `Screenshot Review Gate`: title, first playable screen, first interaction, scene-specific state, menu overlay, mismatch check.
 - `Acceptance`: Godot load, scene smoke, menu smoke or render smoke, and manual playtest.
 
@@ -93,6 +99,7 @@ Send that prompt to Codex, DeepSeek, or another model. The model output is only 
 
 - `scene-sprint-map-schema.md`: intermediate AI mapping contract between scene evidence and Sprint Sheets.
 - `ui-implementation-brief-schema.md`: file-level UI authoring contract generated from a reviewed map.
+- `../animation-sheets/animation-sprint-map-schema.md`: asset-generation mapping contract for `ANIM-*` rows.
 - `rpg-ui-style-pass.md`: scene-aligned pass for the prologue modern-silence RPG UI.
 - `01-illiterate.md`: first act survival, illiteracy, and first glyph-learning pass.
 - `01-illiterate-ui-brief.md`: file-level UI implementation brief for the first act.

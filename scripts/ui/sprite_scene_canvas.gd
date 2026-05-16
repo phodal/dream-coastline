@@ -112,6 +112,7 @@ func _draw() -> void:
 	_draw_location_objects(origin, tile_size, visual)
 	_draw_blocked_feedback(origin, tile_size)
 	_draw_actors(origin, tile_size, visual)
+	_draw_screen_grade(canvas_size, origin, map_size, tile_size)
 
 
 func _draw_scene_backdrop(canvas_size: Vector2, origin: Vector2, map_size: Vector2, tile_size: float, visual: Dictionary) -> void:
@@ -128,6 +129,18 @@ func _draw_scene_backdrop(canvas_size: Vector2, origin: Vector2, map_size: Vecto
 	elif _uses_modern_scene_tiles(terrain):
 		_draw_modern_backdrop(origin, map_size, tile_size, terrain)
 	draw_rect(Rect2(origin - Vector2(tile_size * 0.16, tile_size * 0.16), map_size + Vector2(tile_size * 0.32, tile_size * 0.32)), Color("#000000", 0.2), false, maxf(2.0, tile_size * 0.04))
+
+
+func _draw_screen_grade(canvas_size: Vector2, origin: Vector2, map_size: Vector2, tile_size: float) -> void:
+	var shade := Color("#000000", 0.22)
+	var band := maxf(tile_size * 0.8, 36.0)
+	draw_rect(Rect2(Vector2.ZERO, Vector2(canvas_size.x, band)), shade)
+	draw_rect(Rect2(Vector2(0, canvas_size.y - band), Vector2(canvas_size.x, band)), shade)
+	draw_rect(Rect2(Vector2.ZERO, Vector2(band, canvas_size.y)), Color("#000000", 0.16))
+	draw_rect(Rect2(Vector2(canvas_size.x - band, 0), Vector2(band, canvas_size.y)), Color("#000000", 0.16))
+	var map_frame := Rect2(origin - Vector2(tile_size * 0.12, tile_size * 0.12), map_size + Vector2(tile_size * 0.24, tile_size * 0.24))
+	draw_rect(map_frame, Color(GameThemeScript.COLORS.border.r, GameThemeScript.COLORS.border.g, GameThemeScript.COLORS.border.b, 0.22), false, maxf(1.0, tile_size * 0.018))
+	draw_rect(Rect2(origin, map_size), Color("#f1ead4", 0.035), false, maxf(1.0, tile_size * 0.012))
 
 
 func _draw_backdrop_texture(canvas_size: Vector2, tile_size: float, terrain: String) -> void:
@@ -393,6 +406,7 @@ func _draw_location_objects(origin: Vector2, tile_size: float, visual: Dictionar
 			_draw_station_blankening(origin, tile_size)
 		for prop in visual.get("props", []):
 			_draw_visual_prop(prop, origin, tile_size)
+			_draw_visual_prop_focus(prop, origin, tile_size)
 		if session.has_flag(str(session.scene.get("ending_flag", ""))):
 			_draw_magic_orb(Rect2(origin + Vector2(12, 4) * tile_size, Vector2(tile_size, tile_size)))
 		return
@@ -481,6 +495,47 @@ func _draw_blocked_feedback(origin: Vector2, tile_size: float) -> void:
 	draw_rect(rect, Color("#f1ead4", 0.5), false, 2.0)
 
 
+func _draw_visual_prop_focus(prop: Dictionary, origin: Vector2, tile_size: float) -> void:
+	if not (prop.has("item") or prop.has("exit") or prop.has("action")):
+		return
+	if str(prop.get("kind", "")) == "shadow":
+		return
+	var prop_tile := Vector2(float(prop.get("x", 0)), float(prop.get("y", 0)))
+	var prop_size := Vector2(float(prop.get("w", 1)), float(prop.get("h", 1)))
+	var rect := Rect2(origin + prop_tile * tile_size, prop_size * tile_size)
+	var center_tile := prop_tile + prop_size * 0.5
+	var distance := absf(player_tile.x - center_tile.x) + absf(player_tile.y - center_tile.y)
+	var nearby := distance <= 1.65
+	var base_color: Color = GameThemeScript.COLORS.cyan if prop.has("exit") else GameThemeScript.COLORS.gold
+	if str(prop.get("kind", "")) == "pen":
+		base_color = GameThemeScript.COLORS.danger
+	var pulse := 0.5 + sin(animation_time * 3.2 + center_tile.x + center_tile.y) * 0.5
+	var alpha := (0.16 + pulse * 0.08) if not nearby else (0.32 + pulse * 0.16)
+	var focus_color := Color(base_color.r, base_color.g, base_color.b, alpha)
+	var focus_rect := rect.grow(tile_size * (0.06 if not nearby else 0.1))
+	var width := maxf(1.0, tile_size * (0.024 if not nearby else 0.038))
+	var corner := tile_size * 0.22
+	draw_rect(focus_rect, focus_color, false, width)
+	draw_line(focus_rect.position, focus_rect.position + Vector2(corner, 0), focus_color, width)
+	draw_line(focus_rect.position, focus_rect.position + Vector2(0, corner), focus_color, width)
+	draw_line(Vector2(focus_rect.end.x, focus_rect.position.y), Vector2(focus_rect.end.x - corner, focus_rect.position.y), focus_color, width)
+	draw_line(Vector2(focus_rect.end.x, focus_rect.position.y), Vector2(focus_rect.end.x, focus_rect.position.y + corner), focus_color, width)
+	draw_line(Vector2(focus_rect.position.x, focus_rect.end.y), Vector2(focus_rect.position.x + corner, focus_rect.end.y), focus_color, width)
+	draw_line(Vector2(focus_rect.position.x, focus_rect.end.y), Vector2(focus_rect.position.x, focus_rect.end.y - corner), focus_color, width)
+	draw_line(focus_rect.end, focus_rect.end - Vector2(corner, 0), focus_color, width)
+	draw_line(focus_rect.end, focus_rect.end - Vector2(0, corner), focus_color, width)
+	if nearby:
+		var marker_center := Vector2(focus_rect.get_center().x, focus_rect.position.y - tile_size * 0.16)
+		var marker := PackedVector2Array([
+			marker_center + Vector2(0, -tile_size * 0.12),
+			marker_center + Vector2(tile_size * 0.12, 0),
+			marker_center + Vector2(0, tile_size * 0.12),
+			marker_center + Vector2(-tile_size * 0.12, 0),
+		])
+		draw_colored_polygon(marker, focus_color)
+		draw_colored_polygon(marker, Color("#050608", 0.28))
+
+
 func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> void:
 	var kind := str(prop.get("kind", "decor"))
 	var position := origin + Vector2(float(prop.get("x", 0)), float(prop.get("y", 0))) * tile_size
@@ -508,8 +563,16 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			_draw_text_surface(position, tile_size, true)
 		"pen":
 			_draw_pen_threat(position, tile_size)
+		"vending":
+			_draw_vending_machine(position, tile_size)
 		"phone":
 			_draw_phone_device(position, tile_size, session.has_flag("checked_phone_no_service"))
+		"tv":
+			_draw_tv_device(position, tile_size)
+		"mailbox":
+			_draw_mailbox(position, tile_size)
+		"door_open":
+			_draw_open_door(position, tile_size)
 		"sofa", "bed":
 			if _uses_modern_scene_props() and kind == "sofa":
 				_draw_sofa(position, tile_size, width)
@@ -535,7 +598,9 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
 			_draw_magic_orb(Rect2(position, Vector2(tile_size, tile_size)))
 		"portal":
-			if session.has_flag(str(session.scene.get("ending_flag", ""))):
+			if _uses_modern_scene_props():
+				_draw_ink_threshold(position, tile_size, session.has_flag(str(session.scene.get("ending_flag", ""))))
+			elif session.has_flag(str(session.scene.get("ending_flag", ""))):
 				_draw_magic_orb(Rect2(position, Vector2(tile_size, tile_size)))
 			else:
 				_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
@@ -1124,6 +1189,25 @@ func _draw_magic_orb(rect: Rect2) -> void:
 	draw_circle(center, radius * 1.35, Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.14 * pulse))
 	draw_circle(center, radius, Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.58 * pulse))
 	draw_circle(center, radius * 0.42, Color("#f1ead4", 0.72))
+
+
+func _draw_ink_threshold(top_left: Vector2, tile_size: float, active: bool) -> void:
+	var center := top_left + Vector2(tile_size * 0.5, tile_size * 0.52)
+	var pulse := 0.5 + sin(animation_time * 2.4) * 0.5
+	draw_circle(center, tile_size * 0.46, Color("#050608", 0.42 + pulse * 0.12))
+	draw_circle(center + Vector2(tile_size * 0.14, -tile_size * 0.1), tile_size * 0.26, Color("#050608", 0.6))
+	draw_circle(center + Vector2(-tile_size * 0.18, tile_size * 0.04), tile_size * 0.2, Color("#050608", 0.52))
+	for index in range(4):
+		var angle := animation_time * 0.35 + float(index) * 1.57
+		var start := center + Vector2(cos(angle), sin(angle)) * tile_size * 0.12
+		var end := center + Vector2(cos(angle + 0.5), sin(angle + 0.5)) * tile_size * (0.36 + pulse * 0.08)
+		draw_line(start, end, Color("#0b0d0e", 0.82), maxf(1.0, tile_size * 0.04))
+	var paper := Rect2(top_left + Vector2(tile_size * 0.24, tile_size * 0.24), Vector2(tile_size * 0.48, tile_size * 0.32))
+	draw_rect(paper, Color("#d8ceb0", 0.16 if not active else 0.28))
+	draw_rect(paper, Color("#050608", 0.58), false, maxf(1.0, tile_size * 0.02))
+	if active:
+		draw_circle(center, tile_size * 0.32, Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.2 + pulse * 0.16))
+		draw_circle(center, tile_size * 0.12, Color("#f1ead4", 0.35 + pulse * 0.24))
 
 
 func _draw_fireball(rect: Rect2) -> void:

@@ -92,10 +92,13 @@ func refresh(session, player_controller) -> void:
 		player_controller.blocked_tile,
 		player_controller.has_blocked_feedback()
 	)
+	var feedback_text: String = session.visible_log(_visible_log_lines(session))
+	if feedback_text.is_empty():
+		feedback_text = _ambient_feedback_text(session, location)
 	prompt_overlay.refresh(
 		_display_location_name(session, location),
 		player_controller.prompt_text(),
-		session.visible_log(_visible_log_lines(session))
+		feedback_text
 	)
 
 
@@ -281,13 +284,13 @@ func _layout_hud_regions() -> void:
 
 	if top_bar != null:
 		var top_margin := 14.0
-		var top_width := minf(view_size.x - 36.0, 640.0)
-		top_width = maxf(340.0, top_width)
+		var top_width := minf(view_size.x - 36.0, 780.0)
+		top_width = maxf(520.0, top_width)
 		top_bar.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
 		top_bar.offset_left = 18.0
 		top_bar.offset_top = top_margin
 		top_bar.offset_right = 18.0 + top_width
-		top_bar.offset_bottom = top_margin + 42.0
+		top_bar.offset_bottom = top_margin + 46.0
 
 	if prompt_overlay != null:
 		var side_margin := 24.0
@@ -308,6 +311,18 @@ func _sync_gameplay_hud_visibility() -> void:
 
 
 func _objective_text(session) -> String:
+	if session.scene_id == "00-prologue-lights-out":
+		if session.has_flag("entered_moqi"):
+			return "目标：灯灭前，记住黑笔"
+		if session.has_flag("read_continue_letter"):
+			return "目标：触碰黑色钢笔"
+		if session.has_flag("checked_phone_signal"):
+			return "目标：回房间查看信"
+		if session.has_flag("checked_cold_dinner") or session.has_flag("checked_family_photo"):
+			return "目标：去书房找线索"
+		if session.has_flag("checked_unlocked_door"):
+			return "目标：确认家里发生了什么"
+		return "目标：回家，确认灯为什么没亮"
 	if session.scene_id != "01-illiterate":
 		return ""
 	if session.has_flag("learned_name_strokes") or session.has_flag("named_beast") or session.has_flag("defeated_nameless"):
@@ -319,6 +334,15 @@ func _display_location_name(session, location: Dictionary) -> String:
 	if session.scene_id == "01-illiterate" and not session.has_flag("learned_name_strokes"):
 		return "□□□"
 	return str(location.get("name", session.location_id))
+
+
+func _ambient_feedback_text(session, location: Dictionary) -> String:
+	var description := str(location.get("description", ""))
+	if not description.is_empty():
+		return description
+	if session.scene_id == "00-prologue-lights-out":
+		return "灯、窗、纸和墨迹都像是在等你靠近。"
+	return "沿着地图移动，靠近发光或可疑的物件。"
 
 
 func _visible_log_lines(session) -> int:

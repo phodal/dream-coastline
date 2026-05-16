@@ -118,6 +118,15 @@ func validate_required_player_states(clip_id: String = DEFAULT_CLIP_ID) -> Array
 	if clip.is_empty():
 		failures.append("missing clip %s" % clip_id)
 		return failures
+	var atlas_path := str(clip.get("atlas", ""))
+	if atlas_path.is_empty():
+		failures.append("missing atlas for clip %s" % clip_id)
+	var texture = _texture_for(atlas_path)
+	if texture == null:
+		failures.append("missing or unloadable atlas for clip %s: %s" % [clip_id, atlas_path])
+	var tile_size := float(clip.get("tile_size", DEFAULT_TILE_SIZE))
+	if tile_size <= 0.0:
+		failures.append("invalid tile_size for clip %s" % clip_id)
 	for moving in [false, true]:
 		for facing in [Vector2i(0, 1), Vector2i(0, -1), Vector2i(-1, 0), Vector2i(1, 0)]:
 			var animation_name := animation_name_for_state(moving, facing)
@@ -125,9 +134,14 @@ func validate_required_player_states(clip_id: String = DEFAULT_CLIP_ID) -> Array
 			if animation.is_empty():
 				failures.append("missing animation %s" % animation_name)
 				continue
+			if float(animation.get("fps", DEFAULT_FPS)) <= 0.0:
+				failures.append("invalid fps for %s" % animation_name)
 			var frames: Array = animation.get("frames", [])
 			if frames.is_empty():
 				failures.append("missing frame for %s" % animation_name)
+				continue
+			if texture != null and tile_size > 0.0:
+				_validate_frame_bounds(animation_name, frames, tile_size, texture, failures)
 	return failures
 
 
@@ -154,15 +168,50 @@ func _texture_for(atlas_path: String):
 		return null
 	if textures.has(atlas_path):
 		return textures[atlas_path]
-	if not ResourceLoader.exists(atlas_path):
-		textures[atlas_path] = null
-		return null
-	var texture = load(atlas_path)
+	var texture = null
+	if ResourceLoader.exists(atlas_path):
+		texture = load(atlas_path)
+	else:
+		texture = _load_source_image_texture(atlas_path)
 	if texture == null:
 		push_warning("Could not load animation atlas: %s" % atlas_path)
+		textures[atlas_path] = null
 		return null
 	textures[atlas_path] = texture
 	return texture
+
+
+func _load_source_image_texture(atlas_path: String):
+	if not FileAccess.file_exists(atlas_path):
+		return null
+	var image := Image.new()
+	var error := image.load(atlas_path)
+	if error != OK:
+		return null
+	return ImageTexture.create_from_image(image)
+
+
+func _validate_frame_bounds(
+	animation_name: String,
+	frames: Array,
+	tile_size: float,
+	texture,
+	failures: Array[String]
+) -> void:
+	var texture_size := Vector2(float(texture.get_width()), float(texture.get_height()))
+	for index in range(frames.size()):
+		var frame = frames[index]
+		if typeof(frame) != TYPE_DICTIONARY:
+			failures.append("invalid frame for %s[%s]" % [animation_name, index])
+			continue
+		var x := float(frame.get("x", -1))
+		var y := float(frame.get("y", -1))
+		var top_left := Vector2(x * tile_size, y * tile_size)
+		var bottom_right := top_left + Vector2(tile_size, tile_size)
+		if x < 0.0 or y < 0.0:
+			failures.append("negative frame coordinate for %s[%s]" % [animation_name, index])
+		elif bottom_right.x > texture_size.x or bottom_right.y > texture_size.y:
+			failures.append("frame out of atlas bounds for %s[%s]" % [animation_name, index])
 
 
 func _anchor_vector(clip: Dictionary, tile_size: float) -> Vector2:

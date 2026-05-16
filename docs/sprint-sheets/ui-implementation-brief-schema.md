@@ -4,6 +4,11 @@ A UI Implementation Brief is the bridge between a reviewed `scene_sprint_map` an
 
 Sprint Sheets decide what a sprint should accomplish. The UI brief decides where the work lands in the current UI code, what data drives it, what the player should see in each state, and how screenshots prove the result.
 
+The brief must preserve the reviewed Sprint Trace Map IDs. Component tasks
+should name the `VIS-*`, `PROP-*`, `HUD-*`, or `SHOT-*` ID they implement.
+Animation rows should stay as `ANIM-*` references and point to an Animation
+Sheet or `animation_sprint_map`.
+
 ## Generate
 
 Start with a reviewed `scene_sprint_map` JSON file:
@@ -47,7 +52,7 @@ python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
 | `Prompt And Feedback Contract` | Exact prompt, latest feedback, unreadable text, and decode-state expectations. |
 | `Interaction State Matrix` | Location, flags, facing or tile state, current action, result, and acceptance. |
 | `Prop Risk To UI Task Map` | Every visual risk mapped to a renderer, data, prompt, or screenshot task. |
-| `Component Tasks` | File-level tasks with target function or data field, input, output, and acceptance. |
+| `Component Tasks` | File-level tasks with stable ID, target function or data field, input, output, and acceptance. |
 | `Screenshot Capture Plan` | Review states that prove UI alignment, including mismatch checks. |
 | `Acceptance Commands` | Godot load, smoke, and screenshot/manual review commands. |
 | `Non-Goals` | Boundaries that prevent UI sprawl. |
@@ -68,5 +73,9 @@ python3 tools/build_sprint_sheet_prompt.py 01-illiterate \
 ## Review Rule
 
 A UI brief is ready only if an engineer can open the listed files and implement the next pass without re-reading the whole scene. If a task says only "make it more RPG" or "improve style", it is not a UI brief.
+
+If a task lacks a stable Trace Map ID, it is not ready for semi-automated
+implementation. Split it into `VIS`, `PROP`, `HUD`, `SHOT`, or `ANIM` work
+before asking an agent to modify files.
 
 The implementation is ready only after screenshots are reviewed against the original `scene_sprint_map`. Passing Godot smoke checks without matching `must_read_as` / `must_not_read_as` is not sufficient.

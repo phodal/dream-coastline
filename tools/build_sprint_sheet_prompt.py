@@ -140,6 +140,7 @@ def build_sheet_prompt(scene_id: str) -> str:
 - 不要只写“像 RPG”；必须写 Source Scene Contract、Visual Direction、Screenshot Review Gate。
 - 每条视觉要求都要回到 scene evidence，避免泛泛审美词。
 - 明确 Must Read As / Must Not Read As。
+- 必须包含 Stable IDs 与 Sprint Trace Map；每个视觉、prop、HUD、动画、截图点都要有 `VIS/PROP/HUD/ANIM/SHOT-*` ID。
 - 必须列出 Story JSON、Visual JSON、Renderer、HUD/Menu、Smoke 和截图验收。
 - 如果现有 prop kind 或 terrain 会让画面读成错误时代/地点，要明确指出。
 - 不要虚构不存在的文件路径；需要新增文件时写成建议。
@@ -187,10 +188,11 @@ Visual JSON 摘要：
 8. UI Contract
 9. Data Contract
 10. Implementation Tasks
-11. Acceptance
-12. Screenshot Review Gate
-13. Affected Files
-14. Non-Goals
+11. Sprint Trace Map
+12. Acceptance
+13. Screenshot Review Gate
+14. Affected Files
+15. Non-Goals
 """
 
 
@@ -210,6 +212,9 @@ def build_map_prompt(scene_id: str) -> str:
 - 每个字段必须来自输入证据；如果输入没有证据，使用空数组或 `null`，不要虚构。
 - 所有 screen meaning、risk、task、acceptance 都要具体到玩家能在画面或操作中验证。
 - `must_not_read_as` 必须列出会让场景读错时代、类型、地点或情绪的画面误读。
+- 每个视觉、prop、动画、HUD、截图验收点都必须有稳定 ID，例如 `VIS-00-01`、`PROP-00-02`、`ANIM-JZX-01`、`HUD-00-01`、`SHOT-00-01`。
+- `sprint_trace_map` 必须把每个稳定 ID 串成：scene evidence -> runtime function -> visual object / animation asset -> owner file / function -> screenshot state -> acceptance gate。
+- 后续代码或资产生成只能处理某个稳定 ID；不要生成无法追踪到 owner file/function 的宽泛任务。
 - `acceptance_commands` 不能留空；如果 implementation_tasks 涉及游戏画面、数据或运行时，至少包含下面的默认 Godot 检查。
 - `affected_files` 只列实现 Sprint 时可能要改的仓库文件；不要把本 prompt builder 当成受影响文件，除非任务本身是修改生成器。
 
@@ -236,6 +241,26 @@ def build_map_prompt(scene_id: str) -> str:
   ],
   "must_read_as": ["string"],
   "must_not_read_as": ["string"],
+  "stable_ids": [
+    {{
+      "id": "VIS-00-01",
+      "type": "VIS",
+      "label": "short Chinese label",
+      "owner": "screen|prop|animation|hud|screenshot"
+    }}
+  ],
+  "sprint_trace_map": [
+    {{
+      "id": "VIS-00-01",
+      "scene_evidence": "source scene or JSON evidence",
+      "runtime_function": "runtime state, function, command, or data field",
+      "visual_object_or_animation_asset": "prop kind, HUD state, animation clip, or generated asset",
+      "owner_file": "repo path",
+      "owner_function": "function, JSON field, registry key, or command",
+      "screenshot_state": "SHOT-00-01",
+      "acceptance_gate": "visible fact, command, or review gate"
+    }}
+  ],
   "location_map": [
     {{
       "location_id": "string",
@@ -263,7 +288,7 @@ def build_map_prompt(scene_id: str) -> str:
   ],
   "screenshot_states": [
     {{
-      "id": "stable_snake_case",
+      "id": "SHOT-00-01",
       "location": "location_id",
       "flags": ["flag_id"],
       "expect": ["visible acceptance point"]
@@ -271,7 +296,7 @@ def build_map_prompt(scene_id: str) -> str:
   ],
   "implementation_tasks": [
     {{
-      "id": "stable_snake_case",
+      "id": "VIS/PROP/HUD/ANIM stable id or TASK-00-01",
       "goal": "one implementation goal",
       "inputs": ["file or data field"],
       "outputs": ["file, screen, state, or data field"],
@@ -320,6 +345,7 @@ def build_sheet_from_map_prompt(scene_id: str, map_input: Path) -> str:
 - `Source Scene Contract` 必须来自 `scene_sprint_map.source_scene_contract`。
 - `Visual Direction` 必须保留 `must_read_as` 与 `must_not_read_as`。
 - `Implementation Tasks` 必须由 `scene_sprint_map.implementation_tasks` 转换，保持 inputs、outputs、acceptance。
+- `Sprint Trace Map` 必须保留 `scene_sprint_map.stable_ids` 与 `scene_sprint_map.sprint_trace_map`，并让每个任务引用对应 ID。
 - `Screenshot Review Gate` 必须由 `scene_sprint_map.screenshot_states` 转换。
 - `Acceptance` 必须包含 `scene_sprint_map.acceptance_commands` 和截图验收。
 - `Affected Files` 只能列 `scene_sprint_map.affected_files` 中真实存在或需要新增的文件。
@@ -346,10 +372,11 @@ Scene Sprint Map `{map_input}`：
 8. UI Contract
 9. Data Contract
 10. Implementation Tasks
-11. Acceptance
-12. Screenshot Review Gate
-13. Affected Files
-14. Non-Goals
+11. Sprint Trace Map
+12. Acceptance
+13. Screenshot Review Gate
+14. Affected Files
+15. Non-Goals
 """
 
 
@@ -366,6 +393,7 @@ def build_ui_brief_from_map_prompt(scene_id: str, map_input: Path) -> str:
 - 所有建议必须落到现有 UI 文件、函数、数据 owner 或 visual JSON 字段。
 - 每个 `prop_risks` 都要映射到 renderer、HUD、prompt、data 或 screenshot review 中的至少一个动作。
 - 每个 `screenshot_states` 都要变成可执行的 UI 验收状态，说明 location、flags、TopBar、SceneCanvas、PromptOverlay、交互提示和 mismatch check。
+- 保留并引用 `stable_ids` / `sprint_trace_map`；Component Tasks 必须写出对应的 `VIS/PROP/HUD/SHOT` ID，动画任务只引用 `ANIM-*` 并指向 Animation Sheet。
 - 每个 UI 任务必须写清楚：目标文件、目标函数或数据字段、输入、输出、验收。
 - 不要提出重写 UI 框架、换引擎、引入大型资产管线、做通用编辑器或做无关系统。
 - 如果需要新增 helper 或 prop kind，写清楚为什么现有函数不足。
@@ -411,6 +439,7 @@ def build_implementation_from_brief_prompt(
 硬性执行规则：
 - 先检查 `git status --short --branch`，不要覆盖用户未提交改动。
 - 只实现 UI brief 明确要求的内容；不要重新解释 scene，也不要扩大到 unrelated systems。
+- 每个改动必须能追溯到 UI brief 或 scene map 中的稳定 ID；不要实现没有 `VIS/PROP/HUD/SHOT` ID 的视觉点。
 - 视觉语义优先于泛 RPG 风格：如果截图读成错误时代、地点、物件或情绪，即使 smoke 通过也算失败。
 - 新增 renderer/helper 时优先落在现有 UI owner；不要引入大型资产管线或远程资源。
 - 如果改到 runtime interaction、prompt、save/load 或 Rust-backed 当前主流程，必须同步 Rust 和 GDScript 参考实现，或明确说明为何不需要。
@@ -460,6 +489,7 @@ def build_screenshot_review_prompt(
 
 审查规则：
 - 不要只判断画面是否好看；必须逐条检查 `must_read_as`、`must_not_read_as`、`prop_risks`、`screenshot_states`。
+- 必须检查 `stable_ids` 与 `sprint_trace_map`：截图结论要按 `SHOT-*` 和关联的 `VIS/PROP/ANIM/HUD-*` 行输出。
 - 如果 smoke 通过但截图读成错误时代、地点、类型或情绪，结论必须是 FAIL。
 - 对每张截图输出：state id、PASS/FAIL、证据、需要改的 UI/data/renderer owner。
 - 最终输出一个总体结论：PASS、FAIL、或 PASS_WITH_RISK。

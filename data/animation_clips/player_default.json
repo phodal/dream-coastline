@@ -1,7 +1,7 @@
 {
   "id": "player_default",
   "actor": "jizixuan",
-  "atlas": "res://assets/opengameart/rpg_characters/rpg_16x16.png",
+  "atlas": "res://assets/characters/jizixuan/player_default.png",
   "tile_size": 16,
   "render_size": 0.74,
   "anchor": {
@@ -14,68 +14,68 @@
       "fps": 4,
       "loop": true,
       "frames": [
-        {"x": 7, "y": 0}
+        {"x": 1, "y": 0}
       ]
     },
     "idle_left": {
       "fps": 4,
       "loop": true,
       "frames": [
-        {"x": 7, "y": 1}
+        {"x": 1, "y": 1}
       ]
     },
     "idle_right": {
       "fps": 4,
       "loop": true,
       "frames": [
-        {"x": 7, "y": 1}
+        {"x": 1, "y": 2}
       ]
     },
     "idle_up": {
       "fps": 4,
       "loop": true,
       "frames": [
-        {"x": 7, "y": 2}
+        {"x": 1, "y": 3}
       ]
     },
     "walk_down": {
       "fps": 8,
       "loop": true,
       "frames": [
-        {"x": 6, "y": 0},
-        {"x": 7, "y": 0},
-        {"x": 8, "y": 0},
-        {"x": 7, "y": 0}
+        {"x": 0, "y": 0},
+        {"x": 1, "y": 0},
+        {"x": 2, "y": 0},
+        {"x": 1, "y": 0}
       ]
     },
     "walk_left": {
       "fps": 8,
       "loop": true,
       "frames": [
-        {"x": 6, "y": 1},
-        {"x": 7, "y": 1},
-        {"x": 8, "y": 1},
-        {"x": 7, "y": 1}
+        {"x": 0, "y": 1},
+        {"x": 1, "y": 1},
+        {"x": 2, "y": 1},
+        {"x": 1, "y": 1}
       ]
     },
     "walk_right": {
       "fps": 8,
       "loop": true,
       "frames": [
-        {"x": 6, "y": 1},
-        {"x": 7, "y": 1},
-        {"x": 8, "y": 1},
-        {"x": 7, "y": 1}
+        {"x": 0, "y": 2},
+        {"x": 1, "y": 2},
+        {"x": 2, "y": 2},
+        {"x": 1, "y": 2}
       ]
     },
     "walk_up": {
       "fps": 8,
       "loop": true,
       "frames": [
-        {"x": 6, "y": 2},
-        {"x": 7, "y": 2},
-        {"x": 8, "y": 2},
-        {"x": 7, "y": 2}
+        {"x": 0, "y": 3},
+        {"x": 1, "y": 3},
+        {"x": 2, "y": 3},
+        {"x": 1, "y": 3}
       ]
     }
   }

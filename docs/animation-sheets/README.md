@@ -4,6 +4,10 @@ Animation Sheets are the visual-asset version of Sprint Sheets. They turn a
 character or prop animation request into a runtime contract that can be reviewed
 before AI-generated art is imported.
 
+Use `animation-sprint-map-schema.md` before writing an Animation Sheet when AI
+is involved. The map binds one reviewed `ANIM-*` stable ID to the actor registry
+entry, clip JSON, runtime owner, screenshot state, and acceptance gate.
+
 ## Runtime Path
 
 ```text
@@ -19,6 +23,26 @@ asset registry for the current actor clip, asks the animation repository for the
 frame matching motion/facing/time, then renders that frame. Missing textures can
 fall back to procedural markers, but missing animation states should fail the
 animation clip smoke.
+
+## AI Workflow
+
+1. Start from a reviewed `scene_sprint_map` and choose one `ANIM-*` stable ID.
+2. Generate or write an `animation_sprint_map` for that ID.
+3. Review the map for `must_read_as`, `must_not_read_as`, runtime owners, frame
+   contract, screenshot states, and acceptance gates.
+4. Generate the Animation Sheet, art prompt, or code patch only for that ID.
+5. Accept the work only after the contact sheet or in-game screenshot satisfies
+   the referenced `SHOT-*` state.
+
+The schema is documented in `animation-sprint-map-schema.md`.
+
+Validate a generated map before implementation:
+
+```sh
+python3 tools/validate_scene_ai_contract.py \
+  --scene-id 00-prologue-lights-out \
+  --animation-map /tmp/ANIM-JZX-01-map.json
+```
 
 ## Contract Template
 
