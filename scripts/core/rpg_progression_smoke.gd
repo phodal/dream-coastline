@@ -13,9 +13,13 @@ func run() -> bool:
 	failures.clear()
 	session.load_scene(2)
 
+	_expect_no_equipment("basic_dictionary_fragment")
+	_expect_no_equipment("stop_glyph_rule")
 	_expect_stat("ink", 4)
 	_expect_stat("focus", 3)
 	_expect_stat("stability", 2)
+	_expect_stat("max_focus", 3)
+	_expect_stat("max_stability", 3)
 	_expect_mastery("stop", 0)
 
 	_act("inspect", "name")
@@ -26,6 +30,9 @@ func run() -> bool:
 	_expect_mastery("door", 1)
 	_expect_mastery("fire", 1)
 	_expect_mastery("stop", 1)
+	_expect_equipment("stop_glyph_rule")
+	_expect_stat("max_stability", 4)
+	_expect_text_contains(session.progression_text(), "止字尺")
 
 	_act("go", "village")
 	_act("inspect", "well")
@@ -42,13 +49,29 @@ func run() -> bool:
 	_expect_log_contains("已经处理过")
 	_expect_text_contains(session.progression_text(), "stop=2")
 
+	_act("go", "archive")
+	_act("inspect", "layers")
+	_act("inspect", "margins")
+	_act("inspect", "cabinet")
+	_act("cast", "door")
+	_expect_flag("got_basic_dictionary")
+	_expect_equipment("basic_dictionary_fragment")
+	_expect_stat("max_focus", 4)
+	_expect_mastery("name", 2)
+	_expect_text_contains(session.progression_text(), "残缺基础字典")
+
 	var save_data: Dictionary = session.to_save_data()
 	session.load_scene(0)
 	session.load_save_data(save_data)
 	_expect_flag("cleared_contract_patrol")
+	_expect_equipment("basic_dictionary_fragment")
+	_expect_equipment("stop_glyph_rule")
 	_expect_stat("ink", 3)
 	_expect_stat("focus", 2)
 	_expect_stat("stability", 3)
+	_expect_stat("max_focus", 4)
+	_expect_stat("max_stability", 4)
+	_expect_mastery("name", 2)
 	_expect_mastery("stop", 2)
 
 	_run_branch_carryover_case()
@@ -77,6 +100,16 @@ func _expect_flag(flag: String) -> void:
 func _expect_no_flag(flag: String) -> void:
 	if session.has_flag(flag):
 		failures.append("did not expect flag %s" % flag)
+
+
+func _expect_equipment(item_id: String) -> void:
+	if not session.has_equipment(item_id):
+		failures.append("expected equipment %s" % item_id)
+
+
+func _expect_no_equipment(item_id: String) -> void:
+	if session.has_equipment(item_id):
+		failures.append("did not expect equipment %s" % item_id)
 
 
 func _expect_stat(key: String, expected: int) -> void:

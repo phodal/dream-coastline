@@ -1,6 +1,8 @@
 class_name GameSession
 extends RefCounted
 
+const EQUIPMENT_CATALOG_PATH := "res://data/equipment_catalog.json"
+
 var database
 var scene_index := 0
 var scene_id := ""
@@ -11,6 +13,9 @@ var metrics := {}
 var carried_flags := {}
 var carried_branch_excluded_flags := {}
 var carried_metrics_by_scene := {}
+var equipment_catalog := {}
+var equipment_inventory := {}
+var equipped_items := {}
 var player_stats := {}
 var glyph_mastery := {}
 var elapsed_seconds := 0
@@ -29,6 +34,7 @@ func load_scene(index: int) -> void:
 	var next_index := clamp(index, 0, database.count() - 1)
 	if next_index == 0:
 		_clear_story_carryover()
+		_clear_equipment_state()
 	scene_index = next_index
 	scene_id = database.scene_id_at(scene_index)
 	scene = database.scene_at(scene_index)
@@ -40,6 +46,8 @@ func load_scene(index: int) -> void:
 	_apply_carried_story_state()
 	player_stats = scene.get("player_stats", {}).duplicate(true)
 	glyph_mastery = scene.get("glyph_mastery", {}).duplicate(true)
+	_ensure_equipment_catalog()
+	_refresh_equipment_state()
 	elapsed_seconds = 0
 	enemy_hp = 0
 	player_hp = 5
@@ -203,32 +211,67 @@ func progression_text() -> String:
 	for key in ["ink", "focus", "stability"]:
 		if player_stats.has(key):
 			var max_key := "max_%s" % key
-			if int(player_stats.get(max_key, 0)) > 0:
-				stat_parts.append("%s=%s/%s" % [key, player_stats[key], player_stats[max_key]])
+			var max_value := stat_value(max_key)
+			if max_value > 0:
+				stat_parts.append("%s=%s/%s" % [key, stat_value(key), max_value])
 			else:
-				stat_parts.append("%s=%s" % [key, player_stats[key]])
+				stat_parts.append("%s=%s" % [key, stat_value(key)])
 
 	var mastery_parts: Array[String] = []
 	var mastery_keys := glyph_mastery.keys()
 	mastery_keys.sort()
 	for glyph in mastery_keys:
-		mastery_parts.append("%s=%s" % [glyph, glyph_mastery[glyph]])
+		mastery_parts.append("%s=%s" % [glyph, glyph_mastery_value(str(glyph))])
 
-	if stat_parts.is_empty() and mastery_parts.is_empty():
+	var lines: Array[String] = []
+	if not stat_parts.is_empty():
+		lines.append("资源  " + "  ".join(stat_parts))
+	if not mastery_parts.is_empty():
+		lines.append("字根熟练  " + "  ".join(mastery_parts))
+	var carriers := equipment_text()
+	if carriers != "":
+		lines.append(carriers)
+	return "\n".join(lines)
+
+
+func equipment_text() -> String:
+	var names := _equipment_names()
+	if names.is_empty():
 		return ""
-	if mastery_parts.is_empty():
-		return "资源  " + "  ".join(stat_parts)
-	if stat_parts.is_empty():
-		return "字根熟练  " + "  ".join(mastery_parts)
-	return "资源  %s\n字根熟练  %s" % ["  ".join(stat_parts), "  ".join(mastery_parts)]
+	return "载体  " + "  ".join(names)
 
 
-func stat_value(key: String) -> int:
+func has_equipment(item_id: String) -> bool:
+	return item_id != "" and equipment_inventory.has(item_id)
+
+
+func _base_stat_value(key: String) -> int:
 	return int(player_stats.get(key, 0))
 
 
-func glyph_mastery_value(glyph: String) -> int:
+func _base_glyph_mastery_value(glyph: String) -> int:
 	return int(glyph_mastery.get(glyph, 0))
+
+
+func stat_value(key: String) -> int:
+	return _base_stat_value(key) + _equipment_number_effect("stat_modifiers", key)
+
+
+func glyph_mastery_value(glyph: String) -> int:
+	return _base_glyph_mastery_value(glyph) + _equipment_number_effect("glyph_mastery_modifiers", glyph)
+
+
+func _equipment_names() -> Array[String]:
+	var names: Array[String] = []
+	var items: Dictionary = equipment_catalog.get("items", {})
+	var item_ids := equipped_items.keys()
+	item_ids.sort()
+	for item_id in item_ids:
+		var item: Dictionary = items.get(str(item_id), {})
+		var name := str(item.get("name", item_id))
+		if not name.is_empty():
+			names.append(name)
+	return names
 
 
 func format_time() -> String:
@@ -250,6 +293,8 @@ func to_save_data() -> Dictionary:
 		"carried_metrics_by_scene": carried_metrics_by_scene,
 		"player_stats": player_stats,
 		"glyph_mastery": glyph_mastery,
+		"equipment_inventory": equipment_inventory.keys(),
+		"equipped_items": equipped_items.keys(),
 		"elapsed_seconds": elapsed_seconds,
 		"enemy_hp": enemy_hp,
 		"player_hp": player_hp,
@@ -277,6 +322,14 @@ func load_save_data(data: Dictionary) -> void:
 	carried_metrics_by_scene = data.get("carried_metrics_by_scene", {}).duplicate(true)
 	player_stats = data.get("player_stats", scene.get("player_stats", {})).duplicate(true)
 	glyph_mastery = data.get("glyph_mastery", scene.get("glyph_mastery", {})).duplicate(true)
+	equipment_inventory.clear()
+	for item_id in data.get("equipment_inventory", []):
+		equipment_inventory[str(item_id)] = true
+	equipped_items.clear()
+	for item_id in data.get("equipped_items", []):
+		equipped_items[str(item_id)] = true
+	_ensure_equipment_catalog()
+	_refresh_equipment_state()
 	elapsed_seconds = int(data.get("elapsed_seconds", 0))
 	enemy_hp = int(data.get("enemy_hp", 0))
 	player_hp = int(data.get("player_hp", 5))
@@ -612,8 +665,93 @@ func _apply_progression_rewards(action: Dictionary) -> void:
 
 
 func _add_flags(new_flags: Array) -> void:
+	var changed := false
 	for flag in new_flags:
-		flags[str(flag)] = true
+		var flag_key := str(flag)
+		if flag_key.is_empty():
+			continue
+		if not flags.has(flag_key):
+			changed = true
+		flags[flag_key] = true
+	if changed:
+		_refresh_equipment_state()
+
+
+func _clear_equipment_state() -> void:
+	equipment_inventory.clear()
+	equipped_items.clear()
+
+
+func _ensure_equipment_catalog() -> void:
+	if not equipment_catalog.is_empty():
+		return
+	if not FileAccess.file_exists(EQUIPMENT_CATALOG_PATH):
+		push_warning("Equipment catalog does not exist: %s" % EQUIPMENT_CATALOG_PATH)
+		return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(EQUIPMENT_CATALOG_PATH))
+	if typeof(parsed) != TYPE_DICTIONARY:
+		push_warning("Could not parse equipment catalog: %s" % EQUIPMENT_CATALOG_PATH)
+		return
+	equipment_catalog = parsed
+
+
+func _refresh_equipment_state() -> void:
+	_ensure_equipment_catalog()
+	var items: Dictionary = equipment_catalog.get("items", {})
+	if items.is_empty():
+		equipped_items.clear()
+		return
+
+	var item_ids := items.keys()
+	item_ids.sort()
+	for item_id in item_ids:
+		var item_key := str(item_id)
+		if equipment_inventory.has(item_key):
+			continue
+		var item: Dictionary = items.get(item_key, {})
+		if _equipment_source_flags_met(item):
+			equipment_inventory[item_key] = true
+
+	var slots: Dictionary = equipment_catalog.get("slots", {})
+	var slot_counts := {}
+	equipped_items.clear()
+	for item_id in item_ids:
+		var item_key := str(item_id)
+		if not equipment_inventory.has(item_key):
+			continue
+		var item: Dictionary = items.get(item_key, {})
+		var slot_id := str(item.get("slot", ""))
+		if slot_id.is_empty():
+			continue
+		var slot: Dictionary = slots.get(slot_id, {})
+		var max_equipped := max(1, int(slot.get("max_equipped", 1)))
+		var current_count := int(slot_counts.get(slot_id, 0))
+		if current_count >= max_equipped:
+			continue
+		equipped_items[item_key] = true
+		slot_counts[slot_id] = current_count + 1
+
+
+func _equipment_source_flags_met(item: Dictionary) -> bool:
+	var acquisition: Dictionary = item.get("acquisition", {})
+	var source_flags: Array = acquisition.get("source_flags", [])
+	if source_flags.is_empty():
+		return false
+	for flag in source_flags:
+		if not has_flag(str(flag)):
+			return false
+	return true
+
+
+func _equipment_number_effect(bucket: String, key: String) -> int:
+	var total := 0
+	var items: Dictionary = equipment_catalog.get("items", {})
+	for item_id in equipped_items.keys():
+		var item: Dictionary = items.get(str(item_id), {})
+		var effects: Dictionary = item.get("effects", {})
+		var values: Dictionary = effects.get(bucket, {})
+		total += int(values.get(key, 0))
+	return total
 
 
 func _apply_metrics(delta: Dictionary) -> void:
@@ -700,7 +838,7 @@ func _array_has_text(values: Array, text: String) -> bool:
 func _apply_stat_delta(delta: Dictionary) -> void:
 	for key in delta.keys():
 		var stat_key := str(key)
-		var new_value := stat_value(stat_key) + int(delta[key])
+		var new_value := _base_stat_value(stat_key) + int(delta[key])
 		if not stat_key.begins_with("max_"):
 			var max_value := stat_value("max_%s" % stat_key)
 			if max_value > 0:
@@ -713,7 +851,7 @@ func _apply_stat_delta(delta: Dictionary) -> void:
 func _apply_glyph_mastery_delta(delta: Dictionary) -> void:
 	for glyph in delta.keys():
 		var glyph_key := str(glyph)
-		glyph_mastery[glyph_key] = max(0, glyph_mastery_value(glyph_key) + int(delta[glyph]))
+		glyph_mastery[glyph_key] = max(0, _base_glyph_mastery_value(glyph_key) + int(delta[glyph]))
 
 
 func has_flag(flag: String) -> bool:

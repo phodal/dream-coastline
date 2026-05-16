@@ -2,7 +2,7 @@ class_name EquipmentCatalog
 extends RefCounted
 
 const CATALOG_PATH := "res://data/equipment_catalog.json"
-const CONTRACT_ONLY_STATUS := "contract_only"
+const ALLOWED_INTEGRATION_STATUSES := ["contract_only", "runtime_integrated"]
 
 var catalog: Dictionary = {}
 var slots: Dictionary = {}
@@ -63,8 +63,8 @@ func validate() -> Array[String]:
 	var failures: Array[String] = []
 	if int(catalog.get("schema_version", 0)) != 1:
 		failures.append("schema_version must be 1")
-	if integration_status() != CONTRACT_ONLY_STATUS:
-		failures.append("integration_status must stay %s until runtime wiring starts" % CONTRACT_ONLY_STATUS)
+	if not ALLOWED_INTEGRATION_STATUSES.has(integration_status()):
+		failures.append("integration_status must be one of %s" % str(ALLOWED_INTEGRATION_STATUSES))
 	if slots.is_empty():
 		failures.append("slots must not be empty")
 	if items.is_empty():

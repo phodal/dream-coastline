@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "integration_status": "contract_only",
+  "integration_status": "runtime_integrated",
   "design_doc": "docs/equipment-carrier-system.md",
   "balance_profile": {
     "personal_stat_unit": 1,

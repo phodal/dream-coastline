@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the contract-only equipment carrier catalog."""
+"""Validate the equipment carrier catalog."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CATALOG = ROOT / "data" / "equipment_catalog.json"
 STORY_DIR = ROOT / "data" / "story_scenes"
+ALLOWED_INTEGRATION_STATUSES = {"contract_only", "runtime_integrated"}
 
 ALLOWED_EFFECT_KEYS = {
     "stat_modifiers",
@@ -132,8 +133,11 @@ def validate_catalog(catalog_path: Path) -> list[str]:
 
     if catalog.get("schema_version") != 1:
         failures.append("schema_version must be 1")
-    if catalog.get("integration_status") != "contract_only":
-        failures.append("integration_status must remain contract_only")
+    if catalog.get("integration_status") not in ALLOWED_INTEGRATION_STATUSES:
+        failures.append(
+            "integration_status must be one of: "
+            + ", ".join(sorted(ALLOWED_INTEGRATION_STATUSES))
+        )
     design_doc = catalog.get("design_doc")
     if not isinstance(design_doc, str) or not design_doc:
         failures.append("design_doc must be a repo-relative path")

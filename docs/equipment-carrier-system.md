@@ -2,8 +2,11 @@
 
 ## Status
 
-Contract-only. This document records the equipment direction, data contract, and
-balance envelope, but the runtime is not integrated yet.
+Runtime-integrated, narrow slice. This document records the equipment direction,
+data contract, and balance envelope. The runtime now reads the catalog, grants
+items from story flags, persists inventory/equipped state, and applies derived
+personal stat and glyph mastery modifiers. Combat, resistance, metric, support,
+and unlock buckets remain authored data until their story checks need them.
 
 Related contract files:
 
@@ -39,8 +42,8 @@ names, backups, observability, and civilization support.
 4. Keep support modules separate from manual equipment. Standard dictionaries,
    archive towers, statebook networks, and modern beacons are civilization
    infrastructure, not personal loot.
-5. Avoid runtime mutation for now. The catalog is authored and validated, but no
-   `GameSession` state or HUD behavior reads it yet.
+5. Prefer derived effects. The catalog should not permanently rewrite base
+   `player_stats` or `glyph_mastery`; session APIs calculate active bonuses.
 
 ## Slots
 
@@ -144,26 +147,37 @@ Effect buckets are intentionally narrow:
 - `unlock_actions`
 - `notes`
 
-The standalone `EquipmentCatalog` GDScript loader can read and validate the
-catalog, but nothing instantiates it yet. The Python validator is the current
-acceptance gate.
+`GameSession` and `RustGameSession` read the catalog directly for the current
+runtime slice. The standalone `EquipmentCatalog` GDScript loader remains a
+validation helper and can be used by future UI work. The Python validator is the
+catalog acceptance gate.
+
+## Current Runtime Slice
+
+Implemented now:
+
+1. Save-state fields: `equipment_inventory` and `equipped_items`.
+2. Automatic grant from `acquisition.source_flags`.
+3. Automatic equip by slot cap; manual slots are auto-selected until the
+   backpack/equip UI exists.
+4. Derived effects for `stat_modifiers` and `glyph_mastery_modifiers`.
+5. Progression text includes active carriers.
+6. Smoke coverage for chapter-two equipment grant and save/load persistence.
 
 ## Deferred Runtime Work
 
-When integration starts, do it in this order:
+Next integration steps:
 
-1. Add save-state fields: `inventory` and `equipped`.
-2. Add a derived effect calculation path instead of mutating `player_stats`
-   permanently.
-3. Apply derived effects to `stat_value`, `glyph_mastery_value`, and selected
-   combat checks.
-4. Add a small HUD panel for carriers after the data is proven.
-5. Add smoke coverage for equip, save/load, and one chapter-two combat effect.
+1. Add explicit manual equip UI for `glyph_page`, `anchor`, and `tool` slots.
+2. Apply selected `combat_modifiers`, starting with `lose_name_every_delta`.
+3. Apply support-module `metric_modifiers` only where a scene reads them.
+4. Add HUD affordances that distinguish personal carriers from civilization
+   modules.
 
 ## Non-goals
 
-- No inventory UI in this contract slice.
-- No `RustGameSession` behavior change yet.
-- No automatic item grant during scene walkthroughs yet.
+- No inventory UI in this runtime slice.
+- No random manual equip choice yet; manual slots are auto-selected by catalog
+  order and slot cap.
 - No random loot, rarity economy, or upgrade materials.
 - No direct attack/defense stat system.

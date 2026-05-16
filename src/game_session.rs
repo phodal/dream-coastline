@@ -1,10 +1,12 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use godot::classes::{IRefCounted, RefCounted};
 use godot::prelude::*;
 
 use crate::dict_helpers::*;
-use crate::scene_database::RustSceneDatabase;
+use crate::scene_database::{RustSceneDatabase, read_json_dict};
+
+const EQUIPMENT_CATALOG_PATH: &str = "res://data/equipment_catalog.json";
 
 // ── Struct definition ────────────────────────────────────────────────────────
 
@@ -36,6 +38,9 @@ pub struct RustGameSession {
     metrics: VarDictionary,
     player_stats: VarDictionary,
     glyph_mastery: VarDictionary,
+    equipment_catalog: VarDictionary,
+    equipment_inventory: HashSet<String>,
+    equipped_items: HashSet<String>,
 }
 
 #[godot_api]
@@ -60,6 +65,9 @@ impl IRefCounted for RustGameSession {
             metrics: VarDictionary::new(),
             player_stats: VarDictionary::new(),
             glyph_mastery: VarDictionary::new(),
+            equipment_catalog: VarDictionary::new(),
+            equipment_inventory: HashSet::new(),
+            equipped_items: HashSet::new(),
         }
     }
 }
@@ -83,6 +91,7 @@ impl RustGameSession {
         let next_index = index.clamp(0, (count - 1).max(0));
         if next_index == 0 {
             self.clear_story_carryover();
+            self.clear_equipment_state();
         }
         self.scene_index = next_index;
 
@@ -111,6 +120,8 @@ impl RustGameSession {
         self.apply_carried_story_state();
         self.player_stats = dict_value_as_dict(&self.scene, "player_stats").clone();
         self.glyph_mastery = dict_value_as_dict(&self.scene, "glyph_mastery").clone();
+        self.ensure_equipment_catalog();
+        self.refresh_equipment_state();
 
         self.elapsed_seconds = 0;
         self.enemy_hp = 0;
@@ -417,6 +428,8 @@ impl RustGameSession {
         let flags_v = flags_arr.to_variant();
         let carried_flags_v = carried_flags_arr.to_variant();
         let carried_branch_excluded_flags_v = carried_branch_excluded_flags_arr.to_variant();
+        let equipment_inventory_v = Self::string_set_variant_array(&self.equipment_inventory);
+        let equipped_items_v = Self::string_set_variant_array(&self.equipped_items);
         let metrics_v = self.metrics.to_variant();
         let log_v = self.event_log.to_variant();
 
@@ -436,6 +449,8 @@ impl RustGameSession {
         );
         payload.set("player_stats", &self.player_stats.to_variant());
         payload.set("glyph_mastery", &self.glyph_mastery.to_variant());
+        payload.set("equipment_inventory", &equipment_inventory_v);
+        payload.set("equipped_items", &equipped_items_v);
         payload.set("elapsed_seconds", &self.elapsed_seconds.to_variant());
         payload.set("enemy_hp", &self.enemy_hp.to_variant());
         payload.set("player_hp", &self.player_hp.to_variant());
@@ -510,6 +525,24 @@ impl RustGameSession {
         } else {
             saved_mastery.clone()
         };
+        self.equipment_inventory.clear();
+        let saved_inventory = dict_value_as_array(&data_dict, "equipment_inventory");
+        for item_var in saved_inventory.iter_shared() {
+            let item_id = item_var.stringify().to_string();
+            if !item_id.is_empty() {
+                self.equipment_inventory.insert(item_id);
+            }
+        }
+        self.equipped_items.clear();
+        let saved_equipped = dict_value_as_array(&data_dict, "equipped_items");
+        for item_var in saved_equipped.iter_shared() {
+            let item_id = item_var.stringify().to_string();
+            if !item_id.is_empty() {
+                self.equipped_items.insert(item_id);
+            }
+        }
+        self.ensure_equipment_catalog();
+        self.refresh_equipment_state();
         self.elapsed_seconds = dict_i32(&data_dict, "elapsed_seconds", 0);
         self.enemy_hp = dict_i32(&data_dict, "enemy_hp", 0);
         self.player_hp = dict_i32(&data_dict, "player_hp", 5);
@@ -541,6 +574,11 @@ impl RustGameSession {
     }
 
     #[func]
+    fn has_equipment(&self, item_id: GString) -> bool {
+        self.equipment_inventory.contains(&item_id.to_string())
+    }
+
+    #[func]
     fn stat_value(&self, key: GString) -> i32 {
         self.stat_value_internal(key.to_string().as_str())
     }
@@ -553,6 +591,11 @@ impl RustGameSession {
     #[func]
     fn progression_text(&self) -> GString {
         GString::from(self.progression_summary().as_str())
+    }
+
+    #[func]
+    fn equipment_text(&self) -> GString {
+        GString::from(self.equipment_summary().as_str())
     }
 
     #[func]
@@ -621,12 +664,140 @@ impl RustGameSession {
     }
 
     fn add_flags_from_array(&mut self, arr: &VarArray) {
+        let mut changed = false;
         for flag_var in arr.iter_shared() {
             let flag = flag_var.stringify().to_string();
             if !flag.is_empty() {
-                self.flags.insert(flag);
+                changed = self.flags.insert(flag) || changed;
             }
         }
+        if changed {
+            self.refresh_equipment_state();
+        }
+    }
+
+    fn clear_equipment_state(&mut self) {
+        self.equipment_inventory.clear();
+        self.equipped_items.clear();
+    }
+
+    fn ensure_equipment_catalog(&mut self) {
+        if self.equipment_catalog.is_empty() {
+            self.equipment_catalog =
+                read_json_dict(EQUIPMENT_CATALOG_PATH).unwrap_or_else(VarDictionary::new);
+        }
+    }
+
+    fn refresh_equipment_state(&mut self) {
+        self.ensure_equipment_catalog();
+        let items = dict_value_as_dict(&self.equipment_catalog, "items");
+        if items.is_empty() {
+            self.equipped_items.clear();
+            return;
+        }
+
+        let mut item_ids = Self::sorted_dict_keys(&items);
+        for item_id in &item_ids {
+            if self.equipment_inventory.contains(item_id) {
+                continue;
+            }
+            let item = dict_value_as_dict(&items, item_id);
+            if self.equipment_source_flags_met(&item) {
+                self.equipment_inventory.insert(item_id.clone());
+            }
+        }
+
+        let slots = dict_value_as_dict(&self.equipment_catalog, "slots");
+        let mut slot_counts: HashMap<String, i32> = HashMap::new();
+        self.equipped_items.clear();
+        item_ids.sort();
+        for item_id in item_ids {
+            if !self.equipment_inventory.contains(&item_id) {
+                continue;
+            }
+            let item = dict_value_as_dict(&items, &item_id);
+            let slot_id = dict_str(&item, "slot", "");
+            if slot_id.is_empty() {
+                continue;
+            }
+            let slot = dict_value_as_dict(&slots, &slot_id);
+            let max_equipped = dict_i32(&slot, "max_equipped", 1).max(1);
+            let current_count = slot_counts.get(&slot_id).copied().unwrap_or(0);
+            if current_count >= max_equipped {
+                continue;
+            }
+            self.equipped_items.insert(item_id);
+            slot_counts.insert(slot_id, current_count + 1);
+        }
+    }
+
+    fn equipment_source_flags_met(&self, item: &VarDictionary) -> bool {
+        let acquisition = dict_value_as_dict(item, "acquisition");
+        let source_flags = dict_value_as_array(&acquisition, "source_flags");
+        if source_flags.is_empty() {
+            return false;
+        }
+        for flag_var in source_flags.iter_shared() {
+            let flag = flag_var.stringify().to_string();
+            if flag.is_empty() || !self.has_flag_internal(&flag) {
+                return false;
+            }
+        }
+        true
+    }
+
+    fn equipment_number_effect(&self, bucket: &str, key: &str) -> i32 {
+        let items = dict_value_as_dict(&self.equipment_catalog, "items");
+        let mut total = 0;
+        for item_id in &self.equipped_items {
+            let item = dict_value_as_dict(&items, item_id);
+            let effects = dict_value_as_dict(&item, "effects");
+            let values = dict_value_as_dict(&effects, bucket);
+            total += values
+                .get(key)
+                .and_then(|v| v.try_to_relaxed::<i32>().ok())
+                .unwrap_or(0);
+        }
+        total
+    }
+
+    fn equipment_summary(&self) -> String {
+        let items = dict_value_as_dict(&self.equipment_catalog, "items");
+        let mut names: Vec<String> = Vec::new();
+        let mut item_ids: Vec<String> = self.equipped_items.iter().cloned().collect();
+        item_ids.sort();
+        for item_id in item_ids {
+            let item = dict_value_as_dict(&items, &item_id);
+            let name = dict_str(&item, "name", &item_id);
+            if !name.is_empty() {
+                names.push(name);
+            }
+        }
+        if names.is_empty() {
+            String::new()
+        } else {
+            format!("载体  {}", names.join("  "))
+        }
+    }
+
+    fn sorted_dict_keys(dict: &VarDictionary) -> Vec<String> {
+        let mut keys: Vec<String> = dict
+            .keys_array()
+            .iter_shared()
+            .map(|key_var| key_var.stringify().to_string())
+            .collect();
+        keys.sort();
+        keys
+    }
+
+    fn string_set_variant_array(values: &HashSet<String>) -> Variant {
+        let mut arr = VarArray::new();
+        let mut sorted: Vec<String> = values.iter().cloned().collect();
+        sorted.sort();
+        for value in sorted {
+            arr.push(&GString::from(value.as_str()).to_variant());
+        }
+        arr.to_variant()
     }
 
     fn apply_metrics(&mut self, delta: &VarDictionary) {
@@ -1194,7 +1365,7 @@ impl RustGameSession {
                 .get(&key_var)
                 .and_then(|v| v.try_to_relaxed::<i32>().ok())
                 .unwrap_or(0);
-            let current = self.stat_value_internal(&key);
+            let current = self.base_stat_value_internal(&key);
             let mut new_val = current + delta_val;
             if !key.starts_with("max_") {
                 let max_key = format!("max_{}", key);
@@ -1216,24 +1387,33 @@ impl RustGameSession {
                 .get(&key_var)
                 .and_then(|v| v.try_to_relaxed::<i32>().ok())
                 .unwrap_or(0);
-            let new_val = (self.glyph_mastery_value_internal(&glyph) + delta_val).max(0);
+            let new_val = (self.base_glyph_mastery_value_internal(&glyph) + delta_val).max(0);
             self.glyph_mastery
                 .set(glyph.as_str(), &new_val.to_variant());
         }
     }
 
-    fn stat_value_internal(&self, key: &str) -> i32 {
+    fn base_stat_value_internal(&self, key: &str) -> i32 {
         self.player_stats
             .get(key)
             .and_then(|v| v.try_to_relaxed::<i32>().ok())
             .unwrap_or(0)
     }
 
-    fn glyph_mastery_value_internal(&self, glyph: &str) -> i32 {
+    fn stat_value_internal(&self, key: &str) -> i32 {
+        self.base_stat_value_internal(key) + self.equipment_number_effect("stat_modifiers", key)
+    }
+
+    fn base_glyph_mastery_value_internal(&self, glyph: &str) -> i32 {
         self.glyph_mastery
             .get(glyph)
             .and_then(|v| v.try_to_relaxed::<i32>().ok())
             .unwrap_or(0)
+    }
+
+    fn glyph_mastery_value_internal(&self, glyph: &str) -> i32 {
+        self.base_glyph_mastery_value_internal(glyph)
+            + self.equipment_number_effect("glyph_mastery_modifiers", glyph)
     }
 
     fn progression_summary(&self) -> String {
@@ -1267,16 +1447,18 @@ impl RustGameSession {
             ));
         }
 
-        match (stat_parts.is_empty(), mastery_parts.is_empty()) {
-            (true, true) => String::new(),
-            (false, true) => format!("资源  {}", stat_parts.join("  ")),
-            (true, false) => format!("字根熟练  {}", mastery_parts.join("  ")),
-            (false, false) => format!(
-                "资源  {}\n字根熟练  {}",
-                stat_parts.join("  "),
-                mastery_parts.join("  ")
-            ),
+        let mut lines: Vec<String> = Vec::new();
+        if !stat_parts.is_empty() {
+            lines.push(format!("资源  {}", stat_parts.join("  ")));
         }
+        if !mastery_parts.is_empty() {
+            lines.push(format!("字根熟练  {}", mastery_parts.join("  ")));
+        }
+        let equipment = self.equipment_summary();
+        if !equipment.is_empty() {
+            lines.push(equipment);
+        }
+        lines.join("\n")
     }
 
     fn verify_current_scene(&mut self) -> bool {
