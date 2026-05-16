@@ -9,11 +9,13 @@ use godot::prelude::*;
 use godot::tools::GFile;
 
 const SETTINGS_PATH: &str = "user://dream_coastline_settings.json";
+const DEFAULT_VISUAL_STYLE: &str = "sunlit_mmo";
 
 #[derive(GodotClass)]
 pub struct RustSettingsRepository {
     fullscreen: bool,
     master_volume: f64,
+    visual_style: String,
 }
 
 #[godot_api]
@@ -22,6 +24,7 @@ impl IRefCounted for RustSettingsRepository {
         Self {
             fullscreen: false,
             master_volume: 0.8,
+            visual_style: DEFAULT_VISUAL_STYLE.to_string(),
         }
     }
 }
@@ -52,6 +55,11 @@ impl RustSettingsRepository {
             .and_then(|value| value.try_to_relaxed::<f64>().ok())
             .unwrap_or(0.8)
             .clamp(0.0, 1.0);
+        self.visual_style = parsed
+            .get("visual_style")
+            .and_then(|value| value.try_to::<GString>().ok())
+            .map(|value| normalize_visual_style(&value.to_string()))
+            .unwrap_or_else(|| DEFAULT_VISUAL_STYLE.to_string());
     }
 
     #[func]
@@ -61,9 +69,11 @@ impl RustSettingsRepository {
             return;
         };
 
+        let visual_style = GString::from(self.visual_style.as_str());
         let payload: VarDictionary = dict! {
             "fullscreen" => self.fullscreen,
             "master_volume" => self.master_volume,
+            "visual_style" => &visual_style,
         };
 
         let text = Json::stringify(&payload.to_variant());
@@ -110,5 +120,23 @@ impl RustSettingsRepository {
     #[func]
     fn set_master_volume_value(&mut self, value: f64) {
         self.master_volume = value.clamp(0.0, 1.0);
+    }
+
+    #[func]
+    fn visual_style(&self) -> GString {
+        GString::from(self.visual_style.as_str())
+    }
+
+    #[func]
+    fn set_visual_style(&mut self, value: GString) {
+        self.visual_style = normalize_visual_style(&value.to_string());
+    }
+}
+
+fn normalize_visual_style(value: &str) -> String {
+    match value {
+        "classic_dark" => "classic_dark".to_string(),
+        "sunlit_mmo" => "sunlit_mmo".to_string(),
+        _ => DEFAULT_VISUAL_STYLE.to_string(),
     }
 }

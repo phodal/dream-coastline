@@ -49,6 +49,12 @@ def parse_args() -> argparse.Namespace:
         help="Frames to wait before each viewport capture.",
     )
     parser.add_argument(
+        "--visual-style",
+        choices=["sunlit_mmo", "classic_dark"],
+        default="sunlit_mmo",
+        help="Runtime visual style profile to use for UI and canvas grading.",
+    )
+    parser.add_argument(
         "--quit-after",
         type=int,
         default=240,
@@ -78,6 +84,8 @@ def run_capture(args: argparse.Namespace) -> int:
         args.scope,
         "--capture-warmup-frames",
         str(max(1, args.warmup_frames)),
+        "--visual-style",
+        args.visual_style,
     ]
     result = subprocess.run(command, cwd=ROOT, check=False)
     if result.returncode != 0:
@@ -181,6 +189,7 @@ def write_contact_sheet(output: Path, manifest: dict) -> None:
     <h1>Dream Coastline Scene Screenshots</h1>
     <div class="meta">
       scope={html.escape(str(manifest.get("scope", "")))} ·
+      visual_style={html.escape(str(manifest.get("visual_style", "")))} ·
       screenshots={html.escape(str(manifest.get("screenshot_count", 0)))} ·
       asset_backed={html.escape(str(manifest.get("asset_backed_count", 0)))} ·
       placeholders={html.escape(str(manifest.get("framework_placeholder_count", 0)))} ·
@@ -210,6 +219,8 @@ def render_card(shot: dict) -> str:
         terrain: <code>{html.escape(str(shot.get("terrain", "")))}</code><br>
         asset: <code>{html.escape(str(shot.get("asset_status", "")))}</code>
         <code>{html.escape(str(shot.get("visual_family", "")))}</code><br>
+        mood/style: <code>{html.escape(str(shot.get("visual_mood", "")))}</code>
+        <code>{html.escape(str(shot.get("visual_style", "")))}</code><br>
         scene: <code>{html.escape(str(shot.get("asset_scene", "")))}</code><br>
         props: {html.escape(props)}
       </figcaption>

@@ -54,7 +54,7 @@ func set_status(text: String) -> void:
 
 
 func focus_default() -> void:
-	if new_game_button != null:
+	if new_game_button != null and new_game_button.is_inside_tree():
 		new_game_button.grab_focus()
 
 

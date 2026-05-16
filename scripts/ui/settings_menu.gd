@@ -3,13 +3,16 @@ extends PanelContainer
 
 signal fullscreen_changed(enabled: bool)
 signal master_volume_changed(value: float)
+signal visual_style_changed(value: String)
 signal back_requested
 
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 
 var fullscreen_check: CheckBox
+var visual_style_button: Button
 var volume_slider: HSlider
 var volume_label: Label
+var selected_visual_style := GameThemeScript.STYLE_SUNLIT_MMO
 
 
 func _ready() -> void:
@@ -28,6 +31,12 @@ func _ready() -> void:
 	fullscreen_check.custom_minimum_size = Vector2(320, 42)
 	fullscreen_check.toggled.connect(func(enabled: bool): fullscreen_changed.emit(enabled))
 	box.add_child(fullscreen_check)
+
+	visual_style_button = GameThemeScript.make_command_button("SettingsVisualStyle", "")
+	visual_style_button.custom_minimum_size = Vector2(320, 42)
+	visual_style_button.pressed.connect(_cycle_visual_style)
+	box.add_child(visual_style_button)
+	_update_visual_style_label()
 
 	volume_label = GameThemeScript.make_label("SettingsVolumeLabel", 17, GameThemeScript.COLORS.text)
 	box.add_child(volume_label)
@@ -69,6 +78,11 @@ func set_master_volume(value: float) -> void:
 	_set_volume_label(clamped)
 
 
+func set_visual_style(value: String) -> void:
+	selected_visual_style = GameThemeScript.normalize_visual_style(value)
+	_update_visual_style_label()
+
+
 func focus_default() -> void:
 	if fullscreen_check != null:
 		fullscreen_check.grab_focus()
@@ -76,6 +90,16 @@ func focus_default() -> void:
 
 func _set_volume_label(value: float) -> void:
 	volume_label.text = "主音量 %d%%" % int(round(value * 100.0))
+
+
+func _cycle_visual_style() -> void:
+	set_visual_style(GameThemeScript.next_visual_style(selected_visual_style))
+	visual_style_changed.emit(selected_visual_style)
+
+
+func _update_visual_style_label() -> void:
+	if visual_style_button != null:
+		visual_style_button.text = "  视觉风格：%s" % GameThemeScript.visual_style_label(selected_visual_style)
 
 
 func _apply_panel_style() -> void:

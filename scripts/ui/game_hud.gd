@@ -12,6 +12,7 @@ signal title_quit_requested
 signal settings_back_requested
 signal fullscreen_changed(enabled: bool)
 signal master_volume_changed(value: float)
+signal visual_style_changed(value: String)
 
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const SpriteSceneCanvasScript := preload("res://scripts/ui/sprite_scene_canvas.gd")
@@ -164,11 +165,12 @@ func set_pause_status(text: String) -> void:
 	pause_menu.set_status(text)
 
 
-func show_settings(fullscreen: bool, master_volume: float) -> void:
+func show_settings(fullscreen: bool, master_volume: float, visual_style: String) -> void:
 	title_screen.visible = false
 	settings_menu.visible = true
 	settings_menu.set_fullscreen(fullscreen)
 	settings_menu.set_master_volume(master_volume)
+	settings_menu.set_visual_style(visual_style)
 	_sync_gameplay_hud_visibility()
 	settings_menu.focus_default()
 
@@ -185,6 +187,10 @@ func hide_settings(show_title_after: bool) -> void:
 
 func set_settings_master_volume(value: float) -> void:
 	settings_menu.set_master_volume(value)
+
+
+func set_settings_visual_style(value: String) -> void:
+	settings_menu.set_visual_style(value)
 
 
 func _build_top_bar() -> Control:
@@ -266,13 +272,14 @@ func _build_settings_menu() -> Control:
 	settings_menu.name = "SettingsMenu"
 	settings_menu.visible = false
 	settings_menu.set_anchors_preset(Control.PRESET_CENTER, false)
-	settings_menu.custom_minimum_size = Vector2(360, 250)
+	settings_menu.custom_minimum_size = Vector2(360, 310)
 	settings_menu.offset_left = -180
-	settings_menu.offset_top = -130
+	settings_menu.offset_top = -160
 	settings_menu.offset_right = 180
-	settings_menu.offset_bottom = 130
+	settings_menu.offset_bottom = 160
 	settings_menu.fullscreen_changed.connect(fullscreen_changed.emit)
 	settings_menu.master_volume_changed.connect(master_volume_changed.emit)
+	settings_menu.visual_style_changed.connect(visual_style_changed.emit)
 	settings_menu.back_requested.connect(settings_back_requested.emit)
 	return settings_menu
 

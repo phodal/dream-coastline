@@ -1,6 +1,8 @@
 extends SceneTree
 
 const TILE_SIZE := 32
+const ATLAS_COLUMNS := 16
+const ATLAS_ROWS := 5
 const COLUMNS := 15
 const ROWS := 9
 const SOURCE_ID := 0
@@ -99,7 +101,7 @@ func _init_tile_coords() -> void:
 		"stone_marker",
 	]
 	for index in range(keys.size()):
-		tile_coords[keys[index]] = Vector2i(index % 16, index / 16)
+		tile_coords[keys[index]] = Vector2i(index % ATLAS_COLUMNS, index / ATLAS_COLUMNS)
 
 
 func _ensure_dirs() -> void:
@@ -111,7 +113,7 @@ func _ensure_dirs() -> void:
 
 
 func _write_tilesheet() -> void:
-	var sheet := Image.create_empty(TILE_SIZE * 16, TILE_SIZE * 4, false, Image.FORMAT_RGBA8)
+	var sheet := Image.create_empty(TILE_SIZE * ATLAS_COLUMNS, TILE_SIZE * ATLAS_ROWS, false, Image.FORMAT_RGBA8)
 	sheet.fill(Color(0, 0, 0, 0))
 
 	var btl := _load_source_image(BTL_INTERIOR_PATH)
@@ -311,9 +313,9 @@ func _write_tileset() -> void:
 	var source := TileSetAtlasSource.new()
 	source.texture = texture
 	source.texture_region_size = Vector2i(TILE_SIZE, TILE_SIZE)
-	for y in range(sheet.get_height() / TILE_SIZE):
-		for x in range(sheet.get_width() / TILE_SIZE):
-			source.create_tile(Vector2i(x, y))
+	for key in tile_coords.keys():
+		var coord: Vector2i = tile_coords[key]
+		source.create_tile(coord)
 	var tile_set := TileSet.new()
 	tile_set.tile_size = Vector2i(TILE_SIZE, TILE_SIZE)
 	tile_set.add_source(source, SOURCE_ID)
@@ -334,6 +336,10 @@ func _write_tileset_registry() -> void:
 				"license": "CC0-compatible composite",
 				"normalized_tilesheet": TILE_SHEET_PATH,
 				"godot_tileset": TILESET_PATH,
+				"atlas_columns": ATLAS_COLUMNS,
+				"atlas_rows": ATLAS_ROWS,
+				"atlas_capacity": ATLAS_COLUMNS * ATLAS_ROWS,
+				"tile_count": tile_coords.size(),
 				"terrain_families": [
 					"modern_exterior",
 					"modern_interior",
@@ -347,6 +353,7 @@ func _write_tileset_registry() -> void:
 					"mine",
 					"industry"
 				],
+				"tiles": _tile_registry_entries(),
 				"sources": [
 					{
 						"id": "btl_topdown_interior",
@@ -371,6 +378,48 @@ func _write_tileset_registry() -> void:
 		]
 	}
 	_write_json(TILE_REGISTRY_PATH, registry)
+
+
+func _tile_registry_entries() -> Array:
+	var entries := []
+	for key in tile_coords.keys():
+		var coord: Vector2i = tile_coords[key]
+		entries.append({
+			"id": str(key),
+			"coord": {"x": coord.x, "y": coord.y},
+			"role": _tile_role(str(key)),
+			"style_profile": _tile_style_profile(str(key)),
+		})
+	entries.sort_custom(func(a, b):
+		var a_coord: Dictionary = a.get("coord", {})
+		var b_coord: Dictionary = b.get("coord", {})
+		var a_y := int(a_coord.get("y", 0))
+		var b_y := int(b_coord.get("y", 0))
+		if a_y != b_y:
+			return a_y < b_y
+		return int(a_coord.get("x", 0)) < int(b_coord.get("x", 0))
+	)
+	return entries
+
+
+func _tile_role(tile_key: String) -> String:
+	if tile_key.ends_with("_floor") or tile_key.ends_with("_ground") or tile_key in ["sunlit_grass", "sunlit_path", "street_asphalt", "street_sidewalk", "street_crosswalk"]:
+		return "ground"
+	if tile_key in ["interior_wall", "building_wall", "building_window", "building_window_dark", "building_door", "door_open", "academy_roof"]:
+		return "structure"
+	if tile_key.ends_with("_glow"):
+		return "lighting"
+	if tile_key in ["enemy", "npc"]:
+		return "actor"
+	return "prop"
+
+
+func _tile_style_profile(tile_key: String) -> String:
+	if tile_key.begins_with("sunlit_") or tile_key in ["flower", "bright_tree", "shrub", "academy_roof", "pennant", "signpost", "stone_marker"]:
+		return "sunlit_mmo"
+	if tile_key in ["interior_floor", "interior_wall", "wood_floor", "carpet_floor", "archive_floor", "node_floor", "ruin_floor", "mine_floor", "building_window_dark", "danger_glow"]:
+		return "classic_dark"
+	return "shared"
 
 
 func _write_visual_location_scenes() -> void:

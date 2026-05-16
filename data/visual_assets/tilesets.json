@@ -2,6 +2,9 @@
 	"tile_size": 32,
 	"tilesets": [
 		{
+			"atlas_capacity": 80,
+			"atlas_columns": 16,
+			"atlas_rows": 5,
 			"display_name": "Dream Coastline normalized scene tiles",
 			"godot_tileset": "res://assets/visual_tiles/dream_scene_tileset.tres",
 			"id": "dream_scene_tiles",
@@ -39,6 +42,576 @@
 				"workshop",
 				"mine",
 				"industry"
+			],
+			"tile_count": 63,
+			"tiles": [
+				{
+					"coord": {
+						"x": 0,
+						"y": 0
+					},
+					"id": "interior_floor",
+					"role": "ground",
+					"style_profile": "classic_dark"
+				},
+				{
+					"coord": {
+						"x": 1,
+						"y": 0
+					},
+					"id": "interior_wall",
+					"role": "structure",
+					"style_profile": "classic_dark"
+				},
+				{
+					"coord": {
+						"x": 2,
+						"y": 0
+					},
+					"id": "wood_floor",
+					"role": "ground",
+					"style_profile": "classic_dark"
+				},
+				{
+					"coord": {
+						"x": 3,
+						"y": 0
+					},
+					"id": "carpet_floor",
+					"role": "ground",
+					"style_profile": "classic_dark"
+				},
+				{
+					"coord": {
+						"x": 4,
+						"y": 0
+					},
+					"id": "street_asphalt",
+					"role": "ground",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 5,
+						"y": 0
+					},
+					"id": "street_sidewalk",
+					"role": "ground",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 6,
+						"y": 0
+					},
+					"id": "street_crosswalk",
+					"role": "ground",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 7,
+						"y": 0
+					},
+					"id": "academy_floor",
+					"role": "ground",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 8,
+						"y": 0
+					},
+					"id": "archive_floor",
+					"role": "ground",
+					"style_profile": "classic_dark"
+				},
+				{
+					"coord": {
+						"x": 9,
+						"y": 0
+					},
+					"id": "node_floor",
+					"role": "ground",
+					"style_profile": "classic_dark"
+				},
+				{
+					"coord": {
+						"x": 10,
+						"y": 0
+					},
+					"id": "ruin_floor",
+					"role": "ground",
+					"style_profile": "classic_dark"
+				},
+				{
+					"coord": {
+						"x": 11,
+						"y": 0
+					},
+					"id": "wilderness_ground",
+					"role": "ground",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 12,
+						"y": 0
+					},
+					"id": "forest_ground",
+					"role": "ground",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 13,
+						"y": 0
+					},
+					"id": "mine_floor",
+					"role": "ground",
+					"style_profile": "classic_dark"
+				},
+				{
+					"coord": {
+						"x": 14,
+						"y": 0
+					},
+					"id": "industry_floor",
+					"role": "ground",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 15,
+						"y": 0
+					},
+					"id": "workshop_floor",
+					"role": "ground",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 0,
+						"y": 1
+					},
+					"id": "building_wall",
+					"role": "structure",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 1,
+						"y": 1
+					},
+					"id": "building_window",
+					"role": "structure",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 2,
+						"y": 1
+					},
+					"id": "building_window_dark",
+					"role": "structure",
+					"style_profile": "classic_dark"
+				},
+				{
+					"coord": {
+						"x": 3,
+						"y": 1
+					},
+					"id": "building_door",
+					"role": "structure",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 4,
+						"y": 1
+					},
+					"id": "door_open",
+					"role": "structure",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 5,
+						"y": 1
+					},
+					"id": "vending",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 6,
+						"y": 1
+					},
+					"id": "poster",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 7,
+						"y": 1
+					},
+					"id": "lamp",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 8,
+						"y": 1
+					},
+					"id": "mailbox",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 9,
+						"y": 1
+					},
+					"id": "stairs",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 10,
+						"y": 1
+					},
+					"id": "sofa",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 11,
+						"y": 1
+					},
+					"id": "bed",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 12,
+						"y": 1
+					},
+					"id": "table",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 13,
+						"y": 1
+					},
+					"id": "desk",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 14,
+						"y": 1
+					},
+					"id": "bookcase",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 15,
+						"y": 1
+					},
+					"id": "tv",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 0,
+						"y": 2
+					},
+					"id": "phone",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 1,
+						"y": 2
+					},
+					"id": "photo",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 2,
+						"y": 2
+					},
+					"id": "note",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 3,
+						"y": 2
+					},
+					"id": "pen",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 4,
+						"y": 2
+					},
+					"id": "dinner",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 5,
+						"y": 2
+					},
+					"id": "portal",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 6,
+						"y": 2
+					},
+					"id": "rune",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 7,
+						"y": 2
+					},
+					"id": "node",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 8,
+						"y": 2
+					},
+					"id": "enemy",
+					"role": "actor",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 9,
+						"y": 2
+					},
+					"id": "npc",
+					"role": "actor",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 10,
+						"y": 2
+					},
+					"id": "tree",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 11,
+						"y": 2
+					},
+					"id": "campfire",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 12,
+						"y": 2
+					},
+					"id": "gate",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 13,
+						"y": 2
+					},
+					"id": "record",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 14,
+						"y": 2
+					},
+					"id": "cabinet",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 15,
+						"y": 2
+					},
+					"id": "well",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 0,
+						"y": 3
+					},
+					"id": "tent",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 1,
+						"y": 3
+					},
+					"id": "shadow",
+					"role": "prop",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 2,
+						"y": 3
+					},
+					"id": "gold_glow",
+					"role": "lighting",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 3,
+						"y": 3
+					},
+					"id": "cyan_glow",
+					"role": "lighting",
+					"style_profile": "shared"
+				},
+				{
+					"coord": {
+						"x": 4,
+						"y": 3
+					},
+					"id": "danger_glow",
+					"role": "lighting",
+					"style_profile": "classic_dark"
+				},
+				{
+					"coord": {
+						"x": 5,
+						"y": 3
+					},
+					"id": "sunlit_grass",
+					"role": "ground",
+					"style_profile": "sunlit_mmo"
+				},
+				{
+					"coord": {
+						"x": 6,
+						"y": 3
+					},
+					"id": "sunlit_path",
+					"role": "ground",
+					"style_profile": "sunlit_mmo"
+				},
+				{
+					"coord": {
+						"x": 7,
+						"y": 3
+					},
+					"id": "flower",
+					"role": "prop",
+					"style_profile": "sunlit_mmo"
+				},
+				{
+					"coord": {
+						"x": 8,
+						"y": 3
+					},
+					"id": "bright_tree",
+					"role": "prop",
+					"style_profile": "sunlit_mmo"
+				},
+				{
+					"coord": {
+						"x": 9,
+						"y": 3
+					},
+					"id": "sunlit_water",
+					"role": "prop",
+					"style_profile": "sunlit_mmo"
+				},
+				{
+					"coord": {
+						"x": 10,
+						"y": 3
+					},
+					"id": "shrub",
+					"role": "prop",
+					"style_profile": "sunlit_mmo"
+				},
+				{
+					"coord": {
+						"x": 11,
+						"y": 3
+					},
+					"id": "academy_roof",
+					"role": "structure",
+					"style_profile": "sunlit_mmo"
+				},
+				{
+					"coord": {
+						"x": 12,
+						"y": 3
+					},
+					"id": "pennant",
+					"role": "prop",
+					"style_profile": "sunlit_mmo"
+				},
+				{
+					"coord": {
+						"x": 13,
+						"y": 3
+					},
+					"id": "signpost",
+					"role": "prop",
+					"style_profile": "sunlit_mmo"
+				},
+				{
+					"coord": {
+						"x": 14,
+						"y": 3
+					},
+					"id": "stone_marker",
+					"role": "prop",
+					"style_profile": "sunlit_mmo"
+				}
 			]
 		}
 	],

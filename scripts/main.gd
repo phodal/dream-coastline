@@ -36,6 +36,7 @@ func _ready() -> void:
 	save_repository = RustSaveGameRepository.new()
 	settings_repository = RustSettingsRepository.new()
 	settings_repository.load()
+	_apply_visual_style_from_settings(OS.get_cmdline_user_args())
 	settings_repository.apply()
 	session = RustGameSession.new()
 	session.set_database(database)
@@ -159,6 +160,7 @@ func _build_ui() -> void:
 	hud.settings_back_requested.connect(_close_settings)
 	hud.fullscreen_changed.connect(_set_fullscreen)
 	hud.master_volume_changed.connect(_set_master_volume)
+	hud.visual_style_changed.connect(_set_visual_style)
 	add_child(hud)
 
 
@@ -300,7 +302,11 @@ func _continue_from_title() -> void:
 func _open_settings() -> void:
 	pending_title_quit = false
 	pending_return_to_title = false
-	hud.show_settings(settings_repository.fullscreen_enabled(), settings_repository.master_volume_value())
+	hud.show_settings(
+		settings_repository.fullscreen_enabled(),
+		settings_repository.master_volume_value(),
+		GameThemeScript.visual_style()
+	)
 	if audio_director != null:
 		audio_director.play_ui()
 
@@ -325,6 +331,56 @@ func _set_master_volume(value: float) -> void:
 	settings_repository.save()
 	if audio_director != null:
 		audio_director.play_ui()
+
+
+func _set_visual_style(value: String) -> void:
+	var normalized := GameThemeScript.normalize_visual_style(value)
+	if GameThemeScript.visual_style() == normalized and str(settings_repository.visual_style()) == normalized:
+		return
+	settings_repository.set_visual_style(normalized)
+	GameThemeScript.set_visual_style(normalized)
+	settings_repository.save()
+	_rebuild_hud_for_visual_style()
+	if audio_director != null:
+		audio_director.play_ui()
+
+
+func _apply_visual_style_from_settings(args: Array) -> void:
+	var configured := str(settings_repository.visual_style())
+	var env_override := OS.get_environment("DREAM_COASTLINE_VISUAL_STYLE")
+	if not env_override.is_empty():
+		configured = env_override
+	configured = _arg_value(args, "--visual-style", configured)
+	GameThemeScript.set_visual_style(configured)
+
+
+func _rebuild_hud_for_visual_style() -> void:
+	if hud == null:
+		queue_redraw()
+		return
+	var title_visible: bool = hud.is_title_visible()
+	var pause_visible: bool = hud.is_pause_visible()
+	var settings_visible: bool = hud.is_settings_visible()
+	remove_child(hud)
+	hud.queue_free()
+	hud = null
+	_build_ui()
+	if game_started:
+		hud.hide_title()
+	else:
+		hud.show_title(save_repository.has_save(), "")
+	if settings_visible:
+		hud.show_settings(
+			settings_repository.fullscreen_enabled(),
+			settings_repository.master_volume_value(),
+			GameThemeScript.visual_style()
+		)
+	elif pause_visible:
+		hud.toggle_pause("")
+	elif title_visible or not game_started:
+		hud.show_title(save_repository.has_save(), "")
+	_refresh_ui()
+	queue_redraw()
 
 
 func _request_title_quit() -> void:
@@ -396,6 +452,15 @@ func _run_menu_smoke() -> bool:
 	_set_master_volume(0.55)
 	if not is_equal_approx(settings_repository.master_volume_value(), 0.55):
 		failures.append("settings should update master volume")
+	var original_style := GameThemeScript.visual_style()
+	var next_style := GameThemeScript.next_visual_style(original_style)
+	hud.set_settings_visual_style(next_style)
+	_set_visual_style(next_style)
+	if str(settings_repository.visual_style()) != next_style or GameThemeScript.visual_style() != next_style:
+		failures.append("settings should update visual style")
+	_set_visual_style(original_style)
+	if GameThemeScript.visual_style() != original_style:
+		failures.append("settings should restore original visual style")
 
 	_toggle_pause()
 	_request_return_to_title()
@@ -471,6 +536,8 @@ func _capture_scene_screenshots() -> void:
 	var manifest := {
 		"version": 1,
 		"generated_by": "--capture-scene-screenshots",
+		"visual_style": GameThemeScript.visual_style(),
+		"visual_style_label": GameThemeScript.visual_style_label(),
 		"scope": scope,
 		"scene_filter": scene_filter,
 		"viewport": {
@@ -549,6 +616,8 @@ func _capture_location_screenshot(
 		"asset_scene": str(visual.get("asset_scene", "")),
 		"asset_status": str(visual.get("asset_status", "")),
 		"tileset_id": str(visual.get("tileset_id", "")),
+		"visual_mood": str(visual.get("visual_mood", "")),
+		"visual_style": GameThemeScript.visual_style(),
 		"props": _capture_prop_summary(visual),
 		"path": path,
 		"file": filename,
@@ -684,6 +753,10 @@ func _run_visual_asset_scene_smoke() -> bool:
 
 func _requires_asset_backed_scene(scene_id: String, location_id: String) -> bool:
 	if scene_id == "00-prologue-lights-out":
+		return true
+	if scene_id == "02-moqi-academy" and location_id in ["academy", "village"]:
+		return true
+	if scene_id == "04-continuation-institute" and location_id in ["institute", "school", "workshop"]:
 		return true
 	if scene_id == "07-lights-on-again" and location_id in ["home", "school", "street", "store"]:
 		return true

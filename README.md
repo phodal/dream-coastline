@@ -48,13 +48,15 @@ GDExtension equivalents under `src/`, loaded through
 - `scripts/ui/title_screen.gd` renders the title with new game and continue
   options.
 - `scripts/ui/pause_menu.gd` provides in-game pause with save/load/settings.
-- `scripts/ui/settings_menu.gd` exposes volume and preference controls.
+- `scripts/ui/settings_menu.gd` exposes volume, visual style, and preference
+  controls.
 - `scripts/ui/sprite_scene_canvas.gd` renders the tile scene from the visual
   data, asset registry, animation clips, procedural fallbacks, and OpenGameArt
   spritesheets.
 - `scripts/ui/prompt_overlay.gd` keeps the compact keyboard prompt and latest
   feedback out of the play field.
-- `scripts/ui/game_theme.gd` keeps HUD styling separate from gameplay rules.
+- `scripts/ui/game_theme.gd` keeps HUD styling and visual style profiles
+  separate from gameplay rules.
 
 ## Development
 
@@ -203,6 +205,12 @@ Capture a visual review set for every authored location. This also writes
 
 ```sh
 python3 tools/capture_scene_screenshots.py
+```
+
+Compare the same scene under the classic dark profile:
+
+```sh
+python3 tools/capture_scene_screenshots.py --scene 02-moqi-academy --visual-style classic_dark
 ```
 
 Capture only the opening state for each scene:

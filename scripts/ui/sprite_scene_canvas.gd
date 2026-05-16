@@ -202,6 +202,19 @@ func _draw_asset_scene_tone(origin: Vector2, map_size: Vector2, tile_size: float
 	var terrain := str(visual.get("terrain", ""))
 	var family := str(visual.get("visual_family", ""))
 	var tone := Color("#050608", 0.08)
+	if GameThemeScript.visual_style() == GameThemeScript.STYLE_CLASSIC_DARK:
+		draw_rect(Rect2(origin, map_size), Color("#050608", 0.18))
+		draw_rect(Rect2(origin, map_size), Color("#3f2a18", 0.12))
+		var classic_edge := maxf(tile_size * 1.0, 44.0)
+		draw_rect(Rect2(origin, Vector2(map_size.x, classic_edge)), Color("#000000", 0.24))
+		draw_rect(Rect2(origin + Vector2(0, map_size.y - classic_edge), Vector2(map_size.x, classic_edge)), Color("#000000", 0.18))
+		draw_rect(Rect2(origin, Vector2(classic_edge, map_size.y)), Color("#000000", 0.14))
+		draw_rect(Rect2(origin + Vector2(map_size.x - classic_edge, 0), Vector2(classic_edge, map_size.y)), Color("#000000", 0.14))
+		for prop in visual.get("props", []):
+			if typeof(prop) != TYPE_DICTIONARY:
+				continue
+			_draw_asset_prop_light(prop, origin, tile_size)
+		return
 	if _visual_mood(visual) == "sunlit":
 		draw_rect(Rect2(origin, map_size), Color("#fff4b8", 0.08))
 		draw_rect(Rect2(origin, map_size), Color("#88d86f", 0.045))
@@ -298,6 +311,11 @@ func _draw_screen_grade(canvas_size: Vector2, origin: Vector2, map_size: Vector2
 		side_shade = Color("#24451f", 0.035)
 		frame_color = Color("#f6d978", 0.34)
 		inner_frame = Color("#fff7be", 0.12)
+	elif GameThemeScript.visual_style() == GameThemeScript.STYLE_CLASSIC_DARK:
+		shade = Color("#000000", 0.3)
+		side_shade = Color("#000000", 0.22)
+		frame_color = Color(GameThemeScript.COLORS.border.r, GameThemeScript.COLORS.border.g, GameThemeScript.COLORS.border.b, 0.34)
+		inner_frame = Color("#eadcae", 0.035)
 	elif mood == "silenced":
 		shade = Color("#000000", 0.24)
 		side_shade = Color("#000000", 0.18)
@@ -1276,7 +1294,7 @@ func _draw_name_rune(top_left: Vector2, tile_size: float, teaching: bool) -> voi
 	draw_rect(slab, GameThemeScript.COLORS.border_light if teaching else GameThemeScript.COLORS.border, false, maxf(1.0, tile_size * 0.035))
 	var learned: bool = session.has_flag("learned_name_strokes")
 	var pulse: float = 0.72 + sin(animation_time * 2.2) * 0.18
-	var ink := Color(GameThemeScript.COLORS.gold.r, GameThemeScript.COLORS.gold.g, GameThemeScript.COLORS.gold.b, pulse) if learned else GameThemeScript.COLORS.paper
+	var ink: Color = Color(GameThemeScript.COLORS.gold.r, GameThemeScript.COLORS.gold.g, GameThemeScript.COLORS.gold.b, pulse) if learned else GameThemeScript.COLORS.paper
 	draw_line(top_left + Vector2(tile_size * 0.35, tile_size * 0.34), top_left + Vector2(tile_size * 0.65, tile_size * 0.34), ink, maxf(2.0, tile_size * 0.045))
 	draw_line(top_left + Vector2(tile_size * 0.48, tile_size * 0.32), top_left + Vector2(tile_size * 0.34, tile_size * 0.58), ink, maxf(2.0, tile_size * 0.045))
 	draw_line(top_left + Vector2(tile_size * 0.42, tile_size * 0.58), top_left + Vector2(tile_size * 0.68, tile_size * 0.58), ink, maxf(2.0, tile_size * 0.045))
@@ -1586,7 +1604,7 @@ func _draw_fallback_character(tile: Vector2i, sprite_top_left: Vector2, sprite_s
 		Vector2(sprite_size * 0.36, sprite_size * 0.38)
 	)
 	var head := sprite_top_left + Vector2(sprite_size * 0.5, sprite_size * 0.24)
-	var accent := GameThemeScript.COLORS.gold if tile.x % 2 == 0 else GameThemeScript.COLORS.cyan
+	var accent: Color = GameThemeScript.COLORS.gold if tile.x % 2 == 0 else GameThemeScript.COLORS.cyan
 	draw_circle(head, sprite_size * 0.16, Color("#d8ceb0"))
 	draw_rect(body, Color("#293647"))
 	draw_rect(body, accent, false, maxf(1.0, sprite_size * 0.035))
@@ -1643,15 +1661,15 @@ func _ambient_speck_color(terrain: String, visual: Dictionary) -> Color:
 func _visual_mood(visual: Dictionary) -> String:
 	var explicit := str(visual.get("visual_mood", ""))
 	if not explicit.is_empty():
-		return explicit
+		return GameThemeScript.effective_visual_mood(explicit)
 	if session != null:
 		if session.scene_id == "00-prologue-lights-out":
-			return "silenced"
+			return GameThemeScript.effective_visual_mood("silenced")
 		if session.scene_id in ["02-moqi-academy", "04-continuation-institute"] and str(visual.get("visual_family", "")) == "academy":
-			return "sunlit"
+			return GameThemeScript.effective_visual_mood("sunlit")
 	if str(visual.get("visual_family", "")) in ["ruin", "mine"]:
-		return "ruin"
-	return "neutral"
+		return GameThemeScript.effective_visual_mood("ruin")
+	return GameThemeScript.effective_visual_mood("neutral")
 
 
 func _draw_facing_marker(top_left: Vector2, tile_size: float) -> void:
