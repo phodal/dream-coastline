@@ -426,9 +426,9 @@ func _layout_hud_regions() -> void:
 func _sync_gameplay_hud_visibility() -> void:
 	var mode := _active_menu_mode()
 	if top_bar != null:
-		top_bar.visible = gameplay_hud_visible and mode != "settings"
+		top_bar.visible = gameplay_hud_visible and mode.is_empty()
 	if prompt_overlay != null:
-		prompt_overlay.visible = gameplay_hud_visible and mode != "settings"
+		prompt_overlay.visible = gameplay_hud_visible and mode.is_empty()
 	if menu_backdrop != null:
 		menu_backdrop.visible = not mode.is_empty()
 		menu_backdrop.set_menu_mode(mode)
