@@ -1,74 +1,336 @@
 {
-  "id": "07-lights-on-again",
-  "tile_size": 32,
-  "locations": {
-    "home": {
-      "terrain": "room",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "table", "x": 4, "y": 3, "item": "room", "solid": true},
-        {"kind": "phone", "x": 8, "y": 3, "item": "contacts", "solid": true},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "school"},
-        {"kind": "exit", "x": 13, "y": 6, "exit": "street"}
-      ]
-    },
-    "school": {
-      "terrain": "academy",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "gate", "x": 4, "y": 3, "item": "corridor", "solid": true},
-        {"kind": "student", "x": 8, "y": 3, "item": "classmates", "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "home"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "street"}
-      ]
-    },
-    "street": {
-      "terrain": "street",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "lamp", "x": 4, "y": 3, "item": "grid", "solid": true},
-        {"kind": "rune", "x": 6, "y": 3, "label": "点亮城市电网", "action": {"verb": "build", "arg": "lights"}, "solid": true},
-        {"kind": "node", "x": 8, "y": 3, "item": "node_base", "solid": true},
-        {"kind": "rune", "x": 10, "y": 3, "label": "建设临时国书节点", "action": {"verb": "build", "arg": "node"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "home"},
-        {"kind": "exit", "x": 1, "y": 6, "exit": "school"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "store"},
-        {"kind": "exit", "x": 13, "y": 6, "exit": "lab"}
-      ]
-    },
-    "store": {
-      "terrain": "room",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "villager", "x": 4, "y": 3, "item": "clerk", "solid": true},
-        {"kind": "rune", "x": 6, "y": 5, "label": "呼名", "action": {"verb": "cast", "arg": "name"}, "solid": true},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "street"}
-      ]
-    },
-    "lab": {
-      "terrain": "node",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "record", "x": 4, "y": 3, "item": "formula", "solid": true},
-        {"kind": "node", "x": 7, "y": 3, "item": "beacon", "solid": true},
-        {"kind": "rune", "x": 9, "y": 3, "label": "稳定现代节点", "action": {"verb": "build", "arg": "modern_node"}, "solid": true},
-        {"kind": "rune", "x": 10, "y": 3, "label": "稳定归桥", "action": {"verb": "build", "arg": "bridge"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "street"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "orbit"}
-      ]
-    },
-    "orbit": {
-      "terrain": "node",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "enemy", "x": 4, "y": 3, "item": "protocol", "solid": true},
-        {"kind": "rune", "x": 7, "y": 3, "label": "恢复最终 UI", "action": {"verb": "build", "arg": "restore"}, "solid": true},
-        {"kind": "rune", "x": 6, "y": 5, "label": "写：名", "action": {"verb": "write", "arg": ""}, "solid": true},
-        {"kind": "rune", "x": 7, "y": 5, "label": "写：止", "action": {"verb": "cast", "arg": "stop"}, "solid": true},
-        {"kind": "enemy", "x": 11, "y": 4, "label": "攻击静默协议", "action": {"verb": "attack", "arg": ""}, "solid": true},
-        {"kind": "rune", "x": 8, "y": 5, "label": "写下 Continue", "action": {"verb": "combine", "arg": "continue"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "lab"}
-      ]
-    }
-  }
+	"id": "07-lights-on-again",
+	"locations": {
+		"home": {
+			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/home.tscn",
+			"asset_status": "asset_backed",
+			"props": [
+				{
+					"item": "room",
+					"kind": "table",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "contacts",
+					"kind": "phone",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"exit": "school",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				},
+				{
+					"exit": "street",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 6.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "room",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_interior"
+		},
+		"lab": {
+			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/lab.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "formula",
+					"kind": "record",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "beacon",
+					"kind": "node",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "modern_node",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "稳定现代节点",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "bridge",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "稳定归桥",
+					"solid": true,
+					"x": 10.0,
+					"y": 3.0
+				},
+				{
+					"exit": "street",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "orbit",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "node",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "node"
+		},
+		"orbit": {
+			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/orbit.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "protocol",
+					"kind": "enemy",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "restore",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "恢复最终 UI",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "write"
+					},
+					"kind": "rune",
+					"label": "写：名",
+					"solid": true,
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
+					"action": {
+						"arg": "stop",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：止",
+					"solid": true,
+					"x": 7.0,
+					"y": 5.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "attack"
+					},
+					"kind": "enemy",
+					"label": "攻击静默协议",
+					"solid": true,
+					"x": 11.0,
+					"y": 4.0
+				},
+				{
+					"action": {
+						"arg": "continue",
+						"verb": "combine"
+					},
+					"kind": "rune",
+					"label": "写下 Continue",
+					"solid": true,
+					"x": 8.0,
+					"y": 5.0
+				},
+				{
+					"exit": "lab",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "node",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "node"
+		},
+		"school": {
+			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/school.tscn",
+			"asset_status": "asset_backed",
+			"props": [
+				{
+					"item": "corridor",
+					"kind": "gate",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "classmates",
+					"kind": "student",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"exit": "home",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "street",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "academy",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "academy"
+		},
+		"store": {
+			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/store.tscn",
+			"asset_status": "asset_backed",
+			"props": [
+				{
+					"item": "clerk",
+					"kind": "villager",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "name",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "呼名",
+					"solid": true,
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
+					"exit": "street",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "room",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_interior"
+		},
+		"street": {
+			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/street.tscn",
+			"asset_status": "asset_backed",
+			"props": [
+				{
+					"item": "grid",
+					"kind": "lamp",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "lights",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "点亮城市电网",
+					"solid": true,
+					"x": 6.0,
+					"y": 3.0
+				},
+				{
+					"item": "node_base",
+					"kind": "node",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "node",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "建设临时国书节点",
+					"solid": true,
+					"x": 10.0,
+					"y": 3.0
+				},
+				{
+					"exit": "home",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "school",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 6.0
+				},
+				{
+					"exit": "store",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				},
+				{
+					"exit": "lab",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 6.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "street",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_exterior"
+		}
+	},
+	"tile_size": 32.0
 }

@@ -17,6 +17,7 @@ const COLORS := {
 	"muted": Color("#b7a780"),
 	"danger": Color("#d45c55"),
 }
+const PANEL_TEXTURE_PATH := "res://assets/ui/pixel_panel_9patch.png"
 
 
 static func make_panel(panel_name: String, color: Color = COLORS.panel) -> PanelContainer:
@@ -132,7 +133,21 @@ static func _make_pixel_box(
 	margin_right: int,
 	margin_bottom: int,
 	border_width: int = 2
-) -> StyleBoxFlat:
+) -> StyleBox:
+	if ResourceLoader.exists(PANEL_TEXTURE_PATH):
+		var texture_resource: Resource = load(PANEL_TEXTURE_PATH)
+		if texture_resource is Texture2D:
+			var texture_style := StyleBoxTexture.new()
+			texture_style.texture = texture_resource as Texture2D
+			texture_style.texture_margin_left = 6
+			texture_style.texture_margin_top = 6
+			texture_style.texture_margin_right = 6
+			texture_style.texture_margin_bottom = 6
+			texture_style.content_margin_left = margin_left
+			texture_style.content_margin_top = margin_top
+			texture_style.content_margin_right = margin_right
+			texture_style.content_margin_bottom = margin_bottom
+			return texture_style
 	var style := StyleBoxFlat.new()
 	style.bg_color = bg_color
 	style.border_color = border_color

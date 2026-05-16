@@ -1,61 +1,306 @@
 {
-  "id": "02-moqi-academy",
-  "tile_size": 32,
-  "locations": {
-    "academy": {
-      "terrain": "academy",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "rune", "x": 3, "y": 2, "item": "name", "solid": true},
-        {"kind": "rune", "x": 4, "y": 2, "item": "door", "solid": true},
-        {"kind": "rune", "x": 5, "y": 2, "item": "fire", "solid": true},
-        {"kind": "rune", "x": 6, "y": 2, "item": "stop", "solid": true},
-        {"kind": "wensu", "x": 8, "y": 3, "item": "wensu", "solid": true},
-        {"kind": "xiali", "x": 10, "y": 3, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "archive"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "village"}
-      ]
-    },
-    "village": {
-      "terrain": "village",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "well", "x": 3, "y": 3, "item": "well", "solid": true},
-        {"kind": "rune", "x": 5, "y": 2, "label": "写：止", "action": {"verb": "cast", "arg": "stop"}, "solid": true},
-        {"kind": "rune", "x": 6, "y": 2, "label": "写：火", "action": {"verb": "cast", "arg": "fire"}, "solid": true},
-        {"kind": "rune", "x": 7, "y": 2, "label": "写：名", "action": {"verb": "cast", "arg": "name"}, "solid": true},
-        {"kind": "villager", "x": 9, "y": 4, "item": "villagers", "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "academy"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "archive"}
-      ]
-    },
-    "archive": {
-      "terrain": "archive",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "bookcase", "x": 2, "y": 2, "h": 4, "solid": true},
-        {"kind": "rune", "x": 4, "y": 3, "item": "layers", "solid": true},
-        {"kind": "cabinet", "x": 8, "y": 3, "item": "cabinet", "solid": true},
-        {"kind": "rune", "x": 9, "y": 3, "label": "写：门", "action": {"verb": "cast", "arg": "door"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 3, "exit": "academy"},
-        {"kind": "exit", "x": 1, "y": 5, "exit": "village"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "node"}
-      ]
-    },
-    "node": {
-      "terrain": "node",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "node", "x": 4, "y": 3, "item": "contract", "solid": true},
-        {"kind": "rune", "x": 6, "y": 3, "label": "写：名", "action": {"verb": "write", "arg": ""}, "solid": true},
-        {"kind": "rune", "x": 7, "y": 3, "label": "写：门", "action": {"verb": "cast", "arg": "door"}, "solid": true},
-        {"kind": "rune", "x": 8, "y": 3, "label": "写：止", "action": {"verb": "cast", "arg": "stop"}, "solid": true},
-        {"kind": "rune", "x": 6, "y": 5, "label": "命名节点", "action": {"verb": "cast", "arg": "name"}, "solid": true},
-        {"kind": "rune", "x": 9, "y": 3, "label": "写：火", "action": {"verb": "cast", "arg": "fire"}, "solid": true},
-        {"kind": "officer", "x": 11, "y": 4, "label": "攻击执契官", "action": {"verb": "attack", "arg": ""}, "solid": true},
-        {"kind": "record", "x": 12, "y": 2, "item": "record", "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "archive"}
-      ]
-    }
-  }
+	"id": "02-moqi-academy",
+	"locations": {
+		"academy": {
+			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/academy.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "name",
+					"kind": "rune",
+					"solid": true,
+					"x": 3.0,
+					"y": 2.0
+				},
+				{
+					"item": "door",
+					"kind": "rune",
+					"solid": true,
+					"x": 4.0,
+					"y": 2.0
+				},
+				{
+					"item": "fire",
+					"kind": "rune",
+					"solid": true,
+					"x": 5.0,
+					"y": 2.0
+				},
+				{
+					"item": "stop",
+					"kind": "rune",
+					"solid": true,
+					"x": 6.0,
+					"y": 2.0
+				},
+				{
+					"item": "wensu",
+					"kind": "wensu",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"kind": "xiali",
+					"solid": true,
+					"x": 10.0,
+					"y": 3.0
+				},
+				{
+					"exit": "archive",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "village",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "academy",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "academy"
+		},
+		"archive": {
+			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/archive.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"h": 4.0,
+					"kind": "bookcase",
+					"solid": true,
+					"x": 2.0,
+					"y": 2.0
+				},
+				{
+					"item": "layers",
+					"kind": "rune",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "cabinet",
+					"kind": "cabinet",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "door",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：门",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"exit": "academy",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 3.0
+				},
+				{
+					"exit": "village",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 5.0
+				},
+				{
+					"exit": "node",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "archive",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "archive"
+		},
+		"node": {
+			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/node.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "contract",
+					"kind": "node",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "write"
+					},
+					"kind": "rune",
+					"label": "写：名",
+					"solid": true,
+					"x": 6.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "door",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：门",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "stop",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：止",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "name",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "命名节点",
+					"solid": true,
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
+					"action": {
+						"arg": "fire",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：火",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "attack"
+					},
+					"kind": "officer",
+					"label": "攻击执契官",
+					"solid": true,
+					"x": 11.0,
+					"y": 4.0
+				},
+				{
+					"item": "record",
+					"kind": "record",
+					"solid": true,
+					"x": 12.0,
+					"y": 2.0
+				},
+				{
+					"exit": "archive",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "node",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "node"
+		},
+		"village": {
+			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/village.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "well",
+					"kind": "well",
+					"solid": true,
+					"x": 3.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "stop",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：止",
+					"solid": true,
+					"x": 5.0,
+					"y": 2.0
+				},
+				{
+					"action": {
+						"arg": "fire",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：火",
+					"solid": true,
+					"x": 6.0,
+					"y": 2.0
+				},
+				{
+					"action": {
+						"arg": "name",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：名",
+					"solid": true,
+					"x": 7.0,
+					"y": 2.0
+				},
+				{
+					"item": "villagers",
+					"kind": "villager",
+					"solid": true,
+					"x": 9.0,
+					"y": 4.0
+				},
+				{
+					"exit": "academy",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "archive",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "village",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "academy"
+		}
+	},
+	"tile_size": 32.0
 }

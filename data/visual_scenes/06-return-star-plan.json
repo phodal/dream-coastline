@@ -1,72 +1,314 @@
 {
-  "id": "06-return-star-plan",
-  "tile_size": 32,
-  "locations": {
-    "astral_tower": {
-      "terrain": "node",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "node", "x": 4, "y": 3, "item": "disaster", "solid": true},
-        {"kind": "record", "x": 8, "y": 3, "item": "parents", "solid": true},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "council"}
-      ]
-    },
-    "council": {
-      "terrain": "academy",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "student", "x": 4, "y": 3, "item": "supporters", "solid": true},
-        {"kind": "officer", "x": 7, "y": 3, "item": "opposition", "solid": true},
-        {"kind": "rune", "x": 9, "y": 3, "label": "通过归星授权", "action": {"verb": "build", "arg": "mandate"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "astral_tower"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "dockyard"}
-      ]
-    },
-    "dockyard": {
-      "terrain": "workshop",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "record", "x": 4, "y": 3, "item": "blueprint", "solid": true},
-        {"kind": "rune", "x": 7, "y": 3, "label": "建设续页舰", "action": {"verb": "build", "arg": "vessel"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "council"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "core"},
-        {"kind": "exit", "x": 13, "y": 6, "exit": "gate"}
-      ]
-    },
-    "core": {
-      "terrain": "node",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "xiali", "x": 4, "y": 3, "item": "xiali", "solid": true},
-        {"kind": "record", "x": 7, "y": 3, "item": "backup", "solid": true},
-        {"kind": "rune", "x": 9, "y": 3, "label": "绑定文明备份", "action": {"verb": "build", "arg": "backups"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "dockyard"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "gate"}
-      ]
-    },
-    "gate": {
-      "terrain": "node",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "node", "x": 4, "y": 3, "item": "calibration", "solid": true},
-        {"kind": "rune", "x": 7, "y": 3, "label": "开启归星门", "action": {"verb": "build", "arg": "gate"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "dockyard"},
-        {"kind": "exit", "x": 1, "y": 6, "exit": "core"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "rift"}
-      ]
-    },
-    "rift": {
-      "terrain": "node",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "enemy", "x": 4, "y": 3, "item": "probe", "solid": true},
-        {"kind": "rune", "x": 6, "y": 5, "label": "写：名", "action": {"verb": "write", "arg": ""}, "solid": true},
-        {"kind": "rune", "x": 7, "y": 5, "label": "写：止", "action": {"verb": "cast", "arg": "stop"}, "solid": true},
-        {"kind": "enemy", "x": 11, "y": 4, "label": "攻击静默探针", "action": {"verb": "attack", "arg": ""}, "solid": true},
-        {"kind": "record", "x": 12, "y": 2, "item": "truth", "solid": true},
-        {"kind": "rune", "x": 8, "y": 5, "label": "返回现代", "action": {"verb": "build", "arg": "return"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "gate"}
-      ]
-    }
-  }
+	"id": "06-return-star-plan",
+	"locations": {
+		"astral_tower": {
+			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/astral_tower.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "disaster",
+					"kind": "node",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "parents",
+					"kind": "record",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"exit": "council",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "node",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "node"
+		},
+		"core": {
+			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/core.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "xiali",
+					"kind": "xiali",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "backup",
+					"kind": "record",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "backups",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "绑定文明备份",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"exit": "dockyard",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "gate",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "node",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "node"
+		},
+		"council": {
+			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/council.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "supporters",
+					"kind": "student",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "opposition",
+					"kind": "officer",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "mandate",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "通过归星授权",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"exit": "astral_tower",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "dockyard",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "academy",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "academy"
+		},
+		"dockyard": {
+			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/dockyard.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "blueprint",
+					"kind": "record",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "vessel",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "建设续页舰",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"exit": "council",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "core",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				},
+				{
+					"exit": "gate",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 6.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "workshop",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "workshop"
+		},
+		"gate": {
+			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/gate.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "calibration",
+					"kind": "node",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "gate",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "开启归星门",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"exit": "dockyard",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "core",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 6.0
+				},
+				{
+					"exit": "rift",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "node",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "node"
+		},
+		"rift": {
+			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/rift.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "probe",
+					"kind": "enemy",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "write"
+					},
+					"kind": "rune",
+					"label": "写：名",
+					"solid": true,
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
+					"action": {
+						"arg": "stop",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：止",
+					"solid": true,
+					"x": 7.0,
+					"y": 5.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "attack"
+					},
+					"kind": "enemy",
+					"label": "攻击静默探针",
+					"solid": true,
+					"x": 11.0,
+					"y": 4.0
+				},
+				{
+					"item": "truth",
+					"kind": "record",
+					"solid": true,
+					"x": 12.0,
+					"y": 2.0
+				},
+				{
+					"action": {
+						"arg": "return",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "返回现代",
+					"solid": true,
+					"x": 8.0,
+					"y": 5.0
+				},
+				{
+					"exit": "gate",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "node",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "node"
+		}
+	},
+	"tile_size": 32.0
 }

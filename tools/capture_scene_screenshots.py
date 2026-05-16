@@ -182,6 +182,9 @@ def write_contact_sheet(output: Path, manifest: dict) -> None:
     <div class="meta">
       scope={html.escape(str(manifest.get("scope", "")))} ·
       screenshots={html.escape(str(manifest.get("screenshot_count", 0)))} ·
+      asset_backed={html.escape(str(manifest.get("asset_backed_count", 0)))} ·
+      placeholders={html.escape(str(manifest.get("framework_placeholder_count", 0)))} ·
+      procedural_fallback={html.escape(str(manifest.get("procedural_fallback_count", 0)))} ·
       viewport={html.escape(str(manifest.get("viewport", {})))}
     </div>
   </header>
@@ -205,6 +208,9 @@ def render_card(shot: dict) -> str:
         <strong>{html.escape(str(shot.get("location_name", "")))}</strong>
         <code>{html.escape(str(shot.get("location_id", "")))}</code><br>
         terrain: <code>{html.escape(str(shot.get("terrain", "")))}</code><br>
+        asset: <code>{html.escape(str(shot.get("asset_status", "")))}</code>
+        <code>{html.escape(str(shot.get("visual_family", "")))}</code><br>
+        scene: <code>{html.escape(str(shot.get("asset_scene", "")))}</code><br>
         props: {html.escape(props)}
       </figcaption>
     </figure>

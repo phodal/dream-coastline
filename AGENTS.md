@@ -17,3 +17,5 @@
 - 角色动画不要再写死在 `SpriteSceneCanvas`；新角色包先落到 `data/visual_assets/characters.json` 和 `data/animation_clips/*.json`，再用 Animation Sheet Contract 和 `--smoke-animation-clips` 验证状态。
 - AI 视觉/动画任务必须先落到 `VIS/PROP/ANIM/HUD/SHOT-*` 稳定 ID 和 Sprint Trace Map；实现或生成资产时一次只处理一个 ID。
 - visual JSON 的 `kind` 不一定会走旧的 item renderer；新增现代物件时要在 `_draw_visual_prop()` 显式路由，否则售货机、电视、信箱会退回成泛用方块。
+- 交互提示不要画成编辑器选框；用物件本身的光、闪点、影子或环境对比表达焦点，否则截图会像调试视图而不是游戏。
+- 场景视觉不要长期靠 `draw_rect` / `draw_line` 修补；读感不对时应切到资产化 TileMap 管线，并让截图 manifest 标出 asset/fallback 状态。

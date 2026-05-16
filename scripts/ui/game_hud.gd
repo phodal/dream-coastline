@@ -97,7 +97,7 @@ func refresh(session, player_controller) -> void:
 		feedback_text = _ambient_feedback_text(session, location)
 	prompt_overlay.refresh(
 		_display_location_name(session, location),
-		player_controller.prompt_text(),
+		_display_prompt_text(player_controller.prompt_text()),
 		feedback_text
 	)
 
@@ -334,6 +334,14 @@ func _display_location_name(session, location: Dictionary) -> String:
 	if session.scene_id == "01-illiterate" and not session.has_flag("learned_name_strokes"):
 		return "□□□"
 	return str(location.get("name", session.location_id))
+
+
+func _display_prompt_text(raw_prompt: String) -> String:
+	if raw_prompt.begins_with("Space/Enter "):
+		return raw_prompt.trim_prefix("Space/Enter ")
+	if raw_prompt.begins_with("WASD/方向键移动"):
+		return "移动探索，靠近发光或可疑的物件"
+	return raw_prompt
 
 
 func _ambient_feedback_text(session, location: Dictionary) -> String:

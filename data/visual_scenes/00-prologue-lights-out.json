@@ -1,76 +1,315 @@
 {
-  "id": "00-prologue-lights-out",
-  "tile_size": 32,
-  "locations": {
-    "street": {
-      "terrain": "street",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "building", "x": 10, "y": 1, "w": 3, "h": 4, "solid": true},
-        {"kind": "vending", "x": 4, "y": 4, "item": "vending", "solid": true},
-        {"kind": "poster", "x": 2, "y": 3, "item": "poster", "solid": true},
-        {"kind": "window_dark", "x": 11, "y": 2, "item": "window", "solid": true},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "building"}
-      ]
-    },
-    "building": {
-      "terrain": "interior",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "lamp", "x": 7, "y": 1, "item": "lamp", "solid": true},
-        {"kind": "mailbox", "x": 3, "y": 4, "item": "mailbox", "solid": true},
-        {"kind": "stairs", "x": 11, "y": 4, "exit": "home"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "home"},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "street"}
-      ]
-    },
-    "home": {
-      "terrain": "interior",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "door_open", "x": 6, "y": 2, "item": "lock", "solid": true},
-        {"kind": "shadow", "x": 8, "y": 3, "item": "air"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "living_room"},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "building"}
-      ]
-    },
-    "living_room": {
-      "terrain": "room",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "sofa", "x": 3, "y": 3, "w": 3, "h": 1, "solid": true},
-        {"kind": "table", "x": 7, "y": 4, "w": 2, "h": 1, "solid": true},
-        {"kind": "dinner", "x": 8, "y": 4, "item": "dinner", "solid": true},
-        {"kind": "tv", "x": 11, "y": 3, "item": "tv", "solid": true},
-        {"kind": "photo", "x": 11, "y": 1, "item": "photo", "solid": true},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "study"},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "bedroom"}
-      ]
-    },
-    "study": {
-      "terrain": "room",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "desk", "x": 4, "y": 3, "w": 3, "h": 1, "solid": true},
-        {"kind": "bookcase", "x": 10, "y": 2, "h": 3, "solid": true},
-        {"kind": "glasses", "x": 5, "y": 3, "item": "glasses", "solid": true},
-        {"kind": "note", "x": 6, "y": 3, "item": "note", "solid": true},
-        {"kind": "phone", "x": 8, "y": 5, "item": "phone", "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "living_room"}
-      ]
-    },
-    "bedroom": {
-      "terrain": "room",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "bed", "x": 3, "y": 4, "w": 3, "h": 1, "solid": true},
-        {"kind": "window", "x": 11, "y": 1, "item": "window", "solid": true},
-        {"kind": "desk", "x": 8, "y": 3, "w": 2, "h": 1, "solid": true},
-        {"kind": "letter", "x": 8, "y": 3, "item": "letter", "solid": true},
-        {"kind": "pen", "x": 9, "y": 3, "item": "pen", "solid": true},
-        {"kind": "portal", "x": 12, "y": 4},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "living_room"}
-      ]
-    }
-  }
+	"id": "00-prologue-lights-out",
+	"locations": {
+		"bedroom": {
+			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/bedroom.tscn",
+			"asset_status": "asset_backed",
+			"props": [
+				{
+					"h": 1.0,
+					"kind": "bed",
+					"solid": true,
+					"w": 3.0,
+					"x": 3.0,
+					"y": 4.0
+				},
+				{
+					"item": "window",
+					"kind": "window",
+					"solid": true,
+					"x": 11.0,
+					"y": 1.0
+				},
+				{
+					"h": 1.0,
+					"kind": "desk",
+					"solid": true,
+					"w": 2.0,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"item": "letter",
+					"kind": "letter",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"item": "pen",
+					"kind": "pen",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"kind": "portal",
+					"x": 12.0,
+					"y": 4.0
+				},
+				{
+					"exit": "living_room",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "room",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_interior"
+		},
+		"building": {
+			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/building.tscn",
+			"asset_status": "asset_backed",
+			"props": [
+				{
+					"item": "lamp",
+					"kind": "lamp",
+					"solid": true,
+					"x": 7.0,
+					"y": 1.0
+				},
+				{
+					"item": "mailbox",
+					"kind": "mailbox",
+					"solid": true,
+					"x": 3.0,
+					"y": 4.0
+				},
+				{
+					"exit": "home",
+					"kind": "stairs",
+					"x": 11.0,
+					"y": 4.0
+				},
+				{
+					"exit": "home",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				},
+				{
+					"exit": "street",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "interior",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_interior"
+		},
+		"home": {
+			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/home.tscn",
+			"asset_status": "asset_backed",
+			"props": [
+				{
+					"item": "lock",
+					"kind": "door_open",
+					"solid": true,
+					"x": 6.0,
+					"y": 2.0
+				},
+				{
+					"item": "air",
+					"kind": "shadow",
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"exit": "living_room",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				},
+				{
+					"exit": "building",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "interior",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_interior"
+		},
+		"living_room": {
+			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/living_room.tscn",
+			"asset_status": "asset_backed",
+			"props": [
+				{
+					"h": 1.0,
+					"kind": "sofa",
+					"solid": true,
+					"w": 3.0,
+					"x": 3.0,
+					"y": 3.0
+				},
+				{
+					"h": 1.0,
+					"kind": "table",
+					"solid": true,
+					"w": 2.0,
+					"x": 7.0,
+					"y": 4.0
+				},
+				{
+					"item": "dinner",
+					"kind": "dinner",
+					"solid": true,
+					"x": 8.0,
+					"y": 4.0
+				},
+				{
+					"item": "tv",
+					"kind": "tv",
+					"solid": true,
+					"x": 11.0,
+					"y": 3.0
+				},
+				{
+					"item": "photo",
+					"kind": "photo",
+					"solid": true,
+					"x": 11.0,
+					"y": 1.0
+				},
+				{
+					"exit": "study",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				},
+				{
+					"exit": "bedroom",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "room",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_interior"
+		},
+		"street": {
+			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/street.tscn",
+			"asset_status": "asset_backed",
+			"props": [
+				{
+					"h": 4.0,
+					"kind": "building",
+					"solid": true,
+					"w": 3.0,
+					"x": 10.0,
+					"y": 1.0
+				},
+				{
+					"item": "vending",
+					"kind": "vending",
+					"solid": true,
+					"x": 4.0,
+					"y": 4.0
+				},
+				{
+					"item": "poster",
+					"kind": "poster",
+					"solid": true,
+					"x": 2.0,
+					"y": 3.0
+				},
+				{
+					"item": "window",
+					"kind": "window_dark",
+					"solid": true,
+					"x": 11.0,
+					"y": 2.0
+				},
+				{
+					"exit": "building",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "street",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_exterior"
+		},
+		"study": {
+			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/study.tscn",
+			"asset_status": "asset_backed",
+			"props": [
+				{
+					"h": 1.0,
+					"kind": "desk",
+					"solid": true,
+					"w": 3.0,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"h": 3.0,
+					"kind": "bookcase",
+					"solid": true,
+					"x": 10.0,
+					"y": 2.0
+				},
+				{
+					"item": "glasses",
+					"kind": "glasses",
+					"solid": true,
+					"x": 5.0,
+					"y": 3.0
+				},
+				{
+					"item": "note",
+					"kind": "note",
+					"solid": true,
+					"x": 6.0,
+					"y": 3.0
+				},
+				{
+					"item": "phone",
+					"kind": "phone",
+					"solid": true,
+					"x": 8.0,
+					"y": 5.0
+				},
+				{
+					"exit": "living_room",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "room",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_interior"
+		}
+	},
+	"tile_size": 32.0
 }

@@ -1,52 +1,214 @@
 {
-  "id": "01-illiterate",
-  "tile_size": 32,
-  "locations": {
-    "mud_road": {
-      "terrain": "wilderness",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "city_fire", "x": 2, "y": 2, "item": "city", "solid": true},
-        {"kind": "sign", "x": 11, "y": 2, "item": "sign", "solid": true},
-        {"kind": "pen", "x": 6, "y": 6, "item": "pen"},
-        {"kind": "phone", "x": 10, "y": 5, "item": "phone", "solid": true},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "camp"}
-      ]
-    },
-    "camp": {
-      "terrain": "wilderness",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "tent", "x": 2, "y": 2, "w": 2, "h": 2, "solid": true},
-        {"kind": "notice", "x": 4, "y": 3, "item": "notice", "solid": true},
-        {"kind": "campfire", "x": 6, "y": 3, "solid": true},
-        {"kind": "xiaoyan", "x": 9, "y": 4, "item": "xiaoyan", "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "mud_road"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "chase"}
-      ]
-    },
-    "chase": {
-      "terrain": "forest",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "tree", "x": 2, "y": 1, "w": 2, "h": 5, "solid": true},
-        {"kind": "gate", "x": 5, "y": 3, "item": "gate", "solid": true},
-        {"kind": "xiali", "x": 8, "y": 3, "item": "xiali", "solid": true},
-        {"kind": "soldier", "x": 10, "y": 3, "item": "soldiers", "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "camp"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "station"}
-      ]
-    },
-    "station": {
-      "terrain": "ruin",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "rune", "x": 5, "y": 3, "item": "strokes", "solid": true},
-        {"kind": "xiaoyan", "x": 3, "y": 4, "item": "xiaoyan", "solid": true},
-        {"kind": "rune", "x": 7, "y": 3, "label": "写：名", "action": {"verb": "write", "arg": ""}, "solid": true},
-        {"kind": "enemy", "x": 10, "y": 4, "label": "攻击无名兽", "action": {"verb": "attack", "arg": ""}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "chase"}
-      ]
-    }
-  }
+	"id": "01-illiterate",
+	"locations": {
+		"camp": {
+			"asset_scene": "res://scenes/visual_locations/01-illiterate/camp.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"h": 2.0,
+					"kind": "tent",
+					"solid": true,
+					"w": 2.0,
+					"x": 2.0,
+					"y": 2.0
+				},
+				{
+					"item": "notice",
+					"kind": "notice",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"kind": "campfire",
+					"solid": true,
+					"x": 6.0,
+					"y": 3.0
+				},
+				{
+					"item": "xiaoyan",
+					"kind": "xiaoyan",
+					"solid": true,
+					"x": 9.0,
+					"y": 4.0
+				},
+				{
+					"exit": "mud_road",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "chase",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "wilderness",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "wilderness"
+		},
+		"chase": {
+			"asset_scene": "res://scenes/visual_locations/01-illiterate/chase.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"h": 5.0,
+					"kind": "tree",
+					"solid": true,
+					"w": 2.0,
+					"x": 2.0,
+					"y": 1.0
+				},
+				{
+					"item": "gate",
+					"kind": "gate",
+					"solid": true,
+					"x": 5.0,
+					"y": 3.0
+				},
+				{
+					"item": "xiali",
+					"kind": "xiali",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"item": "soldiers",
+					"kind": "soldier",
+					"solid": true,
+					"x": 10.0,
+					"y": 3.0
+				},
+				{
+					"exit": "camp",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "station",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "forest",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "forest"
+		},
+		"mud_road": {
+			"asset_scene": "res://scenes/visual_locations/01-illiterate/mud_road.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "city",
+					"kind": "city_fire",
+					"solid": true,
+					"x": 2.0,
+					"y": 2.0
+				},
+				{
+					"item": "sign",
+					"kind": "sign",
+					"solid": true,
+					"x": 11.0,
+					"y": 2.0
+				},
+				{
+					"item": "pen",
+					"kind": "pen",
+					"x": 6.0,
+					"y": 6.0
+				},
+				{
+					"item": "phone",
+					"kind": "phone",
+					"solid": true,
+					"x": 10.0,
+					"y": 5.0
+				},
+				{
+					"exit": "camp",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "wilderness",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "wilderness"
+		},
+		"station": {
+			"asset_scene": "res://scenes/visual_locations/01-illiterate/station.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "strokes",
+					"kind": "rune",
+					"solid": true,
+					"x": 5.0,
+					"y": 3.0
+				},
+				{
+					"item": "xiaoyan",
+					"kind": "xiaoyan",
+					"solid": true,
+					"x": 3.0,
+					"y": 4.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "write"
+					},
+					"kind": "rune",
+					"label": "写：名",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "attack"
+					},
+					"kind": "enemy",
+					"label": "攻击无名兽",
+					"solid": true,
+					"x": 10.0,
+					"y": 4.0
+				},
+				{
+					"exit": "chase",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "ruin",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "ruin"
+		}
+	},
+	"tile_size": 32.0
 }

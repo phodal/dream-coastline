@@ -65,6 +65,10 @@ func _ready() -> void:
 		var ok: bool = AnimationClipRepositorySmokeScript.new().run()
 		get_tree().quit(0 if ok else 1)
 		return
+	if OS.get_cmdline_user_args().has("--smoke-visual-asset-scenes"):
+		var ok: bool = _run_visual_asset_scene_smoke()
+		get_tree().quit(0 if ok else 1)
+		return
 	if OS.get_cmdline_user_args().has("--smoke-autoplay"):
 		var ok: bool = session.run_smoke_verification()
 		get_tree().quit(0 if ok else 1)
@@ -469,6 +473,9 @@ func _capture_scene_screenshots() -> void:
 			"height": int(get_viewport_rect().size.y),
 		},
 		"screenshot_count": screenshots.size(),
+		"procedural_fallback_count": _capture_asset_status_count(screenshots, "procedural_fallback"),
+		"framework_placeholder_count": _capture_asset_status_count(screenshots, "framework_placeholder"),
+		"asset_backed_count": _capture_asset_status_count(screenshots, "asset_backed"),
 		"screenshots": screenshots,
 		"failures": failures,
 	}
@@ -533,6 +540,10 @@ func _capture_location_screenshot(
 		"location_id": location_id,
 		"location_name": str(location.get("name", location_id)),
 		"terrain": str(visual.get("terrain", "")),
+		"visual_family": str(visual.get("visual_family", "")),
+		"asset_scene": str(visual.get("asset_scene", "")),
+		"asset_status": str(visual.get("asset_status", "")),
+		"tileset_id": str(visual.get("tileset_id", "")),
 		"props": _capture_prop_summary(visual),
 		"path": path,
 		"file": filename,
@@ -596,6 +607,82 @@ func _capture_prop_summary(visual: Dictionary) -> Array[Dictionary]:
 			"y": int(prop.get("y", 0)),
 		})
 	return summary
+
+
+func _capture_asset_status_count(screenshots: Array[Dictionary], status: String) -> int:
+	var count := 0
+	for shot in screenshots:
+		if str(shot.get("asset_status", "")) == status:
+			count += 1
+	return count
+
+
+func _run_visual_asset_scene_smoke() -> bool:
+	var failures: Array[String] = []
+	var checked := 0
+	var asset_backed := 0
+	var placeholders := 0
+	for scene_index in range(database.count()):
+		var scene_id := str(database.scene_id_at(scene_index))
+		var story_scene: Dictionary = database.scene_at(scene_index)
+		var locations: Dictionary = story_scene.get("locations", {})
+		for location_id_variant in locations.keys():
+			var location_id := str(location_id_variant)
+			var visual: Dictionary = visual_repository.location_visual(scene_id, location_id)
+			checked += 1
+			var asset_scene := str(visual.get("asset_scene", ""))
+			var asset_status := str(visual.get("asset_status", ""))
+			if asset_scene.is_empty():
+				failures.append("%s/%s missing asset_scene" % [scene_id, location_id])
+				continue
+			if asset_status == "procedural_fallback":
+				failures.append("%s/%s still marked procedural_fallback" % [scene_id, location_id])
+			if _requires_asset_backed_scene(scene_id, location_id) and asset_status != "asset_backed":
+				failures.append("%s/%s should be asset_backed, got %s" % [scene_id, location_id, asset_status])
+			if asset_status == "asset_backed":
+				asset_backed += 1
+			elif asset_status == "framework_placeholder":
+				placeholders += 1
+			if not ResourceLoader.exists(asset_scene):
+				failures.append("%s/%s missing PackedScene %s" % [scene_id, location_id, asset_scene])
+				continue
+			var packed_resource: Resource = load(asset_scene)
+			if not (packed_resource is PackedScene):
+				failures.append("%s/%s is not a PackedScene: %s" % [scene_id, location_id, asset_scene])
+				continue
+			var packed_scene := packed_resource as PackedScene
+			var instance := packed_scene.instantiate()
+			if not (instance is Node):
+				failures.append("%s/%s scene root is not a Node" % [scene_id, location_id])
+				continue
+			var root := instance as Node
+			for layer_name in ["ground", "walls", "decor", "props_shadow", "lighting"]:
+				var layer := root.get_node_or_null(layer_name)
+				if not (layer is TileMapLayer):
+					failures.append("%s/%s missing TileMapLayer %s" % [scene_id, location_id, layer_name])
+					continue
+				if (layer as TileMapLayer).tile_set == null:
+					failures.append("%s/%s TileMapLayer %s has no TileSet" % [scene_id, location_id, layer_name])
+			root.queue_free()
+	var ok := failures.is_empty() and checked > 0
+	print("visual-asset-scenes-smoke status=%s checked=%s asset_backed=%s placeholders=%s failures=%s" % [
+		"PASS" if ok else "FAIL",
+		checked,
+		asset_backed,
+		placeholders,
+		failures.size(),
+	])
+	for failure in failures:
+		print("failure=", failure)
+	return ok
+
+
+func _requires_asset_backed_scene(scene_id: String, location_id: String) -> bool:
+	if scene_id == "00-prologue-lights-out":
+		return true
+	if scene_id == "07-lights-on-again" and location_id in ["home", "school", "street", "store"]:
+		return true
+	return false
 
 
 func _global_capture_path(path: String) -> String:

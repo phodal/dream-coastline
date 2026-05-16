@@ -1,67 +1,293 @@
 {
-  "id": "03-dead-kingdom",
-  "tile_size": 32,
-  "locations": {
-    "outer_city": {
-      "terrain": "dead_city",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "poster", "x": 4, "y": 2, "item": "poster", "solid": true},
-        {"kind": "node", "x": 9, "y": 3, "item": "order", "solid": true},
-        {"kind": "officer", "x": 11, "y": 4, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "hq"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "library"}
-      ]
-    },
-    "library": {
-      "terrain": "archive",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "bookcase", "x": 2, "y": 2, "h": 4, "solid": true},
-        {"kind": "record", "x": 4, "y": 3, "item": "records", "solid": true},
-        {"kind": "record", "x": 7, "y": 3, "item": "ban", "solid": true},
-        {"kind": "rune", "x": 9, "y": 3, "label": "选择公开藏书", "action": {"verb": "choose", "arg": "public"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "outer_city"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "hq"},
-        {"kind": "exit", "x": 13, "y": 6, "exit": "palace"}
-      ]
-    },
-    "hq": {
-      "terrain": "dead_city",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "record", "x": 5, "y": 3, "item": "logs", "solid": true},
-        {"kind": "record", "x": 9, "y": 3, "item": "names", "solid": true},
-        {"kind": "cabinet", "x": 11, "y": 2, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "outer_city"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "palace"},
-        {"kind": "exit", "x": 13, "y": 6, "exit": "library"}
-      ]
-    },
-    "palace": {
-      "terrain": "ruin",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "gate", "x": 5, "y": 3, "item": "route", "solid": true},
-        {"kind": "xiali", "x": 9, "y": 4, "item": "xiali", "solid": true},
-        {"kind": "city_fire", "x": 11, "y": 2, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "library"},
-        {"kind": "exit", "x": 1, "y": 6, "exit": "hq"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "hall"}
-      ]
-    },
-    "hall": {
-      "terrain": "node",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "node", "x": 4, "y": 3, "item": "question", "solid": true},
-        {"kind": "rune", "x": 6, "y": 3, "label": "写：名", "action": {"verb": "write", "arg": ""}, "solid": true},
-        {"kind": "rune", "x": 7, "y": 3, "label": "写：门", "action": {"verb": "cast", "arg": "door"}, "solid": true},
-        {"kind": "rune", "x": 8, "y": 3, "label": "写：止", "action": {"verb": "cast", "arg": "stop"}, "solid": true},
-        {"kind": "enemy", "x": 11, "y": 4, "label": "攻击国书残影", "action": {"verb": "attack", "arg": ""}, "solid": true},
-        {"kind": "record", "x": 12, "y": 2, "item": "plan", "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "palace"}
-      ]
-    }
-  }
+	"id": "03-dead-kingdom",
+	"locations": {
+		"hall": {
+			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/hall.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "question",
+					"kind": "node",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "write"
+					},
+					"kind": "rune",
+					"label": "写：名",
+					"solid": true,
+					"x": 6.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "door",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：门",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "stop",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：止",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "attack"
+					},
+					"kind": "enemy",
+					"label": "攻击国书残影",
+					"solid": true,
+					"x": 11.0,
+					"y": 4.0
+				},
+				{
+					"item": "plan",
+					"kind": "record",
+					"solid": true,
+					"x": 12.0,
+					"y": 2.0
+				},
+				{
+					"exit": "palace",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "node",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "node"
+		},
+		"hq": {
+			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/hq.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "logs",
+					"kind": "record",
+					"solid": true,
+					"x": 5.0,
+					"y": 3.0
+				},
+				{
+					"item": "names",
+					"kind": "record",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"kind": "cabinet",
+					"solid": true,
+					"x": 11.0,
+					"y": 2.0
+				},
+				{
+					"exit": "outer_city",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "palace",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				},
+				{
+					"exit": "library",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 6.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "dead_city",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_exterior"
+		},
+		"library": {
+			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/library.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"h": 4.0,
+					"kind": "bookcase",
+					"solid": true,
+					"x": 2.0,
+					"y": 2.0
+				},
+				{
+					"item": "records",
+					"kind": "record",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "ban",
+					"kind": "record",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "public",
+						"verb": "choose"
+					},
+					"kind": "rune",
+					"label": "选择公开藏书",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"exit": "outer_city",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "hq",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				},
+				{
+					"exit": "palace",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 6.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "archive",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "archive"
+		},
+		"outer_city": {
+			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/outer_city.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "poster",
+					"kind": "poster",
+					"solid": true,
+					"x": 4.0,
+					"y": 2.0
+				},
+				{
+					"item": "order",
+					"kind": "node",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"kind": "officer",
+					"solid": true,
+					"x": 11.0,
+					"y": 4.0
+				},
+				{
+					"exit": "hq",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "library",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "dead_city",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_exterior"
+		},
+		"palace": {
+			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/palace.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "route",
+					"kind": "gate",
+					"solid": true,
+					"x": 5.0,
+					"y": 3.0
+				},
+				{
+					"item": "xiali",
+					"kind": "xiali",
+					"solid": true,
+					"x": 9.0,
+					"y": 4.0
+				},
+				{
+					"kind": "city_fire",
+					"solid": true,
+					"x": 11.0,
+					"y": 2.0
+				},
+				{
+					"exit": "library",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "hq",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 6.0
+				},
+				{
+					"exit": "hall",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "ruin",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "ruin"
+		}
+	},
+	"tile_size": 32.0
 }

@@ -1,0 +1,46 @@
+{
+	"tile_size": 32,
+	"tilesets": [
+		{
+			"display_name": "Dream Coastline normalized scene tiles",
+			"godot_tileset": "res://assets/visual_tiles/dream_scene_tileset.tres",
+			"id": "dream_scene_tiles",
+			"license": "CC0-compatible composite",
+			"normalized_tilesheet": "res://assets/visual_tiles/dream_scene_tiles.png",
+			"sources": [
+				{
+					"id": "btl_topdown_interior",
+					"license": "CC0",
+					"original_path": "res://assets/external/btl_topdown_interior/housetileset.png",
+					"url": "https://btl-games.itch.io/topdown"
+				},
+				{
+					"id": "kenney_modern_city",
+					"license": "CC0",
+					"original_path": "res://assets/external/kenney_modern_city/source/Spritesheet/roguelikeCity_transparent.png",
+					"url": "https://opengameart.org/content/roguelike-modern-city-pack"
+				},
+				{
+					"id": "oga_modern_city_extension",
+					"license": "CC0",
+					"original_path": "res://assets/external/oga_modern_city_extension/city_extension.png",
+					"url": "https://opengameart.org/content/modern-city-extension"
+				}
+			],
+			"terrain_families": [
+				"modern_exterior",
+				"modern_interior",
+				"wilderness",
+				"forest",
+				"ruin",
+				"academy",
+				"archive",
+				"node",
+				"workshop",
+				"mine",
+				"industry"
+			]
+		}
+	],
+	"version": 1
+}

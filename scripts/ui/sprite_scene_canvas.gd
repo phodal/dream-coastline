@@ -34,6 +34,10 @@ var rpg_characters_texture
 var fireball_texture
 var magic_orb_texture
 var paper_icon_texture
+var asset_viewport: SubViewport
+var asset_scene_instance: Node
+var asset_scene_path := ""
+var asset_scene_warning_keys := {}
 
 
 func _ready() -> void:
@@ -50,6 +54,7 @@ func _ready() -> void:
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_setup_asset_viewport()
 	set_process(true)
 
 
@@ -74,6 +79,7 @@ func set_visual_repository(repository) -> void:
 
 func refresh(game_session) -> void:
 	session = game_session
+	_sync_asset_scene(_current_visual())
 	queue_redraw()
 
 
@@ -107,12 +113,96 @@ func _draw() -> void:
 	var origin := (canvas_size - map_size) * 0.5
 
 	var visual := _current_visual()
+	var asset_scene_ready := _sync_asset_scene(visual)
 	_draw_scene_backdrop(canvas_size, origin, map_size, tile_size, visual)
-	_draw_map(origin, tile_size, visual)
-	_draw_location_objects(origin, tile_size, visual)
+	if asset_scene_ready:
+		_draw_asset_scene_texture(origin, map_size)
+		_draw_location_asset_overlays(origin, tile_size, visual)
+	else:
+		_draw_map(origin, tile_size, visual)
+		_draw_scene_dressing(origin, tile_size, visual)
+		_draw_location_objects(origin, tile_size, visual)
 	_draw_blocked_feedback(origin, tile_size)
 	_draw_actors(origin, tile_size, visual)
 	_draw_screen_grade(canvas_size, origin, map_size, tile_size)
+
+
+func _setup_asset_viewport() -> void:
+	asset_viewport = SubViewport.new()
+	asset_viewport.name = "AssetSceneViewport"
+	asset_viewport.size = Vector2i(COLUMNS * int(ATLAS_TILE), ROWS * int(ATLAS_TILE))
+	asset_viewport.transparent_bg = true
+	asset_viewport.disable_3d = true
+	asset_viewport.gui_disable_input = true
+	asset_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	add_child(asset_viewport)
+
+
+func _sync_asset_scene(visual: Dictionary) -> bool:
+	if asset_viewport == null or visual.is_empty():
+		_clear_asset_scene()
+		return false
+	var status := str(visual.get("asset_status", ""))
+	var path := str(visual.get("asset_scene", ""))
+	if status == "procedural_fallback" or path.is_empty():
+		_clear_asset_scene()
+		return false
+	if path == asset_scene_path and asset_scene_instance != null:
+		return true
+	if not ResourceLoader.exists(path):
+		_warn_asset_scene_once(path, "missing asset scene")
+		_clear_asset_scene()
+		return false
+	var packed_resource: Resource = load(path)
+	if not (packed_resource is PackedScene):
+		_warn_asset_scene_once(path, "resource is not a PackedScene")
+		_clear_asset_scene()
+		return false
+	_clear_asset_scene()
+	var packed_scene := packed_resource as PackedScene
+	var instance := packed_scene.instantiate()
+	if not (instance is Node):
+		_warn_asset_scene_once(path, "scene root is not a Node")
+		return false
+	asset_scene_instance = instance
+	asset_scene_path = path
+	asset_viewport.add_child(asset_scene_instance)
+	return true
+
+
+func _clear_asset_scene() -> void:
+	if asset_viewport == null:
+		return
+	for child in asset_viewport.get_children():
+		asset_viewport.remove_child(child)
+		child.queue_free()
+	asset_scene_instance = null
+	asset_scene_path = ""
+
+
+func _warn_asset_scene_once(path: String, reason: String) -> void:
+	var key := "%s:%s" % [path, reason]
+	if asset_scene_warning_keys.has(key):
+		return
+	asset_scene_warning_keys[key] = true
+	push_warning("Asset scene fallback: %s (%s)" % [path, reason])
+
+
+func _draw_asset_scene_texture(origin: Vector2, map_size: Vector2) -> void:
+	if asset_viewport == null:
+		return
+	var texture := asset_viewport.get_texture()
+	if texture == null:
+		return
+	draw_texture_rect(texture, Rect2(origin, map_size), false)
+
+
+func _draw_location_asset_overlays(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
+	for prop in visual.get("props", []):
+		if typeof(prop) == TYPE_DICTIONARY:
+			_draw_visual_prop_focus(prop, origin, tile_size)
+	if session.has_flag(str(session.scene.get("ending_flag", ""))):
+		_draw_magic_orb(Rect2(origin + Vector2(12, 4) * tile_size, Vector2(tile_size, tile_size)))
 
 
 func _draw_scene_backdrop(canvas_size: Vector2, origin: Vector2, map_size: Vector2, tile_size: float, visual: Dictionary) -> void:
@@ -359,9 +449,11 @@ func _draw_modern_scene_tile(terrain: String, x: int, y: int, top_left: Vector2,
 			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.84), Vector2(tile_size, tile_size * 0.08)), Color("#3f2a18"))
 		else:
 			draw_rect(rect, Color("#20252a"))
-			draw_rect(rect, Color("#343a40", 0.38), false, maxf(1.0, tile_size * 0.015))
+			draw_rect(rect, Color("#343a40", 0.16), false, maxf(1.0, tile_size * 0.01))
+			if y % 2 == 0:
+				draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.08), Vector2(tile_size, tile_size * 0.035)), Color("#2d3338", 0.24))
 			if (x + y) % 2 == 0:
-				draw_rect(Rect2(top_left + Vector2(tile_size * 0.18, tile_size * 0.18), Vector2(tile_size * 0.1, tile_size * 0.1)), Color("#111519", 0.28))
+				draw_rect(Rect2(top_left + Vector2(tile_size * 0.18, tile_size * 0.18), Vector2(tile_size * 0.08, tile_size * 0.08)), Color("#111519", 0.18))
 	else:
 		if edge or y <= 1:
 			draw_rect(rect, Color("#2a231d"))
@@ -369,9 +461,9 @@ func _draw_modern_scene_tile(terrain: String, x: int, y: int, top_left: Vector2,
 		else:
 			draw_rect(rect, Color("#3b2a1d"))
 			var board_height := maxf(1.0, tile_size * 0.08)
-			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.46), Vector2(tile_size, board_height)), Color("#5a3a20", 0.42))
-			if x % 2 == 0:
-				draw_rect(Rect2(top_left + Vector2(tile_size * 0.04, 0), Vector2(maxf(1.0, tile_size * 0.02), tile_size)), Color("#24160d", 0.34))
+			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.46), Vector2(tile_size, board_height)), Color("#5a3a20", 0.28))
+			if x % 3 == 0:
+				draw_rect(Rect2(top_left + Vector2(tile_size * 0.04, 0), Vector2(maxf(1.0, tile_size * 0.012), tile_size)), Color("#24160d", 0.18))
 
 
 func _draw_lobby_tile(x: int, y: int, top_left: Vector2, tile_size: float) -> void:
@@ -392,6 +484,103 @@ func _draw_lobby_tile(x: int, y: int, top_left: Vector2, tile_size: float) -> vo
 			draw_rect(Rect2(top_left + Vector2(0, tile_size * 0.46), Vector2(tile_size, tile_size * 0.08)), Color("#62676a", 0.28))
 		if x in [5, 9]:
 			draw_rect(Rect2(top_left + Vector2(tile_size * 0.46, 0), Vector2(tile_size * 0.06, tile_size)), Color("#151719", 0.25))
+
+
+func _draw_scene_dressing(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
+	if session == null or session.scene_id != "00-prologue-lights-out":
+		return
+	match session.location_id:
+		"street":
+			_draw_street_dressing(origin, tile_size)
+		"building":
+			_draw_lobby_dressing(origin, tile_size)
+		"home":
+			_draw_entry_dressing(origin, tile_size)
+		"living_room":
+			_draw_living_room_dressing(origin, tile_size)
+		"study":
+			_draw_study_dressing(origin, tile_size)
+		"bedroom":
+			_draw_bedroom_dressing(origin, tile_size)
+
+
+func _draw_street_dressing(origin: Vector2, tile_size: float) -> void:
+	for index in range(6):
+		var x := origin.x + tile_size * (1.2 + float(index) * 2.2)
+		draw_rect(Rect2(Vector2(x, origin.y + tile_size * 5.48), Vector2(tile_size * 0.72, tile_size * 0.055)), Color("#d8ceb0", 0.18))
+	draw_rect(Rect2(origin + Vector2(0, tile_size * 3.0), Vector2(tile_size * COLUMNS, tile_size * 0.08)), Color("#5a5146", 0.36))
+	draw_rect(Rect2(origin + Vector2(0, tile_size * 6.05), Vector2(tile_size * COLUMNS, tile_size * 0.06)), Color("#0b0d0e", 0.44))
+	for index in range(5):
+		var paper_pos := origin + Vector2(tile_size * (1.0 + float(index) * 2.6), tile_size * (6.4 + float(index % 2) * 0.32))
+		draw_rect(Rect2(paper_pos, Vector2(tile_size * 0.32, tile_size * 0.08)), Color("#d8ceb0", 0.18))
+	draw_line(origin + Vector2(tile_size * 9.2, tile_size * 1.15), origin + Vector2(tile_size * 13.7, tile_size * 2.55), Color("#050608", 0.32), maxf(1.0, tile_size * 0.018))
+
+
+func _draw_lobby_dressing(origin: Vector2, tile_size: float) -> void:
+	draw_rect(Rect2(origin + Vector2(tile_size * 0.9, tile_size * 4.82), Vector2(tile_size * 1.1, tile_size * 0.12)), Color("#101214", 0.52))
+	draw_rect(Rect2(origin + Vector2(tile_size * 12.9, tile_size * 4.82), Vector2(tile_size * 1.1, tile_size * 0.12)), Color("#101214", 0.52))
+	var notice := Rect2(origin + Vector2(tile_size * 3.0, tile_size * 3.15), Vector2(tile_size * 1.05, tile_size * 0.72))
+	draw_rect(notice, Color("#2b2117"))
+	draw_rect(notice, Color("#8f7040", 0.72), false, maxf(1.0, tile_size * 0.02))
+	for row in range(3):
+		draw_rect(Rect2(notice.position + Vector2(tile_size * 0.16, tile_size * (0.16 + row * 0.16)), Vector2(tile_size * 0.72, tile_size * 0.035)), Color("#d8ceb0", 0.42))
+	var elevator := Rect2(origin + Vector2(tile_size * 6.25, tile_size * 1.1), Vector2(tile_size * 2.5, tile_size * 1.05))
+	draw_rect(elevator, Color("#121313", 0.42))
+	draw_rect(elevator, Color("#3f2a18", 0.6), false, maxf(1.0, tile_size * 0.025))
+	draw_line(elevator.position + Vector2(elevator.size.x * 0.5, 0), elevator.position + Vector2(elevator.size.x * 0.5, elevator.size.y), Color("#050608", 0.58), maxf(1.0, tile_size * 0.018))
+	draw_circle(origin + Vector2(tile_size * 7.48, tile_size * 2.3), tile_size * 0.08, Color("#d7b15e", 0.38 + sin(animation_time * 3.0) * 0.1))
+
+
+func _draw_entry_dressing(origin: Vector2, tile_size: float) -> void:
+	var shoe_rack := Rect2(origin + Vector2(tile_size * 2.2, tile_size * 1.2), Vector2(tile_size * 2.1, tile_size * 0.72))
+	draw_rect(shoe_rack, Color("#2b1d10", 0.76))
+	draw_rect(shoe_rack, Color("#8f7040", 0.45), false, maxf(1.0, tile_size * 0.018))
+	for index in range(3):
+		draw_rect(Rect2(shoe_rack.position + Vector2(tile_size * (0.25 + index * 0.48), tile_size * 0.38), Vector2(tile_size * 0.28, tile_size * 0.1)), Color("#050608", 0.68))
+	var coat_shadow := Rect2(origin + Vector2(tile_size * 10.5, tile_size * 1.0), Vector2(tile_size * 1.4, tile_size * 1.4))
+	draw_rect(coat_shadow, Color("#050608", 0.32))
+	draw_line(coat_shadow.position + Vector2(tile_size * 0.5, tile_size * 0.2), coat_shadow.position + Vector2(tile_size * 0.25, tile_size * 0.9), Color("#14100c", 0.74), maxf(1.0, tile_size * 0.04))
+	draw_line(coat_shadow.position + Vector2(tile_size * 0.5, tile_size * 0.2), coat_shadow.position + Vector2(tile_size * 0.8, tile_size * 0.9), Color("#14100c", 0.74), maxf(1.0, tile_size * 0.04))
+	draw_rect(Rect2(origin + Vector2(tile_size * 5.85, tile_size * 3.0), Vector2(tile_size * 1.8, tile_size * 0.12)), Color("#0b0d0e", 0.5))
+
+
+func _draw_living_room_dressing(origin: Vector2, tile_size: float) -> void:
+	var rug := Rect2(origin + Vector2(tile_size * 5.75, tile_size * 3.5), Vector2(tile_size * 3.8, tile_size * 1.55))
+	draw_rect(rug, Color("#3b2330", 0.52))
+	draw_rect(rug.grow(-tile_size * 0.12), Color("#6b2630", 0.22), false, maxf(1.0, tile_size * 0.02))
+	var tv_glow := Rect2(origin + Vector2(tile_size * 10.9, tile_size * 2.65), Vector2(tile_size * 1.35, tile_size * 1.0))
+	draw_rect(tv_glow, Color("#050608", 0.32))
+	draw_rect(tv_glow.grow(tile_size * 0.18), Color("#b9d1c4", 0.045 + sin(animation_time * 1.4) * 0.015))
+	var cabinet := Rect2(origin + Vector2(tile_size * 1.4, tile_size * 2.15), Vector2(tile_size * 2.6, tile_size * 0.55))
+	draw_rect(cabinet, Color("#25180f", 0.68))
+	for index in range(3):
+		draw_rect(Rect2(cabinet.position + Vector2(tile_size * (0.2 + index * 0.72), tile_size * 0.18), Vector2(tile_size * 0.48, tile_size * 0.08)), Color("#8f7040", 0.36))
+
+
+func _draw_study_dressing(origin: Vector2, tile_size: float) -> void:
+	draw_rect(Rect2(origin + Vector2(tile_size * 4.0, tile_size * 2.95), Vector2(tile_size * 2.7, tile_size * 0.38)), Color("#050608", 0.18))
+	var lamp_center := origin + Vector2(tile_size * 4.25, tile_size * 2.65)
+	draw_circle(lamp_center, tile_size * 0.52, Color("#f0d18a", 0.045 + sin(animation_time * 2.2) * 0.012))
+	draw_line(lamp_center, lamp_center + Vector2(tile_size * 0.34, tile_size * 0.34), Color("#2b1d10"), maxf(1.0, tile_size * 0.035))
+	draw_rect(Rect2(lamp_center + Vector2(tile_size * 0.24, tile_size * 0.28), Vector2(tile_size * 0.42, tile_size * 0.08)), Color("#d7b15e", 0.36))
+	draw_line(origin + Vector2(tile_size * 8.05, tile_size * 5.2), origin + Vector2(tile_size * 7.4, tile_size * 4.2), Color("#050608", 0.46), maxf(1.0, tile_size * 0.018))
+	for index in range(4):
+		draw_rect(Rect2(origin + Vector2(tile_size * (9.95 + float(index % 2) * 0.35), tile_size * (1.4 + float(index) * 0.62)), Vector2(tile_size * 0.18, tile_size * 0.06)), Color("#d8ceb0", 0.28))
+
+
+func _draw_bedroom_dressing(origin: Vector2, tile_size: float) -> void:
+	var curtain_left := Rect2(origin + Vector2(tile_size * 10.9, tile_size * 0.95), Vector2(tile_size * 0.18, tile_size * 0.9))
+	var curtain_right := Rect2(origin + Vector2(tile_size * 11.95, tile_size * 0.95), Vector2(tile_size * 0.18, tile_size * 0.9))
+	draw_rect(curtain_left, Color("#293647", 0.62))
+	draw_rect(curtain_right, Color("#293647", 0.62))
+	for index in range(3):
+		var wind := origin + Vector2(tile_size * (10.6 + float(index) * 0.52), tile_size * (1.95 + float(index % 2) * 0.22))
+		draw_line(wind, wind + Vector2(tile_size * 0.42, -tile_size * 0.08), Color("#d8ceb0", 0.16), maxf(1.0, tile_size * 0.014))
+	var desk_pool := Rect2(origin + Vector2(tile_size * 6.75, tile_size * 2.2), Vector2(tile_size * 2.3, tile_size * 1.2))
+	draw_rect(desk_pool, Color("#f0d18a", 0.035 + sin(animation_time * 1.6) * 0.01))
+	for index in range(8):
+		var speck := origin + Vector2(tile_size * (11.7 + sin(float(index)) * 0.55), tile_size * (4.0 + cos(float(index) * 1.7) * 0.48))
+		draw_rect(Rect2(speck, Vector2(tile_size * 0.05, tile_size * 0.05)), Color("#050608", 0.52))
 
 
 func _draw_tile_noise(top_left: Vector2, tile_size: float, color: Color) -> void:
@@ -510,22 +699,20 @@ func _draw_visual_prop_focus(prop: Dictionary, origin: Vector2, tile_size: float
 	if str(prop.get("kind", "")) == "pen":
 		base_color = GameThemeScript.COLORS.danger
 	var pulse := 0.5 + sin(animation_time * 3.2 + center_tile.x + center_tile.y) * 0.5
-	var alpha := (0.16 + pulse * 0.08) if not nearby else (0.32 + pulse * 0.16)
+	var alpha := (0.12 + pulse * 0.08) if not nearby else (0.26 + pulse * 0.18)
 	var focus_color := Color(base_color.r, base_color.g, base_color.b, alpha)
-	var focus_rect := rect.grow(tile_size * (0.06 if not nearby else 0.1))
-	var width := maxf(1.0, tile_size * (0.024 if not nearby else 0.038))
-	var corner := tile_size * 0.22
-	draw_rect(focus_rect, focus_color, false, width)
-	draw_line(focus_rect.position, focus_rect.position + Vector2(corner, 0), focus_color, width)
-	draw_line(focus_rect.position, focus_rect.position + Vector2(0, corner), focus_color, width)
-	draw_line(Vector2(focus_rect.end.x, focus_rect.position.y), Vector2(focus_rect.end.x - corner, focus_rect.position.y), focus_color, width)
-	draw_line(Vector2(focus_rect.end.x, focus_rect.position.y), Vector2(focus_rect.end.x, focus_rect.position.y + corner), focus_color, width)
-	draw_line(Vector2(focus_rect.position.x, focus_rect.end.y), Vector2(focus_rect.position.x + corner, focus_rect.end.y), focus_color, width)
-	draw_line(Vector2(focus_rect.position.x, focus_rect.end.y), Vector2(focus_rect.position.x, focus_rect.end.y - corner), focus_color, width)
-	draw_line(focus_rect.end, focus_rect.end - Vector2(corner, 0), focus_color, width)
-	draw_line(focus_rect.end, focus_rect.end - Vector2(0, corner), focus_color, width)
+	var center := rect.get_center()
+	var radius := tile_size * (0.42 if nearby else 0.28)
+	draw_circle(center, radius, Color(base_color.r, base_color.g, base_color.b, alpha * 0.22))
+	draw_circle(center, radius * 0.18, Color(base_color.r, base_color.g, base_color.b, alpha))
+	var glint_width := maxf(1.0, tile_size * 0.018)
+	for index in range(4):
+		var angle := animation_time * 0.8 + float(index) * 1.57
+		var inner := center + Vector2(cos(angle), sin(angle)) * radius * 0.62
+		var outer := center + Vector2(cos(angle), sin(angle)) * radius
+		draw_line(inner, outer, focus_color, glint_width)
 	if nearby:
-		var marker_center := Vector2(focus_rect.get_center().x, focus_rect.position.y - tile_size * 0.16)
+		var marker_center := Vector2(center.x, rect.position.y - tile_size * 0.16)
 		var marker := PackedVector2Array([
 			marker_center + Vector2(0, -tile_size * 0.12),
 			marker_center + Vector2(tile_size * 0.12, 0),

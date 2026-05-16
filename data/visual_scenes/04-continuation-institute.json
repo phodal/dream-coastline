@@ -1,80 +1,382 @@
 {
-  "id": "04-continuation-institute",
-  "tile_size": 32,
-  "locations": {
-    "institute": {
-      "terrain": "institute",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "wensu", "x": 4, "y": 3, "item": "members", "solid": true},
-        {"kind": "record", "x": 8, "y": 3, "item": "charter", "solid": true},
-        {"kind": "rune", "x": 5, "y": 2, "label": "建设续文院", "action": {"verb": "build", "arg": "institute"}, "solid": true},
-        {"kind": "rune", "x": 9, "y": 2, "label": "发布标准字典", "action": {"verb": "build", "arg": "dictionary"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "workshop"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "school"},
-        {"kind": "exit", "x": 13, "y": 6, "exit": "mine"}
-      ]
-    },
-    "school": {
-      "terrain": "academy",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "student", "x": 4, "y": 3, "item": "class", "solid": true},
-        {"kind": "record", "x": 7, "y": 3, "item": "mistake", "solid": true},
-        {"kind": "rune", "x": 9, "y": 3, "label": "建设公开学塾", "action": {"verb": "build", "arg": "school"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "institute"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "workshop"},
-        {"kind": "exit", "x": 13, "y": 6, "exit": "tower"}
-      ]
-    },
-    "workshop": {
-      "terrain": "workshop",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "villager", "x": 4, "y": 3, "item": "atang", "solid": true},
-        {"kind": "city_fire", "x": 7, "y": 3, "item": "flood", "solid": true},
-        {"kind": "rune", "x": 9, "y": 3, "label": "建立工坊流程", "action": {"verb": "build", "arg": "workflow"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "institute"},
-        {"kind": "exit", "x": 1, "y": 6, "exit": "school"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "mine"}
-      ]
-    },
-    "mine": {
-      "terrain": "mine",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "gate", "x": 4, "y": 3, "item": "hazard", "solid": true},
-        {"kind": "rune", "x": 6, "y": 3, "label": "写：止", "action": {"verb": "cast", "arg": "stop"}, "solid": true},
-        {"kind": "rune", "x": 8, "y": 3, "label": "建设矿场安全流程", "action": {"verb": "build", "arg": "safety"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "institute"},
-        {"kind": "exit", "x": 1, "y": 6, "exit": "workshop"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "tower"}
-      ]
-    },
-    "tower": {
-      "terrain": "node",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "node", "x": 5, "y": 3, "item": "array", "solid": true},
-        {"kind": "rune", "x": 8, "y": 3, "label": "修复通信塔", "action": {"verb": "build", "arg": "comms"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "school"},
-        {"kind": "exit", "x": 1, "y": 6, "exit": "mine"},
-        {"kind": "exit", "x": 13, "y": 4, "exit": "seal_tower"}
-      ]
-    },
-    "seal_tower": {
-      "terrain": "node",
-      "spawn": {"x": 7, "y": 6},
-      "props": [
-        {"kind": "student", "x": 4, "y": 3, "item": "students", "solid": true},
-        {"kind": "record", "x": 7, "y": 3, "item": "dictionary", "solid": true},
-        {"kind": "rune", "x": 9, "y": 3, "label": "保护学生和字典", "action": {"verb": "build", "arg": "protect"}, "solid": true},
-        {"kind": "rune", "x": 6, "y": 5, "label": "写：名", "action": {"verb": "write", "arg": ""}, "solid": true},
-        {"kind": "rune", "x": 7, "y": 5, "label": "写：止", "action": {"verb": "cast", "arg": "stop"}, "solid": true},
-        {"kind": "enemy", "x": 11, "y": 4, "label": "攻击封字塔", "action": {"verb": "attack", "arg": ""}, "solid": true},
-        {"kind": "rune", "x": 8, "y": 5, "label": "建设公共档案塔", "action": {"verb": "build", "arg": "archive"}, "solid": true},
-        {"kind": "exit", "x": 1, "y": 4, "exit": "tower"}
-      ]
-    }
-  }
+	"id": "04-continuation-institute",
+	"locations": {
+		"institute": {
+			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/institute.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "members",
+					"kind": "wensu",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "charter",
+					"kind": "record",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "institute",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "建设续文院",
+					"solid": true,
+					"x": 5.0,
+					"y": 2.0
+				},
+				{
+					"action": {
+						"arg": "dictionary",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "发布标准字典",
+					"solid": true,
+					"x": 9.0,
+					"y": 2.0
+				},
+				{
+					"exit": "workshop",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "school",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				},
+				{
+					"exit": "mine",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 6.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "institute",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "modern_interior"
+		},
+		"mine": {
+			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/mine.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "hazard",
+					"kind": "gate",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "stop",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：止",
+					"solid": true,
+					"x": 6.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "safety",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "建设矿场安全流程",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"exit": "institute",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "workshop",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 6.0
+				},
+				{
+					"exit": "tower",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "mine",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "mine"
+		},
+		"school": {
+			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/school.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "class",
+					"kind": "student",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "mistake",
+					"kind": "record",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "school",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "建设公开学塾",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"exit": "institute",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "workshop",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				},
+				{
+					"exit": "tower",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 6.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "academy",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "academy"
+		},
+		"seal_tower": {
+			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/seal_tower.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "students",
+					"kind": "student",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "dictionary",
+					"kind": "record",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "protect",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "保护学生和字典",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "write"
+					},
+					"kind": "rune",
+					"label": "写：名",
+					"solid": true,
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
+					"action": {
+						"arg": "stop",
+						"verb": "cast"
+					},
+					"kind": "rune",
+					"label": "写：止",
+					"solid": true,
+					"x": 7.0,
+					"y": 5.0
+				},
+				{
+					"action": {
+						"arg": "",
+						"verb": "attack"
+					},
+					"kind": "enemy",
+					"label": "攻击封字塔",
+					"solid": true,
+					"x": 11.0,
+					"y": 4.0
+				},
+				{
+					"action": {
+						"arg": "archive",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "建设公共档案塔",
+					"solid": true,
+					"x": 8.0,
+					"y": 5.0
+				},
+				{
+					"exit": "tower",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "node",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "node"
+		},
+		"tower": {
+			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/tower.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "array",
+					"kind": "node",
+					"solid": true,
+					"x": 5.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "comms",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "修复通信塔",
+					"solid": true,
+					"x": 8.0,
+					"y": 3.0
+				},
+				{
+					"exit": "school",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "mine",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 6.0
+				},
+				{
+					"exit": "seal_tower",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "node",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "node"
+		},
+		"workshop": {
+			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/workshop.tscn",
+			"asset_status": "framework_placeholder",
+			"props": [
+				{
+					"item": "atang",
+					"kind": "villager",
+					"solid": true,
+					"x": 4.0,
+					"y": 3.0
+				},
+				{
+					"item": "flood",
+					"kind": "city_fire",
+					"solid": true,
+					"x": 7.0,
+					"y": 3.0
+				},
+				{
+					"action": {
+						"arg": "workflow",
+						"verb": "build"
+					},
+					"kind": "rune",
+					"label": "建立工坊流程",
+					"solid": true,
+					"x": 9.0,
+					"y": 3.0
+				},
+				{
+					"exit": "institute",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 4.0
+				},
+				{
+					"exit": "school",
+					"kind": "exit",
+					"x": 1.0,
+					"y": 6.0
+				},
+				{
+					"exit": "mine",
+					"kind": "exit",
+					"x": 13.0,
+					"y": 4.0
+				}
+			],
+			"spawn": {
+				"x": 7.0,
+				"y": 6.0
+			},
+			"terrain": "workshop",
+			"tileset_id": "dream_scene_tiles",
+			"visual_family": "workshop"
+		}
+	},
+	"tile_size": 32.0
 }
