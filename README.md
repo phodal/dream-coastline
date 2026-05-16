@@ -90,6 +90,17 @@ Validate the project can load:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit
 ```
 
+Run the tiered automated test gates:
+
+```sh
+python3 tools/run_automated_tests.py --tier quick
+python3 tools/run_automated_tests.py --tier headless
+python3 tools/run_automated_tests.py --tier visual
+```
+
+The test strategy and tier definitions live in
+`docs/automated-testing.md`.
+
 Validate the Godot scene runner can complete every implemented scene:
 
 ```sh

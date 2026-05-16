@@ -242,17 +242,17 @@
         },
         "parents_record": {
           "name": "父母最终记录",
-          "time_seconds": 140,
+          "time_seconds": 190,
           "requires": ["modern_node_stable"],
           "flags": ["read_parent_final_record"],
-          "text": "父母记录解释了最后一晚：他们不是消失在家中，而是在把现代信标接到墨颀能找到的坐标上。"
+          "text": "父母记录不是完整影像，只拼出母亲的手、父亲的眼镜和一段延迟十几年的呼吸。母亲说：如果你听见这段，不要先来找我们。父亲接上：先让城市被看见。纪子轩想回答自己已经长大了，录音却在这时停顿，像真的听见了一样，补了一句：我们知道。"
         },
         "failed_bridge_test": {
           "name": "失败的归桥测试",
-          "time_seconds": 120,
+          "time_seconds": 150,
           "requires": ["modern_node_stable", "learned_star", "learned_return", "learned_continue"],
           "flags": ["survived_failed_bridge_test"],
-          "text": "第一次归桥同步失败，实验室墙面短暂变成空白。夏离稳住主国书，纪子轩把错误写进下一版方案。"
+          "text": "第一次归桥同步失败，实验室墙面短暂变成空白。父母的半张影像差点被擦掉，夏离用主国书压住删除，纪子轩把失败日志写在记录旁边：我不会再把他们当成答案，我要把他们也救回来。"
         }
       },
       "build_actions": {
@@ -264,11 +264,11 @@
           "text": "现代节点稳定。墨颀文字不再像异物，而像一层能被现代设备读取的协议。"
         },
         "bridge": {
-          "time_seconds": 120,
+          "time_seconds": 150,
           "requires": ["modern_node_stable", "learned_star", "learned_return", "learned_continue"],
           "flags": ["bridge_stable"],
           "metrics": {"bridge_sync": 70},
-          "text": "归桥稳定。墨颀星象塔和现代节点完成双向同步。"
+          "text": "归桥稳定。墨颀星象塔和现代节点完成双向同步，实验室玻璃上短暂映出父母的轮廓。他们没有跨过来，只隔着桥指向窗外重新亮起的街区。纪子轩终于明白：这不是重逢的终点，是把路修到还能继续找他们。"
         }
       }
     },

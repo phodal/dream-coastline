@@ -28,3 +28,4 @@
 - 整体连贯性 review 要查“首次登场/已被打败”这种跨幕矛盾，也要查选择是否只在 canonical walkthrough 里可通关；必要时用共同 flag 防止非 canonical 选择死路。
 - 改剧情分支或跨幕前史后跑 `python3 tools/validate_story_continuity.py --verbose`；普通 smoke 不会发现“选择有文本但没后果”或“上一幕结尾没继承”。
 - 改跨幕分支 carryover 时要同步 `scripts/core/game_session.gd` 和 `src/game_session.rs`，并跑 `--smoke-rpg-progression`；否则 Godot 当前 Rust 主流程不会体现 GDScript 参考修复。
+- 改剧情连续性或 flag 命名后要同步 scene RPG smoke 和 `data/visual_scenes` 交互点；否则 headless gate 会停在旧 flag 或旧视觉标签上。

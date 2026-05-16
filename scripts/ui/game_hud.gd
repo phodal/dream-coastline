@@ -330,11 +330,47 @@ func _objective_text(session) -> String:
 		if session.has_flag("checked_unlocked_door"):
 			return "目标：确认家里发生了什么"
 		return "目标：回家，确认灯为什么没亮"
-	if session.scene_id != "01-illiterate":
-		return ""
-	if session.has_flag("learned_name_strokes") or session.has_flag("named_beast") or session.has_flag("defeated_nameless"):
-		return "目标：记住它的名，然后活下去"
-	return "目标：□□□"
+	if session.scene_id == "01-illiterate":
+		if session.has_flag("learned_name_strokes") or session.has_flag("named_beast") or session.has_flag("defeated_nameless"):
+			return "目标：记住它的名，然后活下去"
+		return "目标：□□□"
+	if session.scene_id == "04-continuation-institute":
+		return _continuation_objective_text(session)
+	if session.scene_id == "06-return-star-plan":
+		return _return_star_objective_text(session)
+	return ""
+
+
+func _continuation_objective_text(session) -> String:
+	if not session.has_flag("founded_institute"):
+		if session.has_flag("chose_royal_books"):
+			return "目标：拆王族保管，公开复核"
+		if session.has_flag("chose_engineer_books"):
+			return "目标：工程优先，补字根课"
+		if session.has_flag("chose_parent_books"):
+			return "目标：父母线索转公共索引"
+		return "目标：公开藏书建成字典"
+	if not session.has_flag("published_standard_dictionary"):
+		return "目标：把路线写进公共字典"
+	if not session.has_flag("archive_tower_built"):
+		return "目标：保护学生与字典"
+	return "目标：进入百年续页"
+
+
+func _return_star_objective_text(session) -> String:
+	if not session.has_flag("won_return_star_council"):
+		if session.has_flag("chose_royal_books"):
+			return "目标：证明不是王族远征"
+		if session.has_flag("chose_engineer_books"):
+			return "目标：工程方案接受授权"
+		if session.has_flag("chose_parent_books"):
+			return "目标：私事交给公共审判"
+		return "目标：用公开证据争取授权"
+	if not session.has_flag("built_return_vessel"):
+		return "目标：建成续页舰"
+	if not session.has_flag("opened_return_gate"):
+		return "目标：绑定备份并开启星门"
+	return "目标：带墨颀回到现代"
 
 
 func _display_location_name(session, location: Dictionary) -> String:

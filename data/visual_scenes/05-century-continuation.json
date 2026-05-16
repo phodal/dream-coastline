@@ -168,6 +168,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "silent_frame",
+					"kind": "record",
+					"solid": true,
+					"x": 5.0,
+					"y": 3.0
+				},
+				{
 					"action": {
 						"arg": "",
 						"verb": "write"
@@ -195,7 +202,7 @@
 						"verb": "attack"
 					},
 					"kind": "enemy",
-					"label": "攻击静默探针",
+					"label": "攻击静默干扰",
 					"solid": true,
 					"x": 11.0,
 					"y": 4.0

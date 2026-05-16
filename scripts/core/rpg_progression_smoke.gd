@@ -1,6 +1,8 @@
 class_name RpgProgressionSmoke
 extends RefCounted
 
+const GameHudScript := preload("res://scripts/ui/game_hud.gd")
+
 var session
 var failures: Array[String] = []
 
@@ -164,6 +166,14 @@ func _expect_text_contains(source: String, text: String) -> void:
 		failures.append("expected text containing %s, got %s" % [text, source])
 
 
+func _expect_objective_contains(text: String) -> void:
+	var hud = GameHudScript.new()
+	var objective: String = hud._objective_text(session)
+	hud.free()
+	if not objective.contains(text):
+		failures.append("expected objective containing %s, got %s" % [text, objective])
+
+
 func _expect_encounter_action(encounter_id: String) -> void:
 	for group in session.action_groups():
 		for action in group.get("actions", []):
@@ -200,12 +210,14 @@ func _run_branch_carryover_case() -> void:
 	_expect_metric("engineering", 14)
 	_expect_metric("energy", 14)
 	_expect_metric("literacy", 9)
+	_expect_objective_contains("工程优先")
 	_act("inspect", "members")
 	_expect_log_contains("工匠占满前排")
 
 	session.load_scene(6)
 	_expect_flag("chose_engineer_books")
 	_expect_metric("support", 2)
+	_expect_objective_contains("工程方案")
 	_act("go", "council")
 	_act("inspect", "supporters")
 	_expect_log_contains("工坊代表")

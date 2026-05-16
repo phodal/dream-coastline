@@ -116,17 +116,17 @@
         },
         "xiali_fading": {
           "name": "夏离逐渐国书化",
-          "time_seconds": 130,
+          "time_seconds": 170,
           "requires": ["xiali_accepts_cost"],
           "flags": ["saw_xiali_fading"],
-          "text": "夏离的影子在不同城市的国书节点里同时出现。他还会笑，但每一次说话都像从很远的纸页里传来。"
+          "text": "夏离的影子在三个城市的国书节点里同时出现。北境节点请他批准防灾流程，南港节点请他确认字典版本，旧书院节点却还停着他半句玩笑。他先回答公文，才想起纪子轩站在面前：我刚才是不是又把你当成节点了？"
         },
         "private_anchor": {
           "name": "夏离的私人锚点",
-          "time_seconds": 120,
+          "time_seconds": 160,
           "requires": ["saw_xiali_fading"],
           "flags": ["kept_xiali_private_anchor"],
-          "text": "纪子轩把旧讲堂的一把椅子编号给夏离留着。夏离说：如果有一天我忘了自己坐在哪里，你就从这里叫我。"
+          "text": "纪子轩把旧讲堂的一把椅子编号给夏离留着，旁边贴着他们第一次争吵的日期。夏离看了很久，才低声说：国书会记住我的职责，但这把椅子记住我曾经不想负责。若有一天我只会回答墨颀，就从这里叫我。"
         },
         "engineers": {
           "name": "新一代工程师",
@@ -144,11 +144,11 @@
       },
       "build_actions": {
         "bind_xiali": {
-          "time_seconds": 90,
+          "time_seconds": 120,
           "requires": ["xiali_accepts_cost", "built_text_industry"],
           "flags": ["bound_xiali_to_statebook"],
           "metrics": {"stability": 18, "trust": 10},
-          "text": "夏离把名字绑定进国书。他能继续见证墨颀，但越来越像文明记忆本身。"
+          "text": "夏离把名字绑定进国书。仪式完成时，所有节点同时亮起他的名字，又同时把名字拆成权限、职责和备份。纪子轩第一次听见夏离用复数说自己：我们会继续看着墨颀。夏离停了一下，补回一句：我也会。"
         },
         "network": {
           "time_seconds": 110,

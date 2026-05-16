@@ -67,6 +67,7 @@ def run_capture(args: argparse.Namespace) -> int:
     output = args.output.expanduser()
     if not output.is_absolute():
         output = ROOT / output
+    clean_previous_capture(output)
 
     command = [
         str(args.godot.expanduser()),
@@ -101,6 +102,18 @@ def run_capture(args: argparse.Namespace) -> int:
     write_contact_sheet(output, manifest)
     print(f"scene screenshot review: {output / 'index.html'}")
     return 0
+
+
+def clean_previous_capture(output: Path) -> None:
+    if not output.exists():
+        return
+    for pattern in ["*.png", "*.png.import"]:
+        for path in output.glob(pattern):
+            path.unlink()
+    for filename in ["manifest.json", "index.html"]:
+        path = output / filename
+        if path.exists():
+            path.unlink()
 
 
 def write_contact_sheet(output: Path, manifest: dict) -> None:
