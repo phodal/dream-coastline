@@ -411,13 +411,13 @@ impl RustRpgPlayerController {
             ],
         );
         if let Ok(d) = facing_result.try_to::<VarDictionary>() {
-            if !d.is_empty() {
+            if !d.is_empty() && self.interaction_visible(&d) {
                 return d;
             }
         }
 
         // Fallback: current tile (reuse scene_id / location_id already read above)
-        visual_repo
+        let current_result = visual_repo
             .to_variant()
             .call(
                 "interaction_at",
@@ -428,6 +428,43 @@ impl RustRpgPlayerController {
                 ],
             )
             .try_to::<VarDictionary>()
-            .unwrap_or_default()
+            .unwrap_or_default();
+        if self.interaction_visible(&current_result) {
+            current_result
+        } else {
+            VarDictionary::new()
+        }
+    }
+
+    fn interaction_visible(&self, interaction: &VarDictionary) -> bool {
+        for flag_variant in dict_value_as_array(interaction, "requires_flags").iter_shared() {
+            let flag = flag_variant.stringify().to_string();
+            if !self.session_has_flag(&flag) {
+                return false;
+            }
+        }
+        for flag_variant in dict_value_as_array(interaction, "hidden_flags").iter_shared() {
+            let flag = flag_variant.stringify().to_string();
+            if self.session_has_flag(&flag) {
+                return false;
+            }
+        }
+        true
+    }
+
+    fn session_has_flag(&self, flag: &str) -> bool {
+        if flag.is_empty() {
+            return false;
+        }
+        self.session
+            .as_ref()
+            .map(|session| {
+                session
+                    .to_variant()
+                    .call("has_flag", &[GString::from(flag).to_variant()])
+                    .try_to::<bool>()
+                    .unwrap_or(false)
+            })
+            .unwrap_or(false)
     }
 }

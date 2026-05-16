@@ -265,7 +265,7 @@
         },
         "bridge": {
           "time_seconds": 150,
-          "requires": ["modern_node_stable", "learned_star", "learned_return", "learned_continue"],
+          "requires": ["modern_node_stable", "learned_star", "learned_return", "learned_continue", "read_parent_final_record", "survived_failed_bridge_test"],
           "flags": ["bridge_stable"],
           "metrics": {"bridge_sync": 70},
           "text": "归桥稳定。墨颀星象塔和现代节点完成双向同步，实验室玻璃上短暂映出父母的轮廓。他们没有跨过来，只隔着桥指向窗外重新亮起的街区。纪子轩终于明白：这不是重逢的终点，是把路修到还能继续找他们。"

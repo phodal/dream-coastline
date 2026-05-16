@@ -26,3 +26,12 @@
 - 归桥稳定时父母只短暂映在玻璃上，指向重新亮起的城市；这不是重逢终点，而是把继续寻找他们的路修出来。
 
 这样结尾的情感顺序变成：先救城市，再修桥，再继续找父母。
+
+## 可玩流程补丁
+
+这轮把上一轮文字 payoff 接进键盘 RPG 流程：
+
+- `bind_xiali` 必须先完成 `xiali_fading` 和 `private_anchor`，否则不能直接把夏离绑定进国书。
+- `network` 必须先确认 `remote_classrooms`，让国书网络不只是宏观工程，也有边境孩子的可见使用场景。
+- `bridge` 必须先读取 `parents_record` 并经历 `failed_bridge_test`，避免玩家跳过父母的延迟回应和第一次失败。
+- `data/visual_scenes/05-century-continuation.json` 与 `07-lights-on-again.json` 已补对应可交互点；`--smoke-rpg-century-continuation` 和 `--smoke-rpg-lights-on-again` 覆盖这些节点。

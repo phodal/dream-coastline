@@ -3,7 +3,8 @@ extends RefCounted
 
 const STYLE_SUNLIT_MMO := "sunlit_mmo"
 const STYLE_CLASSIC_DARK := "classic_dark"
-const STYLE_ORDER := [STYLE_SUNLIT_MMO, STYLE_CLASSIC_DARK]
+const DEFAULT_STYLE := STYLE_CLASSIC_DARK
+const STYLE_ORDER := [STYLE_CLASSIC_DARK, STYLE_SUNLIT_MMO]
 const PANEL_TEXTURE_PATH := "res://assets/ui/pixel_panel_9patch.png"
 
 const STYLE_LABELS := {
@@ -58,14 +59,14 @@ const STYLE_PROFILES := {
 	},
 }
 
-static var current_style := STYLE_SUNLIT_MMO
-static var COLORS := STYLE_PROFILES[STYLE_SUNLIT_MMO].duplicate(true)
+static var current_style := DEFAULT_STYLE
+static var COLORS := STYLE_PROFILES[DEFAULT_STYLE].duplicate(true)
 
 
 static func normalize_visual_style(value: String) -> String:
 	if STYLE_PROFILES.has(value):
 		return value
-	return STYLE_SUNLIT_MMO
+	return DEFAULT_STYLE
 
 
 static func set_visual_style(value: String) -> void:
@@ -86,7 +87,7 @@ static func next_visual_style(value: String = "") -> String:
 	var style := normalize_visual_style(current_style if value.is_empty() else value)
 	var index := STYLE_ORDER.find(style)
 	if index < 0:
-		return STYLE_SUNLIT_MMO
+		return DEFAULT_STYLE
 	return str(STYLE_ORDER[(index + 1) % STYLE_ORDER.size()])
 
 
@@ -129,6 +130,29 @@ static func style_dialogue_panel(panel: PanelContainer) -> void:
 	)
 
 
+static func style_compact_dialogue_panel(panel: PanelContainer) -> void:
+	panel.add_theme_stylebox_override(
+		"panel",
+		_make_pixel_box(COLORS.dialogue_panel, COLORS.border_light, COLORS.border_shadow, 14, 10, 14, 10, 2)
+	)
+
+
+static func make_status_chip(chip_name: String, text: String, color: Color = Color.TRANSPARENT) -> PanelContainer:
+	var panel := PanelContainer.new()
+	panel.name = chip_name
+	var chip_color := Color(COLORS.panel_deep.r, COLORS.panel_deep.g, COLORS.panel_deep.b, 0.72)
+	panel.add_theme_stylebox_override(
+		"panel",
+		_make_pixel_box(chip_color, COLORS.border_shadow, Color("#000000", 0.55), 8, 4, 8, 4, 1)
+	)
+	var label := make_label("%sLabel" % chip_name, 12, COLORS.cyan if color == Color.TRANSPARENT else color)
+	label.text = text
+	label.clip_text = true
+	label.custom_minimum_size = Vector2(92, 18)
+	panel.add_child(label)
+	return panel
+
+
 static func make_label(label_name: String, font_size: int, color: Color = Color.TRANSPARENT) -> Label:
 	var label := Label.new()
 	label.name = label_name
@@ -153,9 +177,8 @@ static func make_command_button(button_name: String, text: String) -> Button:
 
 
 static func style_command_button(button: Button, text: String) -> void:
-	var idle_text := "  %s" % text
-	var focus_text := "> %s" % text
-	button.text = idle_text
+	button.set_meta("command_text", text)
+	_sync_command_button_label(button, button.has_focus())
 	button.focus_mode = Control.FOCUS_ALL
 	button.custom_minimum_size = Vector2(270, 40)
 	button.add_theme_font_size_override("font_size", 16)
@@ -194,11 +217,21 @@ static func style_command_button(button: Button, text: String) -> void:
 		)
 	)
 	button.focus_entered.connect(func() -> void:
-		button.text = focus_text
+		_sync_command_button_label(button, true)
 	)
 	button.focus_exited.connect(func() -> void:
-		button.text = idle_text
+		_sync_command_button_label(button, false)
 	)
+
+
+static func set_command_button_text(button: Button, text: String) -> void:
+	button.set_meta("command_text", text)
+	_sync_command_button_label(button, button.has_focus())
+
+
+static func _sync_command_button_label(button: Button, focused: bool) -> void:
+	var marker := "> " if focused else "  "
+	button.text = "%s%s" % [marker, str(button.get_meta("command_text", ""))]
 
 
 static func _make_pixel_box(
@@ -213,7 +246,7 @@ static func _make_pixel_box(
 ) -> StyleBox:
 	if ResourceLoader.exists(PANEL_TEXTURE_PATH):
 		var texture_resource: Resource = load(PANEL_TEXTURE_PATH)
-		if texture_resource is Texture2D:
+		if texture_resource is Texture2D and current_style == STYLE_SUNLIT_MMO:
 			var texture_style := StyleBoxTexture.new()
 			texture_style.texture = texture_resource as Texture2D
 			texture_style.texture_margin_left = 6

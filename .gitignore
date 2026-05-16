@@ -17,6 +17,8 @@ tools/godot-mcp/
 assets/opengameart/spells/Pixelart Spells/
 builds/
 artifacts/scene-screenshots/
+artifacts/ui-screenshots/
+artifacts/playtest-*/
 *.gd.uid
 *.gdextension.uid
 .zig-cache/

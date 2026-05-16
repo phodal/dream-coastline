@@ -59,6 +59,29 @@
 					"y": 3.0
 				},
 				{
+					"item": "parents_record",
+					"kind": "parent_echo",
+					"overlay": true,
+					"requires_flags": [
+						"modern_node_stable"
+					],
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
+					"item": "failed_bridge_test",
+					"kind": "bridge_static",
+					"overlay": true,
+					"requires_flags": [
+						"modern_node_stable",
+						"learned_star",
+						"learned_return",
+						"learned_continue"
+					],
+					"x": 8.0,
+					"y": 5.0
+				},
+				{
 					"action": {
 						"arg": "modern_node",
 						"verb": "build"

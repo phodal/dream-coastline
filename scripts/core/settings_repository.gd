@@ -5,7 +5,7 @@ const SETTINGS_PATH := "user://dream_coastline_settings.json"
 
 var fullscreen := false
 var master_volume := 0.8
-var _visual_style := "sunlit_mmo"
+var _visual_style := "classic_dark"
 
 
 func load() -> void:
@@ -16,7 +16,7 @@ func load() -> void:
 		return
 	fullscreen = bool(parsed.get("fullscreen", false))
 	master_volume = clampf(float(parsed.get("master_volume", 0.8)), 0.0, 1.0)
-	_visual_style = _normalize_visual_style(str(parsed.get("visual_style", "sunlit_mmo")))
+	_visual_style = _normalize_visual_style(str(parsed.get("visual_style", "classic_dark")))
 
 
 func save() -> void:
@@ -52,4 +52,6 @@ func set_visual_style(value: String) -> void:
 func _normalize_visual_style(value: String) -> String:
 	if value == "classic_dark":
 		return "classic_dark"
-	return "sunlit_mmo"
+	if value == "sunlit_mmo":
+		return "sunlit_mmo"
+	return "classic_dark"

@@ -107,6 +107,26 @@
 					"y": 3.0
 				},
 				{
+					"item": "xiali_fading",
+					"kind": "xiali_echo",
+					"overlay": true,
+					"requires_flags": [
+						"xiali_accepts_cost"
+					],
+					"x": 4.0,
+					"y": 5.0
+				},
+				{
+					"item": "private_anchor",
+					"kind": "private_anchor",
+					"overlay": true,
+					"requires_flags": [
+						"saw_xiali_fading"
+					],
+					"x": 5.0,
+					"y": 5.0
+				},
+				{
 					"action": {
 						"arg": "bind_xiali",
 						"verb": "build"
@@ -123,6 +143,16 @@
 					"solid": true,
 					"x": 8.0,
 					"y": 3.0
+				},
+				{
+					"item": "remote_classrooms",
+					"kind": "remote_classroom",
+					"overlay": true,
+					"requires_flags": [
+						"new_engineers_ready"
+					],
+					"x": 8.0,
+					"y": 5.0
 				},
 				{
 					"action": {

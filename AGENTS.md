@@ -25,7 +25,13 @@
 - 改生成 tilesheet 后要跑一次 Godot editor import 再截图；否则运行时可能还读旧 `.godot/imported` 缓存，截图会误判为生成器没生效。
 - 剧本时长 gate 不能长期都写 `min_minutes: 5.0`；它只会证明 smoke 够跑，不会暴露“七幕梗概感”，需要按每幕目标调高并补失败、停顿、证据和角色转折。
 - 批量重生成 `scenes/visual_locations` 会重写 Godot `unique_id`；提交前先过滤只含 `unique_id` 的 `.tscn` 噪声，只保留 `tile_map_data` 等真实视觉变更。
+- UI 主题不能只改 `COLORS`；如果 NinePatch 贴图本身带强色相，暗色主题仍会被贴图染色，截图验收前要确认面板贴图/StyleBox 跟随当前风格。
+- 标题/暂停/设置不要做成脱离游戏世界的纯功能弹窗；优先让 `SpriteSceneCanvas` 作为背景，再加 menu backdrop 和像素面板保持场景氛围。
 - 整体连贯性 review 要查“首次登场/已被打败”这种跨幕矛盾，也要查选择是否只在 canonical walkthrough 里可通关；必要时用共同 flag 防止非 canonical 选择死路。
 - 改剧情分支或跨幕前史后跑 `python3 tools/validate_story_continuity.py --verbose`；普通 smoke 不会发现“选择有文本但没后果”或“上一幕结尾没继承”。
 - 改跨幕分支 carryover 时要同步 `scripts/core/game_session.gd` 和 `src/game_session.rs`，并跑 `--smoke-rpg-progression`；否则 Godot 当前 Rust 主流程不会体现 GDScript 参考修复。
 - 改剧情连续性或 flag 命名后要同步 scene RPG smoke 和 `data/visual_scenes` 交互点；否则 headless gate 会停在旧 flag 或旧视觉标签上。
+- 补角色 payoff 的 inspect 节点后，不能只更新 walkthrough；关键 build/ending 要要求对应 flag，`data/visual_scenes` 也要有可交互点，否则键盘 RPG 仍能跳过情感转折。
+- 试玩输入问题不能只靠 `_unhandled_input`；隐藏菜单焦点可能吞掉真实窗口按键，gameplay 键要走 `_input` 并在退出菜单时释放 focus，再用 menu smoke 模拟移动验证。
+- Computer Use 看到 Godot 窗口不代表键鼠已经送进游戏；如果点击只出现 hover、按键无效，先显式激活 Godot，再复测标题页进入、移动、交互和暂停恢复。
+- 菜单按钮如果同时支持 Godot GUI 焦点和根节点兜底输入，`focus_entered` 要同步 selected index，并给 Enter/Space 加原始 keycode 兜底；否则保存后返回标题可能选中了“继续”却无法触发读取。

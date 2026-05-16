@@ -213,6 +213,8 @@ func _draw_asset_scene_tone(origin: Vector2, map_size: Vector2, tile_size: float
 		for prop in visual.get("props", []):
 			if typeof(prop) != TYPE_DICTIONARY:
 				continue
+			if not _prop_visible_for_session(prop):
+				continue
 			_draw_asset_prop_light(prop, origin, tile_size)
 		return
 	if _visual_mood(visual) == "sunlit":
@@ -244,6 +246,8 @@ func _draw_asset_scene_tone(origin: Vector2, map_size: Vector2, tile_size: float
 	for prop in visual.get("props", []):
 		if typeof(prop) != TYPE_DICTIONARY:
 			continue
+		if not _prop_visible_for_session(prop):
+			continue
 		_draw_asset_prop_light(prop, origin, tile_size)
 
 
@@ -273,10 +277,20 @@ func _draw_asset_prop_light(prop: Dictionary, origin: Vector2, tile_size: float)
 
 func _draw_location_asset_overlays(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
 	for prop in visual.get("props", []):
-		if typeof(prop) == TYPE_DICTIONARY:
-			_draw_visual_prop_focus(prop, origin, tile_size)
+		if typeof(prop) != TYPE_DICTIONARY:
+			continue
+		if not _prop_visible_for_session(prop):
+			continue
+		_draw_asset_overlay_prop(prop, origin, tile_size)
+		_draw_visual_prop_focus(prop, origin, tile_size)
 	if session.has_flag(str(session.scene.get("ending_flag", ""))):
 		_draw_magic_orb(Rect2(origin + Vector2(12, 4) * tile_size, Vector2(tile_size, tile_size)))
+
+
+func _draw_asset_overlay_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> void:
+	if not bool(prop.get("overlay", false)):
+		return
+	_draw_visual_prop(prop, origin, tile_size)
 
 
 func _draw_scene_backdrop(canvas_size: Vector2, origin: Vector2, map_size: Vector2, tile_size: float, visual: Dictionary) -> void:
@@ -708,6 +722,8 @@ func _draw_location_objects(origin: Vector2, tile_size: float, visual: Dictionar
 		if _is_illiterate_station():
 			_draw_station_blankening(origin, tile_size)
 		for prop in visual.get("props", []):
+			if not _prop_visible_for_session(prop):
+				continue
 			_draw_visual_prop(prop, origin, tile_size)
 			_draw_visual_prop_focus(prop, origin, tile_size)
 		if session.has_flag(str(session.scene.get("ending_flag", ""))):
@@ -808,15 +824,27 @@ func _draw_visual_prop_focus(prop: Dictionary, origin: Vector2, tile_size: float
 	var rect := Rect2(origin + prop_tile * tile_size, prop_size * tile_size)
 	var center_tile := prop_tile + prop_size * 0.5
 	var distance := absf(player_tile.x - center_tile.x) + absf(player_tile.y - center_tile.y)
-	var nearby := distance <= 1.65
+	var active := _is_active_interaction_prop(prop)
+	var nearby := active or distance <= 1.65
 	var base_color: Color = GameThemeScript.COLORS.cyan if prop.has("exit") else GameThemeScript.COLORS.gold
 	if str(prop.get("kind", "")) == "pen":
 		base_color = GameThemeScript.COLORS.danger
 	var pulse := 0.5 + sin(animation_time * 3.2 + center_tile.x + center_tile.y) * 0.5
-	var alpha := (0.12 + pulse * 0.08) if not nearby else (0.26 + pulse * 0.18)
+	var alpha := 0.12 + pulse * 0.08
+	if nearby:
+		alpha = 0.26 + pulse * 0.18
+	if active:
+		alpha = 0.42 + pulse * 0.22
 	var focus_color := Color(base_color.r, base_color.g, base_color.b, alpha)
 	var center := rect.get_center()
-	var radius := tile_size * (0.42 if nearby else 0.28)
+	var radius := tile_size * (0.58 if active else (0.42 if nearby else 0.28))
+	if active:
+		var ground := Rect2(
+			Vector2(rect.position.x + rect.size.x * 0.16, rect.position.y + rect.size.y - tile_size * 0.14),
+			Vector2(rect.size.x * 0.68, tile_size * 0.1)
+		)
+		draw_rect(ground.grow(tile_size * 0.1), Color(base_color.r, base_color.g, base_color.b, alpha * 0.18))
+		draw_rect(ground, Color(base_color.r, base_color.g, base_color.b, alpha * 0.24))
 	draw_circle(center, radius, Color(base_color.r, base_color.g, base_color.b, alpha * 0.22))
 	draw_circle(center, radius * 0.18, Color(base_color.r, base_color.g, base_color.b, alpha))
 	var glint_width := maxf(1.0, tile_size * 0.018)
@@ -835,6 +863,31 @@ func _draw_visual_prop_focus(prop: Dictionary, origin: Vector2, tile_size: float
 		])
 		draw_colored_polygon(marker, focus_color)
 		draw_colored_polygon(marker, Color("#050608", 0.28))
+		if active:
+			var small := marker_center + Vector2(0, -tile_size * 0.22)
+			var spark := PackedVector2Array([
+				small + Vector2(0, -tile_size * 0.08),
+				small + Vector2(tile_size * 0.08, 0),
+				small + Vector2(0, tile_size * 0.08),
+				small + Vector2(-tile_size * 0.08, 0),
+			])
+			draw_colored_polygon(spark, Color("#f1ead4", alpha * 0.7))
+
+
+func _is_active_interaction_prop(prop: Dictionary) -> bool:
+	if not (prop.has("item") or prop.has("exit") or prop.has("action")):
+		return false
+	var prop_x := float(prop.get("x", 0))
+	var prop_y := float(prop.get("y", 0))
+	var prop_w := maxf(1.0, float(prop.get("w", 1)))
+	var prop_h := maxf(1.0, float(prop.get("h", 1)))
+	var player_cell := Vector2i(roundi(player_tile.x), roundi(player_tile.y))
+	var facing_cell := player_cell + player_facing
+	return _prop_contains_cell(prop_x, prop_y, prop_w, prop_h, player_cell) or _prop_contains_cell(prop_x, prop_y, prop_w, prop_h, facing_cell)
+
+
+func _prop_contains_cell(prop_x: float, prop_y: float, prop_w: float, prop_h: float, cell: Vector2i) -> bool:
+	return float(cell.x) >= prop_x and float(cell.x) < prop_x + prop_w and float(cell.y) >= prop_y and float(cell.y) < prop_y + prop_h
 
 
 func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> void:
@@ -916,6 +969,18 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			_draw_xiaoyan_state(position, tile_size)
 		"xiali":
 			_draw_xiali_judgement(position, tile_size)
+		"xiali_echo":
+			_draw_xiali_echo(position, tile_size)
+		"private_anchor":
+			_draw_private_anchor(position, tile_size)
+		"remote_classroom":
+			_draw_remote_classroom(position, tile_size)
+		"parent_echo":
+			_draw_parent_echo(position, tile_size)
+		"bridge_static":
+			_draw_bridge_static(position, tile_size)
+		"route_marker":
+			_draw_route_marker(str(prop.get("route", "")), position, tile_size)
 		"enemy":
 			_draw_nameless_enemy(position, tile_size)
 		"wensu", "villager", "officer", "student":
@@ -1265,6 +1330,122 @@ func _draw_xiali_judgement(top_left: Vector2, tile_size: float) -> void:
 		Rect2(top_left + Vector2(tile_size * 0.16, tile_size * 0.82), Vector2(tile_size * 0.68, tile_size * 0.06)),
 		Color("#000000", 0.34)
 	)
+
+
+func _draw_xiali_echo(top_left: Vector2, tile_size: float) -> void:
+	var pulse := 0.6 + sin(animation_time * 2.1) * 0.18
+	var centers := [
+		top_left + Vector2(tile_size * 0.32, tile_size * 0.36),
+		top_left + Vector2(tile_size * 0.68, tile_size * 0.34),
+		top_left + Vector2(tile_size * 0.5, tile_size * 0.72),
+	]
+	for index in range(centers.size()):
+		var center: Vector2 = centers[index]
+		var alpha := 0.18 + pulse * 0.12 - float(index) * 0.025
+		draw_circle(center, tile_size * 0.18, Color("#75d9e6", alpha))
+		draw_rect(
+			Rect2(center + Vector2(-tile_size * 0.08, tile_size * 0.14), Vector2(tile_size * 0.16, tile_size * 0.22)),
+			Color("#d7f7ff", alpha * 0.9)
+		)
+	for index in range(centers.size()):
+		var next_index := (index + 1) % centers.size()
+		draw_line(centers[index], centers[next_index], Color("#75d9e6", 0.28), maxf(1.0, tile_size * 0.025))
+	draw_rect(
+		Rect2(top_left + Vector2(tile_size * 0.12, tile_size * 0.12), Vector2(tile_size * 0.76, tile_size * 0.76)),
+		Color("#75d9e6", 0.22),
+		false,
+		maxf(1.0, tile_size * 0.025)
+	)
+
+
+func _draw_private_anchor(top_left: Vector2, tile_size: float) -> void:
+	var wood := Color("#6b4a2e")
+	var light := Color("#d7b15e")
+	draw_rect(Rect2(top_left + Vector2(tile_size * 0.22, tile_size * 0.3), Vector2(tile_size * 0.46, tile_size * 0.12)), wood)
+	draw_rect(Rect2(top_left + Vector2(tile_size * 0.24, tile_size * 0.42), Vector2(tile_size * 0.42, tile_size * 0.18)), Color("#3b2b20"))
+	draw_line(top_left + Vector2(tile_size * 0.28, tile_size * 0.6), top_left + Vector2(tile_size * 0.2, tile_size * 0.86), wood, maxf(2.0, tile_size * 0.04))
+	draw_line(top_left + Vector2(tile_size * 0.62, tile_size * 0.6), top_left + Vector2(tile_size * 0.72, tile_size * 0.86), wood, maxf(2.0, tile_size * 0.04))
+	draw_rect(Rect2(top_left + Vector2(tile_size * 0.54, tile_size * 0.14), Vector2(tile_size * 0.26, tile_size * 0.18)), Color("#f0d18a"))
+	draw_rect(Rect2(top_left + Vector2(tile_size * 0.54, tile_size * 0.14), Vector2(tile_size * 0.26, tile_size * 0.18)), light, false, maxf(1.0, tile_size * 0.025))
+	draw_circle(top_left + Vector2(tile_size * 0.66, tile_size * 0.23), tile_size * 0.025, Color("#3b2b20"))
+
+
+func _draw_remote_classroom(top_left: Vector2, tile_size: float) -> void:
+	var screen := Rect2(top_left + Vector2(tile_size * 0.12, tile_size * 0.18), Vector2(tile_size * 0.76, tile_size * 0.48))
+	draw_rect(screen, Color("#102531"))
+	draw_rect(screen, Color("#75d9e6", 0.55), false, maxf(1.0, tile_size * 0.025))
+	for index in range(3):
+		var y := screen.position.y + tile_size * (0.12 + float(index) * 0.12)
+		draw_line(screen.position + Vector2(tile_size * 0.12, y - screen.position.y), screen.position + Vector2(screen.size.x - tile_size * 0.12, y - screen.position.y), Color("#d7f7ff", 0.35), maxf(1.0, tile_size * 0.015))
+	for index in range(3):
+		var x := top_left.x + tile_size * (0.26 + float(index) * 0.22)
+		draw_circle(Vector2(x, top_left.y + tile_size * 0.78), tile_size * 0.055, Color("#f0d18a"))
+		draw_rect(Rect2(Vector2(x - tile_size * 0.045, top_left.y + tile_size * 0.84), Vector2(tile_size * 0.09, tile_size * 0.08)), Color("#6b4a2e"))
+
+
+func _draw_parent_echo(top_left: Vector2, tile_size: float) -> void:
+	var panel := Rect2(top_left + Vector2(tile_size * 0.12, tile_size * 0.12), Vector2(tile_size * 0.76, tile_size * 0.76))
+	draw_rect(panel, Color("#d7f7ff", 0.1))
+	draw_rect(panel, Color("#75d9e6", 0.42), false, maxf(1.0, tile_size * 0.025))
+	draw_circle(top_left + Vector2(tile_size * 0.36, tile_size * 0.36), tile_size * 0.12, Color("#f1ead4", 0.32))
+	draw_rect(Rect2(top_left + Vector2(tile_size * 0.3, tile_size * 0.5), Vector2(tile_size * 0.18, tile_size * 0.26)), Color("#f1ead4", 0.22))
+	draw_circle(top_left + Vector2(tile_size * 0.63, tile_size * 0.34), tile_size * 0.055, Color("#f1ead4", 0.35))
+	draw_circle(top_left + Vector2(tile_size * 0.74, tile_size * 0.34), tile_size * 0.055, Color("#f1ead4", 0.35))
+	draw_line(top_left + Vector2(tile_size * 0.68, tile_size * 0.34), top_left + Vector2(tile_size * 0.69, tile_size * 0.34), Color("#f1ead4", 0.35), maxf(1.0, tile_size * 0.018))
+	for index in range(3):
+		var y := top_left.y + tile_size * (0.22 + float(index) * 0.2)
+		draw_line(top_left + Vector2(tile_size * 0.14, y - top_left.y), top_left + Vector2(tile_size * (0.34 + float(index) * 0.16), y - top_left.y), Color("#050608", 0.36), maxf(1.0, tile_size * 0.02))
+
+
+func _draw_bridge_static(top_left: Vector2, tile_size: float) -> void:
+	var panel := Rect2(top_left + Vector2(tile_size * 0.1, tile_size * 0.16), Vector2(tile_size * 0.8, tile_size * 0.62))
+	draw_rect(panel, Color("#f1ead4", 0.78))
+	draw_rect(panel, Color("#050608", 0.55), false, maxf(1.0, tile_size * 0.025))
+	for index in range(6):
+		var x := panel.position.x + tile_size * (0.08 + float(index) * 0.12)
+		var alpha := 0.22 + 0.08 * sin(animation_time * 4.0 + float(index))
+		draw_line(Vector2(x, panel.position.y), Vector2(x + tile_size * 0.12, panel.end.y), Color("#050608", alpha), maxf(1.0, tile_size * 0.018))
+	draw_circle(top_left + Vector2(tile_size * 0.36, tile_size * 0.42), tile_size * 0.11, Color("#75d9e6", 0.28))
+	draw_circle(top_left + Vector2(tile_size * 0.64, tile_size * 0.42), tile_size * 0.11, Color("#d45c55", 0.22))
+
+
+func _draw_route_marker(route: String, top_left: Vector2, tile_size: float) -> void:
+	var base := Color("#d7b15e")
+	if route == "royal":
+		base = Color("#d45c55")
+	elif route == "engineer":
+		base = Color("#75d9e6")
+	elif route == "parent":
+		base = Color("#f1ead4")
+	var rect := Rect2(top_left + Vector2(tile_size * 0.16, tile_size * 0.16), Vector2(tile_size * 0.68, tile_size * 0.68))
+	draw_rect(rect, Color(base.r, base.g, base.b, 0.18))
+	draw_rect(rect, Color(base.r, base.g, base.b, 0.65), false, maxf(1.0, tile_size * 0.03))
+	match route:
+		"royal":
+			var crown := PackedVector2Array([
+				top_left + Vector2(tile_size * 0.24, tile_size * 0.58),
+				top_left + Vector2(tile_size * 0.35, tile_size * 0.36),
+				top_left + Vector2(tile_size * 0.5, tile_size * 0.55),
+				top_left + Vector2(tile_size * 0.65, tile_size * 0.36),
+				top_left + Vector2(tile_size * 0.76, tile_size * 0.58),
+			])
+			draw_polyline(crown, base, maxf(2.0, tile_size * 0.045))
+		"engineer":
+			var center := top_left + Vector2(tile_size * 0.5, tile_size * 0.5)
+			draw_circle(center, tile_size * 0.16, Color(base.r, base.g, base.b, 0.2))
+			draw_circle(center, tile_size * 0.08, Color("#050608", 0.62))
+			for index in range(6):
+				var angle := float(index) * PI / 3.0
+				draw_line(center + Vector2(cos(angle), sin(angle)) * tile_size * 0.16, center + Vector2(cos(angle), sin(angle)) * tile_size * 0.28, base, maxf(1.0, tile_size * 0.025))
+		"parent":
+			draw_rect(Rect2(top_left + Vector2(tile_size * 0.28, tile_size * 0.28), Vector2(tile_size * 0.44, tile_size * 0.38)), Color("#050608", 0.42))
+			draw_circle(top_left + Vector2(tile_size * 0.42, tile_size * 0.45), tile_size * 0.06, base)
+			draw_circle(top_left + Vector2(tile_size * 0.58, tile_size * 0.45), tile_size * 0.06, base)
+		_:
+			draw_line(top_left + Vector2(tile_size * 0.28, tile_size * 0.38), top_left + Vector2(tile_size * 0.5, tile_size * 0.56), base, maxf(2.0, tile_size * 0.04))
+			draw_line(top_left + Vector2(tile_size * 0.72, tile_size * 0.38), top_left + Vector2(tile_size * 0.5, tile_size * 0.56), base, maxf(2.0, tile_size * 0.04))
+			for index in range(3):
+				draw_circle(top_left + Vector2(tile_size * (0.35 + float(index) * 0.15), tile_size * 0.72), tile_size * 0.035, base)
 
 
 func _draw_gate_rune(top_left: Vector2, tile_size: float) -> void:
@@ -1755,6 +1936,18 @@ func _uses_first_act_scene_tiles(terrain: String) -> bool:
 
 func _uses_modern_scene_props() -> bool:
 	return session != null and session.scene_id in ["00-prologue-lights-out", "07-lights-on-again"]
+
+
+func _prop_visible_for_session(prop: Dictionary) -> bool:
+	if session == null:
+		return true
+	for flag in prop.get("requires_flags", []):
+		if not session.has_flag(str(flag)):
+			return false
+	for flag in prop.get("hidden_flags", []):
+		if session.has_flag(str(flag)):
+			return false
+	return true
 
 
 func _current_visual() -> Dictionary:

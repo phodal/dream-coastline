@@ -147,6 +147,19 @@ func prompt_text() -> String:
 func current_interaction() -> Dictionary:
 	var target := tile + facing
 	var interaction: Dictionary = visual_repository.interaction_at(session.scene_id, session.location_id, target)
-	if interaction.is_empty():
-		interaction = visual_repository.interaction_at(session.scene_id, session.location_id, tile)
-	return interaction
+	if not interaction.is_empty() and _interaction_visible(interaction):
+		return interaction
+	interaction = visual_repository.interaction_at(session.scene_id, session.location_id, tile)
+	if not interaction.is_empty() and _interaction_visible(interaction):
+		return interaction
+	return {}
+
+
+func _interaction_visible(interaction: Dictionary) -> bool:
+	for flag in interaction.get("requires_flags", []):
+		if not session.has_flag(str(flag)):
+			return false
+	for flag in interaction.get("hidden_flags", []):
+		if session.has_flag(str(flag)):
+			return false
+	return true

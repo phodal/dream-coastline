@@ -103,6 +103,46 @@
 					"y": 3.0
 				},
 				{
+					"kind": "route_marker",
+					"overlay": true,
+					"requires_flags": [
+						"chose_public_books"
+					],
+					"route": "public",
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
+					"kind": "route_marker",
+					"overlay": true,
+					"requires_flags": [
+						"chose_royal_books"
+					],
+					"route": "royal",
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
+					"kind": "route_marker",
+					"overlay": true,
+					"requires_flags": [
+						"chose_engineer_books"
+					],
+					"route": "engineer",
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
+					"kind": "route_marker",
+					"overlay": true,
+					"requires_flags": [
+						"chose_parent_books"
+					],
+					"route": "parent",
+					"x": 6.0,
+					"y": 5.0
+				},
+				{
 					"action": {
 						"arg": "mandate",
 						"verb": "build"

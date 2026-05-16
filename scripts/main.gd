@@ -132,6 +132,13 @@ func _ready() -> void:
 		hud.hide_title()
 		call_deferred("_capture_scene_screenshots")
 		return
+	if OS.get_cmdline_user_args().has("--capture-ui-screenshots"):
+		if audio_director != null:
+			audio_director.enabled = false
+		_build_ui()
+		_load_scene(0)
+		call_deferred("_capture_ui_screenshots")
+		return
 
 	_build_ui()
 	_load_scene(0)
@@ -183,28 +190,89 @@ func _focus_visible_menu() -> void:
 		hud.focus_visible_menu()
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if hud != null and hud.is_settings_visible():
 		if _is_action_pressed(event, ["ui_cancel", "pause"]):
 			_close_settings()
+			get_viewport().set_input_as_handled()
 		return
 	if hud != null and hud.is_title_visible():
+		if _handle_title_input(event):
+			get_viewport().set_input_as_handled()
 		return
 	if _is_action_pressed(event, ["ui_cancel", "pause"]):
 		_toggle_pause()
+		get_viewport().set_input_as_handled()
 		return
 	if hud != null and hud.is_pause_visible():
+		if _handle_pause_input(event):
+			get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("move_up"):
 		_try_move(Vector2i(0, -1))
+		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("move_down"):
 		_try_move(Vector2i(0, 1))
+		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("move_left"):
 		_try_move(Vector2i(-1, 0))
+		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("move_right"):
 		_try_move(Vector2i(1, 0))
+		get_viewport().set_input_as_handled()
 	elif _is_action_pressed(event, ["ui_accept", "interact"]):
 		_interact()
+		get_viewport().set_input_as_handled()
+
+
+func _handle_title_input(event: InputEvent) -> bool:
+	if _is_menu_down_pressed(event):
+		return hud.title_select_next()
+	if _is_menu_up_pressed(event):
+		return hud.title_select_previous()
+	if _is_menu_accept_pressed(event):
+		return hud.title_activate_selected()
+	return _handle_menu_mouse_activation(event, hud.title_activate_at)
+
+
+func _handle_pause_input(event: InputEvent) -> bool:
+	if _is_menu_down_pressed(event):
+		return hud.pause_select_next()
+	if _is_menu_up_pressed(event):
+		return hud.pause_select_previous()
+	if _is_menu_accept_pressed(event):
+		return hud.pause_activate_selected()
+	return _handle_menu_mouse_activation(event, hud.pause_activate_at)
+
+
+func _is_menu_down_pressed(event: InputEvent) -> bool:
+	return _is_action_pressed(event, ["move_down", "ui_down"]) or _is_key_pressed(event, [KEY_DOWN, KEY_S])
+
+
+func _is_menu_up_pressed(event: InputEvent) -> bool:
+	return _is_action_pressed(event, ["move_up", "ui_up"]) or _is_key_pressed(event, [KEY_UP, KEY_W])
+
+
+func _is_menu_accept_pressed(event: InputEvent) -> bool:
+	return _is_action_pressed(event, ["ui_accept", "interact"]) or _is_key_pressed(event, [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE])
+
+
+func _is_key_pressed(event: InputEvent, keycodes: Array[int]) -> bool:
+	if not (event is InputEventKey):
+		return false
+	var key_event := event as InputEventKey
+	if not key_event.pressed or key_event.echo:
+		return false
+	return keycodes.has(key_event.keycode) or keycodes.has(key_event.physical_keycode)
+
+
+func _handle_menu_mouse_activation(event: InputEvent, activation: Callable) -> bool:
+	if not (event is InputEventMouseButton):
+		return false
+	var mouse_event := event as InputEventMouseButton
+	if not mouse_event.pressed or mouse_event.button_index != MOUSE_BUTTON_LEFT:
+		return false
+	return bool(activation.call(mouse_event.position))
 
 
 func _try_move(direction: Vector2i) -> void:
@@ -423,20 +491,34 @@ func _run_menu_smoke() -> bool:
 	if game_started:
 		failures.append("game should not be marked started at boot")
 
-	_start_new_game()
+	_press_action_for_smoke("interact")
 	if hud.is_title_visible():
-		failures.append("title screen should hide after new game")
+		failures.append("title keyboard activation should start a new game")
 	if not game_started:
-		failures.append("new game should mark game started")
+		failures.append("title keyboard activation should mark game started")
+	if hud.has_menu_focus():
+		failures.append("gameplay should release title menu focus")
+	var start_tile: Vector2i = player_controller.tile
+	_press_action_for_smoke("move_right")
+	player_controller.complete_movement()
+	if player_controller.tile != start_tile + Vector2i(1, 0):
+		failures.append("gameplay input should move after title focus release")
 
 	_toggle_pause()
 	if not hud.is_pause_visible():
 		failures.append("pause should open after ESC")
 	if not hud.has_menu_focus():
 		failures.append("pause menu should have keyboard focus")
-	_resume_game()
+	_press_action_for_smoke("interact")
 	if hud.is_pause_visible():
-		failures.append("pause should close on resume")
+		failures.append("pause keyboard activation should close on resume")
+	if hud.has_menu_focus():
+		failures.append("gameplay should release pause menu focus")
+	var resumed_tile: Vector2i = player_controller.tile
+	_press_action_for_smoke("move_left")
+	player_controller.complete_movement()
+	if player_controller.tile != resumed_tile + Vector2i(-1, 0):
+		failures.append("gameplay input should move after pause resume")
 
 	_open_settings()
 	if not hud.is_settings_visible():
@@ -486,6 +568,13 @@ func _run_menu_smoke() -> bool:
 	for failure in failures:
 		print("failure=", failure)
 	return ok
+
+
+func _press_action_for_smoke(action_name: String) -> void:
+	var event := InputEventAction.new()
+	event.action = action_name
+	event.pressed = true
+	_input(event)
 
 
 func _finish_render_smoke() -> void:
@@ -568,6 +657,92 @@ func _capture_scene_screenshots() -> void:
 		failures.size(),
 	])
 	get_tree().quit(0 if ok else 1)
+
+
+func _capture_ui_screenshots() -> void:
+	var args := OS.get_cmdline_user_args()
+	var output_dir := _global_capture_path(_arg_value(args, "--capture-output", "user://ui-screenshots"))
+	var warmup_frames := maxi(1, int(_arg_value(args, "--capture-warmup-frames", "4")))
+	var mkdir_error := DirAccess.make_dir_recursive_absolute(output_dir)
+	if mkdir_error != OK:
+		print("ui-screenshot-capture status=FAIL reason=mkdir path=%s error=%s" % [output_dir, mkdir_error])
+		get_tree().quit(1)
+		return
+
+	var screenshots: Array[Dictionary] = []
+	var failures: Array[String] = []
+	var title_entry := await _capture_ui_state("title", output_dir, warmup_frames)
+	if bool(title_entry.get("ok", false)):
+		screenshots.append(title_entry)
+	else:
+		failures.append(str(title_entry.get("failure", "unknown")))
+
+	_start_new_game()
+	_toggle_pause()
+	var pause_entry := await _capture_ui_state("pause", output_dir, warmup_frames)
+	if bool(pause_entry.get("ok", false)):
+		screenshots.append(pause_entry)
+	else:
+		failures.append(str(pause_entry.get("failure", "unknown")))
+
+	hud.hide_pause()
+	_open_settings()
+	var settings_entry := await _capture_ui_state("settings", output_dir, warmup_frames)
+	if bool(settings_entry.get("ok", false)):
+		screenshots.append(settings_entry)
+	else:
+		failures.append(str(settings_entry.get("failure", "unknown")))
+
+	var manifest := {
+		"version": 1,
+		"generated_by": "--capture-ui-screenshots",
+		"visual_style": GameThemeScript.visual_style(),
+		"viewport": {
+			"width": int(get_viewport_rect().size.x),
+			"height": int(get_viewport_rect().size.y),
+		},
+		"screenshot_count": screenshots.size(),
+		"screenshots": screenshots,
+		"failures": failures,
+	}
+	var manifest_path := output_dir.path_join("manifest.json")
+	var manifest_file := FileAccess.open(manifest_path, FileAccess.WRITE)
+	if manifest_file == null:
+		print("ui-screenshot-capture status=FAIL reason=manifest path=%s" % manifest_path)
+		get_tree().quit(1)
+		return
+	manifest_file.store_string(JSON.stringify(manifest, "\t"))
+	manifest_file.close()
+
+	var ok := failures.is_empty() and screenshots.size() == 3
+	print("ui-screenshot-capture status=%s output=%s screenshots=%s failures=%s" % [
+		"PASS" if ok else "FAIL",
+		output_dir,
+		screenshots.size(),
+		failures.size(),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _capture_ui_state(state_name: String, output_dir: String, warmup_frames: int) -> Dictionary:
+	for _frame in range(warmup_frames):
+		await get_tree().process_frame
+
+	var image: Image = get_viewport().get_texture().get_image()
+	if image == null or image.get_width() <= 0 or image.get_height() <= 0:
+		return {"ok": false, "failure": "empty image %s" % state_name}
+
+	var filename := "ui-%s.png" % _safe_filename(state_name)
+	var path := output_dir.path_join(filename)
+	var save_error := image.save_png(path)
+	if save_error != OK:
+		return {"ok": false, "failure": "save failed %s error=%s" % [path, save_error]}
+	return {
+		"ok": true,
+		"state": state_name,
+		"path": path,
+		"file": filename,
+	}
 
 
 func _capture_location_screenshot(

@@ -9,7 +9,7 @@ use godot::prelude::*;
 use godot::tools::GFile;
 
 const SETTINGS_PATH: &str = "user://dream_coastline_settings.json";
-const DEFAULT_VISUAL_STYLE: &str = "sunlit_mmo";
+const DEFAULT_VISUAL_STYLE: &str = "classic_dark";
 
 #[derive(GodotClass)]
 pub struct RustSettingsRepository {

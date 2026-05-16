@@ -12,33 +12,34 @@ var fullscreen_check: CheckBox
 var visual_style_button: Button
 var volume_slider: HSlider
 var volume_label: Label
-var selected_visual_style := GameThemeScript.STYLE_SUNLIT_MMO
+var selected_visual_style := GameThemeScript.DEFAULT_STYLE
 
 
 func _ready() -> void:
 	_apply_panel_style()
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 9)
+	box.add_theme_constant_override("separation", 7)
 	add_child(box)
 
 	var title := GameThemeScript.make_label("SettingsTitle", 23, GameThemeScript.COLORS.gold)
 	title.text = "设置"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title)
+	_add_separator(box)
 
 	fullscreen_check = CheckBox.new()
 	GameThemeScript.style_command_button(fullscreen_check, "全屏")
-	fullscreen_check.custom_minimum_size = Vector2(320, 42)
+	fullscreen_check.custom_minimum_size = Vector2(292, 38)
 	fullscreen_check.toggled.connect(func(enabled: bool): fullscreen_changed.emit(enabled))
 	box.add_child(fullscreen_check)
 
 	visual_style_button = GameThemeScript.make_command_button("SettingsVisualStyle", "")
-	visual_style_button.custom_minimum_size = Vector2(320, 42)
+	visual_style_button.custom_minimum_size = Vector2(292, 38)
 	visual_style_button.pressed.connect(_cycle_visual_style)
 	box.add_child(visual_style_button)
 	_update_visual_style_label()
 
-	volume_label = GameThemeScript.make_label("SettingsVolumeLabel", 17, GameThemeScript.COLORS.text)
+	volume_label = GameThemeScript.make_label("SettingsVolumeLabel", 15, GameThemeScript.COLORS.text)
 	box.add_child(volume_label)
 
 	volume_slider = HSlider.new()
@@ -46,7 +47,7 @@ func _ready() -> void:
 	volume_slider.max_value = 1.0
 	volume_slider.step = 0.05
 	volume_slider.focus_mode = Control.FOCUS_ALL
-	volume_slider.custom_minimum_size = Vector2(320, 34)
+	volume_slider.custom_minimum_size = Vector2(292, 30)
 	volume_slider.add_theme_stylebox_override("slider", _make_slider_track())
 	volume_slider.add_theme_stylebox_override("grabber_area", _make_slider_fill())
 	volume_slider.add_theme_stylebox_override("grabber_area_highlight", _make_slider_fill(true))
@@ -63,7 +64,7 @@ func _ready() -> void:
 	box.add_child(volume_slider)
 
 	var back := GameThemeScript.make_command_button("SettingsBack", "返回")
-	back.custom_minimum_size = Vector2(320, 42)
+	back.custom_minimum_size = Vector2(292, 38)
 	back.pressed.connect(back_requested.emit)
 	box.add_child(back)
 
@@ -84,7 +85,7 @@ func set_visual_style(value: String) -> void:
 
 
 func focus_default() -> void:
-	if fullscreen_check != null:
+	if visible and fullscreen_check != null:
 		fullscreen_check.grab_focus()
 
 
@@ -99,11 +100,21 @@ func _cycle_visual_style() -> void:
 
 func _update_visual_style_label() -> void:
 	if visual_style_button != null:
-		visual_style_button.text = "  视觉风格：%s" % GameThemeScript.visual_style_label(selected_visual_style)
+		GameThemeScript.set_command_button_text(
+			visual_style_button,
+			"视觉风格：%s" % GameThemeScript.visual_style_label(selected_visual_style)
+		)
 
 
 func _apply_panel_style() -> void:
 	GameThemeScript.style_dialogue_panel(self)
+
+
+func _add_separator(box: VBoxContainer) -> void:
+	var separator := ColorRect.new()
+	separator.color = Color(GameThemeScript.COLORS.border_light.r, GameThemeScript.COLORS.border_light.g, GameThemeScript.COLORS.border_light.b, 0.38)
+	separator.custom_minimum_size = Vector2(0, 2)
+	box.add_child(separator)
 
 
 func _make_slider_track() -> StyleBoxFlat:

@@ -51,7 +51,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--visual-style",
         choices=["sunlit_mmo", "classic_dark"],
-        default="sunlit_mmo",
+        default="classic_dark",
         help="Runtime visual style profile to use for UI and canvas grading.",
     )
     parser.add_argument(
