@@ -31,6 +31,8 @@ pub struct RustGameSession {
     attacks_since_name: i32,
     flags: HashSet<String>,
     metrics: VarDictionary,
+    player_stats: VarDictionary,
+    glyph_mastery: VarDictionary,
 }
 
 #[godot_api]
@@ -50,6 +52,8 @@ impl IRefCounted for RustGameSession {
             attacks_since_name: 0,
             flags: HashSet::new(),
             metrics: VarDictionary::new(),
+            player_stats: VarDictionary::new(),
+            glyph_mastery: VarDictionary::new(),
         }
     }
 }
@@ -94,6 +98,8 @@ impl RustGameSession {
 
         // Shallow clone is fine – modified copy is tracked independently
         self.metrics = dict_value_as_dict(&self.scene, "metrics").clone();
+        self.player_stats = dict_value_as_dict(&self.scene, "player_stats").clone();
+        self.glyph_mastery = dict_value_as_dict(&self.scene, "glyph_mastery").clone();
 
         self.elapsed_seconds = 0;
         self.enemy_hp = 0;
@@ -165,6 +171,30 @@ impl RustGameSession {
             inspect_actions.push(&av);
         }
         push_group(&mut groups, "调查", inspect_actions);
+
+        // Encounter actions
+        let encounters = dict_value_as_dict(&location, "encounters");
+        let mut encounter_actions = VarArray::new();
+        for key_var in encounters.keys_array().iter_shared() {
+            let encounter_id = key_var.stringify();
+            let encounter = dict_value_as_dict(&encounters, &encounter_id.to_string());
+            if self.encounter_is_hidden(&encounter) {
+                continue;
+            }
+            let encounter_name = encounter
+                .get("name")
+                .and_then(|v| v.try_to::<GString>().ok())
+                .unwrap_or_else(|| encounter_id.clone());
+            let label = GString::from(format!("迎战：{}", encounter_name).as_str());
+            let verb = GString::from("engage");
+            let mut a = VarDictionary::new();
+            a.set("label", &label.to_variant());
+            a.set("verb", &verb.to_variant());
+            a.set("arg", &encounter_id.to_variant());
+            let av = a.to_variant();
+            encounter_actions.push(&av);
+        }
+        push_group(&mut groups, "遭遇", encounter_actions);
 
         // Cast actions
         let mut cast_actions = VarArray::new();
@@ -279,6 +309,11 @@ impl RustGameSession {
             text += &format!("  最低时长 {:.1} 分钟", min_minutes);
         }
 
+        let progression = self.progression_summary();
+        if !progression.is_empty() {
+            text += &format!("\n{}", progression);
+        }
+
         let combat = dict_value_as_dict(&self.current_location_dict(), "combat");
         if !combat.is_empty() {
             let lock_flag = dict_str(&combat, "lock_flag", "");
@@ -354,9 +389,9 @@ impl RustGameSession {
 
     #[func]
     fn to_save_data(&self) -> Variant {
-        let mut flags_arr: Array<GString> = Array::new();
+        let mut flags_arr = VarArray::new();
         for flag in &self.flags {
-            flags_arr.push(&GString::from(flag.as_str()));
+            flags_arr.push(&GString::from(flag.as_str()).to_variant());
         }
 
         let loc_id_v = self.location_id.to_variant();
@@ -369,6 +404,8 @@ impl RustGameSession {
         payload.set("location_id", &loc_id_v);
         payload.set("flags", &flags_v);
         payload.set("metrics", &metrics_v);
+        payload.set("player_stats", &self.player_stats.to_variant());
+        payload.set("glyph_mastery", &self.glyph_mastery.to_variant());
         payload.set("elapsed_seconds", &self.elapsed_seconds.to_variant());
         payload.set("enemy_hp", &self.enemy_hp.to_variant());
         payload.set("player_hp", &self.player_hp.to_variant());
@@ -413,6 +450,18 @@ impl RustGameSession {
         }
 
         self.metrics = dict_value_as_dict(&data_dict, "metrics").clone();
+        let saved_stats = dict_value_as_dict(&data_dict, "player_stats");
+        self.player_stats = if saved_stats.is_empty() {
+            dict_value_as_dict(&self.scene, "player_stats").clone()
+        } else {
+            saved_stats.clone()
+        };
+        let saved_mastery = dict_value_as_dict(&data_dict, "glyph_mastery");
+        self.glyph_mastery = if saved_mastery.is_empty() {
+            dict_value_as_dict(&self.scene, "glyph_mastery").clone()
+        } else {
+            saved_mastery.clone()
+        };
         self.elapsed_seconds = dict_i32(&data_dict, "elapsed_seconds", 0);
         self.enemy_hp = dict_i32(&data_dict, "enemy_hp", 0);
         self.player_hp = dict_i32(&data_dict, "player_hp", 5);
@@ -441,6 +490,21 @@ impl RustGameSession {
     #[func]
     fn has_flag(&self, flag: GString) -> bool {
         self.has_flag_internal(flag.to_string().as_str())
+    }
+
+    #[func]
+    fn stat_value(&self, key: GString) -> i32 {
+        self.stat_value_internal(key.to_string().as_str())
+    }
+
+    #[func]
+    fn glyph_mastery_value(&self, glyph: GString) -> i32 {
+        self.glyph_mastery_value_internal(glyph.to_string().as_str())
+    }
+
+    #[func]
+    fn progression_text(&self) -> GString {
+        GString::from(self.progression_summary().as_str())
     }
 
     #[func]
@@ -483,6 +547,7 @@ impl RustGameSession {
             "choose" => self.choose_route(arg),
             "build" => self.build_project(arg),
             "combine" => self.combine_words(arg),
+            "engage" => self.engage_encounter(arg),
             _ => self.log_internal(&format!("未知行动：{}", verb)),
         }
     }
@@ -613,9 +678,15 @@ impl RustGameSession {
             self.log_internal("前置条件不足。");
             return;
         }
+        if !self.action_costs_met(&item) {
+            self.log_internal("资源不足。");
+            return;
+        }
+        self.apply_action_costs(&item);
         self.elapsed_seconds += dict_i32(&item, "time_seconds", 30);
         let flags_arr = dict_value_as_array(&item, "flags");
         self.add_flags_from_array(&flags_arr);
+        self.apply_progression_rewards(&item);
         let text = dict_str(&item, "text", "");
         self.log_internal(&text);
     }
@@ -657,11 +728,21 @@ impl RustGameSession {
             self.log_internal("术式前置条件不足。");
             return;
         }
+        if !self.mastery_requirements_met(&dict_value_as_dict(&action, "requires_mastery")) {
+            self.log_internal("字根熟练度不足。");
+            return;
+        }
+        if !self.action_costs_met(&action) {
+            self.log_internal("资源不足，术式写不稳。");
+            return;
+        }
+        self.apply_action_costs(&action);
         self.elapsed_seconds += dict_i32(&action, "time_seconds", 45);
         let flags_arr = dict_value_as_array(&action, "flags");
         self.add_flags_from_array(&flags_arr);
         let metrics = dict_value_as_dict(&action, "metrics");
         self.apply_metrics(&metrics);
+        self.apply_progression_rewards(&action);
         let text = dict_str(&action, "text", "");
         self.log_internal(&text);
     }
@@ -679,11 +760,21 @@ impl RustGameSession {
             self.log_internal("建设条件不足。");
             return;
         }
+        if !self.mastery_requirements_met(&dict_value_as_dict(&action, "requires_mastery")) {
+            self.log_internal("字根熟练度不足。");
+            return;
+        }
+        if !self.action_costs_met(&action) {
+            self.log_internal("资源不足，建设无法开工。");
+            return;
+        }
+        self.apply_action_costs(&action);
         self.elapsed_seconds += dict_i32(&action, "time_seconds", 60);
         let flags_arr = dict_value_as_array(&action, "flags");
         self.add_flags_from_array(&flags_arr);
         let metrics = dict_value_as_dict(&action, "metrics");
         self.apply_metrics(&metrics);
+        self.apply_progression_rewards(&action);
         let text = dict_str(&action, "text", "");
         self.log_internal(&text);
     }
@@ -701,9 +792,19 @@ impl RustGameSession {
             self.log_internal("选择条件不足。");
             return;
         }
+        if !self.mastery_requirements_met(&dict_value_as_dict(&choice, "requires_mastery")) {
+            self.log_internal("字根熟练度不足。");
+            return;
+        }
+        if !self.action_costs_met(&choice) {
+            self.log_internal("资源不足。");
+            return;
+        }
+        self.apply_action_costs(&choice);
         self.elapsed_seconds += dict_i32(&choice, "time_seconds", 45);
         let flags_arr = dict_value_as_array(&choice, "flags");
         self.add_flags_from_array(&flags_arr);
+        self.apply_progression_rewards(&choice);
         let text = dict_str(&choice, "text", "");
         self.log_internal(&text);
     }
@@ -721,10 +822,57 @@ impl RustGameSession {
             self.log_internal("字义还不稳定，组合会碎掉。");
             return;
         }
+        if !self.mastery_requirements_met(&dict_value_as_dict(&action, "requires_mastery")) {
+            self.log_internal("字根熟练度不足。");
+            return;
+        }
+        if !self.action_costs_met(&action) {
+            self.log_internal("资源不足，组合会碎掉。");
+            return;
+        }
+        self.apply_action_costs(&action);
         self.elapsed_seconds += dict_i32(&action, "time_seconds", 90);
         let flags_arr = dict_value_as_array(&action, "flags");
         self.add_flags_from_array(&flags_arr);
+        self.apply_progression_rewards(&action);
         let text = dict_str(&action, "text", "");
+        self.log_internal(&text);
+    }
+
+    fn engage_encounter(&mut self, encounter_id: &str) {
+        let location = self.current_location_dict();
+        let encounters = dict_value_as_dict(&location, "encounters");
+        let encounter = dict_value_as_dict(&encounters, encounter_id);
+        if encounter.is_empty() {
+            self.log_internal("这里没有这个遭遇。");
+            return;
+        }
+        if self.encounter_is_hidden(&encounter) {
+            self.log_internal("这个威胁已经处理过。");
+            return;
+        }
+        let requires = dict_value_as_array(&encounter, "requires");
+        if !self.requirements_met(&requires) {
+            self.log_internal("遭遇条件不足。");
+            return;
+        }
+        if !self.mastery_requirements_met(&dict_value_as_dict(&encounter, "requires_mastery")) {
+            self.log_internal("字根熟练度不足，不能稳定处理这个遭遇。");
+            return;
+        }
+        if !self.action_costs_met(&encounter) {
+            self.log_internal("资源不足，不能迎战。");
+            return;
+        }
+
+        self.apply_action_costs(&encounter);
+        self.elapsed_seconds += dict_i32(&encounter, "time_seconds", 45);
+        let flags_arr = dict_value_as_array(&encounter, "flags");
+        self.add_flags_from_array(&flags_arr);
+        let metrics = dict_value_as_dict(&encounter, "metrics");
+        self.apply_metrics(&metrics);
+        self.apply_progression_rewards(&encounter);
+        let text = dict_str(&encounter, "text", "");
         self.log_internal(&text);
     }
 
@@ -791,6 +939,7 @@ impl RustGameSession {
             }
             let reward_flags = dict_value_as_array(&combat, "reward_flags");
             self.add_flags_from_array(&reward_flags);
+            self.apply_progression_rewards(&combat);
             let revealed_name = dict_str(&combat, "revealed_name", "敌人");
             self.log_internal(&format!("{} 被击退。", revealed_name));
         } else if self.attacks_since_name >= dict_i32(&combat, "lose_name_every", 2) {
@@ -808,6 +957,154 @@ impl RustGameSession {
     fn guard(&mut self) {
         self.elapsed_seconds += 30;
         self.log_internal("你稳住阵线，争取到半步距离。");
+    }
+
+    fn encounter_is_hidden(&self, encounter: &VarDictionary) -> bool {
+        let repeatable = dict_bool(encounter, "repeatable", false);
+        let clear_flag = dict_str(encounter, "clear_flag", "");
+        !repeatable && self.has_flag_internal(&clear_flag)
+    }
+
+    fn action_costs_met(&self, action: &VarDictionary) -> bool {
+        let costs = dict_value_as_dict(action, "stat_costs");
+        for key_var in costs.keys_array().iter_shared() {
+            let key = key_var.stringify().to_string();
+            let cost = costs
+                .get(&key_var)
+                .and_then(|v| v.try_to_relaxed::<i32>().ok())
+                .unwrap_or(0);
+            if cost > 0 && self.stat_value_internal(&key) < cost {
+                return false;
+            }
+        }
+        true
+    }
+
+    fn apply_action_costs(&mut self, action: &VarDictionary) {
+        let costs = dict_value_as_dict(action, "stat_costs");
+        let mut deltas = VarDictionary::new();
+        for key_var in costs.keys_array().iter_shared() {
+            let key = key_var.stringify().to_string();
+            let cost = costs
+                .get(&key_var)
+                .and_then(|v| v.try_to_relaxed::<i32>().ok())
+                .unwrap_or(0);
+            if cost > 0 {
+                deltas.set(key.as_str(), &(-cost).to_variant());
+            }
+        }
+        self.apply_stat_delta(&deltas);
+    }
+
+    fn apply_progression_rewards(&mut self, action: &VarDictionary) {
+        self.apply_stat_delta(&dict_value_as_dict(action, "stats"));
+        self.apply_glyph_mastery_delta(&dict_value_as_dict(action, "glyph_mastery"));
+    }
+
+    fn mastery_requirements_met(&self, required: &VarDictionary) -> bool {
+        for key_var in required.keys_array().iter_shared() {
+            let glyph = key_var.stringify().to_string();
+            let needed = required
+                .get(&key_var)
+                .and_then(|v| v.try_to_relaxed::<i32>().ok())
+                .unwrap_or(0);
+            if self.glyph_mastery_value_internal(&glyph) < needed {
+                return false;
+            }
+        }
+        true
+    }
+
+    fn apply_stat_delta(&mut self, delta: &VarDictionary) {
+        for key_var in delta.keys_array().iter_shared() {
+            let key = key_var.stringify().to_string();
+            let delta_val = delta
+                .get(&key_var)
+                .and_then(|v| v.try_to_relaxed::<i32>().ok())
+                .unwrap_or(0);
+            let current = self.stat_value_internal(&key);
+            let mut new_val = current + delta_val;
+            if !key.starts_with("max_") {
+                let max_key = format!("max_{}", key);
+                let max_val = self.stat_value_internal(&max_key);
+                if max_val > 0 {
+                    new_val = new_val.clamp(0, max_val);
+                } else {
+                    new_val = new_val.max(0);
+                }
+            }
+            self.player_stats.set(key.as_str(), &new_val.to_variant());
+        }
+    }
+
+    fn apply_glyph_mastery_delta(&mut self, delta: &VarDictionary) {
+        for key_var in delta.keys_array().iter_shared() {
+            let glyph = key_var.stringify().to_string();
+            let delta_val = delta
+                .get(&key_var)
+                .and_then(|v| v.try_to_relaxed::<i32>().ok())
+                .unwrap_or(0);
+            let new_val = (self.glyph_mastery_value_internal(&glyph) + delta_val).max(0);
+            self.glyph_mastery
+                .set(glyph.as_str(), &new_val.to_variant());
+        }
+    }
+
+    fn stat_value_internal(&self, key: &str) -> i32 {
+        self.player_stats
+            .get(key)
+            .and_then(|v| v.try_to_relaxed::<i32>().ok())
+            .unwrap_or(0)
+    }
+
+    fn glyph_mastery_value_internal(&self, glyph: &str) -> i32 {
+        self.glyph_mastery
+            .get(glyph)
+            .and_then(|v| v.try_to_relaxed::<i32>().ok())
+            .unwrap_or(0)
+    }
+
+    fn progression_summary(&self) -> String {
+        let mut stat_parts: Vec<String> = Vec::new();
+        for key in ["ink", "focus", "stability"] {
+            if self.player_stats.contains_key(key) {
+                let max_key = format!("max_{}", key);
+                let value = self.stat_value_internal(key);
+                let max_value = self.stat_value_internal(&max_key);
+                if max_value > 0 {
+                    stat_parts.push(format!("{}={}/{}", key, value, max_value));
+                } else {
+                    stat_parts.push(format!("{}={}", key, value));
+                }
+            }
+        }
+
+        let mut mastery_parts: Vec<String> = Vec::new();
+        let mut mastery_keys: Vec<String> = self
+            .glyph_mastery
+            .keys_array()
+            .iter_shared()
+            .map(|v| v.stringify().to_string())
+            .collect();
+        mastery_keys.sort();
+        for glyph in mastery_keys {
+            mastery_parts.push(format!(
+                "{}={}",
+                glyph,
+                self.glyph_mastery_value_internal(&glyph)
+            ));
+        }
+
+        match (stat_parts.is_empty(), mastery_parts.is_empty()) {
+            (true, true) => String::new(),
+            (false, true) => format!("资源  {}", stat_parts.join("  ")),
+            (true, false) => format!("字根熟练  {}", mastery_parts.join("  ")),
+            (false, false) => format!(
+                "资源  {}\n字根熟练  {}",
+                stat_parts.join("  "),
+                mastery_parts.join("  ")
+            ),
+        }
     }
 
     fn verify_current_scene(&mut self) -> bool {

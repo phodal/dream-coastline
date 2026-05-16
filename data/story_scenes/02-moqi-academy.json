@@ -5,12 +5,27 @@
   "min_minutes": 5.0,
   "start": "academy",
   "ending_flag": "viewed_parent_record",
+  "player_stats": {
+    "ink": 4,
+    "max_ink": 4,
+    "focus": 3,
+    "max_focus": 3,
+    "stability": 2,
+    "max_stability": 3
+  },
+  "glyph_mastery": {
+    "name": 0,
+    "door": 0,
+    "fire": 0,
+    "stop": 0
+  },
   "required_flags": [
     "met_wensu",
     "learned_name",
     "learned_door",
     "learned_fire",
     "learned_stop",
+    "cleared_contract_patrol",
     "repaired_well",
     "got_basic_dictionary",
     "defeated_contract_officer",
@@ -43,24 +58,28 @@
           "name": "名",
           "time_seconds": 45,
           "flags": ["learned_name"],
+          "glyph_mastery": {"name": 1},
           "text": "你复习“名”。它不是标签，而是让一个对象被世界承认。"
         },
         "door": {
           "name": "门",
           "time_seconds": 50,
           "flags": ["learned_door"],
+          "glyph_mastery": {"door": 1},
           "text": "“门”不是木板，而是通行规则。理解它后，地图上多出许多原本看不见的入口。"
         },
         "fire": {
           "name": "火",
           "time_seconds": 50,
           "flags": ["learned_fire"],
+          "glyph_mastery": {"fire": 1},
           "text": "“火”是能源，也是警告。闻素让你先学会启动，再学会停止。"
         },
         "stop": {
           "name": "止",
           "time_seconds": 50,
           "flags": ["learned_stop"],
+          "glyph_mastery": {"stop": 1},
           "text": "“止”不是停下动作，而是稳定边界。它能让裂纹暂时不再扩大。"
         }
       }
@@ -93,23 +112,44 @@
           "text": "老人说他们只会照着旧符抄，没人教过为什么这样写。"
         }
       },
+      "encounters": {
+        "contract_patrol": {
+          "name": "巡契残影",
+          "time_seconds": 40,
+          "requires": ["learned_stop", "checked_broken_well"],
+          "requires_mastery": {"stop": 1},
+          "stat_costs": {"ink": 1, "focus": 1},
+          "clear_flag": "cleared_contract_patrol",
+          "flags": ["cleared_contract_patrol"],
+          "metrics": {"trust": 1},
+          "stats": {"stability": 1},
+          "glyph_mastery": {"stop": 1},
+          "text": "巡契残影从井边旧符里浮出。你用“止”稳住裂纹，把它压回封条残迹里。"
+        }
+      },
       "glyph_actions": {
         "stop": {
           "time_seconds": 45,
           "requires": ["learned_stop", "checked_broken_well"],
           "flags": ["stabilized_well_crack"],
+          "stat_costs": {"ink": 1},
+          "glyph_mastery": {"stop": 1},
           "text": "你写下“止”，井沿裂纹不再扩大。"
         },
         "fire": {
           "time_seconds": 45,
           "requires": ["learned_fire", "stabilized_well_crack"],
           "flags": ["started_ink_engine"],
+          "stat_costs": {"ink": 1},
+          "glyph_mastery": {"fire": 1},
           "text": "你用“火”启动旧墨力炉，水声重新从井底传来。"
         },
         "name": {
           "time_seconds": 45,
           "requires": ["learned_name", "started_ink_engine"],
           "flags": ["repaired_well"],
+          "stats": {"ink": 1, "focus": 1},
+          "glyph_mastery": {"name": 1},
           "text": "你用“名”确认水源。井口浮出清水，孩子们第一次喊出你的名字。"
         }
       }
@@ -148,6 +188,7 @@
           "time_seconds": 55,
           "requires": ["learned_door", "checked_dictionary_cabinet"],
           "flags": ["got_basic_dictionary"],
+          "glyph_mastery": {"door": 1},
           "text": "你写下“门”，不是破坏柜子，而是找到封条规则里的通行漏洞。基础字典到手。"
         }
       }
@@ -185,18 +226,23 @@
           "time_seconds": 50,
           "requires": ["learned_name", "defeated_contract_officer"],
           "flags": ["named_first_node"],
+          "glyph_mastery": {"name": 1},
           "text": "你确认节点的名字。它不是废墟，而是仍在等待维护的公共系统。"
         },
         "stop": {
           "time_seconds": 50,
           "requires": ["learned_stop", "named_first_node"],
           "flags": ["stabilized_first_node"],
+          "stat_costs": {"focus": 1},
+          "glyph_mastery": {"stop": 1},
           "text": "你写下“止”，节点裂纹停止扩散。"
         },
         "fire": {
           "time_seconds": 55,
           "requires": ["learned_fire", "stabilized_first_node", "got_basic_dictionary"],
           "flags": ["repaired_first_node"],
+          "stats": {"ink": 1},
+          "glyph_mastery": {"fire": 1},
           "text": "你用“火”重启墨力脉冲。国书节点亮起，基础字典开始同步。"
         }
       },
@@ -220,12 +266,16 @@
             "time_seconds": 45,
             "requires": ["learned_door", "checked_contract_lock"],
             "flags": ["found_contract_gap"],
+            "stat_costs": {"ink": 1},
+            "glyph_mastery": {"door": 1},
             "text": "你用“门”找到契约封锁里的漏洞：执契官也必须遵守他写下的规则。"
           },
           "stop": {
             "time_seconds": 45,
             "requires": ["learned_stop", "found_contract_gap"],
             "flags": ["paused_contract"],
+            "stat_costs": {"focus": 1},
+            "glyph_mastery": {"stop": 1},
             "text": "你用“止”暂停封锁条款。夏离终于能把攻击送到目标身上。"
           }
         }
@@ -241,6 +291,7 @@
     "go village",
     "inspect well",
     "inspect villagers",
+    "engage contract_patrol",
     "cast stop",
     "cast fire",
     "cast name",

@@ -58,6 +58,8 @@ func run() -> bool:
 	_expect_prompt("裂开的水井")
 	controller.interact()
 	_expect_flag("checked_broken_well")
+	session.apply_action({"verb": "engage", "arg": "contract_patrol"})
+	_expect_flag("cleared_contract_patrol")
 
 	_move(Vector2i(1, 0), 5)
 	_face(Vector2i(1, 0))

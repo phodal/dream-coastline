@@ -142,6 +142,12 @@ Validate the lights on again RPG keyboard path:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-lights-on-again
 ```
 
+Validate the RPG progression data slice:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-progression
+```
+
 Validate save/load:
 
 ```sh
