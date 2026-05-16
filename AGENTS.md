@@ -19,3 +19,4 @@
 - visual JSON 的 `kind` 不一定会走旧的 item renderer；新增现代物件时要在 `_draw_visual_prop()` 显式路由，否则售货机、电视、信箱会退回成泛用方块。
 - 交互提示不要画成编辑器选框；用物件本身的光、闪点、影子或环境对比表达焦点，否则截图会像调试视图而不是游戏。
 - 场景视觉不要长期靠 `draw_rect` / `draw_line` 修补；读感不对时应切到资产化 TileMap 管线，并让截图 manifest 标出 asset/fallback 状态。
+- 外部 spritesheet 即使文件名写 transparent，也可能带洋红导线或占位网格；导入前要看图并归一化成项目 tilesheet，不能直接拷贝原图格子。

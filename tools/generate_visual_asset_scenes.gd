@@ -224,9 +224,13 @@ func _paint_if_empty(sheet: Image, tile_key: String, base: Color, accent: Color)
 func _paint_ground_tile(sheet: Image, tile_key: String, base: Color, accent: Color) -> void:
 	var origin := _tile_pixel(tile_key)
 	_fill_tile(sheet, tile_key, base)
-	for index in range(0, TILE_SIZE, 8):
-		sheet.fill_rect(Rect2i(origin + Vector2i(index, 0), Vector2i(1, TILE_SIZE)), Color(accent, 0.32))
-		sheet.fill_rect(Rect2i(origin + Vector2i(0, index), Vector2i(TILE_SIZE, 1)), Color(accent, 0.22))
+	for index in range(0, TILE_SIZE, 16):
+		sheet.fill_rect(Rect2i(origin + Vector2i(index, 0), Vector2i(1, TILE_SIZE)), Color(accent, 0.14))
+		sheet.fill_rect(Rect2i(origin + Vector2i(0, index), Vector2i(TILE_SIZE, 1)), Color(accent, 0.1))
+	for index in range(4):
+		var x := (index * 9 + 5) % TILE_SIZE
+		var y := (index * 7 + 11) % TILE_SIZE
+		sheet.fill_rect(Rect2i(origin + Vector2i(x, y), Vector2i(1, 1)), Color(accent, 0.22))
 
 
 func _paint_crosswalk_tile(sheet: Image, tile_key: String) -> void:
@@ -388,9 +392,9 @@ func _write_location_scene(path: String, scene_id: String, location_id: String, 
 		root.add_child(layer)
 		layer.owner = root
 
-	_fill_ground(ground, family)
+	_fill_ground(ground, family, scene_id, location_id)
 	_paint_boundaries(walls, family)
-	_paint_scene_pattern(decor, lighting, family, scene_id, location_id)
+	_paint_scene_pattern(ground, decor, lighting, family, scene_id, location_id)
 	_paint_props(decor, props_shadow, lighting, visual, family)
 
 	var packed := PackedScene.new()
@@ -413,12 +417,15 @@ func _make_layer(layer_name: String, tile_set: TileSet) -> TileMapLayer:
 	return layer
 
 
-func _fill_ground(layer: TileMapLayer, family: String) -> void:
-	var tile_key := _ground_tile_for_family(family)
+func _fill_ground(layer: TileMapLayer, family: String, scene_id: String, location_id: String) -> void:
+	var tile_key := _ground_tile_for_location(family, scene_id, location_id)
 	for y in range(ROWS):
 		for x in range(COLUMNS):
 			_set_tile(layer, x, y, tile_key)
 	if family == "modern_exterior":
+		for y in range(1, 5):
+			for x in range(COLUMNS):
+				_set_tile(layer, x, y, "street_sidewalk")
 		for y in range(5, ROWS):
 			for x in range(COLUMNS):
 				_set_tile(layer, x, y, "street_asphalt")
@@ -449,11 +456,21 @@ func _paint_boundaries(layer: TileMapLayer, family: String) -> void:
 			_set_tile(layer, x, 0, "tree" if family == "forest" else "wilderness_ground")
 
 
-func _paint_scene_pattern(decor: TileMapLayer, lighting: TileMapLayer, family: String, scene_id: String, location_id: String) -> void:
+func _paint_scene_pattern(ground: TileMapLayer, decor: TileMapLayer, lighting: TileMapLayer, family: String, scene_id: String, location_id: String) -> void:
 	if family == "modern_exterior":
+		for y in range(1, 3):
+			for x in range(COLUMNS):
+				_set_tile(decor, x, y, "building_wall")
+		for x in range(1, COLUMNS - 1, 2):
+			_set_tile(decor, x, 1, "building_window")
 		for x in range(1, COLUMNS - 1, 4):
 			_set_tile(decor, x, 4, "lamp")
 			_set_tile(lighting, x, 4, "gold_glow")
+		for x in range(1, COLUMNS - 1):
+			if x % 4 == 2:
+				_set_tile(decor, x, 6, "street_crosswalk")
+	elif family == "modern_interior":
+		_paint_modern_room_ground(ground, scene_id, location_id)
 	elif family == "node":
 		for x in range(2, COLUMNS - 2, 3):
 			_set_tile(lighting, x, 2, "cyan_glow")
@@ -511,6 +528,12 @@ func _set_tile(layer: TileMapLayer, x: int, y: int, tile_key: String) -> void:
 	layer.set_cell(Vector2i(x, y), SOURCE_ID, tile_coords[tile_key])
 
 
+func _fill_rect_tiles(layer: TileMapLayer, rect: Rect2i, tile_key: String) -> void:
+	for y in range(rect.position.y, rect.end.y):
+		for x in range(rect.position.x, rect.end.x):
+			_set_tile(layer, x, y, tile_key)
+
+
 func _ground_tile_for_family(family: String) -> String:
 	match family:
 		"modern_exterior":
@@ -535,6 +558,38 @@ func _ground_tile_for_family(family: String) -> String:
 			return "forest_ground"
 		_:
 			return "wilderness_ground"
+
+
+func _ground_tile_for_location(family: String, scene_id: String, location_id: String) -> String:
+	if family == "modern_interior":
+		if location_id in ["living_room", "study", "home", "store"]:
+			return "wood_floor"
+		if location_id == "bedroom":
+			return "carpet_floor"
+		if location_id == "building":
+			return "interior_floor"
+		if scene_id == "07-lights-on-again" and location_id == "school":
+			return "academy_floor"
+	return _ground_tile_for_family(family)
+
+
+func _paint_modern_room_ground(ground: TileMapLayer, scene_id: String, location_id: String) -> void:
+	if location_id in ["living_room", "home"]:
+		_fill_rect_tiles(ground, Rect2i(Vector2i(4, 3), Vector2i(6, 3)), "carpet_floor")
+		_fill_rect_tiles(ground, Rect2i(Vector2i(6, 4), Vector2i(2, 1)), "wood_floor")
+	elif location_id == "bedroom":
+		_fill_rect_tiles(ground, Rect2i(Vector2i(2, 3), Vector2i(5, 3)), "wood_floor")
+		_fill_rect_tiles(ground, Rect2i(Vector2i(8, 2), Vector2i(3, 3)), "wood_floor")
+	elif location_id == "study":
+		_fill_rect_tiles(ground, Rect2i(Vector2i(3, 2), Vector2i(5, 3)), "archive_floor")
+		_fill_rect_tiles(ground, Rect2i(Vector2i(9, 2), Vector2i(3, 4)), "wood_floor")
+	elif location_id == "store":
+		_fill_rect_tiles(ground, Rect2i(Vector2i(2, 2), Vector2i(10, 2)), "interior_floor")
+		_fill_rect_tiles(ground, Rect2i(Vector2i(2, 5), Vector2i(8, 2)), "wood_floor")
+	elif location_id == "building":
+		_fill_rect_tiles(ground, Rect2i(Vector2i(6, 1), Vector2i(3, 7)), "street_sidewalk")
+	elif scene_id == "00-prologue-lights-out" and location_id == "home":
+		_fill_rect_tiles(ground, Rect2i(Vector2i(5, 2), Vector2i(5, 4)), "wood_floor")
 
 
 func _visual_family(terrain: String, _scene_id: String, _location_id: String) -> String:
