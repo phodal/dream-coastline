@@ -2,8 +2,9 @@
   "id": "01-illiterate",
   "title": "第一幕：不会写字的人",
   "source": "five/scene/01-illiterate.md",
-  "min_minutes": 5.0,
+  "min_minutes": 15.0,
   "start": "mud_road",
+  "initial_flags": ["entered_moqi"],
   "ending_flag": "defeated_nameless",
   "required_flags": [
     "checked_phone_no_service",

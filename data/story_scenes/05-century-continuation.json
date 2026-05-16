@@ -2,9 +2,19 @@
   "id": "05-century-continuation",
   "title": "第五幕：百年续页",
   "source": "five/scene/05-century-continuation.md",
-  "min_minutes": 5.0,
+  "min_minutes": 35.0,
   "start": "industry",
-  "initial_flags": ["learned_name", "learned_door", "learned_fire", "learned_stop", "archive_tower_built"],
+  "initial_flags": [
+    "learned_name",
+    "learned_door",
+    "learned_fire",
+    "learned_stop",
+    "got_basic_dictionary",
+    "read_parent_full_plan",
+    "founded_institute",
+    "published_standard_dictionary",
+    "archive_tower_built"
+  ],
   "metrics": {
     "literacy": 48,
     "trust": 60,
@@ -17,10 +27,18 @@
   "ending_flag": "saw_modern_star_darkening",
   "required_flags": [
     "built_text_industry",
+    "witnessed_wensu_absence",
+    "saw_night_school_expansion",
     "bound_xiali_to_statebook",
+    "saw_xiali_fading",
+    "kept_xiali_private_anchor",
+    "confirmed_remote_classrooms",
     "built_statebook_network",
+    "standardized_star_coordinates",
+    "logged_failed_signal",
     "completed_astral_tower",
-    "defeated_silent_probe",
+    "saw_first_silent_frame",
+    "stabilized_silent_interference",
     "saw_modern_star_darkening"
   ],
   "locations": {
@@ -49,6 +67,20 @@
           "time_seconds": 70,
           "flags": ["wensu_textbook_survives"],
           "text": "闻素的《初学墨字》被翻印到第七版。她本人离场后，书仍在教人。"
+        },
+        "wensu_absence": {
+          "name": "闻素的空椅",
+          "time_seconds": 110,
+          "requires": ["wensu_textbook_survives"],
+          "flags": ["witnessed_wensu_absence"],
+          "text": "讲堂前排留着闻素的空椅。学生们没有为她停课，而是把她留下的复盘法继续教给下一届。"
+        },
+        "night_school": {
+          "name": "夜校灯光",
+          "time_seconds": 100,
+          "requires": ["first_students_teach"],
+          "flags": ["saw_night_school_expansion"],
+          "text": "工人下工后坐进夜校。许多人写得很慢，但他们第一次不用求书记官替自己读告示。"
         }
       },
       "build_actions": {
@@ -82,11 +114,32 @@
           "flags": ["xiali_accepts_cost"],
           "text": "夏离说：正因为它不再属于我，它才终于活了。"
         },
+        "xiali_fading": {
+          "name": "夏离逐渐国书化",
+          "time_seconds": 130,
+          "requires": ["xiali_accepts_cost"],
+          "flags": ["saw_xiali_fading"],
+          "text": "夏离的影子在不同城市的国书节点里同时出现。他还会笑，但每一次说话都像从很远的纸页里传来。"
+        },
+        "private_anchor": {
+          "name": "夏离的私人锚点",
+          "time_seconds": 120,
+          "requires": ["saw_xiali_fading"],
+          "flags": ["kept_xiali_private_anchor"],
+          "text": "纪子轩把旧讲堂的一把椅子编号给夏离留着。夏离说：如果有一天我忘了自己坐在哪里，你就从这里叫我。"
+        },
         "engineers": {
           "name": "新一代工程师",
           "time_seconds": 70,
           "flags": ["new_engineers_ready"],
           "text": "小砚的后人维护节点，阿棠的学生维护墨力炉。墨颀第一次不依赖单个天才。"
+        },
+        "remote_classrooms": {
+          "name": "远程学塾",
+          "time_seconds": 100,
+          "requires": ["new_engineers_ready"],
+          "flags": ["confirmed_remote_classrooms"],
+          "text": "边境孩子通过国书网络听课。屏幕上还有延迟和乱码，但他们能把同一个字写在同一套标准里。"
         }
       },
       "build_actions": {
@@ -127,11 +180,25 @@
           "flags": ["mapped_stars_as_text"],
           "text": "星图不再是神话，而是可以校验的坐标文本。每一颗星都需要名、义、约和史。"
         },
+        "coordinate_standard": {
+          "name": "坐标书写标准",
+          "time_seconds": 100,
+          "requires": ["mapped_stars_as_text"],
+          "flags": ["standardized_star_coordinates"],
+          "text": "星象工程师争论了三天，最后把坐标写法也纳入公共标准。回家不再是愿望，而是可复核的工程。"
+        },
         "beacon": {
           "name": "跨界信标",
           "time_seconds": 75,
           "flags": ["designed_cross_beacon"],
           "text": "信标原型能证明：墨颀写出的坐标，可以触碰另一个世界的边缘。"
+        },
+        "failed_signal": {
+          "name": "第一次跨界失败",
+          "time_seconds": 120,
+          "requires": ["designed_cross_beacon"],
+          "flags": ["logged_failed_signal"],
+          "text": "第一次信标只收到一段现代噪声。纪子轩听见像是学校铃声的断片，然后整段记录被擦白。"
         }
       },
       "build_actions": {
@@ -149,7 +216,7 @@
       "art": [
         "+--------------------------------------------------------------+",
         "|  观测镜[星]       现代城市影像：灯光一片片熄灭                |",
-        "|  静默探针 ???                                               |",
+        "|  静默干扰 ???                                               |",
         "|                      @                                      |",
         "+--------------------------------------------------------------+"
       ],
@@ -161,7 +228,7 @@
         "city": {
           "name": "现代城市",
           "time_seconds": 85,
-          "requires": ["completed_astral_tower", "defeated_silent_probe"],
+          "requires": ["completed_astral_tower", "stabilized_silent_interference"],
           "flags": ["saw_modern_star_darkening"],
           "text": "你看见学校、街道、家。灯一盏盏熄灭，信纸上的字变成：Continue failed."
         },
@@ -169,29 +236,36 @@
           "name": "静默信号",
           "time_seconds": 60,
           "requires": ["completed_astral_tower"],
-          "flags": ["identified_silent_probe"],
-          "text": "观测结果被擦白。熄星者的探针正在删除现代星球坐标。"
+          "flags": ["identified_silent_interference"],
+          "text": "观测结果被擦白。现在还看不见敌人，只能确认有一套远端静默协议正在擦掉现代星球坐标。"
+        },
+        "silent_frame": {
+          "name": "第一帧静默影像",
+          "time_seconds": 120,
+          "requires": ["identified_silent_interference"],
+          "flags": ["saw_first_silent_frame"],
+          "text": "影像里，纪子轩家的窗户还是黑的。不同的是，这一次整条街的窗户都在一格一格熄灭。"
         }
       },
       "combat": {
-        "hidden_name": "？？？",
-        "revealed_name": "静默探针",
+        "hidden_name": "观测噪声",
+        "revealed_name": "静默干扰",
         "enemy_hp": 4,
         "player_hp": 5,
-        "lock_flag": "named_silent_probe",
+        "lock_flag": "named_silent_interference",
         "learn_flag": "learned_name",
-        "win_flag": "defeated_silent_probe",
+        "win_flag": "stabilized_silent_interference",
         "success_attempt": 1,
-        "required_attack_flags": ["identified_silent_probe", "paused_signal_deletion"],
-        "success_flags": ["locked_probe_signature"],
-        "reward_flags": ["defeated_silent_probe"],
+        "required_attack_flags": ["identified_silent_interference", "paused_signal_deletion"],
+        "success_flags": ["locked_interference_signature"],
+        "reward_flags": ["stabilized_silent_interference"],
         "lose_name_every": 2,
         "write_seconds": 45,
         "attack_seconds": 35,
         "spells": {
           "stop": {
             "time_seconds": 55,
-            "requires": ["learned_stop", "identified_silent_probe"],
+            "requires": ["learned_stop", "identified_silent_interference"],
             "flags": ["paused_signal_deletion"],
             "text": "你用“止”暂停坐标删除。星象塔争取到一次完整观测窗口。"
           }
@@ -202,18 +276,26 @@
   "walkthrough": [
     "inspect teachers",
     "inspect wensu_book",
+    "inspect wensu_absence",
+    "inspect night_school",
     "build industry",
     "go network",
     "inspect xiali",
+    "inspect xiali_fading",
+    "inspect private_anchor",
     "build bind_xiali",
     "inspect engineers",
+    "inspect remote_classrooms",
     "build network",
     "go astral",
     "inspect star_map",
+    "inspect coordinate_standard",
     "inspect beacon",
+    "inspect failed_signal",
     "build astral_tower",
     "go star_tower",
     "inspect signal",
+    "inspect silent_frame",
     "write name",
     "cast stop",
     "attack",

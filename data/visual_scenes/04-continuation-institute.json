@@ -71,7 +71,7 @@
 		},
 		"mine": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/mine.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "hazard",
@@ -189,7 +189,7 @@
 		},
 		"seal_tower": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/seal_tower.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "students",
@@ -277,7 +277,7 @@
 		},
 		"tower": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/tower.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "array",

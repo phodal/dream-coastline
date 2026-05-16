@@ -8,6 +8,9 @@ var scene := {}
 var location_id := ""
 var flags := {}
 var metrics := {}
+var carried_flags := {}
+var carried_branch_excluded_flags := {}
+var carried_metrics_by_scene := {}
 var player_stats := {}
 var glyph_mastery := {}
 var elapsed_seconds := 0
@@ -23,7 +26,10 @@ func _init(scene_database) -> void:
 
 
 func load_scene(index: int) -> void:
-	scene_index = clamp(index, 0, database.count() - 1)
+	var next_index := clamp(index, 0, database.count() - 1)
+	if next_index == 0:
+		_clear_story_carryover()
+	scene_index = next_index
 	scene_id = database.scene_id_at(scene_index)
 	scene = database.scene_at(scene_index)
 	location_id = str(scene.get("start", ""))
@@ -31,6 +37,7 @@ func load_scene(index: int) -> void:
 	for flag in scene.get("initial_flags", []):
 		flags[str(flag)] = true
 	metrics = scene.get("metrics", {}).duplicate(true)
+	_apply_carried_story_state()
 	player_stats = scene.get("player_stats", {}).duplicate(true)
 	glyph_mastery = scene.get("glyph_mastery", {}).duplicate(true)
 	elapsed_seconds = 0
@@ -238,6 +245,9 @@ func to_save_data() -> Dictionary:
 		"location_id": location_id,
 		"flags": flags.keys(),
 		"metrics": metrics,
+		"carried_flags": carried_flags.keys(),
+		"carried_branch_excluded_flags": carried_branch_excluded_flags.keys(),
+		"carried_metrics_by_scene": carried_metrics_by_scene,
 		"player_stats": player_stats,
 		"glyph_mastery": glyph_mastery,
 		"elapsed_seconds": elapsed_seconds,
@@ -258,6 +268,13 @@ func load_save_data(data: Dictionary) -> void:
 	for flag in data.get("flags", []):
 		flags[str(flag)] = true
 	metrics = data.get("metrics", {}).duplicate(true)
+	carried_flags.clear()
+	for flag in data.get("carried_flags", []):
+		carried_flags[str(flag)] = true
+	carried_branch_excluded_flags.clear()
+	for flag in data.get("carried_branch_excluded_flags", []):
+		carried_branch_excluded_flags[str(flag)] = true
+	carried_metrics_by_scene = data.get("carried_metrics_by_scene", {}).duplicate(true)
 	player_stats = data.get("player_stats", scene.get("player_stats", {})).duplicate(true)
 	glyph_mastery = data.get("glyph_mastery", scene.get("glyph_mastery", {})).duplicate(true)
 	elapsed_seconds = int(data.get("elapsed_seconds", 0))
@@ -336,7 +353,7 @@ func _inspect_item(item_id: String) -> void:
 	elapsed_seconds += int(item.get("time_seconds", 30))
 	_add_flags(item.get("flags", []))
 	_apply_progression_rewards(item)
-	_log(str(item.get("text", "")))
+	_log(_action_text(item))
 
 
 func _available_casts() -> Array[String]:
@@ -381,7 +398,7 @@ func _cast_glyph(glyph: String) -> void:
 	_add_flags(action.get("flags", []))
 	_apply_metrics(action.get("metrics", {}))
 	_apply_progression_rewards(action)
-	_log(str(action.get("text", "")))
+	_log(_action_text(action))
 
 
 func _build_project(project: String) -> void:
@@ -403,7 +420,7 @@ func _build_project(project: String) -> void:
 	_add_flags(action.get("flags", []))
 	_apply_metrics(action.get("metrics", {}))
 	_apply_progression_rewards(action)
-	_log(str(action.get("text", "")))
+	_log(_action_text(action))
 
 
 func _choose_route(route: String) -> void:
@@ -420,11 +437,16 @@ func _choose_route(route: String) -> void:
 	if not _action_costs_met(choice):
 		_log("资源不足。")
 		return
+	if _branch_choice_already_resolved(choice):
+		_log("这条路线已经定下，不能再改写。")
+		return
 	_apply_action_costs(choice)
 	elapsed_seconds += int(choice.get("time_seconds", 45))
-	_add_flags(choice.get("flags", []))
+	var choice_flags: Array = choice.get("flags", [])
+	_add_flags(choice_flags)
+	_record_branch_consequence(choice_flags)
 	_apply_progression_rewards(choice)
-	_log(str(choice.get("text", "")))
+	_log(_action_text(choice))
 
 
 func _combine_words(combo: String) -> void:
@@ -445,7 +467,7 @@ func _combine_words(combo: String) -> void:
 	elapsed_seconds += int(action.get("time_seconds", 90))
 	_add_flags(action.get("flags", []))
 	_apply_progression_rewards(action)
-	_log(str(action.get("text", "")))
+	_log(_action_text(action))
 
 
 func _engage_encounter(encounter_id: String) -> void:
@@ -471,7 +493,7 @@ func _engage_encounter(encounter_id: String) -> void:
 	_add_flags(encounter.get("flags", []))
 	_apply_metrics(encounter.get("metrics", {}))
 	_apply_progression_rewards(encounter)
-	_log(str(encounter.get("text", "")))
+	_log(_action_text(encounter))
 
 
 func _write_name() -> void:
@@ -598,6 +620,81 @@ func _apply_metrics(delta: Dictionary) -> void:
 	for key in delta.keys():
 		var metric_key := str(key)
 		metrics[metric_key] = int(metrics.get(metric_key, 0)) + int(delta[key])
+
+
+func _action_text(action: Dictionary) -> String:
+	var route_texts: Dictionary = action.get("route_texts", {})
+	for route_flag in route_texts.keys():
+		if has_flag(str(route_flag)):
+			return str(route_texts[route_flag])
+	return str(action.get("text", ""))
+
+
+func _clear_story_carryover() -> void:
+	carried_flags.clear()
+	carried_branch_excluded_flags.clear()
+	carried_metrics_by_scene.clear()
+
+
+func _apply_carried_story_state() -> void:
+	for flag in carried_branch_excluded_flags.keys():
+		flags.erase(str(flag))
+	for flag in carried_flags.keys():
+		flags[str(flag)] = true
+	var metric_delta: Dictionary = carried_metrics_by_scene.get(scene_id, {})
+	if not metric_delta.is_empty():
+		_apply_metrics(metric_delta)
+
+
+func _branch_choice_already_resolved(choice: Dictionary) -> bool:
+	var resolved_flag := _branch_resolved_flag_for_choice(choice)
+	return not resolved_flag.is_empty() and has_flag(resolved_flag)
+
+
+func _branch_resolved_flag_for_choice(choice: Dictionary) -> String:
+	var contract: Dictionary = scene.get("branch_consequences", {})
+	var resolved_flag := str(contract.get("resolved_flag", ""))
+	if resolved_flag.is_empty():
+		return ""
+	if _array_has_text(choice.get("flags", []), resolved_flag):
+		return resolved_flag
+	return ""
+
+
+func _record_branch_consequence(choice_flags: Array) -> void:
+	var contract: Dictionary = scene.get("branch_consequences", {})
+	var resolved_flag := str(contract.get("resolved_flag", ""))
+	if resolved_flag.is_empty() or not _array_has_text(choice_flags, resolved_flag):
+		return
+	carried_flags[resolved_flag] = true
+	var routes: Dictionary = contract.get("routes", {})
+	for route in routes.keys():
+		var route_contract: Dictionary = routes[route]
+		var route_flag := str(route_contract.get("flag", ""))
+		if route_flag.is_empty():
+			continue
+		carried_branch_excluded_flags[route_flag] = true
+		if not _array_has_text(choice_flags, route_flag):
+			continue
+		carried_flags[route_flag] = true
+		var next_scene_metrics: Dictionary = route_contract.get("next_scene_metrics", {})
+		for target_scene_id in next_scene_metrics.keys():
+			_add_carried_metrics(str(target_scene_id), next_scene_metrics[target_scene_id])
+
+
+func _add_carried_metrics(target_scene_id: String, delta: Dictionary) -> void:
+	var merged: Dictionary = carried_metrics_by_scene.get(target_scene_id, {}).duplicate(true)
+	for key in delta.keys():
+		var metric_key := str(key)
+		merged[metric_key] = int(merged.get(metric_key, 0)) + int(delta[key])
+	carried_metrics_by_scene[target_scene_id] = merged
+
+
+func _array_has_text(values: Array, text: String) -> bool:
+	for value in values:
+		if str(value) == text:
+			return true
+	return false
 
 
 func _apply_stat_delta(delta: Dictionary) -> void:

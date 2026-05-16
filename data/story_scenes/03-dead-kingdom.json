@@ -2,20 +2,72 @@
   "id": "03-dead-kingdom",
   "title": "第三幕：死去的王国",
   "source": "five/scene/03-dead-kingdom.md",
-  "min_minutes": 5.0,
+  "min_minutes": 25.0,
   "start": "outer_city",
-  "initial_flags": ["learned_name", "learned_door", "learned_stop", "got_basic_dictionary"],
+  "initial_flags": [
+    "entered_moqi",
+    "defeated_nameless",
+    "learned_name",
+    "learned_door",
+    "learned_fire",
+    "learned_stop",
+    "got_basic_dictionary",
+    "repaired_first_node",
+    "viewed_parent_record"
+  ],
   "ending_flag": "read_parent_full_plan",
   "required_flags": [
     "saw_dead_city_order",
+    "saw_market_without_buyers",
     "found_reform_records",
+    "found_student_letters",
     "found_lockdown_logs",
+    "read_trial_transcripts",
     "restored_fall_route",
-    "chose_public_books",
+    "resolved_book_route",
+    "saw_burned_route_wall",
+    "xiali_answered_without_throne",
     "defeated_royal_shadow",
     "opened_main_core",
     "read_parent_full_plan"
   ],
+  "branch_consequences": {
+    "resolved_flag": "resolved_book_route",
+    "routes": {
+      "public": {
+        "flag": "chose_public_books",
+        "next_scene_metrics": {
+          "04-continuation-institute": {"literacy": 4, "openness": 6, "noble_resistance": -4},
+          "06-return-star-plan": {"support": 6}
+        },
+        "continuity_note": "公开书院路线让第四幕教育和字典推进更顺，归星议会更容易获得公共支持。"
+      },
+      "royal": {
+        "flag": "chose_royal_books",
+        "next_scene_metrics": {
+          "04-continuation-institute": {"trust": 3, "stability": 4, "noble_resistance": 6},
+          "06-return-star-plan": {"support": -4}
+        },
+        "continuity_note": "王权保管路线短期稳定，但贵族阻力更高，归星议会需要额外证明不是王族远征。"
+      },
+      "engineers": {
+        "flag": "chose_engineer_books",
+        "next_scene_metrics": {
+          "04-continuation-institute": {"engineering": 6, "energy": 4, "literacy": -3},
+          "06-return-star-plan": {"support": 2}
+        },
+        "continuity_note": "工程路线让工坊和船坞更快，但平民教育需要后续补课。"
+      },
+      "parents": {
+        "flag": "chose_parent_books",
+        "next_scene_metrics": {
+          "04-continuation-institute": {"openness": -2, "trust": -2},
+          "06-return-star-plan": {"support": 3}
+        },
+        "continuity_note": "父母线索路线让归星真相更早清晰，但第四幕公共建设启动会更吃力。"
+      }
+    }
+  },
   "locations": {
     "outer_city": {
       "name": "旧王都外城",
@@ -37,6 +89,13 @@
           "time_seconds": 60,
           "flags": ["saw_dead_city_order"],
           "text": "巡逻符器还在执行旧命令。它们保护街道，却不保护街上的人。"
+        },
+        "market": {
+          "name": "没有买主的集市",
+          "time_seconds": 80,
+          "requires": ["saw_dead_city_order"],
+          "flags": ["saw_market_without_buyers"],
+          "text": "摊位摆得整齐，价格牌每天自动更新，却没有人问价。秩序还活着，生活已经死了。"
         },
         "poster": {
           "name": "罪人告示",
@@ -68,6 +127,13 @@
           "flags": ["found_reform_records"],
           "text": "你找到夏离签过的旧令：基础字根可向平民开放试教。墨律司在旁边写了危险二字。"
         },
+        "letters": {
+          "name": "学生退回的信",
+          "time_seconds": 85,
+          "requires": ["found_reform_records"],
+          "flags": ["found_student_letters"],
+          "text": "几封信写给夏离：殿下，我们已经会写自己的名字了。信末被墨律司盖上退回二字。"
+        },
         "ban": {
           "name": "禁令抄本",
           "time_seconds": 55,
@@ -79,25 +145,25 @@
         "public": {
           "time_seconds": 60,
           "requires": ["found_reform_records"],
-          "flags": ["chose_public_books"],
+          "flags": ["chose_public_books", "resolved_book_route"],
           "text": "你决定把王都藏书交给闻素建立公开书院。夏离第一次没有立刻反对。"
         },
         "royal": {
           "time_seconds": 60,
           "requires": ["found_reform_records"],
-          "flags": ["chose_royal_books"],
+          "flags": ["chose_royal_books", "resolved_book_route"],
           "text": "你把藏书交给夏离作为复国资本。这会强化王权路线，但削弱公开教育速度。"
         },
         "engineers": {
           "time_seconds": 60,
           "requires": ["found_reform_records"],
-          "flags": ["chose_engineer_books"],
+          "flags": ["chose_engineer_books", "resolved_book_route"],
           "text": "你把藏书交给工匠组织。工程路线会更快，但闻素担心基础教育跟不上。"
         },
         "parents": {
           "time_seconds": 60,
           "requires": ["found_reform_records"],
-          "flags": ["chose_parent_books"],
+          "flags": ["chose_parent_books", "resolved_book_route"],
           "text": "你保留资料优先寻找父母线索。夏离提醒你：墨颀不会等你慢慢选择。"
         }
       }
@@ -123,6 +189,13 @@
           "time_seconds": 75,
           "flags": ["found_lockdown_logs"],
           "text": "日志显示：墨律司强行封锁国书后，城市符文出现连锁崩坏。王城陷落不是单一叛乱。"
+        },
+        "transcripts": {
+          "name": "审讯抄本",
+          "time_seconds": 90,
+          "requires": ["found_lockdown_logs"],
+          "flags": ["read_trial_transcripts"],
+          "text": "抄本里没有拷问夏离是否叛国，只反复问他：谁允许你把字教给无名之人？"
         },
         "names": {
           "name": "缺页名册",
@@ -155,6 +228,13 @@
           "flags": ["restored_fall_route"],
           "text": "你用日志和文献复原路线：夏离的改革太急，墨律司的封锁更致命，两者共同撕裂王都。"
         },
+        "ash_wall": {
+          "name": "烧黑的教学墙",
+          "time_seconds": 75,
+          "requires": ["restored_fall_route"],
+          "flags": ["saw_burned_route_wall"],
+          "text": "墙上还留着半行儿童练字。夏离伸手摸过灰烬，说：我以为他们只需要机会，没想到他们还需要时间。"
+        },
         "xiali": {
           "name": "夏离",
           "time_seconds": 55,
@@ -183,6 +263,13 @@
           "flags": ["heard_royal_question"],
           "text": "残影问：无王之国，何以为国？夏离沉默得像一座快塌的城。"
         },
+        "answer": {
+          "name": "夏离的回答",
+          "time_seconds": 90,
+          "requires": ["paused_royal_lock"],
+          "flags": ["xiali_answered_without_throne"],
+          "text": "夏离没有再说复国。他说：若我只是让王座重新坐满，这座城还是会死第二次。"
+        },
         "plan": {
           "name": "父母完整计划",
           "time_seconds": 90,
@@ -194,9 +281,9 @@
       "glyph_actions": {
         "door": {
           "time_seconds": 55,
-          "requires": ["defeated_royal_shadow", "chose_public_books"],
+          "requires": ["defeated_royal_shadow", "resolved_book_route"],
           "flags": ["opened_main_core"],
-          "text": "你用“门”打开国书核心。它不再只承认王族权限，也承认公共字典路线。"
+          "text": "你用“门”打开国书核心。它不再只承认王族权限，也承认藏书已经离开封闭保管。"
         }
       },
       "combat": {
@@ -233,22 +320,27 @@
   },
   "walkthrough": [
     "inspect order",
+    "inspect market",
     "inspect poster",
     "go library",
     "inspect records",
+    "inspect letters",
     "inspect ban",
     "choose public",
     "go hq",
     "inspect logs",
+    "inspect transcripts",
     "inspect names",
     "go palace",
     "inspect route",
+    "inspect ash_wall",
     "inspect xiali",
     "go hall",
     "inspect question",
     "write name",
     "cast door",
     "cast stop",
+    "inspect answer",
     "attack",
     "attack",
     "attack",

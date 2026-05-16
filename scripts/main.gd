@@ -751,16 +751,8 @@ func _run_visual_asset_scene_smoke() -> bool:
 	return ok
 
 
-func _requires_asset_backed_scene(scene_id: String, location_id: String) -> bool:
-	if scene_id == "00-prologue-lights-out":
-		return true
-	if scene_id == "02-moqi-academy" and location_id in ["academy", "village"]:
-		return true
-	if scene_id == "04-continuation-institute" and location_id in ["institute", "school", "workshop"]:
-		return true
-	if scene_id == "07-lights-on-again" and location_id in ["home", "school", "street", "store"]:
-		return true
-	return false
+func _requires_asset_backed_scene(_scene_id: String, _location_id: String) -> bool:
+	return true
 
 
 func _global_capture_path(path: String) -> String:

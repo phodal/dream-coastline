@@ -3,7 +3,7 @@
 	"locations": {
 		"astral_tower": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/astral_tower.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "disaster",
@@ -36,7 +36,7 @@
 		},
 		"core": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/core.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "xiali",
@@ -86,7 +86,7 @@
 		},
 		"council": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/council.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "supporters",
@@ -136,7 +136,7 @@
 		},
 		"dockyard": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/dockyard.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "blueprint",
@@ -185,7 +185,7 @@
 		},
 		"gate": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/gate.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "calibration",
@@ -234,7 +234,7 @@
 		},
 		"rift": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/rift.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "probe",

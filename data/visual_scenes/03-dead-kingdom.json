@@ -3,7 +3,7 @@
 	"locations": {
 		"hall": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/hall.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "question",
@@ -80,7 +80,7 @@
 		},
 		"hq": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/hq.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "logs",
@@ -132,7 +132,7 @@
 		},
 		"library": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/library.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"h": 4.0,
@@ -195,7 +195,7 @@
 		},
 		"outer_city": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/outer_city.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "poster",
@@ -241,7 +241,7 @@
 		},
 		"palace": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/palace.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "route",

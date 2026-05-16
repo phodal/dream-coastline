@@ -20,7 +20,7 @@ tile_set = ExtResource("1_fjklt")
 
 [node name="decor" type="TileMapLayer" parent="." unique_id=1373558009]
 texture_filter = 1
-tile_map_data = PackedByteArray("AAAEAAMAAAAJAAIAAAAJAAMAAAAGAAIAAAANAAQAAAAEAAEAAAA=")
+tile_map_data = PackedByteArray("AAACAAEAAAACAAEAAAAEAAEAAAACAAEAAAAGAAEAAAACAAEAAAAIAAEAAAACAAEAAAAKAAEAAAACAAEAAAAMAAEAAAACAAEAAAADAAQAAAAOAAIAAAAGAAQAAAAOAAIAAAAJAAQAAAAOAAIAAAAMAAQAAAAOAAIAAAAEAAYAAAAHAAEAAAAKAAYAAAAHAAEAAAAHAAUAAAAHAAIAAAAEAAMAAAAJAAIAAAAJAAMAAAAGAAIAAAANAAQAAAAEAAEAAAA=")
 tile_set = ExtResource("1_fjklt")
 
 [node name="props_shadow" type="TileMapLayer" parent="." unique_id=27177269]
@@ -30,5 +30,5 @@ tile_set = ExtResource("1_fjklt")
 
 [node name="lighting" type="TileMapLayer" parent="." unique_id=1745722501]
 texture_filter = 1
-tile_map_data = PackedByteArray("AAAHAAMAAAANAAIAAAAJAAMAAAACAAMAAAA=")
+tile_map_data = PackedByteArray("AAAEAAYAAAACAAMAAAAKAAYAAAACAAMAAAAHAAUAAAADAAMAAAAHAAMAAAANAAIAAAAJAAMAAAACAAMAAAA=")
 tile_set = ExtResource("1_fjklt")

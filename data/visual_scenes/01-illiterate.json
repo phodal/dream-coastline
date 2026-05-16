@@ -3,7 +3,7 @@
 	"locations": {
 		"camp": {
 			"asset_scene": "res://scenes/visual_locations/01-illiterate/camp.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"h": 2.0,
@@ -56,7 +56,7 @@
 		},
 		"chase": {
 			"asset_scene": "res://scenes/visual_locations/01-illiterate/chase.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"h": 5.0,
@@ -110,7 +110,7 @@
 		},
 		"mud_road": {
 			"asset_scene": "res://scenes/visual_locations/01-illiterate/mud_road.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "city",
@@ -156,7 +156,7 @@
 		},
 		"station": {
 			"asset_scene": "res://scenes/visual_locations/01-illiterate/station.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "strokes",

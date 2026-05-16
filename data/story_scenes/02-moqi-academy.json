@@ -2,8 +2,9 @@
   "id": "02-moqi-academy",
   "title": "第二幕：墨颀书院",
   "source": "five/scene/02-moqi-academy.md",
-  "min_minutes": 5.0,
+  "min_minutes": 25.0,
   "start": "academy",
+  "initial_flags": ["entered_moqi", "defeated_nameless"],
   "ending_flag": "viewed_parent_record",
   "player_stats": {
     "ink": 4,
@@ -21,15 +22,19 @@
   },
   "required_flags": [
     "met_wensu",
+    "passed_wensu_baseline",
     "learned_name",
     "learned_door",
     "learned_fire",
     "learned_stop",
     "cleared_contract_patrol",
+    "owned_first_repair_failure",
     "repaired_well",
     "got_basic_dictionary",
+    "understood_dictionary_margins",
     "defeated_contract_officer",
     "repaired_first_node",
+    "read_mother_node_annotation",
     "viewed_parent_record"
   ],
   "locations": {
@@ -53,6 +58,13 @@
           "time_seconds": 60,
           "flags": ["met_wensu"],
           "text": "闻素说：在墨颀，不会写字的人，不是愚笨。是不被允许存在得太完整。"
+        },
+        "baseline": {
+          "name": "闻素的基线测试",
+          "time_seconds": 90,
+          "requires": ["met_wensu"],
+          "flags": ["passed_wensu_baseline"],
+          "text": "闻素没有立刻教新字，而是让你把听不懂、看不懂、误读的地方逐项写下。她说：先承认不知道，才有资格学习。"
         },
         "name": {
           "name": "名",
@@ -104,6 +116,13 @@
           "time_seconds": 45,
           "flags": ["checked_broken_well"],
           "text": "井沿的裂纹像被删掉的笔画。水源还在，但名字和流向都不稳定。"
+        },
+        "first_failure": {
+          "name": "第一次修井失败",
+          "time_seconds": 80,
+          "requires": ["checked_broken_well"],
+          "flags": ["owned_first_repair_failure"],
+          "text": "你照着字典抄了一遍旧符，井沿反而裂得更深。夏离想替你收场，闻素拦住他：失败也要记录，否则下一次还会有人照错。"
         },
         "villagers": {
           "name": "村民",
@@ -176,6 +195,13 @@
           "flags": ["understood_text_layers"],
           "text": "日常文字记录生活，律文字约束制度，真文字接近现实底层接口。"
         },
+        "margins": {
+          "name": "字典页边批注",
+          "time_seconds": 70,
+          "requires": ["understood_text_layers"],
+          "flags": ["understood_dictionary_margins"],
+          "text": "页边写着许多被删掉的教学注释：这个字曾经教给平民，后来又被划掉。纪子轩第一次看见知识被收回的痕迹。"
+        },
         "cabinet": {
           "name": "封存柜",
           "time_seconds": 45,
@@ -212,6 +238,13 @@
           "time_seconds": 55,
           "flags": ["checked_contract_lock"],
           "text": "契约把节点、村落和你的行动绑在一起。硬闯会让井水再次停摆。"
+        },
+        "mother_annotation": {
+          "name": "母亲的节点批注",
+          "time_seconds": 85,
+          "requires": ["repaired_first_node"],
+          "flags": ["read_mother_node_annotation"],
+          "text": "节点底层留着母亲的细字：不要只修这个节点，要让每个人都知道为什么它会坏。"
         },
         "record": {
           "name": "父母影像",
@@ -284,12 +317,14 @@
   },
   "walkthrough": [
     "inspect wensu",
+    "inspect baseline",
     "inspect name",
     "inspect door",
     "inspect fire",
     "inspect stop",
     "go village",
     "inspect well",
+    "inspect first_failure",
     "inspect villagers",
     "engage contract_patrol",
     "cast stop",
@@ -297,6 +332,7 @@
     "cast name",
     "go archive",
     "inspect layers",
+    "inspect margins",
     "inspect cabinet",
     "cast door",
     "go node",
@@ -310,6 +346,7 @@
     "cast name",
     "cast stop",
     "cast fire",
+    "inspect mother_annotation",
     "inspect record"
   ]
 }

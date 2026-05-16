@@ -2,9 +2,19 @@
   "id": "06-return-star-plan",
   "title": "第六幕：归星计划",
   "source": "five/scene/06-return-star-plan.md",
-  "min_minutes": 5.0,
+  "min_minutes": 35.0,
   "start": "astral_tower",
-  "initial_flags": ["learned_name", "learned_door", "learned_fire", "learned_stop", "built_statebook_network", "completed_astral_tower", "archive_tower_built"],
+  "initial_flags": [
+    "learned_name",
+    "learned_door",
+    "learned_fire",
+    "learned_stop",
+    "built_statebook_network",
+    "completed_astral_tower",
+    "archive_tower_built",
+    "stabilized_silent_interference",
+    "saw_modern_star_darkening"
+  ],
   "metrics": {
     "literacy": 72,
     "trust": 78,
@@ -19,9 +29,13 @@
   "required_flags": [
     "confirmed_modern_disaster",
     "won_return_star_council",
+    "reviewed_return_risk_ledger",
     "built_return_vessel",
+    "marked_empty_seats",
     "bound_civilization_backups",
+    "passed_backup_drill",
     "opened_return_gate",
+    "heard_return_gate_farewell",
     "defeated_invasion_probe",
     "received_parent_truth",
     "returned_to_modern_with_moqi"
@@ -74,13 +88,32 @@
           "name": "支持派",
           "time_seconds": 70,
           "flags": ["heard_supporters"],
-          "text": "学生、工程师和档案员认为：纪子轩帮助过墨颀，墨颀也应回应另一个文明的求救。"
+          "text": "学生、工程师和档案员认为：纪子轩帮助过墨颀，墨颀也应回应另一个文明的求救。",
+          "route_texts": {
+            "chose_public_books": "公开藏书培养出的学生、工程师和档案员一起发言：纪子轩帮助过墨颀，墨颀也应回应另一个文明的求救。",
+            "chose_royal_books": "支持派先由夏离旧部发言，语气像一次远征。闻素补上一句：这不是王族回报，而是全体墨颀的公开决定。",
+            "chose_engineer_books": "工坊代表和船坞工程师最先站起来：他们已经把归星风险拆成图纸、能源和备份任务，救援不再只是口号。",
+            "chose_parent_books": "父母资料让一部分档案员提前相信现代危机真实存在，但学生们要求把证据重新讲给所有人听，不能只凭纪子轩的私事动员文明。"
+          }
         },
         "opposition": {
           "name": "反对派",
           "time_seconds": 70,
           "flags": ["heard_opposition"],
-          "text": "反对者说：墨颀刚从灭亡中恢复，归星计划可能让一切成果再次归零。"
+          "text": "反对者说：墨颀刚从灭亡中恢复，归星计划可能让一切成果再次归零。",
+          "route_texts": {
+            "chose_public_books": "反对者承认公开教育有效，但他们问：刚学会写名字的孩子，是否应该承担另一个世界的失败后果？",
+            "chose_royal_books": "反对者担心归星计划会变成新王权的星空远征。支持度被压低，纪子轩必须证明授权不属于夏离个人。",
+            "chose_engineer_books": "反对者指着能源账本：工程派跑得太快，课堂和城市防护还没完全跟上。船坞不能替整个文明做决定。",
+            "chose_parent_books": "反对者质问纪子轩：你寻找父母的路线让证据更清楚，也让公共建设少走了一段。墨颀不能只为你的家门开门。"
+          }
+        },
+        "risk_ledger": {
+          "name": "风险账本",
+          "time_seconds": 95,
+          "requires": ["heard_supporters", "heard_opposition"],
+          "flags": ["reviewed_return_risk_ledger"],
+          "text": "账本逐项列出能源、教育、城市防护和失败后果。归星不是热血表决，而是把风险写给所有人看。"
         }
       },
       "build_actions": {
@@ -89,7 +122,13 @@
           "requires": ["confirmed_modern_disaster", "heard_supporters", "heard_opposition"],
           "flags": ["won_return_star_council"],
           "metrics": {"support": 72, "trust": 8, "openness": 6},
-          "text": "议会通过归星授权。支持度来自前期教育、公开知识、国书稳定和工程能力。"
+          "text": "议会通过归星授权。支持度来自前期教育、公开知识、国书稳定和工程能力。",
+          "route_texts": {
+            "chose_public_books": "议会通过归星授权。公开藏书路线让支持度来自教室、工坊和档案馆，而不是某个领袖的承诺。",
+            "chose_royal_books": "议会勉强通过归星授权，但附加限制：夏离旧部不能单独指挥续页舰。王权路线留下的怀疑必须被制度压住。",
+            "chose_engineer_books": "议会通过归星授权，工程派给出了最完整的船坞方案。闻素同时写下补课条款：归星不能牺牲基础教育。",
+            "chose_parent_books": "议会通过归星授权，因为父母资料证明现代危机不是幻觉。授权书最后一行写着：私人动机必须交给公共目标审判。"
+          }
         }
       }
     },
@@ -114,6 +153,13 @@
           "time_seconds": 75,
           "flags": ["checked_return_vessel_blueprint"],
           "text": "蓝图把星象塔、国书节点、移动档案和续页系统写成同一个工程。"
+        },
+        "empty_seats": {
+          "name": "空座名单",
+          "time_seconds": 90,
+          "requires": ["built_return_vessel"],
+          "flags": ["marked_empty_seats"],
+          "text": "续页舰上预留了许多空座：给教师、工程师、档案员，也给那些可能回不来的人。"
         }
       },
       "build_actions": {
@@ -122,7 +168,13 @@
           "requires": ["won_return_star_council", "checked_return_vessel_blueprint"],
           "flags": ["built_return_vessel"],
           "metrics": {"engineering": 15, "energy": -12, "support": 8},
-          "text": "续页舰完工。它携带的不是军队，而是字典、档案、教师、工程师和国书核心。"
+          "text": "续页舰完工。它携带的不是军队，而是字典、档案、教师、工程师和国书核心。",
+          "route_texts": {
+            "chose_public_books": "续页舰完工。公开路线让每个舱段都带着字典、档案、教师和工程师，像一座可移动学塾。",
+            "chose_royal_books": "续页舰完工。夏离旧部想挂王族旗，被纪子轩撤下；舰上只保留公共档案标记。",
+            "chose_engineer_books": "续页舰提前完工，船坞记录比计划多出三层校验。它跑得更快，也把补课名单贴在主舱门上。",
+            "chose_parent_books": "续页舰完工，导航核心保留父母资料副本。纪子轩在副本旁加了公共索引，提醒自己不能只驶向家。"
+          }
         }
       }
     },
@@ -151,6 +203,13 @@
           "time_seconds": 70,
           "flags": ["designed_backup_chain"],
           "text": "标准字典、公共档案馆、国书网络和学生共同书写，将成为战斗中的恢复系统。"
+        },
+        "backup_drill": {
+          "name": "备份恢复演练",
+          "time_seconds": 110,
+          "requires": ["bound_civilization_backups"],
+          "flags": ["passed_backup_drill"],
+          "text": "演练中，技能名被故意擦成□□。三个城市同时回写字典，十七秒后，名字恢复。"
         }
       },
       "build_actions": {
@@ -184,6 +243,13 @@
           "time_seconds": 80,
           "flags": ["checked_gate_calibration"],
           "text": "星门需要现代坐标、墨颀国书和续页舰三者同时稳定。任何一项乱码都会坍缩。"
+        },
+        "farewell": {
+          "name": "归星门前的告别",
+          "time_seconds": 90,
+          "requires": ["opened_return_gate"],
+          "flags": ["heard_return_gate_farewell"],
+          "text": "夏离看着门内的现代夜色，说：这一次，不是你一个人回家。"
         }
       },
       "build_actions": {
@@ -266,17 +332,21 @@
     "go council",
     "inspect supporters",
     "inspect opposition",
+    "inspect risk_ledger",
     "build mandate",
     "go dockyard",
     "inspect blueprint",
     "build vessel",
+    "inspect empty_seats",
     "go core",
     "inspect xiali",
     "inspect backup",
     "build backups",
+    "inspect backup_drill",
     "go gate",
     "inspect calibration",
     "build gate",
+    "inspect farewell",
     "go rift",
     "inspect probe",
     "write name",

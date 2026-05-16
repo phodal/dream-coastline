@@ -2,9 +2,19 @@
   "id": "07-lights-on-again",
   "title": "第七幕：灯重新亮起",
   "source": "five/scene/07-lights-on-again.md",
-  "min_minutes": 5.0,
+  "min_minutes": 45.0,
   "start": "home",
-  "initial_flags": ["learned_name", "learned_door", "learned_fire", "learned_stop", "returned_to_modern_with_moqi", "bound_civilization_backups"],
+  "initial_flags": [
+    "learned_name",
+    "learned_door",
+    "learned_fire",
+    "learned_stop",
+    "opened_return_gate",
+    "bound_civilization_backups",
+    "defeated_invasion_probe",
+    "received_parent_truth",
+    "returned_to_modern_with_moqi"
+  ],
   "metrics": {
     "modern_observability": 8,
     "rescued_names": 0,
@@ -14,11 +24,20 @@
   "ending_flag": "rejected_silence_protocol",
   "required_flags": [
     "confirmed_home_silenced",
+    "heard_parent_echo",
+    "chose_city_before_parents",
     "confirmed_school_erasure",
+    "found_missing_teacher",
     "lit_city_grid",
+    "saw_faceless_neighbors",
     "rescued_clerk_name",
+    "recovered_receipt_name",
     "modern_node_stable",
+    "read_parent_final_record",
+    "survived_failed_bridge_test",
     "bridge_stable",
+    "saw_deleted_party_names",
+    "heard_civilization_response",
     "defeated_final_protocol",
     "rejected_silence_protocol"
   ],
@@ -43,6 +62,20 @@
           "time_seconds": 75,
           "flags": ["confirmed_home_silenced"],
           "text": "同一张餐桌，同一封信。这一次你知道，灯没亮不是家事，而是星球级静默。"
+        },
+        "parents_echo": {
+          "name": "父母留下的回声",
+          "time_seconds": 90,
+          "requires": ["confirmed_home_silenced"],
+          "flags": ["heard_parent_echo"],
+          "text": "录音只剩断句：如果你回来了，不要先找我们，先让这座城重新被看见。"
+        },
+        "city_first": {
+          "name": "先救城市的选择",
+          "time_seconds": 90,
+          "requires": ["heard_parent_echo"],
+          "flags": ["chose_city_before_parents"],
+          "text": "纪子轩看向父母房间，又看向窗外逐排熄灭的楼。最后他关上房门：先让这座城被看见，再回来找他们。"
         },
         "contacts": {
           "name": "手机联系人",
@@ -72,6 +105,13 @@
           "time_seconds": 70,
           "flags": ["confirmed_school_erasure"],
           "text": "走廊没有尽头。地图上的学校轮廓被擦掉，只剩一个没有意义的方框。"
+        },
+        "missing_teacher": {
+          "name": "缺席的班主任",
+          "time_seconds": 85,
+          "requires": ["confirmed_school_erasure"],
+          "flags": ["found_missing_teacher"],
+          "text": "讲台上有一张点名表，班主任那一栏空着。纪子轩忽然想不起她的声音。"
         },
         "classmates": {
           "name": "同学名牌",
@@ -103,6 +143,13 @@
           "time_seconds": 70,
           "flags": ["checked_city_grid"],
           "text": "现代电网还能供电，但可观测性被削弱。普通灯光必须和符灯一起点亮。"
+        },
+        "neighbors": {
+          "name": "无脸邻居",
+          "time_seconds": 100,
+          "requires": ["checked_city_grid"],
+          "flags": ["saw_faceless_neighbors"],
+          "text": "楼下邻居站在路灯阴影里，脸像被磨平的旧照片。你知道下一步会轮到他们的名字。"
         },
         "node_base": {
           "name": "节点基座",
@@ -147,6 +194,13 @@
           "time_seconds": 65,
           "flags": ["found_faceless_clerk"],
           "text": "店员反复问：我是谁？收银机屏幕显示未知员工。"
+        },
+        "receipt": {
+          "name": "恢复姓名的小票",
+          "time_seconds": 80,
+          "requires": ["rescued_clerk_name"],
+          "flags": ["recovered_receipt_name"],
+          "text": "收银小票重新打印出店员姓名。她盯着那几个字，像确认自己还在这个世界。"
         }
       },
       "glyph_actions": {
@@ -185,6 +239,20 @@
           "time_seconds": 70,
           "flags": ["checked_modern_beacon"],
           "text": "现代信标能给出物理坐标，墨颀国书能确认意义坐标。二者缺一不可。"
+        },
+        "parents_record": {
+          "name": "父母最终记录",
+          "time_seconds": 140,
+          "requires": ["modern_node_stable"],
+          "flags": ["read_parent_final_record"],
+          "text": "父母记录解释了最后一晚：他们不是消失在家中，而是在把现代信标接到墨颀能找到的坐标上。"
+        },
+        "failed_bridge_test": {
+          "name": "失败的归桥测试",
+          "time_seconds": 120,
+          "requires": ["modern_node_stable", "learned_star", "learned_return", "learned_continue"],
+          "flags": ["survived_failed_bridge_test"],
+          "text": "第一次归桥同步失败，实验室墙面短暂变成空白。夏离稳住主国书，纪子轩把错误写进下一版方案。"
         }
       },
       "build_actions": {
@@ -224,6 +292,20 @@
           "requires": ["bridge_stable"],
           "flags": ["identified_final_protocol"],
           "text": "协议判定：该文明不可控。该文明应静默。该文明不再续写。"
+        },
+        "deleted_party_names": {
+          "name": "被删除的队友名",
+          "time_seconds": 120,
+          "requires": ["identified_final_protocol"],
+          "flags": ["saw_deleted_party_names"],
+          "text": "队伍栏里，夏离、工程师和父母记录全部变成□□。这一次被攻击的不是血量，而是关系本身。"
+        },
+        "civilization_response": {
+          "name": "文明回声",
+          "time_seconds": 150,
+          "requires": ["restored_final_ui"],
+          "flags": ["heard_civilization_response"],
+          "text": "墨颀各城同时亮起：学塾、档案馆、工坊、星象塔都在回写同一句话：该文明选择继续。"
         }
       },
       "build_actions": {
@@ -280,27 +362,36 @@
   },
   "walkthrough": [
     "inspect room",
+    "inspect parents_echo",
+    "inspect city_first",
     "inspect contacts",
     "go school",
     "inspect corridor",
+    "inspect missing_teacher",
     "inspect classmates",
     "go street",
     "inspect grid",
+    "inspect neighbors",
     "build lights",
     "inspect node_base",
     "build node",
     "go store",
     "inspect clerk",
     "cast name",
+    "inspect receipt",
     "go street",
     "go lab",
     "inspect formula",
     "inspect beacon",
     "build modern_node",
+    "inspect parents_record",
+    "inspect failed_bridge_test",
     "build bridge",
     "go orbit",
     "inspect protocol",
+    "inspect deleted_party_names",
     "build restore",
+    "inspect civilization_response",
     "write name",
     "cast stop",
     "attack",

@@ -30,6 +30,9 @@ pub struct RustGameSession {
     name_attempts: i32,
     attacks_since_name: i32,
     flags: HashSet<String>,
+    carried_flags: HashSet<String>,
+    carried_branch_excluded_flags: HashSet<String>,
+    carried_metrics_by_scene: VarDictionary,
     metrics: VarDictionary,
     player_stats: VarDictionary,
     glyph_mastery: VarDictionary,
@@ -51,6 +54,9 @@ impl IRefCounted for RustGameSession {
             name_attempts: 0,
             attacks_since_name: 0,
             flags: HashSet::new(),
+            carried_flags: HashSet::new(),
+            carried_branch_excluded_flags: HashSet::new(),
+            carried_metrics_by_scene: VarDictionary::new(),
             metrics: VarDictionary::new(),
             player_stats: VarDictionary::new(),
             glyph_mastery: VarDictionary::new(),
@@ -74,7 +80,11 @@ impl RustGameSession {
         };
         let db_v = db.to_variant();
         let count = db_v.call("count", &[]).try_to::<i32>().unwrap_or(0);
-        self.scene_index = index.clamp(0, (count - 1).max(0));
+        let next_index = index.clamp(0, (count - 1).max(0));
+        if next_index == 0 {
+            self.clear_story_carryover();
+        }
+        self.scene_index = next_index;
 
         let idx_v = self.scene_index.to_variant();
         self.scene_id = db_v
@@ -98,6 +108,7 @@ impl RustGameSession {
 
         // Shallow clone is fine – modified copy is tracked independently
         self.metrics = dict_value_as_dict(&self.scene, "metrics").clone();
+        self.apply_carried_story_state();
         self.player_stats = dict_value_as_dict(&self.scene, "player_stats").clone();
         self.glyph_mastery = dict_value_as_dict(&self.scene, "glyph_mastery").clone();
 
@@ -393,9 +404,19 @@ impl RustGameSession {
         for flag in &self.flags {
             flags_arr.push(&GString::from(flag.as_str()).to_variant());
         }
+        let mut carried_flags_arr = VarArray::new();
+        for flag in &self.carried_flags {
+            carried_flags_arr.push(&GString::from(flag.as_str()).to_variant());
+        }
+        let mut carried_branch_excluded_flags_arr = VarArray::new();
+        for flag in &self.carried_branch_excluded_flags {
+            carried_branch_excluded_flags_arr.push(&GString::from(flag.as_str()).to_variant());
+        }
 
         let loc_id_v = self.location_id.to_variant();
         let flags_v = flags_arr.to_variant();
+        let carried_flags_v = carried_flags_arr.to_variant();
+        let carried_branch_excluded_flags_v = carried_branch_excluded_flags_arr.to_variant();
         let metrics_v = self.metrics.to_variant();
         let log_v = self.event_log.to_variant();
 
@@ -404,6 +425,15 @@ impl RustGameSession {
         payload.set("location_id", &loc_id_v);
         payload.set("flags", &flags_v);
         payload.set("metrics", &metrics_v);
+        payload.set("carried_flags", &carried_flags_v);
+        payload.set(
+            "carried_branch_excluded_flags",
+            &carried_branch_excluded_flags_v,
+        );
+        payload.set(
+            "carried_metrics_by_scene",
+            &self.carried_metrics_by_scene.to_variant(),
+        );
         payload.set("player_stats", &self.player_stats.to_variant());
         payload.set("glyph_mastery", &self.glyph_mastery.to_variant());
         payload.set("elapsed_seconds", &self.elapsed_seconds.to_variant());
@@ -450,6 +480,24 @@ impl RustGameSession {
         }
 
         self.metrics = dict_value_as_dict(&data_dict, "metrics").clone();
+        self.carried_flags.clear();
+        let carried_flags_arr = dict_value_as_array(&data_dict, "carried_flags");
+        for flag_var in carried_flags_arr.iter_shared() {
+            let flag = flag_var.stringify().to_string();
+            if !flag.is_empty() {
+                self.carried_flags.insert(flag);
+            }
+        }
+        self.carried_branch_excluded_flags.clear();
+        let excluded_flags_arr = dict_value_as_array(&data_dict, "carried_branch_excluded_flags");
+        for flag_var in excluded_flags_arr.iter_shared() {
+            let flag = flag_var.stringify().to_string();
+            if !flag.is_empty() {
+                self.carried_branch_excluded_flags.insert(flag);
+            }
+        }
+        self.carried_metrics_by_scene =
+            dict_value_as_dict(&data_dict, "carried_metrics_by_scene").clone();
         let saved_stats = dict_value_as_dict(&data_dict, "player_stats");
         self.player_stats = if saved_stats.is_empty() {
             dict_value_as_dict(&self.scene, "player_stats").clone()
@@ -598,6 +646,125 @@ impl RustGameSession {
         }
     }
 
+    fn action_text(&self, action: &VarDictionary) -> String {
+        let route_texts = dict_value_as_dict(action, "route_texts");
+        for route_key in route_texts.keys_array().iter_shared() {
+            let route_flag = route_key
+                .try_to::<GString>()
+                .map(|s| s.to_string())
+                .unwrap_or_else(|_| route_key.stringify().to_string());
+            if self.has_flag_internal(&route_flag) {
+                return route_texts
+                    .get(&route_key)
+                    .and_then(|v| v.try_to::<GString>().ok())
+                    .map(|s| s.to_string())
+                    .unwrap_or_default();
+            }
+        }
+        dict_str(action, "text", "")
+    }
+
+    fn clear_story_carryover(&mut self) {
+        self.carried_flags.clear();
+        self.carried_branch_excluded_flags.clear();
+        self.carried_metrics_by_scene = VarDictionary::new();
+    }
+
+    fn apply_carried_story_state(&mut self) {
+        for flag in &self.carried_branch_excluded_flags {
+            self.flags.remove(flag);
+        }
+        for flag in &self.carried_flags {
+            self.flags.insert(flag.clone());
+        }
+        let scene_id = self.scene_id.to_string();
+        let metric_delta = dict_value_as_dict(&self.carried_metrics_by_scene, &scene_id);
+        if !metric_delta.is_empty() {
+            self.apply_metrics(&metric_delta);
+        }
+    }
+
+    fn branch_choice_already_resolved(&self, choice: &VarDictionary) -> bool {
+        self.branch_resolved_flag_for_choice(choice)
+            .map(|resolved_flag| self.has_flag_internal(&resolved_flag))
+            .unwrap_or(false)
+    }
+
+    fn branch_resolved_flag_for_choice(&self, choice: &VarDictionary) -> Option<String> {
+        let contract = dict_value_as_dict(&self.scene, "branch_consequences");
+        let resolved_flag = dict_str(&contract, "resolved_flag", "");
+        if resolved_flag.is_empty() {
+            return None;
+        }
+        let choice_flags = dict_value_as_array(choice, "flags");
+        if self.array_has_text(&choice_flags, &resolved_flag) {
+            Some(resolved_flag)
+        } else {
+            None
+        }
+    }
+
+    fn record_branch_consequence(&mut self, choice_flags: &VarArray) {
+        let contract = dict_value_as_dict(&self.scene, "branch_consequences");
+        let resolved_flag = dict_str(&contract, "resolved_flag", "");
+        if resolved_flag.is_empty() || !self.array_has_text(choice_flags, &resolved_flag) {
+            return;
+        }
+        self.carried_flags.insert(resolved_flag);
+
+        let routes = dict_value_as_dict(&contract, "routes");
+        for route_key in routes.keys_array().iter_shared() {
+            let route_contract = routes
+                .get(&route_key)
+                .and_then(|v| v.try_to::<VarDictionary>().ok())
+                .unwrap_or_default();
+            let route_flag = dict_str(&route_contract, "flag", "");
+            if route_flag.is_empty() {
+                continue;
+            }
+            self.carried_branch_excluded_flags
+                .insert(route_flag.clone());
+            if !self.array_has_text(choice_flags, &route_flag) {
+                continue;
+            }
+            self.carried_flags.insert(route_flag);
+            let next_scene_metrics = dict_value_as_dict(&route_contract, "next_scene_metrics");
+            for target_key in next_scene_metrics.keys_array().iter_shared() {
+                let target_scene_id = target_key.stringify().to_string();
+                let delta = next_scene_metrics
+                    .get(&target_key)
+                    .and_then(|v| v.try_to::<VarDictionary>().ok())
+                    .unwrap_or_default();
+                self.add_carried_metrics(&target_scene_id, &delta);
+            }
+        }
+    }
+
+    fn add_carried_metrics(&mut self, target_scene_id: &str, delta: &VarDictionary) {
+        let mut merged = dict_value_as_dict(&self.carried_metrics_by_scene, target_scene_id);
+        for key_var in delta.keys_array().iter_shared() {
+            let key = key_var.stringify().to_string();
+            let delta_val = delta
+                .get(&key_var)
+                .and_then(|v| v.try_to_relaxed::<i32>().ok())
+                .unwrap_or(0);
+            let current_val = merged
+                .get(key.as_str())
+                .and_then(|v| v.try_to_relaxed::<i32>().ok())
+                .unwrap_or(0);
+            let new_val = (current_val + delta_val).to_variant();
+            merged.set(key.as_str(), &new_val);
+        }
+        self.carried_metrics_by_scene
+            .set(target_scene_id, &merged.to_variant());
+    }
+
+    fn array_has_text(&self, values: &VarArray, text: &str) -> bool {
+        values
+            .iter_shared()
+            .any(|value| value.stringify().to_string() == text)
+    }
+
     fn available_casts(&self) -> Vec<String> {
         let location = self.current_location_dict();
         let mut casts: Vec<String> = Vec::new();
@@ -687,7 +854,7 @@ impl RustGameSession {
         let flags_arr = dict_value_as_array(&item, "flags");
         self.add_flags_from_array(&flags_arr);
         self.apply_progression_rewards(&item);
-        let text = dict_str(&item, "text", "");
+        let text = self.action_text(&item);
         self.log_internal(&text);
     }
 
@@ -743,7 +910,7 @@ impl RustGameSession {
         let metrics = dict_value_as_dict(&action, "metrics");
         self.apply_metrics(&metrics);
         self.apply_progression_rewards(&action);
-        let text = dict_str(&action, "text", "");
+        let text = self.action_text(&action);
         self.log_internal(&text);
     }
 
@@ -775,7 +942,7 @@ impl RustGameSession {
         let metrics = dict_value_as_dict(&action, "metrics");
         self.apply_metrics(&metrics);
         self.apply_progression_rewards(&action);
-        let text = dict_str(&action, "text", "");
+        let text = self.action_text(&action);
         self.log_internal(&text);
     }
 
@@ -800,12 +967,17 @@ impl RustGameSession {
             self.log_internal("资源不足。");
             return;
         }
+        if self.branch_choice_already_resolved(&choice) {
+            self.log_internal("这条路线已经定下，不能再改写。");
+            return;
+        }
         self.apply_action_costs(&choice);
         self.elapsed_seconds += dict_i32(&choice, "time_seconds", 45);
         let flags_arr = dict_value_as_array(&choice, "flags");
         self.add_flags_from_array(&flags_arr);
+        self.record_branch_consequence(&flags_arr);
         self.apply_progression_rewards(&choice);
-        let text = dict_str(&choice, "text", "");
+        let text = self.action_text(&choice);
         self.log_internal(&text);
     }
 
@@ -835,7 +1007,7 @@ impl RustGameSession {
         let flags_arr = dict_value_as_array(&action, "flags");
         self.add_flags_from_array(&flags_arr);
         self.apply_progression_rewards(&action);
-        let text = dict_str(&action, "text", "");
+        let text = self.action_text(&action);
         self.log_internal(&text);
     }
 
@@ -872,7 +1044,7 @@ impl RustGameSession {
         let metrics = dict_value_as_dict(&encounter, "metrics");
         self.apply_metrics(&metrics);
         self.apply_progression_rewards(&encounter);
-        let text = dict_str(&encounter, "text", "");
+        let text = self.action_text(&encounter);
         self.log_internal(&text);
     }
 

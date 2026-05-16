@@ -51,6 +51,8 @@ func run() -> bool:
 	_expect_stat("stability", 3)
 	_expect_mastery("stop", 2)
 
+	_run_branch_carryover_case()
+
 	var ok := failures.is_empty()
 	print("rpg-progression-smoke status=%s location=%s stats=%s mastery_stop=%s" % [
 		"PASS" if ok else "FAIL",
@@ -72,10 +74,23 @@ func _expect_flag(flag: String) -> void:
 		failures.append("expected flag %s" % flag)
 
 
+func _expect_no_flag(flag: String) -> void:
+	if session.has_flag(flag):
+		failures.append("did not expect flag %s" % flag)
+
+
 func _expect_stat(key: String, expected: int) -> void:
 	var actual := int(session.stat_value(key))
 	if actual != expected:
 		failures.append("expected stat %s=%s, got %s" % [key, expected, actual])
+
+
+func _expect_metric(key: String, expected: int) -> void:
+	var data: Dictionary = session.to_save_data()
+	var scene_metrics: Dictionary = data.get("metrics", {})
+	var actual := int(scene_metrics.get(key, 0))
+	if actual != expected:
+		failures.append("expected metric %s=%s, got %s metrics=%s" % [key, expected, actual, scene_metrics])
 
 
 func _expect_mastery(glyph: String, expected: int) -> void:
@@ -100,3 +115,34 @@ func _expect_encounter_action(encounter_id: String) -> void:
 			if str(action.get("verb", "")) == "engage" and str(action.get("arg", "")) == encounter_id:
 				return
 	failures.append("expected encounter action %s" % encounter_id)
+
+
+func _run_branch_carryover_case() -> void:
+	session.load_scene(3)
+	_act("go", "library")
+	_act("inspect", "records")
+	_act("choose", "engineers")
+	_expect_flag("chose_engineer_books")
+	_act("choose", "public")
+	_expect_no_flag("chose_public_books")
+	_expect_log_contains("路线已经定下")
+
+	var branch_save: Dictionary = session.to_save_data()
+	session.load_scene(0)
+	session.load_save_data(branch_save)
+
+	session.load_scene(4)
+	_expect_flag("chose_engineer_books")
+	_expect_no_flag("chose_public_books")
+	_expect_metric("engineering", 14)
+	_expect_metric("energy", 14)
+	_expect_metric("literacy", 9)
+	_act("inspect", "members")
+	_expect_log_contains("工匠占满前排")
+
+	session.load_scene(6)
+	_expect_flag("chose_engineer_books")
+	_expect_metric("support", 2)
+	_act("go", "council")
+	_act("inspect", "supporters")
+	_expect_log_contains("工坊代表")

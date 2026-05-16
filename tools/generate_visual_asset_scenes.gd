@@ -440,7 +440,7 @@ func _write_visual_location_scenes() -> void:
 			var mood := _visual_mood_for_location(scene_id, str(location_id), str(location.get("terrain", "")), family)
 			location["visual_family"] = family
 			location["asset_scene"] = scene_path
-			location["asset_status"] = "asset_backed" if _is_primary_asset_location(scene_id, str(location_id), family) else "framework_placeholder"
+			location["asset_status"] = "asset_backed"
 			location["tileset_id"] = "dream_scene_tiles"
 			if mood.is_empty():
 				location.erase("visual_mood")
@@ -591,15 +591,22 @@ func _paint_scene_pattern(ground: TileMapLayer, decor: TileMapLayer, lighting: T
 		_paint_modern_room_decor(decor, lighting, scene_id, location_id)
 	elif family == "academy":
 		_paint_academy_decor(decor, scene_id, location_id)
+	elif family == "archive":
+		_paint_archive_decor(decor, lighting, scene_id, location_id)
 	elif family == "node":
-		for x in range(2, COLUMNS - 2, 3):
-			_set_tile(lighting, x, 2, "cyan_glow")
-			_set_tile(lighting, x, 6, "cyan_glow")
+		_paint_node_decor(decor, lighting, scene_id, location_id)
 	elif family == "wilderness":
 		_paint_wilderness_decor(ground, decor, lighting, scene_id, location_id)
 	elif family == "forest":
-		for x in range(2, COLUMNS - 2, 4):
-			_set_tile(decor, x, 1, "tree")
+		_paint_forest_decor(ground, decor, lighting, scene_id, location_id)
+	elif family == "ruin":
+		_paint_ruin_decor(decor, lighting, scene_id, location_id)
+	elif family == "mine":
+		_paint_mine_decor(decor, lighting, scene_id, location_id)
+	elif family == "industry":
+		_paint_industry_decor(decor, lighting, scene_id, location_id)
+	elif family == "workshop":
+		_paint_workshop_decor(decor, lighting, scene_id, location_id)
 	elif scene_id == "00-prologue-lights-out" and location_id == "bedroom":
 		_set_tile(lighting, 12, 4, "danger_glow")
 
@@ -758,6 +765,102 @@ func _paint_academy_decor(decor: TileMapLayer, scene_id: String, location_id: St
 			_set_tile(decor, x, 6, "desk")
 
 
+func _paint_archive_decor(decor: TileMapLayer, lighting: TileMapLayer, _scene_id: String, location_id: String) -> void:
+	for x in range(2, COLUMNS - 2, 2):
+		_set_tile(decor, x, 1, "bookcase")
+	for x in [2, 12]:
+		_set_tile(decor, x, 6, "cabinet")
+	for x in [4, 7, 10]:
+		_set_tile(decor, x, 4, "table")
+	_set_tile(decor, 7, 3, "note")
+	_set_tile(lighting, 7, 3, "gold_glow")
+	if location_id in ["library", "archive"]:
+		_set_tile(decor, 4, 6, "record")
+		_set_tile(decor, 10, 6, "rune")
+		_set_tile(lighting, 10, 6, "cyan_glow")
+
+
+func _paint_node_decor(decor: TileMapLayer, lighting: TileMapLayer, _scene_id: String, location_id: String) -> void:
+	for x in range(2, COLUMNS - 2, 3):
+		_set_tile(decor, x, 2, "rune")
+		_set_tile(lighting, x, 2, "cyan_glow")
+		_set_tile(decor, x, 6, "rune")
+		_set_tile(lighting, x, 6, "cyan_glow")
+	for y in [3, 5]:
+		_set_tile(decor, 3, y, "node")
+		_set_tile(decor, 11, y, "node")
+		_set_tile(lighting, 3, y, "cyan_glow")
+		_set_tile(lighting, 11, y, "cyan_glow")
+	var center_tile := "portal" if location_id in ["astral", "astral_tower", "gate", "orbit", "rift"] else "node"
+	_set_tile(decor, 7, 4, center_tile)
+	_set_tile(lighting, 7, 4, "cyan_glow")
+	if location_id in ["hall", "core"]:
+		_set_tile(decor, 7, 6, "record")
+		_set_tile(lighting, 7, 6, "gold_glow")
+
+
+func _paint_forest_decor(ground: TileMapLayer, decor: TileMapLayer, lighting: TileMapLayer, _scene_id: String, location_id: String) -> void:
+	for x in range(1, COLUMNS - 1):
+		if x % 2 == 0:
+			_set_tile(decor, x, 1, "tree")
+			_set_tile(decor, x, 7, "tree")
+	for y in range(2, ROWS - 2, 2):
+		_set_tile(decor, 1, y, "tree")
+		_set_tile(decor, 13, y, "tree")
+	for x in range(4, 11):
+		_set_tile(ground, x, 4, "wilderness_ground")
+	if location_id == "chase":
+		_set_tile(decor, 7, 4, "enemy")
+		_set_tile(lighting, 7, 4, "danger_glow")
+	else:
+		_set_tile(decor, 7, 4, "campfire")
+		_set_tile(lighting, 7, 4, "gold_glow")
+
+
+func _paint_ruin_decor(decor: TileMapLayer, lighting: TileMapLayer, _scene_id: String, location_id: String) -> void:
+	for x in range(2, COLUMNS - 2, 3):
+		_set_tile(decor, x, 1, "building_window_dark")
+	for x in [2, 5, 10, 13]:
+		_set_tile(decor, x, 6, "gate")
+	_set_tile(decor, 7, 4, "record" if location_id in ["palace", "station"] else "rune")
+	_set_tile(lighting, 7, 4, "danger_glow")
+	for x in [4, 10]:
+		_set_tile(decor, x, 3, "poster")
+
+
+func _paint_mine_decor(decor: TileMapLayer, lighting: TileMapLayer, _scene_id: String, _location_id: String) -> void:
+	for x in [2, 12]:
+		_set_tile(decor, x, 2, "gate")
+		_set_tile(decor, x, 6, "stairs")
+	for x in [4, 7, 10]:
+		_set_tile(decor, x, 4, "lamp")
+		_set_tile(lighting, x, 4, "gold_glow")
+	_set_tile(decor, 7, 6, "rune")
+	_set_tile(lighting, 7, 6, "danger_glow")
+
+
+func _paint_industry_decor(decor: TileMapLayer, lighting: TileMapLayer, _scene_id: String, _location_id: String) -> void:
+	for x in range(2, COLUMNS - 2, 2):
+		_set_tile(decor, x, 1, "building_window_dark")
+	for x in [3, 6, 9, 12]:
+		_set_tile(decor, x, 4, "cabinet")
+	for x in [4, 10]:
+		_set_tile(decor, x, 6, "lamp")
+		_set_tile(lighting, x, 6, "gold_glow")
+	_set_tile(decor, 7, 5, "node")
+	_set_tile(lighting, 7, 5, "cyan_glow")
+
+
+func _paint_workshop_decor(decor: TileMapLayer, lighting: TileMapLayer, _scene_id: String, location_id: String) -> void:
+	for x in [3, 5, 9, 11]:
+		_set_tile(decor, x, 3, "table")
+	for x in [2, 12]:
+		_set_tile(decor, x, 6, "cabinet")
+	_set_tile(decor, 7, 4, "node" if location_id == "dockyard" else "rune")
+	_set_tile(lighting, 7, 4, "cyan_glow")
+	_set_tile(decor, 7, 6, "note")
+
+
 func _paint_sunlit_academy_decor(_ground: TileMapLayer, decor: TileMapLayer, lighting: TileMapLayer, scene_id: String, location_id: String) -> void:
 	for x in [2, 12]:
 		_set_tile(decor, x, 1, "shrub")
@@ -864,16 +967,6 @@ func _is_sunlit_location(scene_id: String, location_id: String, _family: String)
 	if scene_id == "07-lights-on-again" and location_id == "school":
 		return true
 	return false
-
-
-func _is_primary_asset_location(scene_id: String, location_id: String, family: String) -> bool:
-	if _is_sunlit_location(scene_id, location_id, family):
-		return true
-	if scene_id == "00-prologue-lights-out":
-		return true
-	if scene_id == "07-lights-on-again" and location_id in ["home", "school", "street", "store"]:
-		return true
-	return family in ["modern_interior", "modern_exterior"] and scene_id == "07-lights-on-again"
 
 
 func _tile_for_prop(kind: String, family: String) -> String:

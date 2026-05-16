@@ -70,7 +70,7 @@
 		},
 		"archive": {
 			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/archive.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"h": 4.0,
@@ -133,7 +133,7 @@
 		},
 		"node": {
 			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/node.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "contract",

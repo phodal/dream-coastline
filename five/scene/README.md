@@ -23,3 +23,7 @@
 - `交接到下一幕`：下一章为什么自然发生。
 
 旧版 `1.md` 是最早的第一幕草稿，已拆分吸收到序幕和第一幕场景卡中。
+
+## 剧本扩写入口
+
+当 scene card 已经能说明章节职责，但实际游玩仍有“像大纲、缺少时长”的体感时，到 [`../script/`](../script/) 补正式剧本段落。当前第一轮补强见 [`../script/pacing-expansion-pass.md`](../script/pacing-expansion-pass.md)。

@@ -2,9 +2,21 @@
   "id": "04-continuation-institute",
   "title": "第四幕：续文院",
   "source": "five/scene/04-continuation-institute.md",
-  "min_minutes": 5.0,
+  "min_minutes": 30.0,
   "start": "institute",
-  "initial_flags": ["learned_name", "learned_door", "learned_fire", "learned_stop", "got_basic_dictionary", "chose_public_books"],
+  "initial_flags": [
+    "learned_name",
+    "learned_door",
+    "learned_fire",
+    "learned_stop",
+    "got_basic_dictionary",
+    "viewed_parent_record",
+    "resolved_book_route",
+    "chose_public_books",
+    "opened_main_core",
+    "read_parent_full_plan",
+    "xiali_rejects_old_kings"
+  ],
   "metrics": {
     "literacy": 12,
     "trust": 18,
@@ -17,10 +29,12 @@
   "ending_flag": "archive_tower_built",
   "required_flags": [
     "founded_institute",
+    "publicly_answered_noble_observer",
     "opened_first_school",
     "published_standard_dictionary",
     "repaired_workshop_flow",
     "solved_mine_safety",
+    "installed_safety_board",
     "restored_communication_tower",
     "defeated_seal_tower",
     "archive_tower_built"
@@ -46,13 +60,32 @@
           "name": "第一批成员",
           "time_seconds": 65,
           "flags": ["met_first_members"],
-          "text": "闻素带来学生，阿棠带来工匠，夏离带来旧军地图。第一次，墨颀的未来不只坐在王座旁。"
+          "text": "闻素带来学生，阿棠带来工匠，夏离带来旧军地图。第一次，墨颀的未来不只坐在王座旁。",
+          "route_texts": {
+            "chose_public_books": "公开藏书被分成教学、工程和档案三摞。闻素带来学生，阿棠带来工匠，夏离带来旧军地图，所有人都能从同一张桌子开始。",
+            "chose_royal_books": "夏离把王族藏书带到续文院，但贵族旁听者坚持另设保管席。第一批成员坐下时，纪子轩能看见知识又被重新分层的危险。",
+            "chose_engineer_books": "阿棠带来的工匠占满前排，工坊图纸比课本先摊开。闻素把第一张字根表贴在炉边，提醒大家工程速度不能替代基础识字。",
+            "chose_parent_books": "父母资料被单独封存在纪子轩手边，公开藏书少了一角。闻素只能先用残页重建课程，夏离提醒他：私人真相也要还给公共建设。"
+          }
         },
         "charter": {
           "name": "续文院章程",
           "time_seconds": 70,
           "flags": ["drafted_open_charter"],
           "text": "章程写明：术式必须记录、复核、公开错误。知识开放不是放任，而是共同承担。"
+        },
+        "noble_observer": {
+          "name": "贵族旁听者",
+          "time_seconds": 80,
+          "requires": ["drafted_open_charter"],
+          "flags": ["publicly_answered_noble_observer"],
+          "text": "贵族质问：让普通人改术式，谁来负责？纪子轩把章程推过去：每一步都有记录，所以每个人都能追责。",
+          "route_texts": {
+            "chose_public_books": "贵族质问公开藏书会不会制造新的灾难。纪子轩把章程推过去：正因为每个人都能看见错误，每个人才能追责。",
+            "chose_royal_books": "贵族旁听者很满意王族保管席，却要求把公开课程延后。纪子轩拒绝：保管不能重新变成垄断，王族也必须接受复核。",
+            "chose_engineer_books": "贵族质问工匠为何能先读高阶图纸。阿棠没有退后，她把事故记录放到桌上：第一个发现故障的人，也必须有权读懂故障。",
+            "chose_parent_books": "贵族抓住父母资料不放，质问纪子轩是否把墨颀当成回家的工具。纪子轩承认私心，但把索引副本交给闻素：我的问题也要接受公共复核。"
+          }
         }
       },
       "build_actions": {
@@ -68,7 +101,13 @@
           "requires": ["founded_institute", "got_basic_dictionary"],
           "flags": ["published_standard_dictionary"],
           "metrics": {"literacy": 8, "stability": 8, "openness": 8},
-          "text": "标准字典第一版发布。字根写法第一次可以被普通人校验。"
+          "text": "标准字典第一版发布。字根写法第一次可以被普通人校验。",
+          "route_texts": {
+            "chose_public_books": "标准字典第一版直接以公开藏书为底本发布。字根写法第一次可以被普通人校验。",
+            "chose_royal_books": "标准字典第一版发布时删掉了王族保管席的私章。夏离亲手签下复核条款：王族版本不得高于公共版本。",
+            "chose_engineer_books": "标准字典第一版先补上工坊常用字，再补课堂例句。闻素在封面加了一行：会修机器的人，也必须能教会邻居。",
+            "chose_parent_books": "标准字典第一版缺了几页父母索引，纪子轩把自己的注释补上去。公开版本不完整，但它不能再等一个完美答案。"
+          }
         }
       }
     },
@@ -146,7 +185,13 @@
           "requires": ["met_atang", "reviewed_flood_failure", "published_standard_dictionary"],
           "flags": ["repaired_workshop_flow"],
           "metrics": {"engineering": 18, "stability": 8, "trust": 5},
-          "text": "工坊建立测试流程：小样、复核、实地修复。第二次防洪符文修复成功。"
+          "text": "工坊建立测试流程：小样、复核、实地修复。第二次防洪符文修复成功。",
+          "route_texts": {
+            "chose_public_books": "工坊建立测试流程：小样、复核、实地修复。公开字典让学生也能读懂事故报告，第二次防洪符文修复成功。",
+            "chose_royal_books": "工坊建立测试流程时，旧贵族仍要求最终签核。阿棠把签核改成公开复核：谁发现问题，谁的记录就必须进入主表。",
+            "chose_engineer_books": "工程藏书让工坊很快搭起小样、复核、实地修复三段流程。代价是闻素必须追着每个工匠补基础字根课。",
+            "chose_parent_books": "父母索引里的跨界稳定式给了工坊灵感，但公开材料不足。阿棠把每一次试错都贴上墙，让私密线索慢慢转成公共流程。"
+          }
         }
       }
     },
@@ -171,6 +216,13 @@
           "time_seconds": 65,
           "flags": ["checked_mine_hazard"],
           "text": "矿道裂纹被旧书记官标成低优先级。工人只能背口诀，没人知道为什么要停。"
+        },
+        "safety_board": {
+          "name": "公开安全板",
+          "time_seconds": 70,
+          "requires": ["solved_mine_safety"],
+          "flags": ["installed_safety_board"],
+          "text": "矿场入口挂起公开安全板：今天谁检查、哪里有裂纹、为什么停工，都写给每个工人看。"
         }
       },
       "glyph_actions": {
@@ -296,6 +348,7 @@
   "walkthrough": [
     "inspect members",
     "inspect charter",
+    "inspect noble_observer",
     "build institute",
     "build dictionary",
     "go school",
@@ -310,6 +363,7 @@
     "inspect hazard",
     "cast stop",
     "build safety",
+    "inspect safety_board",
     "go tower",
     "inspect array",
     "build comms",

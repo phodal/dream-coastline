@@ -90,23 +90,26 @@ def render(state: GameState, message: str = "") -> str:
         lines.append("")
         lines.extend(wrap(message))
     lines.append("")
-    lines.append("Exits: " + ", ".join(f"{key}({label})" for key, label in location["exits"].items()))
-    lines.append("Inspect: " + ", ".join(f"{key}({item['name']})" for key, item in location["items"].items()))
+    lines.extend(wrap("Exits: " + ", ".join(f"{key}({label})" for key, label in location["exits"].items()), MAX_UI_WIDTH))
+    lines.extend(wrap("Inspect: " + ", ".join(f"{key}({item['name']})" for key, item in location["items"].items()), MAX_UI_WIDTH))
     if location.get("combat"):
         lines.append(combat_status(state))
         lines.append("Combat: write name | attack | guard")
     casts = available_casts(state)
     if casts:
-        lines.append("Cast: " + ", ".join(casts))
+        lines.extend(wrap("Cast: " + ", ".join(casts), MAX_UI_WIDTH))
     choices = state.location.get("choices", {})
     if choices:
-        lines.append("Choose: " + ", ".join(choices.keys()))
+        lines.extend(wrap("Choose: " + ", ".join(choices.keys()), MAX_UI_WIDTH))
+    encounters = available_encounters(state)
+    if encounters:
+        lines.extend(wrap("Engage: " + ", ".join(encounters), MAX_UI_WIDTH))
     builds = state.location.get("build_actions", {})
     if builds:
-        lines.append("Build: " + ", ".join(builds.keys()))
+        lines.extend(wrap("Build: " + ", ".join(builds.keys()), MAX_UI_WIDTH))
     combos = state.location.get("combos", {})
     if combos:
-        lines.append("Combine: " + ", ".join(combos.keys()))
+        lines.extend(wrap("Combine: " + ", ".join(combos.keys()), MAX_UI_WIDTH))
     if state.metrics:
         lines.extend(wrap("Metrics: " + ", ".join(f"{key}={value}" for key, value in state.metrics.items()), MAX_UI_WIDTH))
     lines.append("Commands: look | go <exit> | inspect <item> | status | help | quit")
@@ -155,6 +158,8 @@ def apply_command(state: GameState, command: str) -> str:
         return cast_glyph(state, parts[1] if len(parts) > 1 else "")
     if verb == "choose":
         return choose_route(state, parts[1] if len(parts) > 1 else "")
+    if verb == "engage":
+        return engage_encounter(state, parts[1] if len(parts) > 1 else "")
     if verb == "build":
         return build_project(state, parts[1] if len(parts) > 1 else "")
     if verb == "combine":
@@ -164,6 +169,13 @@ def apply_command(state: GameState, command: str) -> str:
     if verb in {"guard", "defend"}:
         return guard(state)
     return f"无法识别命令：{command}"
+
+
+def action_text(state: GameState, action: dict) -> str:
+    for route_flag, text in action.get("route_texts", {}).items():
+        if route_flag in state.flags:
+            return str(text)
+    return str(action.get("text", ""))
 
 
 def move(state: GameState, exit_id: str) -> str:
@@ -190,7 +202,7 @@ def inspect_item(state: GameState, item_id: str) -> str:
     for flag in item.get("flags", []):
         state.flags.add(flag)
     state.log.append(f"inspect {item_id}")
-    return str(item["text"])
+    return action_text(state, item)
 
 
 def available_casts(state: GameState) -> list[str]:
@@ -220,7 +232,7 @@ def cast_glyph(state: GameState, glyph: str) -> str:
     state.elapsed_seconds += int(action.get("time_seconds", 45))
     state.flags.update(action.get("flags", []))
     state.log.append(f"cast {glyph}")
-    return str(action["text"])
+    return action_text(state, action)
 
 
 def choose_route(state: GameState, route: str) -> str:
@@ -233,7 +245,37 @@ def choose_route(state: GameState, route: str) -> str:
     state.elapsed_seconds += int(choice.get("time_seconds", 45))
     state.flags.update(choice.get("flags", []))
     state.log.append(f"choose {route}")
-    return str(choice["text"])
+    return action_text(state, choice)
+
+
+def available_encounters(state: GameState) -> list[str]:
+    encounters = state.location.get("encounters", {})
+    available: list[str] = []
+    for encounter_id, encounter in encounters.items():
+        clear_flag = encounter.get("clear_flag", "")
+        if clear_flag and clear_flag in state.flags:
+            continue
+        available.append(encounter_id)
+    return available
+
+
+def engage_encounter(state: GameState, encounter_id: str) -> str:
+    encounter = state.location.get("encounters", {}).get(encounter_id)
+    if encounter is None:
+        return "这里没有这个遭遇。"
+    clear_flag = encounter.get("clear_flag", "")
+    if clear_flag and clear_flag in state.flags:
+        return "这个威胁已经处理过。"
+    missing = [flag for flag in encounter.get("requires", []) if flag not in state.flags]
+    if missing:
+        return "遭遇条件不足。先完成相关调查或修复。"
+
+    state.elapsed_seconds += int(encounter.get("time_seconds", 45))
+    state.flags.update(encounter.get("flags", []))
+    for key, delta in encounter.get("metrics", {}).items():
+        state.metrics[key] = state.metrics.get(key, 0) + int(delta)
+    state.log.append(f"engage {encounter_id}")
+    return action_text(state, encounter)
 
 
 def build_project(state: GameState, project: str) -> str:
@@ -248,7 +290,7 @@ def build_project(state: GameState, project: str) -> str:
     for key, delta in action.get("metrics", {}).items():
         state.metrics[key] = state.metrics.get(key, 0) + int(delta)
     state.log.append(f"build {project}")
-    return str(action["text"])
+    return action_text(state, action)
 
 
 def combine_words(state: GameState, combo: str) -> str:
@@ -261,7 +303,7 @@ def combine_words(state: GameState, combo: str) -> str:
     state.elapsed_seconds += int(action.get("time_seconds", 90))
     state.flags.update(action.get("flags", []))
     state.log.append(f"combine {combo}")
-    return str(action["text"])
+    return action_text(state, action)
 
 
 def enter_combat_if_needed(state: GameState) -> None:

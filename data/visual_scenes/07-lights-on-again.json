@@ -42,7 +42,7 @@
 		},
 		"lab": {
 			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/lab.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "formula",
@@ -103,7 +103,7 @@
 		},
 		"orbit": {
 			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/orbit.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "protocol",

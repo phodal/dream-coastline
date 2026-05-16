@@ -2,7 +2,7 @@
   "id": "00-prologue-lights-out",
   "title": "序幕：灯未亮起的夜晚",
   "source": "five/scene/00-prologue-lights-out.md",
-  "min_minutes": 5.0,
+  "min_minutes": 10.0,
   "start": "street",
   "ending_flag": "entered_moqi",
   "required_flags": [

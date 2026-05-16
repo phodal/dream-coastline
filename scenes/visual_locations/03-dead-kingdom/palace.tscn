@@ -20,7 +20,7 @@ tile_set = ExtResource("1_o7nu6")
 
 [node name="decor" type="TileMapLayer" parent="." unique_id=814915457]
 texture_filter = 1
-tile_map_data = PackedByteArray("AAAFAAMAAAAMAAIAAAAJAAQAAAAJAAIAAAALAAIAAAALAAIAAAABAAQAAAAEAAEAAAABAAYAAAAEAAEAAAANAAQAAAAEAAEAAAA=")
+tile_map_data = PackedByteArray("AAACAAEAAAACAAEAAAAFAAEAAAACAAEAAAAIAAEAAAACAAEAAAALAAEAAAACAAEAAAACAAYAAAAMAAIAAAAFAAYAAAAMAAIAAAAKAAYAAAAMAAIAAAANAAYAAAAMAAIAAAAHAAQAAAANAAIAAAAEAAMAAAAGAAEAAAAKAAMAAAAGAAEAAAAFAAMAAAAMAAIAAAAJAAQAAAAJAAIAAAALAAIAAAALAAIAAAABAAQAAAAEAAEAAAABAAYAAAAEAAEAAAANAAQAAAAEAAEAAAA=")
 tile_set = ExtResource("1_o7nu6")
 
 [node name="props_shadow" type="TileMapLayer" parent="." unique_id=1507467765]
@@ -30,4 +30,5 @@ tile_set = ExtResource("1_o7nu6")
 
 [node name="lighting" type="TileMapLayer" parent="." unique_id=1793010138]
 texture_filter = 1
+tile_map_data = PackedByteArray("AAAHAAQAAAAEAAMAAAA=")
 tile_set = ExtResource("1_o7nu6")

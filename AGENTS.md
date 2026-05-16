@@ -23,3 +23,8 @@
 - 占位地面不要在 tile 内画强十字线或边界线；一旦铺满 15x9 就会读成棋盘格，应改用低对比噪点、场景陈设和大块构图来破重复。
 - Rust GDExtension 的存档 payload 如果要从 Godot 再回传 Rust，数组优先用 `VarArray` 装 `Variant`；typed `Array<GString>` 可能导致 `dict_value_as_array()` 读不到 flags。
 - 改生成 tilesheet 后要跑一次 Godot editor import 再截图；否则运行时可能还读旧 `.godot/imported` 缓存，截图会误判为生成器没生效。
+- 剧本时长 gate 不能长期都写 `min_minutes: 5.0`；它只会证明 smoke 够跑，不会暴露“七幕梗概感”，需要按每幕目标调高并补失败、停顿、证据和角色转折。
+- 批量重生成 `scenes/visual_locations` 会重写 Godot `unique_id`；提交前先过滤只含 `unique_id` 的 `.tscn` 噪声，只保留 `tile_map_data` 等真实视觉变更。
+- 整体连贯性 review 要查“首次登场/已被打败”这种跨幕矛盾，也要查选择是否只在 canonical walkthrough 里可通关；必要时用共同 flag 防止非 canonical 选择死路。
+- 改剧情分支或跨幕前史后跑 `python3 tools/validate_story_continuity.py --verbose`；普通 smoke 不会发现“选择有文本但没后果”或“上一幕结尾没继承”。
+- 改跨幕分支 carryover 时要同步 `scripts/core/game_session.gd` 和 `src/game_session.rs`，并跑 `--smoke-rpg-progression`；否则 Godot 当前 Rust 主流程不会体现 GDScript 参考修复。
