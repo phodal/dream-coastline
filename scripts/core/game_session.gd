@@ -2,6 +2,7 @@ class_name GameSession
 extends RefCounted
 
 const EQUIPMENT_CATALOG_PATH := "res://data/equipment_catalog.json"
+const SUPPLY_CATALOG_PATH := "res://data/supply_catalog.json"
 
 var database
 var scene_index := 0
@@ -16,6 +17,9 @@ var carried_metrics_by_scene := {}
 var equipment_catalog := {}
 var equipment_inventory := {}
 var equipped_items := {}
+var supply_catalog := {}
+var supply_inventory := {}
+var claimed_supply_offers := {}
 var player_stats := {}
 var glyph_mastery := {}
 var elapsed_seconds := 0
@@ -35,6 +39,7 @@ func load_scene(index: int) -> void:
 	if next_index == 0:
 		_clear_story_carryover()
 		_clear_equipment_state()
+		_clear_supply_state()
 	scene_index = next_index
 	scene_id = database.scene_id_at(scene_index)
 	scene = database.scene_at(scene_index)
@@ -48,6 +53,8 @@ func load_scene(index: int) -> void:
 	glyph_mastery = scene.get("glyph_mastery", {}).duplicate(true)
 	_ensure_equipment_catalog()
 	_refresh_equipment_state()
+	_ensure_supply_catalog()
+	_refresh_supply_state()
 	elapsed_seconds = 0
 	enemy_hp = 0
 	player_hp = 5
@@ -135,6 +142,8 @@ func action_groups() -> Array[Dictionary]:
 			{"label": "防御", "verb": "guard", "arg": ""},
 		])
 
+	_append_group(groups, "补给", _supply_actions())
+
 	var combo_actions: Array[Dictionary] = []
 	for combo in location.get("combos", {}).keys():
 		combo_actions.append({
@@ -171,6 +180,8 @@ func apply_action(action: Dictionary) -> void:
 			_combine_words(arg)
 		"engage":
 			_engage_encounter(arg)
+		"use_supply":
+			_use_supply(arg)
 		_:
 			_log("未知行动：%s" % verb)
 
@@ -231,6 +242,9 @@ func progression_text() -> String:
 	var carriers := equipment_text()
 	if carriers != "":
 		lines.append(carriers)
+	var supplies := supply_text()
+	if supplies != "":
+		lines.append(supplies)
 	return "\n".join(lines)
 
 
@@ -243,6 +257,26 @@ func equipment_text() -> String:
 
 func has_equipment(item_id: String) -> bool:
 	return item_id != "" and equipment_inventory.has(item_id)
+
+
+func supply_count(item_id: String) -> int:
+	return int(supply_inventory.get(item_id, 0))
+
+
+func supply_text() -> String:
+	var parts: Array[String] = []
+	var offers: Dictionary = supply_catalog.get("offers", {})
+	var item_ids := supply_inventory.keys()
+	item_ids.sort()
+	for item_id in item_ids:
+		var count := int(supply_inventory.get(str(item_id), 0))
+		if count <= 0:
+			continue
+		var offer: Dictionary = offers.get(str(item_id), {})
+		parts.append("%sx%s" % [offer.get("name", item_id), count])
+	if parts.is_empty():
+		return ""
+	return "补给  " + "  ".join(parts)
 
 
 func _base_stat_value(key: String) -> int:
@@ -295,6 +329,8 @@ func to_save_data() -> Dictionary:
 		"glyph_mastery": glyph_mastery,
 		"equipment_inventory": equipment_inventory.keys(),
 		"equipped_items": equipped_items.keys(),
+		"supply_inventory": supply_inventory,
+		"claimed_supply_offers": claimed_supply_offers.keys(),
 		"elapsed_seconds": elapsed_seconds,
 		"enemy_hp": enemy_hp,
 		"player_hp": player_hp,
@@ -330,6 +366,16 @@ func load_save_data(data: Dictionary) -> void:
 		equipped_items[str(item_id)] = true
 	_ensure_equipment_catalog()
 	_refresh_equipment_state()
+	supply_inventory.clear()
+	for item_id in data.get("supply_inventory", {}).keys():
+		var count := int(data["supply_inventory"][item_id])
+		if count > 0:
+			supply_inventory[str(item_id)] = count
+	claimed_supply_offers.clear()
+	for offer_id in data.get("claimed_supply_offers", []):
+		claimed_supply_offers[str(offer_id)] = true
+	_ensure_supply_catalog()
+	_refresh_supply_state()
 	elapsed_seconds = int(data.get("elapsed_seconds", 0))
 	enemy_hp = int(data.get("enemy_hp", 0))
 	player_hp = int(data.get("player_hp", 5))
@@ -549,6 +595,29 @@ func _engage_encounter(encounter_id: String) -> void:
 	_log(_action_text(encounter))
 
 
+func _use_supply(offer_id: String) -> void:
+	var count := int(supply_inventory.get(offer_id, 0))
+	if offer_id.is_empty() or count <= 0:
+		_log("这个补给现在不可用。")
+		return
+	var offer: Dictionary = supply_catalog.get("offers", {}).get(offer_id, {})
+	if offer.is_empty():
+		_log("这个补给没有登记。")
+		return
+	var stats: Dictionary = offer.get("effects", {}).get("stats", {})
+	if stats.is_empty():
+		_log("这个补给暂时没有效果。")
+		return
+
+	elapsed_seconds += int(offer.get("use_seconds", 10))
+	_apply_stat_delta(stats)
+	if count <= 1:
+		supply_inventory.erase(offer_id)
+	else:
+		supply_inventory[offer_id] = count - 1
+	_log(str(offer.get("use_text", "你使用了补给。")))
+
+
 func _write_name() -> void:
 	var combat: Dictionary = current_location().get("combat", {})
 	if combat.is_empty():
@@ -594,7 +663,7 @@ func _attack() -> void:
 		_add_flags(combat.get("reward_flags", []))
 		_apply_progression_rewards(combat)
 		_log("%s 被击退。" % combat.get("revealed_name", "敌人"))
-	elif attacks_since_name >= int(combat.get("lose_name_every", 2)):
+	elif attacks_since_name >= max(1, int(combat.get("lose_name_every", 2)) + _equipment_number_effect("combat_modifiers", "lose_name_every_delta")):
 		flags.erase(str(combat.get("lock_flag", "")))
 		attacks_since_name = 0
 		_log("%s 开始失名，必须重新写“名”。" % combat.get("revealed_name", "敌人"))
@@ -675,11 +744,17 @@ func _add_flags(new_flags: Array) -> void:
 		flags[flag_key] = true
 	if changed:
 		_refresh_equipment_state()
+		_refresh_supply_state()
 
 
 func _clear_equipment_state() -> void:
 	equipment_inventory.clear()
 	equipped_items.clear()
+
+
+func _clear_supply_state() -> void:
+	supply_inventory.clear()
+	claimed_supply_offers.clear()
 
 
 func _ensure_equipment_catalog() -> void:
@@ -752,6 +827,70 @@ func _equipment_number_effect(bucket: String, key: String) -> int:
 		var values: Dictionary = effects.get(bucket, {})
 		total += int(values.get(key, 0))
 	return total
+
+
+func _ensure_supply_catalog() -> void:
+	if not supply_catalog.is_empty():
+		return
+	if not FileAccess.file_exists(SUPPLY_CATALOG_PATH):
+		push_warning("Supply catalog does not exist: %s" % SUPPLY_CATALOG_PATH)
+		return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(SUPPLY_CATALOG_PATH))
+	if typeof(parsed) != TYPE_DICTIONARY:
+		push_warning("Could not parse supply catalog: %s" % SUPPLY_CATALOG_PATH)
+		return
+	supply_catalog = parsed
+
+
+func _refresh_supply_state() -> void:
+	_ensure_supply_catalog()
+	var offers: Dictionary = supply_catalog.get("offers", {})
+	if offers.is_empty():
+		return
+	var offer_ids := offers.keys()
+	offer_ids.sort()
+	for offer_id in offer_ids:
+		var offer_key := str(offer_id)
+		if claimed_supply_offers.has(offer_key):
+			continue
+		var offer: Dictionary = offers.get(offer_key, {})
+		if not _supply_source_flags_met(offer):
+			continue
+		var quantity := clamp(int(offer.get("quantity", 1)), 1, 2)
+		supply_inventory[offer_key] = int(supply_inventory.get(offer_key, 0)) + quantity
+		claimed_supply_offers[offer_key] = true
+
+
+func _supply_source_flags_met(offer: Dictionary) -> bool:
+	var acquisition: Dictionary = offer.get("acquisition", {})
+	var source_flags: Array = acquisition.get("source_flags", [])
+	if source_flags.is_empty():
+		return false
+	for flag in source_flags:
+		if not has_flag(str(flag)):
+			return false
+	return true
+
+
+func _supply_actions() -> Array[Dictionary]:
+	var actions: Array[Dictionary] = []
+	var offers: Dictionary = supply_catalog.get("offers", {})
+	var item_ids := supply_inventory.keys()
+	item_ids.sort()
+	for item_id in item_ids:
+		var item_key := str(item_id)
+		var count := int(supply_inventory.get(item_key, 0))
+		if count <= 0:
+			continue
+		var offer: Dictionary = offers.get(item_key, {})
+		if offer.is_empty():
+			continue
+		actions.append({
+			"label": "用：%s x%s" % [offer.get("name", item_key), count],
+			"verb": "use_supply",
+			"arg": item_key,
+		})
+	return actions
 
 
 func _apply_metrics(delta: Dictionary) -> void:

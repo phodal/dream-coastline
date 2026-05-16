@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "integration_status": "runtime_integrated",
+  "design_doc": "docs/adr/0002-pressure-combat-supply-and-consumable-carriers.md",
+  "balance_profile": {
+    "max_grant_quantity": 2,
+    "max_restore_amount": 2,
+    "default_use_seconds": 10
+  },
+  "offers": {
+    "stability_seal": {
+      "name": "定界封条",
+      "kind": "consumable_carrier",
+      "channel": "academy_supply",
+      "acquisition": {
+        "source_flags": ["learned_stop"],
+        "notes": "The academy gives the player one emergency boundary seal after learning Stop."
+      },
+      "quantity": 1,
+      "use_seconds": 10,
+      "effects": {
+        "stats": {
+          "stability": 1
+        }
+      },
+      "use_text": "你贴上定界封条，摇晃的边界重新合拢。",
+      "balance": {
+        "tier": 1,
+        "repeatable": false,
+        "max_quantity": 1
+      }
+    },
+    "ink_reserve": {
+      "name": "备用墨囊",
+      "kind": "consumable_carrier",
+      "channel": "workshop_supply",
+      "acquisition": {
+        "source_flags": ["started_ink_engine"],
+        "notes": "A workshop reserve after the old ink engine starts again."
+      },
+      "quantity": 1,
+      "use_seconds": 10,
+      "effects": {
+        "stats": {
+          "ink": 1
+        }
+      },
+      "use_text": "你换上备用墨囊，墨力重新回到笔尖。",
+      "balance": {
+        "tier": 1,
+        "repeatable": false,
+        "max_quantity": 1
+      }
+    },
+    "focus_slip": {
+      "name": "静心纸",
+      "kind": "consumable_carrier",
+      "channel": "archive_supply",
+      "acquisition": {
+        "source_flags": ["got_basic_dictionary"],
+        "notes": "A reading slip authorized by the recovered basic dictionary."
+      },
+      "quantity": 1,
+      "use_seconds": 10,
+      "effects": {
+        "stats": {
+          "focus": 1
+        }
+      },
+      "use_text": "你压住静心纸，注意力从杂乱字迹里收束回来。",
+      "balance": {
+        "tier": 1,
+        "repeatable": false,
+        "max_quantity": 1
+      }
+    }
+  }
+}

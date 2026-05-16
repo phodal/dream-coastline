@@ -7,6 +7,7 @@ use crate::dict_helpers::*;
 use crate::scene_database::{RustSceneDatabase, read_json_dict};
 
 const EQUIPMENT_CATALOG_PATH: &str = "res://data/equipment_catalog.json";
+const SUPPLY_CATALOG_PATH: &str = "res://data/supply_catalog.json";
 
 // ── Struct definition ────────────────────────────────────────────────────────
 
@@ -41,6 +42,9 @@ pub struct RustGameSession {
     equipment_catalog: VarDictionary,
     equipment_inventory: HashSet<String>,
     equipped_items: HashSet<String>,
+    supply_catalog: VarDictionary,
+    supply_inventory: HashMap<String, i32>,
+    claimed_supply_offers: HashSet<String>,
 }
 
 #[godot_api]
@@ -68,6 +72,9 @@ impl IRefCounted for RustGameSession {
             equipment_catalog: VarDictionary::new(),
             equipment_inventory: HashSet::new(),
             equipped_items: HashSet::new(),
+            supply_catalog: VarDictionary::new(),
+            supply_inventory: HashMap::new(),
+            claimed_supply_offers: HashSet::new(),
         }
     }
 }
@@ -92,6 +99,7 @@ impl RustGameSession {
         if next_index == 0 {
             self.clear_story_carryover();
             self.clear_equipment_state();
+            self.clear_supply_state();
         }
         self.scene_index = next_index;
 
@@ -122,6 +130,8 @@ impl RustGameSession {
         self.glyph_mastery = dict_value_as_dict(&self.scene, "glyph_mastery").clone();
         self.ensure_equipment_catalog();
         self.refresh_equipment_state();
+        self.ensure_supply_catalog();
+        self.refresh_supply_state();
 
         self.elapsed_seconds = 0;
         self.enemy_hp = 0;
@@ -282,6 +292,8 @@ impl RustGameSession {
             push_group(&mut groups, "战斗", combat_actions);
         }
 
+        push_group(&mut groups, "补给", self.supply_action_array());
+
         // Combo actions
         let combos = dict_value_as_dict(&location, "combos");
         let mut combo_actions = VarArray::new();
@@ -430,6 +442,8 @@ impl RustGameSession {
         let carried_branch_excluded_flags_v = carried_branch_excluded_flags_arr.to_variant();
         let equipment_inventory_v = Self::string_set_variant_array(&self.equipment_inventory);
         let equipped_items_v = Self::string_set_variant_array(&self.equipped_items);
+        let supply_inventory_v = Self::string_i32_map_variant_dict(&self.supply_inventory);
+        let claimed_supply_offers_v = Self::string_set_variant_array(&self.claimed_supply_offers);
         let metrics_v = self.metrics.to_variant();
         let log_v = self.event_log.to_variant();
 
@@ -451,6 +465,8 @@ impl RustGameSession {
         payload.set("glyph_mastery", &self.glyph_mastery.to_variant());
         payload.set("equipment_inventory", &equipment_inventory_v);
         payload.set("equipped_items", &equipped_items_v);
+        payload.set("supply_inventory", &supply_inventory_v);
+        payload.set("claimed_supply_offers", &claimed_supply_offers_v);
         payload.set("elapsed_seconds", &self.elapsed_seconds.to_variant());
         payload.set("enemy_hp", &self.enemy_hp.to_variant());
         payload.set("player_hp", &self.player_hp.to_variant());
@@ -543,6 +559,28 @@ impl RustGameSession {
         }
         self.ensure_equipment_catalog();
         self.refresh_equipment_state();
+        self.supply_inventory.clear();
+        let saved_supply = dict_value_as_dict(&data_dict, "supply_inventory");
+        for item_var in saved_supply.keys_array().iter_shared() {
+            let item_id = item_var.stringify().to_string();
+            let count = saved_supply
+                .get(&item_var)
+                .and_then(|v| v.try_to_relaxed::<i32>().ok())
+                .unwrap_or(0);
+            if !item_id.is_empty() && count > 0 {
+                self.supply_inventory.insert(item_id, count);
+            }
+        }
+        self.claimed_supply_offers.clear();
+        let claimed_supply_arr = dict_value_as_array(&data_dict, "claimed_supply_offers");
+        for offer_var in claimed_supply_arr.iter_shared() {
+            let offer_id = offer_var.stringify().to_string();
+            if !offer_id.is_empty() {
+                self.claimed_supply_offers.insert(offer_id);
+            }
+        }
+        self.ensure_supply_catalog();
+        self.refresh_supply_state();
         self.elapsed_seconds = dict_i32(&data_dict, "elapsed_seconds", 0);
         self.enemy_hp = dict_i32(&data_dict, "enemy_hp", 0);
         self.player_hp = dict_i32(&data_dict, "player_hp", 5);
@@ -576,6 +614,14 @@ impl RustGameSession {
     #[func]
     fn has_equipment(&self, item_id: GString) -> bool {
         self.equipment_inventory.contains(&item_id.to_string())
+    }
+
+    #[func]
+    fn supply_count(&self, item_id: GString) -> i32 {
+        self.supply_inventory
+            .get(&item_id.to_string())
+            .copied()
+            .unwrap_or(0)
     }
 
     #[func]
@@ -639,6 +685,7 @@ impl RustGameSession {
             "build" => self.build_project(arg),
             "combine" => self.combine_words(arg),
             "engage" => self.engage_encounter(arg),
+            "use_supply" => self.use_supply(arg),
             _ => self.log_internal(&format!("未知行动：{}", verb)),
         }
     }
@@ -673,6 +720,7 @@ impl RustGameSession {
         }
         if changed {
             self.refresh_equipment_state();
+            self.refresh_supply_state();
         }
     }
 
@@ -798,6 +846,118 @@ impl RustGameSession {
             arr.push(&GString::from(value.as_str()).to_variant());
         }
         arr.to_variant()
+    }
+
+    fn string_i32_map_variant_dict(values: &HashMap<String, i32>) -> Variant {
+        let mut dict = VarDictionary::new();
+        let mut sorted: Vec<String> = values.keys().cloned().collect();
+        sorted.sort();
+        for key in sorted {
+            let value = values.get(&key).copied().unwrap_or(0);
+            if value > 0 {
+                dict.set(key.as_str(), &value.to_variant());
+            }
+        }
+        dict.to_variant()
+    }
+
+    fn clear_supply_state(&mut self) {
+        self.supply_inventory.clear();
+        self.claimed_supply_offers.clear();
+    }
+
+    fn ensure_supply_catalog(&mut self) {
+        if self.supply_catalog.is_empty() {
+            self.supply_catalog =
+                read_json_dict(SUPPLY_CATALOG_PATH).unwrap_or_else(VarDictionary::new);
+        }
+    }
+
+    fn refresh_supply_state(&mut self) {
+        self.ensure_supply_catalog();
+        let offers = dict_value_as_dict(&self.supply_catalog, "offers");
+        if offers.is_empty() {
+            return;
+        }
+
+        for offer_id in Self::sorted_dict_keys(&offers) {
+            if self.claimed_supply_offers.contains(&offer_id) {
+                continue;
+            }
+            let offer = dict_value_as_dict(&offers, &offer_id);
+            if !self.supply_source_flags_met(&offer) {
+                continue;
+            }
+            let quantity = dict_i32(&offer, "quantity", 1).clamp(1, 2);
+            let current = self.supply_inventory.get(&offer_id).copied().unwrap_or(0);
+            self.supply_inventory
+                .insert(offer_id.clone(), current + quantity);
+            self.claimed_supply_offers.insert(offer_id);
+        }
+    }
+
+    fn supply_source_flags_met(&self, offer: &VarDictionary) -> bool {
+        let acquisition = dict_value_as_dict(offer, "acquisition");
+        let source_flags = dict_value_as_array(&acquisition, "source_flags");
+        if source_flags.is_empty() {
+            return false;
+        }
+        for flag_var in source_flags.iter_shared() {
+            let flag = flag_var.stringify().to_string();
+            if flag.is_empty() || !self.has_flag_internal(&flag) {
+                return false;
+            }
+        }
+        true
+    }
+
+    fn supply_action_array(&self) -> VarArray {
+        let offers = dict_value_as_dict(&self.supply_catalog, "offers");
+        let mut actions = VarArray::new();
+        let mut item_ids: Vec<String> = self.supply_inventory.keys().cloned().collect();
+        item_ids.sort();
+        for item_id in item_ids {
+            let count = self.supply_inventory.get(&item_id).copied().unwrap_or(0);
+            if count <= 0 {
+                continue;
+            }
+            let offer = dict_value_as_dict(&offers, &item_id);
+            if offer.is_empty() {
+                continue;
+            }
+            let name = dict_str(&offer, "name", &item_id);
+            let label = GString::from(format!("用：{} x{}", name, count).as_str());
+            let verb = GString::from("use_supply");
+            let arg = GString::from(item_id.as_str());
+            let mut action = VarDictionary::new();
+            action.set("label", &label.to_variant());
+            action.set("verb", &verb.to_variant());
+            action.set("arg", &arg.to_variant());
+            let action_v = action.to_variant();
+            actions.push(&action_v);
+        }
+        actions
+    }
+
+    fn supply_summary(&self) -> String {
+        let offers = dict_value_as_dict(&self.supply_catalog, "offers");
+        let mut parts: Vec<String> = Vec::new();
+        let mut item_ids: Vec<String> = self.supply_inventory.keys().cloned().collect();
+        item_ids.sort();
+        for item_id in item_ids {
+            let count = self.supply_inventory.get(&item_id).copied().unwrap_or(0);
+            if count <= 0 {
+                continue;
+            }
+            let offer = dict_value_as_dict(&offers, &item_id);
+            let name = dict_str(&offer, "name", &item_id);
+            parts.push(format!("{}x{}", name, count));
+        }
+        if parts.is_empty() {
+            String::new()
+        } else {
+            format!("补给  {}", parts.join("  "))
+        }
     }
 
     fn apply_metrics(&mut self, delta: &VarDictionary) {
@@ -1219,6 +1379,37 @@ impl RustGameSession {
         self.log_internal(&text);
     }
 
+    fn use_supply(&mut self, offer_id: &str) {
+        let count = self.supply_inventory.get(offer_id).copied().unwrap_or(0);
+        if offer_id.is_empty() || count <= 0 {
+            self.log_internal("这个补给现在不可用。");
+            return;
+        }
+        let offers = dict_value_as_dict(&self.supply_catalog, "offers");
+        let offer = dict_value_as_dict(&offers, offer_id);
+        if offer.is_empty() {
+            self.log_internal("这个补给没有登记。");
+            return;
+        }
+        let effects = dict_value_as_dict(&offer, "effects");
+        let stats = dict_value_as_dict(&effects, "stats");
+        if stats.is_empty() {
+            self.log_internal("这个补给暂时没有效果。");
+            return;
+        }
+
+        self.elapsed_seconds += dict_i32(&offer, "use_seconds", 10);
+        self.apply_stat_delta(&stats);
+        if count <= 1 {
+            self.supply_inventory.remove(offer_id);
+        } else {
+            self.supply_inventory
+                .insert(offer_id.to_string(), count - 1);
+        }
+        let text = dict_str(&offer, "use_text", "你使用了补给。");
+        self.log_internal(&text);
+    }
+
     fn write_name(&mut self) {
         let combat = dict_value_as_dict(&self.current_location_dict(), "combat");
         if combat.is_empty() {
@@ -1285,7 +1476,11 @@ impl RustGameSession {
             self.apply_progression_rewards(&combat);
             let revealed_name = dict_str(&combat, "revealed_name", "敌人");
             self.log_internal(&format!("{} 被击退。", revealed_name));
-        } else if self.attacks_since_name >= dict_i32(&combat, "lose_name_every", 2) {
+        } else if self.attacks_since_name
+            >= (dict_i32(&combat, "lose_name_every", 2)
+                + self.equipment_number_effect("combat_modifiers", "lose_name_every_delta"))
+            .max(1)
+        {
             let lock_flag = dict_str(&combat, "lock_flag", "");
             self.flags.remove(&lock_flag);
             self.attacks_since_name = 0;
@@ -1457,6 +1652,10 @@ impl RustGameSession {
         let equipment = self.equipment_summary();
         if !equipment.is_empty() {
             lines.push(equipment);
+        }
+        let supplies = self.supply_summary();
+        if !supplies.is_empty() {
+            lines.push(supplies);
         }
         lines.join("\n")
     }

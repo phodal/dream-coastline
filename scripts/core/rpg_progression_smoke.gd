@@ -15,6 +15,7 @@ func run() -> bool:
 
 	_expect_no_equipment("basic_dictionary_fragment")
 	_expect_no_equipment("stop_glyph_rule")
+	_expect_supply_count("stability_seal", 0)
 	_expect_stat("ink", 4)
 	_expect_stat("focus", 3)
 	_expect_stat("stability", 2)
@@ -31,8 +32,10 @@ func run() -> bool:
 	_expect_mastery("fire", 1)
 	_expect_mastery("stop", 1)
 	_expect_equipment("stop_glyph_rule")
+	_expect_supply_count("stability_seal", 1)
 	_expect_stat("max_stability", 4)
 	_expect_text_contains(session.progression_text(), "止字尺")
+	_expect_text_contains(session.progression_text(), "定界封条")
 
 	_act("go", "village")
 	_act("inspect", "well")
@@ -43,6 +46,10 @@ func run() -> bool:
 	_expect_stat("focus", 2)
 	_expect_stat("stability", 3)
 	_expect_mastery("stop", 2)
+	_act("use_supply", "stability_seal")
+	_expect_supply_count("stability_seal", 0)
+	_expect_stat("stability", 4)
+	_expect_log_contains("定界封条")
 
 	_act("engage", "contract_patrol")
 	_expect_stat("ink", 3)
@@ -56,9 +63,16 @@ func run() -> bool:
 	_act("cast", "door")
 	_expect_flag("got_basic_dictionary")
 	_expect_equipment("basic_dictionary_fragment")
+	_expect_supply_count("focus_slip", 1)
 	_expect_stat("max_focus", 4)
 	_expect_mastery("name", 2)
 	_expect_text_contains(session.progression_text(), "残缺基础字典")
+	_expect_text_contains(session.progression_text(), "静心纸")
+	_expect_supply_action("focus_slip")
+	_act("use_supply", "focus_slip")
+	_expect_supply_count("focus_slip", 0)
+	_expect_stat("focus", 3)
+	_expect_log_contains("静心纸")
 
 	var save_data: Dictionary = session.to_save_data()
 	session.load_scene(0)
@@ -66,9 +80,11 @@ func run() -> bool:
 	_expect_flag("cleared_contract_patrol")
 	_expect_equipment("basic_dictionary_fragment")
 	_expect_equipment("stop_glyph_rule")
+	_expect_supply_count("focus_slip", 0)
+	_expect_supply_count("stability_seal", 0)
 	_expect_stat("ink", 3)
-	_expect_stat("focus", 2)
-	_expect_stat("stability", 3)
+	_expect_stat("focus", 3)
+	_expect_stat("stability", 4)
 	_expect_stat("max_focus", 4)
 	_expect_stat("max_stability", 4)
 	_expect_mastery("name", 2)
@@ -112,6 +128,12 @@ func _expect_no_equipment(item_id: String) -> void:
 		failures.append("did not expect equipment %s" % item_id)
 
 
+func _expect_supply_count(item_id: String, expected: int) -> void:
+	var actual := int(session.supply_count(item_id))
+	if actual != expected:
+		failures.append("expected supply %s=%s, got %s" % [item_id, expected, actual])
+
+
 func _expect_stat(key: String, expected: int) -> void:
 	var actual := int(session.stat_value(key))
 	if actual != expected:
@@ -148,6 +170,14 @@ func _expect_encounter_action(encounter_id: String) -> void:
 			if str(action.get("verb", "")) == "engage" and str(action.get("arg", "")) == encounter_id:
 				return
 	failures.append("expected encounter action %s" % encounter_id)
+
+
+func _expect_supply_action(item_id: String) -> void:
+	for group in session.action_groups():
+		for action in group.get("actions", []):
+			if str(action.get("verb", "")) == "use_supply" and str(action.get("arg", "")) == item_id:
+				return
+	failures.append("expected supply action %s" % item_id)
 
 
 func _run_branch_carryover_case() -> void:
