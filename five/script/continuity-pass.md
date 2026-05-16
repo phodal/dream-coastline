@@ -43,9 +43,9 @@
 
 ## 仍需后续补的连贯性
 
-### 选择后果还需要更多可见反馈
+### 选择后果还需要视觉和目标反馈
 
-第三幕的四个藏书选择现在不会卡死，且已能影响第四幕指标和第六幕支持度。后续如果要让玩家更明显地读到差异，还需要给 `chose_royal_books`、`chose_engineer_books`、`chose_parent_books` 增加第四幕 NPC 反应、地点陈设或目标文案变化。
+第三幕的四个藏书选择现在不会卡死，且已能影响第四幕指标、第六幕支持度和关键交互文本。后续如果要让玩家在不打开日志的情况下读到差异，还需要给 `chose_royal_books`、`chose_engineer_books`、`chose_parent_books` 增加地点陈设、HUD 目标文案或视觉状态变化。
 
 ### 父母仍以记录和回声为主
 
@@ -64,17 +64,19 @@
 - `requires` 引用的 flag 必须能由本幕动作或初始状态提供。
 - 第三幕所有非 canonical 藏书路线也必须能跑通。
 - 第三幕每个 choice 都必须设置共同的 `resolved_book_route`，并有 `branch_consequences` 契约。
+- 第四幕和第六幕必须给所有藏书路线提供 `route_texts`，否则 metrics 有变化但玩家读不到差异。
 
 同时扩展 `--smoke-rpg-progression`，覆盖第三幕工程路线的 carryover：
 
 - 已选择工程路线后，不能再改选公开路线。
 - 存档恢复后进入第四幕，会保留 `chose_engineer_books`，移除默认 `chose_public_books`。
 - 第四幕 `engineering/energy/literacy` 和第六幕 `support` 会按 `branch_consequences.next_scene_metrics` 调整。
+- 第四幕“第一批成员”和第六幕“支持派”会输出工程路线专属文本，证明分支不只是后台数字。
 
 ## 下一轮建议
 
 下一轮不要继续泛泛加字数，优先做三个具体补强：
 
-- 分支线：给第三幕路线差异补第四幕 NPC 反应和 HUD 目标文案，而不是只让 metrics 变化。
+- 分支线：给第三幕路线差异补第四幕地点陈设和 HUD 目标文案，而不是只让 metrics 与日志变化。
 - 夏离线：给第五幕国书化状态补视觉和对白演出。
 - 父母线：在最终结尾前补一次面对面或半面对面的父母互动。

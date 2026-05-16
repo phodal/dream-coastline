@@ -139,6 +139,49 @@ def validate_branch_contract(scene: dict[str, Any], failures: list[str]) -> None
             failures.append(f"{scene['id']} choice {route} lacks continuity_note")
 
 
+def collect_route_text_flags(scene: dict[str, Any]) -> set[str]:
+    route_text_flags: set[str] = set()
+
+    def visit_action(action: Any) -> None:
+        if not isinstance(action, dict):
+            return
+        route_texts = action.get("route_texts", {})
+        if isinstance(route_texts, dict):
+            route_text_flags.update(str(flag) for flag in route_texts.keys())
+        for nested_key in ["items", "glyph_actions", "build_actions", "choices", "encounters", "combos", "spells"]:
+            nested = action.get(nested_key, {})
+            if isinstance(nested, dict):
+                for nested_action in nested.values():
+                    visit_action(nested_action)
+        combat = action.get("combat")
+        if isinstance(combat, dict):
+            visit_action(combat)
+
+    for location in scene.get("locations", {}).values():
+        visit_action(location)
+    return route_text_flags
+
+
+def validate_branch_visible_feedback(scenes_by_id: dict[str, dict[str, Any]], failures: list[str]) -> None:
+    source = scenes_by_id.get("03-dead-kingdom", {})
+    routes = source.get("branch_consequences", {}).get("routes", {})
+    if not isinstance(routes, dict) or not routes:
+        return
+    route_flags = {
+        str(route_contract.get("flag", ""))
+        for route_contract in routes.values()
+        if isinstance(route_contract, dict) and route_contract.get("flag")
+    }
+    for target_scene_id in ["04-continuation-institute", "06-return-star-plan"]:
+        target = scenes_by_id.get(target_scene_id, {})
+        feedback_flags = collect_route_text_flags(target)
+        missing = sorted(route_flags - feedback_flags)
+        if missing:
+            failures.append(
+                f"{target_scene_id} route_texts missing branch feedback for: {', '.join(missing)}"
+            )
+
+
 def validate_branch_walkthroughs(scene: dict[str, Any], failures: list[str]) -> None:
     runner = load_ascii_runner()
     walkthrough = scene.get("walkthrough", [])
@@ -182,6 +225,7 @@ def main() -> int:
     if dead_kingdom:
         validate_branch_contract(dead_kingdom, failures)
         validate_branch_walkthroughs(dead_kingdom, failures)
+    validate_branch_visible_feedback(scenes_by_id, failures)
 
     if failures:
         for failure in failures:
