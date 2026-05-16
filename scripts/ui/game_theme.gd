@@ -2,19 +2,19 @@ class_name GameTheme
 extends RefCounted
 
 const COLORS := {
-	"background": Color("#090807"),
-	"ink": Color("#17110d"),
-	"paper": Color("#eadcae"),
-	"panel": Color("#17110d"),
-	"panel_alt": Color("#1e1710"),
-	"panel_deep": Color("#0d0b08"),
-	"border": Color("#8f7040"),
-	"border_light": Color("#f0d18a"),
-	"border_shadow": Color("#3f2a18"),
-	"gold": Color("#d7b15e"),
-	"cyan": Color("#b9d1c4"),
-	"text": Color("#f7edcf"),
-	"muted": Color("#b7a780"),
+	"background": Color("#172218"),
+	"ink": Color("#20351f"),
+	"paper": Color("#fff4ce"),
+	"panel": Color("#20351f"),
+	"panel_alt": Color("#2c4429"),
+	"panel_deep": Color("#142416"),
+	"border": Color("#96b45e"),
+	"border_light": Color("#f3dc8a"),
+	"border_shadow": Color("#465b2a"),
+	"gold": Color("#e7bd54"),
+	"cyan": Color("#bfe2d4"),
+	"text": Color("#fff8df"),
+	"muted": Color("#ccd79c"),
 	"danger": Color("#d45c55"),
 }
 const PANEL_TEXTURE_PATH := "res://assets/ui/pixel_panel_9patch.png"
@@ -48,7 +48,7 @@ static func style_rpg_panel(panel: PanelContainer, color: Color = COLORS.panel) 
 static func style_dialogue_panel(panel: PanelContainer) -> void:
 	panel.add_theme_stylebox_override(
 		"panel",
-		_make_pixel_box(Color("#100c09", 0.93), COLORS.border_light, COLORS.border_shadow, 18, 14, 18, 14, 3)
+		_make_pixel_box(Color("#1d2f1c", 0.9), COLORS.border_light, COLORS.border_shadow, 18, 14, 18, 14, 3)
 	)
 
 
@@ -89,19 +89,19 @@ static func style_command_button(button: Button, text: String) -> void:
 	button.add_theme_color_override("font_disabled_color", Color(COLORS.muted.r, COLORS.muted.g, COLORS.muted.b, 0.52))
 	button.add_theme_stylebox_override(
 		"normal",
-		_make_pixel_box(Color("#120e0a", 0.88), COLORS.border_shadow, COLORS.border_shadow, 12, 7, 12, 7, 2)
+		_make_pixel_box(Color("#20351f", 0.86), COLORS.border_shadow, COLORS.border_shadow, 12, 7, 12, 7, 2)
 	)
 	button.add_theme_stylebox_override(
 		"hover",
-		_make_pixel_box(Color("#21170f", 0.92), COLORS.border, COLORS.border_shadow, 12, 7, 12, 7, 2)
+		_make_pixel_box(Color("#2f4d2b", 0.92), COLORS.border, COLORS.border_shadow, 12, 7, 12, 7, 2)
 	)
 	button.add_theme_stylebox_override(
 		"pressed",
-		_make_pixel_box(Color("#2b1d10", 0.96), COLORS.gold, COLORS.border_shadow, 12, 7, 12, 7, 2)
+		_make_pixel_box(Color("#45612f", 0.96), COLORS.gold, COLORS.border_shadow, 12, 7, 12, 7, 2)
 	)
 	button.add_theme_stylebox_override(
 		"focus",
-		_make_pixel_box(Color("#2a1f12", 0.95), COLORS.border_light, COLORS.gold, 12, 7, 12, 7, 2)
+		_make_pixel_box(Color("#3f5f31", 0.95), COLORS.border_light, COLORS.gold, 12, 7, 12, 7, 2)
 	)
 	button.add_theme_stylebox_override(
 		"disabled",

@@ -219,7 +219,8 @@
 			},
 			"terrain": "academy",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "academy"
+			"visual_family": "academy",
+			"visual_mood": "sunlit"
 		},
 		"store": {
 			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/store.tscn",

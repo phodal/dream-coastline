@@ -20,3 +20,5 @@
 - 交互提示不要画成编辑器选框；用物件本身的光、闪点、影子或环境对比表达焦点，否则截图会像调试视图而不是游戏。
 - 场景视觉不要长期靠 `draw_rect` / `draw_line` 修补；读感不对时应切到资产化 TileMap 管线，并让截图 manifest 标出 asset/fallback 状态。
 - 外部 spritesheet 即使文件名写 transparent，也可能带洋红导线或占位网格；导入前要看图并归一化成项目 tilesheet，不能直接拷贝原图格子。
+- 占位地面不要在 tile 内画强十字线或边界线；一旦铺满 15x9 就会读成棋盘格，应改用低对比噪点、场景陈设和大块构图来破重复。
+- Rust GDExtension 的存档 payload 如果要从 Godot 再回传 Rust，数组优先用 `VarArray` 装 `Variant`；typed `Array<GString>` 可能导致 `dict_value_as_array()` 读不到 flags。

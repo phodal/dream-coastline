@@ -3,7 +3,7 @@
 	"locations": {
 		"academy": {
 			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/academy.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "name",
@@ -65,7 +65,8 @@
 			},
 			"terrain": "academy",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "academy"
+			"visual_family": "academy",
+			"visual_mood": "sunlit"
 		},
 		"archive": {
 			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/archive.tscn",
@@ -231,7 +232,7 @@
 		},
 		"village": {
 			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/village.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "well",
@@ -299,7 +300,8 @@
 			},
 			"terrain": "village",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "academy"
+			"visual_family": "academy",
+			"visual_mood": "sunlit"
 		}
 	},
 	"tile_size": 32.0

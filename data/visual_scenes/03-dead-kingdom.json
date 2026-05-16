@@ -127,7 +127,8 @@
 			},
 			"terrain": "dead_city",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "modern_exterior"
+			"visual_family": "modern_exterior",
+			"visual_mood": "ruin"
 		},
 		"library": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/library.tscn",
@@ -235,7 +236,8 @@
 			},
 			"terrain": "dead_city",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "modern_exterior"
+			"visual_family": "modern_exterior",
+			"visual_mood": "ruin"
 		},
 		"palace": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/palace.tscn",
@@ -286,7 +288,8 @@
 			},
 			"terrain": "ruin",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "ruin"
+			"visual_family": "ruin",
+			"visual_mood": "ruin"
 		}
 	},
 	"tile_size": 32.0

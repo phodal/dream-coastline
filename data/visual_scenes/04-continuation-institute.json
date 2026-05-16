@@ -3,7 +3,7 @@
 	"locations": {
 		"institute": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/institute.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "members",
@@ -66,7 +66,8 @@
 			},
 			"terrain": "institute",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "modern_interior"
+			"visual_family": "modern_interior",
+			"visual_mood": "sunlit"
 		},
 		"mine": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/mine.tscn",
@@ -126,11 +127,12 @@
 			},
 			"terrain": "mine",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "mine"
+			"visual_family": "mine",
+			"visual_mood": "ruin"
 		},
 		"school": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/school.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "class",
@@ -182,7 +184,8 @@
 			},
 			"terrain": "academy",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "academy"
+			"visual_family": "academy",
+			"visual_mood": "sunlit"
 		},
 		"seal_tower": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/seal_tower.tscn",
@@ -323,7 +326,7 @@
 		},
 		"workshop": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/workshop.tscn",
-			"asset_status": "framework_placeholder",
+			"asset_status": "asset_backed",
 			"props": [
 				{
 					"item": "atang",
@@ -375,7 +378,8 @@
 			},
 			"terrain": "workshop",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "workshop"
+			"visual_family": "workshop",
+			"visual_mood": "sunlit"
 		}
 	},
 	"tile_size": 32.0

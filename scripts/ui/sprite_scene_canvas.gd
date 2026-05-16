@@ -117,6 +117,7 @@ func _draw() -> void:
 	_draw_scene_backdrop(canvas_size, origin, map_size, tile_size, visual)
 	if asset_scene_ready:
 		_draw_asset_scene_texture(origin, map_size)
+		_draw_asset_scene_tone(origin, map_size, tile_size, visual)
 		_draw_location_asset_overlays(origin, tile_size, visual)
 	else:
 		_draw_map(origin, tile_size, visual)
@@ -124,7 +125,7 @@ func _draw() -> void:
 		_draw_location_objects(origin, tile_size, visual)
 	_draw_blocked_feedback(origin, tile_size)
 	_draw_actors(origin, tile_size, visual)
-	_draw_screen_grade(canvas_size, origin, map_size, tile_size)
+	_draw_screen_grade(canvas_size, origin, map_size, tile_size, visual)
 
 
 func _setup_asset_viewport() -> void:
@@ -197,6 +198,66 @@ func _draw_asset_scene_texture(origin: Vector2, map_size: Vector2) -> void:
 	draw_texture_rect(texture, Rect2(origin, map_size), false)
 
 
+func _draw_asset_scene_tone(origin: Vector2, map_size: Vector2, tile_size: float, visual: Dictionary) -> void:
+	var terrain := str(visual.get("terrain", ""))
+	var family := str(visual.get("visual_family", ""))
+	var tone := Color("#050608", 0.08)
+	if _visual_mood(visual) == "sunlit":
+		draw_rect(Rect2(origin, map_size), Color("#fff4b8", 0.08))
+		draw_rect(Rect2(origin, map_size), Color("#88d86f", 0.045))
+		var sun_center := origin + Vector2(map_size.x * 0.18, map_size.y * 0.08)
+		draw_circle(sun_center, tile_size * 3.2, Color("#fff4b8", 0.08))
+		for index in range(5):
+			var start := origin + Vector2(tile_size * (1.2 + index * 2.4), 0)
+			var end := start + Vector2(tile_size * 1.4, map_size.y)
+			draw_line(start, end, Color("#fff6b8", 0.055), maxf(2.0, tile_size * 0.04))
+		return
+	if session != null and session.scene_id == "00-prologue-lights-out":
+		tone = Color("#03060b", 0.18)
+	elif family == "node":
+		tone = Color("#00202a", 0.11)
+	elif family in ["wilderness", "forest"]:
+		tone = Color("#170f07", 0.12)
+	elif family in ["ruin", "mine"]:
+		tone = Color("#050608", 0.18)
+	elif terrain == "street" or family == "modern_exterior":
+		tone = Color("#061016", 0.1)
+	draw_rect(Rect2(origin, map_size), tone)
+	var edge := maxf(tile_size * 0.9, 40.0)
+	draw_rect(Rect2(origin, Vector2(map_size.x, edge)), Color("#000000", 0.18))
+	draw_rect(Rect2(origin + Vector2(0, map_size.y - edge), Vector2(map_size.x, edge)), Color("#000000", 0.12))
+	draw_rect(Rect2(origin, Vector2(edge, map_size.y)), Color("#000000", 0.1))
+	draw_rect(Rect2(origin + Vector2(map_size.x - edge, 0), Vector2(edge, map_size.y)), Color("#000000", 0.1))
+	for prop in visual.get("props", []):
+		if typeof(prop) != TYPE_DICTIONARY:
+			continue
+		_draw_asset_prop_light(prop, origin, tile_size)
+
+
+func _draw_asset_prop_light(prop: Dictionary, origin: Vector2, tile_size: float) -> void:
+	var kind := str(prop.get("kind", ""))
+	var light_color := Color(0, 0, 0, 0)
+	var radius := tile_size * 0.9
+	match kind:
+		"lamp":
+			light_color = Color("#f0d18a", 0.16)
+			radius = tile_size * 1.2
+		"window_dark", "pen":
+			light_color = Color("#d45c55", 0.12)
+			radius = tile_size * 0.9
+		"node", "portal":
+			light_color = Color("#75d9e6", 0.13)
+			radius = tile_size * 1.25
+		"rune":
+			light_color = Color("#d7b15e", 0.12)
+			radius = tile_size * 1.0
+		_:
+			return
+	var center := origin + Vector2(float(prop.get("x", 0)) + 0.5, float(prop.get("y", 0)) + 0.5) * tile_size
+	draw_circle(center, radius, Color(light_color.r, light_color.g, light_color.b, light_color.a * 0.45))
+	draw_circle(center, radius * 0.45, light_color)
+
+
 func _draw_location_asset_overlays(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
 	for prop in visual.get("props", []):
 		if typeof(prop) == TYPE_DICTIONARY:
@@ -207,10 +268,12 @@ func _draw_location_asset_overlays(origin: Vector2, tile_size: float, visual: Di
 
 func _draw_scene_backdrop(canvas_size: Vector2, origin: Vector2, map_size: Vector2, tile_size: float, visual: Dictionary) -> void:
 	var terrain := str(visual.get("terrain", ""))
-	var base := _ambient_base_color(terrain)
+	var base := _ambient_base_color(terrain, visual)
 	draw_rect(Rect2(Vector2.ZERO, canvas_size), base)
-	_draw_backdrop_texture(canvas_size, tile_size, terrain)
-	if terrain in ["wilderness", "forest"]:
+	_draw_backdrop_texture(canvas_size, tile_size, terrain, visual)
+	if _visual_mood(visual) == "sunlit":
+		_draw_sunlit_backdrop(origin, map_size, tile_size)
+	elif terrain in ["wilderness", "forest"]:
 		_draw_wilderness_horizon(origin, map_size, tile_size, terrain)
 	elif terrain in ["ruin", "dead_city"]:
 		_draw_ruin_haze(origin, map_size, tile_size)
@@ -218,28 +281,61 @@ func _draw_scene_backdrop(canvas_size: Vector2, origin: Vector2, map_size: Vecto
 		_draw_node_backdrop(origin, map_size, tile_size)
 	elif _uses_modern_scene_tiles(terrain):
 		_draw_modern_backdrop(origin, map_size, tile_size, terrain)
-	draw_rect(Rect2(origin - Vector2(tile_size * 0.16, tile_size * 0.16), map_size + Vector2(tile_size * 0.32, tile_size * 0.32)), Color("#000000", 0.2), false, maxf(2.0, tile_size * 0.04))
+	var frame_color := Color("#000000", 0.2)
+	if _visual_mood(visual) == "sunlit":
+		frame_color = Color("#f7e9a7", 0.28)
+	draw_rect(Rect2(origin - Vector2(tile_size * 0.16, tile_size * 0.16), map_size + Vector2(tile_size * 0.32, tile_size * 0.32)), frame_color, false, maxf(2.0, tile_size * 0.04))
 
 
-func _draw_screen_grade(canvas_size: Vector2, origin: Vector2, map_size: Vector2, tile_size: float) -> void:
+func _draw_screen_grade(canvas_size: Vector2, origin: Vector2, map_size: Vector2, tile_size: float, visual: Dictionary) -> void:
+	var mood := _visual_mood(visual)
 	var shade := Color("#000000", 0.22)
+	var side_shade := Color("#000000", 0.16)
+	var frame_color := Color(GameThemeScript.COLORS.border.r, GameThemeScript.COLORS.border.g, GameThemeScript.COLORS.border.b, 0.22)
+	var inner_frame := Color("#f1ead4", 0.035)
+	if mood == "sunlit":
+		shade = Color("#24451f", 0.045)
+		side_shade = Color("#24451f", 0.035)
+		frame_color = Color("#f6d978", 0.34)
+		inner_frame = Color("#fff7be", 0.12)
+	elif mood == "silenced":
+		shade = Color("#000000", 0.24)
+		side_shade = Color("#000000", 0.18)
 	var band := maxf(tile_size * 0.8, 36.0)
 	draw_rect(Rect2(Vector2.ZERO, Vector2(canvas_size.x, band)), shade)
 	draw_rect(Rect2(Vector2(0, canvas_size.y - band), Vector2(canvas_size.x, band)), shade)
-	draw_rect(Rect2(Vector2.ZERO, Vector2(band, canvas_size.y)), Color("#000000", 0.16))
-	draw_rect(Rect2(Vector2(canvas_size.x - band, 0), Vector2(band, canvas_size.y)), Color("#000000", 0.16))
+	draw_rect(Rect2(Vector2.ZERO, Vector2(band, canvas_size.y)), side_shade)
+	draw_rect(Rect2(Vector2(canvas_size.x - band, 0), Vector2(band, canvas_size.y)), side_shade)
 	var map_frame := Rect2(origin - Vector2(tile_size * 0.12, tile_size * 0.12), map_size + Vector2(tile_size * 0.24, tile_size * 0.24))
-	draw_rect(map_frame, Color(GameThemeScript.COLORS.border.r, GameThemeScript.COLORS.border.g, GameThemeScript.COLORS.border.b, 0.22), false, maxf(1.0, tile_size * 0.018))
-	draw_rect(Rect2(origin, map_size), Color("#f1ead4", 0.035), false, maxf(1.0, tile_size * 0.012))
+	draw_rect(map_frame, frame_color, false, maxf(1.0, tile_size * 0.018))
+	draw_rect(Rect2(origin, map_size), inner_frame, false, maxf(1.0, tile_size * 0.012))
 
 
-func _draw_backdrop_texture(canvas_size: Vector2, tile_size: float, terrain: String) -> void:
-	var speck_color := _ambient_speck_color(terrain)
+func _draw_backdrop_texture(canvas_size: Vector2, tile_size: float, terrain: String, visual: Dictionary) -> void:
+	var speck_color := _ambient_speck_color(terrain, visual)
 	for index in range(28):
 		var x := fposmod(float(index * 47) + animation_time * 7.0, canvas_size.x)
 		var y := fposmod(float(index * 31) + sin(animation_time * 0.6 + index) * 8.0, canvas_size.y)
 		var size := maxf(1.0, tile_size * (0.018 + float(index % 3) * 0.006))
 		draw_rect(Rect2(Vector2(x, y), Vector2(size, size)), speck_color)
+
+
+func _draw_sunlit_backdrop(origin: Vector2, map_size: Vector2, tile_size: float) -> void:
+	var horizon_y := origin.y + tile_size * 0.45
+	draw_rect(Rect2(Vector2(origin.x, horizon_y), Vector2(map_size.x, tile_size * 0.18)), Color("#fff2a7", 0.24))
+	for index in range(9):
+		var x := origin.x + tile_size * (0.5 + index * 1.7)
+		var height := tile_size * (0.2 + float(index % 3) * 0.08)
+		draw_circle(Vector2(x, horizon_y - height * 0.35), tile_size * 0.34, Color("#7bcf64", 0.35))
+		draw_rect(Rect2(Vector2(x - tile_size * 0.04, horizon_y - height * 0.2), Vector2(tile_size * 0.08, height)), Color("#6d8b3a", 0.22))
+	for index in range(6):
+		var y := origin.y + tile_size * (1.1 + index * 0.62)
+		draw_line(
+			Vector2(origin.x + tile_size * 0.8, y),
+			Vector2(origin.x + map_size.x - tile_size * 0.8, y + tile_size * 0.28),
+			Color("#fff4b8", 0.055),
+			maxf(1.0, tile_size * 0.02)
+		)
 
 
 func _draw_wilderness_horizon(origin: Vector2, map_size: Vector2, tile_size: float, terrain: String) -> void:
@@ -1514,7 +1610,9 @@ func _fallback_player_frame() -> Vector2i:
 	return PLAYER_FRAME_ORIGIN + Vector2i(column, row)
 
 
-func _ambient_base_color(terrain: String) -> Color:
+func _ambient_base_color(terrain: String, visual: Dictionary) -> Color:
+	if _visual_mood(visual) == "sunlit":
+		return Color("#9fd178")
 	if _uses_modern_scene_tiles(terrain):
 		if terrain == "street":
 			return Color("#0b0e10")
@@ -1530,7 +1628,9 @@ func _ambient_base_color(terrain: String) -> Color:
 	return GameThemeScript.COLORS.panel_deep
 
 
-func _ambient_speck_color(terrain: String) -> Color:
+func _ambient_speck_color(terrain: String, visual: Dictionary) -> Color:
+	if _visual_mood(visual) == "sunlit":
+		return Color("#fff6ba", 0.16)
 	if terrain == "node":
 		return Color(GameThemeScript.COLORS.cyan.r, GameThemeScript.COLORS.cyan.g, GameThemeScript.COLORS.cyan.b, 0.18)
 	if terrain in ["ruin", "dead_city"]:
@@ -1538,6 +1638,20 @@ func _ambient_speck_color(terrain: String) -> Color:
 	if _uses_modern_scene_tiles(terrain):
 		return Color("#b9d1c4", 0.08)
 	return Color("#d7b15e", 0.08)
+
+
+func _visual_mood(visual: Dictionary) -> String:
+	var explicit := str(visual.get("visual_mood", ""))
+	if not explicit.is_empty():
+		return explicit
+	if session != null:
+		if session.scene_id == "00-prologue-lights-out":
+			return "silenced"
+		if session.scene_id in ["02-moqi-academy", "04-continuation-institute"] and str(visual.get("visual_family", "")) == "academy":
+			return "sunlit"
+	if str(visual.get("visual_family", "")) in ["ruin", "mine"]:
+		return "ruin"
+	return "neutral"
 
 
 func _draw_facing_marker(top_left: Vector2, tile_size: float) -> void:

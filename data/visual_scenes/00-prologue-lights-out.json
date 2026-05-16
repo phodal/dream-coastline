@@ -60,7 +60,8 @@
 			},
 			"terrain": "room",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "modern_interior"
+			"visual_family": "modern_interior",
+			"visual_mood": "silenced"
 		},
 		"building": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/building.tscn",
@@ -105,7 +106,8 @@
 			},
 			"terrain": "interior",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "modern_interior"
+			"visual_family": "modern_interior",
+			"visual_mood": "silenced"
 		},
 		"home": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/home.tscn",
@@ -143,7 +145,8 @@
 			},
 			"terrain": "interior",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "modern_interior"
+			"visual_family": "modern_interior",
+			"visual_mood": "silenced"
 		},
 		"living_room": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/living_room.tscn",
@@ -205,7 +208,8 @@
 			},
 			"terrain": "room",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "modern_interior"
+			"visual_family": "modern_interior",
+			"visual_mood": "silenced"
 		},
 		"street": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/street.tscn",
@@ -253,7 +257,8 @@
 			},
 			"terrain": "street",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "modern_exterior"
+			"visual_family": "modern_exterior",
+			"visual_mood": "silenced"
 		},
 		"study": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/study.tscn",
@@ -308,7 +313,8 @@
 			},
 			"terrain": "room",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "modern_interior"
+			"visual_family": "modern_interior",
+			"visual_mood": "silenced"
 		}
 	},
 	"tile_size": 32.0
