@@ -1,0 +1,300 @@
+{
+  "schema_version": 1,
+  "integration_status": "contract_only",
+  "design_doc": "docs/equipment-carrier-system.md",
+  "balance_profile": {
+    "personal_stat_unit": 1,
+    "manual_metric_unit": 10,
+    "support_metric_unit": 20,
+    "max_manual_stat_bonus": 2,
+    "max_manual_glyph_bonus": 1,
+    "max_support_metric_bonus": 30
+  },
+  "slots": {
+    "pen_core": {
+      "name": "续笔核心",
+      "max_equipped": 1,
+      "equip_mode": "fixed",
+      "description": "Story-critical writing authority. It unlocks continuation behavior, not damage."
+    },
+    "glyph_page": {
+      "name": "字页",
+      "max_equipped": 2,
+      "equip_mode": "manual",
+      "description": "Dictionary pages, formulas, and carried text that stabilize glyph use."
+    },
+    "anchor": {
+      "name": "锚点",
+      "max_equipped": 1,
+      "equip_mode": "manual",
+      "description": "Nameplates, identity anchors, and beacon shards that resist namelessness."
+    },
+    "tool": {
+      "name": "墨具",
+      "max_equipped": 1,
+      "equip_mode": "manual",
+      "description": "Ink, measuring, or engineering tools that tune personal resource use."
+    },
+    "support_module": {
+      "name": "文明支援",
+      "max_equipped": 5,
+      "equip_mode": "automatic",
+      "description": "Infrastructure unlocked by story flags and civilization metrics."
+    }
+  },
+  "items": {
+    "continuation_pen": {
+      "name": "续笔",
+      "scene_id": "00-prologue-lights-out",
+      "slot": "pen_core",
+      "kind": "story_core",
+      "acquisition": {
+        "source_flags": ["read_continue_letter"],
+        "notes": "The prologue pen is the fixed authority for writing and continuation."
+      },
+      "effects": {
+        "unlock_actions": ["write_glyph", "continue_page"],
+        "notes": ["Does not grant attack or defense."]
+      },
+      "balance": {
+        "tier": 0,
+        "combat_power": 0,
+        "manual_equip": false
+      }
+    },
+    "broken_nameplate": {
+      "name": "残缺名牌",
+      "scene_id": "01-illiterate",
+      "slot": "anchor",
+      "kind": "identity_anchor",
+      "acquisition": {
+        "source_flags": ["received_broken_nameplate"],
+        "notes": "Reward after the first nameless beast fight."
+      },
+      "effects": {
+        "combat_modifiers": {
+          "lose_name_every_delta": 1
+        },
+        "resistances": {
+          "namelessness": 10
+        },
+        "notes": ["Extends the time before a revealed target falls back into namelessness."]
+      },
+      "balance": {
+        "tier": 1,
+        "combat_power": 1,
+        "manual_equip": true
+      }
+    },
+    "basic_dictionary_fragment": {
+      "name": "残缺基础字典",
+      "scene_id": "02-moqi-academy",
+      "slot": "glyph_page",
+      "kind": "glyph_reference",
+      "acquisition": {
+        "source_flags": ["got_basic_dictionary"],
+        "notes": "Early dictionary support for the first four glyphs."
+      },
+      "effects": {
+        "stat_modifiers": {
+          "max_focus": 1
+        },
+        "glyph_mastery_modifiers": {
+          "name": 1
+        },
+        "support_actions": ["decode_basic_labels"],
+        "notes": ["Only one selected basic glyph should receive the mastery bonus after integration."]
+      },
+      "balance": {
+        "tier": 1,
+        "combat_power": 1,
+        "manual_equip": true
+      }
+    },
+    "old_ink_pouch": {
+      "name": "旧墨囊",
+      "scene_id": "02-moqi-academy",
+      "slot": "tool",
+      "kind": "resource_tool",
+      "acquisition": {
+        "source_flags": ["started_ink_engine"],
+        "notes": "Recovered while learning how ink power drives old infrastructure."
+      },
+      "effects": {
+        "stat_modifiers": {
+          "max_ink": 1
+        },
+        "notes": ["Keeps early ink economy small: one extra cast, not a damage spike."]
+      },
+      "balance": {
+        "tier": 1,
+        "combat_power": 0,
+        "manual_equip": true
+      }
+    },
+    "stop_glyph_rule": {
+      "name": "止字尺",
+      "scene_id": "02-moqi-academy",
+      "slot": "tool",
+      "kind": "stability_tool",
+      "acquisition": {
+        "source_flags": ["learned_stop"],
+        "notes": "A measuring rule for writing stable stop boundaries."
+      },
+      "effects": {
+        "stat_modifiers": {
+          "max_stability": 1
+        },
+        "resistances": {
+          "forgetting": 10
+        },
+        "notes": ["Supports stability checks and forgetting pressure, not direct defense."]
+      },
+      "balance": {
+        "tier": 1,
+        "combat_power": 0,
+        "manual_equip": true
+      }
+    },
+    "standard_dictionary": {
+      "name": "标准字典",
+      "scene_id": "04-continuation-institute",
+      "slot": "support_module",
+      "kind": "civilization_backup",
+      "acquisition": {
+        "source_flags": ["published_standard_dictionary"],
+        "notes": "Unlocked by public standardization, not by personal loot."
+      },
+      "effects": {
+        "metric_modifiers": {
+          "literacy": 10,
+          "stability": 10
+        },
+        "support_actions": ["restore_deleted_skill_names"],
+        "notes": ["Late-game deletion attacks can be answered by the dictionary network."]
+      },
+      "balance": {
+        "tier": 2,
+        "combat_power": 0,
+        "manual_equip": false
+      }
+    },
+    "public_archive_tower": {
+      "name": "公共档案塔",
+      "scene_id": "04-continuation-institute",
+      "slot": "support_module",
+      "kind": "civilization_backup",
+      "acquisition": {
+        "source_flags": ["archive_tower_built"],
+        "notes": "The old seal tower becomes public memory infrastructure."
+      },
+      "effects": {
+        "metric_modifiers": {
+          "openness": 10,
+          "stability": 20
+        },
+        "resistances": {
+          "history_deletion": 20
+        },
+        "support_actions": ["restore_erased_records"],
+        "notes": ["Protects history continuity and backup recovery."]
+      },
+      "balance": {
+        "tier": 2,
+        "combat_power": 0,
+        "manual_equip": false
+      }
+    },
+    "star_map_calibrator": {
+      "name": "星图校准盘",
+      "scene_id": "05-century-continuation",
+      "slot": "tool",
+      "kind": "observability_tool",
+      "acquisition": {
+        "source_flags": ["standardized_star_coordinates"],
+        "notes": "Produced by the star-coordinate standardization beat."
+      },
+      "effects": {
+        "metric_modifiers": {
+          "star_observation": 10
+        },
+        "resistances": {
+          "coordinate_deletion": 10
+        },
+        "notes": ["Improves coordinate work without replacing the star tower."]
+      },
+      "balance": {
+        "tier": 3,
+        "combat_power": 0,
+        "manual_equip": true
+      }
+    },
+    "mobile_statebook_core": {
+      "name": "移动国书核心",
+      "scene_id": "06-return-star-plan",
+      "slot": "support_module",
+      "kind": "civilization_backup",
+      "acquisition": {
+        "source_flags": ["bound_civilization_backups"],
+        "notes": "Carries dictionaries, archives, name lists, and public backups into the return plan."
+      },
+      "effects": {
+        "metric_modifiers": {
+          "stability": 20,
+          "support": 10
+        },
+        "support_actions": ["restore_deleted_glyphs", "restore_party_names", "restore_map_labels"],
+        "notes": ["This is the main answer to silence probes deleting UI and names."]
+      },
+      "balance": {
+        "tier": 3,
+        "combat_power": 0,
+        "manual_equip": false
+      }
+    },
+    "modern_beacon": {
+      "name": "现代信标",
+      "scene_id": "07-lights-on-again",
+      "slot": "anchor",
+      "kind": "observability_anchor",
+      "acquisition": {
+        "source_flags": ["checked_modern_beacon"],
+        "notes": "Parents' modern-side signal anchor."
+      },
+      "effects": {
+        "metric_modifiers": {
+          "modern_observability": 20,
+          "bridge_sync": 10
+        },
+        "resistances": {
+          "coordinate_deletion": 20
+        },
+        "notes": ["Confirms physical coordinates so Moqi meaning coordinates can attach."]
+      },
+      "balance": {
+        "tier": 4,
+        "combat_power": 1,
+        "manual_equip": true
+      }
+    },
+    "final_continue_formula": {
+      "name": "最终字组合",
+      "scene_id": "07-lights-on-again",
+      "slot": "glyph_page",
+      "kind": "glyph_formula",
+      "acquisition": {
+        "source_flags": ["learned_star", "learned_return", "learned_continue"],
+        "notes": "The final formula for 名, 门, 星, 归, 续."
+      },
+      "effects": {
+        "unlock_actions": ["combine_continue"],
+        "notes": ["Unlocks the final combination requirement after the scene flags are earned; it is not a weapon."]
+      },
+      "balance": {
+        "tier": 4,
+        "combat_power": 0,
+        "manual_equip": true
+      }
+    }
+  }
+}
