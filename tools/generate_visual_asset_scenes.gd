@@ -91,6 +91,12 @@ func _init_tile_coords() -> void:
 		"sunlit_path",
 		"flower",
 		"bright_tree",
+		"sunlit_water",
+		"shrub",
+		"academy_roof",
+		"pennant",
+		"signpost",
+		"stone_marker",
 	]
 	for index in range(keys.size()):
 		tile_coords[keys[index]] = Vector2i(index % 16, index / 16)
@@ -138,6 +144,12 @@ func _write_tilesheet() -> void:
 	_paint_if_empty(sheet, "sunlit_path", Color("#d4bd72"), Color("#f3dda0"))
 	_paint_flower(sheet, "flower")
 	_paint_bright_tree(sheet, "bright_tree")
+	_paint_water(sheet, "sunlit_water")
+	_paint_shrub(sheet, "shrub")
+	_paint_academy_roof(sheet, "academy_roof")
+	_paint_pennant(sheet, "pennant")
+	_paint_signpost(sheet, "signpost")
+	_paint_stone_marker(sheet, "stone_marker")
 	_paint_if_empty(sheet, "archive_floor", Color("#38271d"), Color("#7a5731"))
 	_paint_if_empty(sheet, "node_floor", Color("#0a1822"), Color("#2d7f8f"))
 	_paint_if_empty(sheet, "ruin_floor", Color("#24252a"), Color("#54545a"))
@@ -698,20 +710,31 @@ func _paint_academy_decor(decor: TileMapLayer, scene_id: String, location_id: St
 
 
 func _paint_sunlit_academy_decor(_ground: TileMapLayer, decor: TileMapLayer, lighting: TileMapLayer, scene_id: String, location_id: String) -> void:
+	for x in [2, 12]:
+		_set_tile(decor, x, 1, "shrub")
+		_set_tile(decor, x, 7, "shrub")
 	for x in [2, 4, 10, 12]:
 		_set_tile(decor, x, 2, "flower")
 	for x in [3, 11]:
 		_set_tile(decor, x, 6, "flower")
+	for x in [5, 6, 7, 8, 9]:
+		_set_tile(decor, x, 1, "academy_roof")
+	for x in [3, 11]:
+		_set_tile(decor, x, 4, "pennant")
 	if location_id == "village":
+		for x in range(2, 6):
+			_set_tile(decor, x, 5, "sunlit_water")
 		for x in [3, 11]:
 			_set_tile(decor, x, 2, "bright_tree")
 		_set_tile(decor, 7, 5, "well")
+		_set_tile(decor, 10, 5, "signpost")
 		_set_tile(lighting, 7, 5, "gold_glow")
 		return
 	if location_id == "workshop":
 		for x in [4, 7, 10]:
 			_set_tile(decor, x, 3, "table")
 		_set_tile(decor, 12, 5, "cabinet")
+		_set_tile(decor, 2, 5, "stone_marker")
 		return
 	if location_id == "institute":
 		for x in [4, 10]:
@@ -719,11 +742,16 @@ func _paint_sunlit_academy_decor(_ground: TileMapLayer, decor: TileMapLayer, lig
 		for x in [5, 9]:
 			_set_tile(decor, x, 5, "desk")
 		_set_tile(decor, 7, 2, "note")
+		_set_tile(decor, 7, 6, "stone_marker")
 		return
 	for x in [4, 6, 8, 10]:
 		_set_tile(decor, x, 5, "desk")
 	_set_tile(decor, 3, 2, "bookcase")
 	_set_tile(decor, 11, 2, "bookcase")
+	if location_id == "school":
+		_set_tile(decor, 7, 2, "signpost")
+	else:
+		_set_tile(decor, 7, 2, "stone_marker")
 	if scene_id == "02-moqi-academy":
 		_set_tile(lighting, 7, 3, "gold_glow")
 
@@ -1060,6 +1088,54 @@ func _paint_bright_tree(image: Image, key: String) -> void:
 	image.fill_rect(_rect(key, 8, 9, 17, 13), Color("#60ad3e"))
 	image.fill_rect(_rect(key, 11, 5, 11, 11), Color("#8ad461"))
 	image.fill_rect(_rect(key, 13, 7, 5, 3), Color("#c9ee82", 0.55))
+
+
+func _paint_water(image: Image, key: String) -> void:
+	_fill_tile(image, key, Color("#7ccfca"))
+	for y in [8, 18, 25]:
+		image.fill_rect(_rect(key, 4, y, 24, 2), Color("#d7fff2", 0.32))
+	for x in [6, 20]:
+		image.fill_rect(_rect(key, x, 5, 2, 22), Color("#4db3ba", 0.24))
+
+
+func _paint_shrub(image: Image, key: String) -> void:
+	_fill_tile(image, key, Color(0, 0, 0, 0))
+	image.fill_rect(_rect(key, 7, 17, 18, 8), Color("#3f8a35"))
+	image.fill_rect(_rect(key, 10, 12, 12, 9), Color("#72bf4e"))
+	image.fill_rect(_rect(key, 14, 10, 7, 5), Color("#a7df6c", 0.72))
+
+
+func _paint_academy_roof(image: Image, key: String) -> void:
+	_fill_tile(image, key, Color(0, 0, 0, 0))
+	image.fill_rect(_rect(key, 3, 12, 26, 10), Color("#5f8a48"))
+	image.fill_rect(_rect(key, 5, 9, 22, 5), Color("#83ba5e"))
+	image.fill_rect(_rect(key, 3, 21, 26, 3), Color("#d8bd69"))
+	image.fill_rect(_rect(key, 8, 14, 3, 6), Color("#f0d78a", 0.38))
+	image.fill_rect(_rect(key, 21, 14, 3, 6), Color("#f0d78a", 0.38))
+
+
+func _paint_pennant(image: Image, key: String) -> void:
+	_fill_tile(image, key, Color(0, 0, 0, 0))
+	image.fill_rect(_rect(key, 15, 7, 2, 22), Color("#7f5b31"))
+	image.fill_rect(_rect(key, 17, 8, 10, 9), Color("#e34f65"))
+	image.fill_rect(_rect(key, 17, 17, 7, 6), Color("#fff4ce"))
+	image.fill_rect(_rect(key, 18, 10, 7, 2), Color("#f4c652"))
+
+
+func _paint_signpost(image: Image, key: String) -> void:
+	_fill_tile(image, key, Color(0, 0, 0, 0))
+	image.fill_rect(_rect(key, 15, 11, 2, 17), Color("#7f5b31"))
+	image.fill_rect(_rect(key, 7, 8, 18, 10), Color("#f0d78a"))
+	image.fill_rect(_rect(key, 9, 11, 14, 2), Color("#5c4730"))
+	image.fill_rect(_rect(key, 10, 15, 10, 1), Color("#5c4730", 0.72))
+
+
+func _paint_stone_marker(image: Image, key: String) -> void:
+	_fill_tile(image, key, Color(0, 0, 0, 0))
+	image.fill_rect(_rect(key, 9, 8, 14, 18), Color("#b8c4aa"))
+	image.fill_rect(_rect(key, 11, 10, 10, 14), Color("#e3e9cf"))
+	image.fill_rect(_rect(key, 13, 13, 6, 2), Color("#5c6d55", 0.68))
+	image.fill_rect(_rect(key, 13, 18, 6, 2), Color("#5c6d55", 0.48))
 
 
 func _paint_campfire(image: Image, key: String) -> void:
