@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "provider": "minimax",
-  "generated_at": "2026-05-17T17:56:27.427Z",
+  "generated_at": "2026-05-17T18:31:56.525Z",
   "assets": [
     {
       "asset_id": "MUS-01-001",
@@ -1860,6 +1860,467 @@
         "post_process": {
           "tool": "ffmpeg",
           "duration_ms": 700,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "MUS-06-001",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "cue_id": "MUS-06-001",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-001.mp3",
+      "prompt_summary": "restrained RPG astral tower crisis background music, modern planet coordinates disappearing, city maps turning blank, missing names in archives, telescope and low static, urgent b...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:05:13.803Z",
+      "trace_id": "06593594cb98c153024dc1aa98f4deda",
+      "extra_info": {
+        "music_duration": 262400,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 8398775
+      }
+    },
+    {
+      "asset_id": "MUS-06-002",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "cue_id": "MUS-06-002",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-002.mp3",
+      "prompt_summary": "restrained RPG council debate background music, public rescue mandate, supporters and opposition, risk ledger, education engineering archives all speaking, civic tension, no heroi...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:07:27.492Z",
+      "trace_id": "065936595928067a8d1e92f4121f7f55",
+      "extra_info": {
+        "music_duration": 189152,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 6054859
+      }
+    },
+    {
+      "asset_id": "MUS-06-003",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "cue_id": "MUS-06-003",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-003.mp3",
+      "prompt_summary": "restrained RPG floating dockyard construction background music, return vessel skeleton, door and fire glyph engines, engineers, mobile archive core, large civic engineering, brisk...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:09:19.422Z",
+      "trace_id": "065936dfc07ed01b00cb1b4ec65fb2bd",
+      "extra_info": {
+        "music_duration": 164231,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5257393
+      }
+    },
+    {
+      "asset_id": "MUS-06-004",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "cue_id": "MUS-06-004",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-004.mp3",
+      "prompt_summary": "restrained RPG archive core background music, civilization backups binding, standard dictionary, public archives, roster backups, Xiali stabilizing national book, recovery drill, ...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:11:42.088Z",
+      "trace_id": "0659374f7527f8578b3551403df9f172",
+      "extra_info": {
+        "music_duration": 186880,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5982135
+      }
+    },
+    {
+      "asset_id": "MUS-06-005",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "cue_id": "MUS-06-005",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-005.mp3",
+      "prompt_summary": "restrained RPG return gate background music, star gate final calibration, modern night beyond the rift, farewell before crossing, one person backed by a grown civilization, lumino...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:13:51.267Z",
+      "trace_id": "065937deb9a80166918e5c513cf763eb",
+      "extra_info": {
+        "music_duration": 163500,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5233988
+      }
+    },
+    {
+      "asset_id": "MUS-06-006",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "cue_id": "MUS-06-006",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-006.mp3",
+      "prompt_summary": "restrained RPG boss battle music against silence probe, black and white eyeless protocol body, deleted skill names, blank map fragments, contact entries erased, civilization backu...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:16:05.706Z",
+      "trace_id": "0659385f81a8decd4579a7dede961549",
+      "extra_info": {
+        "music_duration": 162612,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5205566
+      }
+    },
+    {
+      "asset_id": "DLG-06-SAMPLE-JZX",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "line_id": "DLG-06-SAMPLE-JZX",
+      "character_id": "jizi_xuan",
+      "voice_id": "male-qn-qingse",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/06-return-star-plan/DLG-06-SAMPLE-JZX.mp3",
+      "source_text": "这一次，不是我一个人回家。",
+      "delivery": "少年压住情绪，比前几幕更稳；不是胜利宣言，是终于意识到身后有人。",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:16:06.776Z",
+      "trace_id": "065938e699d9c1820c31913128b2ff1c",
+      "extra_info": {
+        "byte_length": 48429,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-06-SAMPLE-XL",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "line_id": "DLG-06-SAMPLE-XL",
+      "character_id": "xiali",
+      "voice_id": "lengdan_xiongzhang",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/06-return-star-plan/DLG-06-SAMPLE-XL.mp3",
+      "source_text": "这一次，不是你一个人回家。",
+      "delivery": "冷静、克制、距离感少一点；像门前告别，也像并肩出发。",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:16:07.433Z",
+      "trace_id": "065938e6f3c1b73aea5e1ea1d7bddfed",
+      "extra_info": {
+        "byte_length": 50157,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-06-SAMPLE-DAD",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "line_id": "DLG-06-SAMPLE-DAD",
+      "character_id": "jizi_xuan_father",
+      "voice_id": "male-qn-jingying",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/06-return-star-plan/DLG-06-SAMPLE-DAD.mp3",
+      "source_text": "你不是被送去逃生。你是被送去点燃一支火种。",
+      "delivery": "中年父亲的录音留言，疲惫、低、克制；不要煽情，像终于能说完整一句真相。",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:16:08.125Z",
+      "trace_id": "065938e74e9d629dca6b58d11ecd40d5",
+      "extra_info": {
+        "byte_length": 60525,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-06-SAMPLE-MOM",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "line_id": "DLG-06-SAMPLE-MOM",
+      "character_id": "jizi_xuan_mother",
+      "voice_id": "female-chengshu",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/06-return-star-plan/DLG-06-SAMPLE-MOM.mp3",
+      "source_text": "我们无法向宇宙求救，因为求救信号会被静默。",
+      "delivery": "中年母亲的录音留言，温暖但决断；信号不稳定感可以轻微存在。",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:16:08.951Z",
+      "trace_id": "065938e8d9fb68c5f52a19afed07da5e",
+      "extra_info": {
+        "byte_length": 80109,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "SFX-06-STEP-ASTRAL",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "sfx_id": "SFX-06-STEP-ASTRAL",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-STEP-ASTRAL.mp3",
+      "prompt_summary": "game sound effect, single footstep on observatory stone and archive core floor, faint paper static and rift air, restrained, no rhythm, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:18:05.825Z",
+      "trace_id": "065938e9c9c08fb97e82da8b8df3630b",
+      "extra_info": {
+        "music_duration": 165982,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5313400,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        },
+        "mix_adjustment": {
+          "tool": "ffmpeg",
+          "volume_db": -4,
+          "reason": "reduce short footstep source loudness before Godot runtime channel gain"
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-06-STEP-CIVIC",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "sfx_id": "SFX-06-STEP-CIVIC",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-STEP-CIVIC.mp3",
+      "prompt_summary": "game sound effect, single civic footstep on council wood and dockyard metal platform, paper ledger dust, restrained, no chime, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:20:24.418Z",
+      "trace_id": "0659395d58c81904ab522ce698c56604",
+      "extra_info": {
+        "music_duration": 148924,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4767545,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        },
+        "mix_adjustment": {
+          "tool": "ffmpeg",
+          "volume_db": -8,
+          "reason": "reduce short footstep source loudness before Godot runtime channel gain"
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-06-INSPECT-LEDGER",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "sfx_id": "SFX-06-INSPECT-LEDGER",
+      "event_name": "interact",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-INSPECT-LEDGER.mp3",
+      "prompt_summary": "game sound effect, inspect public ledger and star record, page turn, ink stamp, faint signal noise, sober confirmation, no bell, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:22:45.520Z",
+      "trace_id": "065939e8047c0cb5ab64539d232f2bf5",
+      "extra_info": {
+        "music_duration": 183431,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5871793,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 560,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-06-BUILD-RETURN",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "sfx_id": "SFX-06-BUILD-RETURN",
+      "event_name": "build",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-BUILD-RETURN.mp3",
+      "prompt_summary": "game sound effect, return plan build action completes, council mandate stamped, vessel framework locks, archive backups bind, restrained civic confirmation, no fanfare, clean one-...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:24:03.685Z",
+      "trace_id": "06593a757f894e0ab0b5a5fd4545f064",
+      "extra_info": {
+        "music_duration": 83252,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2666046,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 900,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-06-GATE-OPEN",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "sfx_id": "SFX-06-GATE-OPEN",
+      "event_name": "build",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-GATE-OPEN.mp3",
+      "prompt_summary": "game sound effect, return star gate opens, coordinates align, modern night rift widens, civilization spark crosses threshold, luminous restrained portal, no huge explosion, clean ...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:25:51.760Z",
+      "trace_id": "06593ac387d78230caff60d40ec0b06d",
+      "extra_info": {
+        "music_duration": 129750,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4153981,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 1200,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-06-BACKUP-RESTORE",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "sfx_id": "SFX-06-BACKUP-RESTORE",
+      "event_name": "cast_stop",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-BACKUP-RESTORE.mp3",
+      "prompt_summary": "game sound effect, civilization backup restore, dictionary archive and national book write deleted glyphs back together, static stops, precise recovery pulse, no melody, clean one...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:27:24.021Z",
+      "trace_id": "06593b2f560493220383e4849729a261",
+      "extra_info": {
+        "music_duration": 106814,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3420045,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 850,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-06-WRITE-NAME",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "sfx_id": "SFX-06-WRITE-NAME",
+      "event_name": "write",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-WRITE-NAME.mp3",
+      "prompt_summary": "game sound effect, write name glyph to lock silence probe signature, team names and skill names snap back from blank squares, ink over white static, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:28:55.056Z",
+      "trace_id": "06593b8c56d32e5f60c42dabe5884bfa",
+      "extra_info": {
+        "music_duration": 102452,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3280446,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 850,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-06-PROBE-HIT",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "sfx_id": "SFX-06-PROBE-HIT",
+      "event_name": "attack",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-PROBE-HIT.mp3",
+      "prompt_summary": "game sound effect, restrained hit against black and white silence probe body, deleted map fragments crack, protocol shell impact, no gore, no explosion, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:30:50.047Z",
+      "trace_id": "06593be7fc0b358751daadffb7b9bd52",
+      "extra_info": {
+        "music_duration": 166138,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5318415,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 720,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-06-PROBE-ERASE",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "06-return-star-plan",
+      "sfx_id": "SFX-06-PROBE-ERASE",
+      "event_name": "engage",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-PROBE-ERASE.mp3",
+      "prompt_summary": "game sound effect, silence probe engages deletion protocol, skill names and map markers erase into blank squares, cold white static, no monster roar, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:31:56.525Z",
+      "trace_id": "06593c5aec4697e2a7753f1de202e6d4",
+      "extra_info": {
+        "music_duration": 63346,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2029077,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 950,
           "loudnorm_i": -24,
           "true_peak_db": -8
         }

@@ -1,0 +1,317 @@
+{
+  "schema_version": 1,
+  "scene_id": "06-return-star-plan",
+  "source": "data/story_scenes/06-return-star-plan.json",
+  "generated_from": [
+    "five/scene/06-return-star-plan.md",
+    "data/story_scenes/06-return-star-plan.json",
+    "data/character_voice_profiles.json"
+  ],
+  "production_note": "第六幕把前期建设成果转成跨世界救援能力。音频重点是文明级动员、风险表决、续页舰/国书核心/归星门工程，以及静默探针第一次正面入侵。",
+  "cues": [
+    {
+      "cue_id": "MUS-06-001",
+      "scene_id": "06-return-star-plan",
+      "location_id": "astral_tower",
+      "type": "music",
+      "mood": "星象塔确认现代灾难，地图空白、人名缺失，求救信号无法证明自身存在",
+      "instrumentation_prompt": "restrained RPG astral tower crisis background music, modern planet coordinates disappearing, city maps turning blank, missing names in archives, telescope and low static, urgent but investigative, no horror jump scare",
+      "looping_intent": "loop_while_confirming_modern_disaster",
+      "source_evidence": [
+        "five/scene/06-return-star-plan.md",
+        "data/story_scenes/06-return-star-plan.json#locations.astral_tower"
+      ],
+      "target_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-001.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-06-002",
+      "scene_id": "06-return-star-plan",
+      "location_id": "council",
+      "type": "music",
+      "mood": "归星议会，支持派与反对派都合理，把风险公开写给所有人看",
+      "instrumentation_prompt": "restrained RPG council debate background music, public rescue mandate, supporters and opposition, risk ledger, education engineering archives all speaking, civic tension, no heroic march",
+      "looping_intent": "loop_while_return_star_council_debates",
+      "source_evidence": [
+        "five/scene/06-return-star-plan.md",
+        "data/story_scenes/06-return-star-plan.json#locations.council"
+      ],
+      "target_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-002.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-06-003",
+      "scene_id": "06-return-star-plan",
+      "location_id": "dockyard",
+      "type": "music",
+      "mood": "浮空船坞建造续页舰，它携带字典、档案、教师、工程师和国书核心",
+      "instrumentation_prompt": "restrained RPG floating dockyard construction background music, return vessel skeleton, door and fire glyph engines, engineers, mobile archive core, large civic engineering, brisk but not steampunk rock",
+      "looping_intent": "loop_while_building_return_vessel",
+      "source_evidence": [
+        "five/scene/06-return-star-plan.md",
+        "data/story_scenes/06-return-star-plan.json#locations.dockyard"
+      ],
+      "target_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-003.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-06-004",
+      "scene_id": "06-return-star-plan",
+      "location_id": "core",
+      "type": "music",
+      "mood": "国书核心绑定文明备份链，标准字典、公共档案和学生共同书写成为恢复系统",
+      "instrumentation_prompt": "restrained RPG archive core background music, civilization backups binding, standard dictionary, public archives, roster backups, Xiali stabilizing national book, recovery drill, calm technical pulse, no triumph fanfare",
+      "looping_intent": "loop_while_binding_civilization_backups",
+      "source_evidence": [
+        "five/scene/06-return-star-plan.md",
+        "data/story_scenes/06-return-star-plan.json#locations.core"
+      ],
+      "target_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-004.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-06-005",
+      "scene_id": "06-return-star-plan",
+      "location_id": "gate",
+      "type": "music",
+      "mood": "归星门最终校准和门前告别，门内是现代夜色，身后是成长起来的文明",
+      "instrumentation_prompt": "restrained RPG return gate background music, star gate final calibration, modern night beyond the rift, farewell before crossing, one person backed by a grown civilization, luminous but fragile, no pop ballad",
+      "looping_intent": "loop_while_opening_return_gate",
+      "source_evidence": [
+        "five/scene/06-return-star-plan.md",
+        "data/story_scenes/06-return-star-plan.json#locations.gate"
+      ],
+      "target_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-005.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-06-006",
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "type": "music",
+      "mood": "现代世界裂隙中的静默探针 Boss，删除技能名、地图和联系人条目",
+      "instrumentation_prompt": "restrained RPG boss battle music against silence probe, black and white eyeless protocol body, deleted skill names, blank map fragments, contact entries erased, civilization backups fighting deletion, urgent controlled static, no power fantasy",
+      "looping_intent": "loop_until_invasion_probe_defeated",
+      "source_evidence": [
+        "five/scene/06-return-star-plan.md",
+        "data/story_scenes/06-return-star-plan.json#locations.rift.combat"
+      ],
+      "target_path": "assets/audio/generated/music/06-return-star-plan/MUS-06-006.mp3",
+      "sample_generation": true
+    }
+  ],
+  "event_sounds": [
+    {
+      "sfx_id": "SFX-06-STEP-ASTRAL",
+      "scene_id": "06-return-star-plan",
+      "event_name": "step",
+      "locations": ["astral_tower", "core", "gate", "rift"],
+      "mood": "星象塔、国书核心、归星门和裂隙里的石面脚步，带档案静电",
+      "instrumentation_prompt": "game sound effect, single footstep on observatory stone and archive core floor, faint paper static and rift air, restrained, no rhythm, no melody, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.astral_tower",
+        "data/story_scenes/06-return-star-plan.json#locations.rift"
+      ],
+      "target_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-STEP-ASTRAL.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-06-STEP-CIVIC",
+      "scene_id": "06-return-star-plan",
+      "event_name": "step",
+      "locations": ["council", "dockyard"],
+      "mood": "归星议会和浮空船坞的公共空间脚步，木台、金属和纸质账本",
+      "instrumentation_prompt": "game sound effect, single civic footstep on council wood and dockyard metal platform, paper ledger dust, restrained, no chime, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.council",
+        "data/story_scenes/06-return-star-plan.json#locations.dockyard"
+      ],
+      "target_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-STEP-CIVIC.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-06-INSPECT-LEDGER",
+      "scene_id": "06-return-star-plan",
+      "event_name": "interact",
+      "locations": ["astral_tower", "council", "dockyard", "core", "gate", "rift"],
+      "mood": "调查现代灾难、风险账本、蓝图、备份、校准和父母真相",
+      "instrumentation_prompt": "game sound effect, inspect public ledger and star record, page turn, ink stamp, faint signal noise, sober confirmation, no bell, no melody, clean one-shot",
+      "duration_ms": 560,
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.council.items.risk_ledger",
+        "data/story_scenes/06-return-star-plan.json#locations.rift.items.truth"
+      ],
+      "target_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-INSPECT-LEDGER.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-06-BUILD-RETURN",
+      "scene_id": "06-return-star-plan",
+      "event_name": "build",
+      "locations": ["council", "dockyard", "core"],
+      "mood": "通过授权、建成续页舰、绑定文明备份链的工程完成音",
+      "instrumentation_prompt": "game sound effect, return plan build action completes, council mandate stamped, vessel framework locks, archive backups bind, restrained civic confirmation, no fanfare, clean one-shot",
+      "duration_ms": 900,
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.council.build_actions",
+        "data/story_scenes/06-return-star-plan.json#locations.dockyard.build_actions",
+        "data/story_scenes/06-return-star-plan.json#locations.core.build_actions"
+      ],
+      "target_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-BUILD-RETURN.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-06-GATE-OPEN",
+      "scene_id": "06-return-star-plan",
+      "event_name": "build",
+      "locations": ["gate", "rift"],
+      "mood": "归星门开启和最终返回现代的跨界完成音",
+      "instrumentation_prompt": "game sound effect, return star gate opens, coordinates align, modern night rift widens, civilization spark crosses threshold, luminous restrained portal, no huge explosion, clean one-shot",
+      "duration_ms": 1200,
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.gate.build_actions.gate",
+        "data/story_scenes/06-return-star-plan.json#locations.rift.build_actions.return"
+      ],
+      "target_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-GATE-OPEN.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-06-BACKUP-RESTORE",
+      "scene_id": "06-return-star-plan",
+      "event_name": "cast_stop",
+      "locations": ["core", "rift"],
+      "mood": "标准字典、档案馆和国书网络同时回写，被删字根恢复",
+      "instrumentation_prompt": "game sound effect, civilization backup restore, dictionary archive and national book write deleted glyphs back together, static stops, precise recovery pulse, no melody, clean one-shot",
+      "duration_ms": 850,
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.core.items.backup_drill",
+        "data/story_scenes/06-return-star-plan.json#locations.rift.combat.spells.stop"
+      ],
+      "target_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-BACKUP-RESTORE.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-06-WRITE-NAME",
+      "scene_id": "06-return-star-plan",
+      "event_name": "write",
+      "locations": ["rift"],
+      "mood": "写“名”锁定静默探针签名，避免队友名和技能名继续消失",
+      "instrumentation_prompt": "game sound effect, write name glyph to lock silence probe signature, team names and skill names snap back from blank squares, ink over white static, no melody, clean one-shot",
+      "duration_ms": 850,
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.rift.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-WRITE-NAME.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-06-PROBE-HIT",
+      "scene_id": "06-return-star-plan",
+      "event_name": "attack",
+      "locations": ["rift"],
+      "mood": "攻击静默探针体，命中黑白删除纹和空白地图碎片",
+      "instrumentation_prompt": "game sound effect, restrained hit against black and white silence probe body, deleted map fragments crack, protocol shell impact, no gore, no explosion, clean one-shot",
+      "duration_ms": 720,
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.rift.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-PROBE-HIT.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-06-PROBE-ERASE",
+      "scene_id": "06-return-star-plan",
+      "event_name": "engage",
+      "locations": ["rift"],
+      "mood": "静默探针入侵，技能名、地图标记和联系人条目被擦白",
+      "instrumentation_prompt": "game sound effect, silence probe engages deletion protocol, skill names and map markers erase into blank squares, cold white static, no monster roar, no melody, clean one-shot",
+      "duration_ms": 950,
+      "source_evidence": [
+        "five/scene/06-return-star-plan.md#Boss：静默探针",
+        "data/story_scenes/06-return-star-plan.json#locations.rift.creature_encounters"
+      ],
+      "target_path": "assets/audio/generated/sfx/06-return-star-plan/SFX-06-PROBE-ERASE.mp3",
+      "sample_generation": true
+    }
+  ],
+  "voice_samples": [
+    {
+      "line_id": "DLG-06-SAMPLE-JZX",
+      "scene_id": "06-return-star-plan",
+      "location_id": "gate",
+      "character_id": "jizi_xuan",
+      "character_name": "纪子轩",
+      "text": "这一次，不是我一个人回家。",
+      "delivery": "少年压住情绪，比前几幕更稳；不是胜利宣言，是终于意识到身后有人。",
+      "voice_id": "male-qn-qingse",
+      "speed": 0.96,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.jizi_xuan",
+        "data/story_scenes/06-return-star-plan.json#locations.gate"
+      ],
+      "target_path": "assets/audio/generated/voices/06-return-star-plan/DLG-06-SAMPLE-JZX.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-06-SAMPLE-XL",
+      "scene_id": "06-return-star-plan",
+      "location_id": "gate",
+      "character_id": "xiali",
+      "character_name": "夏离",
+      "text": "这一次，不是你一个人回家。",
+      "delivery": "冷静、克制、距离感少一点；像门前告别，也像并肩出发。",
+      "voice_id": "lengdan_xiongzhang",
+      "speed": 0.92,
+      "vol": 0.9,
+      "pitch": -1,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.xiali",
+        "data/story_scenes/06-return-star-plan.json#locations.gate.items.farewell"
+      ],
+      "target_path": "assets/audio/generated/voices/06-return-star-plan/DLG-06-SAMPLE-XL.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-06-SAMPLE-DAD",
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "character_id": "jizi_xuan_father",
+      "character_name": "纪子轩父亲",
+      "text": "你不是被送去逃生。你是被送去点燃一支火种。",
+      "delivery": "中年父亲的录音留言，疲惫、低、克制；不要煽情，像终于能说完整一句真相。",
+      "voice_id": "male-qn-jingying",
+      "speed": 0.9,
+      "vol": 0.9,
+      "pitch": -1,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.jizi_xuan_father",
+        "data/story_scenes/06-return-star-plan.json#locations.rift.items.truth"
+      ],
+      "target_path": "assets/audio/generated/voices/06-return-star-plan/DLG-06-SAMPLE-DAD.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-06-SAMPLE-MOM",
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "character_id": "jizi_xuan_mother",
+      "character_name": "纪子轩母亲",
+      "text": "我们无法向宇宙求救，因为求救信号会被静默。",
+      "delivery": "中年母亲的录音留言，温暖但决断；信号不稳定感可以轻微存在。",
+      "voice_id": "female-chengshu",
+      "speed": 0.92,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.jizi_xuan_mother",
+        "data/story_scenes/06-return-star-plan.json#locations.rift.items.truth"
+      ],
+      "target_path": "assets/audio/generated/voices/06-return-star-plan/DLG-06-SAMPLE-MOM.mp3",
+      "sample_generation": true
+    }
+  ]
+}
