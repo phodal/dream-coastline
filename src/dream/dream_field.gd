@@ -12,9 +12,9 @@ const GamepieceScene := preload("res://src/field/gamepieces/gamepiece.tscn")
 const PlayerControllerScene := preload("res://src/field/gamepieces/controllers/player_controller.tscn")
 const DreamPlayerAnimationScene := preload("res://src/dream/dream_player_animation.tscn")
 
-const GRID_SIZE := Vector2i(15, 9)
+const GRID_SIZE := Vector2i(16, 9)
 const CELL_SIZE := Vector2i(32, 32)
-const DEFAULT_PLAYER_CELL := Vector2i(7, 6)
+const DEFAULT_PLAYER_CELL := Vector2i(7, 7)
 const ITEM_CELLS: Array[Vector2i] = [
 	Vector2i(2, 2),
 	Vector2i(5, 2),
@@ -175,6 +175,7 @@ func _setup_world() -> void:
 	Camera.gameboard_properties = properties
 	Camera.scale = Vector2.ONE
 	Camera.make_current()
+	_fit_camera_to_board()
 	Camera.reset_position()
 
 	dialogue_layer = DialogueLayerScript.new()
@@ -225,7 +226,10 @@ func _build_current_room() -> void:
 	_mark_visual_blockers(current_visual)
 	_mark_occupied_cells()
 
-	_add_room_header(str(current_scene.get("title", scene_id)), str(location.get("name", current_location_id)), str(location.get("description", "")))
+	if not str(current_visual.get("illustrated_backdrop", "")).is_empty():
+		_add_room_caption(str(location.get("name", current_location_id)))
+	else:
+		_add_room_header(str(current_scene.get("title", scene_id)), str(location.get("name", current_location_id)), str(location.get("description", "")))
 	_add_item_interactions(scene_id, location)
 	_add_exit_interactions(scene_id, location)
 	_add_action_interactions(scene_id, location)
@@ -240,6 +244,20 @@ func _add_room_header(scene_title: String, location_name: String, description: S
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.add_theme_font_size_override("font_size", 14)
 	label.add_theme_color_override("font_color", Color(0.88, 0.9, 0.84))
+	label_root.add_child(label)
+
+
+func _add_room_caption(location_name: String) -> void:
+	var label := Label.new()
+	label.name = "LocationCaption"
+	label.text = location_name
+	label.position = Vector2(12, 10)
+	label.size = Vector2(GRID_SIZE.x * CELL_SIZE.x - 24, 28)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	label.add_theme_font_size_override("font_size", 12)
+	label.add_theme_color_override("font_color", Color("#fff8df", 0.88))
+	label.add_theme_color_override("font_outline_color", Color("#050608", 0.9))
+	label.add_theme_constant_override("outline_size", 2)
 	label_root.add_child(label)
 
 
@@ -357,6 +375,8 @@ func _make_story_interaction(
 
 
 func _add_marker_label(cell: Vector2i, text: String, color: Color) -> void:
+	if not str(current_visual.get("illustrated_backdrop", "")).is_empty():
+		return
 	var label := Label.new()
 	label.text = text
 	label.position = Gameboard.cell_to_pixel(cell) + Vector2(-42, 12)
@@ -553,6 +573,18 @@ func _sync_illustrated_backdrop(visual: Dictionary) -> void:
 	current_backdrop_path = path
 	illustrated_backdrop.configure(resource as Texture2D, Vector2(GRID_SIZE * CELL_SIZE))
 	illustrated_backdrop.visible = true
+
+
+func _fit_camera_to_board() -> void:
+	if Camera == null:
+		return
+	var viewport_size := get_viewport_rect().size
+	var board_size := Vector2(GRID_SIZE * CELL_SIZE)
+	if viewport_size.x <= 0 or viewport_size.y <= 0:
+		return
+	var zoom := minf(viewport_size.x / board_size.x, viewport_size.y / board_size.y)
+	zoom = maxf(1.0, floor(zoom * 100.0) / 100.0)
+	Camera.zoom = Vector2(zoom, zoom)
 
 
 func _apply_asset_overlay_alpha(visual: Dictionary) -> void:

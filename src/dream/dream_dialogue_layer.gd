@@ -62,7 +62,8 @@ func show_illustration(title: String, body: String, texture_path: String, hint: 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _waiting:
 		return
-	if event.is_action_pressed("ui_accept") or event.is_action_pressed("interact") or event.is_action_pressed("dialogic_default_action"):
+	var accepts_dialogic := InputMap.has_action("dialogic_default_action") and event.is_action_pressed("dialogic_default_action")
+	if event.is_action_pressed("ui_accept") or event.is_action_pressed("interact") or accepts_dialogic:
 		get_viewport().set_input_as_handled()
 		advanced.emit()
 
@@ -81,10 +82,10 @@ func _build_controls() -> void:
 
 	_illustration_panel = PanelContainer.new()
 	_illustration_panel.name = "IllustrationPanel"
-	_illustration_panel.anchor_left = 0.06
-	_illustration_panel.anchor_right = 0.94
+	_illustration_panel.anchor_left = 0.08
+	_illustration_panel.anchor_right = 0.92
 	_illustration_panel.anchor_top = 0.06
-	_illustration_panel.anchor_bottom = 0.66
+	_illustration_panel.anchor_bottom = 0.70
 	_illustration_panel.clip_contents = true
 	GameThemeScript.style_rpg_panel(_illustration_panel, Color("#100c09", 0.78))
 	_root.add_child(_illustration_panel)
@@ -92,7 +93,7 @@ func _build_controls() -> void:
 	_illustration_texture = TextureRect.new()
 	_illustration_texture.name = "IllustrationTexture"
 	_illustration_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_illustration_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_illustration_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_illustration_texture.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_illustration_texture.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_illustration_panel.add_child(_illustration_texture)
