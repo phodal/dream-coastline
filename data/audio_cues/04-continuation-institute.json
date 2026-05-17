@@ -1,0 +1,289 @@
+{
+  "schema_version": 1,
+  "scene_id": "04-continuation-institute",
+  "source": "data/story_scenes/04-continuation-institute.json",
+  "generated_from": [
+    "five/scene/04-continuation-institute.md",
+    "data/story_scenes/04-continuation-institute.json",
+    "data/character_voice_profiles.json"
+  ],
+  "production_note": "第四幕从冒险探索转向文明建设，音频重点是公开教育、工坊复盘、矿场安全、通信协作和封字塔对抗。",
+  "cues": [
+    {
+      "cue_id": "MUS-04-001",
+      "scene_id": "04-continuation-institute",
+      "location_id": "institute",
+      "type": "music",
+      "mood": "续文院初址，旧仓库变成开放式研究/教育/工程组织",
+      "instrumentation_prompt": "hopeful restrained RPG institute background music, old warehouse turned classroom, open charter, students and craft workers at one table, civic rebuilding, warm ink pulse, no pop song",
+      "looping_intent": "loop_while_founding_institute",
+      "source_evidence": [
+        "five/scene/04-continuation-institute.md",
+        "data/story_scenes/04-continuation-institute.json#locations.institute"
+      ],
+      "target_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-001.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-04-002",
+      "scene_id": "04-continuation-institute",
+      "location_id": "school",
+      "type": "music",
+      "mood": "平民学塾第一堂课，错误被记录而不是擦掉",
+      "instrumentation_prompt": "gentle RPG public school background music, children learning glyphs name door fire stop, chalk, open dictionary, fragile confidence, teacher cadence, no childish comedy",
+      "looping_intent": "loop_while_first_school_opens",
+      "source_evidence": [
+        "five/scene/04-continuation-institute.md",
+        "data/story_scenes/04-continuation-institute.json#locations.school"
+      ],
+      "target_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-002.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-04-003",
+      "scene_id": "04-continuation-institute",
+      "location_id": "workshop",
+      "type": "music",
+      "mood": "工坊区把字根转成工具、材料和维修流程，有烟火气和复盘感",
+      "instrumentation_prompt": "practical RPG workshop background music, ink furnace, tools, repair workflow, test revise retest, brisk but restrained, warm metal and paper rhythm, no modern rock",
+      "looping_intent": "loop_while_repair_workflow",
+      "source_evidence": [
+        "five/scene/04-continuation-institute.md",
+        "data/story_scenes/04-continuation-institute.json#locations.workshop"
+      ],
+      "target_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-003.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-04-004",
+      "scene_id": "04-continuation-institute",
+      "location_id": "mine",
+      "type": "music",
+      "mood": "符文矿场危险作业和公开安全流程，能源提高但每一步可追溯",
+      "instrumentation_prompt": "tense RPG rune mine background music, cracked mine tunnel, energy ore, workers waiting, safety process, low industrial ink pulse, restrained percussion, no action blockbuster",
+      "looping_intent": "loop_while_solving_mine_safety",
+      "source_evidence": [
+        "five/scene/04-continuation-institute.md",
+        "data/story_scenes/04-continuation-institute.json#locations.mine"
+      ],
+      "target_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-004.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-04-005",
+      "scene_id": "04-continuation-institute",
+      "location_id": "tower",
+      "type": "music",
+      "mood": "通信塔遗址恢复远距离协作和字典同步",
+      "instrumentation_prompt": "open air RPG communication tower background music, broken tower restored, distant villages syncing dictionaries, wind through glyph array, hopeful but technical, no triumph march",
+      "looping_intent": "loop_while_restoring_comms",
+      "source_evidence": [
+        "five/scene/04-continuation-institute.md",
+        "data/story_scenes/04-continuation-institute.json#locations.tower"
+      ],
+      "target_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-005.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-04-006",
+      "scene_id": "04-continuation-institute",
+      "location_id": "seal_tower",
+      "type": "music",
+      "mood": "封字塔启动遗忘机制，学生名字和公共字典被擦白",
+      "instrumentation_prompt": "tense RPG seal tower boss background music, forgetting mechanism erases student names and dictionary pages, public archive defense, urgent but restrained, ink glitch, no power fantasy",
+      "looping_intent": "loop_until_archive_tower_built",
+      "source_evidence": [
+        "five/scene/04-continuation-institute.md",
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower"
+      ],
+      "target_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-006.mp3",
+      "sample_generation": true
+    }
+  ],
+  "event_sounds": [
+    {
+      "sfx_id": "SFX-04-STEP-CIVIC",
+      "scene_id": "04-continuation-institute",
+      "event_name": "step",
+      "locations": ["institute", "school", "tower", "seal_tower"],
+      "mood": "续文院、学塾、通信塔和封字塔里的短脚步，公共空间而非王宫",
+      "instrumentation_prompt": "game sound effect, single light footstep on civic stone and wooden classroom floor, paper dust, restrained, no chime, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.institute",
+        "data/story_scenes/04-continuation-institute.json#locations.school",
+        "data/story_scenes/04-continuation-institute.json#locations.tower",
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower"
+      ],
+      "target_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-STEP-CIVIC.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-04-STEP-WORK",
+      "scene_id": "04-continuation-institute",
+      "event_name": "step",
+      "locations": ["workshop", "mine"],
+      "mood": "工坊和矿场里的工作脚步，木屑、金属、碎石",
+      "instrumentation_prompt": "game sound effect, single worksite footstep on workshop grit and mine stones, tiny metal dust, no rhythm, no melody, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.workshop",
+        "data/story_scenes/04-continuation-institute.json#locations.mine"
+      ],
+      "target_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-STEP-WORK.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-04-INSPECT-BOARD",
+      "scene_id": "04-continuation-institute",
+      "event_name": "interact",
+      "locations": ["institute", "school", "workshop", "mine", "tower", "seal_tower"],
+      "mood": "调查章程、复盘板、安全板、字典和通信符阵的纸墨确认音",
+      "instrumentation_prompt": "game sound effect, public record inspect, page turn, chalk mark, ink stamp confirmation, practical civic texture, no bell, no melody, clean one-shot",
+      "duration_ms": 520,
+      "source_evidence": [
+        "five/scene/04-continuation-institute.md",
+        "data/story_scenes/04-continuation-institute.json"
+      ],
+      "target_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-INSPECT-BOARD.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-04-BUILD-CIVIC",
+      "scene_id": "04-continuation-institute",
+      "event_name": "build",
+      "locations": ["institute", "school", "workshop", "mine", "tower", "seal_tower"],
+      "mood": "建设续文院/字典/学塾/流程/安全板/通信塔/档案塔时的完成音",
+      "instrumentation_prompt": "game sound effect, civic build action completes, paper plans align, small tools settle, ink glyph locks into public record, restrained confirmation, no fanfare, clean one-shot",
+      "duration_ms": 750,
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.institute.build_actions",
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.build_actions"
+      ],
+      "target_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-BUILD-CIVIC.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-04-CAST-STOP",
+      "scene_id": "04-continuation-institute",
+      "event_name": "cast_stop",
+      "locations": ["mine", "seal_tower"],
+      "mood": "用“止”稳定矿道裂纹和暂停遗忘扩散",
+      "instrumentation_prompt": "game sound effect, glyph stop stabilizes mine crack and pauses forgetting spread, low boundary hold, ink freeze, no explosion, no melody, clean one-shot",
+      "duration_ms": 700,
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.mine.glyph_actions.stop",
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.combat.spells.stop"
+      ],
+      "target_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-CAST-STOP.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-04-WRITE-NAME",
+      "scene_id": "04-continuation-institute",
+      "event_name": "write",
+      "locations": ["seal_tower"],
+      "mood": "保护学生名字和公共字典时写“名”，多副本共同确认",
+      "instrumentation_prompt": "game sound effect, glyph name protects student names from erasure, many paper copies answer softly, ink identity confirmation, no melody, clean one-shot",
+      "duration_ms": 850,
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-WRITE-NAME.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-04-SEAL-HIT",
+      "scene_id": "04-continuation-institute",
+      "event_name": "attack",
+      "locations": ["seal_tower"],
+      "mood": "攻击封字塔遗忘机制，命中擦白字页和封条",
+      "instrumentation_prompt": "game sound effect, restrained blade hit against erasing seal tower pages, paper tear, muted ink impact, no gore, no explosion, clean one-shot",
+      "duration_ms": 700,
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-SEAL-HIT.mp3",
+      "sample_generation": true
+    }
+  ],
+  "voice_samples": [
+    {
+      "line_id": "DLG-04-SAMPLE-AT",
+      "scene_id": "04-continuation-institute",
+      "location_id": "workshop",
+      "character_id": "atang",
+      "character_name": "阿棠",
+      "text": "坏掉的时候，明明是我第一个知道它为什么坏。",
+      "delivery": "青年女工匠，直接、压着火，像手上还拿着工具。",
+      "voice_id": "female-chengshu-jingpin",
+      "speed": 1.05,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.atang",
+        "data/story_scenes/04-continuation-institute.json#locations.workshop.items.atang"
+      ],
+      "target_path": "assets/audio/generated/voices/04-continuation-institute/DLG-04-SAMPLE-AT.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-04-SAMPLE-XY",
+      "scene_id": "04-continuation-institute",
+      "location_id": "school",
+      "character_id": "xiaoyan",
+      "character_name": "小砚",
+      "text": "我第一次能完整写出自己的名字。",
+      "delivery": "儿童，轻、急、带一点不敢相信；不要成熟化。",
+      "voice_id": "clever_boy",
+      "speed": 1.02,
+      "vol": 0.9,
+      "pitch": 1,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.xiaoyan",
+        "data/story_scenes/04-continuation-institute.json#locations.school.items.class"
+      ],
+      "target_path": "assets/audio/generated/voices/04-continuation-institute/DLG-04-SAMPLE-XY.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-04-SAMPLE-WS",
+      "scene_id": "04-continuation-institute",
+      "location_id": "school",
+      "character_id": "wensu",
+      "character_name": "闻素",
+      "text": "文明要学会从错误继续。",
+      "delivery": "成年女性教师，稳定、温和但有原则；像写在复盘板上的一句话。",
+      "voice_id": "female-chengshu-jingpin",
+      "speed": 0.94,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.wensu",
+        "data/story_scenes/04-continuation-institute.json#locations.school.items.mistake"
+      ],
+      "target_path": "assets/audio/generated/voices/04-continuation-institute/DLG-04-SAMPLE-WS.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-04-SAMPLE-XL",
+      "scene_id": "04-continuation-institute",
+      "location_id": "institute",
+      "character_id": "xiali",
+      "character_name": "夏离",
+      "text": "墨颀不再等待一位王来续命。",
+      "delivery": "夏离公开放下旧叙事，冷静、克制，不做热血演讲。",
+      "voice_id": "lengdan_xiongzhang",
+      "speed": 0.9,
+      "vol": 0.9,
+      "pitch": -1,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.xiali",
+        "five/scene/04-continuation-institute.md",
+        "data/story_scenes/04-continuation-institute.json#locations.institute.build_actions.institute"
+      ],
+      "target_path": "assets/audio/generated/voices/04-continuation-institute/DLG-04-SAMPLE-XL.mp3",
+      "sample_generation": true
+    }
+  ]
+}

@@ -1414,8 +1414,10 @@ func _story_event_for_command(command: String) -> String:
 
 func _story_event_for_action(verb: String, arg: String = "") -> String:
 	match verb:
-		"inspect", "combine", "choose", "build":
+		"inspect", "combine", "choose":
 			return "interact"
+		"build":
+			return "build"
 		"engage":
 			return "engage"
 		"cast":

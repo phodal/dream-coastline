@@ -2,7 +2,7 @@ class_name AudioDirector
 extends Node
 
 const SAMPLE_RATE := 22050
-const EVENTS := ["ui", "step", "blocked", "interact", "transition", "success", "write", "attack", "engage", "cast_name", "cast_door", "cast_fire", "cast_stop"]
+const EVENTS := ["ui", "step", "blocked", "interact", "transition", "success", "write", "attack", "engage", "build", "cast_name", "cast_door", "cast_fire", "cast_stop"]
 const AUDIO_CUE_DIR := "res://data/audio_cues"
 const EVENT_VOLUME_DB := {
 	"ui": -8.0,
@@ -14,6 +14,7 @@ const EVENT_VOLUME_DB := {
 	"write": -14.0,
 	"attack": -13.0,
 	"engage": -14.0,
+	"build": -14.0,
 	"cast_name": -14.0,
 	"cast_door": -15.0,
 	"cast_fire": -15.0,
@@ -47,6 +48,7 @@ func _init() -> void:
 		"write": _make_tone(720.0, 0.14, 0.18),
 		"attack": _make_tone(140.0, 0.12, 0.22),
 		"engage": _make_tone(210.0, 0.12, 0.18),
+		"build": _make_tone(480.0, 0.16, 0.16),
 		"cast_name": _make_tone(760.0, 0.13, 0.16),
 		"cast_door": _make_tone(520.0, 0.13, 0.16),
 		"cast_fire": _make_tone(390.0, 0.12, 0.16),

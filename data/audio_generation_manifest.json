@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "provider": "minimax",
-  "generated_at": "2026-05-17T15:58:23.039Z",
+  "generated_at": "2026-05-17T17:14:53.958Z",
   "assets": [
     {
       "asset_id": "MUS-01-001",
@@ -1009,6 +1009,403 @@
         "music_channel": 2,
         "bitrate": 256000,
         "music_size": 3790357,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 700,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "DLG-04-SAMPLE-AT",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "line_id": "DLG-04-SAMPLE-AT",
+      "character_id": "atang",
+      "voice_id": "female-chengshu-jingpin",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/04-continuation-institute/DLG-04-SAMPLE-AT.mp3",
+      "source_text": "坏掉的时候，明明是我第一个知道它为什么坏。",
+      "delivery": "青年女工匠，直接、压着火，像手上还拿着工具。",
+      "status": "generated",
+      "generated_at": "2026-05-17T16:50:52.151Z",
+      "trace_id": "065924eb6612aa26e2855f4522e9e6dd",
+      "extra_info": {
+        "byte_length": 69165,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-04-SAMPLE-XY",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "line_id": "DLG-04-SAMPLE-XY",
+      "character_id": "xiaoyan",
+      "voice_id": "clever_boy",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/04-continuation-institute/DLG-04-SAMPLE-XY.mp3",
+      "source_text": "我第一次能完整写出自己的名字。",
+      "delivery": "儿童，轻、急、带一点不敢相信；不要成熟化。",
+      "status": "generated",
+      "generated_at": "2026-05-17T16:50:52.889Z",
+      "trace_id": "065924ec79c71eced24d50999af889ed",
+      "extra_info": {
+        "byte_length": 64557,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-04-SAMPLE-WS",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "line_id": "DLG-04-SAMPLE-WS",
+      "character_id": "wensu",
+      "voice_id": "female-chengshu-jingpin",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/04-continuation-institute/DLG-04-SAMPLE-WS.mp3",
+      "source_text": "文明要学会从错误继续。",
+      "delivery": "成年女性教师，稳定、温和但有原则；像写在复盘板上的一句话。",
+      "status": "generated",
+      "generated_at": "2026-05-17T16:50:53.539Z",
+      "trace_id": "065924ede38f4d3775a30bb3cc48b7a6",
+      "extra_info": {
+        "byte_length": 49005,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-04-SAMPLE-XL",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "line_id": "DLG-04-SAMPLE-XL",
+      "character_id": "xiali",
+      "voice_id": "lengdan_xiongzhang",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/04-continuation-institute/DLG-04-SAMPLE-XL.mp3",
+      "source_text": "墨颀不再等待一位王来续命。",
+      "delivery": "夏离公开放下旧叙事，冷静、克制，不做热血演讲。",
+      "status": "generated",
+      "generated_at": "2026-05-17T16:50:54.147Z",
+      "trace_id": "065924ed2ddbc8c722d5dc3e637095e9",
+      "extra_info": {
+        "byte_length": 54765,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "MUS-04-001",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "cue_id": "MUS-04-001",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-001.mp3",
+      "prompt_summary": "hopeful restrained RPG institute background music, old warehouse turned classroom, open charter, students and craft workers at one table, civic rebuilding, warm ink pulse, no pop ...",
+      "status": "generated",
+      "generated_at": "2026-05-17T16:53:18.424Z",
+      "trace_id": "065924f2689f61367afec1f0bf3c67bf",
+      "extra_info": {
+        "music_duration": 159059,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5091882
+      }
+    },
+    {
+      "asset_id": "MUS-04-002",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "cue_id": "MUS-04-002",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-002.mp3",
+      "prompt_summary": "gentle RPG public school background music, children learning glyphs name door fire stop, chalk, open dictionary, fragile confidence, teacher cadence, no childish comedy",
+      "status": "generated",
+      "generated_at": "2026-05-17T16:55:37.258Z",
+      "trace_id": "0659257e2fdb2b5a82ad6907c9cb43eb",
+      "extra_info": {
+        "music_duration": 146311,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4683953
+      }
+    },
+    {
+      "asset_id": "MUS-04-003",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "cue_id": "MUS-04-003",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-003.mp3",
+      "prompt_summary": "practical RPG workshop background music, ink furnace, tools, repair workflow, test revise retest, brisk but restrained, warm metal and paper rhythm, no modern rock",
+      "status": "generated",
+      "generated_at": "2026-05-17T16:57:15.671Z",
+      "trace_id": "065926095d5289a496ecab03109f3096",
+      "extra_info": {
+        "music_duration": 108146,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3462677
+      }
+    },
+    {
+      "asset_id": "MUS-04-004",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "cue_id": "MUS-04-004",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-004.mp3",
+      "prompt_summary": "tense RPG rune mine background music, cracked mine tunnel, energy ore, workers waiting, safety process, low industrial ink pulse, restrained percussion, no action blockbuster",
+      "status": "generated",
+      "generated_at": "2026-05-17T16:59:12.649Z",
+      "trace_id": "0659266b95d539629d0a33ec561a3dd3",
+      "extra_info": {
+        "music_duration": 117551,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3763607
+      }
+    },
+    {
+      "asset_id": "MUS-04-005",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "cue_id": "MUS-04-005",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-005.mp3",
+      "prompt_summary": "open air RPG communication tower background music, broken tower restored, distant villages syncing dictionaries, wind through glyph array, hopeful but technical, no triumph march",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:01:42.318Z",
+      "trace_id": "065926e0f5bde013f2fbb3ad8b0c6a7b",
+      "extra_info": {
+        "music_duration": 183040,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5859255
+      }
+    },
+    {
+      "asset_id": "MUS-04-006",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "cue_id": "MUS-04-006",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/04-continuation-institute/MUS-04-006.mp3",
+      "prompt_summary": "tense RPG seal tower boss background music, forgetting mechanism erases student names and dictionary pages, public archive defense, urgent but restrained, ink glitch, no power fan...",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:04:01.094Z",
+      "trace_id": "0659277648d97aedcf16d61913c30591",
+      "extra_info": {
+        "music_duration": 141635,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4534324
+      }
+    },
+    {
+      "asset_id": "SFX-04-STEP-CIVIC",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "sfx_id": "SFX-04-STEP-CIVIC",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-STEP-CIVIC.mp3",
+      "prompt_summary": "game sound effect, single light footstep on civic stone and wooden classroom floor, paper dust, restrained, no chime, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:06:16.794Z",
+      "trace_id": "06592806f5915cb1a4f9d0c939f4a57c",
+      "extra_info": {
+        "music_duration": 186044,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5955385,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-04-STEP-WORK",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "sfx_id": "SFX-04-STEP-WORK",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-STEP-WORK.mp3",
+      "prompt_summary": "game sound effect, single worksite footstep on workshop grit and mine stones, tiny metal dust, no rhythm, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:08:09.578Z",
+      "trace_id": "065928888015bafcb2497482310bf532",
+      "extra_info": {
+        "music_duration": 112509,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3602275,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-04-INSPECT-BOARD",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "sfx_id": "SFX-04-INSPECT-BOARD",
+      "event_name": "interact",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-INSPECT-BOARD.mp3",
+      "prompt_summary": "game sound effect, public record inspect, page turn, chalk mark, ink stamp confirmation, practical civic texture, no bell, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:09:22.440Z",
+      "trace_id": "065928fa0bbf0cb0f63d6d166412da83",
+      "extra_info": {
+        "music_duration": 92212,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2952766,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 520,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-04-BUILD-CIVIC",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "sfx_id": "SFX-04-BUILD-CIVIC",
+      "event_name": "build",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-BUILD-CIVIC.mp3",
+      "prompt_summary": "game sound effect, civic build action completes, paper plans align, small tools settle, ink glyph locks into public record, restrained confirmation, no fanfare, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:11:02.567Z",
+      "trace_id": "0659294275991d1abe417adf7b6a21ff",
+      "extra_info": {
+        "music_duration": 84741,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2713694,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 750,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-04-CAST-STOP",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "sfx_id": "SFX-04-CAST-STOP",
+      "event_name": "cast_stop",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-CAST-STOP.mp3",
+      "prompt_summary": "game sound effect, glyph stop stabilizes mine crack and pauses forgetting spread, low boundary hold, ink freeze, no explosion, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:11:48.726Z",
+      "trace_id": "065929a6b2db145bb89cb463d86afabe",
+      "extra_info": {
+        "music_duration": 5720,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 185041,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 700,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-04-WRITE-NAME",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "sfx_id": "SFX-04-WRITE-NAME",
+      "event_name": "write",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-WRITE-NAME.mp3",
+      "prompt_summary": "game sound effect, glyph name protects student names from erasure, many paper copies answer softly, ink identity confirmation, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:13:53.061Z",
+      "trace_id": "065929d4bdfd5b6201285c002dc13f38",
+      "extra_info": {
+        "music_duration": 153861,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4925534,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 850,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-04-SEAL-HIT",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "04-continuation-institute",
+      "sfx_id": "SFX-04-SEAL-HIT",
+      "event_name": "attack",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/04-continuation-institute/SFX-04-SEAL-HIT.mp3",
+      "prompt_summary": "game sound effect, restrained blade hit against erasing seal tower pages, paper tear, muted ink impact, no gore, no explosion, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:14:53.958Z",
+      "trace_id": "06592a51a4afaee13a0aaa1b50678692",
+      "extra_info": {
+        "music_duration": 24764,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 794425,
         "post_process": {
           "tool": "ffmpeg",
           "duration_ms": 700,
