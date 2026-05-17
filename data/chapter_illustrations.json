@@ -1012,9 +1012,9 @@
       },
       {
         "id": "return-gate-farewell",
-        "path": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
+        "path": "res://assets/illustrations/story_review/06-return-star-plan/return-gate-farewell.png",
         "target_path": "res://assets/illustrations/story_review/06-return-star-plan/return-gate-farewell.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "归星门前：不是你一个人回家",
         "caption": "门内是现代夜色，门外是成长起来的墨颀；夏离的告别把第六幕推向跨界战斗。",
         "locations": [
@@ -1043,7 +1043,7 @@
       },
       {
         "id": "silence-probe",
-        "path": "res://assets/characters/creatures/creature_007_silence_probe/habitat.png",
+        "path": "res://assets/illustrations/story_review/06-return-star-plan/silence-probe.png",
         "title": "现代世界裂隙：静默探针",
         "caption": "静默探针把敌人从墨颀内部问题推到跨文明入侵，解释为什么归星计划必须变成救援计划。",
         "locations": [
@@ -1070,7 +1070,10 @@
             "costume_state": "statebook_guardian",
             "position": "right"
           }
-        ]
+        ],
+        "target_path": "res://assets/illustrations/story_review/06-return-star-plan/silence-probe.png",
+        "generation_status": "ready",
+        "imagen_prompt": "Wide comic story panel at a modern-world rift where a silence probe crosses into the rescue route. Ji Zixuan and Xiali face a quiet protocol body with blank surfaces, coordinate holes, and erasing light. Restrained ink-and-paper RPG, no readable text."
       }
     ],
     "07-lights-on-again": [
@@ -1083,9 +1086,9 @@
       },
       {
         "id": "half-silenced-home",
-        "path": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
+        "path": "res://assets/illustrations/story_review/07-lights-on-again/half-silenced-home.png",
         "target_path": "res://assets/illustrations/story_review/07-lights-on-again/half-silenced-home.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "纪子轩家：同一盏灯，这次是星球级静默",
         "caption": "终章回到序幕空间，但纪子轩选择先救城市，再回来找父母。",
         "locations": [
@@ -1109,9 +1112,9 @@
       },
       {
         "id": "school-erasure",
-        "path": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
+        "path": "res://assets/illustrations/story_review/07-lights-on-again/school-erasure.png",
         "target_path": "res://assets/illustrations/story_review/07-lights-on-again/school-erasure.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "学校：第一幕的无名化回到现代",
         "caption": "同学名牌和班主任声音被擦掉，无名兽不再是怪物，而是每个人可能的未来。",
         "locations": [
@@ -1134,9 +1137,9 @@
       },
       {
         "id": "parents-lab-bridge",
-        "path": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
+        "path": "res://assets/illustrations/story_review/07-lights-on-again/parents-lab-bridge.png",
         "target_path": "res://assets/illustrations/story_review/07-lights-on-again/parents-lab-bridge.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "父母实验室：归桥先救城市",
         "caption": "父母记录、现代信标和墨颀国书接口拼在一起，但归桥旅人提醒他不能先奔向私人答案。",
         "locations": [
@@ -1168,9 +1171,9 @@
       },
       {
         "id": "lights-continue",
-        "path": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
+        "path": "res://assets/illustrations/story_review/07-lights-on-again/lights-continue.png",
         "target_path": "res://assets/illustrations/story_review/07-lights-on-again/lights-continue.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "灯重新亮起：两个文明共同写下继续",
         "caption": "最终协议被拒绝后，家庭、街区、学塾、工坊和星象塔同时回应：文明选择继续。",
         "locations": [
@@ -1201,7 +1204,7 @@
       },
       {
         "id": "return-bridge-traveler",
-        "path": "res://assets/characters/creatures/creature_008_return_bridge_traveler/habitat.png",
+        "path": "res://assets/illustrations/story_review/07-lights-on-again/return-bridge-traveler.png",
         "title": "城市街道：归桥旅者",
         "caption": "归桥旅者把现代城市和墨颀续页接在一起，提示回家不是结束，而是两个世界开始互相回应。",
         "locations": [
@@ -1233,11 +1236,14 @@
             "costume_state": "statebook_guardian",
             "position": "right"
           }
-        ]
+        ],
+        "target_path": "res://assets/illustrations/story_review/07-lights-on-again/return-bridge-traveler.png",
+        "generation_status": "ready",
+        "imagen_prompt": "Wide comic story panel on a modern city street and parents laboratory bridge. A return bridge traveler silhouette connects modern streets with Moqi continuation pages while Ji Zixuan and Xiali stabilize city lights. Restrained ink-and-paper RPG, no readable text."
       },
       {
         "id": "final-silence-protocol",
-        "path": "res://assets/characters/creatures/creature_007_silence_probe/habitat.png",
+        "path": "res://assets/illustrations/story_review/07-lights-on-again/final-silence-protocol.png",
         "title": "轨道静默层：最终协议",
         "caption": "最终协议删除队友和界面名称，强迫玩家用一路建立的命名、停止和续写体系收束全剧。",
         "locations": [
@@ -1270,7 +1276,10 @@
             "costume_state": "astral_engineer",
             "position": "center"
           }
-        ]
+        ],
+        "target_path": "res://assets/illustrations/story_review/07-lights-on-again/final-silence-protocol.png",
+        "generation_status": "ready",
+        "imagen_prompt": "Wide comic story panel in an orbital silence layer. The final protocol deletes party names and interface identity while Ji Zixuan, Xiali, and Atang use shared naming, stop, and continue systems to restore civilization response. Restrained ink-and-paper RPG, no readable text."
       }
     ]
   }
