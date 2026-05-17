@@ -21,6 +21,8 @@ const PauseMenuScript := preload("res://scripts/ui/pause_menu.gd")
 const TitleScreenScript := preload("res://scripts/ui/title_screen.gd")
 const SettingsMenuScript := preload("res://scripts/ui/settings_menu.gd")
 const MenuBackdropScript := preload("res://scripts/ui/menu_backdrop.gd")
+const TITLE_VIDEO_PATH := "res://assets/branding/dream-coastline-title-loop.ogv"
+const TITLE_FALLBACK_PATH := "res://assets/branding/dream-coastline-title-loop.png"
 
 var visual_repository
 var top_bar: Control
@@ -30,6 +32,8 @@ var time_label: Label
 var progression_chip_row: HBoxContainer
 var progression_chips: Array = []
 var scene_canvas
+var title_backdrop_image: TextureRect
+var title_video_player: VideoStreamPlayer
 var menu_backdrop
 var prompt_overlay
 var pause_menu
@@ -63,6 +67,13 @@ func _ready() -> void:
 	scene_canvas.size = get_viewport_rect().size
 	scene_canvas.set_visual_repository(visual_repository)
 	add_child(scene_canvas)
+
+	title_backdrop_image = _build_title_backdrop_image()
+	add_child(title_backdrop_image)
+
+	if _should_enable_title_video():
+		title_video_player = _build_title_video_player()
+		add_child(title_video_player)
 
 	menu_backdrop = MenuBackdropScript.new()
 	menu_backdrop.name = "MenuBackdrop"
@@ -423,6 +434,18 @@ func _layout_hud_regions() -> void:
 		menu_backdrop.offset_top = 0.0
 		menu_backdrop.offset_right = 0.0
 		menu_backdrop.offset_bottom = 0.0
+	if title_backdrop_image != null:
+		title_backdrop_image.set_anchors_preset(Control.PRESET_FULL_RECT, false)
+		title_backdrop_image.offset_left = 0.0
+		title_backdrop_image.offset_top = 0.0
+		title_backdrop_image.offset_right = 0.0
+		title_backdrop_image.offset_bottom = 0.0
+	if title_video_player != null:
+		title_video_player.set_anchors_preset(Control.PRESET_FULL_RECT, false)
+		title_video_player.offset_left = 0.0
+		title_video_player.offset_top = 0.0
+		title_video_player.offset_right = 0.0
+		title_video_player.offset_bottom = 0.0
 
 	if title_screen != null:
 		_layout_menu_panel(title_screen, Vector2(380, 340), _title_panel_position(view_size, Vector2(380, 340)))
@@ -434,6 +457,7 @@ func _layout_hud_regions() -> void:
 
 func _sync_gameplay_hud_visibility() -> void:
 	var mode := _active_menu_mode()
+	_sync_title_backdrop(mode == "title")
 	if top_bar != null:
 		top_bar.visible = gameplay_hud_visible and mode.is_empty()
 	if prompt_overlay != null:
@@ -441,6 +465,58 @@ func _sync_gameplay_hud_visibility() -> void:
 	if menu_backdrop != null:
 		menu_backdrop.visible = not mode.is_empty()
 		menu_backdrop.set_menu_mode(mode)
+
+
+func _build_title_backdrop_image() -> TextureRect:
+	var texture_rect := TextureRect.new()
+	texture_rect.name = "TitleBackdropImage"
+	texture_rect.set_anchors_preset(Control.PRESET_FULL_RECT, false)
+	texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	texture_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	texture_rect.visible = false
+	if ResourceLoader.exists(TITLE_FALLBACK_PATH):
+		texture_rect.texture = load(TITLE_FALLBACK_PATH)
+	return texture_rect
+
+
+func _build_title_video_player() -> VideoStreamPlayer:
+	var player := VideoStreamPlayer.new()
+	player.name = "TitleVideoBackdrop"
+	player.set_anchors_preset(Control.PRESET_FULL_RECT, false)
+	player.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	player.expand = true
+	player.loop = true
+	player.paused = true
+	player.visible = false
+	if ResourceLoader.exists(TITLE_VIDEO_PATH):
+		var video_stream := load(TITLE_VIDEO_PATH)
+		if video_stream is VideoStream:
+			player.stream = video_stream
+		else:
+			push_warning("Title video is not a supported VideoStream: %s" % TITLE_VIDEO_PATH)
+	else:
+		push_warning("Title video missing: %s" % TITLE_VIDEO_PATH)
+	return player
+
+
+func _should_enable_title_video() -> bool:
+	return DisplayServer.get_name() != "headless"
+
+
+func _sync_title_backdrop(show_title: bool) -> void:
+	var has_video := title_video_player != null and title_video_player.stream != null
+	if title_backdrop_image != null:
+		title_backdrop_image.visible = show_title and not has_video
+	if title_video_player == null:
+		return
+	title_video_player.visible = show_title and has_video
+	if title_video_player.visible:
+		if not title_video_player.is_playing():
+			title_video_player.play()
+		title_video_player.paused = false
+	elif title_video_player.is_playing():
+		title_video_player.stop()
 
 
 func _layout_menu_panel(panel: Control, panel_size: Vector2, panel_position: Vector2) -> void:
