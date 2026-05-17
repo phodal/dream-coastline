@@ -8,6 +8,7 @@ const IllustratedBackdropScript := preload("res://src/dream/dream_illustrated_ba
 const DialogueLayerScript := preload("res://src/dream/dream_dialogue_layer.gd")
 const RoomRendererScript := preload("res://src/dream/dream_room_renderer.gd")
 const StoryInteractionScript := preload("res://src/dream/dream_story_interaction.gd")
+const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const GamepieceScene := preload("res://src/field/gamepieces/gamepiece.tscn")
 const PlayerControllerScene := preload("res://src/field/gamepieces/controllers/player_controller.tscn")
 const DreamPlayerAnimationScene := preload("res://src/dream/dream_player_animation.tscn")
@@ -73,6 +74,12 @@ var interaction_root: Node2D
 var label_root: Node2D
 var renderer: DreamRoomRenderer
 var dialogue_layer: DreamDialogueLayer
+var runtime_hud_layer: CanvasLayer
+var runtime_hud_root: Control
+var runtime_top_bar: PanelContainer
+var runtime_prompt_bar: PanelContainer
+var scene_title_label: Label
+var scene_hint_label: Label
 var player_gamepiece: Gamepiece
 var seen_scene_illustrations: Dictionary = {}
 
@@ -182,6 +189,8 @@ func _setup_world() -> void:
 	dialogue_layer.name = "DreamDialogueLayer"
 	add_child(dialogue_layer)
 
+	_setup_runtime_hud()
+
 
 func _on_player_gamepiece_changed() -> void:
 	var new_gamepiece: Gamepiece = Player.gamepiece
@@ -226,13 +235,12 @@ func _build_current_room() -> void:
 	_mark_visual_blockers(current_visual)
 	_mark_occupied_cells()
 
-	if not str(current_visual.get("illustrated_backdrop", "")).is_empty():
-		_add_room_caption(str(location.get("name", current_location_id)))
-	else:
+	if str(current_visual.get("illustrated_backdrop", "")).is_empty():
 		_add_room_header(str(current_scene.get("title", scene_id)), str(location.get("name", current_location_id)), str(location.get("description", "")))
 	_add_item_interactions(scene_id, location)
 	_add_exit_interactions(scene_id, location)
 	_add_action_interactions(scene_id, location)
+	_refresh_runtime_hud(location)
 
 
 func _add_room_header(scene_title: String, location_name: String, description: String) -> void:
@@ -247,18 +255,97 @@ func _add_room_header(scene_title: String, location_name: String, description: S
 	label_root.add_child(label)
 
 
-func _add_room_caption(location_name: String) -> void:
-	var label := Label.new()
-	label.name = "LocationCaption"
-	label.text = location_name
-	label.position = Vector2(12, 10)
-	label.size = Vector2(GRID_SIZE.x * CELL_SIZE.x - 24, 28)
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	label.add_theme_font_size_override("font_size", 12)
-	label.add_theme_color_override("font_color", Color("#fff8df", 0.88))
-	label.add_theme_color_override("font_outline_color", Color("#050608", 0.9))
-	label.add_theme_constant_override("outline_size", 2)
-	label_root.add_child(label)
+func _setup_runtime_hud() -> void:
+	runtime_hud_layer = CanvasLayer.new()
+	runtime_hud_layer.name = "OpenRPGHudLayer"
+	runtime_hud_layer.layer = 6
+	add_child(runtime_hud_layer)
+
+	runtime_hud_root = Control.new()
+	runtime_hud_root.name = "OpenRPGHud"
+	runtime_hud_root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	runtime_hud_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	runtime_hud_layer.add_child(runtime_hud_root)
+
+	runtime_top_bar = GameThemeScript.make_rpg_panel("TopBar", Color("#152313", 0.82))
+	runtime_hud_root.add_child(runtime_top_bar)
+
+	scene_title_label = GameThemeScript.make_label("SceneTitle", 15, GameThemeScript.COLORS.text)
+	scene_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scene_title_label.clip_text = true
+	runtime_hud_root.add_child(scene_title_label)
+
+	runtime_prompt_bar = GameThemeScript.make_rpg_panel("PromptBar", Color("#152313", 0.78))
+	runtime_hud_root.add_child(runtime_prompt_bar)
+
+	scene_hint_label = GameThemeScript.make_label("Hint", 13, GameThemeScript.COLORS.paper)
+	scene_hint_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scene_hint_label.clip_text = true
+	runtime_hud_root.add_child(scene_hint_label)
+
+	_layout_runtime_hud()
+
+
+func _refresh_runtime_hud(location: Dictionary) -> void:
+	if runtime_hud_root == null:
+		return
+	scene_title_label.text = "%d/%d  %s    %s" % [
+		current_scene_index + 1,
+		repository.scene_count(),
+		str(current_scene.get("title", current_scene.get("id", ""))),
+		_objective_for_current_scene(),
+	]
+	scene_hint_label.text = "%s · WASD/方向键移动，靠近发光物件后按 Space/Enter 互动" % str(location.get("name", current_location_id))
+
+
+func _set_runtime_hud_visible(visible: bool) -> void:
+	if runtime_hud_root != null:
+		runtime_hud_root.visible = visible
+
+
+func _layout_runtime_hud() -> void:
+	if runtime_hud_root == null:
+		return
+	var view_size := get_viewport_rect().size
+	if runtime_top_bar != null:
+		runtime_top_bar.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
+		runtime_top_bar.offset_left = 20.0
+		runtime_top_bar.offset_top = 10.0
+		runtime_top_bar.offset_right = minf(view_size.x - 20.0, 900.0)
+		runtime_top_bar.offset_bottom = 54.0
+	if scene_title_label != null:
+		scene_title_label.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
+		scene_title_label.offset_left = 34.0
+		scene_title_label.offset_top = 21.0
+		scene_title_label.offset_right = minf(view_size.x - 36.0, 874.0)
+		scene_title_label.offset_bottom = 46.0
+	if runtime_prompt_bar != null:
+		runtime_prompt_bar.set_anchors_preset(Control.PRESET_BOTTOM_WIDE, false)
+		runtime_prompt_bar.offset_left = 48.0
+		runtime_prompt_bar.offset_top = -76.0
+		runtime_prompt_bar.offset_right = -48.0
+		runtime_prompt_bar.offset_bottom = -16.0
+	if scene_hint_label != null:
+		scene_hint_label.set_anchors_preset(Control.PRESET_BOTTOM_WIDE, false)
+		scene_hint_label.offset_left = 64.0
+		scene_hint_label.offset_top = -55.0
+		scene_hint_label.offset_right = -64.0
+		scene_hint_label.offset_bottom = -30.0
+
+
+func _objective_for_current_scene() -> String:
+	match str(current_scene.get("id", "")):
+		"00-prologue-lights-out":
+			match current_location_id:
+				"street":
+					return "目标：回家，确认灯为什么没亮"
+				"bedroom":
+					return "目标：查看信和黑色钢笔"
+				"study":
+					return "目标：寻找父母留下的线索"
+				_:
+					return "目标：确认家里发生了什么"
+	return "目标：推进当前场景"
 
 
 func _add_item_interactions(scene_id: String, location: Dictionary) -> void:
@@ -491,12 +578,14 @@ func _show_scene_illustrations(scene_id: String) -> void:
 		return
 
 	seen_scene_illustrations[scene_id] = true
+	_set_runtime_hud_visible(false)
 	var fallback_title := str(current_scene.get("title", scene_id))
 	for record in records:
 		var title := str(record.get("title", fallback_title))
 		var caption := str(record.get("caption", ""))
 		var path := str(record.get("path", ""))
 		await dialogue_layer.show_illustration(title, caption, path)
+	_set_runtime_hud_visible(true)
 
 
 func _inspected_prefix(item: Dictionary) -> String:
