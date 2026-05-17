@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "provider": "minimax",
-  "generated_at": "2026-05-17T18:31:56.525Z",
+  "generated_at": "2026-05-17T19:09:39.627Z",
   "assets": [
     {
       "asset_id": "MUS-01-001",
@@ -2321,6 +2321,467 @@
         "post_process": {
           "tool": "ffmpeg",
           "duration_ms": 950,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "MUS-07-001",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "cue_id": "MUS-07-001",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-001.mp3",
+      "prompt_summary": "restrained RPG modern home background music, familiar apartment half erased by silence, cold dining table, dark living room lamp, parent echo recording, fragile home motif, no pop...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:39:47.649Z",
+      "trace_id": "06593dfcb780d572a8bd08b0231be76f",
+      "extra_info": {
+        "music_duration": 171467,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5488943
+      }
+    },
+    {
+      "asset_id": "MUS-07-002",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "cue_id": "MUS-07-002",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-002.mp3",
+      "prompt_summary": "restrained RPG modern school erasure background music, endless corridor, blank bulletin board, classmates name tags become question marks, quiet fluorescent hum and paper silence,...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:41:27.736Z",
+      "trace_id": "06593e73b30e3129112ff00328045ea3",
+      "extra_info": {
+        "music_duration": 121991,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3905713
+      }
+    },
+    {
+      "asset_id": "MUS-07-003",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "cue_id": "MUS-07-003",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-003.mp3",
+      "prompt_summary": "restrained RPG modern city recovery background music, street lights and glyph lamps turn on row by row, temporary national book node connected to transformer, faceless neighbors, ...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:43:33.212Z",
+      "trace_id": "06593ed77cd7fbd7a437ad4658c75dbf",
+      "extra_info": {
+        "music_duration": 140277,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4490856
+      }
+    },
+    {
+      "asset_id": "MUS-07-004",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "cue_id": "MUS-07-004",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-004.mp3",
+      "prompt_summary": "restrained RPG convenience store rescue background music, cashier beep broken by static, faceless clerk asks who am I, receipt prints a restored name, everyday life returning, sma...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:45:34.556Z",
+      "trace_id": "06593f55708dbdcafb0da198c5af034c",
+      "extra_info": {
+        "music_duration": 132754,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4250112
+      }
+    },
+    {
+      "asset_id": "MUS-07-005",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "cue_id": "MUS-07-005",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-005.mp3",
+      "prompt_summary": "restrained RPG parent laboratory bridge background music, modern beacon and Moqi national book interface, equations on glass, parent final record, failed bridge test, return bridg...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:47:07.615Z",
+      "trace_id": "06593fce14a6c3d140e35096adbcfcb3",
+      "extra_info": {
+        "music_duration": 123951,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3968407
+      }
+    },
+    {
+      "asset_id": "MUS-07-006",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "cue_id": "MUS-07-006",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-006.mp3",
+      "prompt_summary": "restrained RPG final boss music against silence protocol, orbital layer, skill names maps and party names deleted, two civilizations restoring meaning, final Continue motif, urgen...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:48:50.324Z",
+      "trace_id": "0659402b9c0852009dc90e4e0f4717fb",
+      "extra_info": {
+        "music_duration": 78811,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2523940
+      }
+    },
+    {
+      "asset_id": "DLG-07-SAMPLE-JZX",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "line_id": "DLG-07-SAMPLE-JZX",
+      "character_id": "jizi_xuan",
+      "voice_id": "male-qn-qingse",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/07-lights-on-again/DLG-07-SAMPLE-JZX.mp3",
+      "source_text": "先让这座城被看见，再回来找他们。",
+      "delivery": "少年很稳，但能听出他强压着想立刻找父母的冲动。",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:48:51.137Z",
+      "trace_id": "0659409270422d4ff72a111a6ac66844",
+      "extra_info": {
+        "byte_length": 56493,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-07-SAMPLE-XL",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "line_id": "DLG-07-SAMPLE-XL",
+      "character_id": "xiali",
+      "voice_id": "lengdan_xiongzhang",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/07-lights-on-again/DLG-07-SAMPLE-XL.mp3",
+      "source_text": "墨颀各城都在回写。你不是一个人。",
+      "delivery": "冷静、短句、承担感；不是安慰，是战斗中的事实汇报。",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:48:51.952Z",
+      "trace_id": "065940934d110c10cf9ff3f27ded19b2",
+      "extra_info": {
+        "byte_length": 67437,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-07-SAMPLE-DAD",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "line_id": "DLG-07-SAMPLE-DAD",
+      "character_id": "jizi_xuan_father",
+      "voice_id": "male-qn-jingying",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/07-lights-on-again/DLG-07-SAMPLE-DAD.mp3",
+      "source_text": "先让城市被看见。",
+      "delivery": "中年父亲的残缺录音，低、疲惫、克制；短句里有不舍。",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:48:52.613Z",
+      "trace_id": "06594094ac8229c2406043014ea3784f",
+      "extra_info": {
+        "byte_length": 27117,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-07-SAMPLE-MOM",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "line_id": "DLG-07-SAMPLE-MOM",
+      "character_id": "jizi_xuan_mother",
+      "voice_id": "female-chengshu",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/07-lights-on-again/DLG-07-SAMPLE-MOM.mp3",
+      "source_text": "我们知道。",
+      "delivery": "中年母亲的录音尾声，温暖、极短、像真的听见了他长大。",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:48:53.168Z",
+      "trace_id": "065940941766a3777ed51e9f68035f4b",
+      "extra_info": {
+        "byte_length": 21933,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "SFX-07-STEP-MODERN",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "sfx_id": "SFX-07-STEP-MODERN",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-STEP-MODERN.mp3",
+      "prompt_summary": "game sound effect, single modern indoor footstep on apartment floor school corridor and lab tile, faint fluorescent hum, restrained, no rhythm, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:50:51.927Z",
+      "trace_id": "0659409574530b106b7cf28f18c5644f",
+      "extra_info": {
+        "music_duration": 162115,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5189684,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        },
+        "mix_adjustment": {
+          "tool": "ffmpeg",
+          "volume_db": -3,
+          "reason": "reduce short footstep source loudness before Godot runtime channel gain"
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-07-STEP-STREET",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "sfx_id": "SFX-07-STEP-STREET",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-STEP-STREET.mp3",
+      "prompt_summary": "game sound effect, single footstep on modern asphalt and glassy orbital silence layer, cold air, tiny grit, restrained, no rhythm, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:53:26.607Z",
+      "trace_id": "0659410bb1e68fdfc6fa1b7af80329c6",
+      "extra_info": {
+        "music_duration": 189492,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 6065726,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        },
+        "mix_adjustment": {
+          "tool": "ffmpeg",
+          "volume_db": -8,
+          "reason": "reduce short footstep source loudness before Godot runtime channel gain"
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-07-INSPECT-MODERN",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "sfx_id": "SFX-07-INSPECT-MODERN",
+      "event_name": "interact",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-INSPECT-MODERN.mp3",
+      "prompt_summary": "game sound effect, inspect modern record under silence, phone static, paper page, receipt printer tick, lab recorder noise, sober confirmation, no bell, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:55:34.591Z",
+      "trace_id": "065941a64e04ba883e65f083401e44c6",
+      "extra_info": {
+        "music_duration": 138840,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4444881,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 600,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-07-BUILD-NODE",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "sfx_id": "SFX-07-BUILD-NODE",
+      "event_name": "build",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-BUILD-NODE.mp3",
+      "prompt_summary": "game sound effect, modern node build action completes, street lights and glyph lamps align, transformer hum, lab beacon sync, UI restore pulse, restrained confirmation, no fanfare...",
+      "status": "generated",
+      "generated_at": "2026-05-17T18:57:20.167Z",
+      "trace_id": "0659422603a58b6cf788a1ef7350fc8e",
+      "extra_info": {
+        "music_duration": 119954,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3840512,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 900,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-07-CAST-NAME",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "sfx_id": "SFX-07-CAST-NAME",
+      "event_name": "cast_name",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-CAST-NAME.mp3",
+      "prompt_summary": "game sound effect, cast name glyph to restore faceless clerk name, receipt printer and ink identity snap, shelf labels return, intimate not flashy, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T19:00:45.433Z",
+      "trace_id": "06594290b12941d569f4f342c101dbf1",
+      "extra_info": {
+        "music_duration": 302889,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 9694448,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 850,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-07-WRITE-NAME",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "sfx_id": "SFX-07-WRITE-NAME",
+      "event_name": "write",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-WRITE-NAME.mp3",
+      "prompt_summary": "game sound effect, write name glyph against final silence protocol, party names snap back from blank squares, ink over orbital static, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T19:02:18.314Z",
+      "trace_id": "0659435d86c70ffab0979ef80db2feb8",
+      "extra_info": {
+        "music_duration": 74083,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2372639,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 850,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-07-CAST-STOP",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "sfx_id": "SFX-07-CAST-STOP",
+      "event_name": "cast_stop",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-CAST-STOP.mp3",
+      "prompt_summary": "game sound effect, stop glyph freezes final deletion judgment for one instant, two civilizations write into the pause, low boundary hold, no explosion, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T19:04:23.993Z",
+      "trace_id": "065943ba17966035480f794eae1afbb5",
+      "extra_info": {
+        "music_duration": 142419,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4559402,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 780,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-07-PROTOCOL-HIT",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "sfx_id": "SFX-07-PROTOCOL-HIT",
+      "event_name": "attack",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-PROTOCOL-HIT.mp3",
+      "prompt_summary": "game sound effect, restrained hit against final silence protocol layer, deleted UI fragments crack, cold system impact, no gore, no explosion, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T19:07:33.943Z",
+      "trace_id": "065944381af7e69ed109c8728f89ee71",
+      "extra_info": {
+        "music_duration": 274337,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 8780789,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 720,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-07-CONTINUE",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "07-lights-on-again",
+      "sfx_id": "SFX-07-CONTINUE",
+      "event_name": "continue",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-CONTINUE.mp3",
+      "prompt_summary": "game sound effect, final Continue glyph written by two civilizations, silence protocol rejected, home lights turn on, warm restrained completion, no victory fanfare, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T19:09:39.627Z",
+      "trace_id": "065944f65e63bcd3c9fe267ca695ddc4",
+      "extra_info": {
+        "music_duration": 130847,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4189090,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 1300,
           "loudnorm_i": -24,
           "true_peak_db": -8
         }

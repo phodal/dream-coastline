@@ -1,0 +1,315 @@
+{
+  "schema_version": 1,
+  "scene_id": "07-lights-on-again",
+  "source": "data/story_scenes/07-lights-on-again.json",
+  "generated_from": [
+    "five/scene/07-lights-on-again.md",
+    "data/story_scenes/07-lights-on-again.json",
+    "data/character_voice_profiles.json"
+  ],
+  "production_note": "第七幕回到现代，把序幕“灯没亮”闭环成“灯重新亮起”。音频重点是半静默现代空间、城市可观测性恢复、呼名救人、父母实验室归桥同步和最终拒绝静默协议。",
+  "cues": [
+    {
+      "cue_id": "MUS-07-001",
+      "scene_id": "07-lights-on-again",
+      "location_id": "home",
+      "type": "music",
+      "mood": "回到纪子轩家，同一张餐桌、同一封信，但空间被静默擦掉一半",
+      "instrumentation_prompt": "restrained RPG modern home background music, familiar apartment half erased by silence, cold dining table, dark living room lamp, parent echo recording, fragile home motif, no pop ballad",
+      "looping_intent": "loop_while_home_is_half_silenced",
+      "source_evidence": [
+        "five/scene/07-lights-on-again.md",
+        "data/story_scenes/07-lights-on-again.json#locations.home"
+      ],
+      "target_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-001.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-07-002",
+      "scene_id": "07-lights-on-again",
+      "location_id": "school",
+      "type": "music",
+      "mood": "学校走廊没有尽头，公告栏空白，同学名牌变成？？？",
+      "instrumentation_prompt": "restrained RPG modern school erasure background music, endless corridor, blank bulletin board, classmates name tags become question marks, quiet fluorescent hum and paper silence, uneasy but not horror",
+      "looping_intent": "loop_while_school_memory_erases",
+      "source_evidence": [
+        "five/scene/07-lights-on-again.md",
+        "data/story_scenes/07-lights-on-again.json#locations.school"
+      ],
+      "target_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-002.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-07-003",
+      "scene_id": "07-lights-on-again",
+      "location_id": "street",
+      "type": "music",
+      "mood": "城市街道点灯，现代电网和符灯一起恢复可观测性，临时国书节点建立",
+      "instrumentation_prompt": "restrained RPG modern city recovery background music, street lights and glyph lamps turn on row by row, temporary national book node connected to transformer, faceless neighbors, cautious hope, no pop beat",
+      "looping_intent": "loop_while_city_grid_and_node_recover",
+      "source_evidence": [
+        "five/scene/07-lights-on-again.md",
+        "data/story_scenes/07-lights-on-again.json#locations.street"
+      ],
+      "target_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-003.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-07-004",
+      "scene_id": "07-lights-on-again",
+      "location_id": "store",
+      "type": "music",
+      "mood": "便利店呼名任务，救回普通市民，第一幕“名”系统回到现代",
+      "instrumentation_prompt": "restrained RPG convenience store rescue background music, cashier beep broken by static, faceless clerk asks who am I, receipt prints a restored name, everyday life returning, small intimate stakes, no comedy",
+      "looping_intent": "loop_while_rescuing_clerk_name",
+      "source_evidence": [
+        "five/scene/07-lights-on-again.md",
+        "data/story_scenes/07-lights-on-again.json#locations.store"
+      ],
+      "target_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-004.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-07-005",
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "type": "music",
+      "mood": "父母实验室连接现代信标和墨颀国书，归桥同步失败后稳定",
+      "instrumentation_prompt": "restrained RPG parent laboratory bridge background music, modern beacon and Moqi national book interface, equations on glass, parent final record, failed bridge test, return bridge traveler warning, emotional but controlled",
+      "looping_intent": "loop_while_stabilizing_return_bridge",
+      "source_evidence": [
+        "five/scene/07-lights-on-again.md",
+        "data/story_scenes/07-lights-on-again.json#locations.lab"
+      ],
+      "target_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-005.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-07-006",
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "type": "music",
+      "mood": "轨道静默层最终战，静默协议判定文明不可控、应静默、不再续写",
+      "instrumentation_prompt": "restrained RPG final boss music against silence protocol, orbital layer, skill names maps and party names deleted, two civilizations restoring meaning, final Continue motif, urgent dignified, no power fantasy",
+      "looping_intent": "loop_until_silence_protocol_rejected",
+      "source_evidence": [
+        "five/scene/07-lights-on-again.md",
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.combat"
+      ],
+      "target_path": "assets/audio/generated/music/07-lights-on-again/MUS-07-006.mp3",
+      "sample_generation": true
+    }
+  ],
+  "event_sounds": [
+    {
+      "sfx_id": "SFX-07-STEP-MODERN",
+      "scene_id": "07-lights-on-again",
+      "event_name": "step",
+      "locations": ["home", "school", "store", "lab"],
+      "mood": "现代室内、走廊和实验室脚步，灯管嗡鸣和静默空响",
+      "instrumentation_prompt": "game sound effect, single modern indoor footstep on apartment floor school corridor and lab tile, faint fluorescent hum, restrained, no rhythm, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.home",
+        "data/story_scenes/07-lights-on-again.json#locations.lab"
+      ],
+      "target_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-STEP-MODERN.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-07-STEP-STREET",
+      "scene_id": "07-lights-on-again",
+      "event_name": "step",
+      "locations": ["street", "orbit"],
+      "mood": "现代街道和轨道静默层脚步，柏油、玻璃和静默层冷感",
+      "instrumentation_prompt": "game sound effect, single footstep on modern asphalt and glassy orbital silence layer, cold air, tiny grit, restrained, no rhythm, no melody, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.street",
+        "data/story_scenes/07-lights-on-again.json#locations.orbit"
+      ],
+      "target_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-STEP-STREET.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-07-INSPECT-MODERN",
+      "scene_id": "07-lights-on-again",
+      "event_name": "interact",
+      "locations": ["home", "school", "street", "store", "lab", "orbit"],
+      "mood": "调查信纸、公告栏、联系人、小票、父母记录和静默协议",
+      "instrumentation_prompt": "game sound effect, inspect modern record under silence, phone static, paper page, receipt printer tick, lab recorder noise, sober confirmation, no bell, clean one-shot",
+      "duration_ms": 600,
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.home.items",
+        "data/story_scenes/07-lights-on-again.json#locations.lab.items"
+      ],
+      "target_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-INSPECT-MODERN.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-07-BUILD-NODE",
+      "scene_id": "07-lights-on-again",
+      "event_name": "build",
+      "locations": ["street", "lab", "orbit"],
+      "mood": "点亮城市电网、建设现代节点、稳定归桥和恢复最终 UI",
+      "instrumentation_prompt": "game sound effect, modern node build action completes, street lights and glyph lamps align, transformer hum, lab beacon sync, UI restore pulse, restrained confirmation, no fanfare, clean one-shot",
+      "duration_ms": 900,
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.street.build_actions",
+        "data/story_scenes/07-lights-on-again.json#locations.lab.build_actions",
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.build_actions"
+      ],
+      "target_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-BUILD-NODE.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-07-CAST-NAME",
+      "scene_id": "07-lights-on-again",
+      "event_name": "cast_name",
+      "locations": ["store"],
+      "mood": "呼出店员名字，脸和货架标签恢复",
+      "instrumentation_prompt": "game sound effect, cast name glyph to restore faceless clerk name, receipt printer and ink identity snap, shelf labels return, intimate not flashy, clean one-shot",
+      "duration_ms": 850,
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.store.glyph_actions.name"
+      ],
+      "target_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-CAST-NAME.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-07-WRITE-NAME",
+      "scene_id": "07-lights-on-again",
+      "event_name": "write",
+      "locations": ["orbit"],
+      "mood": "最终战写“名”锁定静默协议",
+      "instrumentation_prompt": "game sound effect, write name glyph against final silence protocol, party names snap back from blank squares, ink over orbital static, no melody, clean one-shot",
+      "duration_ms": 850,
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-WRITE-NAME.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-07-CAST-STOP",
+      "scene_id": "07-lights-on-again",
+      "event_name": "cast_stop",
+      "locations": ["orbit"],
+      "mood": "用“止”暂停最终删除判定，两个文明把这一瞬写进续页",
+      "instrumentation_prompt": "game sound effect, stop glyph freezes final deletion judgment for one instant, two civilizations write into the pause, low boundary hold, no explosion, clean one-shot",
+      "duration_ms": 780,
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.combat.spells.stop"
+      ],
+      "target_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-CAST-STOP.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-07-PROTOCOL-HIT",
+      "scene_id": "07-lights-on-again",
+      "event_name": "attack",
+      "locations": ["orbit"],
+      "mood": "攻击静默协议判定层，命中不是怪物而是删除意义的系统",
+      "instrumentation_prompt": "game sound effect, restrained hit against final silence protocol layer, deleted UI fragments crack, cold system impact, no gore, no explosion, clean one-shot",
+      "duration_ms": 720,
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-PROTOCOL-HIT.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-07-CONTINUE",
+      "scene_id": "07-lights-on-again",
+      "event_name": "continue",
+      "locations": ["orbit"],
+      "mood": "最终写下 Continue，静默协议被拒绝，家里的灯重新亮起",
+      "instrumentation_prompt": "game sound effect, final Continue glyph written by two civilizations, silence protocol rejected, home lights turn on, warm restrained completion, no victory fanfare, clean one-shot",
+      "duration_ms": 1300,
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.combos.continue",
+        "five/scene/07-lights-on-again.md#第三阶段：Continue"
+      ],
+      "target_path": "assets/audio/generated/sfx/07-lights-on-again/SFX-07-CONTINUE.mp3",
+      "sample_generation": true
+    }
+  ],
+  "voice_samples": [
+    {
+      "line_id": "DLG-07-SAMPLE-JZX",
+      "scene_id": "07-lights-on-again",
+      "location_id": "home",
+      "character_id": "jizi_xuan",
+      "character_name": "纪子轩",
+      "text": "先让这座城被看见，再回来找他们。",
+      "delivery": "少年很稳，但能听出他强压着想立刻找父母的冲动。",
+      "voice_id": "male-qn-qingse",
+      "speed": 0.94,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.jizi_xuan",
+        "data/story_scenes/07-lights-on-again.json#locations.home.items.city_first"
+      ],
+      "target_path": "assets/audio/generated/voices/07-lights-on-again/DLG-07-SAMPLE-JZX.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-07-SAMPLE-XL",
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "character_id": "xiali",
+      "character_name": "夏离",
+      "text": "墨颀各城都在回写。你不是一个人。",
+      "delivery": "冷静、短句、承担感；不是安慰，是战斗中的事实汇报。",
+      "voice_id": "lengdan_xiongzhang",
+      "speed": 0.92,
+      "vol": 0.9,
+      "pitch": -1,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.xiali",
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.items.civilization_response"
+      ],
+      "target_path": "assets/audio/generated/voices/07-lights-on-again/DLG-07-SAMPLE-XL.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-07-SAMPLE-DAD",
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "character_id": "jizi_xuan_father",
+      "character_name": "纪子轩父亲",
+      "text": "先让城市被看见。",
+      "delivery": "中年父亲的残缺录音，低、疲惫、克制；短句里有不舍。",
+      "voice_id": "male-qn-jingying",
+      "speed": 0.88,
+      "vol": 0.9,
+      "pitch": -1,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.jizi_xuan_father",
+        "data/story_scenes/07-lights-on-again.json#locations.lab.items.parents_record"
+      ],
+      "target_path": "assets/audio/generated/voices/07-lights-on-again/DLG-07-SAMPLE-DAD.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-07-SAMPLE-MOM",
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "character_id": "jizi_xuan_mother",
+      "character_name": "纪子轩母亲",
+      "text": "我们知道。",
+      "delivery": "中年母亲的录音尾声，温暖、极短、像真的听见了他长大。",
+      "voice_id": "female-chengshu",
+      "speed": 0.86,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.jizi_xuan_mother",
+        "data/story_scenes/07-lights-on-again.json#locations.lab.items.parents_record"
+      ],
+      "target_path": "assets/audio/generated/voices/07-lights-on-again/DLG-07-SAMPLE-MOM.mp3",
+      "sample_generation": true
+    }
+  ]
+}
