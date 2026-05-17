@@ -534,9 +534,9 @@
       },
       {
         "id": "first-members-table",
-        "path": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
+        "path": "res://assets/illustrations/story_review/04-continuation-institute/first-members-table.png",
         "target_path": "res://assets/illustrations/story_review/04-continuation-institute/first-members-table.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "续文院初址：同一张桌子",
         "caption": "闻素带学生，阿棠带工匠，夏离带地图；未来第一次不只坐在王座旁。",
         "locations": [
@@ -575,9 +575,9 @@
       },
       {
         "id": "public-school-class",
-        "path": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
+        "path": "res://assets/illustrations/story_review/04-continuation-institute/public-school-class.png",
         "target_path": "res://assets/illustrations/story_review/04-continuation-institute/public-school-class.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "平民学塾：错误也被保留",
         "caption": "小砚写歪自己的名字，闻素没有擦掉错误；公共教育线在这里变成可见成果。",
         "locations": [
@@ -610,9 +610,9 @@
       },
       {
         "id": "atang-workshop-flow",
-        "path": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
+        "path": "res://assets/illustrations/story_review/04-continuation-institute/atang-workshop-flow.png",
         "target_path": "res://assets/illustrations/story_review/04-continuation-institute/atang-workshop-flow.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "工坊区：失败进入流程",
         "caption": "阿棠把字根知识转成工具、测试和复盘；理念开始变成工程方法。",
         "locations": [
@@ -641,9 +641,9 @@
       },
       {
         "id": "mine-safety-board",
-        "path": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
+        "path": "res://assets/illustrations/story_review/04-continuation-institute/mine-safety-board.png",
         "target_path": "res://assets/illustrations/story_review/04-continuation-institute/mine-safety-board.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "符文矿场：每个人都能看懂危险",
         "caption": "安全板让“止”从个人技能变成公共流程，工人第一次能读懂停工理由。",
         "locations": [
@@ -672,7 +672,7 @@
       },
       {
         "id": "seal-tower-forgetting",
-        "path": "res://assets/characters/creatures/creature_007_silence_probe/habitat.png",
+        "path": "res://assets/illustrations/story_review/04-continuation-institute/seal-tower-forgetting.png",
         "title": "封字塔：遗忘扩散",
         "caption": "封字塔让遗忘从制度漏洞变成可见压力。学生、字典和档案同时被推到战斗目标里。",
         "locations": [
@@ -709,7 +709,10 @@
             "costume_state": "reformer",
             "position": "right"
           }
-        ]
+        ],
+        "target_path": "res://assets/illustrations/story_review/04-continuation-institute/seal-tower-forgetting.png",
+        "generation_status": "ready",
+        "imagen_prompt": "Wide comic story panel at the Seal Character Tower where forgetting spreads. Students clutch blank notebooks while dictionaries and public archives are pulled into white gaps; Ji Zixuan, Wensu, Atang, and Xiali protect children and records from a silence probe presence. Restrained ink-and-paper RPG, no readable text."
       }
     ],
     "05-century-continuation": [
@@ -722,9 +725,9 @@
       },
       {
         "id": "wensu-legacy-night-school",
-        "path": "res://assets/illustrations/chapters/05-century-continuation-01.png",
+        "path": "res://assets/illustrations/story_review/05-century-continuation/wensu-legacy-night-school.png",
         "target_path": "res://assets/illustrations/story_review/05-century-continuation/wensu-legacy-night-school.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "文字工业时代：闻素的空椅仍在授课",
         "caption": "第一批学生变成教师，夜校灯光说明闻素离场后，方法还在自我复制。",
         "locations": [
@@ -754,9 +757,9 @@
       },
       {
         "id": "xiali-statebook-anchor",
-        "path": "res://assets/illustrations/chapters/05-century-continuation-01.png",
+        "path": "res://assets/illustrations/story_review/05-century-continuation/xiali-statebook-anchor.png",
         "target_path": "res://assets/illustrations/story_review/05-century-continuation/xiali-statebook-anchor.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "国书网络时代：夏离保留私人锚点",
         "caption": "夏离把名字绑定进国书，但纪子轩给他留下一把椅子，防止他只剩职责。",
         "locations": [
@@ -789,9 +792,9 @@
       },
       {
         "id": "astral-engineering",
-        "path": "res://assets/illustrations/chapters/05-century-continuation-01.png",
+        "path": "res://assets/illustrations/story_review/05-century-continuation/astral-engineering.png",
         "target_path": "res://assets/illustrations/story_review/05-century-continuation/astral-engineering.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "星象工程时代：回家变成可复核工程",
         "caption": "星图、坐标标准和跨界信标把“回家”从愿望改写成文明级工程。",
         "locations": [
@@ -821,9 +824,9 @@
       },
       {
         "id": "modern-star-darkening",
-        "path": "res://assets/illustrations/chapters/05-century-continuation-01.png",
+        "path": "res://assets/illustrations/story_review/05-century-continuation/modern-star-darkening.png",
         "target_path": "res://assets/illustrations/story_review/05-century-continuation/modern-star-darkening.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "星象塔顶：现代星球正在变暗",
         "caption": "第一次完整观测看见的不是神界，而是学校、街道、家门口正在被静默擦掉。",
         "locations": [
@@ -854,7 +857,7 @@
       },
       {
         "id": "star-chart-moth",
-        "path": "res://assets/characters/creatures/creature_006_star_chart_moth/habitat.png",
+        "path": "res://assets/illustrations/story_review/05-century-continuation/star-chart-moth.png",
         "title": "星象工程时代：星图蛾",
         "caption": "星图蛾咬掉坐标，让归星计划从宏大工程变成随时会失去方向的具体风险。",
         "locations": [
@@ -887,7 +890,10 @@
             "costume_state": "astral_engineer",
             "position": "right"
           }
-        ]
+        ],
+        "target_path": "res://assets/illustrations/story_review/05-century-continuation/star-chart-moth.png",
+        "generation_status": "ready",
+        "imagen_prompt": "Wide comic story panel in an astral engineering chamber under attack by a star-chart moth. The paper-winged creature eats blank gaps from a star map while Atang and Ji Zixuan protect coordinate standards and beacon instruments. Restrained ink-and-paper RPG, no readable text."
       }
     ],
     "06-return-star-plan": [
@@ -900,9 +906,9 @@
       },
       {
         "id": "return-star-council",
-        "path": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
+        "path": "res://assets/illustrations/story_review/06-return-star-plan/return-star-council.png",
         "target_path": "res://assets/illustrations/story_review/06-return-star-plan/return-star-council.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "归星议会：救援必须公开授权",
         "caption": "归星不再是纪子轩回家，而是墨颀是否承担跨世界救援的公共决定。",
         "locations": [
@@ -944,9 +950,9 @@
       },
       {
         "id": "return-vessel-dockyard",
-        "path": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
+        "path": "res://assets/illustrations/story_review/06-return-star-plan/return-vessel-dockyard.png",
         "target_path": "res://assets/illustrations/story_review/06-return-star-plan/return-vessel-dockyard.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "浮空船坞：一段可以移动的文明",
         "caption": "续页舰不是军舰，而是携带字典、档案、教师、工程师和国书核心的救援系统。",
         "locations": [
@@ -975,9 +981,9 @@
       },
       {
         "id": "civilization-backups",
-        "path": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
+        "path": "res://assets/illustrations/story_review/06-return-star-plan/civilization-backups.png",
         "target_path": "res://assets/illustrations/story_review/06-return-star-plan/civilization-backups.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "国书核心：文明备份链",
         "caption": "静默会删字根、地图和名字，所以战斗资源必须来自标准字典、公共档案和学生共同书写。",
         "locations": [
