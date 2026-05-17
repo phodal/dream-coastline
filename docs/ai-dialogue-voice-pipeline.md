@@ -117,9 +117,19 @@ manifest 至少记录：
 
 对白生成模型只负责文本和表演方向；TTS 或音频工具再负责实际音频。不要把 API key、供应商私有配置或临时音频缓存提交进仓库。
 
+## MiniMax First Pass
+
+MiniMax 生成链路记录在 `docs/minimax-audio-pipeline.md`。首轮不要把音乐和角色语音混成同一个表：
+
+- 场景音乐与环境声写入 `data/audio_cues/<scene-id>.json`。
+- 角色样片写入同一 cue 文件的 `voice_samples`，继续引用 `data/character_voice_profiles.json`。
+- 实际生成用 `tools/minimax_audio_generate.mjs`，先跑 `--dry-run --limit-samples`。
+- API key 只放 `.env` 或 shell 环境变量，不写入 manifest、文档或提交。
+
 ## Acceptance
 
 - `python3 tools/validate_character_voice_profiles.py` 通过。
+- `python3 tools/validate_audio_cues.py` 通过。
 - AI 输出的每个角色都能追溯到 `five/people`、`five/script`、`five/scene` 或 `data/story_scenes`。
 - 同一角色在不同章节的口吻变化能解释为弧光，不是随机换声线。
 - 每个 TTS prompt 都是抽象音色描述，没有真人克隆、公众人物或具体演员引用。

@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "scene_id": "01-illiterate",
+  "source": "data/story_scenes/01-illiterate.json",
+  "generated_from": [
+    "five/script/chapter-01-opening.md",
+    "five/script/chapter-01-name-tutorial-battle.md",
+    "five/system/art-audio-direction.md",
+    "data/story_scenes/01-illiterate.json",
+    "data/character_voice_profiles.json"
+  ],
+  "production_note": "首轮生成 MUS-01-001 和三条 voice_samples，其他 cue 先用于分析与后续制作。",
+  "cues": [
+    {
+      "cue_id": "MUS-01-001",
+      "scene_id": "01-illiterate",
+      "location_id": "mud_road",
+      "type": "music",
+      "mood": "初入墨颀的黄昏陌生感，远处城火和不可读文字压住现代少年的惊慌",
+      "instrumentation_prompt": "restrained RPG background music, dusk mud road in a fallen ink civilization, wind, distant fire, muffled unknown voices, paper and ink texture, low drums like far footsteps, sparse plucked strings, no modern pop melody, no triumphant theme",
+      "looping_intent": "loop_from_mud_road_to_camp",
+      "source_evidence": [
+        "five/script/chapter-01-opening.md",
+        "five/system/art-audio-direction.md",
+        "data/story_scenes/01-illiterate.json#locations.mud_road"
+      ],
+      "target_path": "assets/audio/generated/music/01-illiterate/MUS-01-001.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "AMB-01-001",
+      "scene_id": "01-illiterate",
+      "location_id": "camp",
+      "type": "ambience",
+      "mood": "流民营压低声音，小砚出现，语言不通但危险迫近",
+      "instrumentation_prompt": "refugee camp ambience, small fire crackle, hushed unintelligible crowd, anxious child breath, wind over cloth tents, ink-paper rustle, quiet and playable under dialogue",
+      "looping_intent": "loop_under_xiaoyan_meeting",
+      "source_evidence": [
+        "five/script/chapter-01-opening.md",
+        "data/story_scenes/01-illiterate.json#locations.camp",
+        "data/story_scenes/01-illiterate.json#locations.camp.items.xiaoyan"
+      ],
+      "target_path": "assets/audio/generated/music/01-illiterate/AMB-01-001.mp3",
+      "sample_generation": false
+    },
+    {
+      "cue_id": "MUS-01-002",
+      "scene_id": "01-illiterate",
+      "location_id": "chase",
+      "type": "music",
+      "mood": "树林逃跑，墨律司士兵和刻字短刃制造制度性压迫",
+      "instrumentation_prompt": "tense chase cue, restrained percussion, dry branches, metal hits, ink blade shimmer, urgent but not cinematic blockbuster, ancient bureaucratic menace",
+      "looping_intent": "loop_until_xiali_reveal",
+      "source_evidence": [
+        "five/script/chapter-01-opening.md",
+        "data/story_scenes/01-illiterate.json#locations.chase",
+        "data/story_scenes/01-illiterate.json#locations.chase.items.soldiers"
+      ],
+      "target_path": "assets/audio/generated/music/01-illiterate/MUS-01-002.mp3",
+      "sample_generation": false
+    },
+    {
+      "cue_id": "STG-01-001",
+      "scene_id": "01-illiterate",
+      "location_id": "chase",
+      "type": "stinger",
+      "mood": "墨色笔画打开石门，夏离第一次登场，救人但不信任人",
+      "instrumentation_prompt": "short ink-brush stinger, stone gate opening, noble but damaged motif, cold restrained entrance, no heroic fanfare",
+      "looping_intent": "one_shot_on_xiali_reveal",
+      "source_evidence": [
+        "five/script/chapter-01-opening.md",
+        "data/story_scenes/01-illiterate.json#locations.chase.items.gate",
+        "data/story_scenes/01-illiterate.json#locations.chase.items.xiali"
+      ],
+      "target_path": "assets/audio/generated/music/01-illiterate/STG-01-001.mp3",
+      "sample_generation": false
+    },
+    {
+      "cue_id": "MUS-01-003",
+      "scene_id": "01-illiterate",
+      "location_id": "station",
+      "type": "music",
+      "mood": "废弃驿站的字正在消失，名字教学战把学习变成救人动作",
+      "instrumentation_prompt": "turn-based RPG tutorial battle music, disappearing wall glyphs, paper erasure, fragile name motif, sparse percussion, ink brush accents, tension without power fantasy",
+      "looping_intent": "loop_during_name_tutorial_battle",
+      "source_evidence": [
+        "five/script/chapter-01-name-tutorial-battle.md",
+        "data/story_scenes/01-illiterate.json#locations.station",
+        "data/story_scenes/01-illiterate.json#locations.station.combat"
+      ],
+      "target_path": "assets/audio/generated/music/01-illiterate/MUS-01-003.mp3",
+      "sample_generation": false
+    },
+    {
+      "cue_id": "AMB-01-002",
+      "scene_id": "01-illiterate",
+      "location_id": "station",
+      "type": "ambience",
+      "mood": "无名兽消散后，只剩半张旧名牌和一段不能立刻胜利化的沉默",
+      "instrumentation_prompt": "post-battle silence, fading ink dust, small nameplate drop, paper erasure tail, very quiet room tone, no victory music",
+      "looping_intent": "short_loop_after_nameless_beast",
+      "source_evidence": [
+        "five/script/chapter-01-name-tutorial-battle.md",
+        "data/story_scenes/01-illiterate.json#locations.station.items.broken_nameplate"
+      ],
+      "target_path": "assets/audio/generated/music/01-illiterate/AMB-01-002.mp3",
+      "sample_generation": false
+    }
+  ],
+  "voice_samples": [
+    {
+      "line_id": "DLG-01-SAMPLE-JZX",
+      "scene_id": "01-illiterate",
+      "location_id": "mud_road",
+      "character_id": "jizi_xuan",
+      "character_name": "纪子轩",
+      "text": "……这是哪？",
+      "delivery": "少年，刚从泥地上醒来，短暂停顿后低声发问，紧张但不夸张。",
+      "voice_id": "male-qn-qingse",
+      "speed": 1.02,
+      "vol": 1.0,
+      "pitch": 0,
+      "source_evidence": [
+        "five/script/chapter-01-opening.md",
+        "data/character_voice_profiles.json#characters.jizi_xuan",
+        "data/story_scenes/01-illiterate.json#locations.mud_road"
+      ],
+      "target_path": "assets/audio/generated/voices/01-illiterate/DLG-01-SAMPLE-JZX.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-01-SAMPLE-XY",
+      "scene_id": "01-illiterate",
+      "location_id": "camp",
+      "character_id": "xiaoyan",
+      "character_name": "小砚",
+      "text": "□□？□□□！",
+      "delivery": "儿童，急促、害怕但在催促，乱码也要听出他指向笔和树林的紧张。",
+      "voice_id": "clever_boy",
+      "speed": 1.08,
+      "vol": 1.0,
+      "pitch": 1,
+      "source_evidence": [
+        "five/script/chapter-01-opening.md",
+        "data/character_voice_profiles.json#characters.xiaoyan",
+        "data/story_scenes/01-illiterate.json#locations.camp.items.xiaoyan"
+      ],
+      "target_path": "assets/audio/generated/voices/01-illiterate/DLG-01-SAMPLE-XY.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-01-SAMPLE-XL",
+      "scene_id": "01-illiterate",
+      "location_id": "chase",
+      "character_id": "xiali",
+      "character_name": "夏离",
+      "text": "拿着那支笔还敢站在路中间。",
+      "delivery": "冷、克制、带贵族距离感；是救人后的判断，不是热血登场。",
+      "voice_id": "lengdan_xiongzhang",
+      "speed": 0.94,
+      "vol": 1.0,
+      "pitch": -1,
+      "source_evidence": [
+        "five/script/chapter-01-opening.md",
+        "data/character_voice_profiles.json#characters.xiali",
+        "data/story_scenes/01-illiterate.json#locations.chase.items.xiali"
+      ],
+      "target_path": "assets/audio/generated/voices/01-illiterate/DLG-01-SAMPLE-XL.mp3",
+      "sample_generation": true
+    }
+  ]
+}

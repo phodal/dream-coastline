@@ -6,6 +6,7 @@ export_presets.cfg
 *.translation
 *.tmp
 *.log
+.env
 deepseek.local.cfg
 node_modules/
 __pycache__/

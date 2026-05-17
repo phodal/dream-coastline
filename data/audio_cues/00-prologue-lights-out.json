@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "scene_id": "00-prologue-lights-out",
+  "source": "data/story_scenes/00-prologue-lights-out.json",
+  "generated_from": [
+    "five/script/prologue-fragment.md",
+    "five/system/art-audio-direction.md",
+    "data/story_scenes/00-prologue-lights-out.json"
+  ],
+  "production_note": "首轮只做 cue sheet，不生成序幕成品。序幕以现代环境音、低频空响和灯灭瞬间为主，避免写成完整旋律。",
+  "cues": [
+    {
+      "cue_id": "AMB-00-001",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "street",
+      "type": "ambience",
+      "mood": "熟悉的现代街区正在变得不安，日常城市声只剩低频残响",
+      "instrumentation_prompt": "modern city night ambience, low distant traffic, vending machine hum, thin wind through old apartment blocks, restrained suspense, no melody, no pop beat",
+      "looping_intent": "loop_under_exploration",
+      "source_evidence": [
+        "five/script/prologue-fragment.md",
+        "five/system/art-audio-direction.md",
+        "data/story_scenes/00-prologue-lights-out.json#locations.street"
+      ],
+      "target_path": "assets/audio/generated/music/00-prologue-lights-out/AMB-00-001.mp3",
+      "sample_generation": false
+    },
+    {
+      "cue_id": "AMB-00-002",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "building",
+      "type": "ambience",
+      "mood": "楼道空响，声控灯没有亮，黑暗像故意留下的位置",
+      "instrumentation_prompt": "empty apartment stairwell ambience, hollow hallway reverb, muted cough impulse with no light response, low electrical absence, paper-dry silence, no rhythm",
+      "looping_intent": "short_loop_until_home_entry",
+      "source_evidence": [
+        "five/system/art-audio-direction.md",
+        "data/story_scenes/00-prologue-lights-out.json#locations.building",
+        "data/story_scenes/00-prologue-lights-out.json#locations.building.items.lamp"
+      ],
+      "target_path": "assets/audio/generated/music/00-prologue-lights-out/AMB-00-002.mp3",
+      "sample_generation": false
+    },
+    {
+      "cue_id": "STG-00-001",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "bedroom",
+      "type": "stinger",
+      "mood": "血滴落在信纸上，英文被墨迹吞掉，灯灭",
+      "instrumentation_prompt": "single dramatic stinger, paper rustle, ink spreading, tiny blood drop impact, sudden blackout, no orchestral swell, restrained RPG horror accent",
+      "looping_intent": "one_shot_transition_to_moqi",
+      "source_evidence": [
+        "five/script/prologue-fragment.md",
+        "data/story_scenes/00-prologue-lights-out.json#locations.bedroom.items.pen"
+      ],
+      "target_path": "assets/audio/generated/music/00-prologue-lights-out/STG-00-001.mp3",
+      "sample_generation": false
+    }
+  ],
+  "voice_samples": []
+}

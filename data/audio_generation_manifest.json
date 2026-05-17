@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "provider": "minimax",
+  "generated_at": "2026-05-17T13:53:08.725Z",
+  "assets": [
+    {
+      "asset_id": "MUS-01-001",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "01-illiterate",
+      "cue_id": "MUS-01-001",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/01-illiterate/MUS-01-001.mp3",
+      "prompt_summary": "restrained RPG background music, dusk mud road in a fallen ink civilization, wind, distant fire, muffled unknown voices, paper and ink texture, low drums like far footsteps, spars...",
+      "status": "generated",
+      "generated_at": "2026-05-17T13:51:15.987Z",
+      "trace_id": "0658fa61b683325f02230b9c55faad04",
+      "extra_info": {
+        "music_duration": 150386,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4814357
+      }
+    },
+    {
+      "asset_id": "DLG-01-SAMPLE-JZX",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "01-illiterate",
+      "line_id": "DLG-01-SAMPLE-JZX",
+      "character_id": "jizi_xuan",
+      "voice_id": "male-qn-qingse",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/01-illiterate/DLG-01-SAMPLE-JZX.mp3",
+      "source_text": "……这是哪？",
+      "delivery": "少年，刚从泥地上醒来，短暂停顿后低声发问，紧张但不夸张。",
+      "status": "generated",
+      "generated_at": "2026-05-17T13:53:07.337Z",
+      "trace_id": "0658fb4265a3e8f46fdb376f36077e85",
+      "extra_info": {
+        "byte_length": 17901,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-01-SAMPLE-XY",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "01-illiterate",
+      "line_id": "DLG-01-SAMPLE-XY",
+      "character_id": "xiaoyan",
+      "voice_id": "clever_boy",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/01-illiterate/DLG-01-SAMPLE-XY.mp3",
+      "source_text": "□□？□□□！",
+      "delivery": "儿童，急促、害怕但在催促，乱码也要听出他指向笔和树林的紧张。",
+      "status": "generated",
+      "generated_at": "2026-05-17T13:53:07.938Z",
+      "trace_id": "0658fb4310ee1f2d2833952c333676a1",
+      "extra_info": {
+        "byte_length": 17325,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-01-SAMPLE-XL",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "01-illiterate",
+      "line_id": "DLG-01-SAMPLE-XL",
+      "character_id": "xiali",
+      "voice_id": "lengdan_xiongzhang",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/01-illiterate/DLG-01-SAMPLE-XL.mp3",
+      "source_text": "拿着那支笔还敢站在路中间。",
+      "delivery": "冷、克制、带贵族距离感；是救人后的判断，不是热血登场。",
+      "status": "generated",
+      "generated_at": "2026-05-17T13:53:08.724Z",
+      "trace_id": "0658fb44e534ccb52e0881b8fe9679ef",
+      "extra_info": {
+        "byte_length": 63981,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    }
+  ]
+}
