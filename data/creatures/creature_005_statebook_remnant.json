@@ -4,6 +4,7 @@
   "name": "国书残麟",
   "role": "boss echo",
   "big_image": "res://assets/characters/creatures/creature_005_statebook_remnant/concept.png",
+  "habitat_image": "res://assets/characters/creatures/creature_005_statebook_remnant/habitat.png",
   "walk_spritesheet": "res://assets/characters/creatures/creature_005_statebook_remnant/walk4.png",
   "animation_clip": "creature_005_statebook_remnant_walk",
   "source_scene_contract": "第三幕主国书殿；它应读成国书残影的生物化，而不是普通龙怪。",

@@ -4,6 +4,7 @@
   "name": "失名鹿",
   "role": "companion or fragile wildlife",
   "big_image": "res://assets/characters/creatures/creature_002_lost_name_deer/concept.png",
+  "habitat_image": "res://assets/characters/creatures/creature_002_lost_name_deer/habitat.png",
   "walk_spritesheet": "res://assets/characters/creatures/creature_002_lost_name_deer/walk4.png",
   "animation_clip": "creature_002_lost_name_deer_walk",
   "source_scene_contract": "第一幕到第二幕过渡；让玩家看到并非所有无名化残留都必须被消灭。",

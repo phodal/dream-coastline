@@ -4,6 +4,7 @@
   "name": "星象螟",
   "role": "astral engineering hazard",
   "big_image": "res://assets/characters/creatures/creature_006_star_chart_moth/concept.png",
+  "habitat_image": "res://assets/characters/creatures/creature_006_star_chart_moth/habitat.png",
   "walk_spritesheet": "res://assets/characters/creatures/creature_006_star_chart_moth/walk4.png",
   "animation_clip": "creature_006_star_chart_moth_walk",
   "source_scene_contract": "第五幕星象工程失败窗口；它啃食的不是纸，而是坐标和观测连续性。",

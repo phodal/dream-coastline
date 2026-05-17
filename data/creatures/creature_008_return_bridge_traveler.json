@@ -4,6 +4,7 @@
   "name": "归桥旅人",
   "role": "neutral otherworld resident",
   "big_image": "res://assets/characters/creatures/creature_008_return_bridge_traveler/concept.png",
+  "habitat_image": "res://assets/characters/creatures/creature_008_return_bridge_traveler/habitat.png",
   "walk_spritesheet": "res://assets/characters/creatures/creature_008_return_bridge_traveler/walk4.png",
   "animation_clip": "creature_008_return_bridge_traveler_walk",
   "source_scene_contract": "第七幕归桥稳定后；表现两个文明接口处出现的非敌对异界居民。",

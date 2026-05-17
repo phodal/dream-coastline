@@ -4,6 +4,7 @@
   "name": "契纹犬",
   "role": "guardian or law-bound enemy",
   "big_image": "res://assets/characters/creatures/creature_004_contract_hound/concept.png",
+  "habitat_image": "res://assets/characters/creatures/creature_004_contract_hound/habitat.png",
   "walk_spritesheet": "res://assets/characters/creatures/creature_004_contract_hound/walk4.png",
   "animation_clip": "creature_004_contract_hound_walk",
   "source_scene_contract": "第二幕国书节点与第三幕墨律司区域；表现旧制度把契约变成追踪和限制。",

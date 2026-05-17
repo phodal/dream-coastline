@@ -4,6 +4,7 @@
   "name": "静默探针体",
   "role": "late-game enemy",
   "big_image": "res://assets/characters/creatures/creature_007_silence_probe/concept.png",
+  "habitat_image": "res://assets/characters/creatures/creature_007_silence_probe/habitat.png",
   "walk_spritesheet": "res://assets/characters/creatures/creature_007_silence_probe/walk4.png",
   "animation_clip": "creature_007_silence_probe_walk",
   "source_scene_contract": "第六幕归星门和现代世界裂隙；熄星者第一次正面入侵时的可战斗实体。",

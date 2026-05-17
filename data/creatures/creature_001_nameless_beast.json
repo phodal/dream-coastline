@@ -4,6 +4,7 @@
   "name": "无名兽幼体",
   "role": "first-act enemy",
   "big_image": "res://assets/characters/creatures/creature_001_nameless_beast/concept.png",
+  "habitat_image": "res://assets/characters/creatures/creature_001_nameless_beast/habitat.png",
   "walk_spritesheet": "res://assets/characters/creatures/creature_001_nameless_beast/walk4.png",
   "animation_clip": "creature_001_nameless_beast_walk",
   "source_scene_contract": "第一幕废弃驿站；玩家必须用“名”确认目标，才能真正锁定和攻击。",

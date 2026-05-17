@@ -4,6 +4,7 @@
   "name": "墨井鳐",
   "role": "moqi ecological creature",
   "big_image": "res://assets/characters/creatures/creature_003_ink_well_ray/concept.png",
+  "habitat_image": "res://assets/characters/creatures/creature_003_ink_well_ray/habitat.png",
   "walk_spritesheet": "res://assets/characters/creatures/creature_003_ink_well_ray/walk4.png",
   "animation_clip": "creature_003_ink_well_ray_walk",
   "source_scene_contract": "第二幕边境村落与水井符文；服务于“水井不是魔法井，而是文字工程设施”的读感。",
