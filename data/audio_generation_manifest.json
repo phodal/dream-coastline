@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "provider": "minimax",
-  "generated_at": "2026-05-17T13:53:08.725Z",
+  "generated_at": "2026-05-17T14:28:58.341Z",
   "assets": [
     {
       "asset_id": "MUS-01-001",
@@ -87,6 +87,141 @@
         "sample_rate": 32000,
         "bitrate": 128000,
         "channel": 1
+      }
+    },
+    {
+      "asset_id": "MUS-01-002",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "01-illiterate",
+      "cue_id": "MUS-01-002",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/01-illiterate/MUS-01-002.mp3",
+      "prompt_summary": "tense chase cue, restrained percussion, dry branches, metal hits, ink blade shimmer, urgent but not cinematic blockbuster, ancient bureaucratic menace",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:28:58.340Z",
+      "trace_id": "065903475d50b9e8157da8bd604fe3ed",
+      "extra_info": {
+        "music_duration": 103262,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3306360
+      }
+    },
+    {
+      "asset_id": "MUS-01-003",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "01-illiterate",
+      "cue_id": "MUS-01-003",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/01-illiterate/MUS-01-003.mp3",
+      "prompt_summary": "turn-based RPG tutorial battle music, disappearing wall glyphs, paper erasure, fragile name motif, sparse percussion, ink brush accents, tension without power fantasy",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:24:36.939Z",
+      "trace_id": "065902402f2b9c1db7723dea0ba7a2d7",
+      "extra_info": {
+        "music_duration": 119849,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3837168
+      }
+    },
+    {
+      "asset_id": "SFX-01-STEP-MUD",
+      "type": "sfx",
+      "provider": "local-procedural",
+      "scene_id": "01-illiterate",
+      "event_name": "step",
+      "model": "tools/generate_first_act_sfx.py",
+      "output_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-STEP-MUD.mp3",
+      "prompt_summary": "short one-shot game footstep, soft boot on wet mud and dry leaves, low thud with tiny grit, no melody, under 0.4 seconds",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:27:00.598Z",
+      "extra_info": {
+        "duration_ms": 340,
+        "sample_rate": 44100,
+        "channel": 1,
+        "bitrate": 128000,
+        "size": 6731
+      }
+    },
+    {
+      "asset_id": "SFX-01-STEP-WOOD",
+      "type": "sfx",
+      "provider": "local-procedural",
+      "scene_id": "01-illiterate",
+      "event_name": "step",
+      "model": "tools/generate_first_act_sfx.py",
+      "output_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-STEP-WOOD.mp3",
+      "prompt_summary": "short one-shot game footstep, hollow old wooden floor in abandoned station, light creak and dust, no melody, under 0.35 seconds",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:27:00.598Z",
+      "extra_info": {
+        "duration_ms": 280,
+        "sample_rate": 44100,
+        "channel": 1,
+        "bitrate": 128000,
+        "size": 5477
+      }
+    },
+    {
+      "asset_id": "SFX-01-INK-WRITE",
+      "type": "sfx",
+      "provider": "local-procedural",
+      "scene_id": "01-illiterate",
+      "event_name": "write",
+      "model": "tools/generate_first_act_sfx.py",
+      "output_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-INK-WRITE.mp3",
+      "prompt_summary": "short one-shot ink brush writing glyph, paper scratch, ink bloom, tiny confirming shimmer, restrained RPG magic, under 0.9 seconds",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:27:00.598Z",
+      "extra_info": {
+        "duration_ms": 820,
+        "sample_rate": 44100,
+        "channel": 1,
+        "bitrate": 128000,
+        "size": 14254
+      }
+    },
+    {
+      "asset_id": "SFX-01-BLADE-HIT",
+      "type": "sfx",
+      "provider": "local-procedural",
+      "scene_id": "01-illiterate",
+      "event_name": "attack",
+      "model": "tools/generate_first_act_sfx.py",
+      "output_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-BLADE-HIT.mp3",
+      "prompt_summary": "short one-shot blade hit, engraved knife through paper-like shadow, metal scrape and muted impact, no gore, under 0.7 seconds",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:27:00.598Z",
+      "extra_info": {
+        "duration_ms": 560,
+        "sample_rate": 44100,
+        "channel": 1,
+        "bitrate": 128000,
+        "size": 10075
+      }
+    },
+    {
+      "asset_id": "SFX-01-PAPER-INTERACT",
+      "type": "sfx",
+      "provider": "local-procedural",
+      "scene_id": "01-illiterate",
+      "event_name": "interact",
+      "model": "tools/generate_first_act_sfx.py",
+      "output_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-PAPER-INTERACT.mp3",
+      "prompt_summary": "short one-shot paper and ink interaction, faint page rustle, wet ink twitch, tiny UI confirmation, no chime, under 0.5 seconds",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:27:00.598Z",
+      "extra_info": {
+        "duration_ms": 450,
+        "sample_rate": 44100,
+        "channel": 1,
+        "bitrate": 128000,
+        "size": 8403
       }
     }
   ]

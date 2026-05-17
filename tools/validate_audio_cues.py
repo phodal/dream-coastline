@@ -16,6 +16,7 @@ STORY_SCENE_DIR = ROOT / "data" / "story_scenes"
 VOICE_PROFILES = ROOT / "data" / "character_voice_profiles.json"
 
 CUE_ID_RE = re.compile(r"^(AMB|MUS|STG)-\d{2}-\d{3}$")
+SFX_ID_RE = re.compile(r"^SFX-\d{2}-[A-Z0-9-]+$")
 LINE_ID_RE = re.compile(r"^DLG-\d{2}-SAMPLE-[A-Z0-9]+$")
 VALID_CUE_TYPES = {"ambience", "music", "stinger"}
 
@@ -103,6 +104,16 @@ def validate_cue(
         failures.append(f"{label}.scene_id must be {scene_id}")
     if cue.get("location_id") not in locations:
         failures.append(f"{label}.location_id is not in story scene locations")
+    cue_locations = cue.get("locations", [])
+    if cue_locations:
+        if not isinstance(cue_locations, list):
+            failures.append(f"{label}.locations must be a list when present")
+        else:
+            for location_id in cue_locations:
+                if not is_non_empty_string(location_id):
+                    failures.append(f"{label}.locations must contain strings")
+                elif location_id not in locations:
+                    failures.append(f"{label}.locations contains unknown location: {location_id}")
     if cue.get("type") not in VALID_CUE_TYPES:
         failures.append(f"{label}.type must be one of {sorted(VALID_CUE_TYPES)}")
     require_source_paths(cue.get("source_evidence"), f"{label}.source_evidence", failures)
@@ -168,6 +179,59 @@ def validate_voice_sample(
     )
 
 
+def validate_event_sound(
+    sound: Any,
+    index: int,
+    scene_id: str,
+    locations: set[str],
+    seen_ids: set[str],
+    failures: list[str],
+) -> None:
+    label = f"event_sounds[{index}]"
+    if not isinstance(sound, dict):
+        failures.append(f"{label} must be an object")
+        return
+
+    for field in [
+        "sfx_id",
+        "scene_id",
+        "event_name",
+        "mood",
+        "instrumentation_prompt",
+        "source_evidence",
+        "target_path",
+    ]:
+        if field != "source_evidence":
+            require_string(sound, field, label, failures)
+
+    sfx_id = sound.get("sfx_id")
+    if is_non_empty_string(sfx_id):
+        if not SFX_ID_RE.match(sfx_id):
+            failures.append(f"{label}.sfx_id has invalid format: {sfx_id}")
+        if sfx_id in seen_ids:
+            failures.append(f"{label}.sfx_id duplicates {sfx_id}")
+        seen_ids.add(sfx_id)
+
+    if sound.get("scene_id") != scene_id:
+        failures.append(f"{label}.scene_id must be {scene_id}")
+    sound_locations = sound.get("locations", [])
+    if not isinstance(sound_locations, list) or not sound_locations:
+        failures.append(f"{label}.locations must be a non-empty list")
+    else:
+        for location_id in sound_locations:
+            if not is_non_empty_string(location_id):
+                failures.append(f"{label}.locations must contain strings")
+            elif location_id not in locations:
+                failures.append(f"{label}.locations contains unknown location: {location_id}")
+    require_source_paths(sound.get("source_evidence"), f"{label}.source_evidence", failures)
+    validate_target_path(
+        sound.get("target_path"),
+        f"{label}.target_path",
+        f"assets/audio/generated/sfx/{scene_id}/",
+        failures,
+    )
+
+
 def validate_audio_cue_file(path: Path, character_ids: set[str]) -> list[str]:
     failures: list[str] = []
     data = load_json(path)
@@ -215,6 +279,14 @@ def validate_audio_cue_file(path: Path, character_ids: set[str]) -> list[str]:
                 seen_line_ids,
                 failures,
             )
+
+    event_sounds = data.get("event_sounds", [])
+    if not isinstance(event_sounds, list):
+        failures.append("event_sounds must be a list")
+    else:
+        seen_sfx_ids: set[str] = set()
+        for index, sound in enumerate(event_sounds):
+            validate_event_sound(sound, index, scene_id, locations, seen_sfx_ids, failures)
     return failures
 
 

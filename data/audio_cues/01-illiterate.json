@@ -9,12 +9,13 @@
     "data/story_scenes/01-illiterate.json",
     "data/character_voice_profiles.json"
   ],
-  "production_note": "首轮生成 MUS-01-001 和三条 voice_samples，其他 cue 先用于分析与后续制作。",
+  "production_note": "第一幕音频按 manifest 驱动：MiniMax 生成场景音乐和角色语音，本地合成短 one-shot 事件音效。",
   "cues": [
     {
       "cue_id": "MUS-01-001",
       "scene_id": "01-illiterate",
       "location_id": "mud_road",
+      "locations": ["mud_road", "camp"],
       "type": "music",
       "mood": "初入墨颀的黄昏陌生感，远处城火和不可读文字压住现代少年的惊慌",
       "instrumentation_prompt": "restrained RPG background music, dusk mud road in a fallen ink civilization, wind, distant fire, muffled unknown voices, paper and ink texture, low drums like far footsteps, sparse plucked strings, no modern pop melody, no triumphant theme",
@@ -57,7 +58,7 @@
         "data/story_scenes/01-illiterate.json#locations.chase.items.soldiers"
       ],
       "target_path": "assets/audio/generated/music/01-illiterate/MUS-01-002.mp3",
-      "sample_generation": false
+      "sample_generation": true
     },
     {
       "cue_id": "STG-01-001",
@@ -89,7 +90,7 @@
         "data/story_scenes/01-illiterate.json#locations.station.combat"
       ],
       "target_path": "assets/audio/generated/music/01-illiterate/MUS-01-003.mp3",
-      "sample_generation": false
+      "sample_generation": true
     },
     {
       "cue_id": "AMB-01-002",
@@ -105,6 +106,81 @@
       ],
       "target_path": "assets/audio/generated/music/01-illiterate/AMB-01-002.mp3",
       "sample_generation": false
+    }
+  ],
+  "event_sounds": [
+    {
+      "sfx_id": "SFX-01-STEP-MUD",
+      "scene_id": "01-illiterate",
+      "event_name": "step",
+      "locations": ["mud_road", "camp", "chase"],
+      "mood": "泥路、流民营和树林里的短促脚步，低而干，不要卡通跳跃感",
+      "instrumentation_prompt": "short one-shot game footstep, soft boot on wet mud and dry leaves, low thud with tiny grit, no melody, under 0.4 seconds",
+      "source_evidence": [
+        "five/script/chapter-01-opening.md",
+        "data/story_scenes/01-illiterate.json#locations.mud_road",
+        "data/story_scenes/01-illiterate.json#locations.camp",
+        "data/story_scenes/01-illiterate.json#locations.chase"
+      ],
+      "target_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-STEP-MUD.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-01-STEP-WOOD",
+      "scene_id": "01-illiterate",
+      "event_name": "step",
+      "locations": ["station"],
+      "mood": "废弃驿站木地板脚步，空、薄、带一点旧屋回响",
+      "instrumentation_prompt": "short one-shot game footstep, hollow old wooden floor in abandoned station, light creak and dust, no melody, under 0.35 seconds",
+      "source_evidence": [
+        "five/script/chapter-01-name-tutorial-battle.md",
+        "data/story_scenes/01-illiterate.json#locations.station"
+      ],
+      "target_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-STEP-WOOD.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-01-INK-WRITE",
+      "scene_id": "01-illiterate",
+      "event_name": "write",
+      "locations": ["station"],
+      "mood": "写“名”时笔尖、墨迹和字根确认合成一个短音效",
+      "instrumentation_prompt": "short one-shot ink brush writing glyph, paper scratch, ink bloom, tiny confirming shimmer, restrained RPG magic, under 0.9 seconds",
+      "source_evidence": [
+        "five/script/chapter-01-name-tutorial-battle.md",
+        "data/story_scenes/01-illiterate.json#locations.station.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-INK-WRITE.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-01-BLADE-HIT",
+      "scene_id": "01-illiterate",
+      "event_name": "attack",
+      "locations": ["station"],
+      "mood": "短刃/术式命中无名兽，金属不厚重，像刻字刀划过空白",
+      "instrumentation_prompt": "short one-shot blade hit, engraved knife through paper-like shadow, metal scrape and muted impact, no gore, under 0.7 seconds",
+      "source_evidence": [
+        "five/script/chapter-01-opening.md",
+        "five/script/chapter-01-name-tutorial-battle.md",
+        "data/story_scenes/01-illiterate.json#locations.station.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-BLADE-HIT.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-01-PAPER-INTERACT",
+      "scene_id": "01-illiterate",
+      "event_name": "interact",
+      "locations": ["mud_road", "camp", "chase", "station"],
+      "mood": "调查物件时的纸页、墨迹、符文微响，服务于第一幕文字系统",
+      "instrumentation_prompt": "short one-shot paper and ink interaction, faint page rustle, wet ink twitch, tiny UI confirmation, no chime, under 0.5 seconds",
+      "source_evidence": [
+        "five/system/art-audio-direction.md",
+        "data/story_scenes/01-illiterate.json"
+      ],
+      "target_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-PAPER-INTERACT.mp3",
+      "sample_generation": true
     }
   ],
   "voice_samples": [

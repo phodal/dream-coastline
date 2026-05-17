@@ -218,6 +218,9 @@ func _setup_world() -> void:
 	if not Player.gamepiece_changed.is_connected(player_changed):
 		Player.gamepiece_changed.connect(player_changed)
 	Player.gamepiece = player_gamepiece
+	var moved_callable := Callable(self, "_on_gamepiece_moved")
+	if not GamepieceRegistry.gamepiece_moved.is_connected(moved_callable):
+		GamepieceRegistry.gamepiece_moved.connect(moved_callable)
 
 	Camera.gameboard_properties = properties
 	Camera.scale = Vector2.ONE
@@ -538,6 +541,7 @@ func _run_story_review_next_step(timed_dialogue: bool, allow_scene_advance: bool
 	review_last_command = command
 	review_walkthrough_index += 1
 	var result := _apply_story_review_command(command)
+	_play_story_event(_story_event_for_command(command))
 	review_last_line = str(result.get("line", ""))
 	_build_current_room()
 	_update_story_review_overlay()
@@ -955,9 +959,11 @@ func _run_item_interaction(interaction: DreamStoryInteraction) -> void:
 	var item := interaction.payload
 	var missing := repository.missing_required_flags(item, flags)
 	if not missing.is_empty():
+		_play_story_event("blocked")
 		await dialogue_layer.show_message(interaction.display_name, "Missing required evidence: %s" % ", ".join(missing))
 		return
 
+	_play_story_event("interact")
 	var gained := repository.apply_item_flags(item, flags)
 	var gained_text := ""
 	if not gained.is_empty():
@@ -997,9 +1003,11 @@ func _run_action_interaction(interaction: DreamStoryInteraction) -> void:
 			result = {"ok": false, "error": "unknown action"}
 
 	if not result.get("ok", false):
+		_play_story_event("blocked")
 		await dialogue_layer.show_message(interaction.display_name, str(result.get("error", "Action failed.")))
 		return
 
+	_play_story_event(_story_event_for_verb(verb))
 	var record: Dictionary = interaction.payload.get("record", {})
 	var text := str(record.get("text", "Action resolved."))
 	_play_story_voice(text)
@@ -1015,9 +1023,11 @@ func _run_exit_interaction(interaction: DreamStoryInteraction) -> void:
 	var destination_id := interaction.target_id
 	var result := repository.go_to(current_scene, current_location_id, destination_id)
 	if not result.get("ok", false):
+		_play_story_event("blocked")
 		await dialogue_layer.show_message(interaction.display_name, "This route is not available.")
 		return
 
+	_play_story_event("transition")
 	current_location_id = destination_id
 	current_visual = _current_visual_for_location()
 	_reset_player_to_spawn()
@@ -1365,10 +1375,60 @@ func _sync_story_audio() -> void:
 	audio_director.sync_story_context(str(current_scene.get("id", "")), current_location_id)
 
 
+func _play_story_event(event_name: String) -> void:
+	if audio_director == null or event_name.is_empty():
+		return
+	if audio_director.has_method("play_event"):
+		audio_director.play_event(event_name)
+		return
+	if audio_director.has_method("play_story_event"):
+		if bool(audio_director.play_story_event(event_name)):
+			return
+	match event_name:
+		"step":
+			if audio_director.has_method("play_step"):
+				audio_director.play_step()
+		"interact":
+			if audio_director.has_method("play_interact"):
+				audio_director.play_interact()
+		"transition":
+			if audio_director.has_method("play_transition"):
+				audio_director.play_transition()
+		"blocked":
+			if audio_director.has_method("play_blocked"):
+				audio_director.play_blocked()
+
+
 func _play_story_voice(text: String) -> bool:
 	if audio_director == null:
 		return false
 	return bool(audio_director.play_story_voice_for_text(str(current_scene.get("id", "")), text))
+
+
+func _story_event_for_command(command: String) -> String:
+	var parts := command.split(" ", false, 1)
+	if parts.is_empty():
+		return ""
+	return _story_event_for_verb(parts[0])
+
+
+func _story_event_for_verb(verb: String) -> String:
+	match verb:
+		"inspect", "engage", "combine", "choose", "build", "cast":
+			return "interact"
+		"go":
+			return "transition"
+		"write":
+			return "write"
+		"attack":
+			return "attack"
+	return ""
+
+
+func _on_gamepiece_moved(gp: Gamepiece, _new_cell: Vector2i, old_cell: Vector2i) -> void:
+	if gp != player_gamepiece or old_cell == Gameboard.INVALID_CELL:
+		return
+	_play_story_event("step")
 
 
 func _wait_for_story_voice(limit_seconds: float) -> void:

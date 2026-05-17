@@ -21,7 +21,8 @@ the account is confirmed for the paid `music-2.6` model.
 - `data/audio_cues/00-prologue-lights-out.json` is cue-sheet only for the
   modern silent prologue.
 - `data/audio_cues/01-illiterate.json` contains first-act music cues and the
-  three first-pass voice samples.
+  three first-pass voice samples, plus short gameplay `event_sounds` for the
+  OpenRPG field loop.
 - `data/audio_generation_manifest.json` records generated assets, models,
   sanitized prompt/text summaries, output paths, and MiniMax trace IDs. It must
   never contain `MINIMAX_API_KEY`.
@@ -29,9 +30,13 @@ the account is confirmed for the paid `music-2.6` model.
 First-pass sample targets:
 
 - `MUS-01-001`: first-act mud-road to refugee-camp BGM.
+- `MUS-01-002`: chase and Xiali entrance BGM.
+- `MUS-01-003`: abandoned station name-tutorial battle BGM.
 - `DLG-01-SAMPLE-JZX`: Ji Zixuan, "......zhe shi na?"
 - `DLG-01-SAMPLE-XY`: Xiaoyan, unreadable urgent child line.
 - `DLG-01-SAMPLE-XL`: Xiali, cold first entrance line.
+- `SFX-01-*`: local one-shot footsteps, paper/ink interaction, writing, and
+  blade-hit effects.
 
 ## Generate
 
@@ -53,6 +58,15 @@ node tools/minimax_audio_generate.mjs \
   --cue-id MUS-01-001
 ```
 
+Generate a specific later BGM cue:
+
+```sh
+node tools/minimax_audio_generate.mjs \
+  --type music \
+  --scene-id 01-illiterate \
+  --cue-id MUS-01-003
+```
+
 Generate the three voice samples:
 
 ```sh
@@ -65,6 +79,15 @@ node tools/minimax_audio_generate.mjs \
 Music is written under `assets/audio/generated/music/<scene-id>/`. Voice samples
 are written under `assets/audio/generated/voices/<scene-id>/`.
 
+Short gameplay SFX are generated locally to keep them crisp one-shots:
+
+```sh
+python3 tools/generate_first_act_sfx.py
+```
+
+These are written under `assets/audio/generated/sfx/<scene-id>/` and recorded in
+the manifest as `local-procedural` assets.
+
 ## Validation
 
 Run these checks before committing cue or tooling changes:
@@ -72,6 +95,7 @@ Run these checks before committing cue or tooling changes:
 ```sh
 python3 tools/validate_character_voice_profiles.py
 python3 tools/validate_audio_cues.py
+python3 tools/generate_first_act_sfx.py
 node --check tools/minimax_audio_generate.mjs
 node tools/minimax_audio_generate.mjs --scene-id 01-illiterate --dry-run --limit-samples
 ```

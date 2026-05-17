@@ -2,34 +2,11 @@ class_name AudioDirector
 extends Node
 
 const SAMPLE_RATE := 22050
-const EVENTS := ["ui", "step", "blocked", "interact", "transition", "success"]
-const STORY_MUSIC := {
-	"01-illiterate": {
-		"mud_road": "res://assets/audio/generated/music/01-illiterate/MUS-01-001.mp3",
-		"camp": "res://assets/audio/generated/music/01-illiterate/MUS-01-001.mp3",
-		"chase": "res://assets/audio/generated/music/01-illiterate/MUS-01-001.mp3",
-		"station": "res://assets/audio/generated/music/01-illiterate/MUS-01-001.mp3",
-	}
-}
-const STORY_VOICES := {
-	"01-illiterate": [
-		{
-			"line_id": "DLG-01-SAMPLE-JZX",
-			"match": "……这是哪？",
-			"path": "res://assets/audio/generated/voices/01-illiterate/DLG-01-SAMPLE-JZX.mp3",
-		},
-		{
-			"line_id": "DLG-01-SAMPLE-XY",
-			"match": "□□？□□□！",
-			"path": "res://assets/audio/generated/voices/01-illiterate/DLG-01-SAMPLE-XY.mp3",
-		},
-		{
-			"line_id": "DLG-01-SAMPLE-XL",
-			"match": "拿着那支笔还敢站在路中间。",
-			"path": "res://assets/audio/generated/voices/01-illiterate/DLG-01-SAMPLE-XL.mp3",
-		},
-	]
-}
+const EVENTS := ["ui", "step", "blocked", "interact", "transition", "success", "write", "attack"]
+const AUDIO_CUE_FILES := [
+	"res://data/audio_cues/00-prologue-lights-out.json",
+	"res://data/audio_cues/01-illiterate.json",
+]
 
 var streams := {}
 var players := {}
@@ -37,6 +14,12 @@ var story_music_player: AudioStreamPlayer
 var story_voice_player: AudioStreamPlayer
 var story_music_streams := {}
 var story_voice_streams := {}
+var story_event_streams := {}
+var story_music_by_scene_location := {}
+var story_voices_by_scene := {}
+var story_events_by_scene_location := {}
+var current_story_scene_id := ""
+var current_story_location_id := ""
 var current_story_music_key := ""
 var enabled := true
 
@@ -49,6 +32,8 @@ func _init() -> void:
 		"interact": _make_tone(660.0, 0.11, 0.18),
 		"transition": _make_tone(330.0, 0.16, 0.18),
 		"success": _make_tone(990.0, 0.18, 0.20),
+		"write": _make_tone(720.0, 0.14, 0.18),
+		"attack": _make_tone(140.0, 0.12, 0.22),
 	}
 
 
@@ -97,10 +82,16 @@ func play_success() -> void:
 	_play("success")
 
 
+func play_event(event_name: String) -> void:
+	_play(event_name)
+
+
 func sync_story_context(scene_id: String, location_id: String) -> void:
 	if not enabled or story_music_player == null:
 		return
-	var scene_music: Dictionary = STORY_MUSIC.get(scene_id, {})
+	current_story_scene_id = scene_id
+	current_story_location_id = location_id
+	var scene_music: Dictionary = story_music_by_scene_location.get(scene_id, {})
 	var path := str(scene_music.get(location_id, ""))
 	if path.is_empty():
 		_stop_story_music()
@@ -120,7 +111,7 @@ func sync_story_context(scene_id: String, location_id: String) -> void:
 func play_story_voice_for_text(scene_id: String, text: String) -> bool:
 	if not enabled or story_voice_player == null or text.is_empty():
 		return false
-	for voice in STORY_VOICES.get(scene_id, []):
+	for voice in story_voices_by_scene.get(scene_id, []):
 		var match_text := str(voice.get("match", ""))
 		if match_text.is_empty() or not text.contains(match_text):
 			continue
@@ -136,6 +127,27 @@ func play_story_voice_for_text(scene_id: String, text: String) -> bool:
 	return false
 
 
+func play_story_event(event_name: String) -> bool:
+	if not enabled or event_name.is_empty():
+		return false
+	var scene_events: Dictionary = story_events_by_scene_location.get(current_story_scene_id, {})
+	var location_events: Dictionary = scene_events.get(current_story_location_id, {})
+	var path := str(location_events.get(event_name, ""))
+	if path.is_empty():
+		return false
+	var stream: AudioStream = story_event_streams.get(path)
+	if stream == null:
+		return false
+	var player: AudioStreamPlayer = players.get(event_name)
+	if player == null:
+		return false
+	if player.playing:
+		player.stop()
+	player.stream = stream
+	player.play()
+	return true
+
+
 func is_story_voice_playing() -> bool:
 	return story_voice_player != null and story_voice_player.playing
 
@@ -148,37 +160,145 @@ func verify_streams() -> bool:
 		var stream: AudioStreamWAV = streams[event_name]
 		if stream == null or stream.data.is_empty():
 			return false
-	for scene_id in STORY_MUSIC.keys():
-		var scene_music: Dictionary = STORY_MUSIC[scene_id]
+	for scene_id in story_music_by_scene_location.keys():
+		var scene_music: Dictionary = story_music_by_scene_location[scene_id]
 		for location_id in scene_music.keys():
 			var path := str(scene_music[location_id])
 			if not story_music_streams.has(path):
 				return false
-	for scene_id in STORY_VOICES.keys():
-		for voice in STORY_VOICES[scene_id]:
+	for scene_id in story_voices_by_scene.keys():
+		for voice in story_voices_by_scene[scene_id]:
 			var path := str(voice.get("path", ""))
 			if not story_voice_streams.has(path):
 				return false
+	for scene_id in story_events_by_scene_location.keys():
+		var scene_events: Dictionary = story_events_by_scene_location[scene_id]
+		for location_id in scene_events.keys():
+			var location_events: Dictionary = scene_events[location_id]
+			for event_name in location_events.keys():
+				var path := str(location_events[event_name])
+				if not story_event_streams.has(path):
+					return false
 	return true
 
 
 func _play(event_name: String) -> void:
 	if not enabled or not players.has(event_name):
 		return
+	if play_story_event(event_name):
+		return
 	var player: AudioStreamPlayer = players[event_name]
 	if player.playing:
 		player.stop()
+	player.stream = streams[event_name]
 	player.play()
 
 
 func _load_story_audio() -> void:
-	for scene_id in STORY_MUSIC.keys():
-		var scene_music: Dictionary = STORY_MUSIC[scene_id]
+	story_music_by_scene_location.clear()
+	story_voices_by_scene.clear()
+	story_events_by_scene_location.clear()
+	story_music_streams.clear()
+	story_voice_streams.clear()
+	story_event_streams.clear()
+
+	for path in AUDIO_CUE_FILES:
+		_load_audio_cue_file(path)
+
+	for scene_id in story_music_by_scene_location.keys():
+		var scene_music: Dictionary = story_music_by_scene_location[scene_id]
 		for location_id in scene_music.keys():
 			_cache_audio_stream(str(scene_music[location_id]), story_music_streams)
-	for scene_id in STORY_VOICES.keys():
-		for voice in STORY_VOICES[scene_id]:
+	for scene_id in story_voices_by_scene.keys():
+		for voice in story_voices_by_scene[scene_id]:
 			_cache_audio_stream(str(voice.get("path", "")), story_voice_streams)
+	for scene_id in story_events_by_scene_location.keys():
+		var scene_events: Dictionary = story_events_by_scene_location[scene_id]
+		for location_id in scene_events.keys():
+			var location_events: Dictionary = scene_events[location_id]
+			for event_name in location_events.keys():
+				_cache_audio_stream(str(location_events[event_name]), story_event_streams)
+
+
+func _load_audio_cue_file(path: String) -> void:
+	if not FileAccess.file_exists(path):
+		return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not (parsed is Dictionary):
+		push_warning("Audio cue file is not an object: %s" % path)
+		return
+	var data: Dictionary = parsed
+	var scene_id := str(data.get("scene_id", ""))
+	if scene_id.is_empty():
+		return
+
+	for cue in data.get("cues", []):
+		if not (cue is Dictionary):
+			continue
+		if str(cue.get("type", "")) != "music":
+			continue
+		var target_path := _res_path(str(cue.get("target_path", "")))
+		if target_path.is_empty() or not FileAccess.file_exists(target_path):
+			continue
+		var default_location_id := str(cue.get("location_id", ""))
+		var cue_locations: Array = cue.get("locations", [default_location_id])
+		for location_id in cue_locations:
+			_set_story_music_path(scene_id, str(location_id), target_path)
+
+	for voice in data.get("voice_samples", []):
+		if not (voice is Dictionary):
+			continue
+		var target_path := _res_path(str(voice.get("target_path", "")))
+		if target_path.is_empty() or not FileAccess.file_exists(target_path):
+			continue
+		var text := str(voice.get("text", ""))
+		if text.is_empty():
+			continue
+		var scene_voices: Array = story_voices_by_scene.get(scene_id, [])
+		scene_voices.append({
+			"line_id": str(voice.get("line_id", "")),
+			"match": text,
+			"path": target_path,
+		})
+		story_voices_by_scene[scene_id] = scene_voices
+
+	for sound in data.get("event_sounds", []):
+		if not (sound is Dictionary):
+			continue
+		var target_path := _res_path(str(sound.get("target_path", "")))
+		if target_path.is_empty() or not FileAccess.file_exists(target_path):
+			continue
+		var event_name := str(sound.get("event_name", ""))
+		if event_name.is_empty():
+			continue
+		for location_id in sound.get("locations", []):
+			_set_story_event_path(scene_id, str(location_id), event_name, target_path)
+
+
+func _set_story_music_path(scene_id: String, location_id: String, path: String) -> void:
+	if scene_id.is_empty() or location_id.is_empty() or path.is_empty():
+		return
+	var scene_music: Dictionary = story_music_by_scene_location.get(scene_id, {})
+	scene_music[location_id] = path
+	story_music_by_scene_location[scene_id] = scene_music
+
+
+func _set_story_event_path(scene_id: String, location_id: String, event_name: String, path: String) -> void:
+	if scene_id.is_empty() or location_id.is_empty() or event_name.is_empty() or path.is_empty():
+		return
+	var scene_events: Dictionary = story_events_by_scene_location.get(scene_id, {})
+	var location_events: Dictionary = scene_events.get(location_id, {})
+	location_events[event_name] = path
+	scene_events[location_id] = location_events
+	story_events_by_scene_location[scene_id] = scene_events
+
+
+func _res_path(path: String) -> String:
+	if path.is_empty():
+		return ""
+	if path.begins_with("res://"):
+		return path
+	return "res://%s" % path
 
 
 func _cache_audio_stream(path: String, cache: Dictionary) -> void:
