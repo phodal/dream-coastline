@@ -176,7 +176,7 @@ func _setup_world() -> void:
 	Camera.scale = Vector2.ONE
 	Camera.make_current()
 	_fit_camera_to_board()
-	Camera.reset_position()
+	_lock_camera_to_board()
 
 	dialogue_layer = DialogueLayerScript.new()
 	dialogue_layer.name = "DreamDialogueLayer"
@@ -185,7 +185,7 @@ func _setup_world() -> void:
 
 func _on_player_gamepiece_changed() -> void:
 	var new_gamepiece: Gamepiece = Player.gamepiece
-	Camera.gamepiece = new_gamepiece
+	_lock_camera_to_board()
 
 	for controller in get_tree().get_nodes_in_group(PlayerController.GROUP):
 		controller.queue_free()
@@ -587,6 +587,14 @@ func _fit_camera_to_board() -> void:
 	Camera.zoom = Vector2(zoom, zoom)
 
 
+func _lock_camera_to_board() -> void:
+	if Camera == null:
+		return
+	Camera.gamepiece = null
+	Camera.position = Vector2(GRID_SIZE * CELL_SIZE) * 0.5
+	Camera.reset_smoothing()
+
+
 func _apply_asset_overlay_alpha(visual: Dictionary) -> void:
 	if current_asset_scene_instance == null:
 		return
@@ -944,13 +952,15 @@ func _finish_open_rpg_runtime_smoke() -> void:
 	var disabled_count := _disabled_path_point_count()
 	var visual_alignment := _visual_alignment_for_interactions()
 	var visual_aligned := bool(visual_alignment.get("ok", false))
-	var ok := Player.gamepiece != null and point_count == GRID_SIZE.x * GRID_SIZE.y and interaction_count > 0 and dialogue_layer != null and asset_loaded and disabled_count > 0 and visual_aligned
-	print("open-rpg-runtime-smoke status=%s points=%d disabled=%d interactions=%d visual_aligned=%s player=%s asset=%s" % [
+	var camera_locked := Camera != null and Camera.gamepiece == null and Camera.position.is_equal_approx(Vector2(GRID_SIZE * CELL_SIZE) * 0.5)
+	var ok := Player.gamepiece != null and point_count == GRID_SIZE.x * GRID_SIZE.y and interaction_count > 0 and dialogue_layer != null and asset_loaded and disabled_count > 0 and visual_aligned and camera_locked
+	print("open-rpg-runtime-smoke status=%s points=%d disabled=%d interactions=%d visual_aligned=%s camera_locked=%s player=%s asset=%s" % [
 		"PASS" if ok else "FAIL",
 		point_count,
 		disabled_count,
 		interaction_count,
 		str(visual_aligned),
+		str(camera_locked),
 		str(Player.gamepiece != null),
 		current_asset_scene_path,
 	])
