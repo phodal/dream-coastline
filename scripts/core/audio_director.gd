@@ -7,6 +7,8 @@ const STORY_MUSIC := {
 	"01-illiterate": {
 		"mud_road": "res://assets/audio/generated/music/01-illiterate/MUS-01-001.mp3",
 		"camp": "res://assets/audio/generated/music/01-illiterate/MUS-01-001.mp3",
+		"chase": "res://assets/audio/generated/music/01-illiterate/MUS-01-001.mp3",
+		"station": "res://assets/audio/generated/music/01-illiterate/MUS-01-001.mp3",
 	}
 }
 const STORY_VOICES := {
@@ -115,9 +117,9 @@ func sync_story_context(scene_id: String, location_id: String) -> void:
 	story_music_player.play()
 
 
-func play_story_voice_for_text(scene_id: String, text: String) -> void:
+func play_story_voice_for_text(scene_id: String, text: String) -> bool:
 	if not enabled or story_voice_player == null or text.is_empty():
-		return
+		return false
 	for voice in STORY_VOICES.get(scene_id, []):
 		var match_text := str(voice.get("match", ""))
 		if match_text.is_empty() or not text.contains(match_text):
@@ -125,12 +127,17 @@ func play_story_voice_for_text(scene_id: String, text: String) -> void:
 		var path := str(voice.get("path", ""))
 		var stream: AudioStream = story_voice_streams.get(path)
 		if stream == null:
-			return
+			return false
 		if story_voice_player.playing:
 			story_voice_player.stop()
 		story_voice_player.stream = stream
 		story_voice_player.play()
-		return
+		return true
+	return false
+
+
+func is_story_voice_playing() -> bool:
+	return story_voice_player != null and story_voice_player.playing
 
 
 func verify_streams() -> bool:

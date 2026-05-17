@@ -47,6 +47,10 @@ const ACTION_CELLS: Array[Vector2i] = [
 	Vector2i(4, 7),
 	Vector2i(8, 7),
 ]
+const REVIEW_DEFAULT_STEP_SECONDS := 2.6
+const REVIEW_MIN_STEP_SECONDS := 1.6
+const REVIEW_MAX_TEXT_SECONDS := 6.5
+const REVIEW_VOICE_WAIT_LIMIT_SECONDS := 10.0
 const SCENE_SMOKE_FLAGS := {
 	"--smoke-rpg-first-act": 0,
 	"--smoke-rpg-illiterate": 1,
@@ -538,9 +542,11 @@ func _run_story_review_next_step(timed_dialogue: bool, allow_scene_advance: bool
 	_build_current_room()
 	_update_story_review_overlay()
 	if dialogue_layer != null:
-		var duration := review_step_seconds if timed_dialogue else 0.65
-		_play_story_voice(review_last_line)
+		var duration := _story_review_line_duration(review_last_line, timed_dialogue)
+		var has_voice := _play_story_voice(review_last_line)
 		await dialogue_layer.show_message_for(str(result.get("title", command)), review_last_line, duration, "Auto")
+		if timed_dialogue and has_voice:
+			await _wait_for_story_voice(REVIEW_VOICE_WAIT_LIMIT_SECONDS)
 	if repository.is_scene_complete(current_scene, flags):
 		return await _finish_story_review_scene(timed_dialogue, allow_scene_advance)
 	_update_story_review_overlay()
@@ -1359,10 +1365,29 @@ func _sync_story_audio() -> void:
 	audio_director.sync_story_context(str(current_scene.get("id", "")), current_location_id)
 
 
-func _play_story_voice(text: String) -> void:
+func _play_story_voice(text: String) -> bool:
 	if audio_director == null:
+		return false
+	return bool(audio_director.play_story_voice_for_text(str(current_scene.get("id", "")), text))
+
+
+func _wait_for_story_voice(limit_seconds: float) -> void:
+	if audio_director == null or not audio_director.has_method("is_story_voice_playing"):
 		return
-	audio_director.play_story_voice_for_text(str(current_scene.get("id", "")), text)
+	var waited := 0.0
+	while waited < limit_seconds and bool(audio_director.is_story_voice_playing()):
+		await get_tree().create_timer(0.1).timeout
+		waited += 0.1
+
+
+func _story_review_line_duration(line: String, timed_dialogue: bool) -> float:
+	if not timed_dialogue:
+		return 0.65
+	var compact := line.strip_edges()
+	if compact.is_empty():
+		return review_step_seconds
+	var readable_seconds := REVIEW_MIN_STEP_SECONDS + minf(float(compact.length()) * 0.045, REVIEW_MAX_TEXT_SECONDS - REVIEW_MIN_STEP_SECONDS)
+	return maxf(review_step_seconds, readable_seconds)
 
 
 func _is_smoke_run(args: PackedStringArray) -> bool:
@@ -1852,7 +1877,7 @@ func _play_story_review(args: PackedStringArray) -> void:
 		get_tree().quit(1)
 		return
 
-	review_step_seconds = maxf(0.2, float(_arg_value(args, "--review-step-seconds", "0.85")))
+	review_step_seconds = maxf(REVIEW_MIN_STEP_SECONDS, float(_arg_value(args, "--review-step-seconds", str(REVIEW_DEFAULT_STEP_SECONDS))))
 	var max_steps := maxi(1, int(_arg_value(args, "--review-max-steps", "320")))
 	var allow_scene_advance := scope == "all"
 	if story_review_overlay != null and story_review_overlay.has_method("set_cinema_mode"):
