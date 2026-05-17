@@ -390,9 +390,9 @@
       },
       {
         "id": "dead-city-propaganda",
-        "path": "res://assets/illustrations/chapters/03-dead-kingdom-01.png",
+        "path": "res://assets/illustrations/story_review/03-dead-kingdom/dead-city-propaganda.png",
         "target_path": "res://assets/illustrations/story_review/03-dead-kingdom/dead-city-propaganda.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "旧王都外城：秩序还活着，生活已死",
         "caption": "巡逻符器和自动价格牌还在工作，夏离罪人告示让玩家先看到“复国叙事”外部压力。",
         "locations": [
@@ -420,9 +420,9 @@
       },
       {
         "id": "book-route-choice",
-        "path": "res://assets/illustrations/chapters/03-dead-kingdom-01.png",
+        "path": "res://assets/illustrations/story_review/03-dead-kingdom/book-route-choice.png",
         "target_path": "res://assets/illustrations/story_review/03-dead-kingdom/book-route-choice.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "贵族藏书楼：藏书交给谁",
         "caption": "公开书院、王族保管、工匠路线和父母线索不只是选项，而是后续文明路线的分叉。",
         "locations": [
@@ -456,9 +456,9 @@
       },
       {
         "id": "xiali-rejects-throne",
-        "path": "res://assets/illustrations/chapters/03-dead-kingdom-01.png",
+        "path": "res://assets/illustrations/story_review/03-dead-kingdom/xiali-rejects-throne.png",
         "target_path": "res://assets/illustrations/story_review/03-dead-kingdom/xiali-rejects-throne.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "残破宫城：夏离拒绝旧王座",
         "caption": "夏离承认改革太急，但真正转折是他拒绝把文明再交给单一王权。",
         "locations": [
