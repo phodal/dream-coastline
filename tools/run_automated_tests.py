@@ -119,6 +119,10 @@ def supply_catalog(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_supply_catalog.py")
 
 
+def character_visual_models(runner: Runner, step: Step) -> int:
+    return runner.run_python(step, "tools/validate_character_visual_models.py")
+
+
 def cargo_build(runner: Runner, step: Step) -> int:
     return runner.run_command(step, ["cargo", "build"])
 
@@ -131,9 +135,9 @@ def godot_load(runner: Runner, step: Step) -> int:
     return runner.run_godot(step, None)
 
 
-def godot_smoke(flag: str) -> StepAction:
+def godot_smoke(flag: str, *, quit_after: int = 100) -> StepAction:
     def action(runner: Runner, step: Step) -> int:
-        return runner.run_godot(step, flag)
+        return runner.run_godot(step, flag, quit_after=quit_after)
 
     return action
 
@@ -165,6 +169,7 @@ STEPS: list[Step] = [
     Step("story-continuity", "quick", "validate cross-scene continuity contracts", story_continuity),
     Step("equipment-catalog", "quick", "validate equipment carrier catalog", equipment_catalog),
     Step("supply-catalog", "quick", "validate supply and consumable carrier catalog", supply_catalog),
+    Step("character-visual-models", "quick", "validate main character visual model contracts", character_visual_models),
     Step("cargo-build", "quick", "build Rust GDExtension for the current platform", cargo_build),
     Step("godot-load", "quick", "load the Godot project headlessly", godot_load),
     Step("smoke-open-rpg-story", "quick", "validate migrated story walkthroughs on the OpenRPG spine", godot_smoke("--smoke-open-rpg-story")),
@@ -172,6 +177,12 @@ STEPS: list[Step] = [
     Step("smoke-open-rpg-actions", "quick", "validate story action records are exposed as OpenRPG interactions", godot_smoke("--smoke-open-rpg-actions")),
     Step("smoke-open-rpg-visual-scenes", "quick", "validate OpenRPG runtime can load every original visual location scene", godot_smoke("--smoke-open-rpg-visual-scenes")),
     Step("smoke-chapter-illustrations", "quick", "validate chapter transition illustrations are loadable widescreen textures", godot_smoke("--smoke-chapter-illustrations")),
+    Step(
+        "smoke-story-review-mode",
+        "quick",
+        "validate chapter select and walkthrough review playback",
+        godot_smoke("--smoke-story-review-mode", quit_after=500),
+    ),
     Step("smoke-rpg-progression", "quick", "validate RPG progression data slice", godot_smoke("--smoke-rpg-progression")),
     Step("smoke-input-map", "quick", "validate keyboard and gamepad input mapping", godot_smoke("--smoke-input-map")),
     Step("smoke-animation-clips", "quick", "validate animation clip contracts", godot_smoke("--smoke-animation-clips")),

@@ -8,6 +8,7 @@ const IllustratedBackdropScript := preload("res://src/dream/dream_illustrated_ba
 const DialogueLayerScript := preload("res://src/dream/dream_dialogue_layer.gd")
 const RoomRendererScript := preload("res://src/dream/dream_room_renderer.gd")
 const StoryInteractionScript := preload("res://src/dream/dream_story_interaction.gd")
+const StoryReviewOverlayScript := preload("res://src/dream/dream_story_review_overlay.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const GamepieceScene := preload("res://src/field/gamepieces/gamepiece.tscn")
 const PlayerControllerScene := preload("res://src/field/gamepieces/controllers/player_controller.tscn")
@@ -80,8 +81,16 @@ var runtime_top_bar: PanelContainer
 var runtime_prompt_bar: PanelContainer
 var scene_title_label: Label
 var scene_hint_label: Label
+var story_review_overlay
 var player_gamepiece: Gamepiece
 var seen_scene_illustrations: Dictionary = {}
+var review_autoplay_running := false
+var review_autoplay_paused := false
+var review_walkthrough_index := 0
+var review_last_command := ""
+var review_last_line := ""
+var review_prefix_note := ""
+var review_step_seconds := 1.0
 
 
 func _ready() -> void:
@@ -95,7 +104,7 @@ func _ready() -> void:
 		visual_ok = visual_repository.load_for_scene_ids(repository.scene_ids())
 	illustration_repository = IllustrationRepositoryScript.new()
 	var illustration_ok: bool = illustration_repository.load_all()
-	var args := OS.get_cmdline_user_args()
+	var args := _runtime_args()
 	_apply_visual_style_from_args(args)
 
 	if _run_headless_smoke_if_requested(args, data_ok, visual_ok, illustration_ok):
@@ -110,7 +119,13 @@ func _ready() -> void:
 	if args.has("--capture-scene-screenshots"):
 		call_deferred("_capture_scene_screenshots", args)
 		return
-	if _should_show_scene_illustrations(args):
+	if args.has("--record-story-review"):
+		call_deferred("_record_story_review", args)
+		return
+	if args.has("--play-story-review"):
+		call_deferred("_play_story_review", args)
+		return
+	if _should_show_scene_illustrations(args) and not _should_show_story_review(args):
 		call_deferred("_show_current_scene_illustrations")
 
 	if args.has("--smoke-open-rpg-runtime"):
@@ -126,6 +141,10 @@ func _ready() -> void:
 		call_deferred("_finish_render_smoke")
 	elif args.has("--smoke-open-rpg-transition-move"):
 		call_deferred("_finish_open_rpg_transition_move_smoke")
+	elif args.has("--smoke-story-review-mode"):
+		call_deferred("_finish_story_review_mode_smoke")
+	elif _should_show_story_review(args):
+		call_deferred("_show_story_review_selector")
 
 
 func run_story_interaction(interaction: DreamStoryInteraction) -> void:
@@ -197,6 +216,18 @@ func _setup_world() -> void:
 	add_child(dialogue_layer)
 
 	_setup_runtime_hud()
+	_setup_story_review_overlay()
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.is_pressed() and not event.is_echo():
+		var key_event := event as InputEventKey
+		if key_event.keycode == KEY_F6 or key_event.physical_keycode == KEY_F6:
+			_show_story_review_selector()
+			get_viewport().set_input_as_handled()
+		elif key_event.keycode == KEY_F7 or key_event.physical_keycode == KEY_F7:
+			_toggle_story_review_autoplay()
+			get_viewport().set_input_as_handled()
 
 
 func _on_player_gamepiece_changed() -> void:
@@ -219,10 +250,14 @@ func _load_story_scene(index: int) -> void:
 	current_scene_index = clampi(index, 0, max(repository.scene_count() - 1, 0))
 	current_scene = repository.scene_at(current_scene_index)
 	current_location_id = str(current_scene.get("start", ""))
+	review_walkthrough_index = 0
+	review_last_command = ""
+	review_last_line = ""
 	_apply_scene_initial_flags(current_scene)
 	current_visual = _current_visual_for_location()
 	_reset_player_to_spawn()
 	_build_current_room()
+	_update_story_review_overlay()
 
 
 func _build_current_room() -> void:
@@ -248,6 +283,7 @@ func _build_current_room() -> void:
 	_add_exit_interactions(scene_id, location)
 	_add_action_interactions(scene_id, location)
 	_refresh_runtime_hud(location)
+	_update_story_review_overlay()
 
 
 func _add_room_header(scene_title: String, location_name: String, description: String) -> void:
@@ -291,6 +327,19 @@ func _setup_runtime_hud() -> void:
 	runtime_hud_root.add_child(scene_hint_label)
 
 	_layout_runtime_hud()
+
+
+func _setup_story_review_overlay() -> void:
+	story_review_overlay = StoryReviewOverlayScript.new()
+	story_review_overlay.name = "StoryReviewOverlay"
+	add_child(story_review_overlay)
+	story_review_overlay.configure(repository.scenes)
+	story_review_overlay.scene_requested.connect(_on_story_review_scene_requested)
+	story_review_overlay.autoplay_requested.connect(_toggle_story_review_autoplay)
+	story_review_overlay.pause_requested.connect(_toggle_story_review_pause)
+	story_review_overlay.step_requested.connect(_run_story_review_manual_step)
+	story_review_overlay.close_requested.connect(_hide_story_review_selector)
+	_update_story_review_overlay()
 
 
 func _refresh_runtime_hud(location: Dictionary) -> void:
@@ -353,6 +402,400 @@ func _objective_for_current_scene() -> String:
 				_:
 					return "目标：确认家里发生了什么"
 	return "目标：推进当前场景"
+
+
+func _show_story_review_selector() -> void:
+	if story_review_overlay == null:
+		return
+	if dialogue_layer != null and dialogue_layer.has_method("set_review_subtitle_mode"):
+		dialogue_layer.set_review_subtitle_mode(true)
+	FieldEvents.input_paused.emit(true)
+	story_review_overlay.show_selector()
+	_update_story_review_overlay()
+
+
+func _hide_story_review_selector() -> void:
+	if story_review_overlay == null:
+		return
+	story_review_overlay.hide_selector()
+	if not review_autoplay_running:
+		if dialogue_layer != null and dialogue_layer.has_method("set_review_subtitle_mode"):
+			dialogue_layer.set_review_subtitle_mode(false)
+		FieldEvents.input_paused.emit(false)
+
+
+func _on_story_review_scene_requested(index: int) -> void:
+	review_autoplay_running = false
+	review_autoplay_paused = false
+	await _prepare_story_review_scene(index)
+	_show_story_review_selector()
+
+
+func _prepare_story_review_scene(index: int) -> void:
+	index = clampi(index, 0, max(repository.scene_count() - 1, 0))
+	if dialogue_layer != null and dialogue_layer.has_method("set_review_subtitle_mode"):
+		dialogue_layer.set_review_subtitle_mode(true)
+	flags.clear()
+	combat_state.clear()
+	seen_scene_illustrations.erase(repository.scene_id_at(index))
+	review_prefix_note = _prime_story_review_flags(index)
+	_load_story_scene(index)
+	var location := repository.location_for(current_scene, current_location_id)
+	await _show_story_review_transition_pages(str(current_scene.get("id", "")))
+	if dialogue_layer != null:
+		await dialogue_layer.show_message_for(
+			str(current_scene.get("title", "")),
+			str(location.get("description", "")),
+			1.1,
+			"Auto"
+		)
+	_update_story_review_overlay()
+
+
+func _prime_story_review_flags(index: int) -> String:
+	if index <= 0:
+		return "从序幕开始，无需补齐前序。"
+
+	var failures: Array[String] = []
+	var completed: Array[String] = []
+	for prior_index in range(index):
+		var result := repository.run_walkthrough_at(prior_index, flags)
+		if result.get("ok", false):
+			completed.append(str(result.get("scene_id", repository.scene_id_at(prior_index))))
+		else:
+			failures.append_array(result.get("failures", []))
+
+	if failures.is_empty():
+		return "已按 canonical walkthrough 补齐前序 %d 幕。" % completed.size()
+	return "前序补齐失败：%s。需要过渡页解释断裂。" % "; ".join(failures.slice(0, 3))
+
+
+func _toggle_story_review_autoplay() -> void:
+	if review_autoplay_running:
+		review_autoplay_running = false
+		review_autoplay_paused = false
+		FieldEvents.input_paused.emit(false)
+		_update_story_review_overlay()
+		return
+
+	_show_story_review_selector()
+	review_autoplay_running = true
+	review_autoplay_paused = false
+	_update_story_review_overlay()
+	call_deferred("_run_story_review_autoplay")
+
+
+func _toggle_story_review_pause() -> void:
+	if not review_autoplay_running:
+		return
+	review_autoplay_paused = not review_autoplay_paused
+	_update_story_review_overlay()
+
+
+func _run_story_review_manual_step() -> void:
+	if review_autoplay_running and not review_autoplay_paused:
+		return
+	await _run_story_review_next_step(false)
+
+
+func _run_story_review_autoplay() -> void:
+	while review_autoplay_running:
+		if review_autoplay_paused:
+			await get_tree().create_timer(0.15).timeout
+			continue
+		var advanced := await _run_story_review_next_step(true)
+		if not advanced:
+			review_autoplay_running = false
+			review_autoplay_paused = false
+			FieldEvents.input_paused.emit(false)
+			break
+		await get_tree().create_timer(0.12).timeout
+	_update_story_review_overlay()
+
+
+func _run_story_review_next_step(timed_dialogue: bool, allow_scene_advance: bool = true) -> bool:
+	var walkthrough: Array = current_scene.get("walkthrough", [])
+	if review_walkthrough_index >= walkthrough.size():
+		return await _finish_story_review_scene(timed_dialogue, allow_scene_advance)
+
+	var command := str(walkthrough[review_walkthrough_index])
+	review_last_command = command
+	review_walkthrough_index += 1
+	var result := _apply_story_review_command(command)
+	review_last_line = str(result.get("line", ""))
+	_build_current_room()
+	if dialogue_layer != null:
+		var duration := review_step_seconds if timed_dialogue else 0.65
+		await dialogue_layer.show_message_for(str(result.get("title", command)), review_last_line, duration, "Auto")
+	if repository.is_scene_complete(current_scene, flags):
+		return await _finish_story_review_scene(timed_dialogue, allow_scene_advance)
+	_update_story_review_overlay()
+	return true
+
+
+func _finish_story_review_scene(timed_dialogue: bool, allow_scene_advance: bool = true) -> bool:
+	var scene_title := str(current_scene.get("title", current_scene.get("id", "")))
+	if not repository.is_scene_complete(current_scene, flags):
+		review_last_line = "当前 walkthrough 已结束，但章节完成 flags 未满足。"
+		if dialogue_layer != null:
+			await dialogue_layer.show_message_for(scene_title, review_last_line, 1.2, "Auto")
+		_update_story_review_overlay()
+		return false
+
+	if not allow_scene_advance:
+		review_last_line = "本幕已按 canonical walkthrough 播放完毕。"
+		if dialogue_layer != null:
+			await dialogue_layer.show_message_for(scene_title, review_last_line, 1.0, "Auto")
+		_update_story_review_overlay()
+		return false
+
+	if current_scene_index >= repository.scene_count() - 1:
+		review_last_line = "全部章节已按剧情验收路径播放完毕。"
+		if dialogue_layer != null:
+			await dialogue_layer.show_message_for(scene_title, review_last_line, 1.4, "Auto")
+		_update_story_review_overlay()
+		return false
+
+	if timed_dialogue:
+		await dialogue_layer.show_message_for(scene_title, "本幕完成，进入下一幕过渡页。", 0.8, "Auto")
+	review_prefix_note = ""
+	_load_story_scene(current_scene_index + 1)
+	seen_scene_illustrations.erase(str(current_scene.get("id", "")))
+	await _show_story_review_transition_pages(str(current_scene.get("id", "")))
+	var location := repository.location_for(current_scene, current_location_id)
+	if dialogue_layer != null:
+		await dialogue_layer.show_message_for(str(current_scene.get("title", "")), str(location.get("description", "")), 1.0, "Auto")
+	_update_story_review_overlay()
+	return true
+
+
+func _show_story_review_transition_pages(scene_id: String) -> void:
+	if dialogue_layer == null or illustration_repository == null:
+		return
+	var records: Array[Dictionary] = illustration_repository.illustrations_for_scene(scene_id)
+	var transition_records: Array[Dictionary] = []
+	for record in records:
+		if _is_story_review_transition_record(record):
+			transition_records.append(record)
+	if transition_records.is_empty() and not records.is_empty():
+		transition_records.append(records[0])
+
+	if transition_records.is_empty():
+		var title := str(current_scene.get("title", scene_id))
+		await dialogue_layer.show_message_for(title, "章节过渡页缺失；如果此处读感断裂，可以补一张 Imagen 过渡插图。", 1.0, "Auto")
+		return
+
+	_set_runtime_hud_visible(false)
+	for record in transition_records:
+		await dialogue_layer.show_illustration_for(
+			str(record.get("title", current_scene.get("title", scene_id))),
+			str(record.get("caption", "")),
+			str(record.get("path", "")),
+			1.2,
+			"Auto"
+		)
+	_set_runtime_hud_visible(true)
+
+
+func _is_story_review_transition_record(record: Dictionary) -> bool:
+	if bool(record.get("transition", false)):
+		return true
+	return not record.has("locations") and not record.has("commands")
+
+
+func _apply_story_review_command(command: String) -> Dictionary:
+	var parts := command.split(" ", false, 1)
+	if parts.is_empty():
+		return {"title": "无效指令", "line": command}
+	var verb := parts[0]
+	var target := parts[1] if parts.size() > 1 else ""
+	match verb:
+		"inspect":
+			return _apply_story_review_inspect(target)
+		"go":
+			return _apply_story_review_go(target)
+		"cast":
+			return _apply_story_review_action("cast", target)
+		"build":
+			return _apply_story_review_action("build", target)
+		"choose":
+			return _apply_story_review_action("choose", target)
+		"engage":
+			return _apply_story_review_action("engage", target)
+		"combine":
+			return _apply_story_review_action("combine", target)
+		"write":
+			return _apply_story_review_action("write", target)
+		"attack":
+			return _apply_story_review_action("attack", target)
+	return {"title": command, "line": "未识别的剧情验收指令。"}
+
+
+func _apply_story_review_inspect(item_id: String) -> Dictionary:
+	var location := repository.location_for(current_scene, current_location_id)
+	var items: Dictionary = location.get("items", {})
+	var item: Dictionary = items.get(item_id, {})
+	var result := repository.inspect_item(current_scene, current_location_id, item_id, flags)
+	if not result.get("ok", false):
+		return {"title": item_id, "line": str(result.get("error", "inspect failed"))}
+	return {
+		"title": str(item.get("name", item_id)),
+		"line": str(result.get("text", item.get("text", ""))),
+	}
+
+
+func _apply_story_review_go(destination_id: String) -> Dictionary:
+	var result := repository.go_to(current_scene, current_location_id, destination_id)
+	if not result.get("ok", false):
+		return {"title": destination_id, "line": str(result.get("error", "missing route"))}
+	current_location_id = destination_id
+	current_visual = _current_visual_for_location()
+	_reset_player_to_spawn()
+	var location := repository.location_for(current_scene, current_location_id)
+	var intro := str(location.get("location_intro", ""))
+	var description := str(location.get("description", ""))
+	return {
+		"title": str(location.get("name", current_location_id)),
+		"line": intro if not intro.is_empty() else description,
+	}
+
+
+func _apply_story_review_action(verb: String, arg: String) -> Dictionary:
+	var location := repository.location_for(current_scene, current_location_id)
+	var record := _story_review_record_for_action(location, verb, arg)
+	var result: Dictionary = {}
+	match verb:
+		"cast":
+			result = repository.cast_glyph(current_scene, current_location_id, arg, flags, combat_state)
+		"build":
+			result = repository.apply_location_record(current_scene, current_location_id, "build_actions", arg, flags)
+		"choose":
+			result = repository.apply_location_record(current_scene, current_location_id, "choices", arg, flags)
+		"engage":
+			result = repository.apply_location_record(current_scene, current_location_id, "encounters", arg, flags)
+		"combine":
+			result = repository.apply_location_record(current_scene, current_location_id, "combos", arg, flags)
+		"write":
+			result = repository.write_name(current_scene, current_location_id, flags, combat_state)
+		"attack":
+			result = repository.attack(current_scene, current_location_id, flags, combat_state)
+		_:
+			result = {"ok": false, "error": "unknown action"}
+
+	if not result.get("ok", false):
+		return {"title": _story_review_action_title(verb, arg, record), "line": str(result.get("error", "action failed"))}
+
+	var text := str(record.get("text", ""))
+	if text.is_empty():
+		text = _story_review_default_action_text(verb, arg)
+	return {"title": _story_review_action_title(verb, arg, record), "line": text}
+
+
+func _story_review_record_for_action(location: Dictionary, verb: String, arg: String) -> Dictionary:
+	match verb:
+		"cast":
+			var glyph_actions: Dictionary = location.get("glyph_actions", {})
+			if glyph_actions.has(arg):
+				return glyph_actions[arg]
+			var combat: Dictionary = location.get("combat", {})
+			var spells: Dictionary = combat.get("spells", {})
+			if spells.has(arg):
+				return spells[arg]
+			return combat if arg == "name" or arg == "名" else {}
+		"build":
+			return _record_from_collection(location, "build_actions", arg)
+		"choose":
+			return _record_from_collection(location, "choices", arg)
+		"engage":
+			return _record_from_collection(location, "encounters", arg)
+		"combine":
+			return _record_from_collection(location, "combos", arg)
+		"write", "attack":
+			return location.get("combat", {})
+	return {}
+
+
+func _record_from_collection(location: Dictionary, key: String, arg: String) -> Dictionary:
+	var collection: Dictionary = location.get(key, {})
+	return collection.get(arg, {})
+
+
+func _story_review_action_title(verb: String, arg: String, record: Dictionary) -> String:
+	if record.has("name"):
+		return str(record.get("name", arg))
+	match verb:
+		"cast":
+			return "写下「%s」" % arg
+		"build":
+			return "建设：%s" % arg
+		"choose":
+			return "选择：%s" % arg
+		"engage":
+			return "遭遇：%s" % arg
+		"combine":
+			return "组合：%s" % arg
+		"write":
+			return "写名"
+		"attack":
+			return "攻击"
+	return "%s %s" % [verb, arg]
+
+
+func _story_review_default_action_text(verb: String, arg: String) -> String:
+	match verb:
+		"write":
+			return "你尝试写下它真正的名字。"
+		"attack":
+			return "命名后的攻击让对方的轮廓短暂稳定。"
+		"cast":
+			return "字根生效，场景状态发生变化。"
+		"build":
+			return "新的结构被写入这个世界。"
+		"choose":
+			return "这个选择被记录进后续剧情。"
+	return "剧情节点已推进。"
+
+
+func _update_story_review_overlay() -> void:
+	if story_review_overlay == null or repository == null or current_scene.is_empty():
+		return
+	var location := repository.location_for(current_scene, current_location_id)
+	var walkthrough: Array = current_scene.get("walkthrough", [])
+	var illustration := _story_review_illustration(str(current_scene.get("id", "")))
+	story_review_overlay.update_status({
+		"scene_title": "%d/%d  %s" % [current_scene_index + 1, repository.scene_count(), str(current_scene.get("title", ""))],
+		"location_name": str(location.get("name", current_location_id)),
+		"step_index": review_walkthrough_index,
+		"step_count": walkthrough.size(),
+		"flags": _story_review_flag_summary(),
+		"last_line": review_last_line,
+		"running": review_autoplay_running,
+		"paused": review_autoplay_paused,
+		"prefix_note": review_prefix_note,
+		"background_path": str(illustration.get("path", "")),
+		"focus_path": str(illustration.get("focus_path", "")),
+		"illustration_title": str(illustration.get("title", "")),
+		"illustration_caption": str(illustration.get("caption", "")),
+	})
+
+
+func _story_review_illustration(scene_id: String) -> Dictionary:
+	if illustration_repository == null:
+		return {}
+	if illustration_repository.has_method("review_illustration_for"):
+		return illustration_repository.review_illustration_for(scene_id, current_location_id, review_last_command)
+	var records: Array[Dictionary] = illustration_repository.illustrations_for_scene(scene_id)
+	return records[0] if not records.is_empty() else {}
+
+
+func _story_review_flag_summary() -> String:
+	var keys := flags.keys()
+	keys.sort()
+	if keys.is_empty():
+		return "none"
+	if keys.size() <= 10:
+		return ", ".join(keys)
+	return "%s ... +%d" % [", ".join(keys.slice(max(0, keys.size() - 10), keys.size())), keys.size() - 10]
 
 
 func _add_item_interactions(scene_id: String, location: Dictionary) -> void:
@@ -879,7 +1322,16 @@ func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool, vi
 
 func _should_show_scene_illustrations(args: PackedStringArray) -> bool:
 	for arg in args:
-		if str(arg).begins_with("--smoke-") or str(arg).begins_with("--capture-"):
+		if str(arg).begins_with("--smoke-") or str(arg).begins_with("--capture-") or str(arg).begins_with("--record-") or str(arg).begins_with("--play-"):
+			return false
+	return true
+
+
+func _should_show_story_review(args: PackedStringArray) -> bool:
+	if args.has("--skip-story-review"):
+		return false
+	for arg in args:
+		if str(arg).begins_with("--smoke-") or str(arg).begins_with("--capture-") or str(arg).begins_with("--record-") or str(arg).begins_with("--play-"):
 			return false
 	return true
 
@@ -1155,6 +1607,24 @@ func _finish_open_rpg_transition_move_smoke() -> void:
 	get_tree().quit(0 if ok else 1)
 
 
+func _finish_story_review_mode_smoke() -> void:
+	await get_tree().process_frame
+	await _prepare_story_review_scene(3)
+	var prefix_ok := flags.has("defeated_nameless") and flags.has("viewed_parent_record")
+	var step_ok := await _run_story_review_next_step(false)
+	var overlay_ok: bool = story_review_overlay != null and story_review_overlay.scene_count() == repository.scene_count()
+	var ok: bool = prefix_ok and step_ok and overlay_ok and review_walkthrough_index > 0 and not review_last_line.is_empty()
+	print("story-review-mode-smoke status=%s scene=%s step=%d flags=%d prefix_ok=%s overlay=%s" % [
+		"PASS" if ok else "FAIL",
+		str(current_scene.get("id", "")),
+		review_walkthrough_index,
+		flags.size(),
+		str(prefix_ok),
+		str(overlay_ok),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
 func _finish_render_smoke() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -1241,6 +1711,174 @@ func _capture_scene_screenshots(args: PackedStringArray) -> void:
 		failures.size(),
 	])
 	get_tree().quit(0 if ok else 1)
+
+
+func _record_story_review(args: PackedStringArray) -> void:
+	var output_dir := _global_capture_path(_arg_value(args, "--record-output", "user://story-review-recording"))
+	var scene_id := _arg_value(args, "--record-scene", "01-illiterate")
+	var warmup_frames := maxi(1, int(_arg_value(args, "--record-warmup-frames", "2")))
+	var scene_index := _scene_index_for_id(scene_id)
+	if scene_index < 0:
+		print("story-review-record status=FAIL reason=missing-scene scene=%s" % scene_id)
+		get_tree().quit(1)
+		return
+	var mkdir_error := DirAccess.make_dir_recursive_absolute(output_dir)
+	if mkdir_error != OK:
+		print("story-review-record status=FAIL reason=mkdir path=%s error=%s" % [output_dir, mkdir_error])
+		get_tree().quit(1)
+		return
+
+	story_review_overlay.show_selector()
+	await _prepare_story_review_scene(scene_index)
+	for _frame in range(warmup_frames):
+		await get_tree().process_frame
+
+	var frames: Array[Dictionary] = []
+	var failures: Array[String] = []
+	var frame_index := 0
+	var start_frame := await _capture_story_review_frame(output_dir, frame_index, "start")
+	if bool(start_frame.get("ok", false)):
+		frames.append(start_frame)
+	else:
+		failures.append(str(start_frame.get("failure", "start capture failed")))
+	frame_index += 1
+
+	var walkthrough: Array = current_scene.get("walkthrough", [])
+	while current_scene_index == scene_index and review_walkthrough_index < walkthrough.size():
+		var command := str(walkthrough[review_walkthrough_index])
+		var advanced := await _run_story_review_next_step(false)
+		for _frame in range(warmup_frames):
+			await get_tree().process_frame
+		var frame := await _capture_story_review_frame(output_dir, frame_index, command)
+		if bool(frame.get("ok", false)):
+			frames.append(frame)
+		else:
+			failures.append(str(frame.get("failure", "capture failed")))
+		frame_index += 1
+		if not advanced:
+			break
+
+	var manifest := {
+		"version": 1,
+		"generated_by": "--record-story-review",
+		"scene_id": scene_id,
+		"scene_index": scene_index,
+		"frame_count": frames.size(),
+		"viewport": {
+			"width": int(get_viewport_rect().size.x),
+			"height": int(get_viewport_rect().size.y),
+		},
+		"frames": frames,
+		"failures": failures,
+	}
+	var manifest_path := output_dir.path_join("manifest.json")
+	var manifest_file := FileAccess.open(manifest_path, FileAccess.WRITE)
+	if manifest_file == null:
+		print("story-review-record status=FAIL reason=manifest path=%s" % manifest_path)
+		get_tree().quit(1)
+		return
+	manifest_file.store_string(JSON.stringify(manifest, "\t"))
+	manifest_file.close()
+
+	var ok := failures.is_empty() and frames.size() >= 2
+	print("story-review-record status=%s scene=%s output=%s frames=%d failures=%d" % [
+		"PASS" if ok else "FAIL",
+		scene_id,
+		output_dir,
+		frames.size(),
+		failures.size(),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _play_story_review(args: PackedStringArray) -> void:
+	var scene_id := _arg_value(args, "--review-scene", _arg_value(args, "--record-scene", "01-illiterate"))
+	var scope := _arg_value(args, "--review-scope", "scene")
+	var scene_index := _scene_index_for_id(scene_id)
+	if scene_index < 0:
+		print("story-review-playback status=FAIL reason=missing-scene scene=%s" % scene_id)
+		get_tree().quit(1)
+		return
+
+	review_step_seconds = maxf(0.2, float(_arg_value(args, "--review-step-seconds", "0.85")))
+	var max_steps := maxi(1, int(_arg_value(args, "--review-max-steps", "320")))
+	var allow_scene_advance := scope == "all"
+	if story_review_overlay != null and story_review_overlay.has_method("set_cinema_mode"):
+		story_review_overlay.set_cinema_mode(true)
+	story_review_overlay.show_selector()
+	review_autoplay_running = true
+	review_autoplay_paused = false
+	FieldEvents.input_paused.emit(true)
+	await _prepare_story_review_scene(scene_index)
+
+	var steps := 0
+	var completed := false
+	while steps < max_steps:
+		var advanced := await _run_story_review_next_step(true, allow_scene_advance)
+		steps += 1
+		await get_tree().create_timer(0.05).timeout
+		if not advanced:
+			completed = true
+			break
+
+	review_autoplay_running = false
+	review_autoplay_paused = false
+	FieldEvents.input_paused.emit(false)
+	if dialogue_layer != null and dialogue_layer.has_method("set_review_subtitle_mode"):
+		dialogue_layer.set_review_subtitle_mode(false)
+	if story_review_overlay != null and story_review_overlay.has_method("set_cinema_mode"):
+		story_review_overlay.set_cinema_mode(false)
+	_update_story_review_overlay()
+	if not completed and steps >= max_steps:
+		print("story-review-playback status=FAIL reason=max-steps scene=%s scope=%s steps=%d" % [scene_id, scope, steps])
+		get_tree().quit(1)
+		return
+
+	await get_tree().create_timer(0.4).timeout
+	print("story-review-playback status=PASS scene=%s scope=%s steps=%d final_scene=%s" % [
+		scene_id,
+		scope,
+		steps,
+		str(current_scene.get("id", "")),
+	])
+	get_tree().quit(0)
+
+
+func _capture_story_review_frame(output_dir: String, frame_index: int, command: String) -> Dictionary:
+	await get_tree().process_frame
+	var image: Image = get_viewport().get_texture().get_image()
+	if image == null or image.get_width() <= 0 or image.get_height() <= 0:
+		return {"ok": false, "failure": "empty frame %d" % frame_index}
+	var filename := "frame_%04d.png" % frame_index
+	var path := output_dir.path_join(filename)
+	var save_error := image.save_png(path)
+	if save_error != OK:
+		return {"ok": false, "failure": "save failed %s error=%s" % [path, save_error]}
+	var illustration := _story_review_illustration(str(current_scene.get("id", "")))
+	return {
+		"ok": true,
+		"index": frame_index,
+		"command": command,
+		"scene_id": str(current_scene.get("id", "")),
+		"scene_title": str(current_scene.get("title", "")),
+		"location_id": current_location_id,
+		"location_name": repository.location_name(current_scene, current_location_id),
+		"step_index": review_walkthrough_index,
+		"step_count": current_scene.get("walkthrough", []).size(),
+		"line": review_last_line,
+		"illustration_id": str(illustration.get("id", "")),
+		"illustration_title": str(illustration.get("title", "")),
+		"illustration_path": str(illustration.get("path", "")),
+		"path": path,
+		"file": filename,
+	}
+
+
+func _scene_index_for_id(scene_id: String) -> int:
+	for index in range(repository.scene_count()):
+		if repository.scene_id_at(index) == scene_id:
+			return index
+	return -1
 
 
 func _capture_location_screenshot(
@@ -1392,6 +2030,13 @@ func _verify_render_image(image: Image) -> bool:
 
 func _apply_visual_style_from_args(args: PackedStringArray) -> void:
 	GameThemeScript.set_visual_style(_arg_value(args, "--visual-style", GameThemeScript.DEFAULT_STYLE))
+
+
+func _runtime_args() -> PackedStringArray:
+	var args := OS.get_cmdline_user_args()
+	if not args.is_empty():
+		return args
+	return OS.get_cmdline_args()
 
 
 func _global_capture_path(path: String) -> String:

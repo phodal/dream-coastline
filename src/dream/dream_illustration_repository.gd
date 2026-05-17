@@ -29,6 +29,20 @@ func illustrations_for_scene(scene_id: String) -> Array[Dictionary]:
 	return records.duplicate(true)
 
 
+func review_illustration_for(scene_id: String, location_id: String, command: String = "") -> Dictionary:
+	var records := illustrations_for_scene(scene_id)
+	if records.is_empty():
+		return {}
+
+	for record in records:
+		if _record_matches(record, location_id, command, "commands"):
+			return record
+	for record in records:
+		if _record_matches(record, location_id, "", "locations"):
+			return record
+	return records[0]
+
+
 func validate_scene_illustrations(scene_ids: Array[String]) -> Dictionary:
 	var failures: Array[String] = []
 	var checked := 0
@@ -60,6 +74,15 @@ func validate_scene_illustrations(scene_ids: Array[String]) -> Dictionary:
 			if absf(ratio - (16.0 / 9.0)) > 0.04:
 				failures.append("%s illustration is not widescreen enough %s ratio=%.3f" % [scene_id, path, ratio])
 				continue
+			var focus_path := str(record.get("focus_path", ""))
+			if not focus_path.is_empty():
+				if not ResourceLoader.exists(focus_path):
+					failures.append("%s missing focus texture %s" % [scene_id, focus_path])
+					continue
+				var focus_resource := load(focus_path)
+				if not (focus_resource is Texture2D):
+					failures.append("%s focus illustration is not Texture2D %s" % [scene_id, focus_path])
+					continue
 			checked += 1
 
 	return {
@@ -77,3 +100,18 @@ func _load_json_dictionary(path: String) -> Dictionary:
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return {}
 	return parsed
+
+
+func _record_matches(record: Dictionary, location_id: String, command: String, key: String) -> bool:
+	var values: Array = record.get(key, [])
+	if values.is_empty():
+		return false
+	if key == "locations":
+		for value in values:
+			if str(value) == location_id:
+				return true
+		return false
+	for value in values:
+		if str(value) == command:
+			return true
+	return false

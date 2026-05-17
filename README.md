@@ -17,6 +17,9 @@ part of the current main runtime.
 - Tile-based 90s RPG exploration with animated player sprites and facing
 - Eight complete story paths: First Act, Illiterate, Moqi Academy, Dead Kingdom,
   Continuation Institute, Century Continuation, Return Star Plan, Lights On Again
+- Story Review Mode for early-PAL-style chapter selection, chapter illustration
+  background, canonical walkthrough playback, pause/step controls, and flag
+  visibility so the story can be checked before the full RPG loop is complete
 - Title screen with new game, continue, and return-to-title confirmations
 - Pause menu and settings with volume control
 - Save/load via `SaveGameRepository`
@@ -43,6 +46,10 @@ part of the current main runtime.
   `Interaction` cutscenes.
 - `src/dream/dream_dialogue_layer.gd` provides the new minimal dialogue layer;
   it does not reuse the previous HUD/title/pause UI.
+- `src/dream/dream_story_review_overlay.gd` provides the fast story review
+  surface. Selecting a middle chapter silently replays earlier canonical
+  walkthroughs to seed carryover flags, then uses chapter illustrations as
+  transition pages before playing the selected scene.
 
 ## Development
 
@@ -83,7 +90,34 @@ Validate the OpenRPG migration:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-runtime
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-actions
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-visual-scenes
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 500 -- --smoke-story-review-mode
 ```
+
+Launch the playable story review surface:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path .
+```
+
+The review overlay opens by default for normal launches. Press `F6` to reopen it
+from the field, or use review shortcuts while the overlay is open: `Enter`
+enters the selected chapter, `A` starts/stops canonical walkthrough playback,
+`P` pauses, `N` steps once, and `Esc` returns to the field.
+
+Record a hands-off story review video for script and illustration review:
+
+```sh
+python3 tools/record_story_review.py --scene 01-illiterate --output artifacts/story-review/01-illiterate --fps 10 --step-seconds 0.65
+```
+
+The recorder uses Godot Movie Maker mode, drives `--play-story-review`
+automatically, transcodes the native movie to mp4, and writes a poster frame.
+Pass `--scope all` to continue from the selected chapter through the remaining
+canonical walkthrough.
+
+Character visual models for the main cast live in
+`data/character_visual_models.json`; see `docs/character-visual-models.md`
+before generating or replacing character reference art.
 
 Run the tiered automated test gates:
 

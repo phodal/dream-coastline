@@ -1,0 +1,315 @@
+{
+  "schema_version": 1,
+  "generated_from": [
+    "five/people/jizi-xuan.md",
+    "five/people/xiali.md",
+    "five/people/supporting-cast.md",
+    "five/system/art-audio-direction.md",
+    "data/character_voice_profiles.json"
+  ],
+  "global_art_rules": {
+    "style": "2D story review character model sheets for a restrained narrative RPG",
+    "camera": "front-facing full body, half body, expression row, and one story key pose per sheet",
+    "palette_rule": "muted ink, aged paper, warm lamp light, controlled accent color per role",
+    "forbidden": [
+      "do not copy celebrity likenesses",
+      "do not use generic fantasy armor unless the character role requires it",
+      "do not make all Moqi characters share the same robe silhouette",
+      "do not let generated Chinese text or glyphs become readable fake UI"
+    ]
+  },
+  "required_role_slots": [
+    "male_lead_1",
+    "male_lead_2",
+    "female_lead_1",
+    "female_lead_2"
+  ],
+  "characters": {
+    "jizi_xuan": {
+      "display_name": "纪子轩",
+      "role_slot": "male_lead_1",
+      "stable_id": "CHAR-JZX-01",
+      "narrative_function": "现代少年主视角，从只想回家成长为文明工程的参与者。",
+      "age_read": "15-17",
+      "body_language": "前期肩背微缩、手常抓手机或续笔；后期站姿更稳，但仍保留学生感。",
+      "silhouette": [
+        "现代短发少年轮廓",
+        "偏薄的校服或连帽外套层次",
+        "背包、手机、黑色续笔形成三件识别物"
+      ],
+      "palette": {
+        "base": ["charcoal hoodie", "dusty blue school uniform", "paper white shirt"],
+        "accent": ["ink black pen", "weak cyan phone glow", "warm window light"]
+      },
+      "costume_states": [
+        {
+          "id": "modern_start",
+          "description": "普通城市学生，外套和书包沾雨，手机屏幕被墨痕污染。"
+        },
+        {
+          "id": "moqi_student",
+          "description": "现代衣服外叠一件临时墨颀短披肩，仍明显不是本地人。"
+        },
+        {
+          "id": "civil_engineer",
+          "description": "保留现代内搭，外层有续文院记录袋、索引卡和工程手套。"
+        }
+      ],
+      "expression_set": [
+        "lost",
+        "defensive",
+        "trying_to_understand",
+        "recording_failure",
+        "steady_resolve"
+      ],
+      "must_read_as": [
+        "普通现代少年被卷入异世界",
+        "不是天生英雄，而是靠记录和验证成长",
+        "手里的续笔比他本人更危险"
+      ],
+      "must_not_read_as": [
+        "古风王族",
+        "开挂穿越者",
+        "成熟教师或军人"
+      ],
+      "asset_targets": {
+        "model_sheet": "res://assets/characters/main/jizi_xuan/model_sheet.png",
+        "portrait": "res://assets/characters/main/jizi_xuan/portrait.png",
+        "story_review_cutout": "res://assets/characters/main/jizi_xuan/story_review_cutout.png"
+      },
+      "imagen_prompt": "Character model sheet for Ji Zixuan, a 15-17 year old modern Chinese schoolboy protagonist in a restrained ink-and-paper narrative RPG. Short dark hair, slim build, charcoal hoodie over dusty blue school uniform, worn backpack, phone with cyan glow and ink stains, black continuation pen in hand. Include full body front view, half body portrait, expression row: lost, defensive, trying to understand, recording failure, steady resolve. Mood: ordinary student carrying dangerous responsibility, not heroic armor, not fantasy royalty. Muted ink, aged paper, warm window light, 2D concept art, clean silhouette, no readable text.",
+      "source_evidence": [
+        "five/people/jizi-xuan.md",
+        "data/character_voice_profiles.json"
+      ]
+    },
+    "xiali": {
+      "display_name": "夏离",
+      "role_slot": "male_lead_2",
+      "stable_id": "CHAR-XL-01",
+      "narrative_function": "墨颀最后的王子，第二主角，从复国者转向文明守夜人。",
+      "age_read": "16-20",
+      "body_language": "站姿笔直，前期像随时审判别人；后期动作更慢，像在从职责里找回自己。",
+      "silhouette": [
+        "瘦高少年王族剪影",
+        "破损王族外袍和实战束带并存",
+        "长发或束发，披风边缘像被烧过的纸"
+      ],
+      "palette": {
+        "base": ["deep ink black", "old royal blue", "burnt parchment"],
+        "accent": ["dull gold rank thread", "cold white glyph glow", "ember red edge"]
+      },
+      "costume_states": [
+        {
+          "id": "fallen_prince",
+          "description": "逃亡中的王子，王族纹样残破，外袍有烧灼痕。"
+        },
+        {
+          "id": "reformer",
+          "description": "减弱王族装饰，增加书院与续文院的简化纹章。"
+        },
+        {
+          "id": "statebook_guardian",
+          "description": "身体边缘有国书节点光流，个人服装逐渐像文明接口。"
+        }
+      ],
+      "expression_set": [
+        "cold_judgment",
+        "controlled_anger",
+        "unwilling_trust",
+        "kingdom_grief",
+        "quiet_guardianship"
+      ],
+      "must_read_as": [
+        "亡国王子与新文明守夜人",
+        "救人但不轻易信任",
+        "王族身份是负担，不是炫耀"
+      ],
+      "must_not_read_as": [
+        "导师型老人",
+        "单纯傲娇同伴",
+        "普通古风侠客"
+      ],
+      "asset_targets": {
+        "model_sheet": "res://assets/characters/main/xiali/model_sheet.png",
+        "portrait": "res://assets/characters/main/xiali/portrait.png",
+        "story_review_cutout": "res://assets/characters/main/xiali/story_review_cutout.png"
+      },
+      "imagen_prompt": "Character model sheet for Xiali, a 16-20 year old fallen prince of an ink-and-paper civilization, male second lead in a restrained narrative RPG. Tall slim silhouette, long dark hair tied back, damaged royal robe mixed with practical travel belts, burnt parchment cloak edges, old royal blue and deep ink black, dull gold rank thread, cold white glyph glow. Include full body front view, half body portrait, expression row: cold judgment, controlled anger, unwilling trust, kingdom grief, quiet guardianship. He reads as a ruined prince becoming a civic guardian, not a generic fantasy swordsman. 2D concept art, clean silhouette, no readable text.",
+      "source_evidence": [
+        "five/people/xiali.md",
+        "data/character_voice_profiles.json"
+      ]
+    },
+    "wensu": {
+      "display_name": "闻素",
+      "role_slot": "female_lead_1",
+      "stable_id": "CHAR-WS-01",
+      "narrative_function": "被流放的书院教师，纪子轩的文字导师，公共教育线的精神奠基者。",
+      "age_read": "30-40",
+      "body_language": "温和站姿，手上常有教材、粉笔或旧字典；对学生放低身体，对权力者站稳不退。",
+      "silhouette": [
+        "成年女教师的稳定轮廓",
+        "简朴长袍配旧书袋",
+        "袖口有被反复洗淡的书院纹样"
+      ],
+      "palette": {
+        "base": ["warm gray robe", "faded moss green", "paper cream"],
+        "accent": ["chalk white", "soft amber lamp", "muted teal bookmark"]
+      },
+      "costume_states": [
+        {
+          "id": "exiled_teacher",
+          "description": "旧书院教师被流放后的简朴衣着，书袋磨损明显。"
+        },
+        {
+          "id": "hidden_academy",
+          "description": "隐秘书院授课状态，袖口和教材带被遮住的旧纹章。"
+        },
+        {
+          "id": "continuation_founder",
+          "description": "续文院奠基者形象，书袋换成公开教材和标准字典样稿。"
+        }
+      ],
+      "expression_set": [
+        "patient_teaching",
+        "gentle_warning",
+        "firm_refusal",
+        "tired_hope",
+        "legacy_smile"
+      ],
+      "must_read_as": [
+        "温和但不软弱的教师",
+        "公共教育线的根",
+        "能把危险规则讲成可学习步骤"
+      ],
+      "must_not_read_as": [
+        "全知贤者",
+        "宫廷贵妇",
+        "只负责温柔陪衬"
+      ],
+      "asset_targets": {
+        "model_sheet": "res://assets/characters/main/wensu/model_sheet.png",
+        "portrait": "res://assets/characters/main/wensu/portrait.png",
+        "story_review_cutout": "res://assets/characters/main/wensu/story_review_cutout.png"
+      },
+      "imagen_prompt": "Character model sheet for Wensu, a 30-40 year old exiled female academy teacher in a restrained ink-and-paper narrative RPG. Warm gray robe, faded moss green layers, worn book bag, old dictionary, chalk white marks on fingers, soft amber lamp light, muted teal bookmark. Include full body front view, half body portrait, expression row: patient teaching, gentle warning, firm refusal, tired hope, legacy smile. She reads as gentle but firm public education founder, not a court noblewoman, not an all-knowing sage. 2D concept art, clean silhouette, no readable text.",
+      "source_evidence": [
+        "five/people/supporting-cast.md",
+        "data/character_voice_profiles.json"
+      ]
+    },
+    "atang": {
+      "display_name": "阿棠",
+      "role_slot": "female_lead_2",
+      "stable_id": "CHAR-AT-01",
+      "narrative_function": "民间工匠，墨颀技术革命的实践者，把文字方法落到工程里。",
+      "age_read": "20-30",
+      "body_language": "重心靠前，袖子卷起，手习惯先摸工具和故障点；说话时像随时要回工坊。",
+      "silhouette": [
+        "青年女工匠的利落剪影",
+        "短外套、工具腰带和卷袖",
+        "护目镜或额头布带形成识别点"
+      ],
+      "palette": {
+        "base": ["smoky brown workshop cloth", "dark green apron", "iron gray tools"],
+        "accent": ["copper orange heat", "rune blue spark", "paper tag labels"]
+      },
+      "costume_states": [
+        {
+          "id": "workshop_craftswoman",
+          "description": "工坊状态，工具腰带、卷袖和被烟火熏暗的围裙。"
+        },
+        {
+          "id": "continuation_engineer",
+          "description": "续文院工程线骨干，围裙上挂有测试记录和标准零件样本。"
+        },
+        {
+          "id": "astral_engineer",
+          "description": "星象工程时期，工装带有星图校准器和绝缘护臂。"
+        }
+      ],
+      "expression_set": [
+        "checking_fault",
+        "impatient_with_elites",
+        "quick_decision",
+        "short_excitement",
+        "earned_confidence"
+      ],
+      "must_read_as": [
+        "工程实践者，不是书斋学生",
+        "平民技术革命的执行力",
+        "能把理念变成机器、流程和安全表"
+      ],
+      "must_not_read_as": [
+        "只会吐槽的工匠",
+        "魔法少女",
+        "贵族书院学生"
+      ],
+      "asset_targets": {
+        "model_sheet": "res://assets/characters/main/atang/model_sheet.png",
+        "portrait": "res://assets/characters/main/atang/portrait.png",
+        "story_review_cutout": "res://assets/characters/main/atang/story_review_cutout.png"
+      },
+      "imagen_prompt": "Character model sheet for Atang, a 20-30 year old female craftsperson and engineering lead in a restrained ink-and-paper narrative RPG. Practical short jacket, rolled sleeves, dark green apron, tool belt, smoky brown workshop cloth, iron gray tools, copper orange furnace heat, rune blue sparks, small goggles or forehead cloth. Include full body front view, half body portrait, expression row: checking fault, impatient with elites, quick decision, short excitement, earned confidence. She reads as a hands-on engineer from common people, not a noble student, not a magical girl. 2D concept art, clean silhouette, no readable text.",
+      "source_evidence": [
+        "five/people/supporting-cast.md",
+        "data/character_voice_profiles.json"
+      ]
+    },
+    "xiaoyan": {
+      "display_name": "小砚",
+      "role_slot": "guide_child",
+      "stable_id": "CHAR-XY-01",
+      "narrative_function": "第一幕流民孩子和平民教育线情感代表，不按男女主编号处理。",
+      "age_read": "8-11",
+      "body_language": "前期躲在成人身后或拉人逃跑；能写出名字后，身体更敢面向镜头。",
+      "silhouette": [
+        "瘦小流民孩子",
+        "过大的旧斗篷和绑腿",
+        "断裂名牌或小墨砚挂件作为识别物"
+      ],
+      "palette": {
+        "base": ["dust gray cloak", "mud brown wraps", "faded linen"],
+        "accent": ["tiny warm ember", "broken nameplate dull brass", "ink smudge black"]
+      },
+      "costume_states": [
+        {
+          "id": "refugee_child",
+          "description": "边境流民营孩子，旧斗篷过大，衣角沾泥。"
+        },
+        {
+          "id": "continuation_student",
+          "description": "续文院学生，仍穿旧衣但多了写名字的练习纸。"
+        }
+      ],
+      "expression_set": [
+        "urgent_warning",
+        "language_gap",
+        "name_fading_fear",
+        "first_learning",
+        "small_courage"
+      ],
+      "must_read_as": [
+        "需要被保护但会主动帮人的孩子",
+        "失名风险的情感锚点",
+        "教育开放的可见回报"
+      ],
+      "must_not_read_as": [
+        "吉祥物",
+        "成熟少年战士",
+        "负责世界观说明的大人"
+      ],
+      "asset_targets": {
+        "model_sheet": "res://assets/characters/main/xiaoyan/model_sheet.png",
+        "portrait": "res://assets/characters/main/xiaoyan/portrait.png",
+        "story_review_cutout": "res://assets/characters/main/xiaoyan/story_review_cutout.png"
+      },
+      "imagen_prompt": "Character model sheet for Xiaoyan, an 8-11 year old refugee child guide in a restrained ink-and-paper narrative RPG. Small thin silhouette, oversized dust gray cloak, mud brown wraps, faded linen, broken nameplate or tiny inkstone charm, cautious but brave. Include full body front view, half body portrait, expression row: urgent warning, language gap, name fading fear, first learning, small courage. Reads as a vulnerable child who actively helps, not a mascot, not a teen warrior. 2D concept art, clean silhouette, no readable text.",
+      "source_evidence": [
+        "five/people/supporting-cast.md",
+        "data/character_voice_profiles.json"
+      ]
+    }
+  }
+}

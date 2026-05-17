@@ -6,15 +6,75 @@
         "id": "opening-street",
         "path": "res://assets/illustrations/chapters/00-prologue-lights-out-01.png",
         "title": "序幕：灯未亮起的夜晚",
-        "caption": "邻居的窗光一盏盏亮着，唯独自家的窗口仍然沉入黑暗。"
+        "caption": "邻居的窗光一盏盏亮着，唯独自家的窗口仍然沉入黑暗。",
+        "transition": true
       }
     ],
     "01-illiterate": [
       {
-        "id": "mud-road",
-        "path": "res://assets/illustrations/chapters/01-illiterate-01.png",
-        "title": "第一幕：不会写字的人",
-        "caption": "黄昏压低泥路，墨迹一样的符号从任务目标上剥落。"
+        "id": "mud-road-phone",
+        "path": "res://assets/illustrations/story_review/01-illiterate/01-mud-road-phone.png",
+        "title": "泥路苏醒：不会写字的人",
+        "caption": "手机无服务，界面被墨痕污染；远处燃烧的城提醒玩家，这不是普通穿越，而是失语求生。",
+        "transition": true,
+        "locations": ["mud_road"],
+        "commands": ["inspect phone", "inspect sign", "inspect city", "inspect pen"]
+      },
+      {
+        "id": "lost-name-deer-camp",
+        "path": "res://assets/characters/creatures/creature_002_lost_name_deer/habitat.png",
+        "title": "边境流民营：失名鹿",
+        "caption": "蹄印旁落着断裂小名牌。它不是敌人，而是“无名化不等于必须杀死”的第一条反证。",
+        "locations": ["camp"],
+        "commands": ["go camp", "inspect xiaoyan", "inspect notice", "inspect deer_tracks"]
+      },
+      {
+        "id": "chase-soldiers",
+        "path": "res://assets/illustrations/story_review/01-illiterate/04-chase-soldiers.png",
+        "title": "树林追逃：墨律司追来",
+        "caption": "士兵追着黑色钢笔而来，小砚拉着纪子轩逃跑；玩家先感到危险，再理解这支笔为什么危险。",
+        "locations": ["chase"],
+        "commands": ["go chase", "inspect soldiers", "inspect gate"]
+      },
+      {
+        "id": "xiali-rescue",
+        "path": "res://assets/illustrations/story_review/01-illiterate/05-xiali-rescue.png",
+        "title": "树林追逃：夏离救场",
+        "caption": "夏离不是导师式登场，而是先救下纪子轩，再审判他拿着续笔到底意味着什么。",
+        "locations": ["chase"],
+        "commands": ["inspect xiali"]
+      },
+      {
+        "id": "nameless-beast-station",
+        "path": "res://assets/characters/creatures/creature_001_nameless_beast/habitat.png",
+        "title": "废弃驿站：无名兽靠近",
+        "caption": "角落里的无脸轮廓只靠近名字。必须先写下“名”，它才从？？？变成可以被确认的敌人。",
+        "locations": ["station"],
+        "commands": ["go station", "inspect strokes", "inspect xiaoyan"]
+      },
+      {
+        "id": "write-name",
+        "path": "res://assets/illustrations/story_review/01-illiterate/07-write-name.png",
+        "title": "废弃驿站：第一次写“名”",
+        "caption": "夏离教纪子轩理解“名”的笔画。这里要读成学习和确认存在，而不是普通施法。",
+        "locations": ["station"],
+        "commands": ["write name"]
+      },
+      {
+        "id": "attack-nameless",
+        "path": "res://assets/characters/creatures/creature_001_nameless_beast/habitat.png",
+        "title": "废弃驿站：命名后才能攻击",
+        "caption": "无名兽不是普通野怪；只有名字被稳定后，它才从空白里显形并可以被攻击。",
+        "locations": ["station"],
+        "commands": ["attack"]
+      },
+      {
+        "id": "nameplate-payoff",
+        "path": "res://assets/illustrations/story_review/01-illiterate/08-nameplate-payoff.png",
+        "title": "战后回扣：半张旧名牌",
+        "caption": "无名兽消散后只剩名牌。失名鹿停了一瞬又离开，提示“名”也能保护还没完全被忘掉的生命。",
+        "locations": ["station"],
+        "commands": ["inspect broken_nameplate"]
       }
     ],
     "02-moqi-academy": [
@@ -22,7 +82,24 @@
         "id": "academy-lesson",
         "path": "res://assets/illustrations/chapters/02-moqi-academy-01.png",
         "title": "第二幕：墨颀书院",
-        "caption": "隐秘书院的灯火里，第一堂课从承认自己不会开始。"
+        "caption": "隐秘书院的灯火里，第一堂课从承认自己不会开始。",
+        "transition": true
+      },
+      {
+        "id": "ink-well-ray",
+        "path": "res://assets/characters/creatures/creature_003_ink_well_ray/habitat.png",
+        "title": "边境村落：墨井鳐",
+        "caption": "井水和墨流纠缠在一起，墨井鳐让“字根能修复现实”的规则第一次落到村民身上。",
+        "locations": ["village"],
+        "commands": ["go village", "inspect well", "inspect first_failure", "inspect ink_well_ray", "inspect villagers", "cast stop", "cast fire", "cast name"]
+      },
+      {
+        "id": "contract-hound-node",
+        "path": "res://assets/characters/creatures/creature_004_contract_hound/habitat.png",
+        "title": "第一个国书节点：契约犬",
+        "caption": "契约犬守着国书节点，说明墨律司不是单纯追兵，而是掌握权限、契约和审判的系统。",
+        "locations": ["node"],
+        "commands": ["go node", "inspect contract", "inspect contract_hound", "write name", "cast door", "cast stop", "attack", "inspect mother_annotation", "inspect record"]
       }
     ],
     "03-dead-kingdom": [
@@ -30,7 +107,16 @@
         "id": "outer-city",
         "path": "res://assets/illustrations/chapters/03-dead-kingdom-01.png",
         "title": "第三幕：死去的王国",
-        "caption": "旧王都没有倒塌，只是被墨律司维持成一座有秩序的死城。"
+        "caption": "旧王都没有倒塌，只是被墨律司维持成一座有秩序的死城。",
+        "transition": true
+      },
+      {
+        "id": "statebook-remnant",
+        "path": "res://assets/characters/creatures/creature_005_statebook_remnant/habitat.png",
+        "title": "主国书殿：国书残影",
+        "caption": "国书残影把“国家是否只能靠王活着”的问题压到战斗里，夏离的立场在这里反转。",
+        "locations": ["hall"],
+        "commands": ["go hall", "inspect question", "inspect statebook_remnant", "write name", "cast door", "cast stop", "inspect answer", "attack", "inspect plan"]
       }
     ],
     "04-continuation-institute": [
@@ -38,7 +124,16 @@
         "id": "first-institute",
         "path": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
         "title": "第四幕：续文院",
-        "caption": "研究、教育与工程挤在同一张桌边，新的组织从这里动工。"
+        "caption": "研究、教育与工程挤在同一张桌边，新的组织从这里动工。",
+        "transition": true
+      },
+      {
+        "id": "seal-tower-forgetting",
+        "path": "res://assets/characters/creatures/creature_007_silence_probe/habitat.png",
+        "title": "封字塔：遗忘扩散",
+        "caption": "封字塔让遗忘从制度漏洞变成可见压力。学生、字典和档案同时被推到战斗目标里。",
+        "locations": ["seal_tower"],
+        "commands": ["go seal_tower", "inspect students", "inspect dictionary", "build protect", "write name", "cast stop", "attack", "build archive"]
       }
     ],
     "05-century-continuation": [
@@ -46,7 +141,16 @@
         "id": "century-city",
         "path": "res://assets/illustrations/chapters/05-century-continuation-01.png",
         "title": "第五幕：百年续页",
-        "caption": "一次次被续笔召回时，墨颀已经以十年为单位向前生长。"
+        "caption": "一次次被续笔召回时，墨颀已经以十年为单位向前生长。",
+        "transition": true
+      },
+      {
+        "id": "star-chart-moth",
+        "path": "res://assets/characters/creatures/creature_006_star_chart_moth/habitat.png",
+        "title": "星象工程时代：星图蛾",
+        "caption": "星图蛾咬掉坐标，让归星计划从宏大工程变成随时会失去方向的具体风险。",
+        "locations": ["astral", "star_tower"],
+        "commands": ["go astral", "inspect star_map", "inspect coordinate_standard", "inspect beacon", "inspect failed_signal", "inspect star_chart_moth", "build astral_tower", "go star_tower", "inspect signal", "inspect silent_frame", "write name", "cast stop", "attack"]
       }
     ],
     "06-return-star-plan": [
@@ -54,7 +158,16 @@
         "id": "astral-gate",
         "path": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
         "title": "第六幕：归星计划",
-        "caption": "星象塔前，归星计划不再只是回家，而是救援沉默的文明。"
+        "caption": "星象塔前，归星计划不再只是回家，而是救援沉默的文明。",
+        "transition": true
+      },
+      {
+        "id": "silence-probe",
+        "path": "res://assets/characters/creatures/creature_007_silence_probe/habitat.png",
+        "title": "现代世界裂隙：静默探针",
+        "caption": "静默探针把敌人从墨颀内部问题推到跨文明入侵，解释为什么归星计划必须变成救援计划。",
+        "locations": ["rift"],
+        "commands": ["go rift", "inspect probe", "inspect probe_body", "write name", "cast stop", "attack", "inspect truth", "build return"]
       }
     ],
     "07-lights-on-again": [
@@ -62,7 +175,24 @@
         "id": "home-light",
         "path": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
         "title": "第七幕：灯重新亮起",
-        "caption": "城市的灯光重新接上，自家的那扇窗也终于亮了。"
+        "caption": "城市的灯光重新接上，自家的那扇窗也终于亮了。",
+        "transition": true
+      },
+      {
+        "id": "return-bridge-traveler",
+        "path": "res://assets/characters/creatures/creature_008_return_bridge_traveler/habitat.png",
+        "title": "城市街道：归桥旅者",
+        "caption": "归桥旅者把现代城市和墨颀续页接在一起，提示回家不是结束，而是两个世界开始互相回应。",
+        "locations": ["street", "lab"],
+        "commands": ["go street", "inspect bridge_traveler_reflection", "inspect grid", "inspect neighbors", "build lights", "build node", "go lab", "inspect formula", "inspect beacon", "build modern_node", "inspect traveler_warning", "build bridge"]
+      },
+      {
+        "id": "final-silence-protocol",
+        "path": "res://assets/characters/creatures/creature_007_silence_probe/habitat.png",
+        "title": "轨道静默层：最终协议",
+        "caption": "最终协议删除队友和界面名称，强迫玩家用一路建立的命名、停止和续写体系收束全剧。",
+        "locations": ["orbit"],
+        "commands": ["go orbit", "inspect protocol", "inspect deleted_party_names", "build restore", "inspect civilization_response", "write name", "cast stop", "attack", "combine continue"]
       }
     ]
   }
