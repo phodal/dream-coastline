@@ -55,11 +55,12 @@ func _ready() -> void:
 
 	scene_canvas = SpriteSceneCanvasScript.new()
 	scene_canvas.name = "SpriteSceneCanvas"
-	scene_canvas.set_anchors_preset(Control.PRESET_FULL_RECT, false)
+	scene_canvas.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
 	scene_canvas.offset_left = 0
 	scene_canvas.offset_top = 0
 	scene_canvas.offset_right = 0
 	scene_canvas.offset_bottom = 0
+	scene_canvas.size = get_viewport_rect().size
 	scene_canvas.set_visual_repository(visual_repository)
 	add_child(scene_canvas)
 
@@ -380,6 +381,12 @@ func _layout_hud_regions() -> void:
 	var view_size := get_viewport_rect().size
 	if view_size.x <= 0.0 or view_size.y <= 0.0:
 		return
+	if scene_canvas != null:
+		scene_canvas.position = Vector2.ZERO
+		scene_canvas.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
+		scene_canvas.offset_left = 0
+		scene_canvas.offset_top = 0
+		scene_canvas.size = view_size
 
 	if top_bar != null:
 		var top_margin := 10.0

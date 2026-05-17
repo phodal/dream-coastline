@@ -38,6 +38,9 @@ var asset_viewport: SubViewport
 var asset_scene_instance: Node
 var asset_scene_path := ""
 var asset_scene_warning_keys := {}
+var _debug_draw_ticks := 0
+var _debug_tile_info_printed := false
+var _debug_asset_draw_printed := false
 
 
 func _ready() -> void:
@@ -103,6 +106,14 @@ func set_player_motion(tile: Vector2, moving: bool, facing: Vector2i, blocked: V
 
 
 func _draw() -> void:
+	if OS.get_environment("DREAM_COASTLINE_LAYOUT_DEBUG") == "1" and _debug_draw_ticks < 5:
+		_debug_draw_ticks += 1
+		print("layout-debug sprite-draw size=%s anchors=%s offsets=%s session=%s" % [
+			str(size),
+			[anchor_left, anchor_top, anchor_right, anchor_bottom],
+			[offset_left, offset_top, offset_right, offset_bottom],
+			str(session != null),
+		])
 	if session == null:
 		return
 	var canvas_size := size
@@ -110,7 +121,15 @@ func _draw() -> void:
 	var tile_size: float = floor(min(canvas_size.x / COLUMNS, canvas_size.y / ROWS))
 	tile_size = maxf(tile_size, 32.0)
 	var map_size := Vector2(tile_size * COLUMNS, tile_size * ROWS)
-	var origin := (canvas_size - map_size) * 0.5
+	var origin := Vector2.ZERO
+	if OS.get_environment("DREAM_COASTLINE_LAYOUT_DEBUG") == "1" and not _debug_tile_info_printed:
+		print("layout-debug tile-calc canvas=%s tile_size=%s map_size=%s origin=%s" % [
+			str(canvas_size),
+			str(tile_size),
+			str(map_size),
+			str(origin),
+		])
+		_debug_tile_info_printed = true
 
 	var visual := _current_visual()
 	var asset_scene_ready := _sync_asset_scene(visual)
@@ -126,6 +145,18 @@ func _draw() -> void:
 	_draw_blocked_feedback(origin, tile_size)
 	_draw_actors(origin, tile_size, visual)
 	_draw_screen_grade(canvas_size, origin, map_size, tile_size, visual)
+	if OS.get_environment("DREAM_COASTLINE_ASSET_DEBUG") == "1" and not _debug_asset_draw_printed and asset_viewport != null:
+		_debug_asset_draw_printed = true
+		var texture := asset_viewport.get_texture()
+		var tex_size := Vector2.ZERO
+		if texture != null:
+			tex_size = texture.get_size()
+		print("layout-debug asset-viewport info viewport-size=%s texture-size=%s session_scene=%s asset_ready=%s" % [
+			str(asset_viewport.size),
+			str(tex_size),
+			str(session and session.scene_id if session != null else "none"),
+			str(asset_scene_ready),
+		])
 
 
 func _setup_asset_viewport() -> void:

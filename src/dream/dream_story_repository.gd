@@ -40,6 +40,13 @@ func scene_count() -> int:
 	return scenes.size()
 
 
+func scene_ids() -> Array[String]:
+	var ids: Array[String] = []
+	for scene in scenes:
+		ids.append(str(scene.get("id", "")))
+	return ids
+
+
 func scene_at(index: int) -> Dictionary:
 	if index < 0 or index >= scenes.size():
 		return {}

@@ -9,6 +9,7 @@ extends Camera2D
 
 @export var gameboard_properties: GameboardProperties:
 	set(value):
+		gameboard_properties = value
 		_on_viewport_resized()
 
 

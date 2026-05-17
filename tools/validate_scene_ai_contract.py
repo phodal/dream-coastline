@@ -12,6 +12,12 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
+RENDER_COLUMNS = 15
+RENDER_ROWS = 9
+RENDER_VIEWPORT = "1280x720"
+RENDER_MIN_TILE_SIZE = 32
+RENDER_ASPECT = "16:9"
+RENDER_FORMULA_SNIPPET = "floor(min(canvas_width/15, canvas_height/9))"
 
 REQUIRED_SHEET_SECTIONS = [
     "Source Scene Contract",
@@ -99,6 +105,38 @@ def validate_contract_rows(scene_map: dict[str, Any], failures: list[str]) -> No
             failures.append(f"source_scene_contract[{index}].evidence is missing")
         if not non_empty_string(row.get("screen_meaning")):
             failures.append(f"source_scene_contract[{index}].screen_meaning is missing")
+
+
+def validate_render_contract(scene_map: dict[str, Any], failures: list[str]) -> None:
+    render_contract = scene_map.get("render_contract")
+    if not isinstance(render_contract, dict):
+        failures.append("render_contract must be an object")
+        return
+
+    for key in ["columns", "rows", "viewport", "tile_size_min", "tile_size_formula", "aspect"]:
+        if key not in render_contract:
+            failures.append(f"render_contract.{key} is missing")
+
+    columns = render_contract.get("columns")
+    if columns != RENDER_COLUMNS:
+        failures.append(f"render_contract.columns should be {RENDER_COLUMNS}, got {columns}")
+    rows = render_contract.get("rows")
+    if rows != RENDER_ROWS:
+        failures.append(f"render_contract.rows should be {RENDER_ROWS}, got {rows}")
+    viewport = render_contract.get("viewport")
+    if viewport != RENDER_VIEWPORT:
+        failures.append(f"render_contract.viewport should be {RENDER_VIEWPORT}, got {viewport}")
+    tile_size_min = render_contract.get("tile_size_min")
+    if tile_size_min != RENDER_MIN_TILE_SIZE:
+        failures.append(f"render_contract.tile_size_min should be {RENDER_MIN_TILE_SIZE}, got {tile_size_min}")
+    tile_size_formula = render_contract.get("tile_size_formula")
+    if not isinstance(tile_size_formula, str) or RENDER_FORMULA_SNIPPET not in tile_size_formula:
+        failures.append(
+            "render_contract.tile_size_formula must include `floor(min(canvas_width/15, canvas_height/9))`"
+        )
+    aspect = render_contract.get("aspect")
+    if aspect != RENDER_ASPECT:
+        failures.append(f"render_contract.aspect should be {RENDER_ASPECT}, got {aspect}")
 
 
 def validate_location_map(
@@ -306,6 +344,7 @@ def validate_map(map_path: Path, scene_id: str | None, failures: list[str]) -> s
 
     if not non_empty_string(scene_map.get("title")):
         failures.append("scene_sprint_map.title is missing")
+    validate_render_contract(scene_map, failures)
     validate_source_paths(scene_map, failures)
     validate_contract_rows(scene_map, failures)
     stable_ids = validate_stable_ids(scene_map, failures)

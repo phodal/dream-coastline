@@ -22,6 +22,7 @@ var settings_repository
 var session
 var player_controller
 var audio_director
+var ui_layer
 var hud
 var game_started := false
 var pending_title_quit := false
@@ -29,6 +30,7 @@ var pending_return_to_title := false
 
 
 func _ready() -> void:
+	var cmd_args := OS.get_cmdline_user_args()
 	database = RustSceneDatabase.new()
 	database.load_all()
 	visual_repository = RustSceneVisualRepository.new()
@@ -36,103 +38,106 @@ func _ready() -> void:
 	save_repository = RustSaveGameRepository.new()
 	settings_repository = RustSettingsRepository.new()
 	settings_repository.load()
-	_apply_visual_style_from_settings(OS.get_cmdline_user_args())
+	_apply_visual_style_from_settings(cmd_args)
 	settings_repository.apply()
+	call_deferred("_apply_window_position", cmd_args)
+	if _should_layout_debug(cmd_args):
+		_print_layout_debug()
 	session = RustGameSession.new()
 	session.set_database(database)
 	player_controller = RustRpgPlayerController.new()
 	player_controller.set_session(session)
 	player_controller.set_visual_repository(visual_repository)
 	audio_director = AudioDirectorScript.new()
-	audio_director.enabled = not _is_smoke_run(OS.get_cmdline_user_args())
+	audio_director.enabled = not _is_smoke_run(cmd_args)
 	add_child(audio_director)
-	if OS.get_cmdline_user_args().has("--smoke-audio-director"):
+	if cmd_args.has("--smoke-audio-director"):
 		var ok: bool = audio_director.verify_streams()
 		print("audio-director-smoke status=%s streams=%s" % ["PASS" if ok else "FAIL", audio_director.streams.size()])
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-export-config"):
+	if cmd_args.has("--smoke-export-config"):
 		var ok: bool = _run_export_config_smoke()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-release-libraries"):
+	if cmd_args.has("--smoke-release-libraries"):
 		var ok: bool = _run_release_libraries_smoke()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-input-map"):
+	if cmd_args.has("--smoke-input-map"):
 		var ok: bool = _run_input_map_smoke()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-animation-clips"):
+	if cmd_args.has("--smoke-animation-clips"):
 		var ok: bool = AnimationClipRepositorySmokeScript.new().run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-visual-asset-scenes"):
+	if cmd_args.has("--smoke-visual-asset-scenes"):
 		var ok: bool = _run_visual_asset_scene_smoke()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-autoplay"):
+	if cmd_args.has("--smoke-autoplay"):
 		var ok: bool = session.run_smoke_verification()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-rpg-first-act"):
+	if cmd_args.has("--smoke-rpg-first-act"):
 		var ok: bool = RpgFirstActSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-rpg-illiterate"):
+	if cmd_args.has("--smoke-rpg-illiterate"):
 		var ok: bool = RpgIlliterateSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-rpg-moqi-academy"):
+	if cmd_args.has("--smoke-rpg-moqi-academy"):
 		var ok: bool = RpgMoqiAcademySmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-rpg-dead-kingdom"):
+	if cmd_args.has("--smoke-rpg-dead-kingdom"):
 		var ok: bool = RpgDeadKingdomSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-rpg-continuation-institute"):
+	if cmd_args.has("--smoke-rpg-continuation-institute"):
 		var ok: bool = RpgContinuationInstituteSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-rpg-century-continuation"):
+	if cmd_args.has("--smoke-rpg-century-continuation"):
 		var ok: bool = RpgCenturyContinuationSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-rpg-return-star-plan"):
+	if cmd_args.has("--smoke-rpg-return-star-plan"):
 		var ok: bool = RpgReturnStarPlanSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-rpg-lights-on-again"):
+	if cmd_args.has("--smoke-rpg-lights-on-again"):
 		var ok: bool = RpgLightsOnAgainSmokeScript.new(session, player_controller).run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-rpg-progression"):
+	if cmd_args.has("--smoke-rpg-progression"):
 		var ok: bool = RpgProgressionSmokeScript.new(session).run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-save-load"):
+	if cmd_args.has("--smoke-save-load"):
 		var ok: bool = SaveLoadSmokeScript.new(session, player_controller, save_repository).run()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-menu-flow"):
+	if cmd_args.has("--smoke-menu-flow"):
 		_build_ui()
 		_load_scene(0)
 		var ok := _run_menu_smoke()
 		get_tree().quit(0 if ok else 1)
 		return
-	if OS.get_cmdline_user_args().has("--smoke-render-frame"):
+	if cmd_args.has("--smoke-render-frame"):
 		_build_ui()
 		_start_new_game()
 		call_deferred("_finish_render_smoke")
 		return
-	if OS.get_cmdline_user_args().has("--capture-scene-screenshots"):
+	if cmd_args.has("--capture-scene-screenshots"):
 		_build_ui()
 		game_started = true
 		hud.hide_title()
 		call_deferred("_capture_scene_screenshots")
 		return
-	if OS.get_cmdline_user_args().has("--capture-ui-screenshots"):
+	if cmd_args.has("--capture-ui-screenshots"):
 		if audio_director != null:
 			audio_director.enabled = false
 		_build_ui()
@@ -154,6 +159,11 @@ func _draw() -> void:
 
 
 func _build_ui() -> void:
+	if ui_layer == null:
+		ui_layer = CanvasLayer.new()
+		ui_layer.name = "HudCanvasLayer"
+		add_child(ui_layer)
+
 	hud = GameHudScript.new()
 	hud.configure(visual_repository, save_repository.has_save())
 	hud.resume_requested.connect(_resume_game)
@@ -168,7 +178,22 @@ func _build_ui() -> void:
 	hud.fullscreen_changed.connect(_set_fullscreen)
 	hud.master_volume_changed.connect(_set_master_volume)
 	hud.visual_style_changed.connect(_set_visual_style)
-	add_child(hud)
+	ui_layer.add_child(hud)
+	if _should_layout_debug(OS.get_cmdline_user_args()):
+		print("layout-debug build-ui-complete scene=%s" % [hud.name])
+		print("layout-debug scene_canvas rect=%s size=%s pos=%s anchors=%s offsets=%s" % [
+			str(hud.scene_canvas.get_rect()),
+			str(hud.scene_canvas.size),
+			str(hud.scene_canvas.position),
+			[
+				hud.scene_canvas.anchor_left,
+				hud.scene_canvas.anchor_top,
+				hud.scene_canvas.anchor_right,
+				hud.scene_canvas.anchor_bottom,
+			],
+			[hud.scene_canvas.offset_left, hud.scene_canvas.offset_top, hud.scene_canvas.offset_right, hud.scene_canvas.offset_bottom]
+		])
+		print("layout-debug build-ui-hud=%s" % [hud.name])
 
 
 func _load_scene(index: int) -> void:
@@ -429,7 +454,9 @@ func _rebuild_hud_for_visual_style() -> void:
 	var title_visible: bool = hud.is_title_visible()
 	var pause_visible: bool = hud.is_pause_visible()
 	var settings_visible: bool = hud.is_settings_visible()
-	remove_child(hud)
+	var hud_parent: Node = hud.get_parent()
+	if hud_parent != null:
+		hud_parent.remove_child(hud)
 	hud.queue_free()
 	hud = null
 	_build_ui()
@@ -597,8 +624,31 @@ func _finish_render_smoke() -> void:
 	await get_tree().process_frame
 
 	var image: Image = get_viewport().get_texture().get_image()
+	var args := OS.get_cmdline_user_args()
+	if _should_layout_debug(args) and hud != null and hud.scene_canvas != null:
+		_print_layout_debug()
 	var ok: bool = _verify_render_image(image)
 	get_tree().quit(0 if ok else 1)
+
+
+func _print_layout_debug() -> void:
+	if hud == null or hud.scene_canvas == null:
+		return
+	var canvas: SpriteSceneCanvas = hud.scene_canvas
+	print("layout-debug viewport=%s" % [str(get_viewport_rect())])
+	print("layout-debug hud=%s scene_canvas=%s" % [str(hud.get_rect()), str(canvas.get_rect())])
+	print("layout-debug hud_size=%s scene_canvas_size=%s" % [str(hud.size), str(canvas.size)])
+	print("layout-debug scene_canvas_position=%s anchors=%s" % [str(canvas.position), str(canvas.get_anchors_preset())])
+	print("layout-debug scene_canvas_offsets=%s" % [
+		[canvas.offset_left, canvas.offset_top, canvas.offset_right, canvas.offset_bottom]
+	])
+	print("layout-debug scene_canvas_min_size=%s" % str(canvas.custom_minimum_size))
+	print("layout-debug layout_debug_cmd_args=%s" % [str(OS.get_cmdline_user_args())])
+	print("layout-debug layout_debug_env=%s" % OS.get_environment("DREAM_COASTLINE_LAYOUT_DEBUG"))
+
+
+func _should_layout_debug(cmd_args: Array) -> bool:
+	return cmd_args.has("--layout-debug") or OS.get_environment("DREAM_COASTLINE_LAYOUT_DEBUG") == "1"
 
 
 func _capture_scene_screenshots() -> void:
@@ -1013,6 +1063,32 @@ func _verify_render_image(image: Image) -> bool:
 		distinct_count,
 	])
 	return ok
+
+
+func _apply_window_position(args: Array) -> void:
+	var requested := _arg_value(args, "--window-position", "")
+	if requested.is_empty():
+		requested = _arg_value(args, "--position", "")
+	if requested.is_empty():
+		requested = OS.get_environment("DREAM_COASTLINE_WINDOW_POSITION")
+	if requested.is_empty():
+		return
+
+	var parts := requested.split(",")
+	if parts.size() != 2:
+		push_warning("Invalid window position: %s" % requested)
+		return
+
+	var x_str := parts[0].strip_edges()
+	var y_str := parts[1].strip_edges()
+	if not x_str.is_valid_int() or not y_str.is_valid_int():
+		push_warning("Invalid window position: %s" % requested)
+		return
+
+	var position := Vector2i(int(x_str), int(y_str))
+	DisplayServer.window_set_position(position, DisplayServer.MAIN_WINDOW_ID)
+	print("window-position-applied: %s" % position)
+	print("window-position-current: %s" % DisplayServer.window_get_position(DisplayServer.MAIN_WINDOW_ID))
 
 
 func _is_smoke_run(args: Array) -> bool:

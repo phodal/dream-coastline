@@ -5,10 +5,12 @@ A Godot 4.6 RPG slice now re-architected around the copied
 gamepieces, cutscenes, and interactions drive the playable spine.
 
 The current main scene is `res://src/main.tscn`. It loads Dream Coastline story
-data from `data/story_scenes/` and presents those scenes through OpenRPG-style
-`Gameboard`, `Gamepiece`, `PlayerController`, `Interaction`, and `Cutscene`
-objects. The previous `scripts/ui/*` HUD/title/pause stack is retained in the
-repository for reference, but it is not part of the current main runtime.
+data from `data/story_scenes/`, loads the original asset-backed location scenes
+from `data/visual_scenes/` and `scenes/visual_locations/`, then presents them
+through OpenRPG-style `Gameboard`, `Gamepiece`, `PlayerController`,
+`Interaction`, and `Cutscene` objects. The previous `scripts/ui/*`
+HUD/title/pause stack is retained in the repository for reference, but it is not
+part of the current main runtime.
 
 ## Features
 
@@ -31,9 +33,12 @@ repository for reference, but it is not part of the current main runtime.
 - `project.godot` autoloads `Camera`, `FieldEvents`, `Gameboard`,
   `GamepieceRegistry`, and `Player` for the OpenRPG field model.
 - `src/dream/dream_field.gd` adapts Dream Coastline data to OpenRPG rooms,
-  player movement, world labels, and interactions.
+  player movement, original location scenes, world labels, and interactions.
 - `src/dream/dream_story_repository.gd` loads all eight story JSON files and
   applies inspect/go/cast/build/choose/engage/combat/combo progression.
+- `src/dream/dream_visual_repository.gd` loads `data/visual_scenes/*.json`,
+  verifies every `asset_scene`, and gives OpenRPG the original prop/spawn
+  coordinates.
 - `src/dream/dream_story_interaction.gd` turns story records into OpenRPG
   `Interaction` cutscenes.
 - `src/dream/dream_dialogue_layer.gd` provides the new minimal dialogue layer;
@@ -77,6 +82,7 @@ Validate the OpenRPG migration:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-story
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-runtime
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-actions
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-visual-scenes
 ```
 
 Run the tiered automated test gates:

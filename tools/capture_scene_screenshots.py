@@ -65,7 +65,24 @@ def parse_args() -> argparse.Namespace:
         default=240,
         help="Godot safety timeout in seconds.",
     )
+    parser.add_argument(
+        "--resolution",
+        default="1280x720",
+        help="Godot window resolution used for capture (for example 1280x720).",
+    )
     return parser.parse_args()
+
+
+def parse_resolution(resolution: str) -> tuple[int, int]:
+    width_str, sep, height_str = resolution.partition("x")
+    if not width_str or not sep or not height_str:
+        return 1280, 720
+    try:
+        width = max(1, int(width_str))
+        height = max(1, int(height_str))
+    except ValueError:
+        return 1280, 720
+    return width, height
 
 
 def run_capture(args: argparse.Namespace) -> int:
@@ -73,6 +90,7 @@ def run_capture(args: argparse.Namespace) -> int:
     if not output.is_absolute():
         output = ROOT / output
     clean_previous_capture(output)
+    capture_width, capture_height = parse_resolution(args.resolution)
 
     command = [
         str(args.godot.expanduser()),
@@ -80,6 +98,8 @@ def run_capture(args: argparse.Namespace) -> int:
         str(ROOT),
         "--scene",
         args.godot_scene,
+        "--resolution",
+        args.resolution,
         "--quit-after",
         str(args.quit_after),
         "--",
@@ -106,6 +126,11 @@ def run_capture(args: argparse.Namespace) -> int:
 
     with manifest_path.open(encoding="utf-8") as file:
         manifest = json.load(file)
+    manifest["viewport"] = {
+        "width": capture_width,
+        "height": capture_height,
+    }
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     write_contact_sheet(output, manifest)
     print(f"scene screenshot review: {output / 'index.html'}")
     return 0

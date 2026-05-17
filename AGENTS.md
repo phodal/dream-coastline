@@ -37,3 +37,4 @@
 - 菜单按钮如果同时支持 Godot GUI 焦点和根节点兜底输入，`focus_entered` 要同步 selected index，并给 Enter/Space 加原始 keycode 兜底；否则保存后返回标题可能选中了“继续”却无法触发读取。
 - 复制 `godot-open-rpg` 的 `class_name` 脚本后要补齐依赖脚本（例如 `GameboardLayer`）并跑一次 Godot editor/headless editor 扫描；旧 `.godot/global_script_class_cache` 会让 autoload 误报找不到类型。
 - OpenRPG 示例动画资源可能带旧 UID/path 依赖；迁移角色时优先做项目本地的最小 `GamepieceAnimation` 场景，避免 `.res` 继续引用原项目路径。
+- 迁移到 OpenRPG 主流程时不能只用通用 room renderer；要显式加载 `data/visual_scenes` 指向的 `scenes/visual_locations`，并让 smoke 检查 asset scene 已进入新入口。

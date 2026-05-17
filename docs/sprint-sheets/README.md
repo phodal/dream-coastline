@@ -21,6 +21,7 @@ The map schema is documented in `scene-sprint-map-schema.md`.
 The UI writing schema is documented in `ui-implementation-brief-schema.md`.
 The animation map schema is documented in
 `../animation-sheets/animation-sprint-map-schema.md`.
+AI-assisted TileMap authoring is documented in `../ai-tile-designer.md`.
 
 Build the intermediate map prompt:
 
@@ -100,6 +101,7 @@ Send that prompt to Codex, DeepSeek, or another model. The model output is only 
 - `scene-sprint-map-schema.md`: intermediate AI mapping contract between scene evidence and Sprint Sheets.
 - `ui-implementation-brief-schema.md`: file-level UI authoring contract generated from a reviewed map.
 - `../animation-sheets/animation-sprint-map-schema.md`: asset-generation mapping contract for `ANIM-*` rows.
+- `../ai-tile-designer.md`: AI recipe layer for Godot TileMapLayer, pattern, scattering, and terrain-assisted scene authoring.
 - `rpg-ui-style-pass.md`: scene-aligned pass for the prologue modern-silence RPG UI.
 - `01-illiterate.md`: first act survival, illiteracy, and first glyph-learning pass.
 - `01-illiterate-ui-brief.md`: file-level UI implementation brief for the first act.

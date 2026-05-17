@@ -1,0 +1,256 @@
+{
+  "schema": "dream-coastline.ai_tile_recipe.v1",
+  "scene_id": "01-illiterate",
+  "location_id": "station",
+  "source_contract": {
+    "must_read_as": [
+      "blanking station",
+      "name rune focus",
+      "enemy cannot be locked before naming"
+    ],
+    "must_not_read_as": [
+      "generic ruin",
+      "normal monster arena",
+      "comfortable tutorial room"
+    ]
+  },
+  "patterns": {
+    "blanking_station_wall": {
+      "size": [11, 3],
+      "layers": {
+        "decor": [
+          "m.r...r.m..",
+          ".s.r.r.s...",
+          "..m...m...."
+        ],
+        "lighting": [
+          "..c...c....",
+          ".c.....c...",
+          ".....d....."
+        ]
+      },
+      "legend": {
+        "c": "cyan_glow",
+        "d": "danger_glow",
+        "m": "stone_marker",
+        "r": "rune",
+        "s": "shadow"
+      }
+    },
+    "name_rune_focus": {
+      "size": [5, 4],
+      "layers": {
+        "decor": [
+          "..r..",
+          ".rnr.",
+          "..r..",
+          ".s.s."
+        ],
+        "lighting": [
+          "..c..",
+          ".ccc.",
+          "..d..",
+          "....."
+        ],
+        "props_shadow": [
+          ".....",
+          "..s..",
+          ".....",
+          "....."
+        ]
+      },
+      "legend": {
+        "c": "cyan_glow",
+        "d": "danger_glow",
+        "n": "node",
+        "r": "rune",
+        "s": "shadow"
+      }
+    },
+    "nameless_lock_shadow": {
+      "size": [4, 3],
+      "layers": {
+        "decor": [
+          ".s..",
+          "see.",
+          ".s.."
+        ],
+        "lighting": [
+          ".d..",
+          "ddd.",
+          ".d.."
+        ],
+        "props_shadow": [
+          ".s..",
+          "sss.",
+          ".s.."
+        ]
+      },
+      "legend": {
+        "d": "danger_glow",
+        "e": "enemy",
+        "s": "shadow"
+      }
+    },
+    "xiaoyan_anchor": {
+      "size": [3, 3],
+      "layers": {
+        "decor": [
+          ".n.",
+          "sns",
+          "..."
+        ],
+        "props_shadow": [
+          "...",
+          ".s.",
+          "..."
+        ]
+      },
+      "legend": {
+        "n": "npc",
+        "s": "shadow"
+      }
+    }
+  },
+  "operations": [
+    {
+      "id": "TILE-01-STATION-001",
+      "layer": "ground",
+      "tool": "fill",
+      "tile": "ruin_floor",
+      "area": [0, 0, 15, 9]
+    },
+    {
+      "id": "TILE-01-STATION-002",
+      "layer": "walls",
+      "tool": "erase",
+      "area": [0, 0, 15, 9]
+    },
+    {
+      "id": "TILE-01-STATION-003",
+      "layer": "decor",
+      "tool": "erase",
+      "area": [0, 0, 15, 9]
+    },
+    {
+      "id": "TILE-01-STATION-004",
+      "layer": "props_shadow",
+      "tool": "erase",
+      "area": [0, 0, 15, 9]
+    },
+    {
+      "id": "TILE-01-STATION-005",
+      "layer": "lighting",
+      "tool": "erase",
+      "area": [0, 0, 15, 9]
+    },
+    {
+      "id": "TILE-01-STATION-006",
+      "layer": "walls",
+      "tool": "line",
+      "selection": ["stone_marker", "ruin_floor", "rune"],
+      "from": [0, 0],
+      "to": [14, 0]
+    },
+    {
+      "id": "TILE-01-STATION-007",
+      "layer": "walls",
+      "tool": "line",
+      "selection": ["ruin_floor", "stone_marker"],
+      "from": [0, 8],
+      "to": [14, 8]
+    },
+    {
+      "id": "TILE-01-STATION-008",
+      "layer": "walls",
+      "tool": "line",
+      "selection": ["stone_marker", "shadow"],
+      "from": [0, 1],
+      "to": [0, 7]
+    },
+    {
+      "id": "TILE-01-STATION-009",
+      "layer": "walls",
+      "tool": "line",
+      "selection": ["shadow", "stone_marker"],
+      "from": [14, 1],
+      "to": [14, 7]
+    },
+    {
+      "id": "TILE-01-STATION-010",
+      "layer": "decor",
+      "tool": "scatter",
+      "selection": ["shadow", "rune", "stone_marker"],
+      "area": [1, 1, 13, 7],
+      "density": 0.09,
+      "seed": 101
+    },
+    {
+      "id": "TILE-01-STATION-011",
+      "tool": "pattern",
+      "pattern": "blanking_station_wall",
+      "at": [2, 1]
+    },
+    {
+      "id": "TILE-01-STATION-012",
+      "tool": "pattern",
+      "pattern": "name_rune_focus",
+      "at": [5, 2]
+    },
+    {
+      "id": "TILE-01-STATION-013",
+      "tool": "pattern",
+      "pattern": "nameless_lock_shadow",
+      "at": [9, 3]
+    },
+    {
+      "id": "TILE-01-STATION-014",
+      "tool": "pattern",
+      "pattern": "xiaoyan_anchor",
+      "at": [2, 3]
+    },
+    {
+      "id": "TILE-01-STATION-015",
+      "layer": "decor",
+      "tool": "paint",
+      "tile": "gate",
+      "at": [1, 4]
+    },
+    {
+      "id": "TILE-01-STATION-016",
+      "layer": "lighting",
+      "tool": "paint",
+      "tile": "cyan_glow",
+      "points": [
+        [5, 3],
+        [7, 3],
+        [10, 4]
+      ]
+    }
+  ],
+  "screenshot_states": [
+    {
+      "id": "SHOT-01-STATION-BEFORE-NAME",
+      "location": "station",
+      "flags": [],
+      "expect": [
+        "center reads as a name-rune focus",
+        "enemy presence is implied by shadow and blank space",
+        "the room does not read as a normal ruin combat arena"
+      ]
+    },
+    {
+      "id": "SHOT-01-STATION-AFTER-NAME",
+      "location": "station",
+      "flags": [
+        "learned_name_strokes",
+        "named_beast"
+      ],
+      "expect": [
+        "the nameless beast is now visually targetable",
+        "the name rune still owns the visual focus",
+        "the station still reads as blanking instead of ordinary ruins"
+      ]
+    }
+  ]
+}

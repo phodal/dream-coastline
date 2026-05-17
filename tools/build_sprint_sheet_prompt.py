@@ -9,6 +9,10 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+CANVAS_COLUMNS = 15
+CANVAS_ROWS = 9
+CANVAS_MIN_TILE_SIZE = 32.0
+DEFAULT_VIEWPORT = "1280x720"
 DEFAULT_GAME_ACCEPTANCE_COMMANDS = [
     "/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit",
     "/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-autoplay",
@@ -95,6 +99,17 @@ def scene_summary(story: dict, visual: dict) -> str:
     return "\n".join(location_lines)
 
 
+def render_contract() -> str:
+    return "\n".join(
+        [
+            "运行时网格约束:",
+            f"- 格子: {CANVAS_COLUMNS}x{CANVAS_ROWS}",
+            f"- viewport: {DEFAULT_VIEWPORT}（16:9）",
+            f"- tile_size 计算：floor(min(canvas_width/{CANVAS_COLUMNS}, canvas_height/{CANVAS_ROWS}))，最终至少为 {int(CANVAS_MIN_TILE_SIZE)}px",
+        ]
+    )
+
+
 def load_scene_bundle(scene_id: str) -> dict:
     story_path = ROOT / "data" / "story_scenes" / f"{scene_id}.json"
     visual_path = ROOT / "data" / "visual_scenes" / f"{scene_id}.json"
@@ -144,6 +159,7 @@ def build_sheet_prompt(scene_id: str) -> str:
 - 必须列出 Story JSON、Visual JSON、Renderer、HUD/Menu、Smoke 和截图验收。
 - 如果现有 prop kind 或 terrain 会让画面读成错误时代/地点，要明确指出。
 - 不要虚构不存在的文件路径；需要新增文件时写成建议。
+- 运行时约束固定为 15x9 网格 + 16:9 画面。tile_size 按 `floor(min(canvas_width/15, canvas_height/9))` 计算，并至少 32px。
 
 参考架构：
 ```md
@@ -175,6 +191,11 @@ Story JSON 摘要：
 Visual JSON 摘要：
 ```text
 {scene_summary(story, visual)}
+```
+
+运行时参考：
+```text
+{render_contract()}
 ```
 
 请输出完整 Sprint Sheet，章节结构使用：
@@ -211,6 +232,7 @@ def build_map_prompt(scene_id: str) -> str:
 - 顶层必须是一个对象，并且只包含一个键：`scene_sprint_map`。
 - 每个字段必须来自输入证据；如果输入没有证据，使用空数组或 `null`，不要虚构。
 - 所有 screen meaning、risk、task、acceptance 都要具体到玩家能在画面或操作中验证。
+- `render_contract` 要描述 15x9 网格与 16:9 画面约束（如果缺省请显式填写标准值）。
 - `must_not_read_as` 必须列出会让场景读错时代、类型、地点或情绪的画面误读。
 - 每个视觉、prop、动画、HUD、截图验收点都必须有稳定 ID，例如 `VIS-00-01`、`PROP-00-02`、`ANIM-JZX-01`、`HUD-00-01`、`SHOT-00-01`。
 - `sprint_trace_map` 必须把每个稳定 ID 串成：scene evidence -> runtime function -> visual object / animation asset -> owner file / function -> screenshot state -> acceptance gate。
@@ -232,6 +254,14 @@ def build_map_prompt(scene_id: str) -> str:
     "scene": "path",
     "story_json": "path",
     "visual_json": "path"
+  }},
+  "render_contract": {{
+    "columns": 15,
+    "rows": 9,
+    "viewport": "1280x720",
+    "tile_size_min": 32,
+    "tile_size_formula": "floor(min(canvas_width/15, canvas_height/9))",
+    "aspect": "16:9"
   }},
   "source_scene_contract": [
     {{
@@ -344,6 +374,7 @@ def build_sheet_from_map_prompt(scene_id: str, map_input: Path) -> str:
 - 以 `scene_sprint_map` 为主合同；不要绕过它直接写泛泛的 RPG 建议。
 - `Source Scene Contract` 必须来自 `scene_sprint_map.source_scene_contract`。
 - `Visual Direction` 必须保留 `must_read_as` 与 `must_not_read_as`。
+- `Visual Direction` 与 `Screenshot Review Gate` 必须显式使用 `render_contract` 约束（15x9、16:9、tile_size 公式与最小值），并在验收里写清可视比例风险。
 - `Implementation Tasks` 必须由 `scene_sprint_map.implementation_tasks` 转换，保持 inputs、outputs、acceptance。
 - `Sprint Trace Map` 必须保留 `scene_sprint_map.stable_ids` 与 `scene_sprint_map.sprint_trace_map`，并让每个任务引用对应 ID。
 - `Screenshot Review Gate` 必须由 `scene_sprint_map.screenshot_states` 转换。

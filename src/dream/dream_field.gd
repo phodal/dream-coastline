@@ -2,6 +2,7 @@ extends Node2D
 class_name DreamField
 
 const StoryRepositoryScript := preload("res://src/dream/dream_story_repository.gd")
+const VisualRepositoryScript := preload("res://src/dream/dream_visual_repository.gd")
 const DialogueLayerScript := preload("res://src/dream/dream_dialogue_layer.gd")
 const RoomRendererScript := preload("res://src/dream/dream_room_renderer.gd")
 const StoryInteractionScript := preload("res://src/dream/dream_story_interaction.gd")
@@ -9,9 +10,9 @@ const GamepieceScene := preload("res://src/field/gamepieces/gamepiece.tscn")
 const PlayerControllerScene := preload("res://src/field/gamepieces/controllers/player_controller.tscn")
 const DreamPlayerAnimationScene := preload("res://src/dream/dream_player_animation.tscn")
 
-const GRID_SIZE := Vector2i(13, 9)
+const GRID_SIZE := Vector2i(15, 9)
 const CELL_SIZE := Vector2i(32, 32)
-const PLAYER_CELL := Vector2i(6, 4)
+const DEFAULT_PLAYER_CELL := Vector2i(7, 6)
 const ITEM_CELLS: Array[Vector2i] = [
 	Vector2i(2, 2),
 	Vector2i(5, 2),
@@ -52,12 +53,17 @@ const SCENE_SMOKE_FLAGS := {
 }
 
 var repository: DreamStoryRepository
+var visual_repository
 var flags: Dictionary = {}
 var combat_state: Dictionary = {}
 var current_scene_index := 0
 var current_scene: Dictionary = {}
 var current_location_id := ""
+var current_visual: Dictionary = {}
 var room_root: Node2D
+var asset_scene_root: Node2D
+var current_asset_scene_instance: Node
+var current_asset_scene_path := ""
 var interaction_root: Node2D
 var label_root: Node2D
 var renderer: DreamRoomRenderer
@@ -70,12 +76,16 @@ func _ready() -> void:
 
 	repository = StoryRepositoryScript.new()
 	var data_ok := repository.load_all()
+	visual_repository = VisualRepositoryScript.new()
+	var visual_ok := false
+	if data_ok:
+		visual_ok = visual_repository.load_for_scene_ids(repository.scene_ids())
 	var args := OS.get_cmdline_user_args()
 
-	if _run_headless_smoke_if_requested(args, data_ok):
+	if _run_headless_smoke_if_requested(args, data_ok, visual_ok):
 		return
 
-	if not data_ok:
+	if not data_ok or not visual_ok:
 		get_tree().quit(1)
 		return
 
@@ -87,6 +97,8 @@ func _ready() -> void:
 	elif args.has("--smoke-open-rpg-actions"):
 		_load_story_scene(2)
 		current_location_id = "node"
+		current_visual = _current_visual_for_location()
+		_reset_player_to_spawn()
 		_build_current_room()
 		call_deferred("_finish_open_rpg_action_smoke")
 	elif args.has("--smoke-render-frame"):
@@ -121,6 +133,10 @@ func _setup_world() -> void:
 	renderer.name = "RoomRenderer"
 	room_root.add_child(renderer)
 
+	asset_scene_root = Node2D.new()
+	asset_scene_root.name = "AssetLocationRoot"
+	room_root.add_child(asset_scene_root)
+
 	interaction_root = Node2D.new()
 	interaction_root.name = "Interactions"
 	room_root.add_child(interaction_root)
@@ -131,7 +147,7 @@ func _setup_world() -> void:
 
 	player_gamepiece = GamepieceScene.instantiate()
 	player_gamepiece.name = "JiziXuan"
-	player_gamepiece.position = Gameboard.cell_to_pixel(PLAYER_CELL)
+	player_gamepiece.position = Gameboard.cell_to_pixel(DEFAULT_PLAYER_CELL)
 	player_gamepiece.animation_scene = DreamPlayerAnimationScene
 	room_root.add_child(player_gamepiece)
 
@@ -171,19 +187,26 @@ func _load_story_scene(index: int) -> void:
 	current_scene = repository.scene_at(current_scene_index)
 	current_location_id = str(current_scene.get("start", ""))
 	_apply_scene_initial_flags(current_scene)
-	_reset_player_to_center()
+	current_visual = _current_visual_for_location()
+	_reset_player_to_spawn()
 	_build_current_room()
 
 
 func _build_current_room() -> void:
 	_clear_children(interaction_root)
 	_clear_children(label_root)
-	_rebuild_pathfinder()
-	_mark_occupied_cells()
 
 	var scene_id := str(current_scene.get("id", ""))
 	var location := repository.location_for(current_scene, current_location_id)
-	renderer.configure(GRID_SIZE, CELL_SIZE, hash(scene_id + current_location_id))
+	current_visual = _current_visual_for_location()
+	_sync_asset_location(current_visual)
+	renderer.visible = current_asset_scene_instance == null
+	if renderer.visible:
+		renderer.configure(GRID_SIZE, CELL_SIZE, hash(scene_id + current_location_id))
+
+	_rebuild_pathfinder()
+	_mark_visual_blockers(current_visual)
+	_mark_occupied_cells()
 
 	_add_room_header(str(current_scene.get("title", scene_id)), str(location.get("name", current_location_id)), str(location.get("description", "")))
 	_add_item_interactions(scene_id, location)
@@ -211,7 +234,8 @@ func _add_item_interactions(scene_id: String, location: Dictionary) -> void:
 	for index in range(keys.size()):
 		var item_id := str(keys[index])
 		var item: Dictionary = items[item_id]
-		var cell := ITEM_CELLS[index % ITEM_CELLS.size()]
+		var visual_prop: Dictionary = visual_repository.item_prop(scene_id, current_location_id, item_id)
+		var cell: Vector2i = _interaction_cell_for_prop(visual_prop, ITEM_CELLS[index % ITEM_CELLS.size()])
 		var display_name := str(item.get("name", item_id))
 		var interaction := _make_story_interaction("item", scene_id, current_location_id, item_id, display_name, item, cell)
 		interaction_root.add_child(interaction)
@@ -225,7 +249,8 @@ func _add_exit_interactions(scene_id: String, location: Dictionary) -> void:
 
 	for index in range(keys.size()):
 		var destination_id := str(keys[index])
-		var cell := EXIT_CELLS[index % EXIT_CELLS.size()]
+		var visual_prop: Dictionary = visual_repository.exit_prop(scene_id, current_location_id, destination_id)
+		var cell: Vector2i = _interaction_cell_for_prop(visual_prop, EXIT_CELLS[index % EXIT_CELLS.size()])
 		var display_name := str(exits[destination_id])
 		var payload := {"destination": destination_id}
 		var interaction := _make_story_interaction("exit", scene_id, current_location_id, destination_id, display_name, payload, cell)
@@ -250,8 +275,9 @@ func _add_action_interactions(scene_id: String, location: Dictionary) -> void:
 
 	for index in range(action_records.size()):
 		var record := action_records[index]
-		var cell := ACTION_CELLS[index % ACTION_CELLS.size()]
-		var label := str(record.get("label", record.get("arg", "")))
+		var visual_prop: Dictionary = visual_repository.action_prop(scene_id, current_location_id, str(record.get("verb", "")), str(record.get("arg", "")))
+		var cell: Vector2i = _interaction_cell_for_prop(visual_prop, ACTION_CELLS[index % ACTION_CELLS.size()])
+		var label := str(visual_prop.get("label", record.get("label", record.get("arg", ""))))
 		var interaction := _make_story_interaction("action", scene_id, current_location_id, str(record.get("arg", "")), label, record, cell)
 		interaction_root.add_child(interaction)
 		_add_marker_label(cell, label, Color(0.72, 1.0, 0.58))
@@ -388,7 +414,8 @@ func _run_exit_interaction(interaction: DreamStoryInteraction) -> void:
 		return
 
 	current_location_id = destination_id
-	_reset_player_to_center()
+	current_visual = _current_visual_for_location()
+	_reset_player_to_spawn()
 	_build_current_room()
 	var location := repository.location_for(current_scene, current_location_id)
 	await dialogue_layer.show_message(str(location.get("name", current_location_id)), str(location.get("description", "")))
@@ -404,7 +431,8 @@ func _complete_current_scene() -> void:
 	current_scene = repository.scene_at(current_scene_index)
 	current_location_id = str(current_scene.get("start", ""))
 	_apply_scene_initial_flags(current_scene)
-	_reset_player_to_center()
+	current_visual = _current_visual_for_location()
+	_reset_player_to_spawn()
 	_build_current_room()
 	var location := repository.location_for(current_scene, current_location_id)
 	await dialogue_layer.show_message(str(current_scene.get("title", "")), str(location.get("description", "")))
@@ -422,18 +450,61 @@ func _apply_scene_initial_flags(scene: Dictionary) -> void:
 		flags[str(flag)] = true
 
 
-func _reset_player_to_center() -> void:
+func _current_visual_for_location() -> Dictionary:
+	if visual_repository == null:
+		return {}
+	return visual_repository.location_visual(str(current_scene.get("id", "")), current_location_id)
+
+
+func _sync_asset_location(visual: Dictionary) -> void:
+	var path := str(visual.get("asset_scene", ""))
+	if path == current_asset_scene_path and current_asset_scene_instance != null:
+		return
+
+	_clear_asset_location()
+	if path.is_empty():
+		return
+	if not ResourceLoader.exists(path):
+		push_warning("Missing Dream visual asset scene: %s" % path)
+		return
+
+	var packed_resource: Resource = load(path)
+	if not (packed_resource is PackedScene):
+		push_warning("Dream visual asset is not a scene: %s" % path)
+		return
+
+	var instance := (packed_resource as PackedScene).instantiate()
+	if instance == null:
+		push_warning("Could not instantiate Dream visual asset scene: %s" % path)
+		return
+
+	current_asset_scene_instance = instance
+	current_asset_scene_path = path
+	asset_scene_root.add_child(current_asset_scene_instance)
+
+
+func _clear_asset_location() -> void:
+	current_asset_scene_path = ""
+	current_asset_scene_instance = null
+	if asset_scene_root == null:
+		return
+	_clear_children(asset_scene_root)
+
+
+func _reset_player_to_spawn() -> void:
 	if player_gamepiece == null:
 		return
 
+	var scene_id := str(current_scene.get("id", ""))
+	var spawn_cell: Vector2i = visual_repository.spawn_cell(scene_id, current_location_id, DEFAULT_PLAYER_CELL)
 	var old_cell := GamepieceRegistry.get_cell(player_gamepiece)
-	player_gamepiece.position = Gameboard.cell_to_pixel(PLAYER_CELL)
+	player_gamepiece.position = Gameboard.cell_to_pixel(spawn_cell)
 	player_gamepiece.follower.progress = 0
 	player_gamepiece.curve = null
 	player_gamepiece.set_process(false)
-	if old_cell != Gameboard.INVALID_CELL and old_cell != PLAYER_CELL:
-		if GamepieceRegistry.get_gamepiece(PLAYER_CELL) == null:
-			GamepieceRegistry.move_gamepiece(player_gamepiece, PLAYER_CELL)
+	if old_cell != Gameboard.INVALID_CELL and old_cell != spawn_cell:
+		if GamepieceRegistry.get_gamepiece(spawn_cell) == null:
+			GamepieceRegistry.move_gamepiece(player_gamepiece, spawn_cell)
 
 
 func _rebuild_pathfinder() -> void:
@@ -456,6 +527,70 @@ func _rebuild_pathfinder() -> void:
 					Gameboard.pathfinder.connect_points(source_id, Gameboard.cell_to_index(neighbor))
 
 
+func _mark_visual_blockers(visual: Dictionary) -> void:
+	for y in range(GRID_SIZE.y):
+		for x in range(GRID_SIZE.x):
+			if x == 0 or y == 0 or x == GRID_SIZE.x - 1 or y == GRID_SIZE.y - 1:
+				_disable_path_cell(Vector2i(x, y))
+
+	for prop in visual.get("props", []):
+		if typeof(prop) != TYPE_DICTIONARY:
+			continue
+		if not bool(prop.get("solid", false)):
+			continue
+		var rect: Rect2i = visual_repository.prop_rect(prop)
+		for y in range(rect.position.y, rect.end.y):
+			for x in range(rect.position.x, rect.end.x):
+				_disable_path_cell(Vector2i(x, y))
+
+
+func _disable_path_cell(cell: Vector2i) -> void:
+	if not Gameboard.properties.extents.has_point(cell):
+		return
+	var cell_id := Gameboard.cell_to_index(cell)
+	if Gameboard.pathfinder.has_point(cell_id):
+		Gameboard.pathfinder.set_point_disabled(cell_id, true)
+
+
+func _disabled_path_point_count() -> int:
+	var count := 0
+	for cell_id in Gameboard.pathfinder.get_point_ids():
+		if Gameboard.pathfinder.is_point_disabled(cell_id):
+			count += 1
+	return count
+
+
+func _interaction_cell_for_prop(prop: Dictionary, fallback: Vector2i) -> Vector2i:
+	var base_cell: Vector2i = visual_repository.prop_cell(prop, fallback)
+	if prop.is_empty() or _path_cell_is_open(base_cell):
+		return base_cell
+
+	var best_cell := Gameboard.INVALID_CELL
+	var best_distance := 999
+	for y in range(max(0, base_cell.y - 4), min(GRID_SIZE.y, base_cell.y + 5)):
+		for x in range(max(0, base_cell.x - 4), min(GRID_SIZE.x, base_cell.x + 5)):
+			var candidate := Vector2i(x, y)
+			if not _path_cell_is_open(candidate):
+				continue
+			if not _interaction_cell_is_reachable(candidate):
+				continue
+			var distance := absi(candidate.x - base_cell.x) + absi(candidate.y - base_cell.y)
+			if distance < best_distance:
+				best_cell = candidate
+				best_distance = distance
+
+	if best_cell != Gameboard.INVALID_CELL:
+		return best_cell
+	return base_cell
+
+
+func _path_cell_is_open(cell: Vector2i) -> bool:
+	if not Gameboard.properties.extents.has_point(cell):
+		return false
+	var cell_id := Gameboard.cell_to_index(cell)
+	return Gameboard.pathfinder.has_point(cell_id) and not Gameboard.pathfinder.is_point_disabled(cell_id)
+
+
 func _mark_occupied_cells() -> void:
 	for cell in GamepieceRegistry.get_occupied_cells():
 		var cell_id := Gameboard.cell_to_index(cell)
@@ -468,7 +603,7 @@ func _clear_children(node: Node) -> void:
 		child.queue_free()
 
 
-func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool) -> bool:
+func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool, visual_ok: bool) -> bool:
 	if args.has("--smoke-input-map"):
 		var ok := _run_input_map_smoke()
 		get_tree().quit(0 if ok else 1)
@@ -480,7 +615,12 @@ func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool) ->
 		return true
 
 	if args.has("--smoke-visual-asset-scenes"):
-		var ok := _run_visual_asset_scene_smoke()
+		var ok := _run_visual_asset_scene_smoke(visual_ok)
+		get_tree().quit(0 if ok else 1)
+		return true
+
+	if args.has("--smoke-open-rpg-visual-scenes"):
+		var ok := data_ok and visual_ok and _run_open_rpg_visual_scene_smoke()
 		get_tree().quit(0 if ok else 1)
 		return true
 
@@ -561,7 +701,7 @@ func _run_animation_resource_smoke() -> bool:
 	return ok
 
 
-func _run_visual_asset_scene_smoke() -> bool:
+func _run_visual_asset_scene_smoke(visual_ok: bool) -> bool:
 	var dir := DirAccess.open("res://data/visual_scenes")
 	if dir == null:
 		print("open-rpg-visual-data-smoke status=FAIL files=0")
@@ -570,22 +710,110 @@ func _run_visual_asset_scene_smoke() -> bool:
 	for file_name in dir.get_files():
 		if file_name.ends_with(".json"):
 			count += 1
-	var ok := count >= repository.scene_count()
+	var ok := visual_ok and count >= repository.scene_count()
 	print("open-rpg-visual-data-smoke status=%s files=%d" % ["PASS" if ok else "FAIL", count])
 	return ok
+
+
+func _run_open_rpg_visual_scene_smoke() -> bool:
+	var result: Dictionary = visual_repository.validate_asset_scenes(repository.scene_ids())
+	var ok := bool(result.get("ok", false))
+	print("open-rpg-visual-scene-smoke status=%s assets=%d failures=%d" % [
+		"PASS" if ok else "FAIL",
+		int(result.get("checked", 0)),
+		result.get("failures", []).size(),
+	])
+	for failure in result.get("failures", []):
+		push_error(str(failure))
+	return ok
+
+
+func _visual_alignment_for_interactions() -> Dictionary:
+	var failures: Array[String] = []
+	var checked := 0
+	if interaction_root == null:
+		return {"ok": false, "checked": checked, "failures": ["missing interaction root"]}
+
+	for child in interaction_root.get_children():
+		if not (child is DreamStoryInteraction):
+			continue
+		var interaction := child as DreamStoryInteraction
+		var expected := _visual_cell_for_interaction(interaction)
+		if expected == Gameboard.INVALID_CELL:
+			failures.append("%s missing visual prop for %s/%s/%s" % [
+				interaction.name,
+				interaction.story_scene_id,
+				interaction.location_id,
+				interaction.target_id,
+			])
+			continue
+		checked += 1
+		var actual := Gameboard.pixel_to_cell(interaction.position)
+		if actual != expected:
+			failures.append("%s expected %s actual %s" % [interaction.name, str(expected), str(actual)])
+		if not _interaction_cell_is_reachable(expected):
+			failures.append("%s at %s is not reachable from player spawn" % [interaction.name, str(expected)])
+
+	if checked == 0:
+		failures.append("no visual-backed interactions checked")
+
+	return {
+		"ok": failures.is_empty(),
+		"checked": checked,
+		"failures": failures,
+	}
+
+
+func _visual_cell_for_interaction(interaction: DreamStoryInteraction) -> Vector2i:
+	var prop: Dictionary = {}
+	match interaction.interaction_kind:
+		"item":
+			prop = visual_repository.item_prop(interaction.story_scene_id, interaction.location_id, interaction.target_id)
+		"exit":
+			prop = visual_repository.exit_prop(interaction.story_scene_id, interaction.location_id, interaction.target_id)
+		"action":
+			prop = visual_repository.action_prop(
+				interaction.story_scene_id,
+				interaction.location_id,
+				str(interaction.payload.get("verb", "")),
+				str(interaction.payload.get("arg", ""))
+			)
+	if prop.is_empty():
+		return Gameboard.INVALID_CELL
+	return _interaction_cell_for_prop(prop, Gameboard.INVALID_CELL)
+
+
+func _interaction_cell_is_reachable(target_cell: Vector2i) -> bool:
+	if player_gamepiece == null:
+		return false
+	var player_cell := GamepieceRegistry.get_cell(player_gamepiece)
+	if player_cell == Gameboard.INVALID_CELL:
+		return false
+	if target_cell in Gameboard.get_adjacent_cells(player_cell):
+		return true
+	return not Gameboard.pathfinder.get_path_cells_to_adjacent_cell(player_cell, target_cell).is_empty()
 
 
 func _finish_open_rpg_runtime_smoke() -> void:
 	await get_tree().process_frame
 	var interaction_count := interaction_root.get_child_count() if interaction_root != null else 0
 	var point_count := Gameboard.pathfinder.get_point_ids().size()
-	var ok := Player.gamepiece != null and point_count == GRID_SIZE.x * GRID_SIZE.y and interaction_count > 0 and dialogue_layer != null
-	print("open-rpg-runtime-smoke status=%s points=%d interactions=%d player=%s" % [
+	var asset_loaded := current_asset_scene_instance != null
+	var disabled_count := _disabled_path_point_count()
+	var visual_alignment := _visual_alignment_for_interactions()
+	var visual_aligned := bool(visual_alignment.get("ok", false))
+	var ok := Player.gamepiece != null and point_count == GRID_SIZE.x * GRID_SIZE.y and interaction_count > 0 and dialogue_layer != null and asset_loaded and disabled_count > 0 and visual_aligned
+	print("open-rpg-runtime-smoke status=%s points=%d disabled=%d interactions=%d visual_aligned=%s player=%s asset=%s" % [
 		"PASS" if ok else "FAIL",
 		point_count,
+		disabled_count,
 		interaction_count,
+		str(visual_aligned),
 		str(Player.gamepiece != null),
+		current_asset_scene_path,
 	])
+	for failure in visual_alignment.get("failures", []):
+		push_error(str(failure))
 	get_tree().quit(0 if ok else 1)
 
 
@@ -602,24 +830,77 @@ func _finish_open_rpg_action_smoke() -> void:
 	for verb in required:
 		if not verbs.has(verb):
 			missing.append(verb)
-	var ok := action_count >= 3 and missing.is_empty()
-	print("open-rpg-action-smoke status=%s location=%s actions=%d verbs=%s" % [
+	var visual_alignment := _visual_alignment_for_interactions()
+	var visual_aligned := bool(visual_alignment.get("ok", false))
+	var ok := action_count >= 3 and missing.is_empty() and current_asset_scene_instance != null and visual_aligned
+	print("open-rpg-action-smoke status=%s location=%s actions=%d verbs=%s visual_aligned=%s asset=%s" % [
 		"PASS" if ok else "FAIL",
 		current_location_id,
 		action_count,
 		", ".join(verbs.keys()),
+		str(visual_aligned),
+		current_asset_scene_path,
 	])
+	for failure in visual_alignment.get("failures", []):
+		push_error(str(failure))
 	get_tree().quit(0 if ok else 1)
 
 
 func _finish_render_smoke() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
-	print("render-smoke status=PASS architecture=open-rpg scene=%s location=%s" % [
+	var image: Image = get_viewport().get_texture().get_image()
+	var image_ok := _verify_render_image(image)
+	var ok := current_asset_scene_instance != null and image_ok
+	print("render-smoke status=%s architecture=open-rpg scene=%s location=%s asset=%s" % [
+		"PASS" if ok else "FAIL",
 		current_scene.get("id", ""),
 		current_location_id,
+		current_asset_scene_path,
 	])
-	get_tree().quit(0)
+	get_tree().quit(0 if ok else 1)
+
+
+func _verify_render_image(image: Image) -> bool:
+	if image == null:
+		print("render-frame-smoke status=FAIL reason=no-image")
+		return false
+
+	var width: int = image.get_width()
+	var height: int = image.get_height()
+	if width <= 0 or height <= 0:
+		print("render-frame-smoke status=FAIL reason=empty-image size=%sx%s" % [width, height])
+		return false
+
+	var step_x: int = max(1, int(ceil(float(width) / 48.0)))
+	var step_y: int = max(1, int(ceil(float(height) / 36.0)))
+	var sampled_count := 0
+	var non_dark_count := 0
+	var color_keys := {}
+	for y in range(0, height, step_y):
+		for x in range(0, width, step_x):
+			var color: Color = image.get_pixel(x, y)
+			sampled_count += 1
+			if color.r > 0.08 or color.g > 0.08 or color.b > 0.08:
+				non_dark_count += 1
+			var key := "%02x%02x%02x" % [
+				int(color.r * 255.0) / 32,
+				int(color.g * 255.0) / 32,
+				int(color.b * 255.0) / 32,
+			]
+			color_keys[key] = true
+
+	var distinct_count: int = color_keys.size()
+	var ok := sampled_count > 0 and non_dark_count >= 16 and distinct_count >= 6
+	print("render-frame-smoke status=%s size=%sx%s sampled=%s non_dark=%s distinct=%s" % [
+		"PASS" if ok else "FAIL",
+		width,
+		height,
+		sampled_count,
+		non_dark_count,
+		distinct_count,
+	])
+	return ok
 
 
 func _ensure_open_rpg_input_map() -> void:
