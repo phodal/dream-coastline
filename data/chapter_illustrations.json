@@ -237,9 +237,9 @@
       },
       {
         "id": "wensu-first-lesson",
-        "path": "res://assets/illustrations/chapters/02-moqi-academy-01.png",
+        "path": "res://assets/illustrations/story_review/02-moqi-academy/wensu-first-lesson.png",
         "target_path": "res://assets/illustrations/story_review/02-moqi-academy/wensu-first-lesson.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "隐秘书院：闻素的第一课",
         "caption": "闻素不把纪子轩当传说里的执笔者，而是先让他说出“我不会”。夏离在旁边审视，教程从承认无知开始。",
         "locations": [
@@ -277,9 +277,9 @@
       },
       {
         "id": "archive-dictionary-cabinet",
-        "path": "res://assets/illustrations/chapters/02-moqi-academy-01.png",
+        "path": "res://assets/illustrations/story_review/02-moqi-academy/archive-dictionary-cabinet.png",
         "target_path": "res://assets/illustrations/story_review/02-moqi-academy/archive-dictionary-cabinet.png",
-        "generation_status": "fallback",
+        "generation_status": "ready",
         "title": "地下藏书室：基础字典到手",
         "caption": "封存柜不是宝箱，而是知识垄断的物证；“门”第一次被读成规则漏洞，而不是开锁魔法。",
         "locations": [
