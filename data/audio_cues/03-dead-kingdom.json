@@ -1,0 +1,253 @@
+{
+  "schema_version": 1,
+  "scene_id": "03-dead-kingdom",
+  "source": "data/story_scenes/03-dead-kingdom.json",
+  "generated_from": [
+    "five/scene/03-dead-kingdom.md",
+    "data/story_scenes/03-dead-kingdom.json",
+    "data/character_voice_profiles.json"
+  ],
+  "production_note": "第三幕音频覆盖旧王都死城、贵族藏书楼、墨律司总部、残破宫城和主国书殿；核心听感从复国幻觉转向文明重建。",
+  "cues": [
+    {
+      "cue_id": "MUS-03-001",
+      "scene_id": "03-dead-kingdom",
+      "location_id": "outer_city",
+      "type": "music",
+      "mood": "旧王都外城仍有秩序却没有生活，巡逻符器执行旧命令",
+      "instrumentation_prompt": "restrained RPG dead capital background music, empty market street, automated patrol glyphs, order without life, distant paper banners, cold ink pulse, no heroic melody, seamless loop feel",
+      "looping_intent": "loop_while_exploring_dead_outer_city",
+      "source_evidence": [
+        "five/scene/03-dead-kingdom.md",
+        "data/story_scenes/03-dead-kingdom.json#locations.outer_city"
+      ],
+      "target_path": "assets/audio/generated/music/03-dead-kingdom/MUS-03-001.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-03-002",
+      "scene_id": "03-dead-kingdom",
+      "location_id": "library",
+      "type": "music",
+      "mood": "贵族藏书楼保存改革证据，被退回的学生信和禁令形成安静压力",
+      "instrumentation_prompt": "quiet RPG noble library background music, reform records, returned student letters, forbidden education decree, dust and paper, restrained sorrow, no modern pop, no big orchestra",
+      "looping_intent": "loop_while_resolving_book_route",
+      "source_evidence": [
+        "five/scene/03-dead-kingdom.md",
+        "data/story_scenes/03-dead-kingdom.json#locations.library"
+      ],
+      "target_path": "assets/audio/generated/music/03-dead-kingdom/MUS-03-002.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-03-003",
+      "scene_id": "03-dead-kingdom",
+      "location_id": "hq",
+      "type": "music",
+      "mood": "墨律司总部更完整也更冷，封锁日志和审讯抄本揭示制度性反派",
+      "instrumentation_prompt": "tense bureaucratic RPG background music, ministry archive, sealed records, missing name rolls, trial transcripts, cold legal percussion, ink locks, no action blockbuster",
+      "looping_intent": "loop_while_reading_lockdown_records",
+      "source_evidence": [
+        "five/scene/03-dead-kingdom.md",
+        "data/story_scenes/03-dead-kingdom.json#locations.hq"
+      ],
+      "target_path": "assets/audio/generated/music/03-dead-kingdom/MUS-03-003.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-03-004",
+      "scene_id": "03-dead-kingdom",
+      "location_id": "palace",
+      "type": "music",
+      "mood": "残破宫城还原陷落路线，夏离承认改革太急但拒绝回到封闭制度",
+      "instrumentation_prompt": "somber RPG ruined palace background music, burned teaching wall, collapsed corridor, prince facing failure, ash and old royal seals, restrained strings and ink bells, no triumph",
+      "looping_intent": "loop_while_reconstructing_fall_route",
+      "source_evidence": [
+        "five/scene/03-dead-kingdom.md",
+        "data/story_scenes/03-dead-kingdom.json#locations.palace"
+      ],
+      "target_path": "assets/audio/generated/music/03-dead-kingdom/MUS-03-004.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-03-005",
+      "scene_id": "03-dead-kingdom",
+      "location_id": "hall",
+      "type": "music",
+      "mood": "主国书殿、王权锁、国书残麟和历代王残影；战斗是制度辩论不是热血讨伐",
+      "instrumentation_prompt": "tense RPG boss background music, national book hall, old royal edicts like page scales, statebook remnant, royal lock, solemn percussion, low choir texture, restrained, no power fantasy",
+      "looping_intent": "loop_until_statebook_core_opened",
+      "source_evidence": [
+        "five/scene/03-dead-kingdom.md",
+        "data/story_scenes/03-dead-kingdom.json#locations.hall"
+      ],
+      "target_path": "assets/audio/generated/music/03-dead-kingdom/MUS-03-005.mp3",
+      "sample_generation": true
+    }
+  ],
+  "event_sounds": [
+    {
+      "sfx_id": "SFX-03-STEP-CITY",
+      "scene_id": "03-dead-kingdom",
+      "event_name": "step",
+      "locations": ["outer_city", "hq"],
+      "mood": "死城石板和墨律司总部里的短脚步，空、硬、带制度空间回响",
+      "instrumentation_prompt": "game sound effect, single restrained footstep on empty stone street and bureaucratic hall, hollow civic echo, no chime, no rhythm, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/03-dead-kingdom.json#locations.outer_city",
+        "data/story_scenes/03-dead-kingdom.json#locations.hq"
+      ],
+      "target_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-STEP-CITY.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-03-STEP-RUIN",
+      "scene_id": "03-dead-kingdom",
+      "event_name": "step",
+      "locations": ["library", "palace", "hall"],
+      "mood": "藏书楼、宫城和国书殿里的纸尘、碎石和旧木脚步",
+      "instrumentation_prompt": "game sound effect, single soft footstep through paper dust, broken stone, and old wood in a ruined palace library, no melody, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/03-dead-kingdom.json#locations.library",
+        "data/story_scenes/03-dead-kingdom.json#locations.palace",
+        "data/story_scenes/03-dead-kingdom.json#locations.hall"
+      ],
+      "target_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-STEP-RUIN.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-03-RECORD-INSPECT",
+      "scene_id": "03-dead-kingdom",
+      "event_name": "interact",
+      "locations": ["outer_city", "library", "hq", "palace", "hall"],
+      "mood": "调查告示、文献、日志、灰墙和国书记录时，旧纸与墨印确认音",
+      "instrumentation_prompt": "game sound effect, old paper record inspect, dry page scrape, ink stamp confirmation, distant seal dust, no bell, no melody, clean one-shot",
+      "duration_ms": 520,
+      "source_evidence": [
+        "five/scene/03-dead-kingdom.md",
+        "data/story_scenes/03-dead-kingdom.json"
+      ],
+      "target_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-RECORD-INSPECT.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-03-WRITE-NAME",
+      "scene_id": "03-dead-kingdom",
+      "event_name": "write",
+      "locations": ["hall"],
+      "mood": "在王权锁前写“名”，确认历代王残影的主体，比第一幕更沉重",
+      "instrumentation_prompt": "game sound effect, glyph name written before a royal lock, ink line carves into old edict paper, heavy identity confirmation, no melody, clean one-shot",
+      "duration_ms": 850,
+      "source_evidence": [
+        "data/story_scenes/03-dead-kingdom.json#locations.hall.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-WRITE-NAME.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-03-CAST-DOOR",
+      "scene_id": "03-dead-kingdom",
+      "event_name": "cast_door",
+      "locations": ["hall"],
+      "mood": "写“门”让国书看见王以外的通路，旧王令页鳞松动",
+      "instrumentation_prompt": "game sound effect, glyph door opens a non-royal route through statebook pages, old seals loosen, paper scales shift, no melody, clean one-shot",
+      "duration_ms": 750,
+      "source_evidence": [
+        "data/story_scenes/03-dead-kingdom.json#locations.hall.combat.spells.door",
+        "data/story_scenes/03-dead-kingdom.json#locations.hall.glyph_actions.door"
+      ],
+      "target_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-CAST-DOOR.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-03-CAST-STOP",
+      "scene_id": "03-dead-kingdom",
+      "event_name": "cast_stop",
+      "locations": ["hall"],
+      "mood": "写“止”暂停王权锁，制度机器被短暂压住",
+      "instrumentation_prompt": "game sound effect, glyph stop pauses a royal lock, low authority seal freezes, heavy boundary hold, no explosion, no melody, clean one-shot",
+      "duration_ms": 700,
+      "source_evidence": [
+        "data/story_scenes/03-dead-kingdom.json#locations.hall.combat.spells.stop"
+      ],
+      "target_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-CAST-STOP.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-03-ROYAL-HIT",
+      "scene_id": "03-dead-kingdom",
+      "event_name": "attack",
+      "locations": ["hall"],
+      "mood": "攻击国书残影/王权残影，命中的是旧制度纸鳞与金印",
+      "instrumentation_prompt": "game sound effect, restrained blade hit against royal paper scales and gold seal shadow, muted impact, paper tear, no gore, no explosion, clean one-shot",
+      "duration_ms": 700,
+      "source_evidence": [
+        "data/story_scenes/03-dead-kingdom.json#locations.hall.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-ROYAL-HIT.mp3",
+      "sample_generation": true
+    }
+  ],
+  "voice_samples": [
+    {
+      "line_id": "DLG-03-SAMPLE-XL",
+      "scene_id": "03-dead-kingdom",
+      "location_id": "hall",
+      "character_id": "xiali",
+      "character_name": "夏离",
+      "text": "若我只是让王座重新坐满，这座城还是会死第二次。",
+      "delivery": "少年王族，压住自责后的冷静；不是宣言，是终于承认复国幻觉不够。",
+      "voice_id": "lengdan_xiongzhang",
+      "speed": 0.9,
+      "vol": 0.9,
+      "pitch": -1,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.xiali",
+        "data/story_scenes/03-dead-kingdom.json#locations.hall.items.answer"
+      ],
+      "target_path": "assets/audio/generated/voices/03-dead-kingdom/DLG-03-SAMPLE-XL.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-03-SAMPLE-DAD",
+      "scene_id": "03-dead-kingdom",
+      "location_id": "hall",
+      "character_id": "jizi_xuan_father",
+      "character_name": "纪子轩父亲",
+      "text": "现代星球的坐标正在消失。",
+      "delivery": "父亲的影像留言，低、疲惫、克制；像把最坏的观测结果留给未来。",
+      "voice_id": "male-qn-jingying",
+      "speed": 0.88,
+      "vol": 0.9,
+      "pitch": -1,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.jizi_xuan_father",
+        "data/story_scenes/03-dead-kingdom.json#locations.hall.items.plan"
+      ],
+      "target_path": "assets/audio/generated/voices/03-dead-kingdom/DLG-03-SAMPLE-DAD.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-03-SAMPLE-MOM",
+      "scene_id": "03-dead-kingdom",
+      "location_id": "hall",
+      "character_id": "jizi_xuan_mother",
+      "character_name": "纪子轩母亲",
+      "text": "墨颀必须发展到能够观测星空。只有当它看见我们，它才能救我们。",
+      "delivery": "母亲的影像留言，温暖但决断；讲文明工程，不煽情。",
+      "voice_id": "female-chengshu",
+      "speed": 0.9,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.jizi_xuan_mother",
+        "five/scene/03-dead-kingdom.md",
+        "data/story_scenes/03-dead-kingdom.json#locations.hall.items.plan"
+      ],
+      "target_path": "assets/audio/generated/voices/03-dead-kingdom/DLG-03-SAMPLE-MOM.mp3",
+      "sample_generation": true
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "provider": "minimax",
-  "generated_at": "2026-05-18T00:38:04.960Z",
+  "generated_at": "2026-05-17T15:58:23.039Z",
   "assets": [
     {
       "asset_id": "MUS-01-001",
@@ -654,6 +654,361 @@
         "music_channel": 2,
         "bitrate": 256000,
         "music_size": 6443562,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 700,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "DLG-03-SAMPLE-XL",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "line_id": "DLG-03-SAMPLE-XL",
+      "character_id": "xiali",
+      "voice_id": "lengdan_xiongzhang",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/03-dead-kingdom/DLG-03-SAMPLE-XL.mp3",
+      "source_text": "若我只是让王座重新坐满，这座城还是会死第二次。",
+      "delivery": "少年王族，压住自责后的冷静；不是宣言，是终于承认复国幻觉不够。",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:32:34.944Z",
+      "trace_id": "06591292c5eeb89ffbb2ed16872cce56",
+      "extra_info": {
+        "byte_length": 111789,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-03-SAMPLE-DAD",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "line_id": "DLG-03-SAMPLE-DAD",
+      "character_id": "jizi_xuan_father",
+      "voice_id": "male-qn-jingying",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/03-dead-kingdom/DLG-03-SAMPLE-DAD.mp3",
+      "source_text": "现代星球的坐标正在消失。",
+      "delivery": "父亲的影像留言，低、疲惫、克制；像把最坏的观测结果留给未来。",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:32:35.774Z",
+      "trace_id": "06591293561db454ca9b9a6916a3fc74",
+      "extra_info": {
+        "byte_length": 36909,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-03-SAMPLE-MOM",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "line_id": "DLG-03-SAMPLE-MOM",
+      "character_id": "jizi_xuan_mother",
+      "voice_id": "female-chengshu",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/03-dead-kingdom/DLG-03-SAMPLE-MOM.mp3",
+      "source_text": "墨颀必须发展到能够观测星空。只有当它看见我们，它才能救我们。",
+      "delivery": "母亲的影像留言，温暖但决断；讲文明工程，不煽情。",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:32:36.795Z",
+      "trace_id": "065912936e94017d584b6099992e398c",
+      "extra_info": {
+        "byte_length": 113517,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "MUS-03-001",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "cue_id": "MUS-03-001",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/03-dead-kingdom/MUS-03-001.mp3",
+      "prompt_summary": "restrained RPG dead capital background music, empty market street, automated patrol glyphs, order without life, distant paper banners, cold ink pulse, no heroic melody, seamless l...",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:34:43.649Z",
+      "trace_id": "0659129eff69fa0f2f67065b838158ff",
+      "extra_info": {
+        "music_duration": 134530,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4306954
+      }
+    },
+    {
+      "asset_id": "MUS-03-002",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "cue_id": "MUS-03-002",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/03-dead-kingdom/MUS-03-002.mp3",
+      "prompt_summary": "quiet RPG noble library background music, reform records, returned student letters, forbidden education decree, dust and paper, restrained sorrow, no modern pop, no big orchestra",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:36:42.509Z",
+      "trace_id": "06591313b0b9c5111937a0091a128929",
+      "extra_info": {
+        "music_duration": 141688,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4535996
+      }
+    },
+    {
+      "asset_id": "MUS-03-003",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "cue_id": "MUS-03-003",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/03-dead-kingdom/MUS-03-003.mp3",
+      "prompt_summary": "tense bureaucratic RPG background music, ministry archive, sealed records, missing name rolls, trial transcripts, cold legal percussion, ink locks, no action blockbuster",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:58:23.038Z",
+      "trace_id": "0659182feebbf08d34a0291799a187a9",
+      "extra_info": {
+        "music_duration": 84453,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2704499
+      }
+    },
+    {
+      "asset_id": "MUS-03-004",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "cue_id": "MUS-03-004",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/03-dead-kingdom/MUS-03-004.mp3",
+      "prompt_summary": "somber RPG ruined palace background music, burned teaching wall, collapsed corridor, prince facing failure, ash and old royal seals, restrained strings and ink bells, no triumph",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:39:35.741Z",
+      "trace_id": "065913c3e2de4e1bf07e28e74b84aa7c",
+      "extra_info": {
+        "music_duration": 131448,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4208316
+      }
+    },
+    {
+      "asset_id": "MUS-03-005",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "cue_id": "MUS-03-005",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/03-dead-kingdom/MUS-03-005.mp3",
+      "prompt_summary": "tense RPG boss background music, national book hall, old royal edicts like page scales, statebook remnant, royal lock, solemn percussion, low choir texture, restrained, no power f...",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:41:15.131Z",
+      "trace_id": "06591437757980e4b975948c850acfe2",
+      "extra_info": {
+        "music_duration": 112274,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3594752
+      }
+    },
+    {
+      "asset_id": "SFX-03-STEP-CITY",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "sfx_id": "SFX-03-STEP-CITY",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-STEP-CITY.mp3",
+      "prompt_summary": "game sound effect, single restrained footstep on empty stone street and bureaucratic hall, hollow civic echo, no chime, no rhythm, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:43:39.218Z",
+      "trace_id": "0659149f9760eb172fb62021bb251fb0",
+      "extra_info": {
+        "music_duration": 138161,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4423147,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-03-STEP-RUIN",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "sfx_id": "SFX-03-STEP-RUIN",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-STEP-RUIN.mp3",
+      "prompt_summary": "game sound effect, single soft footstep through paper dust, broken stone, and old wood in a ruined palace library, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:46:29.823Z",
+      "trace_id": "0659152bbda17921eccf8a4d31664bd7",
+      "extra_info": {
+        "music_duration": 228806,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 7323784,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-03-RECORD-INSPECT",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "sfx_id": "SFX-03-RECORD-INSPECT",
+      "event_name": "interact",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-RECORD-INSPECT.mp3",
+      "prompt_summary": "game sound effect, old paper record inspect, dry page scrape, ink stamp confirmation, distant seal dust, no bell, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:47:35.330Z",
+      "trace_id": "065915d5748c9ee323b7c43671be7e08",
+      "extra_info": {
+        "music_duration": 33541,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 1075294,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 520,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-03-WRITE-NAME",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "sfx_id": "SFX-03-WRITE-NAME",
+      "event_name": "write",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-WRITE-NAME.mp3",
+      "prompt_summary": "game sound effect, glyph name written before a royal lock, ink line carves into old edict paper, heavy identity confirmation, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:49:48.239Z",
+      "trace_id": "06591617ed8de568073bbc26a8f2c08a",
+      "extra_info": {
+        "music_duration": 223843,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 7164959,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 850,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-03-CAST-DOOR",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "sfx_id": "SFX-03-CAST-DOOR",
+      "event_name": "cast_door",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-CAST-DOOR.mp3",
+      "prompt_summary": "game sound effect, glyph door opens a non-royal route through statebook pages, old seals loosen, paper scales shift, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:50:46.243Z",
+      "trace_id": "0659169c5a33dfe84eddfe6d93217bf1",
+      "extra_info": {
+        "music_duration": 41090,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 1316874,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 750,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-03-CAST-STOP",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "sfx_id": "SFX-03-CAST-STOP",
+      "event_name": "cast_stop",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-CAST-STOP.mp3",
+      "prompt_summary": "game sound effect, glyph stop pauses a royal lock, low authority seal freezes, heavy boundary hold, no explosion, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:51:59.400Z",
+      "trace_id": "065916d6198af76cb37ffa08132003d4",
+      "extra_info": {
+        "music_duration": 44591,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 1428887,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 700,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-03-ROYAL-HIT",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "03-dead-kingdom",
+      "sfx_id": "SFX-03-ROYAL-HIT",
+      "event_name": "attack",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/03-dead-kingdom/SFX-03-ROYAL-HIT.mp3",
+      "prompt_summary": "game sound effect, restrained blade hit against royal paper scales and gold seal shadow, muted impact, paper tear, no gore, no explosion, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:53:51.327Z",
+      "trace_id": "0659171f25a98e8d8562f9fdf6b266a0",
+      "extra_info": {
+        "music_duration": 118386,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3790357,
         "post_process": {
           "tool": "ffmpeg",
           "duration_ms": 700,
