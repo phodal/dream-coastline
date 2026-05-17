@@ -6,7 +6,7 @@ Steam-ready first act.
 ## Current Evidence
 
 - Real RPG rendering: `scripts/ui/sprite_scene_canvas.gd` draws the play field
-  from OpenGameArt spritesheets and visual scene data.
+  from project-generated pixel primitives and visual scene data.
 - Keyboard play: `scripts/core/rpg_player_controller.gd` owns player tile,
   facing, collision checks, movement timing, exits, investigation targets, and
   prompt text.

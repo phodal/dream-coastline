@@ -43,7 +43,8 @@
 - Renderer: `scripts/ui/sprite_scene_canvas.gd`.
 - HUD: `scripts/ui/game_hud.gd`, `scripts/ui/prompt_overlay.gd`, `scripts/ui/game_theme.gd`.
 - Menus: `scripts/ui/title_screen.gd`, `scripts/ui/pause_menu.gd`, `scripts/ui/settings_menu.gd`.
-- Existing assets: OpenGameArt RPG character atlas, dungeon crawl atlas, paper icon, spell effects.
+- Existing assets: project-generated scene tiles, project-owned character
+  sheets, and scoped pixel primitives for effects/icons.
 - Constraint: existing atlas assets may be used only when their meaning matches the scene; otherwise draw simple pixel primitives or add a scoped asset.
 
 ## Outputs

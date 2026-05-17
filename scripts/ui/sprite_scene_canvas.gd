@@ -5,11 +5,6 @@ const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const AnimationClipRepositoryScript := preload("res://scripts/core/animation_clip_repository.gd")
 const VisualAssetRegistryScript := preload("res://scripts/core/visual_asset_registry.gd")
 
-const DUNGEON_CRAWL_PATH := "res://assets/opengameart/dungeon_crawl/DungeonCrawl_ProjectUtumnoTileset.png"
-const RPG_CHARACTERS_PATH := "res://assets/opengameart/rpg_characters/rpg_16x16.png"
-const FIREBALL_PATH := "res://assets/opengameart/spells/png/fireball.png"
-const MAGIC_ORB_PATH := "res://assets/opengameart/spells/png/magic_orb.png"
-const PAPER_ICON_PATH := "res://assets/opengameart/paper_icons/Paper.png"
 const PLAYER_DEFAULT_CLIP_ID := "player_default"
 
 const ATLAS_TILE := 32.0
@@ -29,11 +24,6 @@ var animation_time := 0.0
 var player_actor_id := "jizixuan"
 var visual_assets
 var animation_clips
-var dungeon_crawl_texture
-var rpg_characters_texture
-var fireball_texture
-var magic_orb_texture
-var paper_icon_texture
 var asset_viewport: SubViewport
 var asset_scene_instance: Node
 var asset_scene_path := ""
@@ -48,11 +38,6 @@ func _ready() -> void:
 	visual_assets.load_all()
 	animation_clips = AnimationClipRepositoryScript.new()
 	animation_clips.load_all()
-	dungeon_crawl_texture = _load_optional_texture(DUNGEON_CRAWL_PATH)
-	rpg_characters_texture = _load_optional_texture(RPG_CHARACTERS_PATH)
-	fireball_texture = _load_optional_texture(FIREBALL_PATH)
-	magic_orb_texture = _load_optional_texture(MAGIC_ORB_PATH)
-	paper_icon_texture = _load_optional_texture(PAPER_ICON_PATH)
 	custom_minimum_size = Vector2(560, 420)
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -65,15 +50,6 @@ func _process(delta: float) -> void:
 	animation_time += delta
 	if session != null:
 		queue_redraw()
-
-
-func _load_optional_texture(path: String):
-	if not ResourceLoader.exists(path):
-		return null
-	var texture = load(path)
-	if texture == null:
-		push_warning("Optional visual texture is unavailable: %s" % path)
-	return texture
 
 
 func set_visual_repository(repository) -> void:
@@ -506,7 +482,7 @@ func _draw_map(origin: Vector2, tile_size: float, visual: Dictionary) -> void:
 				tile = palette.room_shadow
 			elif _is_moqi_location() and (x + y) % 7 == 0:
 				tile = palette.accent
-			_draw_dungeon_tile(tile, origin + Vector2(x, y) * tile_size, tile_size)
+			_draw_project_tile(tile, origin + Vector2(x, y) * tile_size, tile_size)
 	_draw_terrain_overlay(origin, tile_size, terrain)
 
 
@@ -820,7 +796,7 @@ func _draw_location_objects(origin: Vector2, tile_size: float, visual: Dictionar
 
 	var combat: Dictionary = location.get("combat", {})
 	if not combat.is_empty() and session.enemy_hp > 0:
-		_draw_dungeon_tile(Vector2i(6, 2), origin + Vector2(10, 4) * tile_size, tile_size)
+		_draw_project_tile(Vector2i(6, 2), origin + Vector2(10, 4) * tile_size, tile_size)
 		_draw_fireball(Rect2(origin + Vector2(9, 4) * tile_size, Vector2(tile_size, tile_size)))
 
 
@@ -840,11 +816,11 @@ func _draw_actors(origin: Vector2, tile_size: float, _visual: Dictionary) -> voi
 func _draw_prop(item_id: String, top_left: Vector2, tile_size: float) -> void:
 	match item_id:
 		"window":
-			_draw_dungeon_tile(Vector2i(12, 12), top_left, tile_size)
+			_draw_project_tile(Vector2i(12, 12), top_left, tile_size)
 		"poster", "letter", "note":
 			_draw_paper_icon(Rect2(top_left + Vector2(tile_size * 0.15, tile_size * 0.1), Vector2(tile_size * 0.7, tile_size * 0.8)))
 		"pen":
-			_draw_dungeon_tile(Vector2i(34, 28), top_left, tile_size)
+			_draw_project_tile(Vector2i(34, 28), top_left, tile_size)
 		"vending":
 			_draw_vending_machine(top_left, tile_size)
 		"phone":
@@ -856,15 +832,15 @@ func _draw_prop(item_id: String, top_left: Vector2, tile_size: float) -> void:
 		"door_open":
 			_draw_open_door(top_left, tile_size)
 		"lock", "door":
-			_draw_dungeon_tile(Vector2i(28, 11), top_left, tile_size)
+			_draw_project_tile(Vector2i(28, 11), top_left, tile_size)
 		"stairs":
-			_draw_dungeon_tile(Vector2i(7, 14), top_left, tile_size)
+			_draw_project_tile(Vector2i(7, 14), top_left, tile_size)
 		"dinner":
-			_draw_dungeon_tile(Vector2i(13, 12), top_left, tile_size)
+			_draw_project_tile(Vector2i(13, 12), top_left, tile_size)
 		"photo", "glasses":
-			_draw_dungeon_tile(Vector2i(49, 12), top_left, tile_size)
+			_draw_project_tile(Vector2i(49, 12), top_left, tile_size)
 		_:
-			_draw_dungeon_tile(Vector2i(18, 15), top_left, tile_size)
+			_draw_project_tile(Vector2i(18, 15), top_left, tile_size)
 
 
 func _draw_blocked_feedback(origin: Vector2, tile_size: float) -> void:
@@ -965,7 +941,7 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 				_draw_apartment_block(position, tile_size, width, height)
 			else:
 				_draw_block(Vector2i(4, 13), position, tile_size, width, height)
-				_draw_dungeon_tile(Vector2i(12, 12), position + Vector2(tile_size, tile_size), tile_size)
+				_draw_project_tile(Vector2i(12, 12), position + Vector2(tile_size, tile_size), tile_size)
 		"tent":
 			_draw_block(Vector2i(18, 15), position, tile_size, width, height)
 		"tree":
@@ -1008,11 +984,11 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			else:
 				_draw_block(Vector2i(24, 11), position, tile_size, 1, height)
 		"cabinet":
-			_draw_dungeon_tile(Vector2i(24, 11), position, tile_size)
+			_draw_project_tile(Vector2i(24, 11), position, tile_size)
 		"well":
-			_draw_dungeon_tile(Vector2i(11, 14), position, tile_size)
+			_draw_project_tile(Vector2i(11, 14), position, tile_size)
 		"node":
-			_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
+			_draw_project_tile(Vector2i(2, 16), position, tile_size)
 			_draw_magic_orb(Rect2(position, Vector2(tile_size, tile_size)))
 		"portal":
 			if _uses_modern_scene_props():
@@ -1020,12 +996,12 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			elif session.has_flag(str(session.scene.get("ending_flag", ""))):
 				_draw_magic_orb(Rect2(position, Vector2(tile_size, tile_size)))
 			else:
-				_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
+				_draw_project_tile(Vector2i(2, 16), position, tile_size)
 		"lamp":
 			if _uses_modern_scene_props():
 				_draw_voice_lamp(position, tile_size)
 			else:
-				_draw_dungeon_tile(Vector2i(32, 12), position, tile_size)
+				_draw_project_tile(Vector2i(32, 12), position, tile_size)
 		"soldier":
 			_draw_soldier_threat(position, tile_size)
 		"xiaoyan":
@@ -1064,7 +1040,7 @@ func _draw_visual_prop(prop: Dictionary, origin: Vector2, tile_size: float) -> v
 			if item_id == "strokes" or prop.has("action"):
 				_draw_name_rune(position, tile_size, item_id == "strokes")
 			else:
-				_draw_dungeon_tile(Vector2i(2, 16), position, tile_size)
+				_draw_project_tile(Vector2i(2, 16), position, tile_size)
 		"record":
 			_draw_paper_icon(Rect2(position + Vector2(tile_size * 0.15, tile_size * 0.1), Vector2(tile_size * 0.7, tile_size * 0.8)))
 		"window_dark":
@@ -1787,7 +1763,7 @@ func _draw_open_door(top_left: Vector2, tile_size: float) -> void:
 func _draw_block(tile: Vector2i, top_left: Vector2, tile_size: float, width: int, height: int) -> void:
 	for y in range(max(1, height)):
 		for x in range(max(1, width)):
-			_draw_dungeon_tile(tile, top_left + Vector2(x, y) * tile_size, tile_size)
+			_draw_project_tile(tile, top_left + Vector2(x, y) * tile_size, tile_size)
 
 
 func _draw_actor(kind: String, top_left: Vector2, tile_size: float) -> void:
@@ -1801,9 +1777,6 @@ func _draw_actor(kind: String, top_left: Vector2, tile_size: float) -> void:
 
 
 func _draw_magic_orb(rect: Rect2) -> void:
-	if magic_orb_texture != null:
-		draw_texture_rect(magic_orb_texture, rect, false)
-		return
 	var center := rect.get_center()
 	var radius: float = minf(rect.size.x, rect.size.y) * 0.34
 	var pulse := 0.72 + sin(animation_time * 2.2) * 0.16
@@ -1832,16 +1805,10 @@ func _draw_ink_threshold(top_left: Vector2, tile_size: float, active: bool) -> v
 
 
 func _draw_fireball(rect: Rect2) -> void:
-	if fireball_texture != null:
-		draw_texture_rect(fireball_texture, rect, false)
-		return
 	_draw_flame(rect.get_center(), min(rect.size.x, rect.size.y) * 0.34, 0.4)
 
 
 func _draw_paper_icon(rect: Rect2) -> void:
-	if paper_icon_texture != null:
-		draw_texture_rect(paper_icon_texture, rect, false)
-		return
 	draw_rect(rect, Color("#d8ceb0"))
 	draw_rect(rect, GameThemeScript.COLORS.border_light, false, maxf(1.0, rect.size.x * 0.04))
 	for row in range(3):
@@ -1858,15 +1825,8 @@ func _draw_missing_tile(tile: Vector2i, top_left: Vector2, tile_size: float) -> 
 	draw_rect(Rect2(top_left, Vector2(tile_size, tile_size)), Color("#f1ead4", 0.18), false, maxf(1.0, tile_size * 0.02))
 
 
-func _draw_dungeon_tile(tile: Vector2i, top_left: Vector2, tile_size: float) -> void:
-	if dungeon_crawl_texture == null:
-		_draw_missing_tile(tile, top_left, tile_size)
-		return
-	draw_texture_rect_region(
-		dungeon_crawl_texture,
-		Rect2(top_left, Vector2(tile_size, tile_size)),
-		Rect2(Vector2(tile) * ATLAS_TILE, Vector2(ATLAS_TILE, ATLAS_TILE))
-	)
+func _draw_project_tile(tile: Vector2i, top_left: Vector2, tile_size: float) -> void:
+	_draw_missing_tile(tile, top_left, tile_size)
 
 
 func _draw_player_actor(top_left: Vector2, tile_size: float) -> void:
@@ -1907,20 +1867,7 @@ func _draw_character(tile: Vector2i, top_left: Vector2, tile_size: float) -> voi
 	var sprite_top_left := top_left + Vector2((tile_size - sprite_size) * 0.5, tile_size - sprite_size - tile_size * 0.08)
 	_draw_character_shadow(top_left, tile_size)
 	_draw_player_focus_ring(top_left, tile_size)
-	if rpg_characters_texture == null:
-		_draw_fallback_character(tile, sprite_top_left, sprite_size)
-		return
-	draw_texture_rect_region(
-		rpg_characters_texture,
-		Rect2(sprite_top_left + Vector2(tile_size * 0.02, tile_size * 0.02), Vector2(sprite_size, sprite_size)),
-		Rect2(Vector2(tile) * CHAR_TILE, Vector2(CHAR_TILE, CHAR_TILE)),
-		Color("#050608", 0.5)
-	)
-	draw_texture_rect_region(
-		rpg_characters_texture,
-		Rect2(sprite_top_left, Vector2(sprite_size, sprite_size)),
-		Rect2(Vector2(tile) * CHAR_TILE, Vector2(CHAR_TILE, CHAR_TILE))
-	)
+	_draw_fallback_character(tile, sprite_top_left, sprite_size)
 
 
 func _draw_character_shadow(top_left: Vector2, tile_size: float) -> void:

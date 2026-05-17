@@ -41,17 +41,13 @@ gate.
 The visual direction should stay close to 1990s top-down RPGs: limited palette,
 clear 32x32 tile logic, dense but readable UI, and little decorative noise.
 
-Recommended sources checked on OpenGameArt:
+Use project-generated tiles from `tools/generate_visual_asset_scenes.gd`.
+The atlas should stay close to 1990s top-down RPGs: limited palette, clear
+32x32 tile logic, readable silhouettes, and little decorative noise.
 
-- Existing baseline: [Dungeon Crawl 32x32 tiles](https://opengameart.org/content/dungeon-crawl-32x32-tiles), CC0. Keep this as the primary unified atlas for early fantasy scenes, monsters, items, spell effects, and many UI symbols.
-- Additional fantasy maps: [32x32 Dungeon Tileset](https://opengameart.org/content/32x32-dungeon-tileset), CC0, and [Dungeon Tileset 32x32](https://opengameart.org/content/dungeon-tileset-32x32), CC0.
-- RPG UI: [RPG UI Icons](https://opengameart.org/content/rpg-ui-icons), CC0, for status effects, action icons, glyph-combat states, and inventory affordances.
-- Modern city finale: [City Pixel Tileset](https://opengameart.org/content/city-pixel-tileset), CC0, plus [top down Road Tileset](https://opengameart.org/content/top-down-road-tileset), CC0, for scene 07.
-- Sci-fi/lab/space support: [Top-Down tileset](https://opengameart.org/content/top-down-tileset-1), CC0, and [Sci-fi platformer tiles 32x32](https://opengameart.org/content/sci-fi-platformer-tiles-32x32), CC0, for scenes 05-07.
-
-Avoid mixing Hyptosis with the current baseline unless attribution and palette
-normalization are handled deliberately; the earlier quick UI pass showed that
-mixed atlases made the scene harder to read.
+Do not add external atlas packs as runtime dependencies. If a scene lacks a
+prop or terrain cue, add a small generated pixel primitive to the project
+tilesheet or a scoped first-party asset instead.
 
 ## Next Refactor Targets
 

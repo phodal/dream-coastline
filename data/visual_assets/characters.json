@@ -3,7 +3,7 @@
     "type": "character",
     "clip": "player_default",
     "role": "player",
-    "fallback": "rpg_characters.default_boy"
+    "fallback": "project_generated.default_boy"
   },
   "creature_001_nameless_beast": {
     "type": "creature",

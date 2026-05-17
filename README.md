@@ -250,5 +250,7 @@ Scene-aligned Sprint Sheets, the `scene_sprint_map` AI mapping contract, UI impl
 `docs/sprint-sheets/`.
 Release/export notes are in `docs/release.md`.
 
-OpenGameArt sources and license notes are listed in
-`assets/opengameart/CREDITS.md`.
+Runtime scene tiles are generated in-repo by
+`tools/generate_visual_asset_scenes.gd` and written to
+`assets/visual_tiles/dream_scene_tiles.png` plus
+`assets/visual_tiles/dream_scene_tileset.tres`.

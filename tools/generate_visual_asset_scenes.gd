@@ -16,10 +16,6 @@ const TILESET_PATH := "res://assets/visual_tiles/dream_scene_tileset.tres"
 const UI_PANEL_PATH := "res://assets/ui/pixel_panel_9patch.png"
 const TILE_REGISTRY_PATH := "res://data/visual_assets/tilesets.json"
 
-const BTL_INTERIOR_PATH := "res://assets/external/btl_topdown_interior/housetileset.png"
-const KENNEY_CITY_PATH := "res://assets/external/kenney_modern_city/source/Spritesheet/roguelikeCity_transparent.png"
-const OGA_CITY_EXTENSION_PATH := "res://assets/external/oga_modern_city_extension/city_extension.png"
-
 var tile_coords := {}
 
 
@@ -116,27 +112,10 @@ func _write_tilesheet() -> void:
 	var sheet := Image.create_empty(TILE_SIZE * ATLAS_COLUMNS, TILE_SIZE * ATLAS_ROWS, false, Image.FORMAT_RGBA8)
 	sheet.fill(Color(0, 0, 0, 0))
 
-	var btl := _load_source_image(BTL_INTERIOR_PATH)
-	if btl != null:
-		_copy_tile(sheet, "interior_floor", btl, Vector2i(2, 0), 32)
-		_copy_tile(sheet, "interior_wall", btl, Vector2i(1, 3), 32)
-		_copy_tile(sheet, "wood_floor", btl, Vector2i(3, 3), 32)
-		_copy_tile(sheet, "carpet_floor", btl, Vector2i(1, 6), 32)
 	_paint_ground_tile(sheet, "interior_floor", Color("#201b16"), Color("#332a20"))
+	_paint_ground_tile(sheet, "interior_wall", Color("#2b302f"), Color("#6f7c78"))
 	_paint_ground_tile(sheet, "wood_floor", Color("#34251a"), Color("#735331"))
 	_paint_ground_tile(sheet, "carpet_floor", Color("#2d2738"), Color("#584a73"))
-
-	var oga := _load_source_image(OGA_CITY_EXTENSION_PATH)
-	if oga != null:
-		_copy_region(sheet, "building_wall", oga, Rect2i(Vector2i(0, 32), Vector2i(32, 32)), false)
-		_copy_region(sheet, "building_window", oga, Rect2i(Vector2i(160, 32), Vector2i(32, 32)), false)
-		_copy_region(sheet, "building_window_dark", oga, Rect2i(Vector2i(448, 64), Vector2i(32, 32)), false)
-
-	var kenney := _load_source_image(KENNEY_CITY_PATH)
-	if kenney != null:
-		_copy_region(sheet, "street_asphalt", kenney, Rect2i(Vector2i(18, 392), Vector2i(16, 16)), true)
-		_copy_region(sheet, "street_sidewalk", kenney, Rect2i(Vector2i(1, 392), Vector2i(16, 16)), true)
-		_copy_region(sheet, "street_crosswalk", kenney, Rect2i(Vector2i(290, 205), Vector2i(16, 16)), true)
 
 	_paint_ground_tile(sheet, "street_asphalt", Color("#242930"), Color("#3a4148"))
 	_paint_ground_tile(sheet, "street_sidewalk", Color("#58666b"), Color("#748489"))
@@ -203,37 +182,6 @@ func _write_tilesheet() -> void:
 	if error != OK:
 		push_error("Could not save %s: %s" % [TILE_SHEET_PATH, error])
 		quit(1)
-
-
-func _load_source_image(path: String) -> Image:
-	var image := Image.new()
-	var error := image.load(ProjectSettings.globalize_path(path))
-	if error != OK:
-		push_warning("Could not load source image %s: %s" % [path, error])
-		return null
-	return image
-
-
-func _copy_tile(sheet: Image, tile_key: String, source: Image, source_tile: Vector2i, source_size: int) -> void:
-	_copy_region(
-		sheet,
-		tile_key,
-		source,
-		Rect2i(source_tile * source_size, Vector2i(source_size, source_size)),
-		source_size != TILE_SIZE
-	)
-
-
-func _copy_region(sheet: Image, tile_key: String, source: Image, region: Rect2i, scale_to_32: bool) -> void:
-	if region.position.x < 0 or region.position.y < 0:
-		return
-	if region.end.x > source.get_width() or region.end.y > source.get_height():
-		return
-	var tile := source.get_region(region)
-	tile.convert(Image.FORMAT_RGBA8)
-	if scale_to_32:
-		tile.resize(TILE_SIZE, TILE_SIZE, Image.INTERPOLATE_NEAREST)
-	sheet.blit_rect(tile, Rect2i(Vector2i.ZERO, Vector2i(TILE_SIZE, TILE_SIZE)), _tile_pixel(tile_key))
 
 
 func _paint_if_empty(sheet: Image, tile_key: String, base: Color, accent: Color) -> void:
@@ -333,7 +281,7 @@ func _write_tileset_registry() -> void:
 			{
 				"id": "dream_scene_tiles",
 				"display_name": "Dream Coastline normalized scene tiles",
-				"license": "CC0-compatible composite",
+				"license": "project-generated",
 				"normalized_tilesheet": TILE_SHEET_PATH,
 				"godot_tileset": TILESET_PATH,
 				"atlas_columns": ATLAS_COLUMNS,
@@ -356,22 +304,9 @@ func _write_tileset_registry() -> void:
 				"tiles": _tile_registry_entries(),
 				"sources": [
 					{
-						"id": "btl_topdown_interior",
-						"url": "https://btl-games.itch.io/topdown",
-						"license": "CC0",
-						"original_path": BTL_INTERIOR_PATH
-					},
-					{
-						"id": "kenney_modern_city",
-						"url": "https://opengameart.org/content/roguelike-modern-city-pack",
-						"license": "CC0",
-						"original_path": KENNEY_CITY_PATH
-					},
-					{
-						"id": "oga_modern_city_extension",
-						"url": "https://opengameart.org/content/modern-city-extension",
-						"license": "CC0",
-						"original_path": OGA_CITY_EXTENSION_PATH
+						"id": "dream_coastline_procedural_tiles",
+						"license": "project-generated",
+						"original_path": "tools/generate_visual_asset_scenes.gd"
 					}
 				]
 			}

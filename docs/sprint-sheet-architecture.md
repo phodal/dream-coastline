@@ -423,7 +423,7 @@ Turn the prologue from a text-driven scene into a playable modern-silence RPG ma
 - Visual data: `data/visual_scenes/00-prologue-lights-out.json`.
 - Runtime: `GameSession`, `SceneVisualRepository`, `RpgPlayerController`.
 - Renderer: `SpriteSceneCanvas`.
-- Assets: RPG character atlas, paper icon, spell effects, scoped pixel primitives for modern props when atlas tiles read as the wrong era.
+- Assets: project-generated scene tiles, project-owned character sheets, and scoped pixel primitives for props/effects when existing tiles read as the wrong era.
 
 ### Outputs
 
