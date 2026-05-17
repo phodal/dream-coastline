@@ -395,8 +395,6 @@ def run_walkthrough(scene: dict, commands: Iterable[str] | None = None) -> tuple
         message = apply_command(state, command)
         transcript.append(f"> {command}")
         transcript.append(message)
-        if state.ended:
-            break
     return state, transcript
 
 
