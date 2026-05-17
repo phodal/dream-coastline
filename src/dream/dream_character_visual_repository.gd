@@ -40,6 +40,7 @@ func story_review_assets_for(character_refs: Array) -> Array[Dictionary]:
 			"display_name": str(record.get("display_name", character_id)),
 			"role_slot": str(record.get("role_slot", "")),
 			"asset_path": _preferred_story_review_asset(record),
+			"model_sheet_path": _existing_asset_target(record, "model_sheet"),
 			"costume_state": str(ref.get("costume_state", "")),
 			"pose": str(ref.get("pose", "")),
 			"position": str(ref.get("position", "")),
@@ -56,11 +57,18 @@ func _normalize_character_ref(value: Variant) -> Dictionary:
 
 
 func _preferred_story_review_asset(record: Dictionary) -> String:
-	var targets: Dictionary = record.get("asset_targets", {})
-	for key in ["story_review_cutout", "portrait", "model_sheet"]:
-		var path := str(targets.get(key, ""))
-		if not path.is_empty() and ResourceLoader.exists(path):
+	for key in ["story_review_cutout", "portrait"]:
+		var path := _existing_asset_target(record, key)
+		if not path.is_empty():
 			return path
+	return ""
+
+
+func _existing_asset_target(record: Dictionary, key: String) -> String:
+	var targets: Dictionary = record.get("asset_targets", {})
+	var path := str(targets.get(key, ""))
+	if not path.is_empty() and ResourceLoader.exists(path):
+		return path
 	return ""
 
 
