@@ -1007,7 +1007,7 @@ func _run_action_interaction(interaction: DreamStoryInteraction) -> void:
 		await dialogue_layer.show_message(interaction.display_name, str(result.get("error", "Action failed.")))
 		return
 
-	_play_story_event(_story_event_for_verb(verb))
+	_play_story_event(_story_event_for_action(verb, arg))
 	var record: Dictionary = interaction.payload.get("record", {})
 	var text := str(record.get("text", "Action resolved."))
 	_play_story_voice(text)
@@ -1408,12 +1408,19 @@ func _story_event_for_command(command: String) -> String:
 	var parts := command.split(" ", false, 1)
 	if parts.is_empty():
 		return ""
-	return _story_event_for_verb(parts[0])
+	var arg := parts[1] if parts.size() > 1 else ""
+	return _story_event_for_action(parts[0], arg)
 
 
-func _story_event_for_verb(verb: String) -> String:
+func _story_event_for_action(verb: String, arg: String = "") -> String:
 	match verb:
-		"inspect", "engage", "combine", "choose", "build", "cast":
+		"inspect", "combine", "choose", "build":
+			return "interact"
+		"engage":
+			return "engage"
+		"cast":
+			if arg in ["name", "door", "fire", "stop"]:
+				return "cast_%s" % arg
 			return "interact"
 		"go":
 			return ""

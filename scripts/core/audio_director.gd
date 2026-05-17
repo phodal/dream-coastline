@@ -2,11 +2,8 @@ class_name AudioDirector
 extends Node
 
 const SAMPLE_RATE := 22050
-const EVENTS := ["ui", "step", "blocked", "interact", "transition", "success", "write", "attack"]
-const AUDIO_CUE_FILES := [
-	"res://data/audio_cues/00-prologue-lights-out.json",
-	"res://data/audio_cues/01-illiterate.json",
-]
+const EVENTS := ["ui", "step", "blocked", "interact", "transition", "success", "write", "attack", "engage", "cast_name", "cast_door", "cast_fire", "cast_stop"]
+const AUDIO_CUE_DIR := "res://data/audio_cues"
 const EVENT_VOLUME_DB := {
 	"ui": -8.0,
 	"step": -15.0,
@@ -16,6 +13,11 @@ const EVENT_VOLUME_DB := {
 	"success": -12.0,
 	"write": -14.0,
 	"attack": -13.0,
+	"engage": -14.0,
+	"cast_name": -14.0,
+	"cast_door": -15.0,
+	"cast_fire": -15.0,
+	"cast_stop": -15.0,
 }
 
 var streams := {}
@@ -44,6 +46,11 @@ func _init() -> void:
 		"success": _make_tone(990.0, 0.18, 0.20),
 		"write": _make_tone(720.0, 0.14, 0.18),
 		"attack": _make_tone(140.0, 0.12, 0.22),
+		"engage": _make_tone(210.0, 0.12, 0.18),
+		"cast_name": _make_tone(760.0, 0.13, 0.16),
+		"cast_door": _make_tone(520.0, 0.13, 0.16),
+		"cast_fire": _make_tone(390.0, 0.12, 0.16),
+		"cast_stop": _make_tone(260.0, 0.12, 0.16),
 	}
 
 
@@ -213,7 +220,7 @@ func _load_story_audio() -> void:
 	story_voice_streams.clear()
 	story_event_streams.clear()
 
-	for path in AUDIO_CUE_FILES:
+	for path in _audio_cue_files():
 		_load_audio_cue_file(path)
 
 	for scene_id in story_music_by_scene_location.keys():
@@ -229,6 +236,19 @@ func _load_story_audio() -> void:
 			var location_events: Dictionary = scene_events[location_id]
 			for event_name in location_events.keys():
 				_cache_audio_stream(str(location_events[event_name]), story_event_streams)
+
+
+func _audio_cue_files() -> PackedStringArray:
+	var paths := PackedStringArray()
+	var directory := DirAccess.open(AUDIO_CUE_DIR)
+	if directory == null:
+		push_warning("Audio cue directory missing: %s" % AUDIO_CUE_DIR)
+		return paths
+	for filename in directory.get_files():
+		if filename.get_extension().to_lower() == "json":
+			paths.append("%s/%s" % [AUDIO_CUE_DIR, filename])
+	paths.sort()
+	return paths
 
 
 func _load_audio_cue_file(path: String) -> void:

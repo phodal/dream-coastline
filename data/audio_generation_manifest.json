@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "provider": "minimax",
-  "generated_at": "2026-05-17T14:44:55.427Z",
+  "generated_at": "2026-05-18T00:38:04.960Z",
   "assets": [
     {
       "asset_id": "MUS-01-001",
@@ -259,6 +259,404 @@
         "post_process": {
           "tool": "ffmpeg",
           "duration_ms": 500,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "DLG-02-SAMPLE-WS",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "line_id": "DLG-02-SAMPLE-WS",
+      "character_id": "wensu",
+      "voice_id": "female-chengshu-jingpin",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/02-moqi-academy/DLG-02-SAMPLE-WS.mp3",
+      "source_text": "在墨颀，不会写字的人，不是愚笨。是不被允许存在得太完整。",
+      "delivery": "成年女性教师，温润清晰，先温和定义，再在“不被允许”处压低但坚定。",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:54:56.480Z",
+      "trace_id": "065909bfff7a52b2b0382b112bd4da12",
+      "extra_info": {
+        "byte_length": 114669,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-02-SAMPLE-XL",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "line_id": "DLG-02-SAMPLE-XL",
+      "character_id": "xiali",
+      "voice_id": "lengdan_xiongzhang",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/02-moqi-academy/DLG-02-SAMPLE-XL.mp3",
+      "source_text": "它追的不是人，是权限。",
+      "delivery": "少年王族，冷、短、克制；像战斗前判断规则，不是解释设定。",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:54:57.161Z",
+      "trace_id": "065909c0f147241ec76821d06bce9b01",
+      "extra_info": {
+        "byte_length": 44973,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-02-SAMPLE-MOM",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "line_id": "DLG-02-SAMPLE-MOM",
+      "character_id": "jizi_xuan_mother",
+      "voice_id": "female-chengshu",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/02-moqi-academy/DLG-02-SAMPLE-MOM.mp3",
+      "source_text": "子轩，如果你看见这段记录，说明墨颀还没有结束。不要急着回来。",
+      "delivery": "母亲的录音留言，温暖但压住情绪；最后一句克制、坚定，不煽情。",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:54:58.012Z",
+      "trace_id": "065909c1e4c885b6b5bcade9c69a3831",
+      "extra_info": {
+        "byte_length": 109485,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "MUS-02-001",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "cue_id": "MUS-02-001",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/02-moqi-academy/MUS-02-001.mp3",
+      "prompt_summary": "restrained RPG academy background music, hidden classroom, old wood desks, chalk and ink, quiet teacher cadence, fragile hope, no pop melody, no big orchestra, seamless loop feel",
+      "status": "generated",
+      "generated_at": "2026-05-17T14:56:52.212Z",
+      "trace_id": "065909c91fcb90ed983cc2bd3bbe1b52",
+      "extra_info": {
+        "music_duration": 124525,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3986797
+      }
+    },
+    {
+      "asset_id": "MUS-02-002",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "cue_id": "MUS-02-002",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/02-moqi-academy/MUS-02-002.mp3",
+      "prompt_summary": "short 40 second seamless RPG village repair loop, cracked well, children waiting for water, ink-powered furnace, hovering ink ray, soft water pulse, low tension, no heroic melody,...",
+      "status": "generated",
+      "generated_at": "2026-05-18T00:38:04.959Z",
+      "trace_id": "0659920926d134c530789f7c44f9f43d",
+      "extra_info": {
+        "music_duration": 45000,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 192000,
+        "music_size": 1082608,
+        "original_minimax_duration": 125727,
+        "original_minimax_size": 4025250,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 45000,
+          "fade_out_ms": 800,
+          "bitrate": 192000,
+          "reason": "Trimmed replacement to a short review loop because the MiniMax result was still too long for runtime use."
+        }
+      }
+    },
+    {
+      "asset_id": "MUS-02-003",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "cue_id": "MUS-02-003",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/02-moqi-academy/MUS-02-003.mp3",
+      "prompt_summary": "quiet RPG archive background music, underground shelves, sealed cabinet, erased teaching notes in margins, paper dust, low bowed strings, sparse ink drops, no modern synth lead",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:03:53.899Z",
+      "trace_id": "06590b38317c016774171e4ffbcd087e",
+      "extra_info": {
+        "music_duration": 163422,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5231480
+      }
+    },
+    {
+      "asset_id": "MUS-02-004",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "cue_id": "MUS-02-004",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/02-moqi-academy/MUS-02-004.mp3",
+      "prompt_summary": "tense RPG node battle background music, national book node cracked, contract hound, legal seals and locks, cold bureaucratic pressure, restrained percussion, ink pulse, no power f...",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:06:10.377Z",
+      "trace_id": "06590bd97ad72bf4d7aa171f84bf6ce5",
+      "extra_info": {
+        "music_duration": 149890,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4798474
+      }
+    },
+    {
+      "asset_id": "SFX-02-STEP-STONE",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "sfx_id": "SFX-02-STEP-STONE",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-STEP-STONE.mp3",
+      "prompt_summary": "game sound effect, single restrained footstep on old stone and wood floor inside an academy archive, tiny dust, no chime, no rhythm, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:08:11.160Z",
+      "trace_id": "06590c674eb67d39fc9a7fb4fb761467",
+      "extra_info": {
+        "music_duration": 133773,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4282713,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-02-STEP-VILLAGE",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "sfx_id": "SFX-02-STEP-VILLAGE",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-STEP-VILLAGE.mp3",
+      "prompt_summary": "game sound effect, single soft footstep on village dirt and small wet stones near a cracked well, quiet water air, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:10:14.080Z",
+      "trace_id": "06590cdb665379b01a5b5beb261c3272",
+      "extra_info": {
+        "music_duration": 99657,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3191003,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-02-PAPER-INSPECT",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "sfx_id": "SFX-02-PAPER-INSPECT",
+      "event_name": "interact",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-PAPER-INSPECT.mp3",
+      "prompt_summary": "game sound effect, quiet paper page turn and ink note confirmation, scholarly archive texture, no bell, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:11:44.403Z",
+      "trace_id": "06590d564c1e984ea06f1e9d976e4cf4",
+      "extra_info": {
+        "music_duration": 128757,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4122216,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 500,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-02-CONTRACT-ENGAGE",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "sfx_id": "SFX-02-CONTRACT-ENGAGE",
+      "event_name": "engage",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CONTRACT-ENGAGE.mp3",
+      "prompt_summary": "game sound effect, contract seal activates, dry paper strips snap into place, cold legal glyph pulse, no explosion, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:12:39.915Z",
+      "trace_id": "06590db0f2ec47b7f63c3d981def4801",
+      "extra_info": {
+        "music_duration": 2272,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 74699,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 650,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-02-CAST-STOP",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "sfx_id": "SFX-02-CAST-STOP",
+      "event_name": "cast_stop",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CAST-STOP.mp3",
+      "prompt_summary": "game sound effect, glyph stop stabilizes a crack, low boundary lock, ink line freezes, restrained magic, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:14:03.046Z",
+      "trace_id": "06590de77b56d3133a5f8b9e45e1c377",
+      "extra_info": {
+        "music_duration": 104777,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3354843,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 650,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-02-CAST-FIRE",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "sfx_id": "SFX-02-CAST-FIRE",
+      "event_name": "cast_fire",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CAST-FIRE.mp3",
+      "prompt_summary": "game sound effect, glyph fire starts an ink-powered engine, small warm ignition, ink pulse, no explosion, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:16:00.406Z",
+      "trace_id": "06590e3b0c7bf65d07281f4f9846ddcc",
+      "extra_info": {
+        "music_duration": 145606,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4661384,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 700,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-02-CAST-DOOR",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "sfx_id": "SFX-02-CAST-DOOR",
+      "event_name": "cast_door",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CAST-DOOR.mp3",
+      "prompt_summary": "game sound effect, glyph door opens a legal loophole, small lock click, paper seal unsticks, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:18:40.813Z",
+      "trace_id": "06590eb0d241c6a8e666a90adacc5240",
+      "extra_info": {
+        "music_duration": 203546,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 6515450,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 650,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-02-CAST-NAME",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "sfx_id": "SFX-02-CAST-NAME",
+      "event_name": "cast_name",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CAST-NAME.mp3",
+      "prompt_summary": "game sound effect, glyph name confirms an object identity, ink line settles into a stable nameplate, soft confirmation, no bell, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:23:28.424Z",
+      "trace_id": "06590f50984b36d282dfedf09bf35b62",
+      "extra_info": {
+        "music_duration": 423392,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 13550539,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 700,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-02-CONTRACT-HIT",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "02-moqi-academy",
+      "sfx_id": "SFX-02-CONTRACT-HIT",
+      "event_name": "attack",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CONTRACT-HIT.mp3",
+      "prompt_summary": "game sound effect, restrained blade hit through paused contract seals, paper strips tear, muted metal impact, no gore, no explosion, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T15:25:59.955Z",
+      "trace_id": "065910705f9d7897eb6349071e556260",
+      "extra_info": {
+        "music_duration": 201299,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 6443562,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 700,
           "loudnorm_i": -24,
           "true_peak_db": -8
         }

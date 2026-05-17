@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "scene_id": "02-moqi-academy",
+  "scene_title": "第二幕：墨颀书院",
+  "production_note": "第二幕音频覆盖隐秘书院教学、边境村井修复、地下藏书室和第一个国书节点；SFX 使用 MiniMax music API 生成后裁成 one-shot。",
+  "cues": [
+    {
+      "cue_id": "MUS-02-001",
+      "scene_id": "02-moqi-academy",
+      "location_id": "academy",
+      "type": "music",
+      "mood": "隐秘书院的低声授课、旧讲堂和被遮住的书院纹章；安全但不轻松",
+      "instrumentation_prompt": "restrained RPG academy background music, hidden classroom, old wood desks, chalk and ink, quiet teacher cadence, fragile hope, no pop melody, no big orchestra, seamless loop feel",
+      "looping_intent": "loop_while_learning_basic_glyphs",
+      "source_evidence": [
+        "five/scene/02-moqi-academy.md",
+        "data/story_scenes/02-moqi-academy.json#locations.academy"
+      ],
+      "target_path": "assets/audio/generated/music/02-moqi-academy/MUS-02-001.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-02-002",
+      "scene_id": "02-moqi-academy",
+      "location_id": "village",
+      "type": "music",
+      "mood": "边境村井失稳、孩子排队取水、墨井鳐反馈；工程问题压着普通人的生活",
+      "instrumentation_prompt": "short 40 second seamless RPG village repair loop, cracked well, children waiting for water, ink-powered furnace, hovering ink ray, soft water pulse, low tension, no heroic melody, concise intro and clean loop point",
+      "looping_intent": "loop_until_well_repaired",
+      "source_evidence": [
+        "five/scene/02-moqi-academy.md",
+        "data/story_scenes/02-moqi-academy.json#locations.village"
+      ],
+      "target_path": "assets/audio/generated/music/02-moqi-academy/MUS-02-002.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-02-003",
+      "scene_id": "02-moqi-academy",
+      "location_id": "archive",
+      "type": "music",
+      "mood": "地下藏书室、三层文字结构、被划掉的教育注释；安静、灰尘、制度压迫",
+      "instrumentation_prompt": "quiet RPG archive background music, underground shelves, sealed cabinet, erased teaching notes in margins, paper dust, low bowed strings, sparse ink drops, no modern synth lead",
+      "looping_intent": "loop_while_reading_dictionary_margins",
+      "source_evidence": [
+        "five/scene/02-moqi-academy.md",
+        "data/story_scenes/02-moqi-academy.json#locations.archive"
+      ],
+      "target_path": "assets/audio/generated/music/02-moqi-academy/MUS-02-003.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-02-004",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "type": "music",
+      "mood": "国书节点失效、契纹犬巡逻、执契官守门；契约封锁比怪物更冷",
+      "instrumentation_prompt": "tense RPG node battle background music, national book node cracked, contract hound, legal seals and locks, cold bureaucratic pressure, restrained percussion, ink pulse, no power fantasy",
+      "looping_intent": "loop_until_first_node_repaired",
+      "source_evidence": [
+        "five/scene/02-moqi-academy.md",
+        "data/story_scenes/02-moqi-academy.json#locations.node"
+      ],
+      "target_path": "assets/audio/generated/music/02-moqi-academy/MUS-02-004.mp3",
+      "sample_generation": true
+    }
+  ],
+  "event_sounds": [
+    {
+      "sfx_id": "SFX-02-STEP-STONE",
+      "scene_id": "02-moqi-academy",
+      "event_name": "step",
+      "locations": [
+        "academy",
+        "archive",
+        "node"
+      ],
+      "mood": "书院、藏书室和国书节点里的石地/木地轻脚步，克制、短促",
+      "instrumentation_prompt": "game sound effect, single restrained footstep on old stone and wood floor inside an academy archive, tiny dust, no chime, no rhythm, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.academy",
+        "data/story_scenes/02-moqi-academy.json#locations.archive",
+        "data/story_scenes/02-moqi-academy.json#locations.node"
+      ],
+      "target_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-STEP-STONE.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-02-STEP-VILLAGE",
+      "scene_id": "02-moqi-academy",
+      "event_name": "step",
+      "locations": [
+        "village"
+      ],
+      "mood": "边境村落井边泥土和碎石脚步，带一点水汽",
+      "instrumentation_prompt": "game sound effect, single soft footstep on village dirt and small wet stones near a cracked well, quiet water air, no melody, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village"
+      ],
+      "target_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-STEP-VILLAGE.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-02-PAPER-INSPECT",
+      "scene_id": "02-moqi-academy",
+      "event_name": "interact",
+      "locations": [
+        "academy",
+        "village",
+        "archive",
+        "node"
+      ],
+      "mood": "调查文字、字典、封条和节点记录时的纸页/墨迹确认音",
+      "instrumentation_prompt": "game sound effect, quiet paper page turn and ink note confirmation, scholarly archive texture, no bell, no melody, clean one-shot",
+      "duration_ms": 500,
+      "source_evidence": [
+        "five/scene/02-moqi-academy.md",
+        "data/story_scenes/02-moqi-academy.json"
+      ],
+      "target_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-PAPER-INSPECT.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-02-CONTRACT-ENGAGE",
+      "scene_id": "02-moqi-academy",
+      "event_name": "engage",
+      "locations": [
+        "village",
+        "node"
+      ],
+      "mood": "巡契残影/契纹犬触发时，封条和律文开始生效的冷硬短音",
+      "instrumentation_prompt": "game sound effect, contract seal activates, dry paper strips snap into place, cold legal glyph pulse, no explosion, no melody, clean one-shot",
+      "duration_ms": 650,
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.encounters.contract_patrol",
+        "data/story_scenes/02-moqi-academy.json#locations.node.items.contract_hound"
+      ],
+      "target_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CONTRACT-ENGAGE.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-02-CAST-STOP",
+      "scene_id": "02-moqi-academy",
+      "event_name": "cast_stop",
+      "locations": [
+        "village",
+        "node"
+      ],
+      "mood": "写“止”稳定裂纹和暂停契约，边界被压住的低短音",
+      "instrumentation_prompt": "game sound effect, glyph stop stabilizes a crack, low boundary lock, ink line freezes, restrained magic, no melody, clean one-shot",
+      "duration_ms": 650,
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.glyph_actions.stop",
+        "data/story_scenes/02-moqi-academy.json#locations.node.glyph_actions.stop"
+      ],
+      "target_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CAST-STOP.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-02-CAST-FIRE",
+      "scene_id": "02-moqi-academy",
+      "event_name": "cast_fire",
+      "locations": [
+        "village",
+        "node"
+      ],
+      "mood": "写“火”启动墨力炉/墨力脉冲，热但不爆裂",
+      "instrumentation_prompt": "game sound effect, glyph fire starts an ink-powered engine, small warm ignition, ink pulse, no explosion, no melody, clean one-shot",
+      "duration_ms": 700,
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.glyph_actions.fire",
+        "data/story_scenes/02-moqi-academy.json#locations.node.glyph_actions.fire"
+      ],
+      "target_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CAST-FIRE.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-02-CAST-DOOR",
+      "scene_id": "02-moqi-academy",
+      "event_name": "cast_door",
+      "locations": [
+        "archive",
+        "node"
+      ],
+      "mood": "写“门”找到封条规则里的通行漏洞，像锁扣被重新定义",
+      "instrumentation_prompt": "game sound effect, glyph door opens a legal loophole, small lock click, paper seal unsticks, no melody, clean one-shot",
+      "duration_ms": 650,
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.archive.glyph_actions.door",
+        "data/story_scenes/02-moqi-academy.json#locations.node.combat.spells.door"
+      ],
+      "target_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CAST-DOOR.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-02-CAST-NAME",
+      "scene_id": "02-moqi-academy",
+      "event_name": "cast_name",
+      "locations": [
+        "village",
+        "node"
+      ],
+      "mood": "写“名”确认水源和节点身份，比第一幕更稳定、更工程化",
+      "instrumentation_prompt": "game sound effect, glyph name confirms an object identity, ink line settles into a stable nameplate, soft confirmation, no bell, no melody, clean one-shot",
+      "duration_ms": 700,
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.glyph_actions.name",
+        "data/story_scenes/02-moqi-academy.json#locations.node.glyph_actions.name"
+      ],
+      "target_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CAST-NAME.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-02-CONTRACT-HIT",
+      "scene_id": "02-moqi-academy",
+      "event_name": "attack",
+      "locations": [
+        "node"
+      ],
+      "mood": "夏离的攻击穿过被暂停的契约条款，命中执契官",
+      "instrumentation_prompt": "game sound effect, restrained blade hit through paused contract seals, paper strips tear, muted metal impact, no gore, no explosion, clean one-shot",
+      "duration_ms": 700,
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/02-moqi-academy/SFX-02-CONTRACT-HIT.mp3",
+      "sample_generation": true
+    }
+  ],
+  "voice_samples": [
+    {
+      "line_id": "DLG-02-SAMPLE-WS",
+      "scene_id": "02-moqi-academy",
+      "location_id": "academy",
+      "character_id": "wensu",
+      "character_name": "闻素",
+      "text": "在墨颀，不会写字的人，不是愚笨。是不被允许存在得太完整。",
+      "delivery": "成年女性教师，温润清晰，先温和定义，再在“不被允许”处压低但坚定。",
+      "voice_id": "female-chengshu-jingpin",
+      "speed": 0.94,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.wensu",
+        "data/story_scenes/02-moqi-academy.json#locations.academy.items.wensu"
+      ],
+      "target_path": "assets/audio/generated/voices/02-moqi-academy/DLG-02-SAMPLE-WS.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-02-SAMPLE-XL",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "character_id": "xiali",
+      "character_name": "夏离",
+      "text": "它追的不是人，是权限。",
+      "delivery": "少年王族，冷、短、克制；像战斗前判断规则，不是解释设定。",
+      "voice_id": "lengdan_xiongzhang",
+      "speed": 0.92,
+      "vol": 0.9,
+      "pitch": -1,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.xiali",
+        "data/story_scenes/02-moqi-academy.json#locations.node.items.contract_hound"
+      ],
+      "target_path": "assets/audio/generated/voices/02-moqi-academy/DLG-02-SAMPLE-XL.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-02-SAMPLE-MOM",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "character_id": "jizi_xuan_mother",
+      "character_name": "纪子轩母亲",
+      "text": "子轩，如果你看见这段记录，说明墨颀还没有结束。不要急着回来。",
+      "delivery": "母亲的录音留言，温暖但压住情绪；最后一句克制、坚定，不煽情。",
+      "voice_id": "female-chengshu",
+      "speed": 0.9,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.jizi_xuan_mother",
+        "data/story_scenes/02-moqi-academy.json#locations.node.items.record"
+      ],
+      "target_path": "assets/audio/generated/voices/02-moqi-academy/DLG-02-SAMPLE-MOM.mp3",
+      "sample_generation": true
+    }
+  ],
+  "source": "data/story_scenes/02-moqi-academy.json",
+  "generated_from": [
+    "five/scene/02-moqi-academy.md",
+    "data/story_scenes/02-moqi-academy.json",
+    "data/character_voice_profiles.json"
+  ]
+}
