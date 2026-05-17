@@ -123,6 +123,10 @@ def character_visual_models(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_character_visual_models.py")
 
 
+def story_review_panels(runner: Runner, step: Step) -> int:
+    return runner.run_python(step, "tools/validate_story_review_panels.py")
+
+
 def cargo_build(runner: Runner, step: Step) -> int:
     return runner.run_command(step, ["cargo", "build"])
 
@@ -170,6 +174,7 @@ STEPS: list[Step] = [
     Step("equipment-catalog", "quick", "validate equipment carrier catalog", equipment_catalog),
     Step("supply-catalog", "quick", "validate supply and consumable carrier catalog", supply_catalog),
     Step("character-visual-models", "quick", "validate main character visual model contracts", character_visual_models),
+    Step("story-review-panels", "quick", "validate story review panel coverage and character refs", story_review_panels),
     Step("cargo-build", "quick", "build Rust GDExtension for the current platform", cargo_build),
     Step("godot-load", "quick", "load the Godot project headlessly", godot_load),
     Step("smoke-open-rpg-story", "quick", "validate migrated story walkthroughs on the OpenRPG spine", godot_smoke("--smoke-open-rpg-story")),

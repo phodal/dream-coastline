@@ -17,64 +17,214 @@
         "title": "泥路苏醒：不会写字的人",
         "caption": "手机无服务，界面被墨痕污染；远处燃烧的城提醒玩家，这不是普通穿越，而是失语求生。",
         "transition": true,
-        "locations": ["mud_road"],
-        "commands": ["inspect phone", "inspect sign", "inspect city", "inspect pen"]
+        "locations": [
+          "mud_road"
+        ],
+        "commands": [
+          "inspect phone",
+          "inspect sign",
+          "inspect city",
+          "inspect pen"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "modern_start",
+            "position": "center",
+            "pose": "lost"
+          }
+        ]
       },
       {
         "id": "lost-name-deer-camp",
         "path": "res://assets/characters/creatures/creature_002_lost_name_deer/habitat.png",
         "title": "边境流民营：失名鹿",
         "caption": "蹄印旁落着断裂小名牌。它不是敌人，而是“无名化不等于必须杀死”的第一条反证。",
-        "locations": ["camp"],
-        "commands": ["go camp", "inspect xiaoyan", "inspect notice", "inspect deer_tracks"]
+        "locations": [
+          "camp"
+        ],
+        "commands": [
+          "go camp",
+          "inspect xiaoyan",
+          "inspect notice",
+          "inspect deer_tracks"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "modern_start",
+            "position": "left"
+          },
+          {
+            "id": "xiaoyan",
+            "costume_state": "refugee_child",
+            "position": "right"
+          }
+        ]
       },
       {
         "id": "chase-soldiers",
         "path": "res://assets/illustrations/story_review/01-illiterate/04-chase-soldiers.png",
         "title": "树林追逃：墨律司追来",
         "caption": "士兵追着黑色钢笔而来，小砚拉着纪子轩逃跑；玩家先感到危险，再理解这支笔为什么危险。",
-        "locations": ["chase"],
-        "commands": ["go chase", "inspect soldiers", "inspect gate"]
+        "locations": [
+          "chase"
+        ],
+        "commands": [
+          "go chase",
+          "inspect soldiers",
+          "inspect gate"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "modern_start",
+            "position": "left",
+            "pose": "running"
+          },
+          {
+            "id": "xiaoyan",
+            "costume_state": "refugee_child",
+            "position": "right",
+            "pose": "pulling"
+          }
+        ]
       },
       {
         "id": "xiali-rescue",
         "path": "res://assets/illustrations/story_review/01-illiterate/05-xiali-rescue.png",
         "title": "树林追逃：夏离救场",
         "caption": "夏离不是导师式登场，而是先救下纪子轩，再审判他拿着续笔到底意味着什么。",
-        "locations": ["chase"],
-        "commands": ["inspect xiali"]
+        "locations": [
+          "chase"
+        ],
+        "commands": [
+          "inspect xiali"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "modern_start",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right",
+            "pose": "cold_judgment"
+          }
+        ]
       },
       {
         "id": "nameless-beast-station",
         "path": "res://assets/characters/creatures/creature_001_nameless_beast/habitat.png",
         "title": "废弃驿站：无名兽靠近",
         "caption": "角落里的无脸轮廓只靠近名字。必须先写下“名”，它才从？？？变成可以被确认的敌人。",
-        "locations": ["station"],
-        "commands": ["go station", "inspect strokes", "inspect xiaoyan"]
+        "locations": [
+          "station"
+        ],
+        "commands": [
+          "go station",
+          "inspect strokes",
+          "inspect xiaoyan"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "modern_start",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "center"
+          },
+          {
+            "id": "xiaoyan",
+            "costume_state": "refugee_child",
+            "position": "right"
+          }
+        ]
       },
       {
         "id": "write-name",
         "path": "res://assets/illustrations/story_review/01-illiterate/07-write-name.png",
         "title": "废弃驿站：第一次写“名”",
         "caption": "夏离教纪子轩理解“名”的笔画。这里要读成学习和确认存在，而不是普通施法。",
-        "locations": ["station"],
-        "commands": ["write name"]
+        "locations": [
+          "station"
+        ],
+        "commands": [
+          "write name"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "modern_start",
+            "position": "left",
+            "pose": "trying_to_understand"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right",
+            "pose": "teaching"
+          }
+        ]
       },
       {
         "id": "attack-nameless",
         "path": "res://assets/characters/creatures/creature_001_nameless_beast/habitat.png",
         "title": "废弃驿站：命名后才能攻击",
         "caption": "无名兽不是普通野怪；只有名字被稳定后，它才从空白里显形并可以被攻击。",
-        "locations": ["station"],
-        "commands": ["attack"]
+        "locations": [
+          "station"
+        ],
+        "commands": [
+          "attack"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "modern_start",
+            "position": "left",
+            "pose": "defensive"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right"
+          }
+        ]
       },
       {
         "id": "nameplate-payoff",
         "path": "res://assets/illustrations/story_review/01-illiterate/08-nameplate-payoff.png",
         "title": "战后回扣：半张旧名牌",
         "caption": "无名兽消散后只剩名牌。失名鹿停了一瞬又离开，提示“名”也能保护还没完全被忘掉的生命。",
-        "locations": ["station"],
-        "commands": ["inspect broken_nameplate"]
+        "locations": [
+          "station"
+        ],
+        "commands": [
+          "inspect broken_nameplate"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "modern_start",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right"
+          },
+          {
+            "id": "xiaoyan",
+            "costume_state": "refugee_child",
+            "position": "center"
+          }
+        ]
       }
     ],
     "02-moqi-academy": [
@@ -86,20 +236,148 @@
         "transition": true
       },
       {
+        "id": "wensu-first-lesson",
+        "path": "res://assets/illustrations/chapters/02-moqi-academy-01.png",
+        "target_path": "res://assets/illustrations/story_review/02-moqi-academy/wensu-first-lesson.png",
+        "generation_status": "fallback",
+        "title": "隐秘书院：闻素的第一课",
+        "caption": "闻素不把纪子轩当传说里的执笔者，而是先让他说出“我不会”。夏离在旁边审视，教程从承认无知开始。",
+        "locations": [
+          "academy"
+        ],
+        "commands": [
+          "inspect wensu",
+          "inspect baseline",
+          "inspect name",
+          "inspect door",
+          "inspect fire",
+          "inspect stop"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "moqi_student",
+            "position": "left",
+            "pose": "trying_to_understand"
+          },
+          {
+            "id": "wensu",
+            "costume_state": "hidden_academy",
+            "position": "center",
+            "pose": "patient_teaching"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right",
+            "pose": "cold_judgment"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in a hidden ink academy classroom. Ji Zixuan in modern clothes with a temporary Moqi short cloak admits he cannot read; Wensu teaches calmly beside a blackboard of simple glyph structure; Xiali watches with guarded suspicion. Restrained ink-and-paper RPG, warm lamp light, no readable text."
+      },
+      {
+        "id": "archive-dictionary-cabinet",
+        "path": "res://assets/illustrations/chapters/02-moqi-academy-01.png",
+        "target_path": "res://assets/illustrations/story_review/02-moqi-academy/archive-dictionary-cabinet.png",
+        "generation_status": "fallback",
+        "title": "地下藏书室：基础字典到手",
+        "caption": "封存柜不是宝箱，而是知识垄断的物证；“门”第一次被读成规则漏洞，而不是开锁魔法。",
+        "locations": [
+          "archive"
+        ],
+        "commands": [
+          "go archive",
+          "inspect layers",
+          "inspect margins",
+          "inspect cabinet",
+          "cast door"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "moqi_student",
+            "position": "left"
+          },
+          {
+            "id": "wensu",
+            "costume_state": "hidden_academy",
+            "position": "center"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in an underground archive, sealed dictionary cabinet, old shelves, hidden public teaching notes in margins. Ji Zixuan, Wensu, and Xiali study a locked cabinet as a rule system, not treasure. Muted ink, paper, warm lanterns, no readable glyph text."
+      },
+      {
         "id": "ink-well-ray",
         "path": "res://assets/characters/creatures/creature_003_ink_well_ray/habitat.png",
         "title": "边境村落：墨井鳐",
         "caption": "井水和墨流纠缠在一起，墨井鳐让“字根能修复现实”的规则第一次落到村民身上。",
-        "locations": ["village"],
-        "commands": ["go village", "inspect well", "inspect first_failure", "inspect ink_well_ray", "inspect villagers", "cast stop", "cast fire", "cast name"]
+        "locations": [
+          "village"
+        ],
+        "commands": [
+          "go village",
+          "inspect well",
+          "inspect first_failure",
+          "inspect ink_well_ray",
+          "inspect villagers",
+          "cast stop",
+          "cast fire",
+          "cast name"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "moqi_student",
+            "position": "left"
+          },
+          {
+            "id": "wensu",
+            "costume_state": "hidden_academy",
+            "position": "center"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right"
+          }
+        ]
       },
       {
         "id": "contract-hound-node",
         "path": "res://assets/characters/creatures/creature_004_contract_hound/habitat.png",
         "title": "第一个国书节点：契约犬",
         "caption": "契约犬守着国书节点，说明墨律司不是单纯追兵，而是掌握权限、契约和审判的系统。",
-        "locations": ["node"],
-        "commands": ["go node", "inspect contract", "inspect contract_hound", "write name", "cast door", "cast stop", "attack", "inspect mother_annotation", "inspect record"]
+        "locations": [
+          "node"
+        ],
+        "commands": [
+          "go node",
+          "inspect contract",
+          "inspect contract_hound",
+          "write name",
+          "cast door",
+          "cast stop",
+          "attack",
+          "inspect mother_annotation",
+          "inspect record"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "moqi_student",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right"
+          }
+        ]
       }
     ],
     "03-dead-kingdom": [
@@ -111,12 +389,139 @@
         "transition": true
       },
       {
+        "id": "dead-city-propaganda",
+        "path": "res://assets/illustrations/chapters/03-dead-kingdom-01.png",
+        "target_path": "res://assets/illustrations/story_review/03-dead-kingdom/dead-city-propaganda.png",
+        "generation_status": "fallback",
+        "title": "旧王都外城：秩序还活着，生活已死",
+        "caption": "巡逻符器和自动价格牌还在工作，夏离罪人告示让玩家先看到“复国叙事”外部压力。",
+        "locations": [
+          "outer_city"
+        ],
+        "commands": [
+          "inspect order",
+          "inspect market",
+          "inspect poster"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "moqi_student",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right",
+            "pose": "controlled_anger"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel of a dead but orderly old capital city. Empty market stalls update prices automatically; patrol glyph machines keep moving; propaganda posters accuse Xiali without readable text. Ji Zixuan watches, Xiali clenches his hand. Restrained ink-and-paper RPG."
+      },
+      {
+        "id": "book-route-choice",
+        "path": "res://assets/illustrations/chapters/03-dead-kingdom-01.png",
+        "target_path": "res://assets/illustrations/story_review/03-dead-kingdom/book-route-choice.png",
+        "generation_status": "fallback",
+        "title": "贵族藏书楼：藏书交给谁",
+        "caption": "公开书院、王族保管、工匠路线和父母线索不只是选项，而是后续文明路线的分叉。",
+        "locations": [
+          "library"
+        ],
+        "commands": [
+          "go library",
+          "inspect records",
+          "inspect letters",
+          "inspect ban",
+          "choose public",
+          "choose royal",
+          "choose engineers",
+          "choose parents"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "moqi_student",
+            "position": "left",
+            "pose": "recording_failure"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right",
+            "pose": "kingdom_grief"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel inside a noble archive. Four piles of books imply public school, royal custody, engineers, and parent clues without readable labels. Ji Zixuan records consequences; Xiali faces evidence of his failed reform. Restrained ink, old paper, no readable text."
+      },
+      {
+        "id": "xiali-rejects-throne",
+        "path": "res://assets/illustrations/chapters/03-dead-kingdom-01.png",
+        "target_path": "res://assets/illustrations/story_review/03-dead-kingdom/xiali-rejects-throne.png",
+        "generation_status": "fallback",
+        "title": "残破宫城：夏离拒绝旧王座",
+        "caption": "夏离承认改革太急，但真正转折是他拒绝把文明再交给单一王权。",
+        "locations": [
+          "hq",
+          "palace"
+        ],
+        "commands": [
+          "go hq",
+          "inspect logs",
+          "inspect transcripts",
+          "inspect names",
+          "go palace",
+          "inspect route",
+          "inspect ash_wall",
+          "inspect xiali"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "moqi_student",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right",
+            "pose": "kingdom_grief"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in a burned palace corridor. A ruined throne lies in shadow while a half-burned teaching wall remains visible. Xiali turns away from the throne; Ji Zixuan holds records. Restrained ink-and-paper RPG, tragic but not heroic fantasy."
+      },
+      {
         "id": "statebook-remnant",
         "path": "res://assets/characters/creatures/creature_005_statebook_remnant/habitat.png",
         "title": "主国书殿：国书残影",
         "caption": "国书残影把“国家是否只能靠王活着”的问题压到战斗里，夏离的立场在这里反转。",
-        "locations": ["hall"],
-        "commands": ["go hall", "inspect question", "inspect statebook_remnant", "write name", "cast door", "cast stop", "inspect answer", "attack", "inspect plan"]
+        "locations": [
+          "hall"
+        ],
+        "commands": [
+          "go hall",
+          "inspect question",
+          "inspect statebook_remnant",
+          "write name",
+          "cast door",
+          "cast stop",
+          "inspect answer",
+          "attack",
+          "inspect plan"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "moqi_student",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "fallen_prince",
+            "position": "right",
+            "pose": "quiet_guardianship"
+          }
+        ]
       }
     ],
     "04-continuation-institute": [
@@ -128,12 +533,183 @@
         "transition": true
       },
       {
+        "id": "first-members-table",
+        "path": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
+        "target_path": "res://assets/illustrations/story_review/04-continuation-institute/first-members-table.png",
+        "generation_status": "fallback",
+        "title": "续文院初址：同一张桌子",
+        "caption": "闻素带学生，阿棠带工匠，夏离带地图；未来第一次不只坐在王座旁。",
+        "locations": [
+          "institute"
+        ],
+        "commands": [
+          "inspect members",
+          "inspect charter",
+          "inspect noble_observer",
+          "build institute",
+          "build dictionary"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "wensu",
+            "costume_state": "continuation_founder",
+            "position": "center"
+          },
+          {
+            "id": "atang",
+            "costume_state": "workshop_craftswoman",
+            "position": "center"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "reformer",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel inside a warehouse converted into Continuation Institute. Teacher, craftswoman, fallen prince, and Ji Zixuan share one work table with books, maps, tools, and public rules. Restrained ink-and-paper RPG, warm work lights, no readable text."
+      },
+      {
+        "id": "public-school-class",
+        "path": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
+        "target_path": "res://assets/illustrations/story_review/04-continuation-institute/public-school-class.png",
+        "generation_status": "fallback",
+        "title": "平民学塾：错误也被保留",
+        "caption": "小砚写歪自己的名字，闻素没有擦掉错误；公共教育线在这里变成可见成果。",
+        "locations": [
+          "school"
+        ],
+        "commands": [
+          "go school",
+          "inspect class",
+          "inspect mistake",
+          "build school"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "wensu",
+            "costume_state": "continuation_founder",
+            "position": "center"
+          },
+          {
+            "id": "xiaoyan",
+            "costume_state": "student_child",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in the first public school. A child writes an imperfect name on a board while Wensu preserves the mistake as lesson material and Ji Zixuan watches. Warm classroom, public education, restrained ink-and-paper RPG, no readable glyph text."
+      },
+      {
+        "id": "atang-workshop-flow",
+        "path": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
+        "target_path": "res://assets/illustrations/story_review/04-continuation-institute/atang-workshop-flow.png",
+        "generation_status": "fallback",
+        "title": "工坊区：失败进入流程",
+        "caption": "阿棠把字根知识转成工具、测试和复盘；理念开始变成工程方法。",
+        "locations": [
+          "workshop"
+        ],
+        "commands": [
+          "go workshop",
+          "inspect atang",
+          "inspect flood",
+          "build workflow"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "atang",
+            "costume_state": "workshop_craftswoman",
+            "position": "right",
+            "pose": "checking_fault"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in a busy workshop. Atang with rolled sleeves points at a failed flood-control glyph test, tools and review boards around her; Ji Zixuan records the failure instead of hiding it. Restrained ink-and-paper RPG, copper work light, no readable text."
+      },
+      {
+        "id": "mine-safety-board",
+        "path": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
+        "target_path": "res://assets/illustrations/story_review/04-continuation-institute/mine-safety-board.png",
+        "generation_status": "fallback",
+        "title": "符文矿场：每个人都能看懂危险",
+        "caption": "安全板让“止”从个人技能变成公共流程，工人第一次能读懂停工理由。",
+        "locations": [
+          "mine"
+        ],
+        "commands": [
+          "go mine",
+          "inspect hazard",
+          "cast stop",
+          "build safety",
+          "inspect safety_board"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "atang",
+            "costume_state": "continuation_engineer",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel at a rune mine entrance. Workers face a public safety board with symbols represented abstractly, mine cracks stabilized by ink lines, Atang and Ji Zixuan turn a spell into a procedure. Restrained ink-and-paper RPG, no readable text."
+      },
+      {
         "id": "seal-tower-forgetting",
         "path": "res://assets/characters/creatures/creature_007_silence_probe/habitat.png",
         "title": "封字塔：遗忘扩散",
         "caption": "封字塔让遗忘从制度漏洞变成可见压力。学生、字典和档案同时被推到战斗目标里。",
-        "locations": ["seal_tower"],
-        "commands": ["go seal_tower", "inspect students", "inspect dictionary", "build protect", "write name", "cast stop", "attack", "build archive"]
+        "locations": [
+          "seal_tower"
+        ],
+        "commands": [
+          "go seal_tower",
+          "inspect students",
+          "inspect dictionary",
+          "build protect",
+          "write name",
+          "cast stop",
+          "attack",
+          "build archive"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "wensu",
+            "costume_state": "continuation_founder",
+            "position": "center"
+          },
+          {
+            "id": "atang",
+            "costume_state": "continuation_engineer",
+            "position": "center"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "reformer",
+            "position": "right"
+          }
+        ]
       }
     ],
     "05-century-continuation": [
@@ -145,12 +721,173 @@
         "transition": true
       },
       {
+        "id": "wensu-legacy-night-school",
+        "path": "res://assets/illustrations/chapters/05-century-continuation-01.png",
+        "target_path": "res://assets/illustrations/story_review/05-century-continuation/wensu-legacy-night-school.png",
+        "generation_status": "fallback",
+        "title": "文字工业时代：闻素的空椅仍在授课",
+        "caption": "第一批学生变成教师，夜校灯光说明闻素离场后，方法还在自我复制。",
+        "locations": [
+          "industry"
+        ],
+        "commands": [
+          "inspect teachers",
+          "inspect wensu_book",
+          "inspect wensu_absence",
+          "inspect night_school",
+          "build industry"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "wensu",
+            "costume_state": "legacy_memory",
+            "position": "center",
+            "pose": "legacy_smile"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in a century-later night school and text industry district. An empty teacher chair with Wensu legacy, adult students teaching workers, printing glyph papers without readable text. Ji Zixuan returns as observer. Restrained ink-and-paper RPG."
+      },
+      {
+        "id": "xiali-statebook-anchor",
+        "path": "res://assets/illustrations/chapters/05-century-continuation-01.png",
+        "target_path": "res://assets/illustrations/story_review/05-century-continuation/xiali-statebook-anchor.png",
+        "generation_status": "fallback",
+        "title": "国书网络时代：夏离保留私人锚点",
+        "caption": "夏离把名字绑定进国书，但纪子轩给他留下一把椅子，防止他只剩职责。",
+        "locations": [
+          "network"
+        ],
+        "commands": [
+          "go network",
+          "inspect xiali",
+          "inspect xiali_fading",
+          "inspect private_anchor",
+          "build bind_xiali",
+          "inspect engineers",
+          "inspect remote_classrooms",
+          "build network"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right",
+            "pose": "quiet_guardianship"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel of a civic statebook network. Xiali appears in several node-light echoes but one ordinary chair is kept for him; Ji Zixuan marks it as a private anchor. Restrained ink-and-paper RPG, old royal blue, no readable text."
+      },
+      {
+        "id": "astral-engineering",
+        "path": "res://assets/illustrations/chapters/05-century-continuation-01.png",
+        "target_path": "res://assets/illustrations/story_review/05-century-continuation/astral-engineering.png",
+        "generation_status": "fallback",
+        "title": "星象工程时代：回家变成可复核工程",
+        "caption": "星图、坐标标准和跨界信标把“回家”从愿望改写成文明级工程。",
+        "locations": [
+          "astral"
+        ],
+        "commands": [
+          "go astral",
+          "inspect star_map",
+          "inspect coordinate_standard",
+          "inspect beacon",
+          "inspect failed_signal",
+          "build astral_tower"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "atang",
+            "costume_state": "astral_engineer",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel at the base of an astral engineering tower. Star maps, coordinate instruments, failed signal strips, Atang as astral engineer and Ji Zixuan review tests. Restrained ink-and-paper RPG, no readable text."
+      },
+      {
+        "id": "modern-star-darkening",
+        "path": "res://assets/illustrations/chapters/05-century-continuation-01.png",
+        "target_path": "res://assets/illustrations/story_review/05-century-continuation/modern-star-darkening.png",
+        "generation_status": "fallback",
+        "title": "星象塔顶：现代星球正在变暗",
+        "caption": "第一次完整观测看见的不是神界，而是学校、街道、家门口正在被静默擦掉。",
+        "locations": [
+          "star_tower"
+        ],
+        "commands": [
+          "go star_tower",
+          "inspect signal",
+          "inspect silent_frame",
+          "write name",
+          "cast stop",
+          "attack",
+          "inspect city"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel atop an astral observatory. A modern city image appears in a telescope window, rows of lights going dark, Ji Zixuan and Xiali witness the crisis. Restrained ink-and-paper RPG, no readable UI text."
+      },
+      {
         "id": "star-chart-moth",
         "path": "res://assets/characters/creatures/creature_006_star_chart_moth/habitat.png",
         "title": "星象工程时代：星图蛾",
         "caption": "星图蛾咬掉坐标，让归星计划从宏大工程变成随时会失去方向的具体风险。",
-        "locations": ["astral", "star_tower"],
-        "commands": ["go astral", "inspect star_map", "inspect coordinate_standard", "inspect beacon", "inspect failed_signal", "inspect star_chart_moth", "build astral_tower", "go star_tower", "inspect signal", "inspect silent_frame", "write name", "cast stop", "attack"]
+        "locations": [
+          "astral",
+          "star_tower"
+        ],
+        "commands": [
+          "go astral",
+          "inspect star_map",
+          "inspect coordinate_standard",
+          "inspect beacon",
+          "inspect failed_signal",
+          "inspect star_chart_moth",
+          "build astral_tower",
+          "go star_tower",
+          "inspect signal",
+          "inspect silent_frame",
+          "write name",
+          "cast stop",
+          "attack"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "atang",
+            "costume_state": "astral_engineer",
+            "position": "right"
+          }
+        ]
       }
     ],
     "06-return-star-plan": [
@@ -162,12 +899,172 @@
         "transition": true
       },
       {
+        "id": "return-star-council",
+        "path": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
+        "target_path": "res://assets/illustrations/story_review/06-return-star-plan/return-star-council.png",
+        "generation_status": "fallback",
+        "title": "归星议会：救援必须公开授权",
+        "caption": "归星不再是纪子轩回家，而是墨颀是否承担跨世界救援的公共决定。",
+        "locations": [
+          "astral_tower",
+          "council"
+        ],
+        "commands": [
+          "inspect disaster",
+          "inspect parents",
+          "go council",
+          "inspect supporters",
+          "inspect opposition",
+          "inspect risk_ledger",
+          "build mandate"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "wensu",
+            "costume_state": "legacy_memory",
+            "position": "center"
+          },
+          {
+            "id": "atang",
+            "costume_state": "astral_engineer",
+            "position": "center"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in a public return-star council. Students, engineers, archive keepers, and opponents debate rescue across worlds; Ji Zixuan stands before them, Xiali and Atang present. Restrained ink-and-paper RPG, no readable text."
+      },
+      {
+        "id": "return-vessel-dockyard",
+        "path": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
+        "target_path": "res://assets/illustrations/story_review/06-return-star-plan/return-vessel-dockyard.png",
+        "generation_status": "fallback",
+        "title": "浮空船坞：一段可以移动的文明",
+        "caption": "续页舰不是军舰，而是携带字典、档案、教师、工程师和国书核心的救援系统。",
+        "locations": [
+          "dockyard"
+        ],
+        "commands": [
+          "go dockyard",
+          "inspect blueprint",
+          "build vessel",
+          "inspect empty_seats"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "atang",
+            "costume_state": "astral_engineer",
+            "position": "right",
+            "pose": "quick_decision"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in an airborne dockyard. A return vessel skeleton carries classrooms, archives, engineering bays, and empty seats; Atang directs engineers while Ji Zixuan checks blueprint risk. Restrained ink-and-paper RPG, no readable text."
+      },
+      {
+        "id": "civilization-backups",
+        "path": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
+        "target_path": "res://assets/illustrations/story_review/06-return-star-plan/civilization-backups.png",
+        "generation_status": "fallback",
+        "title": "国书核心：文明备份链",
+        "caption": "静默会删字根、地图和名字，所以战斗资源必须来自标准字典、公共档案和学生共同书写。",
+        "locations": [
+          "core"
+        ],
+        "commands": [
+          "go core",
+          "inspect xiali",
+          "inspect backup",
+          "build backups",
+          "inspect backup_drill"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel inside a statebook core. Backup chains of dictionary, public archive, student writing, and network nodes surround Xiali as guardian; Ji Zixuan verifies recovery drill. Restrained ink-and-paper RPG, no readable text."
+      },
+      {
+        "id": "return-gate-farewell",
+        "path": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
+        "target_path": "res://assets/illustrations/story_review/06-return-star-plan/return-gate-farewell.png",
+        "generation_status": "fallback",
+        "title": "归星门前：不是你一个人回家",
+        "caption": "门内是现代夜色，门外是成长起来的墨颀；夏离的告别把第六幕推向跨界战斗。",
+        "locations": [
+          "gate"
+        ],
+        "commands": [
+          "go gate",
+          "inspect calibration",
+          "build gate",
+          "inspect farewell"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right",
+            "pose": "quiet_guardianship"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel before a return gate. Modern night city visible through the gate, Moqi civilization behind Ji Zixuan, Xiali says farewell without grand heroism. Restrained ink-and-paper RPG, no readable text."
+      },
+      {
         "id": "silence-probe",
         "path": "res://assets/characters/creatures/creature_007_silence_probe/habitat.png",
         "title": "现代世界裂隙：静默探针",
         "caption": "静默探针把敌人从墨颀内部问题推到跨文明入侵，解释为什么归星计划必须变成救援计划。",
-        "locations": ["rift"],
-        "commands": ["go rift", "inspect probe", "inspect probe_body", "write name", "cast stop", "attack", "inspect truth", "build return"]
+        "locations": [
+          "rift"
+        ],
+        "commands": [
+          "go rift",
+          "inspect probe",
+          "inspect probe_body",
+          "write name",
+          "cast stop",
+          "attack",
+          "inspect truth",
+          "build return"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right"
+          }
+        ]
       }
     ],
     "07-lights-on-again": [
@@ -179,20 +1076,195 @@
         "transition": true
       },
       {
+        "id": "half-silenced-home",
+        "path": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
+        "target_path": "res://assets/illustrations/story_review/07-lights-on-again/half-silenced-home.png",
+        "generation_status": "fallback",
+        "title": "纪子轩家：同一盏灯，这次是星球级静默",
+        "caption": "终章回到序幕空间，但纪子轩选择先救城市，再回来找父母。",
+        "locations": [
+          "home"
+        ],
+        "commands": [
+          "inspect room",
+          "inspect parents_echo",
+          "inspect city_first",
+          "inspect contacts"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "center",
+            "pose": "steady_resolve"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in Ji Zixuan home, same cold dining table and unlit lamp from prologue but half-erased by silence. He closes the parents room door and turns toward the city. Restrained ink-and-paper RPG, modern interior, no readable text."
+      },
+      {
+        "id": "school-erasure",
+        "path": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
+        "target_path": "res://assets/illustrations/story_review/07-lights-on-again/school-erasure.png",
+        "generation_status": "fallback",
+        "title": "学校：第一幕的无名化回到现代",
+        "caption": "同学名牌和班主任声音被擦掉，无名兽不再是怪物，而是每个人可能的未来。",
+        "locations": [
+          "school"
+        ],
+        "commands": [
+          "go school",
+          "inspect corridor",
+          "inspect missing_teacher",
+          "inspect classmates"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "center"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in an endless modern school corridor, blank notice board, missing teacher desk, erased classmate name tags without readable text. Ji Zixuan recognizes first-act namelessness in the modern world. Restrained ink-and-paper RPG."
+      },
+      {
+        "id": "parents-lab-bridge",
+        "path": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
+        "target_path": "res://assets/illustrations/story_review/07-lights-on-again/parents-lab-bridge.png",
+        "generation_status": "fallback",
+        "title": "父母实验室：归桥先救城市",
+        "caption": "父母记录、现代信标和墨颀国书接口拼在一起，但归桥旅人提醒他不能先奔向私人答案。",
+        "locations": [
+          "lab"
+        ],
+        "commands": [
+          "go lab",
+          "inspect formula",
+          "inspect beacon",
+          "build modern_node",
+          "inspect parents_record",
+          "inspect failed_bridge_test",
+          "inspect traveler_warning",
+          "build bridge"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in parents laboratory. Modern beacon hardware connects to Moqi statebook interface, bridge traveler silhouette points to the city outside, Ji Zixuan and Xiali stabilize a bridge before seeking parents. Restrained ink-and-paper RPG, no readable text."
+      },
+      {
+        "id": "lights-continue",
+        "path": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
+        "target_path": "res://assets/illustrations/story_review/07-lights-on-again/lights-continue.png",
+        "generation_status": "fallback",
+        "title": "灯重新亮起：两个文明共同写下继续",
+        "caption": "最终协议被拒绝后，家庭、街区、学塾、工坊和星象塔同时回应：文明选择继续。",
+        "locations": [
+          "orbit"
+        ],
+        "commands": [
+          "combine continue"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "center",
+            "pose": "steady_resolve"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right"
+          },
+          {
+            "id": "atang",
+            "costume_state": "astral_engineer",
+            "position": "left"
+          }
+        ],
+        "imagen_prompt": "Wide final comic story panel: modern city lights return, Moqi classrooms, workshops, archives, and astral tower echo across the bridge. Ji Zixuan stands between two civilizations with Xiali and Atang as guardians, hopeful but restrained. No readable text."
+      },
+      {
         "id": "return-bridge-traveler",
         "path": "res://assets/characters/creatures/creature_008_return_bridge_traveler/habitat.png",
         "title": "城市街道：归桥旅者",
         "caption": "归桥旅者把现代城市和墨颀续页接在一起，提示回家不是结束，而是两个世界开始互相回应。",
-        "locations": ["street", "lab"],
-        "commands": ["go street", "inspect bridge_traveler_reflection", "inspect grid", "inspect neighbors", "build lights", "build node", "go lab", "inspect formula", "inspect beacon", "build modern_node", "inspect traveler_warning", "build bridge"]
+        "locations": [
+          "street",
+          "lab"
+        ],
+        "commands": [
+          "go street",
+          "inspect bridge_traveler_reflection",
+          "inspect grid",
+          "inspect neighbors",
+          "build lights",
+          "build node",
+          "go lab",
+          "inspect formula",
+          "inspect beacon",
+          "build modern_node",
+          "inspect traveler_warning",
+          "build bridge"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right"
+          }
+        ]
       },
       {
         "id": "final-silence-protocol",
         "path": "res://assets/characters/creatures/creature_007_silence_probe/habitat.png",
         "title": "轨道静默层：最终协议",
         "caption": "最终协议删除队友和界面名称，强迫玩家用一路建立的命名、停止和续写体系收束全剧。",
-        "locations": ["orbit"],
-        "commands": ["go orbit", "inspect protocol", "inspect deleted_party_names", "build restore", "inspect civilization_response", "write name", "cast stop", "attack", "combine continue"]
+        "locations": [
+          "orbit"
+        ],
+        "commands": [
+          "go orbit",
+          "inspect protocol",
+          "inspect deleted_party_names",
+          "build restore",
+          "inspect civilization_response",
+          "write name",
+          "cast stop",
+          "attack",
+          "combine continue"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right"
+          },
+          {
+            "id": "atang",
+            "costume_state": "astral_engineer",
+            "position": "center"
+          }
+        ]
       }
     ]
   }

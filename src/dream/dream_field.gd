@@ -4,6 +4,7 @@ class_name DreamField
 const StoryRepositoryScript := preload("res://src/dream/dream_story_repository.gd")
 const VisualRepositoryScript := preload("res://src/dream/dream_visual_repository.gd")
 const IllustrationRepositoryScript := preload("res://src/dream/dream_illustration_repository.gd")
+const CharacterVisualRepositoryScript := preload("res://src/dream/dream_character_visual_repository.gd")
 const IllustratedBackdropScript := preload("res://src/dream/dream_illustrated_backdrop.gd")
 const DialogueLayerScript := preload("res://src/dream/dream_dialogue_layer.gd")
 const RoomRendererScript := preload("res://src/dream/dream_room_renderer.gd")
@@ -59,6 +60,7 @@ const SCENE_SMOKE_FLAGS := {
 var repository: DreamStoryRepository
 var visual_repository
 var illustration_repository
+var character_visual_repository
 var flags: Dictionary = {}
 var combat_state: Dictionary = {}
 var current_scene_index := 0
@@ -104,6 +106,8 @@ func _ready() -> void:
 		visual_ok = visual_repository.load_for_scene_ids(repository.scene_ids())
 	illustration_repository = IllustrationRepositoryScript.new()
 	var illustration_ok: bool = illustration_repository.load_all()
+	character_visual_repository = CharacterVisualRepositoryScript.new()
+	character_visual_repository.load_all()
 	var args := _runtime_args()
 	_apply_visual_style_from_args(args)
 
@@ -524,6 +528,7 @@ func _run_story_review_next_step(timed_dialogue: bool, allow_scene_advance: bool
 	var result := _apply_story_review_command(command)
 	review_last_line = str(result.get("line", ""))
 	_build_current_room()
+	_update_story_review_overlay()
 	if dialogue_layer != null:
 		var duration := review_step_seconds if timed_dialogue else 0.65
 		await dialogue_layer.show_message_for(str(result.get("title", command)), review_last_line, duration, "Auto")
@@ -762,6 +767,10 @@ func _update_story_review_overlay() -> void:
 	var location := repository.location_for(current_scene, current_location_id)
 	var walkthrough: Array = current_scene.get("walkthrough", [])
 	var illustration := _story_review_illustration(str(current_scene.get("id", "")))
+	var character_refs: Array = illustration.get("characters", [])
+	var character_assets: Array[Dictionary] = []
+	if character_visual_repository != null and character_visual_repository.has_method("story_review_assets_for"):
+		character_assets = character_visual_repository.story_review_assets_for(character_refs)
 	story_review_overlay.update_status({
 		"scene_title": "%d/%d  %s" % [current_scene_index + 1, repository.scene_count(), str(current_scene.get("title", ""))],
 		"location_name": str(location.get("name", current_location_id)),
@@ -776,6 +785,7 @@ func _update_story_review_overlay() -> void:
 		"focus_path": str(illustration.get("focus_path", "")),
 		"illustration_title": str(illustration.get("title", "")),
 		"illustration_caption": str(illustration.get("caption", "")),
+		"characters": character_assets,
 	})
 
 

@@ -14,7 +14,9 @@ var _background_texture: TextureRect
 var _panel: PanelContainer
 var _left_column: VBoxContainer
 var _preview_panel: PanelContainer
+var _preview_canvas: Control
 var _preview_texture: TextureRect
+var _character_layer: HBoxContainer
 var _visual_title_label: Label
 var _visual_caption_label: RichTextLabel
 var _scene_list: ItemList
@@ -28,6 +30,7 @@ var _command_row: HBoxContainer
 var _pending_scenes: Array[Dictionary] = []
 var _current_background_path := ""
 var _current_focus_path := ""
+var _current_character_signature := ""
 var _cinema_mode := false
 
 
@@ -117,6 +120,7 @@ func update_status(status: Dictionary) -> void:
 	var location_name := str(status.get("location_name", ""))
 	var prefix_note := str(status.get("prefix_note", ""))
 	_set_illustration(str(status.get("background_path", "")), str(status.get("focus_path", "")))
+	_set_character_cutouts(status.get("characters", []))
 	_visual_title_label.text = str(status.get("illustration_title", ""))
 	_visual_caption_label.text = str(status.get("illustration_caption", ""))
 	_status_label.text = "%s\n%s\nStep %d/%d%s" % [
@@ -222,14 +226,31 @@ func _build_controls() -> void:
 	preview_stack.add_theme_constant_override("separation", 8)
 	preview_margin.add_child(preview_stack)
 
+	_preview_canvas = Control.new()
+	_preview_canvas.name = "ChapterPreviewCanvas"
+	_preview_canvas.clip_contents = true
+	_preview_canvas.custom_minimum_size = Vector2(0, 292)
+	_preview_canvas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_preview_canvas.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	preview_stack.add_child(_preview_canvas)
+
 	_preview_texture = TextureRect.new()
 	_preview_texture.name = "ChapterPreviewTexture"
+	_preview_texture.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_preview_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_preview_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	_preview_texture.custom_minimum_size = Vector2(0, 292)
-	_preview_texture.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_preview_texture.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	preview_stack.add_child(_preview_texture)
+	_preview_canvas.add_child(_preview_texture)
+
+	_character_layer = HBoxContainer.new()
+	_character_layer.name = "CharacterCutoutLayer"
+	_character_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_character_layer.anchor_left = 0.03
+	_character_layer.anchor_right = 0.97
+	_character_layer.anchor_top = 0.16
+	_character_layer.anchor_bottom = 0.98
+	_character_layer.add_theme_constant_override("separation", 16)
+	_character_layer.alignment = BoxContainer.ALIGNMENT_CENTER
+	_preview_canvas.add_child(_character_layer)
 
 	_visual_title_label = GameThemeScript.make_label("VisualTitle", 17, GameThemeScript.COLORS.paper)
 	_visual_title_label.custom_minimum_size = Vector2(0, 24)
@@ -320,8 +341,8 @@ func _apply_layout_mode() -> void:
 	if _preview_panel != null:
 		_preview_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		_preview_panel.custom_minimum_size = Vector2(0, 520 if _cinema_mode else 390)
-	if _preview_texture != null:
-		_preview_texture.custom_minimum_size = Vector2(0, 470 if _cinema_mode else 292)
+	if _preview_canvas != null:
+		_preview_canvas.custom_minimum_size = Vector2(0, 470 if _cinema_mode else 292)
 
 
 func _set_illustration(background_path: String, focus_path: String) -> void:
@@ -335,6 +356,40 @@ func _set_illustration(background_path: String, focus_path: String) -> void:
 		_background_texture.texture = background_texture
 	if _preview_texture != null:
 		_preview_texture.texture = focus_texture
+
+
+func _set_character_cutouts(characters: Array) -> void:
+	if _character_layer == null:
+		return
+	var signature_parts: Array[String] = []
+	for character in characters:
+		if typeof(character) == TYPE_DICTIONARY:
+			signature_parts.append("%s:%s" % [str(character.get("id", "")), str(character.get("asset_path", ""))])
+	var signature := "|".join(signature_parts)
+	if signature == _current_character_signature:
+		return
+	_current_character_signature = signature
+
+	for child in _character_layer.get_children():
+		child.queue_free()
+
+	for character in characters:
+		if typeof(character) != TYPE_DICTIONARY:
+			continue
+		var path := str(character.get("asset_path", ""))
+		var texture := _load_texture(path)
+		if texture == null:
+			continue
+		var cutout := TextureRect.new()
+		cutout.name = "Cutout_%s" % str(character.get("id", "character"))
+		cutout.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		cutout.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		cutout.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		cutout.custom_minimum_size = Vector2(130, 0)
+		cutout.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		cutout.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		cutout.texture = texture
+		_character_layer.add_child(cutout)
 
 
 func _load_texture(path: String) -> Texture2D:
