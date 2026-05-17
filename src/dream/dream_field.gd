@@ -3,6 +3,7 @@ class_name DreamField
 
 const StoryRepositoryScript := preload("res://src/dream/dream_story_repository.gd")
 const VisualRepositoryScript := preload("res://src/dream/dream_visual_repository.gd")
+const IllustrationRepositoryScript := preload("res://src/dream/dream_illustration_repository.gd")
 const DialogueLayerScript := preload("res://src/dream/dream_dialogue_layer.gd")
 const RoomRendererScript := preload("res://src/dream/dream_room_renderer.gd")
 const StoryInteractionScript := preload("res://src/dream/dream_story_interaction.gd")
@@ -54,6 +55,7 @@ const SCENE_SMOKE_FLAGS := {
 
 var repository: DreamStoryRepository
 var visual_repository
+var illustration_repository
 var flags: Dictionary = {}
 var combat_state: Dictionary = {}
 var current_scene_index := 0
@@ -69,6 +71,7 @@ var label_root: Node2D
 var renderer: DreamRoomRenderer
 var dialogue_layer: DreamDialogueLayer
 var player_gamepiece: Gamepiece
+var seen_scene_illustrations: Dictionary = {}
 
 
 func _ready() -> void:
@@ -80,9 +83,11 @@ func _ready() -> void:
 	var visual_ok := false
 	if data_ok:
 		visual_ok = visual_repository.load_for_scene_ids(repository.scene_ids())
+	illustration_repository = IllustrationRepositoryScript.new()
+	var illustration_ok: bool = illustration_repository.load_all()
 	var args := OS.get_cmdline_user_args()
 
-	if _run_headless_smoke_if_requested(args, data_ok, visual_ok):
+	if _run_headless_smoke_if_requested(args, data_ok, visual_ok, illustration_ok):
 		return
 
 	if not data_ok or not visual_ok:
@@ -91,6 +96,8 @@ func _ready() -> void:
 
 	await _setup_world()
 	_load_story_scene(0)
+	if _should_show_scene_illustrations(args):
+		call_deferred("_show_current_scene_illustrations")
 
 	if args.has("--smoke-open-rpg-runtime"):
 		call_deferred("_finish_open_rpg_runtime_smoke")
@@ -435,7 +442,31 @@ func _complete_current_scene() -> void:
 	_reset_player_to_spawn()
 	_build_current_room()
 	var location := repository.location_for(current_scene, current_location_id)
+	await _show_scene_illustrations(str(current_scene.get("id", "")))
 	await dialogue_layer.show_message(str(current_scene.get("title", "")), str(location.get("description", "")))
+
+
+func _show_current_scene_illustrations() -> void:
+	await _show_scene_illustrations(str(current_scene.get("id", "")))
+
+
+func _show_scene_illustrations(scene_id: String) -> void:
+	if dialogue_layer == null or illustration_repository == null:
+		return
+	if seen_scene_illustrations.has(scene_id):
+		return
+
+	var records: Array[Dictionary] = illustration_repository.illustrations_for_scene(scene_id)
+	if records.is_empty():
+		return
+
+	seen_scene_illustrations[scene_id] = true
+	var fallback_title := str(current_scene.get("title", scene_id))
+	for record in records:
+		var title := str(record.get("title", fallback_title))
+		var caption := str(record.get("caption", ""))
+		var path := str(record.get("path", ""))
+		await dialogue_layer.show_illustration(title, caption, path)
 
 
 func _inspected_prefix(item: Dictionary) -> String:
@@ -603,7 +634,7 @@ func _clear_children(node: Node) -> void:
 		child.queue_free()
 
 
-func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool, visual_ok: bool) -> bool:
+func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool, visual_ok: bool, illustration_ok: bool) -> bool:
 	if args.has("--smoke-input-map"):
 		var ok := _run_input_map_smoke()
 		get_tree().quit(0 if ok else 1)
@@ -624,6 +655,11 @@ func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool, vi
 		get_tree().quit(0 if ok else 1)
 		return true
 
+	if args.has("--smoke-chapter-illustrations"):
+		var ok := data_ok and illustration_ok and _run_chapter_illustration_smoke()
+		get_tree().quit(0 if ok else 1)
+		return true
+
 	if not data_ok:
 		return false
 
@@ -641,6 +677,13 @@ func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool, vi
 			return true
 
 	return false
+
+
+func _should_show_scene_illustrations(args: PackedStringArray) -> bool:
+	for arg in args:
+		if str(arg).begins_with("--smoke-"):
+			return false
+	return true
 
 
 func _run_story_smoke_until(last_index: int) -> Dictionary:
@@ -719,6 +762,19 @@ func _run_open_rpg_visual_scene_smoke() -> bool:
 	var result: Dictionary = visual_repository.validate_asset_scenes(repository.scene_ids())
 	var ok := bool(result.get("ok", false))
 	print("open-rpg-visual-scene-smoke status=%s assets=%d failures=%d" % [
+		"PASS" if ok else "FAIL",
+		int(result.get("checked", 0)),
+		result.get("failures", []).size(),
+	])
+	for failure in result.get("failures", []):
+		push_error(str(failure))
+	return ok
+
+
+func _run_chapter_illustration_smoke() -> bool:
+	var result: Dictionary = illustration_repository.validate_scene_illustrations(repository.scene_ids())
+	var ok := bool(result.get("ok", false))
+	print("chapter-illustration-smoke status=%s checked=%d failures=%d" % [
 		"PASS" if ok else "FAIL",
 		int(result.get("checked", 0)),
 		result.get("failures", []).size(),

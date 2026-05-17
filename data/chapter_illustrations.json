@@ -1,0 +1,69 @@
+{
+  "schema": "dream-coastline.chapter_illustrations.v1",
+  "illustrations": {
+    "00-prologue-lights-out": [
+      {
+        "id": "opening-street",
+        "path": "res://assets/illustrations/chapters/00-prologue-lights-out-01.png",
+        "title": "序幕：灯未亮起的夜晚",
+        "caption": "邻居的窗光一盏盏亮着，唯独自家的窗口仍然沉入黑暗。"
+      }
+    ],
+    "01-illiterate": [
+      {
+        "id": "mud-road",
+        "path": "res://assets/illustrations/chapters/01-illiterate-01.png",
+        "title": "第一幕：不会写字的人",
+        "caption": "黄昏压低泥路，墨迹一样的符号从任务目标上剥落。"
+      }
+    ],
+    "02-moqi-academy": [
+      {
+        "id": "academy-lesson",
+        "path": "res://assets/illustrations/chapters/02-moqi-academy-01.png",
+        "title": "第二幕：墨颀书院",
+        "caption": "隐秘书院的灯火里，第一堂课从承认自己不会开始。"
+      }
+    ],
+    "03-dead-kingdom": [
+      {
+        "id": "outer-city",
+        "path": "res://assets/illustrations/chapters/03-dead-kingdom-01.png",
+        "title": "第三幕：死去的王国",
+        "caption": "旧王都没有倒塌，只是被墨律司维持成一座有秩序的死城。"
+      }
+    ],
+    "04-continuation-institute": [
+      {
+        "id": "first-institute",
+        "path": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
+        "title": "第四幕：续文院",
+        "caption": "研究、教育与工程挤在同一张桌边，新的组织从这里动工。"
+      }
+    ],
+    "05-century-continuation": [
+      {
+        "id": "century-city",
+        "path": "res://assets/illustrations/chapters/05-century-continuation-01.png",
+        "title": "第五幕：百年续页",
+        "caption": "一次次被续笔召回时，墨颀已经以十年为单位向前生长。"
+      }
+    ],
+    "06-return-star-plan": [
+      {
+        "id": "astral-gate",
+        "path": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
+        "title": "第六幕：归星计划",
+        "caption": "星象塔前，归星计划不再只是回家，而是救援沉默的文明。"
+      }
+    ],
+    "07-lights-on-again": [
+      {
+        "id": "home-light",
+        "path": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
+        "title": "第七幕：灯重新亮起",
+        "caption": "城市的灯光重新接上，自家的那扇窗也终于亮了。"
+      }
+    ]
+  }
+}

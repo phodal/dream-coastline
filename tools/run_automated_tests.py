@@ -171,6 +171,7 @@ STEPS: list[Step] = [
     Step("smoke-open-rpg-runtime", "quick", "validate OpenRPG field runtime nodes and pathfinder", godot_smoke("--smoke-open-rpg-runtime")),
     Step("smoke-open-rpg-actions", "quick", "validate story action records are exposed as OpenRPG interactions", godot_smoke("--smoke-open-rpg-actions")),
     Step("smoke-open-rpg-visual-scenes", "quick", "validate OpenRPG runtime can load every original visual location scene", godot_smoke("--smoke-open-rpg-visual-scenes")),
+    Step("smoke-chapter-illustrations", "quick", "validate chapter transition illustrations are loadable widescreen textures", godot_smoke("--smoke-chapter-illustrations")),
     Step("smoke-rpg-progression", "quick", "validate RPG progression data slice", godot_smoke("--smoke-rpg-progression")),
     Step("smoke-input-map", "quick", "validate keyboard and gamepad input mapping", godot_smoke("--smoke-input-map")),
     Step("smoke-animation-clips", "quick", "validate animation clip contracts", godot_smoke("--smoke-animation-clips")),

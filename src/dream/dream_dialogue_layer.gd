@@ -1,9 +1,13 @@
 class_name DreamDialogueLayer
 extends CanvasLayer
 
+const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
+
 signal advanced
 
 var _root: Control
+var _illustration_panel: PanelContainer
+var _illustration_texture: TextureRect
 var _title_label: Label
 var _body_label: RichTextLabel
 var _hint_label: Label
@@ -18,6 +22,8 @@ func _ready() -> void:
 
 
 func show_message(title: String, body: String, hint: String = "Space / Enter") -> void:
+	_illustration_panel.visible = false
+	_illustration_texture.texture = null
 	_title_label.text = title
 	_body_label.text = body
 	_hint_label.text = hint
@@ -26,6 +32,31 @@ func show_message(title: String, body: String, hint: String = "Space / Enter") -
 	await advanced
 	_waiting = false
 	_root.visible = false
+
+
+func show_illustration(title: String, body: String, texture_path: String, hint: String = "Space / Enter") -> void:
+	var texture: Texture2D = null
+	if not texture_path.is_empty() and ResourceLoader.exists(texture_path):
+		var resource := load(texture_path)
+		if resource is Texture2D:
+			texture = resource as Texture2D
+
+	if texture == null:
+		await show_message(title, body, hint)
+		return
+
+	_illustration_texture.texture = texture
+	_illustration_panel.visible = true
+	_title_label.text = title
+	_body_label.text = body
+	_hint_label.text = hint
+	_root.visible = true
+	_waiting = true
+	await advanced
+	_waiting = false
+	_root.visible = false
+	_illustration_panel.visible = false
+	_illustration_texture.texture = null
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -48,12 +79,32 @@ func _build_controls() -> void:
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_root.add_child(dim)
 
+	_illustration_panel = PanelContainer.new()
+	_illustration_panel.name = "IllustrationPanel"
+	_illustration_panel.anchor_left = 0.06
+	_illustration_panel.anchor_right = 0.94
+	_illustration_panel.anchor_top = 0.06
+	_illustration_panel.anchor_bottom = 0.66
+	_illustration_panel.clip_contents = true
+	GameThemeScript.style_rpg_panel(_illustration_panel, Color("#100c09", 0.78))
+	_root.add_child(_illustration_panel)
+
+	_illustration_texture = TextureRect.new()
+	_illustration_texture.name = "IllustrationTexture"
+	_illustration_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_illustration_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_illustration_texture.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_illustration_texture.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_illustration_panel.add_child(_illustration_texture)
+	_illustration_panel.visible = false
+
 	var panel := PanelContainer.new()
 	panel.name = "DialoguePanel"
 	panel.anchor_left = 0.08
 	panel.anchor_right = 0.92
 	panel.anchor_top = 0.68
 	panel.anchor_bottom = 0.95
+	GameThemeScript.style_dialogue_panel(panel)
 	_root.add_child(panel)
 
 	var margin := MarginContainer.new()
