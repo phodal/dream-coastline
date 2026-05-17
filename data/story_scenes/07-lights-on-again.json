@@ -29,12 +29,15 @@
     "confirmed_school_erasure",
     "found_missing_teacher",
     "lit_city_grid",
+    "temporary_node_built",
+    "saw_return_bridge_traveler",
     "saw_faceless_neighbors",
     "rescued_clerk_name",
     "recovered_receipt_name",
     "modern_node_stable",
     "read_parent_final_record",
     "survived_failed_bridge_test",
+    "read_traveler_bridge_warning",
     "bridge_stable",
     "saw_deleted_party_names",
     "heard_civilization_response",
@@ -131,11 +134,19 @@
         "+--------------------------------------------------------------+"
       ],
       "description": "城市灯光成片熄灭。墨颀文字在现代不稳定，必须先建立临时国书节点。",
+      "location_intro": "临时国书节点接上变电箱后，路口玻璃橱窗里映出一个不属于现代也不属于墨颀的人影。它只在归桥同步稳定的一瞬间完整。",
       "exits": {
         "home": "纪子轩家",
         "school": "学校",
         "store": "便利店",
         "lab": "父母实验室"
+      },
+      "creature_encounters": {
+        "creature_008_return_bridge_traveler": {
+          "name": "归桥旅人",
+          "first_meeting": "纪子轩以为它是静默造成的无脸市民；用“名”确认后，系统显示的不是人名，而是归桥旅人。",
+          "story_function": "它证明两个文明接口已经稳定到能承载第三种存在，并把终章主题拉回“先让世界被看见”。"
+        }
       },
       "items": {
         "grid": {
@@ -156,6 +167,13 @@
           "time_seconds": 70,
           "flags": ["prepared_node_base"],
           "text": "续文院工程师把国书核心接到路口变电箱。两个文明的接口很不稳定。"
+        },
+        "bridge_traveler_reflection": {
+          "name": "橱窗里的归桥旅人",
+          "time_seconds": 80,
+          "requires": ["temporary_node_built"],
+          "flags": ["saw_return_bridge_traveler"],
+          "text": "橱窗里映出一个海玻璃般的人影。你用“名”确认它，系统没有给出居民姓名，只显示：归桥旅人。"
         }
       },
       "build_actions": {
@@ -223,6 +241,7 @@
         "+--------------------------------------------------------------+"
       ],
       "description": "父母实验室把现代信标和墨颀国书系统接在一起。这里能稳定归桥。",
+      "location_intro": "实验室玻璃上残留着父母的公式和墨颀字根。归桥旅人的影子停在误差最大的那条同步线上，像在提醒纪子轩：路还没稳，不能先跑向私人答案。",
       "exits": {
         "street": "城市街道",
         "orbit": "轨道静默层"
@@ -253,6 +272,13 @@
           "requires": ["modern_node_stable", "learned_star", "learned_return", "learned_continue"],
           "flags": ["survived_failed_bridge_test"],
           "text": "第一次归桥同步失败，实验室墙面短暂变成空白。父母的半张影像差点被擦掉，夏离用主国书压住删除，纪子轩把失败日志写在记录旁边：我不会再把他们当成答案，我要把他们也救回来。"
+        },
+        "traveler_warning": {
+          "name": "归桥旅人的提示",
+          "time_seconds": 80,
+          "requires": ["saw_return_bridge_traveler", "survived_failed_bridge_test"],
+          "flags": ["read_traveler_bridge_warning"],
+          "text": "归桥旅人没有说话，只把手按在误差最大的同步线上。纪子轩明白：先让城市被看见，父母的路才不会断。"
         }
       },
       "build_actions": {
@@ -375,6 +401,7 @@
     "build lights",
     "inspect node_base",
     "build node",
+    "inspect bridge_traveler_reflection",
     "go store",
     "inspect clerk",
     "cast name",
@@ -386,6 +413,7 @@
     "build modern_node",
     "inspect parents_record",
     "inspect failed_bridge_test",
+    "inspect traveler_warning",
     "build bridge",
     "go orbit",
     "inspect protocol",

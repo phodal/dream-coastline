@@ -29,9 +29,11 @@
     "learned_stop",
     "cleared_contract_patrol",
     "owned_first_repair_failure",
+    "read_ink_well_ray_feedback",
     "repaired_well",
     "got_basic_dictionary",
     "understood_dictionary_margins",
+    "met_contract_hound",
     "defeated_contract_officer",
     "repaired_first_node",
     "read_mother_node_annotation",
@@ -106,9 +108,17 @@
         "+--------------------------------------------------------------+"
       ],
       "description": "村落水井的符文损坏。夏离想继续赶路，你却看见村民连基础维护都不会。",
+      "location_intro": "村井上方漂着一只像黑色水影的鳐，腹部的井符忽明忽暗。它不是守护神，也不是怪物，只是被坏掉的水符困在半空。",
       "exits": {
         "academy": "隐秘书院",
         "archive": "地下藏书室"
+      },
+      "creature_encounters": {
+        "creature_003_ink_well_ray": {
+          "name": "墨井鳐",
+          "first_meeting": "第一次修井失败后，墨井鳐从井口上方翻身，腹部符文短暂露出正确的水流方向。",
+          "story_function": "它把墨颀生态和文字工程绑定起来：设施失稳，生态也会失稳。"
+        }
       },
       "items": {
         "well": {
@@ -129,6 +139,13 @@
           "time_seconds": 55,
           "flags": ["saw_knowledge_lockout"],
           "text": "老人说他们只会照着旧符抄，没人教过为什么这样写。"
+        },
+        "ink_well_ray": {
+          "name": "墨井鳐",
+          "time_seconds": 55,
+          "requires": ["owned_first_repair_failure"],
+          "flags": ["read_ink_well_ray_feedback"],
+          "text": "墨井鳐腹部的井符亮了一下，水流方向像被写错的笔画一样倒转。闻素说：别把它当神迹，这是系统反馈。"
         }
       },
       "encounters": {
@@ -229,8 +246,16 @@
         "+--------------------------------------------------------------+"
       ],
       "description": "第一座国书节点几乎失效。执契官守在节点前，说文字不该交给不会承担代价的人。",
+      "location_intro": "国书节点前趴着一只由封条、锁纹和律文字拼成的犬。它没有饥饿，也没有恨意，只在没有权限的人靠近时抬头。",
       "exits": {
         "archive": "地下藏书室"
+      },
+      "creature_encounters": {
+        "creature_004_contract_hound": {
+          "name": "契纹犬",
+          "first_meeting": "它不追气味，只追权限。你每次尝试绕开节点，犬身上的封条都会把路径拉回原点。",
+          "story_function": "它把抽象的契约封锁变成可见压力，并提示旧制度工具可以被重新定义。"
+        }
       },
       "items": {
         "contract": {
@@ -238,6 +263,13 @@
           "time_seconds": 55,
           "flags": ["checked_contract_lock"],
           "text": "契约把节点、村落和你的行动绑在一起。硬闯会让井水再次停摆。"
+        },
+        "contract_hound": {
+          "name": "契纹犬",
+          "time_seconds": 50,
+          "requires": ["checked_contract_lock"],
+          "flags": ["met_contract_hound"],
+          "text": "契纹犬绕着节点走了一圈，脚下没有影子，只有一条条生效中的律文。夏离低声说：它追的不是人，是权限。"
         },
         "mother_annotation": {
           "name": "母亲的节点批注",
@@ -325,6 +357,7 @@
     "go village",
     "inspect well",
     "inspect first_failure",
+    "inspect ink_well_ray",
     "inspect villagers",
     "engage contract_patrol",
     "cast stop",
@@ -337,6 +370,7 @@
     "cast door",
     "go node",
     "inspect contract",
+    "inspect contract_hound",
     "write name",
     "cast door",
     "cast stop",

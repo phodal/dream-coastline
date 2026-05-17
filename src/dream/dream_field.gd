@@ -96,6 +96,7 @@ func _ready() -> void:
 	illustration_repository = IllustrationRepositoryScript.new()
 	var illustration_ok: bool = illustration_repository.load_all()
 	var args := OS.get_cmdline_user_args()
+	_apply_visual_style_from_args(args)
 
 	if _run_headless_smoke_if_requested(args, data_ok, visual_ok, illustration_ok):
 		return
@@ -106,6 +107,9 @@ func _ready() -> void:
 
 	await _setup_world()
 	_load_story_scene(0)
+	if args.has("--capture-scene-screenshots"):
+		call_deferred("_capture_scene_screenshots", args)
+		return
 	if _should_show_scene_illustrations(args):
 		call_deferred("_show_current_scene_illustrations")
 
@@ -120,6 +124,8 @@ func _ready() -> void:
 		call_deferred("_finish_open_rpg_action_smoke")
 	elif args.has("--smoke-render-frame"):
 		call_deferred("_finish_render_smoke")
+	elif args.has("--smoke-open-rpg-transition-move"):
+		call_deferred("_finish_open_rpg_transition_move_smoke")
 
 
 func run_story_interaction(interaction: DreamStoryInteraction) -> void:
@@ -494,6 +500,7 @@ func _run_item_interaction(interaction: DreamStoryInteraction) -> void:
 		await _complete_current_scene()
 	else:
 		_build_current_room()
+		_resume_field_input_after_room_rebuild()
 
 
 func _run_action_interaction(interaction: DreamStoryInteraction) -> void:
@@ -529,6 +536,7 @@ func _run_action_interaction(interaction: DreamStoryInteraction) -> void:
 		await _complete_current_scene()
 	else:
 		_build_current_room()
+		_resume_field_input_after_room_rebuild()
 
 
 func _run_exit_interaction(interaction: DreamStoryInteraction) -> void:
@@ -544,6 +552,7 @@ func _run_exit_interaction(interaction: DreamStoryInteraction) -> void:
 	_build_current_room()
 	var location := repository.location_for(current_scene, current_location_id)
 	await dialogue_layer.show_message(str(location.get("name", current_location_id)), str(location.get("description", "")))
+	_resume_field_input_after_room_rebuild()
 
 
 func _complete_current_scene() -> void:
@@ -562,6 +571,7 @@ func _complete_current_scene() -> void:
 	var location := repository.location_for(current_scene, current_location_id)
 	await _show_scene_illustrations(str(current_scene.get("id", "")))
 	await dialogue_layer.show_message(str(current_scene.get("title", "")), str(location.get("description", "")))
+	_resume_field_input_after_room_rebuild()
 
 
 func _show_current_scene_illustrations() -> void:
@@ -812,6 +822,11 @@ func _mark_occupied_cells() -> void:
 			Gameboard.pathfinder.set_point_disabled(cell_id, true)
 
 
+func _resume_field_input_after_room_rebuild() -> void:
+	Cutscene._is_cutscene_in_progress = false
+	FieldEvents.input_paused.emit(false)
+
+
 func _clear_children(node: Node) -> void:
 	for child in node.get_children():
 		child.queue_free()
@@ -864,7 +879,7 @@ func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool, vi
 
 func _should_show_scene_illustrations(args: PackedStringArray) -> bool:
 	for arg in args:
-		if str(arg).begins_with("--smoke-"):
+		if str(arg).begins_with("--smoke-") or str(arg).begins_with("--capture-"):
 			return false
 	return true
 
@@ -1088,6 +1103,58 @@ func _finish_open_rpg_action_smoke() -> void:
 	get_tree().quit(0 if ok else 1)
 
 
+func _finish_open_rpg_transition_move_smoke() -> void:
+	await get_tree().process_frame
+	var failures: Array[String] = []
+	var exit_interaction: DreamStoryInteraction = null
+	for child in interaction_root.get_children():
+		if child is DreamStoryInteraction:
+			var interaction := child as DreamStoryInteraction
+			if interaction.interaction_kind == "exit" and interaction.target_id == "building":
+				exit_interaction = interaction
+				break
+
+	if exit_interaction == null:
+		failures.append("missing street to building exit interaction")
+	else:
+		exit_interaction.run()
+		await get_tree().process_frame
+		if dialogue_layer != null:
+			dialogue_layer.advanced.emit()
+		await get_tree().process_frame
+		await get_tree().process_frame
+
+	var player_cell := GamepieceRegistry.get_cell(player_gamepiece) if player_gamepiece != null else Gameboard.INVALID_CELL
+	var right_path := Gameboard.pathfinder.get_path_to_cell(player_cell, player_cell + Vector2i.RIGHT)
+	var down_path := Gameboard.pathfinder.get_path_to_cell(player_cell, player_cell + Vector2i.DOWN)
+	var controller_active := false
+	for controller in get_tree().get_nodes_in_group(PlayerController.GROUP):
+		if controller is PlayerController:
+			controller_active = controller_active or (controller as PlayerController).is_active
+
+	if current_location_id != "building":
+		failures.append("expected building after transition, got %s" % current_location_id)
+	if not controller_active:
+		failures.append("player controller inactive after transition")
+	if player_cell == Gameboard.INVALID_CELL:
+		failures.append("player has invalid registry cell after transition")
+	if right_path.is_empty() and down_path.is_empty():
+		failures.append("player cannot path from building spawn %s" % str(player_cell))
+
+	var ok := failures.is_empty()
+	print("open-rpg-transition-move-smoke status=%s location=%s player=%s controller_active=%s right_path=%d down_path=%d" % [
+		"PASS" if ok else "FAIL",
+		current_location_id,
+		str(player_cell),
+		str(controller_active),
+		right_path.size(),
+		down_path.size(),
+	])
+	for failure in failures:
+		push_error(failure)
+	get_tree().quit(0 if ok else 1)
+
+
 func _finish_render_smoke() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -1101,6 +1168,184 @@ func _finish_render_smoke() -> void:
 		current_asset_scene_path,
 	])
 	get_tree().quit(0 if ok else 1)
+
+
+func _capture_scene_screenshots(args: PackedStringArray) -> void:
+	var output_dir := _global_capture_path(_arg_value(args, "--capture-output", "user://scene-screenshots"))
+	var scene_filter := _arg_value(args, "--capture-scene", "all")
+	var scope := _arg_value(args, "--capture-scope", "locations")
+	var warmup_frames := maxi(1, int(_arg_value(args, "--capture-warmup-frames", "3")))
+	var mkdir_error := DirAccess.make_dir_recursive_absolute(output_dir)
+	if mkdir_error != OK:
+		print("scene-screenshot-capture status=FAIL architecture=open-rpg reason=mkdir path=%s error=%s" % [output_dir, mkdir_error])
+		get_tree().quit(1)
+		return
+
+	var screenshots: Array[Dictionary] = []
+	var failures: Array[String] = []
+	for scene_index in range(repository.scene_count()):
+		var scene_id := repository.scene_id_at(scene_index)
+		if scene_filter != "all" and scene_filter != scene_id:
+			continue
+		var story_scene := repository.scene_at(scene_index)
+		var location_ids := _capture_location_ids(story_scene, scope)
+		for location_index in range(location_ids.size()):
+			var location_id := str(location_ids[location_index])
+			var entry := await _capture_location_screenshot(
+				scene_index,
+				scene_id,
+				story_scene,
+				location_id,
+				location_index,
+				output_dir,
+				warmup_frames
+			)
+			if bool(entry.get("ok", false)):
+				screenshots.append(entry)
+			else:
+				failures.append(str(entry.get("failure", "unknown")))
+
+	var manifest := {
+		"version": 2,
+		"generated_by": "--capture-scene-screenshots",
+		"architecture": "open-rpg",
+		"visual_style": GameThemeScript.visual_style(),
+		"visual_style_label": GameThemeScript.visual_style_label(),
+		"scope": scope,
+		"scene_filter": scene_filter,
+		"viewport": {
+			"width": int(get_viewport_rect().size.x),
+			"height": int(get_viewport_rect().size.y),
+		},
+		"screenshot_count": screenshots.size(),
+		"procedural_fallback_count": _capture_asset_status_count(screenshots, "procedural_fallback"),
+		"framework_placeholder_count": _capture_asset_status_count(screenshots, "framework_placeholder"),
+		"asset_backed_count": _capture_asset_status_count(screenshots, "asset_backed"),
+		"screenshots": screenshots,
+		"failures": failures,
+	}
+	var manifest_path := output_dir.path_join("manifest.json")
+	var manifest_file := FileAccess.open(manifest_path, FileAccess.WRITE)
+	if manifest_file == null:
+		print("scene-screenshot-capture status=FAIL architecture=open-rpg reason=manifest path=%s" % manifest_path)
+		get_tree().quit(1)
+		return
+	manifest_file.store_string(JSON.stringify(manifest, "\t"))
+	manifest_file.close()
+
+	var ok := failures.is_empty() and not screenshots.is_empty()
+	print("scene-screenshot-capture status=%s architecture=open-rpg output=%s screenshots=%s failures=%s" % [
+		"PASS" if ok else "FAIL",
+		output_dir,
+		screenshots.size(),
+		failures.size(),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _capture_location_screenshot(
+	scene_index: int,
+	scene_id: String,
+	story_scene: Dictionary,
+	location_id: String,
+	location_index: int,
+	output_dir: String,
+	warmup_frames: int
+) -> Dictionary:
+	var location := repository.location_for(story_scene, location_id)
+	if location.is_empty():
+		return {"ok": false, "failure": "missing location %s/%s" % [scene_id, location_id]}
+
+	_prepare_capture_location(scene_index, location_id)
+	for _frame in range(warmup_frames):
+		await get_tree().process_frame
+
+	var image: Image = get_viewport().get_texture().get_image()
+	if image == null or image.get_width() <= 0 or image.get_height() <= 0:
+		return {"ok": false, "failure": "empty image %s/%s" % [scene_id, location_id]}
+
+	var filename := "%02d-%s__%02d-%s.png" % [
+		scene_index,
+		_safe_filename(scene_id),
+		location_index,
+		_safe_filename(location_id),
+	]
+	var path := output_dir.path_join(filename)
+	var save_error := image.save_png(path)
+	if save_error != OK:
+		return {"ok": false, "failure": "save failed %s error=%s" % [path, save_error]}
+
+	var visual: Dictionary = visual_repository.location_visual(scene_id, location_id)
+	return {
+		"ok": true,
+		"scene_index": scene_index,
+		"scene_id": scene_id,
+		"scene_title": str(story_scene.get("title", "")),
+		"location_id": location_id,
+		"location_name": str(location.get("name", location_id)),
+		"terrain": str(visual.get("terrain", "")),
+		"visual_family": str(visual.get("visual_family", "")),
+		"asset_scene": str(visual.get("asset_scene", "")),
+		"asset_status": str(visual.get("asset_status", "")),
+		"asset_loaded": current_asset_scene_instance != null,
+		"asset_runtime_path": current_asset_scene_path,
+		"tileset_id": str(visual.get("tileset_id", "")),
+		"visual_mood": str(visual.get("visual_mood", "")),
+		"visual_style": GameThemeScript.visual_style(),
+		"props": _capture_prop_summary(visual),
+		"path": path,
+		"file": filename,
+	}
+
+
+func _prepare_capture_location(scene_index: int, location_id: String) -> void:
+	flags.clear()
+	combat_state.clear()
+	_load_story_scene(scene_index)
+	current_location_id = location_id
+	current_visual = _current_visual_for_location()
+	_reset_player_to_spawn()
+	_build_current_room()
+
+
+func _capture_location_ids(story_scene: Dictionary, scope: String) -> Array[String]:
+	var start_location := str(story_scene.get("start", ""))
+	if scope == "starts":
+		return [start_location]
+
+	var locations: Dictionary = story_scene.get("locations", {})
+	var location_ids: Array[String] = []
+	for location_id in locations.keys():
+		location_ids.append(str(location_id))
+	location_ids.sort()
+	if start_location in location_ids:
+		location_ids.erase(start_location)
+		location_ids.push_front(start_location)
+	return location_ids
+
+
+func _capture_prop_summary(visual: Dictionary) -> Array[Dictionary]:
+	var summary: Array[Dictionary] = []
+	for prop in visual.get("props", []):
+		if typeof(prop) != TYPE_DICTIONARY:
+			continue
+		summary.append({
+			"kind": str(prop.get("kind", "")),
+			"item": str(prop.get("item", "")),
+			"exit": str(prop.get("exit", "")),
+			"action": str(prop.get("action", "")),
+			"x": int(prop.get("x", 0)),
+			"y": int(prop.get("y", 0)),
+		})
+	return summary
+
+
+func _capture_asset_status_count(screenshots: Array[Dictionary], status: String) -> int:
+	var count := 0
+	for shot in screenshots:
+		if str(shot.get("asset_status", "")) == status:
+			count += 1
+	return count
 
 
 func _verify_render_image(image: Image) -> bool:
@@ -1143,6 +1388,33 @@ func _verify_render_image(image: Image) -> bool:
 		distinct_count,
 	])
 	return ok
+
+
+func _apply_visual_style_from_args(args: PackedStringArray) -> void:
+	GameThemeScript.set_visual_style(_arg_value(args, "--visual-style", GameThemeScript.DEFAULT_STYLE))
+
+
+func _global_capture_path(path: String) -> String:
+	if path.begins_with("res://") or path.begins_with("user://"):
+		return ProjectSettings.globalize_path(path)
+	return path
+
+
+func _arg_value(args: PackedStringArray, key: String, default_value: String) -> String:
+	for index in range(args.size()):
+		var arg := str(args[index])
+		if arg == key and index + 1 < args.size():
+			return str(args[index + 1])
+		if arg.begins_with(key + "="):
+			return arg.substr(key.length() + 1)
+	return default_value
+
+
+func _safe_filename(value: String) -> String:
+	var safe := value.strip_edges().to_lower()
+	for character in ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", " "]:
+		safe = safe.replace(character, "_")
+	return safe
 
 
 func _ensure_open_rpg_input_map() -> void:

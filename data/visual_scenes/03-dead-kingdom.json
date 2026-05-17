@@ -13,6 +13,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "statebook_remnant",
+					"kind": "creature",
+					"solid": true,
+					"x": 5.0,
+					"y": 5.0
+				},
+				{
 					"action": {
 						"arg": "",
 						"verb": "write"

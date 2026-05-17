@@ -96,6 +96,17 @@
 					"y": 5.0
 				},
 				{
+					"item": "traveler_warning",
+					"kind": "creature",
+					"overlay": true,
+					"requires_flags": [
+						"saw_return_bridge_traveler",
+						"survived_failed_bridge_test"
+					],
+					"x": 11.0,
+					"y": 5.0
+				},
+				{
 					"action": {
 						"arg": "modern_node",
 						"verb": "build"
@@ -370,6 +381,13 @@
 					"solid": true,
 					"x": 10.0,
 					"y": 3.0
+				},
+				{
+					"item": "bridge_traveler_reflection",
+					"kind": "creature",
+					"solid": false,
+					"x": 11.0,
+					"y": 5.0
 				},
 				{
 					"exit": "home",

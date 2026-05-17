@@ -36,6 +36,7 @@
     "built_statebook_network",
     "standardized_star_coordinates",
     "logged_failed_signal",
+    "identified_star_chart_moth",
     "completed_astral_tower",
     "saw_first_silent_frame",
     "stabilized_silent_interference",
@@ -169,9 +170,17 @@
         "+--------------------------------------------------------------+"
       ],
       "description": "墨颀开始把星空变成可书写、可验证的工程。纪子轩第一次觉得回家需要整个文明。",
+      "location_intro": "星象塔基座堆满失败星图，纸面上有细小虫孔，每一个孔都刚好咬在坐标笔画上。几只翅膀像星图的螟虫伏在观测记录边缘，像是在吃掉回家的路。",
       "exits": {
         "network": "国书网络时代",
         "star_tower": "星象塔顶"
+      },
+      "creature_encounters": {
+        "creature_006_star_chart_moth": {
+          "name": "星象螟",
+          "first_meeting": "第一次跨界信标失败后，纪子轩发现不是数据丢了，而是星图坐标被啃成无法复核的断句。",
+          "story_function": "它让星象工程必须经历失败、备份和标准化，而不是一次成功。"
+        }
       },
       "items": {
         "star_map": {
@@ -199,6 +208,13 @@
           "requires": ["designed_cross_beacon"],
           "flags": ["logged_failed_signal"],
           "text": "第一次信标只收到一段现代噪声。纪子轩听见像是学校铃声的断片，然后整段记录被擦白。"
+        },
+        "star_chart_moth": {
+          "name": "星象螟",
+          "time_seconds": 70,
+          "requires": ["logged_failed_signal"],
+          "flags": ["identified_star_chart_moth"],
+          "text": "一只星象螟伏在失败星图上，翅膀像缩小的坐标纸。它啃掉的不是纸，是一次可复核观测。"
         }
       },
       "build_actions": {
@@ -292,6 +308,7 @@
     "inspect coordinate_standard",
     "inspect beacon",
     "inspect failed_signal",
+    "inspect star_chart_moth",
     "build astral_tower",
     "go star_tower",
     "inspect signal",

@@ -56,8 +56,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--godot-scene",
-        default="res://scenes/main.tscn",
-        help="Godot scene that owns the legacy screenshot capture flags.",
+        default="res://src/main.tscn",
+        help="Godot scene that owns the screenshot capture flags.",
     )
     parser.add_argument(
         "--quit-after",

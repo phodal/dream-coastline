@@ -45,6 +45,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "star_chart_moth",
+					"kind": "creature",
+					"solid": false,
+					"x": 11.0,
+					"y": 5.0
+				},
+				{
 					"exit": "network",
 					"kind": "exit",
 					"x": 1.0,

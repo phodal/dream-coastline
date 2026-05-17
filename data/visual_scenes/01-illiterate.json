@@ -21,6 +21,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "deer_tracks",
+					"kind": "creature",
+					"solid": false,
+					"x": 11.0,
+					"y": 2.0
+				},
+				{
 					"kind": "campfire",
 					"solid": true,
 					"x": 6.0,
@@ -171,6 +178,13 @@
 					"solid": true,
 					"x": 3.0,
 					"y": 4.0
+				},
+				{
+					"item": "broken_nameplate",
+					"kind": "record",
+					"solid": false,
+					"x": 10.0,
+					"y": 5.0
 				},
 				{
 					"action": {

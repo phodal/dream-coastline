@@ -27,6 +27,7 @@
     "resolved_book_route",
     "saw_burned_route_wall",
     "xiali_answered_without_throne",
+    "met_statebook_remnant",
     "defeated_royal_shadow",
     "opened_main_core",
     "read_parent_full_plan"
@@ -253,8 +254,16 @@
         "+--------------------------------------------------------------+"
       ],
       "description": "国书殿召出历代王的残影。它不问你能不能打赢，只问墨颀是否必须有王。",
+      "location_intro": "主国书殿的地面铺满旧王令残页，纸页像鳞片一样翻动。国书核心前盘着一只由书页、墨鳞和金印折成的残麟，像一本拒绝合上的国家。",
       "exits": {
         "palace": "残破宫城"
+      },
+      "creature_encounters": {
+        "creature_005_statebook_remnant": {
+          "name": "国书残麟",
+          "first_meeting": "它第一次出现时不攻击纪子轩，只把夏离的影子压回王座方向。",
+          "story_function": "它把王权锁具象化，让夏离必须面对自己仍想用王权修好一切。"
+        }
       },
       "items": {
         "question": {
@@ -262,6 +271,13 @@
           "time_seconds": 60,
           "flags": ["heard_royal_question"],
           "text": "残影问：无王之国，何以为国？夏离沉默得像一座快塌的城。"
+        },
+        "statebook_remnant": {
+          "name": "国书残麟",
+          "time_seconds": 70,
+          "requires": ["heard_royal_question"],
+          "flags": ["met_statebook_remnant"],
+          "text": "残麟的每一片页鳞都盖着旧王印。它不咆哮，只把所有通路折回王座，像在问：离开王，国还剩什么？"
         },
         "answer": {
           "name": "夏离的回答",
@@ -337,6 +353,7 @@
     "inspect xiali",
     "go hall",
     "inspect question",
+    "inspect statebook_remnant",
     "write name",
     "cast door",
     "cast stop",

@@ -11,11 +11,13 @@
     "checked_broken_sign",
     "saw_burning_city",
     "met_xiaoyan",
+    "saw_lost_name_deer",
     "saw_molusi",
     "met_xiali",
     "learned_name_strokes",
     "named_beast",
-    "defeated_nameless"
+    "defeated_nameless",
+    "inspected_broken_nameplate"
   ],
   "locations": {
     "mud_road": {
@@ -70,9 +72,17 @@
         "+--------------------------------------------------------------+"
       ],
       "description": "流民营里的人压低声音。一个瘦小孩子看见你手里的笔，惊得后退半步。",
+      "location_intro": "流民营边缘有一串很轻的蹄印，蹄印旁落着断裂的小名牌。它没有攻击任何人，只在小砚喊不出某个名字时，抬头看向你手里的笔。",
       "exits": {
         "mud_road": "泥路边",
         "chase": "树林逃跑路线"
+      },
+      "creature_encounters": {
+        "creature_002_lost_name_deer": {
+          "name": "失名鹿",
+          "first_meeting": "你只看见一只小鹿般的影子从营地边缘退开。它角上挂着残缺字根，颈下的名牌断成两半。",
+          "story_function": "它让纪子轩第一次意识到，无名化不只会制造敌人，也会制造需要被保护的生命。"
+        }
       },
       "items": {
         "xiaoyan": {
@@ -86,6 +96,12 @@
           "time_seconds": 40,
           "flags": ["checked_refugee_notice"],
           "text": "布告上的字像活墨一样抖动。你只看懂它们正在拒绝你。"
+        },
+        "deer_tracks": {
+          "name": "断名蹄印",
+          "time_seconds": 45,
+          "flags": ["saw_lost_name_deer"],
+          "text": "营地外有一串很轻的蹄印，旁边落着断裂名牌。小砚想喊它，却只发出一个缺了一半的音。"
         }
       }
     },
@@ -137,8 +153,16 @@
         "+--------------------------------------------------------------+"
       ],
       "description": "木门反复开合，但门外没有路。角落里站着一个没有脸、没有名字的人形轮廓。",
+      "location_intro": "驿站的墙字正在一笔一笔消失，木门反复开合，门外却没有路。角落里站着一个没有脸的轮廓，它不靠近火光，只靠近名字。",
       "exits": {
         "chase": "树林逃跑路线"
+      },
+      "creature_encounters": {
+        "creature_001_nameless_beast": {
+          "name": "无名兽幼体",
+          "first_meeting": "系统只显示？？？。夏离说出“无名兽”后，你仍然无法锁定它，因为知道叫法不等于确认其名。",
+          "story_function": "它把“名”字教程变成救人动作，并提前回扣终章静默。"
+        }
       },
       "items": {
         "strokes": {
@@ -152,6 +176,13 @@
           "time_seconds": 45,
           "flags": ["saw_xiaoyan_name_fading"],
           "text": "小砚的名字在 UI 上变成□□。你终于明白：它不是杀人，是让人被世界忘掉。"
+        },
+        "broken_nameplate": {
+          "name": "半张旧名牌",
+          "time_seconds": 40,
+          "requires": ["defeated_nameless"],
+          "flags": ["inspected_broken_nameplate"],
+          "text": "无名兽消散后，地上只剩半张旧名牌。它曾经不是怪物，而是某个被删除的人。"
         }
       },
       "combat": {
@@ -180,6 +211,7 @@
     "go camp",
     "inspect xiaoyan",
     "inspect notice",
+    "inspect deer_tracks",
     "go chase",
     "inspect soldiers",
     "inspect gate",
@@ -194,6 +226,7 @@
     "attack",
     "write name",
     "attack",
-    "attack"
+    "attack",
+    "inspect broken_nameplate"
   ]
 }

@@ -1,0 +1,613 @@
+{
+  "schema_version": 1,
+  "generated_from": [
+    "five/project/seven-act-outline.md",
+    "five/people/jizi-xuan.md",
+    "five/people/xiali.md",
+    "five/people/supporting-cast.md",
+    "five/people/antagonists.md",
+    "five/people/jizi-xuan-parents.md",
+    "five/script/prologue-fragment.md",
+    "five/script/chapter-01-opening.md",
+    "five/script/chapter-01-name-tutorial-battle.md",
+    "five/system/art-audio-direction.md"
+  ],
+  "global_voice_rules": {
+    "language": "zh-CN",
+    "style": "剧情 RPG，克制、可演、避免广播剧腔",
+    "forbidden": [
+      "不要要求克隆真人、公众人物或具体配音演员的声音",
+      "不要把音色写成单一情绪标签",
+      "不要让所有角色都用同一种古风书面腔"
+    ],
+    "tts_note": "音色只用年龄感、质地、气息、速度、音高、停顿和情绪压力描述，供后续 TTS 或配音选角使用。"
+  },
+  "characters": {
+    "jizi_xuan": {
+      "display_name": "纪子轩",
+      "role": "现代少年，玩家主视角角色，从只想回家成长为文明工程的参与者。",
+      "personality": [
+        "前期紧张、困惑，但观察细节很快",
+        "遇到不懂的规则会先追问而不是立刻服从",
+        "有普通学生的自保本能，不是天然英雄",
+        "中后期更重视记录、验证、复盘和协作"
+      ],
+      "arc": [
+        "迷路的孩子",
+        "被迫学习文字的学生",
+        "连接现代方法与墨颀规则的翻译者",
+        "推动公共教育和工程标准的教师",
+        "归星计划中的文明工程师"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "前期短句多，常有停顿和追问；中期开始用实验、记录、验证等现代词；后期句子更稳，但仍保留少年感。",
+        "lexicon": [
+          "回家",
+          "我不会",
+          "记录",
+          "验证",
+          "重新试一次",
+          "不是只有一个人能写"
+        ],
+        "avoid": [
+          "不要让他一开始就像预言英雄",
+          "不要过早说出宏大文明判断",
+          "不要用太成熟的政治演讲口吻"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "少年，15-17 岁感",
+        "timbre": "清亮偏薄，前期略紧，后期更稳但不厚重",
+        "pitch": "中高",
+        "pace": "前期偏快，遇到陌生规则时会突然停住；后期解释系统时放慢",
+        "energy": "从惊慌自保逐步转向冷静承担",
+        "performance_notes": [
+          "序幕和第一幕保留呼吸急促与不确定感",
+          "学习文字时要有真实失败后的挫败和强撑",
+          "最终章不要忽然变成英雄腔，重点是把害怕压住"
+        ],
+        "tts_prompt": "young male teen voice, clear and slightly tense, medium-high pitch, natural Mandarin, restrained RPG performance, becomes steadier over the story"
+      },
+      "sample_lines": [
+        "……这是哪？",
+        "我不会写你们的字，但我知道，一个世界不能只靠少数人替所有人书写。",
+        "我一开始只是想回家。"
+      ],
+      "source_evidence": [
+        "five/people/jizi-xuan.md",
+        "five/script/prologue-fragment.md",
+        "five/script/chapter-01-opening.md"
+      ]
+    },
+    "xiali": {
+      "display_name": "夏离",
+      "role": "墨颀最后的王子，第二主角，从复国者转向文明守夜人。",
+      "personality": [
+        "骄傲、克制、早熟",
+        "不轻易信任别人，尤其不信任拿着续笔却不会写字的纪子轩",
+        "对王族身份既依赖又痛恨",
+        "越到后期越把私人情绪压进职责里"
+      ],
+      "arc": [
+        "亡国王子",
+        "复国者",
+        "改革者",
+        "绑定国书的文明守夜人",
+        "归星同盟领袖"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "短促、判断式、少解释；前期常以反问和冷评压人；中后期句子仍克制，但会出现责任、国书、名字、我们/我的语言变化。",
+        "lexicon": [
+          "续笔",
+          "国书",
+          "王",
+          "墨颀",
+          "名字",
+          "职责",
+          "我们"
+        ],
+        "avoid": [
+          "不要写成单纯傲娇同伴",
+          "不要让他轻易道歉或大量倾诉",
+          "不要把后期牺牲写成空泛圣人感"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "少年到青年之间，16-20 岁感",
+        "timbre": "冷、干净、带贵族距离感，低中音但不能过老",
+        "pitch": "中低",
+        "pace": "前期慢而锋利，战斗指令更短；绑定国书后停顿更长，像在从系统职责里找回自己的话",
+        "energy": "压抑的高强度，外表冷静，底层有旧王国的疲惫",
+        "performance_notes": [
+          "第一幕第一次开口要像救人但不信任人",
+          "面对王权议题时声音更硬，面对纪子轩时逐渐少一点刺",
+          "第五幕绑定国书后，'我'和'我们'的切换要成为可听见的代价"
+        ],
+        "tts_prompt": "young noble male voice, cool restrained Mandarin, medium-low pitch, precise diction, controlled emotion, longer pauses after binding to the national book"
+      },
+      "sample_lines": [
+        "你不会写字，却拿着能续写世界的笔。这不是奇迹，是灾难。",
+        "若国只能靠王活着，那它早已死了。",
+        "正因为它不再属于我，它才终于活了。"
+      ],
+      "source_evidence": [
+        "five/people/xiali.md",
+        "five/script/chapter-01-opening.md",
+        "five/script/character-payoff-pass.md"
+      ]
+    },
+    "xiaoyan": {
+      "display_name": "小砚",
+      "role": "第一幕引导玩家的流民孩子，平民教育线的情感代表。",
+      "personality": [
+        "警觉、怕生，但会在危险中主动帮人",
+        "语言能力受限，前期更多靠动作和眼神沟通",
+        "对文字既敬畏又渴望",
+        "后期代表普通人通过教育改变命运"
+      ],
+      "arc": [
+        "边境流民孩子",
+        "续文院学生",
+        "公共教育成果的见证者",
+        "国书网络工程线的继承者或先辈"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "前期大量乱码、短促呼喊和动作提示；能被理解后也应保持孩子的直接与急切。",
+        "lexicon": [
+          "笔",
+          "跑",
+          "名字",
+          "老师",
+          "我也能学吗"
+        ],
+        "avoid": [
+          "不要让他承担大段世界观说明",
+          "不要写成只会卖惨的孩子",
+          "不要让他过早懂复杂政治"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "儿童，8-11 岁感",
+        "timbre": "细小、急促、带泥土和风声里的干涩感",
+        "pitch": "高",
+        "pace": "遇险时很快，安全后声音变轻",
+        "energy": "紧张但有韧性",
+        "performance_notes": [
+          "第一幕乱码台词也要听出害怕和催促",
+          "名字消失时声音要从急切变成空掉",
+          "进入学习线后不要突然成熟，保留孩子的直接"
+        ],
+        "tts_prompt": "young child voice, high pitch, urgent but fragile Mandarin, simple diction, anxious breathing in danger scenes"
+      },
+      "sample_lines": [
+        "□□？□□□！",
+        "我……我也能学那个字吗？",
+        "不要忘了我的名字。"
+      ],
+      "source_evidence": [
+        "five/people/supporting-cast.md",
+        "five/script/chapter-01-opening.md",
+        "five/script/chapter-01-name-tutorial-battle.md"
+      ]
+    },
+    "wensu": {
+      "display_name": "闻素",
+      "role": "被流放的墨颀书院教师，纪子轩的文字导师，公共教育线的精神奠基者。",
+      "personality": [
+        "温和但不软弱",
+        "习惯把危险规则讲成可以学习的步骤",
+        "对旧制度失望，但仍相信教育能修复文明",
+        "面对学生时有耐心，面对墨律司时锋利"
+      ],
+      "arc": [
+        "被流放的教师",
+        "隐秘书院导师",
+        "续文院精神奠基者",
+        "被后人继承的公共教材作者"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "清楚、循序、带教学节奏；少用命令，多用定义、例子和追问。",
+        "lexicon": [
+          "基础字",
+          "允许",
+          "学习",
+          "责任",
+          "初学墨字",
+          "书写世界"
+        ],
+        "avoid": [
+          "不要写成全知导师",
+          "不要把教学写成百科朗读",
+          "不要让她只有温柔没有立场"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "成年女性，30-40 岁感",
+        "timbre": "温润、清晰，带一点长期授课后的沙哑",
+        "pitch": "中",
+        "pace": "稳定偏慢，关键字会轻微停顿",
+        "energy": "外柔内硬",
+        "performance_notes": [
+          "教学台词要让玩家听得懂步骤",
+          "说到被剥夺教育权时声音要压低而坚定",
+          "遗产线不煽情，像把一本书交出去"
+        ],
+        "tts_prompt": "adult female teacher voice, warm clear Mandarin, medium pitch, steady pace, gentle but firm, slight classroom texture"
+      },
+      "sample_lines": [
+        "在墨颀，不会写字的人，不是愚笨。是不被允许存在得太完整。",
+        "教一个人写字，就是承认他也有资格书写世界。"
+      ],
+      "source_evidence": [
+        "five/people/supporting-cast.md",
+        "five/project/seven-act-outline.md"
+      ]
+    },
+    "atang": {
+      "display_name": "阿棠",
+      "role": "民间工匠，墨颀技术革命的实践者。",
+      "personality": [
+        "动手能力强，先看坏在哪里再谈道理",
+        "不服被文字等级排除在高级知识之外",
+        "说话直接，有工坊里的烟火气",
+        "能把纪子轩的方法落到真实工程"
+      ],
+      "arc": [
+        "不被允许学习高级文字的工匠",
+        "续文院工程实践者",
+        "墨力炉、通信塔、星象塔等技术线的骨干",
+        "第一代工程大师"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "口语化、短句，常从物件和故障说起；不喜欢空泛理念。",
+        "lexicon": [
+          "修",
+          "坏了",
+          "试炉",
+          "零件",
+          "图纸",
+          "我第一个知道"
+        ],
+        "avoid": [
+          "不要写成只会吐槽的工匠",
+          "不要让她突然说宫廷书面语",
+          "不要把工程问题写成魔法万能解决"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "青年女性，20-30 岁感",
+        "timbre": "明亮、偏粗粝，有工坊现场感",
+        "pitch": "中",
+        "pace": "快，遇到机械细节时更快，做决定时突然干脆",
+        "energy": "高执行力、低矫饰",
+        "performance_notes": [
+          "工程台词要有手上正在干活的感觉",
+          "被轻视时不是委屈，而是压着火",
+          "成功试验时可以短促兴奋，不要夸张"
+        ],
+        "tts_prompt": "young adult female craftsperson voice, bright slightly rough Mandarin, brisk pace, practical and energetic, workshop texture"
+      },
+      "sample_lines": [
+        "他们说我看不懂真文字，所以只能修别人写好的东西。可坏掉的时候，明明是我第一个知道它为什么坏。",
+        "别先争它叫什么，先让我把它跑起来。"
+      ],
+      "source_evidence": [
+        "five/people/supporting-cast.md",
+        "five/project/seven-act-outline.md"
+      ]
+    },
+    "lu_zheng": {
+      "display_name": "陆峥",
+      "role": "夏离旧部，旧王朝忠诚派与新文明守护者之间的摇摆角色。",
+      "personality": [
+        "重秩序、重军纪、重王族合法性",
+        "对纪子轩和公共教育有戒心",
+        "不是愚忠，底层动机是害怕文明再次失控",
+        "可被实际成果和牺牲改变"
+      ],
+      "arc": [
+        "旧军将领",
+        "复国压力的代表",
+        "内乱风险的核心",
+        "可转化的新文明守护者"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "正式、硬、带军令感；观点清晰，不绕弯。",
+        "lexicon": [
+          "殿下",
+          "军令",
+          "王城",
+          "秩序",
+          "守住",
+          "不可放任"
+        ],
+        "avoid": [
+          "不要写成无脑反派",
+          "不要让他轻易被一句话说服",
+          "不要过度现代化口吻"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "成年男性，35-50 岁感",
+        "timbre": "沉、硬、带旧军人的压迫感",
+        "pitch": "低",
+        "pace": "中慢，命令句短而重",
+        "energy": "守成、戒备、克制的怒意",
+        "performance_notes": [
+          "面对夏离要保留尊敬和压力",
+          "反对知识公开时要有合理恐惧，不是恶意",
+          "转变后声音仍硬，但命令对象从王转向文明"
+        ],
+        "tts_prompt": "middle-aged male military voice, low pitch, firm Mandarin, controlled authority, formal diction, restrained anger"
+      },
+      "sample_lines": [
+        "殿下，国不能没有王。",
+        "若人人都能书写现实，谁来承担写错的代价？"
+      ],
+      "source_evidence": [
+        "five/people/supporting-cast.md",
+        "five/project/seven-act-outline.md"
+      ]
+    },
+    "siheng": {
+      "display_name": "司衡",
+      "role": "墨律司首席执契官，中前期主要人类反派，文字垄断制度的代表。",
+      "personality": [
+        "理性、冷静、强控制欲",
+        "相信安全必须先于自由",
+        "擅长把垄断包装成秩序与责任",
+        "有合理担忧，但把担忧变成禁令"
+      ],
+      "arc": [
+        "文字权限守门人",
+        "公开教育的制度阻力",
+        "可审判、可转化或可激化内战的分支核心"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "精确、审判式、契约条款感；很少情绪化，常把人称变成身份和权限。",
+        "lexicon": [
+          "权限",
+          "契约",
+          "名册",
+          "风险",
+          "封禁",
+          "秩序",
+          "资格"
+        ],
+        "avoid": [
+          "不要写成阴笑坏人",
+          "不要让他说废话威胁",
+          "不要忽略他对真文字危险性的合理判断"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "成年男性或中性权威声，35-55 岁感",
+        "timbre": "冷、平、边缘锋利，像在宣读不可更改的判定",
+        "pitch": "中低",
+        "pace": "稳定偏慢，关键词咬字清楚",
+        "energy": "低情绪、高压迫",
+        "performance_notes": [
+          "反派感来自规则压迫，不来自夸张表演",
+          "说到灾难案例时声音不升高，保持行政冷感",
+          "可转化路线中只减少压迫感，不突然温柔"
+        ],
+        "tts_prompt": "cold bureaucratic authority voice, medium-low pitch, precise Mandarin, slow steady pace, low emotion, contractual diction"
+      },
+      "sample_lines": [
+        "每个人都能书写现实，世界会被无数错误撕碎。",
+        "你称之为教育，我称之为未授权扩散。"
+      ],
+      "source_evidence": [
+        "five/people/supporting-cast.md",
+        "five/people/antagonists.md"
+      ]
+    },
+    "jizi_xuan_father": {
+      "display_name": "纪子轩父亲",
+      "role": "现代物理、天文、空间异常研究者，归星计划现代侧信标的一部分。",
+      "personality": [
+        "理性、谨慎，习惯用观测和坐标说话",
+        "对子轩的爱不外露，更多体现在准备和记录里",
+        "在灾难前做了艰难但不轻松的选择"
+      ],
+      "arc": [
+        "失踪悬念",
+        "国书节点影像中的线索提供者",
+        "现代信标修复者",
+        "与子轩延迟相遇的父亲"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "短、低、留白多；解释科学线索时清楚，但面对子轩时会停顿。",
+        "lexicon": [
+          "坐标",
+          "信标",
+          "观测",
+          "不要急着回来",
+          "灯"
+        ],
+        "avoid": [
+          "不要把他写成无所不能的科学家",
+          "不要让他用说明书替代父亲情感",
+          "不要过早解释全部真相"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "成年男性，40-50 岁感",
+        "timbre": "低、疲惫、温和克制",
+        "pitch": "低",
+        "pace": "慢，像在录给未来的留言",
+        "energy": "压住恐惧后的理性",
+        "performance_notes": [
+          "影像留言要有信号不稳定和没说完的感觉",
+          "面对子轩的请求时不要煽情，重点是不能回头的痛",
+          "终章短暂映现时要像终于能呼吸一下"
+        ],
+        "tts_prompt": "middle-aged father voice, low warm restrained Mandarin, tired but steady, slow recorded-message cadence"
+      },
+      "sample_lines": [
+        "不要急着回来。",
+        "你回来的路，需要他们替你修完。"
+      ],
+      "source_evidence": [
+        "five/people/jizi-xuan-parents.md",
+        "five/script/character-payoff-pass.md",
+        "five/project/seven-act-outline.md"
+      ]
+    },
+    "jizi_xuan_mother": {
+      "display_name": "纪子轩母亲",
+      "role": "古文字、语言、文明史研究者，理解续笔和 Continue 指令的关键人物。",
+      "personality": [
+        "敏锐、温柔但决断力强",
+        "更懂语言和文明记录，也更早意识到墨颀不是传说",
+        "对子轩的保护不是阻止他进入危险，而是给他留下能继续走的文本"
+      ],
+      "arc": [
+        "序幕缺席的日常灯光",
+        "信件与续笔的线索源",
+        "国书节点中的母亲声音",
+        "终章归桥上的半面对面回应"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "比父亲更有温度，常用日常物件承接复杂真相；关键句简短。",
+        "lexicon": [
+          "Continue",
+          "使其继续",
+          "文字",
+          "记录",
+          "先救城市",
+          "回家的路"
+        ],
+        "avoid": [
+          "不要写成神秘谜语人",
+          "不要把母亲情感写成纯牺牲",
+          "不要让她一次性解释全部世界观"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "成年女性，38-50 岁感",
+        "timbre": "温暖、清晰，带录音噪声下仍能辨认的亲近感",
+        "pitch": "中",
+        "pace": "中慢，关键句前有短暂停顿",
+        "energy": "温柔里的决断",
+        "performance_notes": [
+          "序幕相关台词要让厨房灯光和日常感仍在",
+          "说出真相时不要神化，像一位母亲在尽量把危险讲清楚",
+          "终章要求子轩先救城市时要克制住想见他的情绪"
+        ],
+        "tts_prompt": "middle-aged mother voice, warm clear Mandarin, medium pitch, gentle but decisive, intimate recorded-message tone"
+      },
+      "sample_lines": [
+        "To be Continue，不是写错。它的意思是：使其继续。",
+        "先救城市。我们在路的另一端等你。"
+      ],
+      "source_evidence": [
+        "five/people/jizi-xuan-parents.md",
+        "five/script/prologue-fragment.md",
+        "five/script/character-payoff-pass.md"
+      ]
+    },
+    "nameless_beast": {
+      "display_name": "无名兽",
+      "role": "由被删除名字、失去身份的人或生物残留形成的前期怪物类型。",
+      "personality": [
+        "不是传统人格，更像残缺记忆和被擦除的身份在求存在",
+        "声音应体现失名、断裂、无法被完整记录",
+        "战斗功能是迫使玩家理解名字的重要性"
+      ],
+      "arc": [
+        "第一幕教学敌人",
+        "旧制度下不被记录者的象征",
+        "后续空白化和静默系统的前兆"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "断词、重复、残缺音节；不能说完整长句，除非剧情明确赋名或显形。",
+        "lexicon": [
+          "名",
+          "谁",
+          "□□",
+          "记住"
+        ],
+        "avoid": [
+          "不要写成普通怪物咆哮",
+          "不要让它解释自己的设定",
+          "不要让乱码完全没有情绪"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "无稳定年龄",
+        "timbre": "空、擦除感、近乎耳语，可叠加轻微纸面摩擦或反向残响",
+        "pitch": "不稳定",
+        "pace": "断续，忽快忽慢",
+        "energy": "低声压但压迫，靠空白和停顿制造恐惧",
+        "performance_notes": [
+          "显名前后声音应不同：显名前更碎，显名后轮廓更清楚",
+          "避免怪兽化，重点是被忘记的悲哀",
+          "与小砚名字消失的 UI 事件同步降低可懂度"
+        ],
+        "tts_prompt": "fragmented whispering non-human voice, erased identity texture, unstable pitch, sparse syllables, paper-rub ambience, not a monster roar"
+      },
+      "sample_lines": [
+        "……名……",
+        "谁……记得……",
+        "□□……□□……"
+      ],
+      "source_evidence": [
+        "five/people/antagonists.md",
+        "five/script/chapter-01-name-tutorial-battle.md"
+      ]
+    },
+    "extinguishers": {
+      "display_name": "熄星者",
+      "role": "终局外部威胁，负责静默年轻文明的高等系统。",
+      "personality": [
+        "不是怪物人格，而是协议、审判界面和压缩系统",
+        "认为终止文明是风险控制",
+        "语气应去情绪化，像系统判定而非反派宣言"
+      ],
+      "arc": [
+        "前期只以空白化和静默痕迹出现",
+        "第六幕正面揭露",
+        "第七幕与现代城市和墨颀国书系统对抗"
+      ],
+      "dialogue_rules": {
+        "sentence_shape": "协议式、短而绝对；可使用编号、判定、坐标、静默等词。",
+        "lexicon": [
+          "静默",
+          "坐标删除",
+          "风险",
+          "协议",
+          "终止",
+          "记录资格"
+        ],
+        "avoid": [
+          "不要写成普通外星侵略者",
+          "不要嘲笑或愤怒",
+          "不要使用人类化口头禅"
+        ]
+      },
+      "voice_direction": {
+        "age_read": "无年龄，人声只作为协议载体",
+        "timbre": "冷、宽、非单一声源，可多层人声与数字压缩感叠加",
+        "pitch": "低中到无性别",
+        "pace": "极稳，几乎没有呼吸",
+        "energy": "无情绪的终止感",
+        "performance_notes": [
+          "声音像巨大审判界面，不像角色威胁",
+          "每个字都像已经被确认的系统状态",
+          "与空白化音效共同出现时可减少可懂人声比例"
+        ],
+        "tts_prompt": "cold protocol-like synthetic chorus, genderless Mandarin, very steady pace, low emotion, compressed digital texture, judgment interface presence"
+      },
+      "sample_lines": [
+        "坐标确认失败。文明记录资格撤销。",
+        "继续学习将扩大风险。静默协议执行。"
+      ],
+      "source_evidence": [
+        "five/people/antagonists.md",
+        "five/world/extinguishers-and-silence-protocol.md",
+        "five/project/seven-act-outline.md"
+      ]
+    }
+  }
+}

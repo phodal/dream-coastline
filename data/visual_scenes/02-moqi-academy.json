@@ -165,6 +165,13 @@
 					"y": 3.0
 				},
 				{
+					"item": "contract_hound",
+					"kind": "creature",
+					"solid": true,
+					"x": 5.0,
+					"y": 5.0
+				},
+				{
 					"action": {
 						"arg": "",
 						"verb": "write"
@@ -276,6 +283,13 @@
 					"solid": false,
 					"x": 4.0,
 					"y": 4.0
+				},
+				{
+					"item": "ink_well_ray",
+					"kind": "creature",
+					"solid": false,
+					"x": 4.0,
+					"y": 2.0
 				},
 				{
 					"action": {

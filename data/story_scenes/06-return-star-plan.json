@@ -36,6 +36,8 @@
     "passed_backup_drill",
     "opened_return_gate",
     "heard_return_gate_farewell",
+    "identified_invasion_probe",
+    "recognized_probe_body",
     "defeated_invasion_probe",
     "received_parent_truth",
     "returned_to_modern_with_moqi"
@@ -232,6 +234,7 @@
         "+--------------------------------------------------------------+"
       ],
       "description": "归星门完成最终校准时，静默探针入侵。它不谈判，只执行删除协议。",
+      "location_intro": "归星门内的现代夜色还没有完全展开，一个黑白相间的无眼外壳先穿过裂隙。它周围漂着被删掉的技能名、空白地图碎片和没有主人的联系人条目。",
       "exits": {
         "dockyard": "浮空船坞",
         "core": "国书核心",
@@ -272,8 +275,16 @@
         "+--------------------------------------------------------------+"
       ],
       "description": "静默探针正删除坐标、档案和名字。你必须调用整个文明的备份来战斗。",
+      "location_intro": "裂隙里同时映出学校、街道和家门口。静默探针体悬在这些碎片中央，没有眼睛，也没有敌意，只不断把可理解的东西改写成空白。",
       "exits": {
         "gate": "归星门"
+      },
+      "creature_encounters": {
+        "creature_007_silence_probe": {
+          "name": "静默探针体",
+          "first_meeting": "它不回应夏离的质问，只在 UI 上留下判定：该坐标应删除。",
+          "story_function": "它把熄星者从远端干扰推进成正面战斗，并迫使玩家调用整个文明系统。"
+        }
       },
       "items": {
         "probe": {
@@ -282,6 +293,13 @@
           "requires": ["opened_return_gate"],
           "flags": ["identified_invasion_probe"],
           "text": "它不是怪物，而是协议实体。它让技能名称变成□□，让地图失去标记。"
+        },
+        "probe_body": {
+          "name": "静默探针体",
+          "time_seconds": 65,
+          "requires": ["identified_invasion_probe"],
+          "flags": ["recognized_probe_body"],
+          "text": "探针体外壳没有眼睛，只有黑白分层的删除纹。它旁边漂着被抹掉的技能名和联系人条目，像一段拥有身体的判定。"
         },
         "truth": {
           "name": "父母真相",
@@ -349,6 +367,7 @@
     "inspect farewell",
     "go rift",
     "inspect probe",
+    "inspect probe_body",
     "write name",
     "cast stop",
     "attack",
