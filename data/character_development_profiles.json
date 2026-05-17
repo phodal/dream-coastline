@@ -1,0 +1,389 @@
+{
+  "schema_version": 1,
+  "generated_from": [
+    "data/character_voice_profiles.json",
+    "data/character_visual_models.json",
+    "five/project/seven-act-outline.md",
+    "five/people/jizi-xuan.md",
+    "five/people/xiali.md",
+    "five/people/supporting-cast.md",
+    "five/people/antagonists.md",
+    "five/people/jizi-xuan-parents.md"
+  ],
+  "global_development_rules": {
+    "purpose": "角色开发档案用于后续分镜、对白、插图、任务和演出实现，避免同一角色在不同章节跑偏。",
+    "usage_order": [
+      "先读本文件的 personality_core、motivation、fear_or_wound、conflict_style 和 growth_direction",
+      "写对白或 TTS 时再读 data/character_voice_profiles.json",
+      "生成角色插图或 story review cutout 时再读 data/character_visual_models.json",
+      "新增章节分镜时至少检查 relationship_hooks 和 scene_usage"
+    ],
+    "forbidden": [
+      "不要把角色只写成职业标签",
+      "不要让角色突然承担不属于自己的世界观说明",
+      "不要为了推进剧情抹掉既有伤口、动机或关系张力",
+      "不要让反派只剩恶意，必须保留其制度逻辑或系统逻辑"
+    ]
+  },
+  "characters": {
+    "jizi_xuan": {
+      "display_name": "纪子轩",
+      "production_role": "玩家主视角，现代方法与墨颀规则之间的翻译者。",
+      "personality_core": [
+        "紧张但观察力快，遇到陌生规则会先问清楚",
+        "有普通学生的自保本能，不天然勇敢",
+        "越到后期越依赖记录、验证、复盘和协作"
+      ],
+      "motivation": "前期只想回家；中期想证明普通人也能学习文字；后期要让文明不再依赖少数人续写。",
+      "fear_or_wound": "害怕自己误用续笔导致别人消失，也害怕回家这件事意味着放弃墨颀。",
+      "conflict_style": "先后退、追问、记录失败原因；被逼到极限时会用现代实验方法反驳权威。",
+      "growth_direction": "从迷路的孩子成长为能承担公共方法的人，但不能变成预言英雄或政治演讲者。",
+      "relationship_hooks": {
+        "xiali": "从被怀疑的危险外来者，变成夏离必须承认的共同书写者。",
+        "xiaoyan": "小砚让他看到不会写字不是个人失败，而是制度伤害。",
+        "wensu": "闻素把他的恐惧拆成可学习步骤，帮他建立教学语言。",
+        "atang": "阿棠把他的记录方法逼进工程现实，检验其是否真能落地。",
+        "parents": "父母留下的文本和信标让回家不再只是私人愿望，而是双文明协作。"
+      },
+      "dialogue_guardrails": [
+        "前期短句、停顿、追问多",
+        "不要过早说宏大文明判断",
+        "后期可以说方法和责任，但仍保留少年感"
+      ],
+      "scene_usage": [
+        "用他做玩家理解规则的入口",
+        "用失败和复盘表现成长，不用突然开挂",
+        "关键插图里续笔、手机或记录纸至少出现一个"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/jizi-xuan.md"
+      ]
+    },
+    "xiali": {
+      "display_name": "夏离",
+      "production_role": "第二主角，亡国王子、改革压力源和文明守夜人。",
+      "personality_core": [
+        "骄傲、克制、早熟，习惯用判断压住情绪",
+        "不轻易信任，尤其警惕纪子轩和续笔",
+        "把私人 grief 压进职责里，越后期越少解释自己"
+      ],
+      "motivation": "先想复国和守住王族责任；后来转向让墨颀不再只靠王活着。",
+      "fear_or_wound": "害怕王国已经死去，也害怕承认王权本身就是问题的一部分。",
+      "conflict_style": "冷评、反问、命令式短句；被事实改变时不会立刻认输，而是调整行动。",
+      "growth_direction": "从复国者转向国书守夜人，牺牲感要来自制度选择，不是空泛圣人化。",
+      "relationship_hooks": {
+        "jizi_xuan": "既救他又审判他，关系推进要靠共同承担后果。",
+        "lu_zheng": "陆峥代表旧王权合法性，持续拷问夏离是否仍想做王。",
+        "siheng": "司衡是制度镜像，两人都相信风险真实存在，但选择相反。",
+        "wensu": "闻素提醒他文明不能只由王族和执契官定义。",
+        "atang": "阿棠迫使他面对工程与民间能力，不只面对王城政治。"
+      },
+      "dialogue_guardrails": [
+        "少倾诉，多判断和停顿",
+        "不要轻易道歉或卖萌",
+        "后期我/我们的切换要成为角色代价"
+      ],
+      "scene_usage": [
+        "用他承载旧秩序和新文明之间的张力",
+        "动作演出要稳、慢、压抑，不要泛侠客化",
+        "关键分镜里王族符号要像负担，不像炫耀"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/xiali.md"
+      ]
+    },
+    "xiaoyan": {
+      "display_name": "小砚",
+      "production_role": "第一幕引导孩子，公共教育线的情感证明。",
+      "personality_core": [
+        "警觉怕生，但危险中会主动帮人",
+        "语言受限，前期更多靠动作和眼神表达",
+        "对文字既敬畏又渴望"
+      ],
+      "motivation": "想保住自己的名字，也想确认自己是否有资格学习。",
+      "fear_or_wound": "害怕被忘记、被删名，害怕自己从来不算完整存在。",
+      "conflict_style": "先躲避和示意，必要时用短促喊声催促主角行动。",
+      "growth_direction": "从边境孩子成为教育成果的见证者，不能突然承担成人政治判断。",
+      "relationship_hooks": {
+        "jizi_xuan": "小砚是纪子轩从回家动机转向公共教育动机的第一根钉子。",
+        "wensu": "闻素让小砚的渴望变成可学习路径。",
+        "nameless_beast": "无名兽是小砚可能遭遇的未来，强化名字主题。"
+      },
+      "dialogue_guardrails": [
+        "前期可以有乱码和残缺词，但必须有情绪方向",
+        "不要让他大段解释世界观",
+        "安全后仍保持孩子的直接和急切"
+      ],
+      "scene_usage": [
+        "用于证明第一幕不是抽象设定，而是具体孩子的名字风险",
+        "插图应突出小身体、警惕眼神和名字/字牌物件",
+        "后续回响要服务教育 payoff"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/supporting-cast.md"
+      ]
+    },
+    "wensu": {
+      "display_name": "闻素",
+      "production_role": "被流放教师，公共教育线的精神奠基者。",
+      "personality_core": [
+        "温和但不软弱，面对学生有耐心",
+        "习惯把危险规则讲成可学习步骤",
+        "对旧制度失望，但仍相信教育能修复文明"
+      ],
+      "motivation": "让被排除在文字之外的人重新拥有学习和书写世界的资格。",
+      "fear_or_wound": "害怕教育再次被权力收回，也害怕自己只能留下遗产却救不了眼前的人。",
+      "conflict_style": "先定义问题、举例、追问；面对墨律司时会变得锋利而坚定。",
+      "growth_direction": "从隐秘教师转为续文院精神根基，不能写成全知导师或温柔陪衬。",
+      "relationship_hooks": {
+        "jizi_xuan": "把纪子轩的恐惧变成学习路径，也要求他承担教学责任。",
+        "xiaoyan": "小砚让她的教育理想有具体对象和痛感。",
+        "siheng": "司衡是她教育观的制度反面。",
+        "atang": "阿棠证明教育不是书院独占，而能进入工坊和工程。"
+      },
+      "dialogue_guardrails": [
+        "清楚、循序、带教学节奏",
+        "不要百科朗读",
+        "温柔句子里必须有立场"
+      ],
+      "scene_usage": [
+        "用于把规则讲清楚，同时把规则背后的权力问题讲出来",
+        "插图重点是旧教材、粉笔、字典和灯光",
+        "她的退场或遗产要留下可继承的方法，而不是单纯煽情"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/supporting-cast.md"
+      ]
+    },
+    "atang": {
+      "display_name": "阿棠",
+      "production_role": "民间工匠和工程实践者，把文字方法落到技术系统。",
+      "personality_core": [
+        "先看坏在哪里，再谈道理",
+        "不服文字等级把工匠排除在高级知识之外",
+        "说话直接，有工坊烟火气"
+      ],
+      "motivation": "证明普通工匠也能理解、修复和改造墨颀技术。",
+      "fear_or_wound": "害怕自己和工坊永远只能做被授权的手，而不能知道为什么。",
+      "conflict_style": "直接指出故障点，先试再说；对空泛政治和书院架子缺乏耐心。",
+      "growth_direction": "从被排除的工匠成为第一代工程大师，不能写成只会吐槽的工具人。",
+      "relationship_hooks": {
+        "jizi_xuan": "把纪子轩的记录和验证变成工程流程。",
+        "xiali": "要求夏离承认民间能力，而不是只向王城和书院求解。",
+        "wensu": "闻素提供教育合法性，阿棠提供实践合法性。",
+        "lu_zheng": "陆峥的军纪与阿棠的试错形成行动冲突。"
+      },
+      "dialogue_guardrails": [
+        "短、直、带工坊词",
+        "不要突然宫廷书面语",
+        "工程问题必须有材料、零件、测试或失败成本"
+      ],
+      "scene_usage": [
+        "用于把文明命题落到炉、塔、零件、图纸和测试",
+        "插图要有卷袖、工具腰带、火光或蓝色符 spark",
+        "她介入时场景应从争论转向可执行试验"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/supporting-cast.md"
+      ]
+    },
+    "lu_zheng": {
+      "display_name": "陆峥",
+      "production_role": "旧军将领，复国压力和秩序焦虑的代表。",
+      "personality_core": [
+        "重军纪、重秩序、重王族合法性",
+        "对公共教育和纪子轩保持戒心",
+        "不是愚忠，底层是害怕文明再次失控"
+      ],
+      "motivation": "守住墨颀残存秩序，避免王国在开放文字后彻底崩溃。",
+      "fear_or_wound": "经历亡国后相信失控比压制更可怕。",
+      "conflict_style": "以军令、守城、风险控制提出反对；需要实际成果和代价才能转向。",
+      "growth_direction": "从复国压力源转为可转化守护者，不能被一句话说服。",
+      "relationship_hooks": {
+        "xiali": "把夏离拉向旧王权，是夏离成长弧的主要压力。",
+        "jizi_xuan": "把纪子轩视作不可控变量，必须通过行动建立最低信任。",
+        "atang": "对阿棠的试错天然不安，后期可被工程纪律转化。"
+      },
+      "dialogue_guardrails": [
+        "语气应像军人，不像阴谋家",
+        "坚持要有代价，不轻易软化",
+        "避免现代管理口吻"
+      ],
+      "scene_usage": [
+        "用于制造旧秩序和开放教育的真实摩擦",
+        "关键场景要让他的反对有合理风险依据",
+        "转向必须由事实、牺牲或守城结果触发"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/supporting-cast.md"
+      ]
+    },
+    "siheng": {
+      "display_name": "司衡",
+      "production_role": "墨律司首席执契官，文字垄断制度的人类化代表。",
+      "personality_core": [
+        "理性、冷静、强控制欲",
+        "相信安全必须先于自由",
+        "擅长把垄断包装成秩序和责任"
+      ],
+      "motivation": "防止真文字危险扩散，以权限制度维持可控文明。",
+      "fear_or_wound": "害怕开放文字导致无数人被错误书写或删除。",
+      "conflict_style": "用契约、名册、资格和风险说话，拒绝情绪化争辩。",
+      "growth_direction": "可以被审判、转化或激化，但永远不能变成阴笑坏人。",
+      "relationship_hooks": {
+        "wensu": "教育开放与权限垄断的正面冲突。",
+        "xiali": "两人都承认风险，差异在于是否允许普通人承担资格。",
+        "jizi_xuan": "把纪子轩视作危险案例，而非天命之人。"
+      },
+      "dialogue_guardrails": [
+        "冷静、制度化、少威胁废话",
+        "必须保留合理担忧",
+        "不要用单纯坏人宣言"
+      ],
+      "scene_usage": [
+        "用于把反派压力落到制度，不只落到个人恶意",
+        "分镜应强调文书、权限、名册和沉默的执法场",
+        "每次出场都要让玩家理解开放文字的真实风险"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/antagonists.md"
+      ]
+    },
+    "jizi_xuan_father": {
+      "display_name": "纪子轩父亲",
+      "production_role": "现代侧物理、天文与空间异常研究者，归星计划信标的一部分。",
+      "personality_core": [
+        "理性谨慎，习惯用观测和坐标说话",
+        "对子轩的爱不外露，藏在准备和记录里",
+        "做过艰难选择，但不应显得轻松或全能"
+      ],
+      "motivation": "维持现代侧信标，让子轩和墨颀都获得回来的可能。",
+      "fear_or_wound": "害怕提前救回孩子会牺牲一座城市，也害怕孩子误以为自己被放弃。",
+      "conflict_style": "通过记录、坐标、延迟留言和实验边界行动，很少直接情绪爆发。",
+      "growth_direction": "从失踪悬念变成现代侧协作者，不能代替子轩完成主角选择。",
+      "relationship_hooks": {
+        "jizi_xuan": "父子情感通过记录和未能抵达的灯光表达。",
+        "jizi_xuan_mother": "两人共同构成现代侧的语言与物理桥梁。",
+        "extinguishers": "他的信标工作对抗静默协议的坐标删除。"
+      },
+      "dialogue_guardrails": [
+        "少解释全部真相",
+        "科学词要服务父亲情感",
+        "不要写成万能解谜工具"
+      ],
+      "scene_usage": [
+        "用于现代侧线索、坐标、信标和灯的意象",
+        "露面应像延迟抵达，而不是突然救场",
+        "插图可用实验室、星图、旧录像和一盏灯"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/jizi-xuan-parents.md"
+      ]
+    },
+    "jizi_xuan_mother": {
+      "display_name": "纪子轩母亲",
+      "production_role": "现代侧古文字、语言和文明史研究者，Continue 指令理解者。",
+      "personality_core": [
+        "敏锐、温柔，但决断力强",
+        "更早意识到墨颀不是传说",
+        "保护子轩的方式是留下能继续走的文本"
+      ],
+      "motivation": "让子轩拥有理解续笔和回家路的语言钥匙，同时不替他做最终选择。",
+      "fear_or_wound": "害怕自己的文本被读懂得太晚，也害怕把孩子推向无法回头的危险。",
+      "conflict_style": "用信件、注释、翻译和半句话推动，不做谜语人式遮掩。",
+      "growth_direction": "从日常灯光的缺席变成文明桥梁的温柔回声，不是纯牺牲符号。",
+      "relationship_hooks": {
+        "jizi_xuan": "母子关系由日常话语、留下的文本和终章半面对面回应组成。",
+        "jizi_xuan_father": "她负责语言桥，他负责坐标桥。",
+        "wensu": "两位教师型角色隔着世界相互呼应。"
+      },
+      "dialogue_guardrails": [
+        "不要一次性解释全部世界观",
+        "温柔里要有决断",
+        "Continue/使其继续必须是情感和系统双重关键词"
+      ],
+      "scene_usage": [
+        "用于现代语言线、续笔线索和回家的路",
+        "插图可用厨房灯、信件、古文字注释和屏幕残影",
+        "出现时要推动子轩自己选择，不替代选择"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/jizi-xuan-parents.md"
+      ]
+    },
+    "nameless_beast": {
+      "display_name": "无名兽",
+      "production_role": "第一幕教学敌人，被删除名字和身份残留的具象化。",
+      "personality_core": [
+        "不是传统人格，而是残缺记忆在求存在",
+        "失名、断裂、无法被完整记录",
+        "攻击性来自被擦除后的求名冲动"
+      ],
+      "motivation": "想被记住，或至少让别人知道名字被夺走的痛感。",
+      "fear_or_wound": "已经没有完整自我，只剩被删除后的空洞。",
+      "conflict_style": "用残缺词、重复、撞击和名字主题迫使玩家理解规则。",
+      "growth_direction": "作为主题前兆出现，不应被写成普通怪物或解释型 NPC。",
+      "relationship_hooks": {
+        "xiaoyan": "映照小砚可能失去名字后的未来。",
+        "jizi_xuan": "迫使纪子轩第一次理解写错字会改变存在。",
+        "extinguishers": "是后期静默和坐标删除的低阶回声。"
+      },
+      "dialogue_guardrails": [
+        "乱码要有情绪",
+        "不要解释自己的设定",
+        "不要只会咆哮"
+      ],
+      "scene_usage": [
+        "用于第一幕战斗教学和名字主题",
+        "插图应强调空白脸、断裂字痕和求名动作",
+        "介入剧情时要服务角色理解，不只是增加战斗"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/antagonists.md"
+      ]
+    },
+    "extinguishers": {
+      "display_name": "熄星者",
+      "production_role": "终局外部威胁，静默年轻文明的高等系统。",
+      "personality_core": [
+        "不是怪物人格，而是协议、审判界面和压缩系统",
+        "认为终止文明是风险控制",
+        "去情绪化，像系统判定而非反派宣言"
+      ],
+      "motivation": "删除高风险文明坐标，防止其继续扩散不可控记录。",
+      "fear_or_wound": "没有人类伤口，只有协议定义的风险阈值和清除逻辑。",
+      "conflict_style": "以判定、终止、静默、资格和坐标删除行动，不争辩也不愤怒。",
+      "growth_direction": "从空白化痕迹逐步显影为终局系统压力，不能写成普通外星侵略者。",
+      "relationship_hooks": {
+        "jizi_xuan": "挑战他关于记录、继续和回家的最终理解。",
+        "xiali": "逼迫夏离把国书守护从墨颀扩展到跨文明同盟。",
+        "jizi_xuan_father": "现代侧信标与熄星者坐标删除直接对抗。",
+        "nameless_beast": "无名兽是静默机制在低阶世界里的可感前兆。"
+      },
+      "dialogue_guardrails": [
+        "使用系统判定式语言",
+        "不要嘲笑、愤怒或人类化口头禅",
+        "威胁要来自执行协议，而不是反派情绪"
+      ],
+      "scene_usage": [
+        "用于第六幕揭露和第七幕终局压力",
+        "视觉应偏界面、星图空洞、坐标消隐和无声压缩",
+        "每次出现都要让世界更安静，而不是更吵"
+      ],
+      "source_evidence": [
+        "data/character_voice_profiles.json",
+        "five/people/antagonists.md"
+      ]
+    }
+  }
+}

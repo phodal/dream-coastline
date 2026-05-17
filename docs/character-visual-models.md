@@ -1,9 +1,12 @@
 # Character Visual Models
 
 `data/character_visual_models.json` is the visual counterpart to
-`data/character_voice_profiles.json`. It fixes the main cast before generating
-more story-review illustrations, so Ji Zixuan, Xiali, Wensu, Atang, and Xiaoyan
-do not drift from image to image.
+`data/character_voice_profiles.json` and
+`data/character_development_profiles.json`. The development profile owns
+personality, motivation, wounds, conflict style, relationship hooks, and scene
+usage; this visual file turns those decisions into silhouette, palette, costume
+state, and image-generation prompts. Together they keep Ji Zixuan, Xiali,
+Wensu, Atang, and Xiaoyan from drifting between story-review illustrations.
 
 ## Role Slots
 
@@ -23,15 +26,17 @@ and payoff anchor.
 
 1. Update the model contract first: silhouette, palette, costume states,
    expression set, and `imagen_prompt`.
-2. Validate it:
+2. If the change affects personality, motivation, relationships, or scene
+   function, update `data/character_development_profiles.json` first.
+3. Validate it:
 
 ```sh
-python3 tools/validate_character_visual_models.py
+python3 tools/run_automated_tests.py --only character-development-profiles,character-voice-profiles,character-visual-models
 ```
 
-3. Generate or replace one character sheet at a time under
+4. Generate or replace one character sheet at a time under
    `assets/characters/main/<character_id>/`.
-4. Import through Godot once after adding PNGs, then review screenshots or
+5. Import through Godot once after adding PNGs, then review screenshots or
    story-review recordings before using the character broadly in chapter art.
 
 ## Asset Targets

@@ -123,6 +123,14 @@ def character_visual_models(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_character_visual_models.py")
 
 
+def character_voice_profiles(runner: Runner, step: Step) -> int:
+    return runner.run_python(step, "tools/validate_character_voice_profiles.py")
+
+
+def character_development_profiles(runner: Runner, step: Step) -> int:
+    return runner.run_python(step, "tools/validate_character_development_profiles.py")
+
+
 def story_review_panels(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_story_review_panels.py")
 
@@ -173,6 +181,13 @@ STEPS: list[Step] = [
     Step("story-continuity", "quick", "validate cross-scene continuity contracts", story_continuity),
     Step("equipment-catalog", "quick", "validate equipment carrier catalog", equipment_catalog),
     Step("supply-catalog", "quick", "validate supply and consumable carrier catalog", supply_catalog),
+    Step("character-voice-profiles", "quick", "validate character voice and dialogue contracts", character_voice_profiles),
+    Step(
+        "character-development-profiles",
+        "quick",
+        "validate character personality and development contracts",
+        character_development_profiles,
+    ),
     Step("character-visual-models", "quick", "validate main character visual model contracts", character_visual_models),
     Step("story-review-panels", "quick", "validate story review panel coverage and character refs", story_review_panels),
     Step("cargo-build", "quick", "build Rust GDExtension for the current platform", cargo_build),
