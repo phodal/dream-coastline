@@ -36,7 +36,8 @@ First-pass sample targets:
 - `DLG-01-SAMPLE-XY`: Xiaoyan, unreadable urgent child line.
 - `DLG-01-SAMPLE-XL`: Xiali, cold first entrance line.
 - `SFX-01-*`: local one-shot footsteps, paper/ink interaction, writing, and
-  blade-hit effects.
+  blade-hit effects generated through the MiniMax music API and trimmed into
+  one-shots.
 
 ## Generate
 
@@ -79,14 +80,17 @@ node tools/minimax_audio_generate.mjs \
 Music is written under `assets/audio/generated/music/<scene-id>/`. Voice samples
 are written under `assets/audio/generated/voices/<scene-id>/`.
 
-Short gameplay SFX are generated locally to keep them crisp one-shots:
+Short gameplay SFX use the MiniMax music endpoint, then the tool trims and
+normalizes the result into game-ready one-shots:
 
 ```sh
-python3 tools/generate_first_act_sfx.py
+node tools/minimax_audio_generate.mjs \
+  --type sfx \
+  --scene-id 01-illiterate
 ```
 
 These are written under `assets/audio/generated/sfx/<scene-id>/` and recorded in
-the manifest as `local-procedural` assets.
+the manifest as MiniMax assets with ffmpeg post-processing metadata.
 
 ## Validation
 
@@ -95,7 +99,6 @@ Run these checks before committing cue or tooling changes:
 ```sh
 python3 tools/validate_character_voice_profiles.py
 python3 tools/validate_audio_cues.py
-python3 tools/generate_first_act_sfx.py
 node --check tools/minimax_audio_generate.mjs
 node tools/minimax_audio_generate.mjs --scene-id 01-illiterate --dry-run --limit-samples
 ```

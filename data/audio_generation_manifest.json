@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "provider": "minimax",
-  "generated_at": "2026-05-17T14:28:58.341Z",
+  "generated_at": "2026-05-17T14:44:55.427Z",
   "assets": [
     {
       "asset_id": "MUS-01-001",
@@ -132,96 +132,136 @@
     {
       "asset_id": "SFX-01-STEP-MUD",
       "type": "sfx",
-      "provider": "local-procedural",
+      "provider": "minimax",
       "scene_id": "01-illiterate",
+      "sfx_id": "SFX-01-STEP-MUD",
       "event_name": "step",
-      "model": "tools/generate_first_act_sfx.py",
+      "model": "music-2.6-free",
       "output_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-STEP-MUD.mp3",
-      "prompt_summary": "short one-shot game footstep, soft boot on wet mud and dry leaves, low thud with tiny grit, no melody, under 0.4 seconds",
+      "prompt_summary": "game sound effect, single soft boot footstep on wet mud and dry leaves, low thud with tiny grit, no melody, no UI chime, no rhythm loop, clean one-shot",
       "status": "generated",
-      "generated_at": "2026-05-17T14:27:00.598Z",
+      "generated_at": "2026-05-17T14:40:20.662Z",
+      "trace_id": "065905c3a3c4fb62b555a3ccf5161198",
       "extra_info": {
-        "duration_ms": 340,
-        "sample_rate": 44100,
-        "channel": 1,
-        "bitrate": 128000,
-        "size": 6731
+        "music_duration": 168777,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5402843,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
       }
     },
     {
       "asset_id": "SFX-01-STEP-WOOD",
       "type": "sfx",
-      "provider": "local-procedural",
+      "provider": "minimax",
       "scene_id": "01-illiterate",
+      "sfx_id": "SFX-01-STEP-WOOD",
       "event_name": "step",
-      "model": "tools/generate_first_act_sfx.py",
+      "model": "music-2.6-free",
       "output_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-STEP-WOOD.mp3",
-      "prompt_summary": "short one-shot game footstep, hollow old wooden floor in abandoned station, light creak and dust, no melody, under 0.35 seconds",
+      "prompt_summary": "game sound effect, single hollow footstep on old wooden floor in abandoned station, light creak and dust, no melody, no UI chime, clean one-shot",
       "status": "generated",
-      "generated_at": "2026-05-17T14:27:00.598Z",
+      "generated_at": "2026-05-17T14:40:58.610Z",
+      "trace_id": "06590654fae8eefc779d838d3165730d",
       "extra_info": {
-        "duration_ms": 280,
-        "sample_rate": 44100,
-        "channel": 1,
-        "bitrate": 128000,
-        "size": 5477
+        "music_duration": 7444,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 240211,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
       }
     },
     {
       "asset_id": "SFX-01-INK-WRITE",
       "type": "sfx",
-      "provider": "local-procedural",
+      "provider": "minimax",
       "scene_id": "01-illiterate",
+      "sfx_id": "SFX-01-INK-WRITE",
       "event_name": "write",
-      "model": "tools/generate_first_act_sfx.py",
+      "model": "music-2.6-free",
       "output_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-INK-WRITE.mp3",
-      "prompt_summary": "short one-shot ink brush writing glyph, paper scratch, ink bloom, tiny confirming shimmer, restrained RPG magic, under 0.9 seconds",
+      "prompt_summary": "game sound effect, ink brush writing a glyph on paper, scratch then ink bloom, tiny restrained magical confirmation, no melody, no full musical phrase, clean one-shot",
       "status": "generated",
-      "generated_at": "2026-05-17T14:27:00.598Z",
+      "generated_at": "2026-05-17T14:42:15.643Z",
+      "trace_id": "0659067aacec0e7a7cad68b3737e35a7",
       "extra_info": {
-        "duration_ms": 820,
-        "sample_rate": 44100,
-        "channel": 1,
-        "bitrate": 128000,
-        "size": 14254
+        "music_duration": 62197,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 1992296,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 900,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
       }
     },
     {
       "asset_id": "SFX-01-BLADE-HIT",
       "type": "sfx",
-      "provider": "local-procedural",
+      "provider": "minimax",
       "scene_id": "01-illiterate",
+      "sfx_id": "SFX-01-BLADE-HIT",
       "event_name": "attack",
-      "model": "tools/generate_first_act_sfx.py",
+      "model": "music-2.6-free",
       "output_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-BLADE-HIT.mp3",
-      "prompt_summary": "short one-shot blade hit, engraved knife through paper-like shadow, metal scrape and muted impact, no gore, under 0.7 seconds",
+      "prompt_summary": "game sound effect, engraved blade hit through paper-like shadow, brief metal scrape and muted impact, no gore, no explosion, no melody, clean one-shot",
       "status": "generated",
-      "generated_at": "2026-05-17T14:27:00.598Z",
+      "generated_at": "2026-05-17T14:43:24.552Z",
+      "trace_id": "065906c7247cbab2b2538114d472d59d",
       "extra_info": {
-        "duration_ms": 560,
-        "sample_rate": 44100,
-        "channel": 1,
-        "bitrate": 128000,
-        "size": 10075
+        "music_duration": 68153,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2182886,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 700,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
       }
     },
     {
       "asset_id": "SFX-01-PAPER-INTERACT",
       "type": "sfx",
-      "provider": "local-procedural",
+      "provider": "minimax",
       "scene_id": "01-illiterate",
+      "sfx_id": "SFX-01-PAPER-INTERACT",
       "event_name": "interact",
-      "model": "tools/generate_first_act_sfx.py",
+      "model": "music-2.6-free",
       "output_path": "assets/audio/generated/sfx/01-illiterate/SFX-01-PAPER-INTERACT.mp3",
-      "prompt_summary": "short one-shot paper and ink interaction, faint page rustle, wet ink twitch, tiny UI confirmation, no chime, under 0.5 seconds",
+      "prompt_summary": "game sound effect, faint paper page rustle and wet ink twitch for inspecting a story object, very small confirmation, no bell, no melody, clean one-shot",
       "status": "generated",
-      "generated_at": "2026-05-17T14:27:00.598Z",
+      "generated_at": "2026-05-17T14:44:55.427Z",
+      "trace_id": "0659070cb2e36afa346767e88b2c82f1",
       "extra_info": {
-        "duration_ms": 450,
-        "sample_rate": 44100,
-        "channel": 1,
-        "bitrate": 128000,
-        "size": 8403
+        "music_duration": 150778,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4826895,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 500,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
       }
     }
   ]

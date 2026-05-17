@@ -7,6 +7,16 @@ const AUDIO_CUE_FILES := [
 	"res://data/audio_cues/00-prologue-lights-out.json",
 	"res://data/audio_cues/01-illiterate.json",
 ]
+const EVENT_VOLUME_DB := {
+	"ui": -8.0,
+	"step": -15.0,
+	"blocked": -16.0,
+	"interact": -14.0,
+	"transition": -80.0,
+	"success": -12.0,
+	"write": -14.0,
+	"attack": -13.0,
+}
 
 var streams := {}
 var players := {}
@@ -42,6 +52,7 @@ func _ready() -> void:
 		var player := AudioStreamPlayer.new()
 		player.name = "Audio%s" % event_name.capitalize()
 		player.stream = streams[event_name]
+		player.volume_db = float(EVENT_VOLUME_DB.get(event_name, -12.0))
 		add_child(player)
 		players[event_name] = player
 

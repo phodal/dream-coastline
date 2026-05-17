@@ -115,7 +115,8 @@
       "event_name": "step",
       "locations": ["mud_road", "camp", "chase"],
       "mood": "泥路、流民营和树林里的短促脚步，低而干，不要卡通跳跃感",
-      "instrumentation_prompt": "short one-shot game footstep, soft boot on wet mud and dry leaves, low thud with tiny grit, no melody, under 0.4 seconds",
+      "instrumentation_prompt": "game sound effect, single soft boot footstep on wet mud and dry leaves, low thud with tiny grit, no melody, no UI chime, no rhythm loop, clean one-shot",
+      "duration_ms": 360,
       "source_evidence": [
         "five/script/chapter-01-opening.md",
         "data/story_scenes/01-illiterate.json#locations.mud_road",
@@ -131,7 +132,8 @@
       "event_name": "step",
       "locations": ["station"],
       "mood": "废弃驿站木地板脚步，空、薄、带一点旧屋回响",
-      "instrumentation_prompt": "short one-shot game footstep, hollow old wooden floor in abandoned station, light creak and dust, no melody, under 0.35 seconds",
+      "instrumentation_prompt": "game sound effect, single hollow footstep on old wooden floor in abandoned station, light creak and dust, no melody, no UI chime, clean one-shot",
+      "duration_ms": 360,
       "source_evidence": [
         "five/script/chapter-01-name-tutorial-battle.md",
         "data/story_scenes/01-illiterate.json#locations.station"
@@ -145,7 +147,8 @@
       "event_name": "write",
       "locations": ["station"],
       "mood": "写“名”时笔尖、墨迹和字根确认合成一个短音效",
-      "instrumentation_prompt": "short one-shot ink brush writing glyph, paper scratch, ink bloom, tiny confirming shimmer, restrained RPG magic, under 0.9 seconds",
+      "instrumentation_prompt": "game sound effect, ink brush writing a glyph on paper, scratch then ink bloom, tiny restrained magical confirmation, no melody, no full musical phrase, clean one-shot",
+      "duration_ms": 900,
       "source_evidence": [
         "five/script/chapter-01-name-tutorial-battle.md",
         "data/story_scenes/01-illiterate.json#locations.station.combat"
@@ -159,7 +162,8 @@
       "event_name": "attack",
       "locations": ["station"],
       "mood": "短刃/术式命中无名兽，金属不厚重，像刻字刀划过空白",
-      "instrumentation_prompt": "short one-shot blade hit, engraved knife through paper-like shadow, metal scrape and muted impact, no gore, under 0.7 seconds",
+      "instrumentation_prompt": "game sound effect, engraved blade hit through paper-like shadow, brief metal scrape and muted impact, no gore, no explosion, no melody, clean one-shot",
+      "duration_ms": 700,
       "source_evidence": [
         "five/script/chapter-01-opening.md",
         "five/script/chapter-01-name-tutorial-battle.md",
@@ -174,7 +178,8 @@
       "event_name": "interact",
       "locations": ["mud_road", "camp", "chase", "station"],
       "mood": "调查物件时的纸页、墨迹、符文微响，服务于第一幕文字系统",
-      "instrumentation_prompt": "short one-shot paper and ink interaction, faint page rustle, wet ink twitch, tiny UI confirmation, no chime, under 0.5 seconds",
+      "instrumentation_prompt": "game sound effect, faint paper page rustle and wet ink twitch for inspecting a story object, very small confirmation, no bell, no melody, clean one-shot",
+      "duration_ms": 500,
       "source_evidence": [
         "five/system/art-audio-direction.md",
         "data/story_scenes/01-illiterate.json"

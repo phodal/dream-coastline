@@ -203,6 +203,7 @@ def validate_event_sound(
     ]:
         if field != "source_evidence":
             require_string(sound, field, label, failures)
+    require_number(sound, "duration_ms", label, failures)
 
     sfx_id = sound.get("sfx_id")
     if is_non_empty_string(sfx_id):
@@ -214,6 +215,9 @@ def validate_event_sound(
 
     if sound.get("scene_id") != scene_id:
         failures.append(f"{label}.scene_id must be {scene_id}")
+    duration_ms = sound.get("duration_ms")
+    if isinstance(duration_ms, (int, float)) and not 100 <= duration_ms <= 3000:
+        failures.append(f"{label}.duration_ms must be between 100 and 3000")
     sound_locations = sound.get("locations", [])
     if not isinstance(sound_locations, list) or not sound_locations:
         failures.append(f"{label}.locations must be a non-empty list")

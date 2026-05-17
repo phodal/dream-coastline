@@ -1027,7 +1027,6 @@ func _run_exit_interaction(interaction: DreamStoryInteraction) -> void:
 		await dialogue_layer.show_message(interaction.display_name, "This route is not available.")
 		return
 
-	_play_story_event("transition")
 	current_location_id = destination_id
 	current_visual = _current_visual_for_location()
 	_reset_player_to_spawn()
@@ -1417,7 +1416,7 @@ func _story_event_for_verb(verb: String) -> String:
 		"inspect", "engage", "combine", "choose", "build", "cast":
 			return "interact"
 		"go":
-			return "transition"
+			return ""
 		"write":
 			return "write"
 		"attack":

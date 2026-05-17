@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createHash, randomBytes } from "node:crypto";
+import { spawn } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { connect as tlsConnect } from "node:tls";
 import { fileURLToPath } from "node:url";
@@ -15,10 +16,11 @@ function usage() {
   return `Usage:
   node tools/minimax_audio_generate.mjs --scene-id 01-illiterate --dry-run --limit-samples
   node tools/minimax_audio_generate.mjs --type music --scene-id 01-illiterate --cue-id MUS-01-001
+  node tools/minimax_audio_generate.mjs --type sfx --scene-id 01-illiterate --cue-id SFX-01-STEP-MUD
   node tools/minimax_audio_generate.mjs --type voice --scene-id 01-illiterate --cue-id DLG-01-SAMPLE-JZX
 
 Options:
-  --type music|voice|all      Defaults to all.
+  --type music|voice|sfx|all  Defaults to all.
   --scene-id <id>             Defaults to 01-illiterate.
   --cue-id <id>               Select one music cue or voice line.
   --dry-run                   Print sanitized jobs without calling MiniMax.
@@ -64,8 +66,8 @@ function parseArgs(argv) {
       throw new Error(`Unknown argument: ${arg}`);
     }
   }
-  if (!["music", "voice", "all"].includes(args.type)) {
-    throw new Error("--type must be music, voice, or all");
+  if (!["music", "voice", "sfx", "all"].includes(args.type)) {
+    throw new Error("--type must be music, voice, sfx, or all");
   }
   if (args.sampleLimit !== null && (!Number.isInteger(args.sampleLimit) || args.sampleLimit < 1)) {
     throw new Error("--limit-samples value must be a positive integer");
@@ -157,8 +159,18 @@ async function buildJobs(args) {
       });
     }
   }
+  if (args.type === "sfx" || args.type === "all") {
+    for (const sound of selectItems(cueData.event_sounds || [], args, "sfx_id")) {
+      jobs.push({
+        jobType: "sfx",
+        id: sound.sfx_id,
+        sceneId: sound.scene_id,
+        sound,
+      });
+    }
+  }
   if (args.cueId && jobs.length === 0) {
-    throw new Error(`No cue or voice sample matched --cue-id ${args.cueId}`);
+    throw new Error(`No cue, voice sample, or sound effect matched --cue-id ${args.cueId}`);
   }
   return jobs;
 }
@@ -177,6 +189,18 @@ function printDryRun(jobs, env) {
         target_path: job.cue.target_path,
       };
     }
+    if (job.jobType === "sfx") {
+      return {
+        type: "sfx",
+        sfx_id: job.sound.sfx_id,
+        event_name: job.sound.event_name,
+        model: musicModel,
+        endpoint: MUSIC_ENDPOINT,
+        prompt: truncate(job.sound.instrumentation_prompt),
+        duration_ms: job.sound.duration_ms,
+        target_path: job.sound.target_path,
+      };
+    }
     return {
       type: "voice",
       line_id: job.line.line_id,
@@ -190,6 +214,24 @@ function printDryRun(jobs, env) {
     };
   });
   console.log(JSON.stringify({ dry_run: true, jobs: sanitized }, null, 2));
+}
+
+async function runCommand(command, args) {
+  await new Promise((resolveRun, rejectRun) => {
+    const child = spawn(command, args, { stdio: "pipe" });
+    let stderr = "";
+    child.stderr.on("data", (chunk) => {
+      stderr += chunk.toString("utf8");
+    });
+    child.on("error", rejectRun);
+    child.on("close", (code) => {
+      if (code === 0) {
+        resolveRun();
+      } else {
+        rejectRun(new Error(`${command} exited with code ${code}: ${stderr}`.trim()));
+      }
+    });
+  });
 }
 
 async function generateMusic(job, env) {
@@ -239,6 +281,85 @@ async function generateMusic(job, env) {
     generated_at: new Date().toISOString(),
     trace_id: result.trace_id || null,
     extra_info: result.extra_info || null,
+  };
+}
+
+async function generateSfx(job, env) {
+  const model = env.MINIMAX_MUSIC_MODEL || "music-2.6-free";
+  const payload = {
+    model,
+    prompt: job.sound.instrumentation_prompt,
+    stream: false,
+    output_format: "hex",
+    is_instrumental: true,
+    aigc_watermark: false,
+    audio_setting: {
+      sample_rate: 44100,
+      bitrate: 256000,
+      format: "mp3",
+    },
+  };
+  const response = await fetch(MUSIC_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${env.MINIMAX_API_KEY}`,
+    },
+    body: JSON.stringify(payload),
+  });
+  const result = await response.json();
+  if (!response.ok || result?.base_resp?.status_code !== 0) {
+    throw new Error(`MiniMax sfx failed for ${job.id}: ${JSON.stringify(result?.base_resp || result)}`);
+  }
+  const audioHex = result?.data?.audio;
+  if (!audioHex) {
+    throw new Error(`MiniMax sfx returned no audio for ${job.id}`);
+  }
+  const outputPath = resolve(ROOT, job.sound.target_path);
+  await mkdir(dirname(outputPath), { recursive: true });
+  const rawPath = `${outputPath}.minimax-raw.mp3`;
+  await writeFile(rawPath, Buffer.from(audioHex, "hex"));
+
+  const durationMs = Number.isFinite(job.sound.duration_ms) ? job.sound.duration_ms : 800;
+  const durationSeconds = Math.max(0.1, durationMs / 1000);
+  const fadeStart = Math.max(0.05, durationSeconds - 0.08);
+  await runCommand("ffmpeg", [
+    "-y",
+    "-hide_banner",
+    "-loglevel",
+    "error",
+    "-i",
+    rawPath,
+    "-af",
+    `silenceremove=start_periods=1:start_duration=0.02:start_threshold=-45dB,atrim=duration=${durationSeconds.toFixed(3)},asetpts=N/SR/TB,afade=t=out:st=${fadeStart.toFixed(3)}:d=0.08,loudnorm=I=-24:TP=-8:LRA=7`,
+    "-codec:a",
+    "libmp3lame",
+    "-b:a",
+    "128k",
+    outputPath,
+  ]);
+  return {
+    asset_id: job.id,
+    type: "sfx",
+    provider: "minimax",
+    scene_id: job.sceneId,
+    sfx_id: job.sound.sfx_id,
+    event_name: job.sound.event_name,
+    model,
+    output_path: job.sound.target_path,
+    prompt_summary: truncate(job.sound.instrumentation_prompt),
+    status: "generated",
+    generated_at: new Date().toISOString(),
+    trace_id: result.trace_id || null,
+    extra_info: {
+      ...(result.extra_info || {}),
+      post_process: {
+        tool: "ffmpeg",
+        duration_ms: durationMs,
+        loudnorm_i: -24,
+        true_peak_db: -8,
+      },
+    },
   };
 }
 
@@ -635,7 +756,9 @@ async function main() {
     console.log(`Generating ${job.jobType} ${job.id}`);
     const asset = job.jobType === "music"
       ? await generateMusic(job, env)
-      : await generateVoice(job, env);
+      : job.jobType === "sfx"
+        ? await generateSfx(job, env)
+        : await generateVoice(job, env);
     upsertAsset(manifest, asset);
     await writeJson(args.manifest, manifest);
     console.log(`Wrote ${asset.output_path}`);
