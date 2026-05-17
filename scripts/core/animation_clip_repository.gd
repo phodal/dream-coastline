@@ -82,15 +82,17 @@ func resolve_frame(clip_id: String, moving: bool, facing: Vector2i, elapsed: flo
 		return {}
 
 	var tile_size := float(clip.get("tile_size", DEFAULT_TILE_SIZE))
+	var frame_size := _frame_size_vector(clip, tile_size)
 	return {
 		"texture": texture,
 		"source": Rect2(
-			Vector2(float(frame.get("x", 0)) * tile_size, float(frame.get("y", 0)) * tile_size),
-			Vector2(tile_size, tile_size)
+			Vector2(float(frame.get("x", 0)) * frame_size.x, float(frame.get("y", 0)) * frame_size.y),
+			frame_size
 		),
 		"tile_size": tile_size,
+		"frame_size": frame_size,
 		"render_size": float(clip.get("render_size", DEFAULT_RENDER_SIZE)),
-		"anchor": _anchor_vector(clip, tile_size),
+		"anchor": _anchor_vector(clip, frame_size),
 		"shadow": bool(clip.get("shadow", true)),
 		"clip_id": str(clip.get("id", clip_id)),
 		"animation": animation_name,
@@ -125,8 +127,11 @@ func validate_required_player_states(clip_id: String = DEFAULT_CLIP_ID) -> Array
 	if texture == null:
 		failures.append("missing or unloadable atlas for clip %s: %s" % [clip_id, atlas_path])
 	var tile_size := float(clip.get("tile_size", DEFAULT_TILE_SIZE))
+	var frame_size := _frame_size_vector(clip, tile_size)
 	if tile_size <= 0.0:
 		failures.append("invalid tile_size for clip %s" % clip_id)
+	if frame_size.x <= 0.0 or frame_size.y <= 0.0:
+		failures.append("invalid frame_size for clip %s" % clip_id)
 	for moving in [false, true]:
 		for facing in [Vector2i(0, 1), Vector2i(0, -1), Vector2i(-1, 0), Vector2i(1, 0)]:
 			var animation_name := animation_name_for_state(moving, facing)
@@ -140,8 +145,8 @@ func validate_required_player_states(clip_id: String = DEFAULT_CLIP_ID) -> Array
 			if frames.is_empty():
 				failures.append("missing frame for %s" % animation_name)
 				continue
-			if texture != null and tile_size > 0.0:
-				_validate_frame_bounds(animation_name, frames, tile_size, texture, failures)
+			if texture != null and tile_size > 0.0 and frame_size.x > 0.0 and frame_size.y > 0.0:
+				_validate_frame_bounds(animation_name, frames, tile_size, frame_size, texture, failures)
 	return failures
 
 
@@ -195,6 +200,7 @@ func _validate_frame_bounds(
 	animation_name: String,
 	frames: Array,
 	tile_size: float,
+	frame_size: Vector2,
 	texture,
 	failures: Array[String]
 ) -> void:
@@ -206,14 +212,21 @@ func _validate_frame_bounds(
 			continue
 		var x := float(frame.get("x", -1))
 		var y := float(frame.get("y", -1))
-		var top_left := Vector2(x * tile_size, y * tile_size)
-		var bottom_right := top_left + Vector2(tile_size, tile_size)
+		var top_left := Vector2(x * frame_size.x, y * frame_size.y)
+		var bottom_right := top_left + frame_size
 		if x < 0.0 or y < 0.0:
 			failures.append("negative frame coordinate for %s[%s]" % [animation_name, index])
 		elif bottom_right.x > texture_size.x or bottom_right.y > texture_size.y:
 			failures.append("frame out of atlas bounds for %s[%s]" % [animation_name, index])
 
 
-func _anchor_vector(clip: Dictionary, tile_size: float) -> Vector2:
+func _frame_size_vector(clip: Dictionary, tile_size: float) -> Vector2:
+	var frame_size = clip.get("frame_size", {})
+	if typeof(frame_size) == TYPE_DICTIONARY:
+		return Vector2(float(frame_size.get("x", tile_size)), float(frame_size.get("y", tile_size)))
+	return Vector2(tile_size, tile_size)
+
+
+func _anchor_vector(clip: Dictionary, frame_size: Vector2) -> Vector2:
 	var anchor: Dictionary = clip.get("anchor", {})
-	return Vector2(float(anchor.get("x", tile_size * 0.5)), float(anchor.get("y", tile_size)))
+	return Vector2(float(anchor.get("x", frame_size.x * 0.5)), float(anchor.get("y", frame_size.y)))

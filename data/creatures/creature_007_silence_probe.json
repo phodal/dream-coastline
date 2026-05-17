@@ -1,0 +1,20 @@
+{
+  "id": "CREATURE-007",
+  "actor_id": "creature_007_silence_probe",
+  "name": "静默探针体",
+  "role": "late-game enemy",
+  "big_image": "res://assets/characters/creatures/creature_007_silence_probe/concept.png",
+  "walk_spritesheet": "res://assets/characters/creatures/creature_007_silence_probe/walk4.png",
+  "animation_clip": "creature_007_silence_probe_walk",
+  "source_scene_contract": "第六幕归星门和现代世界裂隙；熄星者第一次正面入侵时的可战斗实体。",
+  "description": "熄星者协议在低维战场上的探针外壳。它不像生物，也不像机器人，而像一段正在执行删除的判断。",
+  "personality": ["无情绪", "不谈判", "只执行评估与删除"],
+  "skills": [
+    {"id": "skill_delete_label", "name": "删名", "effect": "移除队友或技能名称，直到用“名”恢复。"},
+    {"id": "skill_blank_map", "name": "空图", "effect": "让小地图和任务目标短暂空白。"},
+    {"id": "skill_protocol_verdict", "name": "协议判定", "effect": "按文明稳定度施加额外压力。"}
+  ],
+  "must_read_as": ["外星协议实体", "无眼无口", "删除 UI 和地图碎片"],
+  "must_not_read_as": ["机甲", "普通外星人", "怪兽肉体"],
+  "sprint_sheet": "res://docs/sprint-sheets/creatures/walk-spritesheet.md"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "CREATURE-008",
+  "actor_id": "creature_008_return_bridge_traveler",
+  "name": "归桥旅人",
+  "role": "neutral otherworld resident",
+  "big_image": "res://assets/characters/creatures/creature_008_return_bridge_traveler/concept.png",
+  "walk_spritesheet": "res://assets/characters/creatures/creature_008_return_bridge_traveler/walk4.png",
+  "animation_clip": "creature_008_return_bridge_traveler_walk",
+  "source_scene_contract": "第七幕归桥稳定后；表现两个文明接口处出现的非敌对异界居民。",
+  "description": "由海玻璃、墨线、纸纤维和星尘拼成的人形旅人。它像是从另一条海岸线抵达的证据，而不是现代人伪装。",
+  "personality": ["安静", "观察者", "只在通路稳定时靠近"],
+  "skills": [
+    {"id": "skill_bridge_sense", "name": "桥感", "effect": "发现归桥同步误差。"},
+    {"id": "skill_glass_refraction", "name": "玻璃折光", "effect": "短暂显示被静默遮住的路径。"},
+    {"id": "skill_continue_gesture", "name": "续写手势", "effect": "提高临时国书节点同步成功率。"}
+  ],
+  "must_read_as": ["异界居民", "海玻璃和墨线", "归桥接口"],
+  "must_not_read_as": ["普通人类 NPC", "机器人", "传统精灵"],
+  "sprint_sheet": "res://docs/sprint-sheets/creatures/walk-spritesheet.md"
+}

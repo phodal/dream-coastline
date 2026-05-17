@@ -1,0 +1,20 @@
+{
+  "id": "CREATURE-002",
+  "actor_id": "creature_002_lost_name_deer",
+  "name": "失名鹿",
+  "role": "companion or fragile wildlife",
+  "big_image": "res://assets/characters/creatures/creature_002_lost_name_deer/concept.png",
+  "walk_spritesheet": "res://assets/characters/creatures/creature_002_lost_name_deer/walk4.png",
+  "animation_clip": "creature_002_lost_name_deer_walk",
+  "source_scene_contract": "第一幕到第二幕过渡；让玩家看到并非所有无名化残留都必须被消灭。",
+  "description": "温顺的幻兽，角像未写完的字根，颈上挂着断裂名牌。它会靠近能稳定“名”的人。",
+  "personality": ["警觉", "亲近被记住的名字", "会带路但不会主动战斗"],
+  "skills": [
+    {"id": "skill_name_trace", "name": "寻名", "effect": "指向附近失落名牌或 NPC 记忆碎片。"},
+    {"id": "skill_soft_anchor", "name": "软锚", "effect": "短暂提高队伍抗失名能力。"},
+    {"id": "skill_glyph_step", "name": "字角步", "effect": "穿过轻度空白化边界。"}
+  ],
+  "must_read_as": ["鹿形幻兽", "断名牌", "字根鹿角"],
+  "must_not_read_as": ["普通森林鹿", "宠物吉祥物", "西式独角兽"],
+  "sprint_sheet": "res://docs/sprint-sheets/creatures/walk-spritesheet.md"
+}

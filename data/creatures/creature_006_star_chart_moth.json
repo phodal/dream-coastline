@@ -1,0 +1,20 @@
+{
+  "id": "CREATURE-006",
+  "actor_id": "creature_006_star_chart_moth",
+  "name": "星象螟",
+  "role": "astral engineering hazard",
+  "big_image": "res://assets/characters/creatures/creature_006_star_chart_moth/concept.png",
+  "walk_spritesheet": "res://assets/characters/creatures/creature_006_star_chart_moth/walk4.png",
+  "animation_clip": "creature_006_star_chart_moth_walk",
+  "source_scene_contract": "第五幕星象工程失败窗口；它啃食的不是纸，而是坐标和观测连续性。",
+  "description": "翅膀像星图的异虫，会在观测记录上留下小孔，使现代星球坐标变得断续。",
+  "personality": ["群聚", "趋光", "被星象塔误差吸引"],
+  "skills": [
+    {"id": "skill_coordinate_bite", "name": "啃坐标", "effect": "删除地图或星图上的一个临时标记。"},
+    {"id": "skill_observation_dust", "name": "观测粉", "effect": "让目标短暂误读方向。"},
+    {"id": "skill_star_swarm", "name": "星群", "effect": "召来弱小同类干扰仪器。"}
+  ],
+  "must_read_as": ["星图翅膀", "坐标虫蛀", "星象塔生态灾害"],
+  "must_not_read_as": ["普通飞蛾", "蝴蝶宠物", "宇宙战舰"],
+  "sprint_sheet": "res://docs/sprint-sheets/creatures/walk-spritesheet.md"
+}

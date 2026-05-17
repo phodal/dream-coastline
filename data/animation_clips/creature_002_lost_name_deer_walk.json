@@ -1,0 +1,20 @@
+{
+  "id": "creature_002_lost_name_deer_walk",
+  "actor": "creature_002_lost_name_deer",
+  "atlas": "res://assets/characters/creatures/creature_002_lost_name_deer/walk4.png",
+  "tile_size": 96,
+  "frame_size": {"x": 96, "y": 128},
+  "render_size": 1.0,
+  "anchor": {"x": 48, "y": 116},
+  "shadow": true,
+  "animations": {
+    "idle_down": {"fps": 4, "loop": true, "frames": [{"x": 1, "y": 0}]},
+    "idle_left": {"fps": 4, "loop": true, "frames": [{"x": 1, "y": 2}]},
+    "idle_right": {"fps": 4, "loop": true, "frames": [{"x": 1, "y": 1}]},
+    "idle_up": {"fps": 4, "loop": true, "frames": [{"x": 1, "y": 3}]},
+    "walk_down": {"fps": 8, "loop": true, "frames": [{"x": 0, "y": 0}, {"x": 1, "y": 0}, {"x": 2, "y": 0}, {"x": 3, "y": 0}]},
+    "walk_left": {"fps": 8, "loop": true, "frames": [{"x": 0, "y": 2}, {"x": 1, "y": 2}, {"x": 2, "y": 2}, {"x": 3, "y": 2}]},
+    "walk_right": {"fps": 8, "loop": true, "frames": [{"x": 0, "y": 1}, {"x": 1, "y": 1}, {"x": 2, "y": 1}, {"x": 3, "y": 1}]},
+    "walk_up": {"fps": 8, "loop": true, "frames": [{"x": 0, "y": 3}, {"x": 1, "y": 3}, {"x": 2, "y": 3}, {"x": 3, "y": 3}]}
+  }
+}

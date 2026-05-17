@@ -1,0 +1,20 @@
+{
+  "id": "CREATURE-005",
+  "actor_id": "creature_005_statebook_remnant",
+  "name": "国书残麟",
+  "role": "boss echo",
+  "big_image": "res://assets/characters/creatures/creature_005_statebook_remnant/concept.png",
+  "walk_spritesheet": "res://assets/characters/creatures/creature_005_statebook_remnant/walk4.png",
+  "animation_clip": "creature_005_statebook_remnant_walk",
+  "source_scene_contract": "第三幕主国书殿；它应读成国书残影的生物化，而不是普通龙怪。",
+  "description": "历代王令、疆域页和国书权限碎片折成的残麟。它询问的不是谁更强，而是谁有资格续写墨颀。",
+  "personality": ["庄严", "迟缓", "以旧王朝逻辑审判来者"],
+  "skills": [
+    {"id": "skill_royal_query", "name": "王问", "effect": "强制玩家在王权和公共维护之间选择临时战斗立场。"},
+    {"id": "skill_page_scale", "name": "页鳞", "effect": "用残页护盾吸收一次攻击。"},
+    {"id": "skill_statebook_pressure", "name": "国书压迫", "effect": "降低非王族术式稳定度。"}
+  ],
+  "must_read_as": ["书页鳞片", "国书残影", "旧王朝压力"],
+  "must_not_read_as": ["传统中国龙", "西方飞龙", "单纯纸片怪"],
+  "sprint_sheet": "res://docs/sprint-sheets/creatures/walk-spritesheet.md"
+}

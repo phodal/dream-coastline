@@ -1,0 +1,20 @@
+{
+  "id": "CREATURE-003",
+  "actor_id": "creature_003_ink_well_ray",
+  "name": "墨井鳐",
+  "role": "moqi ecological creature",
+  "big_image": "res://assets/characters/creatures/creature_003_ink_well_ray/concept.png",
+  "walk_spritesheet": "res://assets/characters/creatures/creature_003_ink_well_ray/walk4.png",
+  "animation_clip": "creature_003_ink_well_ray_walk",
+  "source_scene_contract": "第二幕边境村落与水井符文；服务于“水井不是魔法井，而是文字工程设施”的读感。",
+  "description": "栖息在旧水符和墨井附近的空游生物，腹部的井符会随水流稳定度发光。",
+  "personality": ["慢热", "跟随稳定水符", "受惊时会喷散墨云"],
+  "skills": [
+    {"id": "skill_well_echo", "name": "井回声", "effect": "显示水符损坏方向。"},
+    {"id": "skill_ink_current", "name": "墨流", "effect": "推动轻小目标或污染格。"},
+    {"id": "skill_rune_filter", "name": "滤符", "effect": "降低一次水系设施失控。"}
+  ],
+  "must_read_as": ["空中鳐鱼", "水井符文", "墨水生态"],
+  "must_not_read_as": ["海洋写实鱼", "机械无人机", "普通蝙蝠"],
+  "sprint_sheet": "res://docs/sprint-sheets/creatures/walk-spritesheet.md"
+}

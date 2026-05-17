@@ -4,5 +4,53 @@
     "clip": "player_default",
     "role": "player",
     "fallback": "rpg_characters.default_boy"
+  },
+  "creature_001_nameless_beast": {
+    "type": "creature",
+    "clip": "creature_001_nameless_beast_walk",
+    "role": "enemy",
+    "config": "res://data/creatures/creature_001_nameless_beast.json"
+  },
+  "creature_002_lost_name_deer": {
+    "type": "creature",
+    "clip": "creature_002_lost_name_deer_walk",
+    "role": "companion",
+    "config": "res://data/creatures/creature_002_lost_name_deer.json"
+  },
+  "creature_003_ink_well_ray": {
+    "type": "creature",
+    "clip": "creature_003_ink_well_ray_walk",
+    "role": "wildlife",
+    "config": "res://data/creatures/creature_003_ink_well_ray.json"
+  },
+  "creature_004_contract_hound": {
+    "type": "creature",
+    "clip": "creature_004_contract_hound_walk",
+    "role": "guardian",
+    "config": "res://data/creatures/creature_004_contract_hound.json"
+  },
+  "creature_005_statebook_remnant": {
+    "type": "creature",
+    "clip": "creature_005_statebook_remnant_walk",
+    "role": "boss_echo",
+    "config": "res://data/creatures/creature_005_statebook_remnant.json"
+  },
+  "creature_006_star_chart_moth": {
+    "type": "creature",
+    "clip": "creature_006_star_chart_moth_walk",
+    "role": "hazard",
+    "config": "res://data/creatures/creature_006_star_chart_moth.json"
+  },
+  "creature_007_silence_probe": {
+    "type": "creature",
+    "clip": "creature_007_silence_probe_walk",
+    "role": "enemy",
+    "config": "res://data/creatures/creature_007_silence_probe.json"
+  },
+  "creature_008_return_bridge_traveler": {
+    "type": "creature",
+    "clip": "creature_008_return_bridge_traveler_walk",
+    "role": "neutral",
+    "config": "res://data/creatures/creature_008_return_bridge_traveler.json"
   }
 }
