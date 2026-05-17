@@ -4,6 +4,8 @@
 		"bedroom": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/bedroom.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png",
+			"asset_overlay_alpha": 0.48,
 			"props": [
 				{
 					"h": 1.0,
@@ -66,6 +68,8 @@
 		"building": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/building.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/playable/00-prologue-lights-out/building.png",
+			"asset_overlay_alpha": 0.48,
 			"props": [
 				{
 					"item": "lamp",
@@ -112,6 +116,8 @@
 		"home": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/home.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/playable/00-prologue-lights-out/home.png",
+			"asset_overlay_alpha": 0.48,
 			"props": [
 				{
 					"item": "lock",
@@ -151,6 +157,8 @@
 		"living_room": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/living_room.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/playable/00-prologue-lights-out/living_room.png",
+			"asset_overlay_alpha": 0.48,
 			"props": [
 				{
 					"h": 1.0,
@@ -214,6 +222,8 @@
 		"street": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/street.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/playable/00-prologue-lights-out/street.png",
+			"asset_overlay_alpha": 0.48,
 			"props": [
 				{
 					"h": 4.0,
@@ -263,6 +273,8 @@
 		"study": {
 			"asset_scene": "res://scenes/visual_locations/00-prologue-lights-out/study.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/playable/00-prologue-lights-out/study.png",
+			"asset_overlay_alpha": 0.48,
 			"props": [
 				{
 					"h": 1.0,

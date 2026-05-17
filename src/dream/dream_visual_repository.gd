@@ -81,12 +81,23 @@ func action_prop(scene_id: String, location_id: String, verb: String, arg: Strin
 
 func validate_asset_scenes(scene_ids: Array[String]) -> Dictionary:
 	var checked := 0
+	var illustrated := 0
 	var failures: Array[String] = []
 	for scene_id in scene_ids:
 		var visual_scene: Dictionary = scenes.get(scene_id, {})
 		var locations: Dictionary = visual_scene.get("locations", {})
 		for location_id in locations.keys():
 			var visual: Dictionary = locations[location_id]
+			var backdrop_path := str(visual.get("illustrated_backdrop", ""))
+			if not backdrop_path.is_empty():
+				if not ResourceLoader.exists(backdrop_path):
+					failures.append("%s/%s missing illustrated_backdrop %s" % [scene_id, location_id, backdrop_path])
+				else:
+					var backdrop := load(backdrop_path)
+					if not (backdrop is Texture2D):
+						failures.append("%s/%s illustrated_backdrop is not Texture2D %s" % [scene_id, location_id, backdrop_path])
+					else:
+						illustrated += 1
 			var path := str(visual.get("asset_scene", ""))
 			if path.is_empty():
 				failures.append("%s/%s missing asset_scene" % [scene_id, location_id])
@@ -107,6 +118,7 @@ func validate_asset_scenes(scene_ids: Array[String]) -> Dictionary:
 	return {
 		"ok": failures.is_empty(),
 		"checked": checked,
+		"illustrated": illustrated,
 		"failures": failures,
 	}
 

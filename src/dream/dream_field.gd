@@ -4,6 +4,7 @@ class_name DreamField
 const StoryRepositoryScript := preload("res://src/dream/dream_story_repository.gd")
 const VisualRepositoryScript := preload("res://src/dream/dream_visual_repository.gd")
 const IllustrationRepositoryScript := preload("res://src/dream/dream_illustration_repository.gd")
+const IllustratedBackdropScript := preload("res://src/dream/dream_illustrated_backdrop.gd")
 const DialogueLayerScript := preload("res://src/dream/dream_dialogue_layer.gd")
 const RoomRendererScript := preload("res://src/dream/dream_room_renderer.gd")
 const StoryInteractionScript := preload("res://src/dream/dream_story_interaction.gd")
@@ -64,8 +65,10 @@ var current_location_id := ""
 var current_visual: Dictionary = {}
 var room_root: Node2D
 var asset_scene_root: Node2D
+var illustrated_backdrop
 var current_asset_scene_instance: Node
 var current_asset_scene_path := ""
+var current_backdrop_path := ""
 var interaction_root: Node2D
 var label_root: Node2D
 var renderer: DreamRoomRenderer
@@ -144,6 +147,12 @@ func _setup_world() -> void:
 	asset_scene_root.name = "AssetLocationRoot"
 	room_root.add_child(asset_scene_root)
 
+	illustrated_backdrop = IllustratedBackdropScript.new()
+	illustrated_backdrop.name = "IllustratedBackdrop"
+	illustrated_backdrop.z_index = -20
+	illustrated_backdrop.visible = false
+	asset_scene_root.add_child(illustrated_backdrop)
+
 	interaction_root = Node2D.new()
 	interaction_root.name = "Interactions"
 	room_root.add_child(interaction_root)
@@ -206,6 +215,7 @@ func _build_current_room() -> void:
 	var scene_id := str(current_scene.get("id", ""))
 	var location := repository.location_for(current_scene, current_location_id)
 	current_visual = _current_visual_for_location()
+	_sync_illustrated_backdrop(current_visual)
 	_sync_asset_location(current_visual)
 	renderer.visible = current_asset_scene_instance == null
 	if renderer.visible:
@@ -490,6 +500,7 @@ func _current_visual_for_location() -> Dictionary:
 func _sync_asset_location(visual: Dictionary) -> void:
 	var path := str(visual.get("asset_scene", ""))
 	if path == current_asset_scene_path and current_asset_scene_instance != null:
+		_apply_asset_overlay_alpha(visual)
 		return
 
 	_clear_asset_location()
@@ -512,6 +523,45 @@ func _sync_asset_location(visual: Dictionary) -> void:
 	current_asset_scene_instance = instance
 	current_asset_scene_path = path
 	asset_scene_root.add_child(current_asset_scene_instance)
+	_apply_asset_overlay_alpha(visual)
+
+
+func _sync_illustrated_backdrop(visual: Dictionary) -> void:
+	if illustrated_backdrop == null:
+		return
+	var path := str(visual.get("illustrated_backdrop", ""))
+	if path.is_empty():
+		current_backdrop_path = ""
+		illustrated_backdrop.visible = false
+		illustrated_backdrop.texture = null
+		return
+	if path == current_backdrop_path and illustrated_backdrop.visible:
+		return
+	if not ResourceLoader.exists(path):
+		push_warning("Missing illustrated backdrop texture: %s" % path)
+		current_backdrop_path = ""
+		illustrated_backdrop.visible = false
+		illustrated_backdrop.texture = null
+		return
+	var resource := load(path)
+	if not (resource is Texture2D):
+		push_warning("Illustrated backdrop is not a texture: %s" % path)
+		current_backdrop_path = ""
+		illustrated_backdrop.visible = false
+		illustrated_backdrop.texture = null
+		return
+	current_backdrop_path = path
+	illustrated_backdrop.configure(resource as Texture2D, Vector2(GRID_SIZE * CELL_SIZE))
+	illustrated_backdrop.visible = true
+
+
+func _apply_asset_overlay_alpha(visual: Dictionary) -> void:
+	if current_asset_scene_instance == null:
+		return
+	var alpha := float(visual.get("asset_overlay_alpha", 1.0))
+	alpha = clampf(alpha, 0.0, 1.0)
+	if current_asset_scene_instance is CanvasItem:
+		(current_asset_scene_instance as CanvasItem).modulate = Color(1, 1, 1, alpha)
 
 
 func _clear_asset_location() -> void:
@@ -519,7 +569,10 @@ func _clear_asset_location() -> void:
 	current_asset_scene_instance = null
 	if asset_scene_root == null:
 		return
-	_clear_children(asset_scene_root)
+	for child in asset_scene_root.get_children():
+		if child == illustrated_backdrop:
+			continue
+		child.queue_free()
 
 
 func _reset_player_to_spawn() -> void:
@@ -761,9 +814,10 @@ func _run_visual_asset_scene_smoke(visual_ok: bool) -> bool:
 func _run_open_rpg_visual_scene_smoke() -> bool:
 	var result: Dictionary = visual_repository.validate_asset_scenes(repository.scene_ids())
 	var ok := bool(result.get("ok", false))
-	print("open-rpg-visual-scene-smoke status=%s assets=%d failures=%d" % [
+	print("open-rpg-visual-scene-smoke status=%s assets=%d illustrated=%d failures=%d" % [
 		"PASS" if ok else "FAIL",
 		int(result.get("checked", 0)),
+		int(result.get("illustrated", 0)),
 		result.get("failures", []).size(),
 	])
 	for failure in result.get("failures", []):
