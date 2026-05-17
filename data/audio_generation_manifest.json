@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "provider": "minimax",
-  "generated_at": "2026-05-17T17:14:53.958Z",
+  "generated_at": "2026-05-17T17:56:27.427Z",
   "assets": [
     {
       "asset_id": "MUS-01-001",
@@ -1406,6 +1406,457 @@
         "music_channel": 2,
         "bitrate": 256000,
         "music_size": 794425,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 700,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "MUS-05-001",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "cue_id": "MUS-05-001",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/05-century-continuation/MUS-05-001.mp3",
+      "prompt_summary": "restrained RPG century industrial background music, ink power furnace, rune vehicles, printing paper slips, first students becoming teachers, civic progress over decades, warm mac...",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:25:45.300Z",
+      "trace_id": "06592c967558ca40ad8860ec5b1cafa9",
+      "extra_info": {
+        "music_duration": 152372,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4877886
+      }
+    },
+    {
+      "asset_id": "MUS-05-002",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "cue_id": "MUS-05-002",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/05-century-continuation/MUS-05-002.mp3",
+      "prompt_summary": "wide restrained RPG national book network background music, city nodes connecting archives, remote classrooms with delay, disaster warnings, synchronized dictionaries, airy ink pu...",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:28:10.226Z",
+      "trace_id": "06592d1992f0c8a24c4e84375be8c66f",
+      "extra_info": {
+        "music_duration": 178520,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5714641
+      }
+    },
+    {
+      "asset_id": "MUS-05-003",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "cue_id": "MUS-05-003",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/05-century-continuation/MUS-05-003.mp3",
+      "prompt_summary": "intimate restrained RPG character sacrifice music, young noble binding his name into a national archive network, many city nodes answering at once, private chair anchor, long paus...",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:30:25.935Z",
+      "trace_id": "06592daa2a79b55ec6d38190dd36fa3b",
+      "extra_info": {
+        "music_duration": 144169,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4615408
+      }
+    },
+    {
+      "asset_id": "MUS-05-004",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "cue_id": "MUS-05-004",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/05-century-continuation/MUS-05-004.mp3",
+      "prompt_summary": "restrained RPG astral engineering background music, star coordinates written as verifiable text, failed beacon logs, tiny moth holes in star charts, observatory construction, prec...",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:32:49.034Z",
+      "trace_id": "06592e3257cded41eb7ec2dd8703d0ca",
+      "extra_info": {
+        "music_duration": 178364,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5709625
+      }
+    },
+    {
+      "asset_id": "MUS-05-005",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "cue_id": "MUS-05-005",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/05-century-continuation/MUS-05-005.mp3",
+      "prompt_summary": "tense restrained RPG observatory top background music, telescope sees modern city lights going dark one by one, school bell fragment, Continue failed, low static, distant home mot...",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:39:57.869Z",
+      "trace_id": "06592ffb61b0efe81eea8c5ffa91c276",
+      "extra_info": {
+        "music_duration": 148845,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4765037
+      }
+    },
+    {
+      "asset_id": "MUS-05-006",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "cue_id": "MUS-05-006",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/05-century-continuation/MUS-05-006.mp3",
+      "prompt_summary": "restrained RPG battle music against silent interference, erased coordinates, white static, stop glyph pausing deletion, archive telescope struggling for one full observation windo...",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:42:40.658Z",
+      "trace_id": "065930726389814b1a5e83fa1ad292b1",
+      "extra_info": {
+        "music_duration": 171598,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5493122
+      }
+    },
+    {
+      "asset_id": "DLG-05-SAMPLE-JZX",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "line_id": "DLG-05-SAMPLE-JZX",
+      "character_id": "jizi_xuan",
+      "voice_id": "male-qn-qingse",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/05-century-continuation/DLG-05-SAMPLE-JZX.mp3",
+      "source_text": "回家不再是愿望，是可以复核的工程。",
+      "delivery": "少年已经更稳，但说到回家仍有压住的急切；不要英雄演讲。",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:42:45.894Z",
+      "trace_id": "06593115c9c401bdca41adf5cdfc091b",
+      "extra_info": {
+        "byte_length": 62829,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-05-SAMPLE-XL",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "line_id": "DLG-05-SAMPLE-XL",
+      "character_id": "xiali",
+      "voice_id": "lengdan_xiongzhang",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/05-century-continuation/DLG-05-SAMPLE-XL.mp3",
+      "source_text": "正因为它不再属于我，它才终于活了。",
+      "delivery": "冷、慢、克制；像在说服自己接受代价，句尾不要煽情。",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:42:46.760Z",
+      "trace_id": "0659311630dade07d3d46bc177291664",
+      "extra_info": {
+        "byte_length": 92205,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-05-SAMPLE-WS",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "line_id": "DLG-05-SAMPLE-WS",
+      "character_id": "wensu",
+      "voice_id": "female-chengshu-jingpin",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/05-century-continuation/DLG-05-SAMPLE-WS.mp3",
+      "source_text": "如果我不在了，就让错误继续教下一届。",
+      "delivery": "成年女性教师，温和但不软；像留在教材边上的一句话。",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:42:47.496Z",
+      "trace_id": "06593116ed09096a2ba3efce13a7ea63",
+      "extra_info": {
+        "byte_length": 65133,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "DLG-05-SAMPLE-AT",
+      "type": "voice",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "line_id": "DLG-05-SAMPLE-AT",
+      "character_id": "atang",
+      "voice_id": "female-chengshu-jingpin",
+      "model": "speech-2.8-hd",
+      "output_path": "assets/audio/generated/voices/05-century-continuation/DLG-05-SAMPLE-AT.mp3",
+      "source_text": "别先争它叫什么，先让我把它跑起来。",
+      "delivery": "青年女工匠，手上在调试机器，直接、快、短促兴奋。",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:42:48.117Z",
+      "trace_id": "065931179aa1751b2fae979478dc9972",
+      "extra_info": {
+        "byte_length": 50733,
+        "sample_rate": 32000,
+        "bitrate": 128000,
+        "channel": 1
+      }
+    },
+    {
+      "asset_id": "SFX-05-STEP-INDUSTRY",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "sfx_id": "SFX-05-STEP-INDUSTRY",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-STEP-INDUSTRY.mp3",
+      "prompt_summary": "game sound effect, single light footstep on ink industrial workshop floor, ash grit, wood platform, paper scraps, restrained, no chime, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:44:30.851Z",
+      "trace_id": "0659311e86db9937f24394ced9ccdd5d",
+      "extra_info": {
+        "music_duration": 130272,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4170699,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-05-STEP-NODE",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "sfx_id": "SFX-05-STEP-NODE",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-STEP-NODE.mp3",
+      "prompt_summary": "game sound effect, single footstep on archive stone and observatory floor, slight paper static, restrained, no rhythm, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:46:38.767Z",
+      "trace_id": "0659317e2b44559feb34c2a94c08118a",
+      "extra_info": {
+        "music_duration": 167471,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 5361047,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-05-INSPECT-ARCHIVE",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "sfx_id": "SFX-05-INSPECT-ARCHIVE",
+      "event_name": "interact",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-INSPECT-ARCHIVE.mp3",
+      "prompt_summary": "game sound effect, archive inspect, page turn, ink stamp, faint network tick, observatory paper record, no bell, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:47:53.203Z",
+      "trace_id": "065931fe5187cf329d62c03ed27bd7bb",
+      "extra_info": {
+        "music_duration": 91219,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2921002,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 560,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-05-BUILD-SYSTEM",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "sfx_id": "SFX-05-BUILD-SYSTEM",
+      "event_name": "build",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-BUILD-SYSTEM.mp3",
+      "prompt_summary": "game sound effect, civilization system build completes, ink machinery aligns, archive nodes sync, observatory mechanism locks, restrained confirmation, no fanfare, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:49:01.967Z",
+      "trace_id": "0659324931215e698998743782b0a0b2",
+      "extra_info": {
+        "music_duration": 76826,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2460410,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 820,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-05-BIND-XIALI",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "sfx_id": "SFX-05-BIND-XIALI",
+      "event_name": "build",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-BIND-XIALI.mp3",
+      "prompt_summary": "game sound effect, name binding into national book network, many city nodes light at once then split into permissions and backups, cool paper static, no fanfare, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:50:44.175Z",
+      "trace_id": "0659328e784df16e85517a99a5e2e281",
+      "extra_info": {
+        "music_duration": 125544,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4019398,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 1050,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-05-BEACON-FAIL",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "sfx_id": "SFX-05-BEACON-FAIL",
+      "event_name": "interact",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-BEACON-FAIL.mp3",
+      "prompt_summary": "game sound effect, failed cross-world beacon, short modern school bell fragment cut by white static and erased paper, restrained, no jump scare, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:51:58.355Z",
+      "trace_id": "065932f4b411eef0e734ea4475ac5a35",
+      "extra_info": {
+        "music_duration": 90801,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2907627,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 950,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-05-CAST-STOP",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "sfx_id": "SFX-05-CAST-STOP",
+      "event_name": "cast_stop",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-CAST-STOP.mp3",
+      "prompt_summary": "game sound effect, stop glyph pauses coordinate deletion, static freezes, observatory window stabilizes, low boundary hold, no explosion, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:53:06.846Z",
+      "trace_id": "0659333e2de11cb13848436ccc1a629a",
+      "extra_info": {
+        "music_duration": 89077,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2852456,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 760,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-05-WRITE-NAME",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "sfx_id": "SFX-05-WRITE-NAME",
+      "event_name": "write",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-WRITE-NAME.mp3",
+      "prompt_summary": "game sound effect, write name glyph to lock silent interference signature, ink trace over white static, precise identity snap, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:54:41.156Z",
+      "trace_id": "0659338234c9c27b490d9106b82d6315",
+      "extra_info": {
+        "music_duration": 114233,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3657446,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 850,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-05-INTERFERENCE-HIT",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "05-century-continuation",
+      "sfx_id": "SFX-05-INTERFERENCE-HIT",
+      "event_name": "attack",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-INTERFERENCE-HIT.mp3",
+      "prompt_summary": "game sound effect, restrained hit against silent interference, white static crack, erased coordinate edge tearing, no gore, no explosion, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-17T17:56:27.427Z",
+      "trace_id": "065933e1f6d46cd7a2d3a34cafef82b2",
+      "extra_info": {
+        "music_duration": 122279,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3914908,
         "post_process": {
           "tool": "ffmpeg",
           "duration_ms": 700,

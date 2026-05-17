@@ -1,0 +1,317 @@
+{
+  "schema_version": 1,
+  "scene_id": "05-century-continuation",
+  "source": "data/story_scenes/05-century-continuation.json",
+  "generated_from": [
+    "five/scene/05-century-continuation.md",
+    "data/story_scenes/05-century-continuation.json",
+    "data/character_voice_profiles.json"
+  ],
+  "production_note": "第五幕以百年跳切推进文明工程：文字工业、国书网络、星象工程和第一次看见现代星球变暗。音频重点是时间跨度、系统化建设、夏离国书化的私人代价，以及静默干扰带来的现代侧恐惧。",
+  "cues": [
+    {
+      "cue_id": "MUS-05-001",
+      "scene_id": "05-century-continuation",
+      "location_id": "industry",
+      "type": "music",
+      "mood": "文字工业时代，第一批学生成为教师，墨力炉和印刷符纸进入城市",
+      "instrumentation_prompt": "restrained RPG century industrial background music, ink power furnace, rune vehicles, printing paper slips, first students becoming teachers, civic progress over decades, warm machinery and paper rhythm, no modern pop",
+      "looping_intent": "loop_while_text_industry_expands",
+      "source_evidence": [
+        "five/scene/05-century-continuation.md",
+        "data/story_scenes/05-century-continuation.json#locations.industry"
+      ],
+      "target_path": "assets/audio/generated/music/05-century-continuation/MUS-05-001.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-05-002",
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "type": "music",
+      "mood": "国书网络时代，多城节点同步名册、教育、灾害预警和术式版本",
+      "instrumentation_prompt": "wide restrained RPG national book network background music, city nodes connecting archives, remote classrooms with delay, disaster warnings, synchronized dictionaries, airy ink pulses, hopeful but technical, no triumph march",
+      "looping_intent": "loop_while_statebook_network_connects",
+      "source_evidence": [
+        "five/scene/05-century-continuation.md",
+        "data/story_scenes/05-century-continuation.json#locations.network"
+      ],
+      "target_path": "assets/audio/generated/music/05-century-continuation/MUS-05-002.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-05-003",
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "type": "music",
+      "mood": "夏离把名字绑定进国书，职责、权限和私人自我开始分离",
+      "instrumentation_prompt": "intimate restrained RPG character sacrifice music, young noble binding his name into a national archive network, many city nodes answering at once, private chair anchor, long pauses, cool strings and soft paper static, no melodrama",
+      "looping_intent": "loop_during_xiali_statebook_binding",
+      "source_evidence": [
+        "five/scene/05-century-continuation.md",
+        "data/story_scenes/05-century-continuation.json#locations.network.items.xiali_fading",
+        "data/story_scenes/05-century-continuation.json#locations.network.build_actions.bind_xiali"
+      ],
+      "target_path": "assets/audio/generated/music/05-century-continuation/MUS-05-003.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-05-004",
+      "scene_id": "05-century-continuation",
+      "location_id": "astral",
+      "type": "music",
+      "mood": "星象工程时代，坐标文字化，失败信标被星象螟啃成无法复核的断句",
+      "instrumentation_prompt": "restrained RPG astral engineering background music, star coordinates written as verifiable text, failed beacon logs, tiny moth holes in star charts, observatory construction, precise pulses and distant glass, no fantasy choir",
+      "looping_intent": "loop_while_astral_engineering_tests",
+      "source_evidence": [
+        "five/scene/05-century-continuation.md",
+        "data/story_scenes/05-century-continuation.json#locations.astral"
+      ],
+      "target_path": "assets/audio/generated/music/05-century-continuation/MUS-05-004.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-05-005",
+      "scene_id": "05-century-continuation",
+      "location_id": "star_tower",
+      "type": "music",
+      "mood": "星象塔顶第一次看见现代城市，灯光一片片熄灭，Continue failed 出现",
+      "instrumentation_prompt": "tense restrained RPG observatory top background music, telescope sees modern city lights going dark one by one, school bell fragment, Continue failed, low static, distant home motif broken by silence, no horror jump scare",
+      "looping_intent": "loop_while_viewing_modern_star_darkening",
+      "source_evidence": [
+        "five/scene/05-century-continuation.md",
+        "data/story_scenes/05-century-continuation.json#locations.star_tower"
+      ],
+      "target_path": "assets/audio/generated/music/05-century-continuation/MUS-05-005.mp3",
+      "sample_generation": true
+    },
+    {
+      "cue_id": "MUS-05-006",
+      "scene_id": "05-century-continuation",
+      "location_id": "star_tower",
+      "type": "music",
+      "mood": "静默干扰战，坐标删除被“止”暂停，必须锁定干扰签名",
+      "instrumentation_prompt": "restrained RPG battle music against silent interference, erased coordinates, white static, stop glyph pausing deletion, archive telescope struggling for one full observation window, urgent but controlled, no power fantasy",
+      "looping_intent": "loop_until_silent_interference_stabilized",
+      "source_evidence": [
+        "five/scene/05-century-continuation.md",
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.combat"
+      ],
+      "target_path": "assets/audio/generated/music/05-century-continuation/MUS-05-006.mp3",
+      "sample_generation": true
+    }
+  ],
+  "event_sounds": [
+    {
+      "sfx_id": "SFX-05-STEP-INDUSTRY",
+      "scene_id": "05-century-continuation",
+      "event_name": "step",
+      "locations": ["industry"],
+      "mood": "文字工业时代的地面脚步，炉灰、木台和印刷纸屑",
+      "instrumentation_prompt": "game sound effect, single light footstep on ink industrial workshop floor, ash grit, wood platform, paper scraps, restrained, no chime, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.industry",
+        "data/visual_scenes/05-century-continuation.json#locations.industry"
+      ],
+      "target_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-STEP-INDUSTRY.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-05-STEP-NODE",
+      "scene_id": "05-century-continuation",
+      "event_name": "step",
+      "locations": ["network", "astral", "star_tower"],
+      "mood": "国书节点、星象塔基座和塔顶的石面脚步，带轻微档案静电",
+      "instrumentation_prompt": "game sound effect, single footstep on archive stone and observatory floor, slight paper static, restrained, no rhythm, no melody, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.network",
+        "data/story_scenes/05-century-continuation.json#locations.astral",
+        "data/story_scenes/05-century-continuation.json#locations.star_tower"
+      ],
+      "target_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-STEP-NODE.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-05-INSPECT-ARCHIVE",
+      "scene_id": "05-century-continuation",
+      "event_name": "interact",
+      "locations": ["industry", "network", "astral", "star_tower"],
+      "mood": "调查教材、节点、星图、失败记录和第一帧静默影像",
+      "instrumentation_prompt": "game sound effect, archive inspect, page turn, ink stamp, faint network tick, observatory paper record, no bell, no melody, clean one-shot",
+      "duration_ms": 560,
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.industry.items",
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.items"
+      ],
+      "target_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-INSPECT-ARCHIVE.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-05-BUILD-SYSTEM",
+      "scene_id": "05-century-continuation",
+      "event_name": "build",
+      "locations": ["industry", "network", "astral"],
+      "mood": "建设文字工业、国书网络和星象塔时的系统完成音",
+      "instrumentation_prompt": "game sound effect, civilization system build completes, ink machinery aligns, archive nodes sync, observatory mechanism locks, restrained confirmation, no fanfare, clean one-shot",
+      "duration_ms": 820,
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.industry.build_actions",
+        "data/story_scenes/05-century-continuation.json#locations.network.build_actions",
+        "data/story_scenes/05-century-continuation.json#locations.astral.build_actions"
+      ],
+      "target_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-BUILD-SYSTEM.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-05-BIND-XIALI",
+      "scene_id": "05-century-continuation",
+      "event_name": "build",
+      "locations": ["network"],
+      "mood": "夏离绑定国书时，多城节点同时亮起名字又拆成权限和备份",
+      "instrumentation_prompt": "game sound effect, name binding into national book network, many city nodes light at once then split into permissions and backups, cool paper static, no fanfare, clean one-shot",
+      "duration_ms": 1050,
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.network.build_actions.bind_xiali"
+      ],
+      "target_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-BIND-XIALI.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-05-BEACON-FAIL",
+      "scene_id": "05-century-continuation",
+      "event_name": "interact",
+      "locations": ["astral", "star_tower"],
+      "mood": "跨界信标失败，现代噪声和学校铃声断片被擦白",
+      "instrumentation_prompt": "game sound effect, failed cross-world beacon, short modern school bell fragment cut by white static and erased paper, restrained, no jump scare, clean one-shot",
+      "duration_ms": 950,
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.astral.items.failed_signal",
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.items.signal"
+      ],
+      "target_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-BEACON-FAIL.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-05-CAST-STOP",
+      "scene_id": "05-century-continuation",
+      "event_name": "cast_stop",
+      "locations": ["star_tower"],
+      "mood": "用“止”暂停坐标删除，争取完整观测窗口",
+      "instrumentation_prompt": "game sound effect, stop glyph pauses coordinate deletion, static freezes, observatory window stabilizes, low boundary hold, no explosion, no melody, clean one-shot",
+      "duration_ms": 760,
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.combat.spells.stop"
+      ],
+      "target_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-CAST-STOP.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-05-WRITE-NAME",
+      "scene_id": "05-century-continuation",
+      "event_name": "write",
+      "locations": ["star_tower"],
+      "mood": "写“名”锁定静默干扰签名",
+      "instrumentation_prompt": "game sound effect, write name glyph to lock silent interference signature, ink trace over white static, precise identity snap, no melody, clean one-shot",
+      "duration_ms": 850,
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-WRITE-NAME.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-05-INTERFERENCE-HIT",
+      "scene_id": "05-century-continuation",
+      "event_name": "attack",
+      "locations": ["star_tower"],
+      "mood": "攻击静默干扰，命中白噪坐标和擦白边缘",
+      "instrumentation_prompt": "game sound effect, restrained hit against silent interference, white static crack, erased coordinate edge tearing, no gore, no explosion, clean one-shot",
+      "duration_ms": 700,
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.combat"
+      ],
+      "target_path": "assets/audio/generated/sfx/05-century-continuation/SFX-05-INTERFERENCE-HIT.mp3",
+      "sample_generation": true
+    }
+  ],
+  "voice_samples": [
+    {
+      "line_id": "DLG-05-SAMPLE-JZX",
+      "scene_id": "05-century-continuation",
+      "location_id": "astral",
+      "character_id": "jizi_xuan",
+      "character_name": "纪子轩",
+      "text": "回家不再是愿望，是可以复核的工程。",
+      "delivery": "少年已经更稳，但说到回家仍有压住的急切；不要英雄演讲。",
+      "voice_id": "male-qn-qingse",
+      "speed": 0.98,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.jizi_xuan",
+        "data/story_scenes/05-century-continuation.json#locations.astral.items.coordinate_standard"
+      ],
+      "target_path": "assets/audio/generated/voices/05-century-continuation/DLG-05-SAMPLE-JZX.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-05-SAMPLE-XL",
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "character_id": "xiali",
+      "character_name": "夏离",
+      "text": "正因为它不再属于我，它才终于活了。",
+      "delivery": "冷、慢、克制；像在说服自己接受代价，句尾不要煽情。",
+      "voice_id": "lengdan_xiongzhang",
+      "speed": 0.9,
+      "vol": 0.9,
+      "pitch": -1,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.xiali",
+        "data/story_scenes/05-century-continuation.json#locations.network.items.xiali"
+      ],
+      "target_path": "assets/audio/generated/voices/05-century-continuation/DLG-05-SAMPLE-XL.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-05-SAMPLE-WS",
+      "scene_id": "05-century-continuation",
+      "location_id": "industry",
+      "character_id": "wensu",
+      "character_name": "闻素",
+      "text": "如果我不在了，就让错误继续教下一届。",
+      "delivery": "成年女性教师，温和但不软；像留在教材边上的一句话。",
+      "voice_id": "female-chengshu-jingpin",
+      "speed": 0.94,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.wensu",
+        "data/story_scenes/05-century-continuation.json#locations.industry.items.wensu_absence"
+      ],
+      "target_path": "assets/audio/generated/voices/05-century-continuation/DLG-05-SAMPLE-WS.mp3",
+      "sample_generation": true
+    },
+    {
+      "line_id": "DLG-05-SAMPLE-AT",
+      "scene_id": "05-century-continuation",
+      "location_id": "industry",
+      "character_id": "atang",
+      "character_name": "阿棠",
+      "text": "别先争它叫什么，先让我把它跑起来。",
+      "delivery": "青年女工匠，手上在调试机器，直接、快、短促兴奋。",
+      "voice_id": "female-chengshu-jingpin",
+      "speed": 1.08,
+      "vol": 0.9,
+      "pitch": 0,
+      "source_evidence": [
+        "data/character_voice_profiles.json#characters.atang",
+        "data/story_scenes/05-century-continuation.json#locations.industry.build_actions.industry"
+      ],
+      "target_path": "assets/audio/generated/voices/05-century-continuation/DLG-05-SAMPLE-AT.mp3",
+      "sample_generation": true
+    }
+  ]
+}
