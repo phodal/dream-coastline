@@ -171,6 +171,7 @@ func _setup_world() -> void:
 	player_gamepiece = GamepieceScene.instantiate()
 	player_gamepiece.name = "JiziXuan"
 	player_gamepiece.position = Gameboard.cell_to_pixel(DEFAULT_PLAYER_CELL)
+	player_gamepiece.move_speed = 48.0
 	player_gamepiece.animation_scene = DreamPlayerAnimationScene
 	room_root.add_child(player_gamepiece)
 
