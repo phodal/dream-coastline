@@ -206,6 +206,8 @@ func _refresh_ui() -> void:
 	if hud == null:
 		return
 
+	if audio_director != null:
+		audio_director.sync_story_context(str(session.scene_id), str(session.location_id))
 	hud.refresh(session, player_controller)
 	queue_redraw()
 
@@ -323,6 +325,8 @@ func _interact() -> void:
 			audio_director.play_success()
 		elif session.event_log.size() > before_log_count:
 			audio_director.play_interact()
+		for log_index in range(before_log_count, session.event_log.size()):
+			audio_director.play_story_voice_for_text(str(session.scene_id), str(session.event_log[log_index]))
 	_refresh_ui()
 
 

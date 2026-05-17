@@ -11,6 +11,7 @@ const RoomRendererScript := preload("res://src/dream/dream_room_renderer.gd")
 const StoryInteractionScript := preload("res://src/dream/dream_story_interaction.gd")
 const StoryReviewOverlayScript := preload("res://src/dream/dream_story_review_overlay.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
+const AudioDirectorScript := preload("res://scripts/core/audio_director.gd")
 const GamepieceScene := preload("res://src/field/gamepieces/gamepiece.tscn")
 const PlayerControllerScene := preload("res://src/field/gamepieces/controllers/player_controller.tscn")
 const DreamPlayerAnimationScene := preload("res://src/dream/dream_player_animation.tscn")
@@ -83,6 +84,7 @@ var runtime_top_bar: PanelContainer
 var runtime_prompt_bar: PanelContainer
 var scene_title_label: Label
 var scene_hint_label: Label
+var audio_director
 var story_review_overlay
 var player_gamepiece: Gamepiece
 var seen_scene_illustrations: Dictionary = {}
@@ -117,6 +119,10 @@ func _ready() -> void:
 	if not data_ok or not visual_ok:
 		get_tree().quit(1)
 		return
+
+	audio_director = AudioDirectorScript.new()
+	audio_director.enabled = not _is_smoke_run(args)
+	add_child(audio_director)
 
 	await _setup_world()
 	_load_story_scene(0)
@@ -261,6 +267,7 @@ func _load_story_scene(index: int) -> void:
 	current_visual = _current_visual_for_location()
 	_reset_player_to_spawn()
 	_build_current_room()
+	_sync_story_audio()
 	_update_story_review_overlay()
 
 
@@ -287,6 +294,7 @@ func _build_current_room() -> void:
 	_add_exit_interactions(scene_id, location)
 	_add_action_interactions(scene_id, location)
 	_refresh_runtime_hud(location)
+	_sync_story_audio()
 	_update_story_review_overlay()
 
 
@@ -531,6 +539,7 @@ func _run_story_review_next_step(timed_dialogue: bool, allow_scene_advance: bool
 	_update_story_review_overlay()
 	if dialogue_layer != null:
 		var duration := review_step_seconds if timed_dialogue else 0.65
+		_play_story_voice(review_last_line)
 		await dialogue_layer.show_message_for(str(result.get("title", command)), review_last_line, duration, "Auto")
 	if repository.is_scene_complete(current_scene, flags):
 		return await _finish_story_review_scene(timed_dialogue, allow_scene_advance)
@@ -656,6 +665,7 @@ func _apply_story_review_go(destination_id: String) -> Dictionary:
 	current_location_id = destination_id
 	current_visual = _current_visual_for_location()
 	_reset_player_to_spawn()
+	_sync_story_audio()
 	var location := repository.location_for(current_scene, current_location_id)
 	var intro := str(location.get("location_intro", ""))
 	var description := str(location.get("description", ""))
@@ -947,7 +957,9 @@ func _run_item_interaction(interaction: DreamStoryInteraction) -> void:
 	if not gained.is_empty():
 		gained_text = "\n\nFlags: %s" % ", ".join(gained)
 
-	await dialogue_layer.show_message(interaction.display_name, str(item.get("text", "")) + gained_text)
+	var text := str(item.get("text", ""))
+	_play_story_voice(text)
+	await dialogue_layer.show_message(interaction.display_name, text + gained_text)
 
 	if repository.is_scene_complete(current_scene, flags):
 		await _complete_current_scene()
@@ -984,6 +996,7 @@ func _run_action_interaction(interaction: DreamStoryInteraction) -> void:
 
 	var record: Dictionary = interaction.payload.get("record", {})
 	var text := str(record.get("text", "Action resolved."))
+	_play_story_voice(text)
 	await dialogue_layer.show_message(interaction.display_name, text)
 	if repository.is_scene_complete(current_scene, flags):
 		await _complete_current_scene()
@@ -1004,6 +1017,7 @@ func _run_exit_interaction(interaction: DreamStoryInteraction) -> void:
 	_reset_player_to_spawn()
 	_build_current_room()
 	var location := repository.location_for(current_scene, current_location_id)
+	_sync_story_audio()
 	await dialogue_layer.show_message(str(location.get("name", current_location_id)), str(location.get("description", "")))
 	_resume_field_input_after_room_rebuild()
 
@@ -1022,6 +1036,7 @@ func _complete_current_scene() -> void:
 	_reset_player_to_spawn()
 	_build_current_room()
 	var location := repository.location_for(current_scene, current_location_id)
+	_sync_story_audio()
 	await _show_scene_illustrations(str(current_scene.get("id", "")))
 	await dialogue_layer.show_message(str(current_scene.get("title", "")), str(location.get("description", "")))
 	_resume_field_input_after_room_rebuild()
@@ -1286,6 +1301,14 @@ func _clear_children(node: Node) -> void:
 
 
 func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool, visual_ok: bool, illustration_ok: bool) -> bool:
+	if args.has("--smoke-audio-director"):
+		var director = AudioDirectorScript.new()
+		var ok: bool = director.verify_streams()
+		print("audio-director-smoke status=%s streams=%s" % ["PASS" if ok else "FAIL", director.streams.size()])
+		director.free()
+		get_tree().quit(0 if ok else 1)
+		return true
+
 	if args.has("--smoke-input-map"):
 		var ok := _run_input_map_smoke()
 		get_tree().quit(0 if ok else 1)
@@ -1327,6 +1350,25 @@ func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool, vi
 			get_tree().quit(0 if result.get("ok", false) else 1)
 			return true
 
+	return false
+
+
+func _sync_story_audio() -> void:
+	if audio_director == null:
+		return
+	audio_director.sync_story_context(str(current_scene.get("id", "")), current_location_id)
+
+
+func _play_story_voice(text: String) -> void:
+	if audio_director == null:
+		return
+	audio_director.play_story_voice_for_text(str(current_scene.get("id", "")), text)
+
+
+func _is_smoke_run(args: PackedStringArray) -> bool:
+	for arg in args:
+		if str(arg).begins_with("--smoke-") or str(arg).begins_with("--capture-") or str(arg).begins_with("--record-"):
+			return true
 	return false
 
 
