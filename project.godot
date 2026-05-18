@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Dream Coastline"
-run/main_scene="res://src/main.tscn"
+run/main_scene="res://src/nova/main.tscn"
 config/description="A 90s-style keyboard RPG first act about names, memory, and a city without lights."
 config/version="0.1.0"
 config/features=PackedStringArray("4.6", "GL Compatibility")
@@ -22,15 +22,14 @@ boot_splash/image="res://assets/branding/dream-coastline-splash.png"
 
 [autoload]
 
-Camera="*res://src/field/field_camera.gd"
-FieldEvents="*res://src/field/field_events.gd"
-Gameboard="*res://src/field/gameboard/gameboard.gd"
-GamepieceRegistry="*res://src/field/gamepieces/gamepiece_registry.gd"
-Player="*res://src/common/player.gd"
+GameMode="*res://src/nova/autoload/game_mode.gd"
+GameState="*res://src/nova/autoload/game_state.gd"
+StoryFlags="*res://src/nova/autoload/story_flags.gd"
+QuestState="*res://src/nova/autoload/quest_state.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/yarn_spinner/plugin.cfg")
+enabled=PackedStringArray()
 
 [display]
 

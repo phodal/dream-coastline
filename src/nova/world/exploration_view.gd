@@ -1,0 +1,216 @@
+extends Control
+
+signal inspect_requested(item_id: String)
+signal move_requested(location_id: String)
+
+var backdrop: TextureRect
+var scene_label: Label
+var location_label: Label
+var description_label: Label
+var flag_label: Label
+var quest_label: Label
+var choice_list: VBoxContainer
+var prop_layer: Control
+var _scene_id := ""
+var _location_id := ""
+var _location: Dictionary = {}
+var _visual: Dictionary = {}
+
+
+func _ready() -> void:
+	set_anchors_preset(Control.PRESET_FULL_RECT)
+
+	backdrop = TextureRect.new()
+	backdrop.name = "Backdrop"
+	backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
+	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	add_child(backdrop)
+
+	var shade := ColorRect.new()
+	shade.color = Color(0.015, 0.018, 0.024, 0.32)
+	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(shade)
+
+	prop_layer = Control.new()
+	prop_layer.name = "PropLayer"
+	prop_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(prop_layer)
+
+	var top := PanelContainer.new()
+	top.anchor_left = 0.04
+	top.anchor_top = 0.04
+	top.anchor_right = 0.58
+	top.anchor_bottom = 0.25
+	add_child(top)
+	top.add_theme_stylebox_override("panel", _panel_style(Color(0.025, 0.03, 0.042, 0.84)))
+
+	var top_margin := MarginContainer.new()
+	top_margin.add_theme_constant_override("margin_left", 18)
+	top_margin.add_theme_constant_override("margin_top", 14)
+	top_margin.add_theme_constant_override("margin_right", 18)
+	top_margin.add_theme_constant_override("margin_bottom", 14)
+	top.add_child(top_margin)
+
+	var top_rows := VBoxContainer.new()
+	top_rows.add_theme_constant_override("separation", 6)
+	top_margin.add_child(top_rows)
+
+	scene_label = Label.new()
+	scene_label.add_theme_font_size_override("font_size", 19)
+	scene_label.add_theme_color_override("font_color", Color(0.85, 0.68, 0.38))
+	top_rows.add_child(scene_label)
+
+	location_label = Label.new()
+	location_label.add_theme_font_size_override("font_size", 30)
+	location_label.add_theme_color_override("font_color", Color(0.94, 0.93, 0.88))
+	top_rows.add_child(location_label)
+
+	description_label = Label.new()
+	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description_label.add_theme_font_size_override("font_size", 20)
+	description_label.add_theme_color_override("font_color", Color(0.78, 0.81, 0.78))
+	top_rows.add_child(description_label)
+
+	var side := PanelContainer.new()
+	side.anchor_left = 0.66
+	side.anchor_top = 0.08
+	side.anchor_right = 0.96
+	side.anchor_bottom = 0.88
+	add_child(side)
+	side.add_theme_stylebox_override("panel", _panel_style(Color(0.025, 0.028, 0.038, 0.9)))
+
+	var side_margin := MarginContainer.new()
+	side_margin.add_theme_constant_override("margin_left", 18)
+	side_margin.add_theme_constant_override("margin_top", 18)
+	side_margin.add_theme_constant_override("margin_right", 18)
+	side_margin.add_theme_constant_override("margin_bottom", 18)
+	side.add_child(side_margin)
+
+	var side_rows := VBoxContainer.new()
+	side_rows.add_theme_constant_override("separation", 12)
+	side_margin.add_child(side_rows)
+
+	var action_title := Label.new()
+	action_title.text = "行动"
+	action_title.add_theme_font_size_override("font_size", 22)
+	action_title.add_theme_color_override("font_color", Color(0.9, 0.78, 0.46))
+	side_rows.add_child(action_title)
+
+	choice_list = VBoxContainer.new()
+	choice_list.add_theme_constant_override("separation", 8)
+	side_rows.add_child(choice_list)
+
+	var spacer := Control.new()
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	side_rows.add_child(spacer)
+
+	quest_label = Label.new()
+	quest_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	quest_label.add_theme_font_size_override("font_size", 16)
+	quest_label.add_theme_color_override("font_color", Color(0.73, 0.76, 0.72))
+	side_rows.add_child(quest_label)
+
+	flag_label = Label.new()
+	flag_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	flag_label.add_theme_font_size_override("font_size", 15)
+	flag_label.add_theme_color_override("font_color", Color(0.58, 0.62, 0.6))
+	side_rows.add_child(flag_label)
+
+
+func present(scene_id: String, location_id: String, location: Dictionary, visual: Dictionary, choices: Array[Dictionary]) -> void:
+	_scene_id = scene_id
+	_location_id = location_id
+	_location = location
+	_visual = visual
+	scene_label.text = scene_id
+	location_label.text = str(location.get("name", location_id))
+	description_label.text = str(location.get("description", ""))
+	var backdrop_path := str(visual.get("illustrated_backdrop", ""))
+	if not backdrop_path.is_empty() and ResourceLoader.exists(backdrop_path):
+		backdrop.texture = load(backdrop_path)
+	else:
+		backdrop.texture = null
+	_render_props(visual.get("props", []))
+	_render_choices(choices)
+	_refresh_status()
+
+
+func _render_choices(choices: Array[Dictionary]) -> void:
+	for child in choice_list.get_children():
+		child.queue_free()
+	for choice in choices:
+		var button := Button.new()
+		button.text = str(choice.get("label", ""))
+		button.disabled = not bool(choice.get("enabled", true))
+		button.focus_mode = Control.FOCUS_ALL
+		if bool(choice.get("done", false)):
+			button.text += "  ✓"
+		var choice_type := str(choice.get("type", ""))
+		var choice_id := str(choice.get("id", ""))
+		if choice_type == "inspect":
+			button.pressed.connect(func() -> void: inspect_requested.emit(choice_id))
+		elif choice_type == "move":
+			button.pressed.connect(func() -> void: move_requested.emit(choice_id))
+		choice_list.add_child(button)
+	if choice_list.get_child_count() > 0:
+		choice_list.get_child(0).grab_focus()
+
+
+func _render_props(props: Array) -> void:
+	for child in prop_layer.get_children():
+		child.queue_free()
+	for prop in props:
+		if typeof(prop) != TYPE_DICTIONARY:
+			continue
+		var marker := ColorRect.new()
+		var kind := str(prop.get("kind", "prop"))
+		marker.color = _kind_color(kind)
+		var x: float = float(prop.get("x", 7.0)) / 15.0
+		var y: float = float(prop.get("y", 4.0)) / 9.0
+		var w: float = max(1.0, float(prop.get("w", 1.0))) / 15.0
+		var h: float = max(1.0, float(prop.get("h", 1.0))) / 9.0
+		marker.anchor_left = clampf(x, 0.0, 0.96)
+		marker.anchor_top = clampf(y, 0.0, 0.92)
+		marker.anchor_right = clampf(x + w, 0.04, 1.0)
+		marker.anchor_bottom = clampf(y + h, 0.08, 1.0)
+		marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		prop_layer.add_child(marker)
+
+
+func _refresh_status() -> void:
+	var quests := QuestState.active_summary()
+	var quest_lines: Array[String] = []
+	for quest in quests:
+		quest_lines.append("%s：%s" % [quest.get("title", quest.get("id", "")), quest.get("status", "")])
+	quest_label.text = "任务\n%s" % "\n".join(quest_lines)
+	var flag_names := StoryFlags.export_flags().keys()
+	flag_names.sort()
+	flag_label.text = "Flags: %s" % ", ".join(flag_names.slice(maxi(flag_names.size() - 6, 0), flag_names.size()))
+
+
+func _panel_style(color: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.border_color = Color(0.75, 0.62, 0.35, 0.78)
+	style.border_width_left = 1
+	style.border_width_top = 1
+	style.border_width_right = 1
+	style.border_width_bottom = 1
+	style.corner_radius_top_left = 6
+	style.corner_radius_top_right = 6
+	style.corner_radius_bottom_left = 6
+	style.corner_radius_bottom_right = 6
+	return style
+
+
+func _kind_color(kind: String) -> Color:
+	match kind:
+		"exit", "stairs", "portal":
+			return Color(0.35, 0.62, 0.95, 0.22)
+		"window", "window_dark", "lamp":
+			return Color(0.95, 0.76, 0.28, 0.2)
+		"letter", "pen", "photo", "note":
+			return Color(0.85, 0.88, 0.72, 0.24)
+		_:
+			return Color(0.64, 0.82, 0.64, 0.14)

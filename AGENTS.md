@@ -39,3 +39,4 @@
 - OpenRPG 示例动画资源可能带旧 UID/path 依赖；迁移角色时优先做项目本地的最小 `GamepieceAnimation` 场景，避免 `.res` 继续引用原项目路径。
 - 迁移到 OpenRPG 主流程时不能只用通用 room renderer；要显式加载 `data/visual_scenes` 指向的 `scenes/visual_locations`，并让 smoke 检查 asset scene 已进入新入口。
 - Yarn Spinner GDScript 的 YSLS 自动生成会扫描全项目脚本；当前旧 `scripts/core/game_session.gd` 会触发 warning-as-error，Yarn spike 的 `.yarnproject.import` 要关闭 `generate_ysls`，只维护 `data/yarn/*.ysls.json`。
+- 停用或删除 Godot `.gdextension` 后，本地 `.godot/extension_list.cfg` 可能还会尝试加载旧 Rust 扩展；验证新入口前先清掉这个缓存，再跑 headless smoke。
