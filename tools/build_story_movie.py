@@ -121,7 +121,7 @@ def choose_music(scene_id: str, location_id: str | None, audio_cues: dict[str, A
     candidates = []
     scene_fallback: Path | None = None
     for cue in audio_cues.get("cues", []):
-        if not isinstance(cue, dict) or cue.get("type") != "music":
+        if not isinstance(cue, dict) or cue.get("type") not in {"music", "ambience", "stinger"}:
             continue
         if cue.get("runtime_enabled") is False:
             continue
