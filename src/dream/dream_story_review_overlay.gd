@@ -13,6 +13,10 @@ var _root: Control
 var _background_texture: TextureRect
 var _panel: PanelContainer
 var _left_column: VBoxContainer
+var _media_panel: PanelContainer
+var _media_texture: TextureRect
+var _media_label: RichTextLabel
+var _media_open_button: Button
 var _preview_panel: PanelContainer
 var _preview_canvas: Control
 var _preview_texture: TextureRect
@@ -31,6 +35,8 @@ var _pending_scenes: Array[Dictionary] = []
 var _current_background_path := ""
 var _current_focus_path := ""
 var _current_character_signature := ""
+var _current_media_signature := ""
+var _current_media_recording_path := ""
 var _cinema_mode := false
 
 
@@ -120,6 +126,7 @@ func update_status(status: Dictionary) -> void:
 	var location_name := str(status.get("location_name", ""))
 	var prefix_note := str(status.get("prefix_note", ""))
 	_set_illustration(str(status.get("background_path", "")), str(status.get("focus_path", "")))
+	_set_review_media(status.get("review_media", []))
 	_set_character_cutouts(status.get("characters", []))
 	_visual_title_label.text = str(status.get("illustration_title", ""))
 	_visual_caption_label.text = str(status.get("illustration_caption", ""))
@@ -185,11 +192,47 @@ func _build_controls() -> void:
 	_scene_list = ItemList.new()
 	_scene_list.name = "SceneList"
 	_scene_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_scene_list.custom_minimum_size = Vector2(190, 230)
+	_scene_list.custom_minimum_size = Vector2(190, 188)
 	_scene_list.item_activated.connect(func(index: int) -> void:
 		scene_requested.emit(index)
 	)
 	_left_column.add_child(_scene_list)
+
+	_media_panel = GameThemeScript.make_rpg_panel("ReviewMediaPanel", Color("#100c09", 0.58))
+	_media_panel.custom_minimum_size = Vector2(190, 172)
+	_left_column.add_child(_media_panel)
+
+	var media_margin := MarginContainer.new()
+	media_margin.add_theme_constant_override("margin_left", 6)
+	media_margin.add_theme_constant_override("margin_right", 6)
+	media_margin.add_theme_constant_override("margin_top", 6)
+	media_margin.add_theme_constant_override("margin_bottom", 6)
+	_media_panel.add_child(media_margin)
+
+	var media_stack := VBoxContainer.new()
+	media_stack.add_theme_constant_override("separation", 4)
+	media_margin.add_child(media_stack)
+
+	_media_texture = TextureRect.new()
+	_media_texture.name = "ReviewMediaPoster"
+	_media_texture.custom_minimum_size = Vector2(0, 72)
+	_media_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_media_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	media_stack.add_child(_media_texture)
+
+	_media_label = RichTextLabel.new()
+	_media_label.name = "ReviewMediaLabel"
+	_media_label.bbcode_enabled = false
+	_media_label.fit_content = false
+	_media_label.scroll_active = false
+	_media_label.custom_minimum_size = Vector2(0, 40)
+	_media_label.add_theme_font_size_override("normal_font_size", 11)
+	media_stack.add_child(_media_label)
+
+	_media_open_button = GameThemeScript.make_command_button("OpenReviewMedia", "打开录屏")
+	_media_open_button.custom_minimum_size = Vector2(0, 30)
+	_media_open_button.pressed.connect(_open_current_review_media)
+	media_stack.add_child(_media_open_button)
 
 	var start_button := GameThemeScript.make_command_button("StartScene", "进入选中章节")
 	start_button.custom_minimum_size = Vector2(190, 38)
@@ -325,6 +368,10 @@ func _apply_layout_mode() -> void:
 
 	if _left_column != null:
 		_left_column.visible = not _cinema_mode
+	if _media_panel != null:
+		_media_panel.visible = not _cinema_mode and _media_texture != null and _media_texture.texture != null
+	if _media_open_button != null:
+		_media_open_button.visible = not _cinema_mode and not _current_media_recording_path.is_empty()
 	if _status_label != null:
 		_status_label.visible = not _cinema_mode
 	if _last_line_label != null:
@@ -390,6 +437,67 @@ func _set_character_cutouts(characters: Array) -> void:
 		cutout.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		cutout.texture = texture
 		_character_layer.add_child(cutout)
+
+
+func _set_review_media(media: Variant) -> void:
+	if _media_texture == null or _media_label == null:
+		return
+	var records: Array = media if typeof(media) == TYPE_ARRAY else []
+	var signature_parts: Array[String] = []
+	for record in records:
+		if typeof(record) == TYPE_DICTIONARY:
+			signature_parts.append("%s:%s:%s" % [
+				str(record.get("id", "")),
+				str(record.get("poster_path", "")),
+				str(record.get("recording_path", "")),
+			])
+	var signature := "|".join(signature_parts)
+	if signature == _current_media_signature:
+		return
+	_current_media_signature = signature
+
+	if records.is_empty():
+		_media_texture.texture = null
+		_media_label.text = ""
+		_current_media_recording_path = ""
+		if _media_panel != null:
+			_media_panel.visible = false
+		return
+
+	var primary: Dictionary = {}
+	for record in records:
+		if typeof(record) == TYPE_DICTIONARY:
+			primary = record
+			break
+	if primary.is_empty():
+		return
+	var poster_path := str(primary.get("poster_path", ""))
+	_current_media_recording_path = str(primary.get("recording_path", ""))
+	_media_texture.texture = _load_texture(poster_path)
+	var labels: Array[String] = []
+	for record in records:
+		if typeof(record) != TYPE_DICTIONARY:
+			continue
+		var label := str(record.get("label", record.get("id", "录屏素材")))
+		var recording_path := str(record.get("recording_path", ""))
+		if not recording_path.is_empty():
+			labels.append("%s\n%s" % [label, recording_path.get_file()])
+		else:
+			labels.append(label)
+	_media_label.text = "\n".join(labels.slice(0, 2))
+	if _media_panel != null:
+		_media_panel.visible = not _cinema_mode and _media_texture.texture != null
+	if _media_open_button != null:
+		_media_open_button.visible = not _cinema_mode and not _current_media_recording_path.is_empty()
+
+
+func _open_current_review_media() -> void:
+	if _current_media_recording_path.is_empty():
+		return
+	var path := _current_media_recording_path
+	if path.begins_with("res://") or path.begins_with("user://"):
+		path = ProjectSettings.globalize_path(path)
+	OS.shell_open(path)
 
 
 func _load_texture(path: String) -> Texture2D:
