@@ -112,6 +112,16 @@ func _record_matches(record: Dictionary, location_id: String, command: String, k
 				return true
 		return false
 	for value in values:
-		if str(value) == command:
+		if str(value) == command and _record_location_allows(record, location_id):
+			return true
+	return false
+
+
+func _record_location_allows(record: Dictionary, location_id: String) -> bool:
+	var locations: Array = record.get("locations", [])
+	if locations.is_empty():
+		return true
+	for value in locations:
+		if str(value) == location_id:
 			return true
 	return false

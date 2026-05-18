@@ -52,6 +52,12 @@ const REVIEW_DEFAULT_STEP_SECONDS := 2.6
 const REVIEW_MIN_STEP_SECONDS := 1.6
 const REVIEW_MAX_TEXT_SECONDS := 6.5
 const REVIEW_VOICE_WAIT_LIMIT_SECONDS := 10.0
+const BOOK_ROUTE_FLAGS: Array[String] = [
+	"chose_public_books",
+	"chose_royal_books",
+	"chose_engineer_books",
+	"chose_parent_books",
+]
 const SCENE_SMOKE_FLAGS := {
 	"--smoke-rpg-first-act": 0,
 	"--smoke-rpg-illiterate": 1,
@@ -153,6 +159,7 @@ func _ready() -> void:
 	elif args.has("--smoke-open-rpg-actions"):
 		_load_story_scene(2)
 		current_location_id = "node"
+		_prime_open_rpg_action_smoke_flags()
 		current_visual = _current_visual_for_location()
 		_reset_player_to_spawn()
 		_build_current_room()
@@ -670,7 +677,7 @@ func _apply_story_review_inspect(item_id: String) -> Dictionary:
 		return {"title": item_id, "line": str(result.get("error", "inspect failed"))}
 	return {
 		"title": str(item.get("name", item_id)),
-		"line": str(result.get("text", item.get("text", ""))),
+		"line": _record_text_for_flags(item, str(result.get("text", item.get("text", "")))),
 	}
 
 
@@ -716,7 +723,7 @@ func _apply_story_review_action(verb: String, arg: String) -> Dictionary:
 	if not result.get("ok", false):
 		return {"title": _story_review_action_title(verb, arg, record), "line": str(result.get("error", "action failed"))}
 
-	var text := str(record.get("text", ""))
+	var text := _record_text_for_flags(record)
 	if text.is_empty():
 		text = _story_review_default_action_text(verb, arg)
 	return {"title": _story_review_action_title(verb, arg, record), "line": text}
@@ -785,6 +792,17 @@ func _story_review_default_action_text(verb: String, arg: String) -> String:
 		"choose":
 			return "这个选择被记录进后续剧情。"
 	return "剧情节点已推进。"
+
+
+func _record_text_for_flags(record: Dictionary, fallback: String = "") -> String:
+	var route_texts: Dictionary = record.get("route_texts", {})
+	for flag in BOOK_ROUTE_FLAGS:
+		if flags.has(flag) and route_texts.has(flag):
+			return str(route_texts[flag])
+	var text := str(record.get("text", fallback))
+	if text.is_empty():
+		return fallback
+	return text
 
 
 func _update_story_review_overlay() -> void:
@@ -872,6 +890,8 @@ func _add_item_interactions(scene_id: String, location: Dictionary) -> void:
 	for index in range(keys.size()):
 		var item_id := str(keys[index])
 		var item: Dictionary = items[item_id]
+		if not _record_requirements_met(item):
+			continue
 		var visual_prop: Dictionary = visual_repository.item_prop(scene_id, current_location_id, item_id)
 		var cell: Vector2i = _interaction_cell_for_prop(visual_prop, ITEM_CELLS[index % ITEM_CELLS.size()])
 		var display_name := str(item.get("name", item_id))
@@ -913,6 +933,8 @@ func _add_action_interactions(scene_id: String, location: Dictionary) -> void:
 
 	for index in range(action_records.size()):
 		var record := action_records[index]
+		if not _action_record_available(record):
+			continue
 		var visual_prop: Dictionary = visual_repository.action_prop(scene_id, current_location_id, str(record.get("verb", "")), str(record.get("arg", "")))
 		var cell: Vector2i = _interaction_cell_for_prop(visual_prop, ACTION_CELLS[index % ACTION_CELLS.size()])
 		var label := str(visual_prop.get("label", record.get("label", record.get("arg", ""))))
@@ -933,6 +955,68 @@ func _append_action_records(target: Array[Dictionary], records: Dictionary, verb
 			"label": "%s %s" % [prefix, record_name if record_name != str(key) else "%s:%s" % [title, key]],
 			"record": record,
 		})
+
+
+func _action_record_available(action_record: Dictionary) -> bool:
+	var verb := str(action_record.get("verb", ""))
+	var record: Dictionary = action_record.get("record", {})
+	match verb:
+		"write":
+			return _combat_write_available(record)
+		"attack":
+			return _combat_attack_available(record)
+		"choose":
+			if _branch_choice_already_resolved(record):
+				return false
+			return _record_requirements_met(record)
+		"engage":
+			if _encounter_already_cleared(record):
+				return false
+			return _record_requirements_met(record)
+		_:
+			return _record_requirements_met(record)
+
+
+func _record_requirements_met(record: Dictionary) -> bool:
+	return repository.missing_required_flags(record, flags).is_empty()
+
+
+func _branch_choice_already_resolved(choice: Dictionary) -> bool:
+	var branch_contract: Dictionary = current_scene.get("branch_consequences", {})
+	var resolved_flag := str(branch_contract.get("resolved_flag", ""))
+	return not resolved_flag.is_empty() and flags.has(resolved_flag)
+
+
+func _encounter_already_cleared(record: Dictionary) -> bool:
+	if bool(record.get("repeatable", false)):
+		return false
+	var clear_flag := str(record.get("clear_flag", ""))
+	return not clear_flag.is_empty() and flags.has(clear_flag)
+
+
+func _combat_write_available(combat: Dictionary) -> bool:
+	if combat.is_empty():
+		return false
+	var win_flag := str(combat.get("win_flag", ""))
+	if not win_flag.is_empty() and flags.has(win_flag):
+		return false
+	var learn_flag := str(combat.get("learn_flag", ""))
+	return learn_flag.is_empty() or flags.has(learn_flag)
+
+
+func _combat_attack_available(combat: Dictionary) -> bool:
+	if combat.is_empty():
+		return false
+	var win_flag := str(combat.get("win_flag", ""))
+	if not win_flag.is_empty() and flags.has(win_flag):
+		return false
+	var lock_flag := str(combat.get("lock_flag", ""))
+	if not lock_flag.is_empty() and not flags.has(lock_flag):
+		return false
+	for flag in combat.get("required_attack_flags", []):
+		if not flags.has(str(flag)):
+			return false
+	return true
 
 
 func _make_story_interaction(
@@ -996,7 +1080,7 @@ func _run_item_interaction(interaction: DreamStoryInteraction) -> void:
 	var missing := repository.missing_required_flags(item, flags)
 	if not missing.is_empty():
 		_play_story_event("blocked")
-		await dialogue_layer.show_message(interaction.display_name, "Missing required evidence: %s" % ", ".join(missing))
+		await dialogue_layer.show_message(interaction.display_name, "还缺少前置线索：%s" % ", ".join(missing))
 		return
 
 	var item_event := "interact"
@@ -1011,7 +1095,7 @@ func _run_item_interaction(interaction: DreamStoryInteraction) -> void:
 	if not gained.is_empty():
 		gained_text = "\n\nFlags: %s" % ", ".join(gained)
 
-	var text := str(item.get("text", ""))
+	var text := _record_text_for_flags(item)
 	_play_story_voice(text)
 	await dialogue_layer.show_message(interaction.display_name, text + gained_text)
 
@@ -1051,7 +1135,7 @@ func _run_action_interaction(interaction: DreamStoryInteraction) -> void:
 
 	_play_story_event(_story_event_for_action(verb, arg))
 	var record: Dictionary = interaction.payload.get("record", {})
-	var text := str(record.get("text", "Action resolved."))
+	var text := _record_text_for_flags(record, "Action resolved.")
 	_play_story_voice(text)
 	await dialogue_layer.show_message(interaction.display_name, text)
 	if repository.is_scene_complete(current_scene, flags):
@@ -1132,8 +1216,19 @@ func _inspected_prefix(item: Dictionary) -> String:
 
 
 func _apply_scene_initial_flags(scene: Dictionary) -> void:
+	var has_route_choice := _has_book_route_choice()
 	for flag in scene.get("initial_flags", []):
-		flags[str(flag)] = true
+		var flag_name := str(flag)
+		if has_route_choice and BOOK_ROUTE_FLAGS.has(flag_name) and not flags.has(flag_name):
+			continue
+		flags[flag_name] = true
+
+
+func _has_book_route_choice() -> bool:
+	for flag in BOOK_ROUTE_FLAGS:
+		if flags.has(flag):
+			return true
+	return false
 
 
 func _current_visual_for_location() -> Dictionary:
@@ -1649,6 +1744,21 @@ func _run_input_map_smoke() -> bool:
 	var ok := missing.is_empty()
 	print("open-rpg-input-smoke status=%s missing=%s" % ["PASS" if ok else "FAIL", ", ".join(missing)])
 	return ok
+
+
+func _prime_open_rpg_action_smoke_flags() -> void:
+	for flag in [
+		"learned_name",
+		"learned_door",
+		"learned_fire",
+		"learned_stop",
+		"got_basic_dictionary",
+		"checked_contract_lock",
+		"found_contract_gap",
+		"paused_contract",
+		"named_contract_officer",
+	]:
+		flags[flag] = true
 
 
 func _run_animation_resource_smoke() -> bool:

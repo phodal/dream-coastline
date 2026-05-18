@@ -7,7 +7,99 @@
         "path": "res://assets/illustrations/chapters/00-prologue-lights-out-01.png",
         "title": "序幕：灯未亮起的夜晚",
         "caption": "邻居的窗光一盏盏亮着，唯独自家的窗口仍然沉入黑暗。",
-        "transition": true
+        "transition": true,
+        "locations": [
+          "street"
+        ],
+        "commands": [
+          "inspect window",
+          "inspect poster",
+          "inspect vending"
+        ]
+      },
+      {
+        "id": "street-dark-window",
+        "path": "res://assets/illustrations/playable/00-prologue-lights-out/street.png",
+        "title": "居民楼外：灯未亮起",
+        "caption": "熟悉街区仍然有灯、售货机和远处车流，只有自家窗口像被墨迹挖空。",
+        "locations": [
+          "street"
+        ],
+        "commands": [
+          "go building"
+        ]
+      },
+      {
+        "id": "building-voice-lamp",
+        "path": "res://assets/illustrations/playable/00-prologue-lights-out/building.png",
+        "title": "居民楼门口：声控灯没有亮",
+        "caption": "楼道里的黑暗没有回应咳嗽和脚步，现代生活的规则先从这里失灵。",
+        "locations": [
+          "building"
+        ],
+        "commands": [
+          "inspect lamp",
+          "inspect mailbox",
+          "go home"
+        ]
+      },
+      {
+        "id": "home-unlocked-door",
+        "path": "res://assets/illustrations/playable/00-prologue-lights-out/home.png",
+        "title": "家门口：门没有锁",
+        "caption": "半掩的门和冷掉的屋内气味，比任何回答都更像警报。",
+        "locations": [
+          "home"
+        ],
+        "commands": [
+          "inspect lock",
+          "inspect air",
+          "go living_room"
+        ]
+      },
+      {
+        "id": "living-room-cold-dinner",
+        "path": "res://assets/illustrations/playable/00-prologue-lights-out/living_room.png",
+        "title": "客厅：晚饭停在开饭前",
+        "caption": "餐桌、电视和全家照都还在原位，整洁得像时间突然被按停。",
+        "locations": [
+          "living_room"
+        ],
+        "commands": [
+          "inspect dinner",
+          "inspect tv",
+          "inspect photo",
+          "go study",
+          "go bedroom"
+        ]
+      },
+      {
+        "id": "study-phone-signal",
+        "path": "res://assets/illustrations/playable/00-prologue-lights-out/study.png",
+        "title": "父母书房：手机信号被擦掉",
+        "caption": "父亲的眼镜和母亲的笔记留在书桌上，手机信号闪了一格后被墨迹吞掉。",
+        "locations": [
+          "study"
+        ],
+        "commands": [
+          "inspect glasses",
+          "inspect note",
+          "inspect phone"
+        ]
+      },
+      {
+        "id": "bedroom-continue-letter",
+        "path": "res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png",
+        "title": "纪子轩房间：To be Continue",
+        "caption": "没有署名的信和黑色钢笔摆在桌上，现实剥落前最后一个可确认的物件。",
+        "locations": [
+          "bedroom"
+        ],
+        "commands": [
+          "inspect window",
+          "inspect letter",
+          "inspect pen"
+        ]
       }
     ],
     "01-illiterate": [
