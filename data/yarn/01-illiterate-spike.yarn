@@ -1,0 +1,9 @@
+title: DreamCoastlineSpike
+---
+纪子轩: 手机屏幕显示无服务，墨痕像潮水一样盖住系统语言。
+<<dream_flag "yarn_checked_phone_no_service">>
+<<if dream_has_flag("yarn_checked_phone_no_service")>>
+系统: Yarn 已经把一个剧情 flag 写回 Dream Coastline 的运行状态。
+<<endif>>
+<<stop>>
+===

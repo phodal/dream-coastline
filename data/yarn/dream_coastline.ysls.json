@@ -1,0 +1,33 @@
+{
+  "commands": [
+    {
+      "async": false,
+      "definitionName": "_yarn_command_dream_flag",
+      "fileName": "dream_field.gd",
+      "language": "gdscript",
+      "parameters": [
+        {
+          "name": "flag_name",
+          "type": "string"
+        }
+      ],
+      "yarnName": "dream_flag"
+    }
+  ],
+  "functions": [
+    {
+      "definitionName": "_yarn_function_dream_has_flag",
+      "fileName": "dream_field.gd",
+      "language": "gdscript",
+      "parameters": [
+        {
+          "name": "flag_name",
+          "type": "string"
+        }
+      ],
+      "returnType": "bool",
+      "yarnName": "dream_has_flag"
+    }
+  ],
+  "version": 1
+}

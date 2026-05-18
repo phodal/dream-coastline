@@ -28,6 +28,10 @@ Gameboard="*res://src/field/gameboard/gameboard.gd"
 GamepieceRegistry="*res://src/field/gamepieces/gamepiece_registry.gd"
 Player="*res://src/common/player.gd"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/yarn_spinner/plugin.cfg")
+
 [display]
 
 window/size/viewport_width=1280

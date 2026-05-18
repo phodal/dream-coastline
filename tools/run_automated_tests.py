@@ -197,6 +197,7 @@ STEPS: list[Step] = [
     Step("smoke-open-rpg-actions", "quick", "validate story action records are exposed as OpenRPG interactions", godot_smoke("--smoke-open-rpg-actions")),
     Step("smoke-open-rpg-visual-scenes", "quick", "validate OpenRPG runtime can load every original visual location scene", godot_smoke("--smoke-open-rpg-visual-scenes")),
     Step("smoke-chapter-illustrations", "quick", "validate chapter transition illustrations are loadable widescreen textures", godot_smoke("--smoke-chapter-illustrations")),
+    Step("smoke-yarn-spinner", "quick", "validate Yarn Spinner GDScript spike loads and writes a Dream flag", godot_smoke("--smoke-yarn-spinner", quit_after=5000)),
     Step(
         "smoke-story-review-mode",
         "quick",

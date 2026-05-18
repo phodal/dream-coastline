@@ -1,0 +1,13 @@
+[remap]
+
+importer="yarn_spinner.yarn_file"
+type="Resource"
+uid="uid://bmow82704e40f"
+path="res://.godot/imported/01-illiterate-spike.yarn-a76a50f8d03d51eac9472c62557da125.res"
+
+[deps]
+
+source_file="res://data/yarn/01-illiterate-spike.yarn"
+dest_files=["res://.godot/imported/01-illiterate-spike.yarn-a76a50f8d03d51eac9472c62557da125.res"]
+
+[params]

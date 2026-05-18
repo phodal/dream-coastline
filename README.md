@@ -90,7 +90,17 @@ Validate the OpenRPG migration:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-runtime
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-actions
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-visual-scenes
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 5000 -- --smoke-yarn-spinner
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 500 -- --smoke-story-review-mode
+```
+
+The Yarn Spinner GDScript spike is vendored under `addons/yarn_spinner/` and
+uses `data/yarn/dream_coastline.yarnproject`. If the imported Yarn project is
+missing, run the editor import once after installing `ysc`:
+
+```sh
+dotnet tool install YarnSpinner.Console --global --version 3.1.0-alpha1
+/Applications/Godot.app/Contents/MacOS/Godot --editor --headless --path . --quit
 ```
 
 Launch the playable story review surface:

@@ -7,6 +7,7 @@ const IllustrationRepositoryScript := preload("res://src/dream/dream_illustratio
 const CharacterVisualRepositoryScript := preload("res://src/dream/dream_character_visual_repository.gd")
 const IllustratedBackdropScript := preload("res://src/dream/dream_illustrated_backdrop.gd")
 const DialogueLayerScript := preload("res://src/dream/dream_dialogue_layer.gd")
+const DreamYarnPresenterScript := preload("res://src/dream/dream_yarn_presenter.gd")
 const RoomRendererScript := preload("res://src/dream/dream_room_renderer.gd")
 const StoryInteractionScript := preload("res://src/dream/dream_story_interaction.gd")
 const StoryReviewOverlayScript := preload("res://src/dream/dream_story_review_overlay.gd")
@@ -62,6 +63,8 @@ const SCENE_SMOKE_FLAGS := {
 	"--smoke-rpg-lights-on-again": 7,
 }
 const STORY_REVIEW_MEDIA_PATH := "res://data/story_review_media.json"
+const YARN_SPIKE_PROJECT_PATH := "res://data/yarn/dream_coastline.yarnproject"
+const YARN_SPIKE_NODE := "DreamCoastlineSpike"
 
 var repository: DreamStoryRepository
 var visual_repository
@@ -1391,6 +1394,10 @@ func _run_headless_smoke_if_requested(args: PackedStringArray, data_ok: bool, vi
 	if not data_ok:
 		return false
 
+	if args.has("--smoke-yarn-spinner"):
+		call_deferred("_finish_yarn_spinner_smoke")
+		return true
+
 	if args.has("--smoke-open-rpg-story") or args.has("--smoke-autoplay") or args.has("--smoke-rpg-progression"):
 		var result := repository.run_all_walkthroughs()
 		_print_story_smoke(result, "all")
@@ -1474,6 +1481,84 @@ func _story_event_for_action(verb: String, arg: String = "") -> String:
 		"attack":
 			return "attack"
 	return ""
+
+
+func _finish_yarn_spinner_smoke() -> void:
+	flags.clear()
+	_apply_scene_initial_flags(repository.scene_at(1))
+
+	var failures: Array[String] = []
+	var project_resource := load(YARN_SPIKE_PROJECT_PATH)
+	if project_resource == null:
+		failures.append("could not load yarn project resource: %s" % YARN_SPIKE_PROJECT_PATH)
+
+	var runner := YarnDialogueRunner.new()
+	runner.name = "DreamYarnSmokeRunner"
+	runner.auto_start = false
+	runner.auto_discover_commands = false
+	runner.verbose_logging = false
+	add_child(runner)
+	await get_tree().process_frame
+
+	var presenter: DreamYarnPresenter = DreamYarnPresenterScript.new()
+	presenter.name = "DreamYarnSmokePresenter"
+	presenter.configure(null, true)
+	runner.add_child(presenter)
+	runner.add_presenter(presenter)
+	runner.add_command("dream_flag", Callable(self, "_yarn_command_dream_flag"))
+	runner.add_function("dream_has_flag", Callable(self, "_yarn_function_dream_has_flag"), 1)
+
+	var unhandled_commands: Array[String] = []
+	runner.unhandled_command.connect(func(command_text: String) -> void:
+		unhandled_commands.append(command_text)
+	)
+
+	var completed := false
+	runner.dialogue_completed.connect(func() -> void:
+		completed = true
+	)
+
+	if project_resource != null:
+		runner.set_project(project_resource)
+		if not runner.has_yarn_node(YARN_SPIKE_NODE):
+			failures.append("missing yarn node: %s" % YARN_SPIKE_NODE)
+		else:
+			runner.start_dialogue(YARN_SPIKE_NODE)
+
+	var waited := 0.0
+	while not completed and waited < 2.0:
+		await get_tree().create_timer(0.05).timeout
+		waited += 0.05
+
+	var still_running := runner.is_running()
+	if not completed and still_running:
+		failures.append("dialogue did not complete")
+	if not unhandled_commands.is_empty():
+		failures.append("unhandled commands: %s" % ", ".join(unhandled_commands))
+	if not flags.has("yarn_checked_phone_no_service"):
+		failures.append("yarn command did not write flag")
+	if presenter.lines.size() < 2:
+		failures.append("expected at least two yarn lines, got %d" % presenter.lines.size())
+
+	var ok := failures.is_empty()
+	print("yarn-spinner-smoke status=%s lines=%d flag=%s failures=%s" % [
+		"PASS" if ok else "FAIL",
+		presenter.lines.size(),
+		"yes" if flags.has("yarn_checked_phone_no_service") else "no",
+		"none" if failures.is_empty() else " | ".join(failures),
+	])
+	runner.queue_free()
+	await get_tree().process_frame
+	get_tree().quit(0 if ok else 1)
+
+
+func _yarn_command_dream_flag(flag_name: String) -> void:
+	if not flag_name.is_empty():
+		flags[flag_name] = true
+
+
+func _yarn_function_dream_has_flag(flag_name: String) -> bool:
+	return not flag_name.is_empty() and flags.has(flag_name)
 
 
 func _on_gamepiece_moved(gp: Gamepiece, _new_cell: Vector2i, old_cell: Vector2i) -> void:

@@ -1,0 +1,9 @@
+{
+  "projectFileVersion": 3,
+  "sourceFiles": [
+    "01-illiterate-spike.yarn"
+  ],
+  "excludeFiles": [],
+  "baseLanguage": "zh",
+  "definitions": "dream_coastline.ysls.json"
+}

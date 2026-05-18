@@ -1,0 +1,17 @@
+[remap]
+
+importer="yarn_spinner.project"
+type="Resource"
+uid="uid://c81gyjphp07jp"
+path="res://.godot/imported/dream_coastline.yarnproject-bc619609a0a4133eebf1ed762a0b5be1.res"
+
+[deps]
+
+source_file="res://data/yarn/dream_coastline.yarnproject"
+dest_files=["res://.godot/imported/dream_coastline.yarnproject-bc619609a0a4133eebf1ed762a0b5be1.res"]
+
+[params]
+
+ysc_path="ysc"
+generate_ysls=false
+ysls_scan_path="res://src/dream"
