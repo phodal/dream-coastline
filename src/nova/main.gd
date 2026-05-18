@@ -3,10 +3,12 @@ extends Control
 const SceneDirectorScript := preload("res://src/nova/scene_director.gd")
 const ExplorationViewScript := preload("res://src/nova/world/exploration_view.gd")
 const VNLayerScript := preload("res://src/nova/ui/vn_layer.gd")
+const DialogicBridgeScript := preload("res://src/nova/dialogic_bridge.gd")
 
 var director
 var exploration_view
 var vn_layer
+var dialogic_bridge
 
 
 func _ready() -> void:
@@ -26,6 +28,11 @@ func _ready() -> void:
 	vn_layer.accepted.connect(_finish_cutscene)
 	add_child(vn_layer)
 
+	dialogic_bridge = DialogicBridgeScript.new()
+	dialogic_bridge.name = "DialogicBridge"
+	dialogic_bridge.finished.connect(_finish_cutscene)
+	add_child(dialogic_bridge)
+
 	director.location_presented.connect(_present_location)
 	director.cutscene_started.connect(_show_cutscene)
 	director.runtime_error.connect(_runtime_error)
@@ -35,6 +42,8 @@ func _ready() -> void:
 		return
 	if OS.get_cmdline_user_args().has("--smoke-nova-runtime"):
 		call_deferred("_run_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-dialogic-bridge"):
+		call_deferred("_run_dialogic_bridge_smoke")
 	elif OS.get_cmdline_user_args().has("--capture-nova-screenshot"):
 		call_deferred("_capture_screenshot")
 
@@ -58,7 +67,8 @@ func _move_to(location_id: String) -> void:
 
 func _show_cutscene(payload: Dictionary) -> void:
 	var backdrop_path: String = director.visual_repository.get_backdrop_path(GameState.current_scene_id, GameState.current_location_id)
-	vn_layer.show_payload(payload, backdrop_path)
+	if not dialogic_bridge.play_payload(payload, backdrop_path):
+		vn_layer.show_payload(payload, backdrop_path)
 
 
 func _finish_cutscene(payload: Dictionary) -> void:
@@ -92,6 +102,22 @@ func _run_smoke() -> void:
 		if not flags.is_empty():
 			ok = ok and StoryFlags.has_flag(str(flags[0]))
 	print("nova-runtime-smoke status=%s scene=%s location=%s item=%s" % ["PASS" if ok else "FAIL", scene_id, location_id, first_item])
+	get_tree().quit(0 if ok else 1)
+
+
+func _run_dialogic_bridge_smoke() -> void:
+	var backdrop_path: String = director.visual_repository.get_backdrop_path(GameState.current_scene_id, GameState.current_location_id)
+	var ok: bool = dialogic_bridge.smoke({
+		"speaker": "旁白",
+		"title": "Dialogic Bridge Smoke",
+		"text": "Dialogic timeline bridge is available.",
+		"flags": ["dialogic_bridge_smoke"],
+	}, backdrop_path)
+	print("dialogic-bridge-smoke status=%s installed=%s backdrop=%s" % [
+		"PASS" if ok else "FAIL",
+		str(dialogic_bridge.is_dialogic_installed()),
+		backdrop_path,
+	])
 	get_tree().quit(0 if ok else 1)
 
 

@@ -1,15 +1,15 @@
 # Automated Testing Strategy
 
-Dream Coastline already has several validation surfaces: Python contract
-validators, ASCII scene walkthroughs, Rust-backed Godot smoke tests, and
-viewport screenshot capture. The automated test design should keep those layers
-separate because they answer different questions.
+Dream Coastline now uses the Nova narrative runtime as the main path. The
+automated tests keep static story/data validation separate from Godot runtime
+smoke checks and visible screenshot review because those layers answer
+different questions.
 
 ## Goals
 
 - Catch story, data, and asset-contract regressions before opening Godot.
-- Verify the current main runtime path, which uses `RustGameSession` and
-  `RustRpgPlayerController`, not only the GDScript reference implementation.
+- Verify the current main runtime path: `SceneDirector` + `ExplorationView` +
+  `VNLayer` with Dialogic available as the cutscene frontend.
 - Keep headless CI deterministic and fast enough for every pull request.
 - Treat render smoke as render health only; scene style acceptance still needs a
   screenshot manifest and human-visible review facts.
@@ -20,7 +20,7 @@ separate because they answer different questions.
 
 | Tier | Purpose | Default runner command | Runs in CI |
 |------|---------|------------------------|------------|
-| `quick` | Static data, Python tooling, Rust build, and high-signal contract checks. | `python3 tools/run_automated_tests.py --tier quick` | No |
+| `quick` | Static data, Python tooling, story contracts, and high-signal runtime checks. | `python3 tools/run_automated_tests.py --tier quick` | No |
 | `headless` | Full pull-request gate without opening a visible renderer. | `python3 tools/run_automated_tests.py --tier headless` | Yes |
 | `visual` | Local screenshot and renderer review for scene, prop, HUD, and animation changes. | `python3 tools/run_automated_tests.py --tier visual` | No |
 | `release` | Export-facing checks and release-library validation. | `python3 tools/run_automated_tests.py --tier release` | Tag/release only |
@@ -40,45 +40,31 @@ the repo data is structurally wrong.
 - Run `tools/validate_story_continuity.py --verbose`.
 - Run `tools/validate_equipment_catalog.py`.
 - Run `tools/validate_supply_catalog.py`.
-- Build the Rust GDExtension with `cargo build`, so Godot can load the current
-  Rust classes.
 - Run the headless Godot project-load check.
-- Run focused Godot smoke checks for progression, input mapping, animation
-  clips, and visual asset scene contracts.
+- Run `--smoke-nova-runtime` to prove the new exploration/cutscene path can
+  read story and visual JSON.
+- Run `--smoke-dialogic-bridge` to prove Dialogic is installed and the Nova
+  payload can be converted to a Dialogic timeline.
 
 ## Headless Gate
 
-The headless gate is the pull-request gate. It proves that the Rust-backed
-runtime can boot and complete the current deterministic routes.
+The headless gate is the pull-request gate. It proves that the Nova runtime can
+boot from the preserved story/material data and that Dialogic is available for
+non-headless cutscene playback.
 
-- `--smoke-autoplay`
-- `--smoke-rpg-first-act`
-- `--smoke-rpg-illiterate`
-- `--smoke-rpg-moqi-academy`
-- `--smoke-rpg-dead-kingdom`
-- `--smoke-rpg-continuation-institute`
-- `--smoke-rpg-century-continuation`
-- `--smoke-rpg-return-star-plan`
-- `--smoke-rpg-lights-on-again`
-- `--smoke-rpg-progression`
-- `--smoke-save-load`
-- `--smoke-menu-flow`
-- `--smoke-audio-director`
-- `--smoke-export-config`
-- `--smoke-input-map`
-- `--smoke-animation-clips`
-- `--smoke-visual-asset-scenes`
+- `--smoke-nova-runtime`
+- `--smoke-dialogic-bridge`
 
 This tier should not include visible renderer screenshots. It should be safe on
 GitHub Actions Linux runners.
 
 ## Visual Gate
 
-Use the visual gate whenever a change touches `scripts/ui/`,
-`data/visual_scenes/`, `data/visual_assets/`, `data/animation_clips/`,
-`assets/visual_tiles/`, or `scenes/visual_locations/`.
+Use the visual gate whenever a change touches `src/nova/ui/`,
+`src/nova/world/`, `data/visual_scenes/`, `data/visual_assets/`,
+`assets/visual_tiles/`, or playable illustration assets.
 
-- Run `--smoke-render-frame` without `--headless` to prove a visible frame is
+- Run `--capture-nova-screenshot` without `--headless` to prove a visible frame is
   not blank.
 - Run `tools/capture_scene_screenshots.py --scope starts` for a review contact
   sheet.
@@ -128,7 +114,8 @@ Every new test should declare:
 
 - Test tier: `quick`, `headless`, `visual`, or `release`.
 - Trigger: which files or feature changes require it.
-- Runtime owner: Python tool, Rust build, Godot smoke flag, or screenshot tool.
+- Runtime owner: Python tool, Godot smoke flag, Dialogic bridge check, or
+  screenshot tool.
 - Acceptance text: the exact PASS line, manifest field, or failure condition.
 - Non-goal: what the test does not prove.
 

@@ -181,7 +181,7 @@ def godot_smoke(flag: str, *, quit_after: int = 100) -> StepAction:
 
 
 def render_frame(runner: Runner, step: Step) -> int:
-    return runner.run_godot(step, "--smoke-render-frame", headless=False, quit_after=120)
+    return runner.run_godot(step, "--capture-nova-screenshot", headless=False, quit_after=120)
 
 
 def screenshot_starts(runner: Runner, step: Step) -> int:
@@ -217,61 +217,11 @@ STEPS: list[Step] = [
     Step("character-visual-models", "quick", "validate main character visual model contracts", character_visual_models),
     Step("story-review-panels", "quick", "validate story review panel coverage and character refs", story_review_panels),
     Step("story-movie-smoke", "quick", "validate reproducible story movie generation dependencies and output", story_movie_smoke),
-    Step("cargo-build", "quick", "build Rust GDExtension for the current platform", cargo_build),
     Step("godot-load", "quick", "load the Godot project headlessly", godot_load),
-    Step("smoke-open-rpg-story", "quick", "validate migrated story walkthroughs on the OpenRPG spine", godot_smoke("--smoke-open-rpg-story")),
-    Step("smoke-open-rpg-runtime", "quick", "validate OpenRPG field runtime nodes and pathfinder", godot_smoke("--smoke-open-rpg-runtime")),
-    Step("smoke-open-rpg-actions", "quick", "validate story action records are exposed as OpenRPG interactions", godot_smoke("--smoke-open-rpg-actions")),
-    Step("smoke-open-rpg-visual-scenes", "quick", "validate OpenRPG runtime can load every original visual location scene", godot_smoke("--smoke-open-rpg-visual-scenes")),
-    Step("smoke-chapter-illustrations", "quick", "validate chapter transition illustrations are loadable widescreen textures", godot_smoke("--smoke-chapter-illustrations")),
-    Step("smoke-yarn-spinner", "quick", "validate Yarn Spinner GDScript spike loads and writes a Dream flag", godot_smoke("--smoke-yarn-spinner", quit_after=5000)),
-    Step(
-        "smoke-story-review-mode",
-        "quick",
-        "validate chapter select and walkthrough review playback",
-        godot_smoke("--smoke-story-review-mode", quit_after=500),
-    ),
-    Step("smoke-rpg-progression", "quick", "validate RPG progression data slice", godot_smoke("--smoke-rpg-progression")),
-    Step("smoke-input-map", "quick", "validate keyboard and gamepad input mapping", godot_smoke("--smoke-input-map")),
-    Step("smoke-animation-clips", "quick", "validate animation clip contracts", godot_smoke("--smoke-animation-clips")),
-    Step("smoke-visual-asset-scenes", "quick", "validate asset-backed visual location scenes", godot_smoke("--smoke-visual-asset-scenes")),
-    Step("smoke-autoplay", "headless", "complete every implemented scene runner", godot_smoke("--smoke-autoplay")),
-    Step("smoke-rpg-first-act", "headless", "complete first-act keyboard route", godot_smoke("--smoke-rpg-first-act")),
-    Step("smoke-rpg-illiterate", "headless", "complete illiterate scene keyboard route", godot_smoke("--smoke-rpg-illiterate")),
-    Step("smoke-rpg-moqi-academy", "headless", "complete Moqi Academy keyboard route", godot_smoke("--smoke-rpg-moqi-academy")),
-    Step("smoke-rpg-dead-kingdom", "headless", "complete dead kingdom keyboard route", godot_smoke("--smoke-rpg-dead-kingdom")),
-    Step(
-        "smoke-rpg-continuation-institute",
-        "headless",
-        "complete continuation institute keyboard route",
-        godot_smoke("--smoke-rpg-continuation-institute"),
-    ),
-    Step(
-        "smoke-rpg-century-continuation",
-        "headless",
-        "complete century continuation keyboard route",
-        godot_smoke("--smoke-rpg-century-continuation"),
-    ),
-    Step(
-        "smoke-rpg-return-star-plan",
-        "headless",
-        "complete return star plan keyboard route",
-        godot_smoke("--smoke-rpg-return-star-plan"),
-    ),
-    Step(
-        "smoke-rpg-lights-on-again",
-        "headless",
-        "complete lights-on-again keyboard route",
-        godot_smoke("--smoke-rpg-lights-on-again"),
-    ),
-    Step("smoke-save-load", "headless", "validate save/load round trip", godot_smoke("--smoke-save-load")),
-    Step("smoke-menu-flow", "headless", "validate title, pause, and settings flow", godot_smoke("--smoke-menu-flow")),
-    Step("smoke-audio-director", "headless", "validate generated fallback audio streams", godot_smoke("--smoke-audio-director")),
-    Step("smoke-export-config", "headless", "validate export preset configuration", godot_smoke("--smoke-export-config")),
-    Step("smoke-render-frame", "visual", "verify a visible rendered frame is non-empty", render_frame),
+    Step("smoke-nova-runtime", "quick", "validate Nova exploration and VN cutscene runtime", godot_smoke("--smoke-nova-runtime")),
+    Step("smoke-dialogic-bridge", "quick", "validate Dialogic addon install and timeline bridge", godot_smoke("--smoke-dialogic-bridge")),
+    Step("capture-nova-screenshot", "visual", "capture a visible Nova runtime frame", render_frame),
     Step("screenshots", "visual", "capture screenshot review contact sheet", screenshot_starts),
-    Step("release-build-libraries", "release", "build desktop release GDExtension libraries", cargo_release_builds),
-    Step("smoke-release-libraries", "release", "validate release GDExtension library paths", godot_smoke("--smoke-release-libraries")),
 ]
 
 TIER_GROUPS = {
