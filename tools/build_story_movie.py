@@ -20,6 +20,11 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = "artifacts/story-movie/dream-coastline-story-movie.mp4"
 DEFAULT_SIZE = "1920x1080"
 DEFAULT_FONT = "PingFang SC"
+REQUIRED_TOOLS = {
+    "ffmpeg": "/opt/homebrew/bin/ffmpeg",
+    "ffprobe": "/opt/homebrew/bin/ffprobe",
+    "pango-view": "/opt/homebrew/bin/pango-view",
+}
 
 
 @dataclass
@@ -55,6 +60,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--voice-volume", type=float, default=1.28, help="Voice sample volume multiplier.")
     parser.add_argument("--no-sfx", action="store_true", help="Do not mix event SFX into the movie audio.")
     parser.add_argument("--no-voices", action="store_true", help="Do not mix generated voice samples into the movie audio.")
+    parser.add_argument("--check-deps", action="store_true", help="Check external movie-rendering dependencies and exit.")
     parser.add_argument("--keep-workdir", action="store_true", help="Keep intermediate concat/subtitle/audio files.")
     return parser.parse_args()
 
@@ -70,29 +76,59 @@ def repo_path(path_text: str) -> Path:
     return ROOT / path
 
 
-def ffmpeg() -> str:
-    found = shutil.which("ffmpeg")
+def external_tool(name: str) -> str:
+    found = shutil.which(name)
     if found:
         return found
-    fallback = Path("/opt/homebrew/bin/ffmpeg")
+    fallback = Path(REQUIRED_TOOLS[name])
     if fallback.exists():
         return str(fallback)
-    raise RuntimeError("ffmpeg not found")
+    raise RuntimeError(f"{name} not found; install it or add it to PATH")
+
+
+def ffmpeg() -> str:
+    return external_tool("ffmpeg")
+
+
+def ffprobe() -> str:
+    return external_tool("ffprobe")
 
 
 def pango_view() -> str:
-    found = shutil.which("pango-view")
-    if found:
-        return found
-    fallback = Path("/opt/homebrew/bin/pango-view")
-    if fallback.exists():
-        return str(fallback)
-    raise RuntimeError("pango-view not found; install pango or use a Python build with image rendering support")
+    return external_tool("pango-view")
+
+
+def tool_version(path: str) -> str:
+    command = [path, "-version"]
+    if Path(path).name == "pango-view":
+        command = [path, "--version"]
+    try:
+        result = subprocess.run(command, cwd=ROOT, text=True, capture_output=True, check=True)
+    except Exception:
+        return "version unavailable"
+    lines = result.stdout.splitlines() or result.stderr.splitlines()
+    if not lines:
+        return "version unavailable"
+    first_line = lines[0]
+    return first_line.strip()
+
+
+def check_dependencies() -> tuple[list[tuple[str, str, str]], list[str]]:
+    resolved: list[tuple[str, str, str]] = []
+    failures: list[str] = []
+    for name in REQUIRED_TOOLS:
+        try:
+            path = external_tool(name)
+        except RuntimeError as error:
+            failures.append(str(error))
+            continue
+        resolved.append((name, path, tool_version(path)))
+    return resolved, failures
 
 
 def ffprobe_duration(path: Path) -> float:
     command = [
-        "ffprobe",
+        ffprobe(),
         "-v",
         "error",
         "-show_entries",
@@ -632,6 +668,17 @@ def filter_path(path: Path) -> str:
 
 def main() -> int:
     args = parse_args()
+    dependency_report, dependency_failures = check_dependencies()
+    if dependency_failures:
+        for failure in dependency_failures:
+            print(f"story-movie dependency: {failure}", file=sys.stderr)
+        return 1
+    if args.check_deps:
+        print("story-movie dependencies: OK")
+        for name, path, version in dependency_report:
+            print(f"- {name}: {path} ({version})")
+        return 0
+
     output = (ROOT / args.output).resolve() if not Path(args.output).is_absolute() else Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     workdir = output.parent / f".{output.stem}-work"

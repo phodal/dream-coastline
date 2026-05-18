@@ -135,6 +135,32 @@ def story_review_panels(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_story_review_panels.py")
 
 
+def story_movie_smoke(runner: Runner, step: Step) -> int:
+    code = runner.run_python(step, "tools/build_story_movie.py", "--check-deps")
+    if code != 0:
+        return code
+    return runner.run_python(
+        step,
+        "tools/build_story_movie.py",
+        "--scene",
+        "00-prologue-lights-out",
+        "--output",
+        "artifacts/story-movie/00-prologue-lights-out-movie-smoke.mp4",
+        "--size",
+        "640x360",
+        "--fps",
+        "6",
+        "--min-seconds",
+        "0.4",
+        "--max-seconds",
+        "0.8",
+        "--title-seconds",
+        "0.6",
+        "--no-sfx",
+        "--no-voices",
+    )
+
+
 def cargo_build(runner: Runner, step: Step) -> int:
     return runner.run_command(step, ["cargo", "build"])
 
@@ -190,6 +216,7 @@ STEPS: list[Step] = [
     ),
     Step("character-visual-models", "quick", "validate main character visual model contracts", character_visual_models),
     Step("story-review-panels", "quick", "validate story review panel coverage and character refs", story_review_panels),
+    Step("story-movie-smoke", "quick", "validate reproducible story movie generation dependencies and output", story_movie_smoke),
     Step("cargo-build", "quick", "build Rust GDExtension for the current platform", cargo_build),
     Step("godot-load", "quick", "load the Godot project headlessly", godot_load),
     Step("smoke-open-rpg-story", "quick", "validate migrated story walkthroughs on the OpenRPG spine", godot_smoke("--smoke-open-rpg-story")),
