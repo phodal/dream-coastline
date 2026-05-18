@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "provider": "minimax",
-  "generated_at": "2026-05-17T19:09:39.627Z",
+  "generated_at": "2026-05-18T00:29:23.265Z",
   "assets": [
     {
       "asset_id": "MUS-01-001",
@@ -152,7 +152,9 @@
           "tool": "ffmpeg",
           "duration_ms": 360,
           "loudnorm_i": -24,
-          "true_peak_db": -8
+          "true_peak_db": -8,
+          "mix_adjustment_db": -6,
+          "mix_adjustment_reason": "Lowered prologue step one-shot after volumedetect review so navigation does not overpower ambience."
         }
       }
     },
@@ -179,7 +181,9 @@
           "tool": "ffmpeg",
           "duration_ms": 360,
           "loudnorm_i": -24,
-          "true_peak_db": -8
+          "true_peak_db": -8,
+          "mix_adjustment_db": -6,
+          "mix_adjustment_reason": "Lowered prologue step one-shot after volumedetect review so navigation does not overpower ambience."
         }
       }
     },
@@ -2782,6 +2786,201 @@
         "post_process": {
           "tool": "ffmpeg",
           "duration_ms": 1300,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "AMB-00-001",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "00-prologue-lights-out",
+      "cue_id": "AMB-00-001",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/00-prologue-lights-out/AMB-00-001.mp3",
+      "prompt_summary": "modern city night ambience, low distant traffic, vending machine hum, thin wind through old apartment blocks, restrained suspense, no melody, no pop beat",
+      "status": "generated",
+      "generated_at": "2026-05-18T00:15:04.699Z",
+      "trace_id": "06598c99187a929559082f10ad881274",
+      "extra_info": {
+        "music_duration": 142680,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4567761
+      }
+    },
+    {
+      "asset_id": "AMB-00-002",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "00-prologue-lights-out",
+      "cue_id": "AMB-00-002",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/00-prologue-lights-out/AMB-00-002.mp3",
+      "prompt_summary": "empty apartment stairwell ambience, hollow hallway reverb, muted cough impulse with no light response, low electrical absence, paper-dry silence, no rhythm",
+      "status": "generated",
+      "generated_at": "2026-05-18T00:17:48.805Z",
+      "trace_id": "06598d088807a9feec4abb5216d9abb4",
+      "extra_info": {
+        "music_duration": 264986,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 8481530
+      }
+    },
+    {
+      "asset_id": "STG-00-001",
+      "type": "music",
+      "provider": "minimax",
+      "scene_id": "00-prologue-lights-out",
+      "cue_id": "STG-00-001",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/music/00-prologue-lights-out/STG-00-001.mp3",
+      "prompt_summary": "single dramatic stinger, paper rustle, ink spreading, tiny blood drop impact, sudden blackout, no orchestral swell, restrained RPG horror accent",
+      "status": "generated",
+      "generated_at": "2026-05-18T00:19:33.224Z",
+      "trace_id": "06598dac311bb0899c1624d5b25dd8b1",
+      "extra_info": {
+        "music_duration": 114102,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3653266
+      }
+    },
+    {
+      "asset_id": "SFX-00-STEP-STREET",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "00-prologue-lights-out",
+      "sfx_id": "SFX-00-STEP-STREET",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/00-prologue-lights-out/SFX-00-STEP-STREET.mp3",
+      "prompt_summary": "game sound effect, single modern street footstep on pavement at night, distant vending machine hum, thin wind, restrained, no rhythm, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-18T00:24:02.701Z",
+      "trace_id": "06598e1532dfec18487e07d62cfb9df7",
+      "extra_info": {
+        "music_duration": 562886,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 18014344,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-00-STEP-INTERIOR",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "00-prologue-lights-out",
+      "sfx_id": "SFX-00-STEP-INTERIOR",
+      "event_name": "step",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/00-prologue-lights-out/SFX-00-STEP-INTERIOR.mp3",
+      "prompt_summary": "game sound effect, single quiet indoor footstep in apartment stairwell and dark home, hollow hallway reverb, no response, restrained, no rhythm, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-18T00:25:11.151Z",
+      "trace_id": "06598f22715c07d59933f05a2db886e5",
+      "extra_info": {
+        "music_duration": 86857,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2781403,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 360,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-00-INSPECT-HOME",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "00-prologue-lights-out",
+      "sfx_id": "SFX-00-INSPECT-HOME",
+      "event_name": "interact",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/00-prologue-lights-out/SFX-00-INSPECT-HOME.mp3",
+      "prompt_summary": "game sound effect, inspect modern household object under silence, paper edge, phone static, key lock click, cold room air, restrained confirmation, no bell, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-18T00:26:58.565Z",
+      "trace_id": "06598f675124197e90694d3a7e1167e4",
+      "extra_info": {
+        "music_duration": 135053,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 4323673,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 620,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-00-INSPECT-LETTER",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "00-prologue-lights-out",
+      "sfx_id": "SFX-00-INSPECT-LETTER",
+      "event_name": "interact",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/00-prologue-lights-out/SFX-00-INSPECT-LETTER.mp3",
+      "prompt_summary": "game sound effect, inspect letter and black fountain pen in dark bedroom, paper rustle, faint ink smell, tiny static before blackout, restrained, no melody, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-18T00:28:16.358Z",
+      "trace_id": "06598fd2df8de9b05d5fe32753860f2e",
+      "extra_info": {
+        "music_duration": 104071,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 3332273,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 720,
+          "loudnorm_i": -24,
+          "true_peak_db": -8
+        }
+      }
+    },
+    {
+      "asset_id": "SFX-00-BLACKOUT",
+      "type": "sfx",
+      "provider": "minimax",
+      "scene_id": "00-prologue-lights-out",
+      "sfx_id": "SFX-00-BLACKOUT",
+      "event_name": "success",
+      "model": "music-2.6-free",
+      "output_path": "assets/audio/generated/sfx/00-prologue-lights-out/SFX-00-BLACKOUT.mp3",
+      "prompt_summary": "game sound effect, blood drop on letter, ink spreads over English text, sudden light blackout, transition pressure, restrained RPG stinger, no orchestral swell, clean one-shot",
+      "status": "generated",
+      "generated_at": "2026-05-18T00:29:23.265Z",
+      "trace_id": "0659902062da723c4102a0e694cd6701",
+      "extra_info": {
+        "music_duration": 75389,
+        "music_sample_rate": 44100,
+        "music_channel": 2,
+        "bitrate": 256000,
+        "music_size": 2414435,
+        "post_process": {
+          "tool": "ffmpeg",
+          "duration_ms": 1100,
           "loudnorm_i": -24,
           "true_peak_db": -8
         }

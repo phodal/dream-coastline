@@ -331,7 +331,7 @@
           "time_seconds": 150,
           "requires": ["restored_final_ui"],
           "flags": ["heard_civilization_response"],
-          "text": "墨颀各城同时亮起：学塾、档案馆、工坊、星象塔都在回写同一句话：该文明选择继续。"
+          "text": "墨颀各城同时亮起：学塾、档案馆、工坊、星象塔都在回写同一句话：该文明选择继续。夏离说：墨颀各城都在回写。你不是一个人。"
         }
       },
       "build_actions": {

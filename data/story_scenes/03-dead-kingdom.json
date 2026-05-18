@@ -291,7 +291,7 @@
           "time_seconds": 90,
           "requires": ["opened_main_core"],
           "flags": ["read_parent_full_plan"],
-          "text": "父亲说：现代星球的坐标正在消失。母亲说：墨颀必须发展到能够观测星空。"
+          "text": "父亲说：现代星球的坐标正在消失。母亲说：墨颀必须发展到能够观测星空。只有当它看见我们，它才能救我们。"
         }
       },
       "glyph_actions": {

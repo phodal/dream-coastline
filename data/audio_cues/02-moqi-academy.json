@@ -32,6 +32,7 @@
         "data/story_scenes/02-moqi-academy.json#locations.village"
       ],
       "target_path": "assets/audio/generated/music/02-moqi-academy/MUS-02-002.mp3",
+      "runtime_enabled": false,
       "sample_generation": true
     },
     {

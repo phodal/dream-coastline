@@ -1,0 +1,75 @@
+{
+  "schema": "dream-coastline.story_review_media.v1",
+  "media": {
+    "01-illiterate": [
+      {
+        "id": "cinema-subtitle",
+        "label": "电影字幕版",
+        "recording_path": "res://artifacts/story-review/01-illiterate-cinema-subtitle/01-illiterate.mp4",
+        "poster_path": "res://artifacts/story-review/01-illiterate-cinema-subtitle/poster.png",
+        "contact_path": "res://artifacts/story-review/01-illiterate-cinema-subtitle/contact.png"
+      },
+      {
+        "id": "bottom-subtitle",
+        "label": "底部字幕版",
+        "recording_path": "res://artifacts/story-review/01-illiterate-bottom-subtitle/01-illiterate.mp4",
+        "poster_path": "res://artifacts/story-review/01-illiterate-bottom-subtitle/poster.png",
+        "contact_path": "res://artifacts/story-review/01-illiterate-bottom-subtitle/contact.png"
+      }
+    ],
+    "02-moqi-academy": [
+      {
+        "id": "storyboard-review",
+        "label": "剧情验收录屏",
+        "recording_path": "res://artifacts/story-review/02-moqi-academy-storyboards/02-moqi-academy.mp4",
+        "poster_path": "res://artifacts/story-review/02-moqi-academy-storyboards/poster.png",
+        "contact_path": "res://artifacts/story-review/02-moqi-academy-storyboards/contact.png"
+      }
+    ],
+    "03-dead-kingdom": [
+      {
+        "id": "storyboard-review",
+        "label": "剧情验收录屏",
+        "recording_path": "res://artifacts/story-review/03-dead-kingdom-storyboards/03-dead-kingdom.mp4",
+        "poster_path": "res://artifacts/story-review/03-dead-kingdom-storyboards/poster.png",
+        "contact_path": "res://artifacts/story-review/03-dead-kingdom-storyboards/contact.png"
+      }
+    ],
+    "04-continuation-institute": [
+      {
+        "id": "storyboard-review",
+        "label": "剧情验收录屏",
+        "recording_path": "res://artifacts/story-review/04-continuation-institute-storyboards/04-continuation-institute.mp4",
+        "poster_path": "res://artifacts/story-review/04-continuation-institute-storyboards/poster.png",
+        "contact_path": "res://artifacts/story-review/04-continuation-institute-storyboards/contact.png"
+      }
+    ],
+    "05-century-continuation": [
+      {
+        "id": "storyboard-review",
+        "label": "剧情验收录屏",
+        "recording_path": "res://artifacts/story-review/05-century-continuation-storyboards/05-century-continuation.mp4",
+        "poster_path": "res://artifacts/story-review/05-century-continuation-storyboards/poster.png",
+        "contact_path": "res://artifacts/story-review/05-century-continuation-storyboards/contact.png"
+      }
+    ],
+    "06-return-star-plan": [
+      {
+        "id": "storyboard-review",
+        "label": "剧情验收录屏",
+        "recording_path": "res://artifacts/story-review/06-return-star-plan-storyboards/06-return-star-plan.mp4",
+        "poster_path": "res://artifacts/story-review/06-return-star-plan-storyboards/poster.png",
+        "contact_path": "res://artifacts/story-review/06-return-star-plan-storyboards/contact.png"
+      }
+    ],
+    "07-lights-on-again": [
+      {
+        "id": "storyboard-review",
+        "label": "剧情验收录屏",
+        "recording_path": "res://artifacts/story-review/07-lights-on-again-storyboards/07-lights-on-again.mp4",
+        "poster_path": "res://artifacts/story-review/07-lights-on-again-storyboards/poster.png",
+        "contact_path": "res://artifacts/story-review/07-lights-on-again-storyboards/contact.png"
+      }
+    ]
+  }
+}

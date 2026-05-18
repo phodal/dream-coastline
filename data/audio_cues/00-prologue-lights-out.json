@@ -7,7 +7,7 @@
     "five/system/art-audio-direction.md",
     "data/story_scenes/00-prologue-lights-out.json"
   ],
-  "production_note": "首轮只做 cue sheet，不生成序幕成品。序幕以现代环境音、低频空响和灯灭瞬间为主，避免写成完整旋律。",
+  "production_note": "序幕以现代环境音、低频空响和灯灭瞬间为主，避免写成完整旋律；补齐基础脚步、调查和钢笔触发音，服务“灯未亮起”的现代悬疑闭环。",
   "cues": [
     {
       "cue_id": "AMB-00-001",
@@ -23,7 +23,7 @@
         "data/story_scenes/00-prologue-lights-out.json#locations.street"
       ],
       "target_path": "assets/audio/generated/music/00-prologue-lights-out/AMB-00-001.mp3",
-      "sample_generation": false
+      "sample_generation": true
     },
     {
       "cue_id": "AMB-00-002",
@@ -39,7 +39,7 @@
         "data/story_scenes/00-prologue-lights-out.json#locations.building.items.lamp"
       ],
       "target_path": "assets/audio/generated/music/00-prologue-lights-out/AMB-00-002.mp3",
-      "sample_generation": false
+      "sample_generation": true
     },
     {
       "cue_id": "STG-00-001",
@@ -54,7 +54,84 @@
         "data/story_scenes/00-prologue-lights-out.json#locations.bedroom.items.pen"
       ],
       "target_path": "assets/audio/generated/music/00-prologue-lights-out/STG-00-001.mp3",
-      "sample_generation": false
+      "sample_generation": true
+    }
+  ],
+  "event_sounds": [
+    {
+      "sfx_id": "SFX-00-STEP-STREET",
+      "scene_id": "00-prologue-lights-out",
+      "event_name": "step",
+      "locations": ["street"],
+      "mood": "现代居民楼外的夜路脚步，风、自动售货机和远处车流低频",
+      "instrumentation_prompt": "game sound effect, single modern street footstep on pavement at night, distant vending machine hum, thin wind, restrained, no rhythm, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.street",
+        "five/scene/00-prologue-lights-out.md"
+      ],
+      "target_path": "assets/audio/generated/sfx/00-prologue-lights-out/SFX-00-STEP-STREET.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-00-STEP-INTERIOR",
+      "scene_id": "00-prologue-lights-out",
+      "event_name": "step",
+      "locations": ["building", "home", "living_room", "study", "bedroom"],
+      "mood": "楼道、家门口、客厅、书房和卧室里的短脚步，空、近、没有回应",
+      "instrumentation_prompt": "game sound effect, single quiet indoor footstep in apartment stairwell and dark home, hollow hallway reverb, no response, restrained, no rhythm, clean one-shot",
+      "duration_ms": 360,
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.building",
+        "data/story_scenes/00-prologue-lights-out.json#locations.living_room"
+      ],
+      "target_path": "assets/audio/generated/sfx/00-prologue-lights-out/SFX-00-STEP-INTERIOR.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-00-INSPECT-HOME",
+      "scene_id": "00-prologue-lights-out",
+      "event_name": "interact",
+      "locations": ["street", "building", "home", "living_room", "study"],
+      "mood": "调查窗户、声控灯、门锁、冷饭、照片、眼镜和手机信号时的现代物件确认音",
+      "instrumentation_prompt": "game sound effect, inspect modern household object under silence, paper edge, phone static, key lock click, cold room air, restrained confirmation, no bell, clean one-shot",
+      "duration_ms": 620,
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.living_room.items",
+        "data/story_scenes/00-prologue-lights-out.json#locations.study.items"
+      ],
+      "target_path": "assets/audio/generated/sfx/00-prologue-lights-out/SFX-00-INSPECT-HOME.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-00-INSPECT-LETTER",
+      "scene_id": "00-prologue-lights-out",
+      "event_name": "interact",
+      "locations": ["bedroom"],
+      "mood": "卧室里调查信纸和黑色钢笔，纸页、墨味和灯灭前的压力",
+      "instrumentation_prompt": "game sound effect, inspect letter and black fountain pen in dark bedroom, paper rustle, faint ink smell, tiny static before blackout, restrained, no melody, clean one-shot",
+      "duration_ms": 720,
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.bedroom.items.letter",
+        "data/story_scenes/00-prologue-lights-out.json#locations.bedroom.items.pen"
+      ],
+      "target_path": "assets/audio/generated/sfx/00-prologue-lights-out/SFX-00-INSPECT-LETTER.mp3",
+      "sample_generation": true
+    },
+    {
+      "sfx_id": "SFX-00-BLACKOUT",
+      "scene_id": "00-prologue-lights-out",
+      "event_name": "success",
+      "locations": ["bedroom"],
+      "mood": "血滴在信纸上，英文被墨迹吞掉，灯灭并进入墨颀",
+      "instrumentation_prompt": "game sound effect, blood drop on letter, ink spreads over English text, sudden light blackout, transition pressure, restrained RPG stinger, no orchestral swell, clean one-shot",
+      "duration_ms": 1100,
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.bedroom.items.pen",
+        "five/script/prologue-fragment.md"
+      ],
+      "target_path": "assets/audio/generated/sfx/00-prologue-lights-out/SFX-00-BLACKOUT.mp3",
+      "sample_generation": true
     }
   ],
   "voice_samples": []

@@ -270,6 +270,8 @@ func _load_audio_cue_file(path: String) -> void:
 	for cue in data.get("cues", []):
 		if not (cue is Dictionary):
 			continue
+		if cue.has("runtime_enabled") and not bool(cue.get("runtime_enabled")):
+			continue
 		if str(cue.get("type", "")) != "music":
 			continue
 		var target_path := _res_path(str(cue.get("target_path", "")))

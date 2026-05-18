@@ -61,6 +61,7 @@ const SCENE_SMOKE_FLAGS := {
 	"--smoke-rpg-return-star-plan": 6,
 	"--smoke-rpg-lights-on-again": 7,
 }
+const STORY_REVIEW_MEDIA_PATH := "res://data/story_review_media.json"
 
 var repository: DreamStoryRepository
 var visual_repository
@@ -99,6 +100,7 @@ var review_last_command := ""
 var review_last_line := ""
 var review_prefix_note := ""
 var review_step_seconds := 1.0
+var story_review_media_by_scene: Dictionary = {}
 
 
 func _ready() -> void:
@@ -112,6 +114,7 @@ func _ready() -> void:
 		visual_ok = visual_repository.load_for_scene_ids(repository.scene_ids())
 	illustration_repository = IllustrationRepositoryScript.new()
 	var illustration_ok: bool = illustration_repository.load_all()
+	_load_story_review_media()
 	character_visual_repository = CharacterVisualRepositoryScript.new()
 	character_visual_repository.load_all()
 	var args := _runtime_args()
@@ -784,9 +787,10 @@ func _story_review_default_action_text(verb: String, arg: String) -> String:
 func _update_story_review_overlay() -> void:
 	if story_review_overlay == null or repository == null or current_scene.is_empty():
 		return
+	var scene_id := str(current_scene.get("id", ""))
 	var location := repository.location_for(current_scene, current_location_id)
 	var walkthrough: Array = current_scene.get("walkthrough", [])
-	var illustration := _story_review_illustration(str(current_scene.get("id", "")))
+	var illustration := _story_review_illustration(scene_id)
 	var character_refs: Array = illustration.get("characters", [])
 	var character_assets: Array[Dictionary] = []
 	if character_visual_repository != null and character_visual_repository.has_method("story_review_assets_for"):
@@ -806,6 +810,7 @@ func _update_story_review_overlay() -> void:
 		"illustration_title": str(illustration.get("title", "")),
 		"illustration_caption": str(illustration.get("caption", "")),
 		"characters": character_assets,
+		"review_media": _story_review_media_for_scene(scene_id),
 	})
 
 
@@ -826,6 +831,34 @@ func _story_review_flag_summary() -> String:
 	if keys.size() <= 10:
 		return ", ".join(keys)
 	return "%s ... +%d" % [", ".join(keys.slice(max(0, keys.size() - 10), keys.size())), keys.size() - 10]
+
+
+func _load_story_review_media() -> void:
+	story_review_media_by_scene.clear()
+	if not FileAccess.file_exists(STORY_REVIEW_MEDIA_PATH):
+		return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(STORY_REVIEW_MEDIA_PATH))
+	if not (parsed is Dictionary):
+		push_warning("Story review media is not an object: %s" % STORY_REVIEW_MEDIA_PATH)
+		return
+	var media_by_scene: Dictionary = parsed.get("media", {})
+	for scene_id in media_by_scene.keys():
+		var raw_records = media_by_scene[scene_id]
+		var records: Array = raw_records if typeof(raw_records) == TYPE_ARRAY else []
+		var normalized: Array[Dictionary] = []
+		for record in records:
+			if typeof(record) == TYPE_DICTIONARY:
+				normalized.append(record)
+		story_review_media_by_scene[str(scene_id)] = normalized
+
+
+func _story_review_media_for_scene(scene_id: String) -> Array[Dictionary]:
+	var records: Array[Dictionary] = []
+	var raw_records: Array = story_review_media_by_scene.get(scene_id, [])
+	for record in raw_records:
+		if record is Dictionary:
+			records.append(record.duplicate(true))
+	return records
 
 
 func _add_item_interactions(scene_id: String, location: Dictionary) -> void:
@@ -963,7 +996,13 @@ func _run_item_interaction(interaction: DreamStoryInteraction) -> void:
 		await dialogue_layer.show_message(interaction.display_name, "Missing required evidence: %s" % ", ".join(missing))
 		return
 
-	_play_story_event("interact")
+	var item_event := "interact"
+	var ending_flag := str(current_scene.get("ending_flag", ""))
+	for flag in item.get("flags", []):
+		if str(flag) == ending_flag:
+			item_event = "success"
+			break
+	_play_story_event(item_event)
 	var gained := repository.apply_item_flags(item, flags)
 	var gained_text := ""
 	if not gained.is_empty():

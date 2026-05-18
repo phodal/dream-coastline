@@ -261,7 +261,7 @@
           "requires": ["bound_civilization_backups", "checked_gate_calibration"],
           "flags": ["opened_return_gate"],
           "metrics": {"energy": -18, "support": 8, "star_observation": 20},
-          "text": "归星门开启。纪子轩站在门前，身后不是一个人，而是一个成长起来的文明。"
+          "text": "归星门开启。纪子轩站在门前，身后不是一个人，而是一个成长起来的文明。他低声说：这一次，不是我一个人回家。"
         }
       }
     },
@@ -306,7 +306,7 @@
           "time_seconds": 90,
           "requires": ["defeated_invasion_probe"],
           "flags": ["received_parent_truth"],
-          "text": "父母说：你不是被送去逃生。你是被送去点燃一支火种。"
+          "text": "母亲说：我们无法向宇宙求救，因为求救信号会被静默。父亲说：你不是被送去逃生。你是被送去点燃一支火种。"
         }
       },
       "build_actions": {

@@ -74,7 +74,7 @@
           "time_seconds": 110,
           "requires": ["wensu_textbook_survives"],
           "flags": ["witnessed_wensu_absence"],
-          "text": "讲堂前排留着闻素的空椅。学生们没有为她停课，而是把她留下的复盘法继续教给下一届。"
+          "text": "讲堂前排留着闻素的空椅。学生们没有为她停课，而是把她留下的复盘法继续教给下一届。教材页边留着她的一句：如果我不在了，就让错误继续教下一届。"
         },
         "night_school": {
           "name": "夜校灯光",
@@ -90,7 +90,7 @@
           "requires": ["archive_tower_built", "first_students_teach", "wensu_textbook_survives"],
           "flags": ["built_text_industry"],
           "metrics": {"energy": 20, "engineering": 18, "literacy": 16, "trust": 8},
-          "text": "墨力炉、符文车、公共照明和印刷符纸进入城市。基础设施不再只靠少数书记官。"
+          "text": "墨力炉、符文车、公共照明和印刷符纸进入城市。基础设施不再只靠少数书记官。阿棠在试炉旁说：别先争它叫什么，先让我把它跑起来。"
         }
       }
     },
@@ -194,7 +194,7 @@
           "time_seconds": 100,
           "requires": ["mapped_stars_as_text"],
           "flags": ["standardized_star_coordinates"],
-          "text": "星象工程师争论了三天，最后把坐标写法也纳入公共标准。回家不再是愿望，而是可复核的工程。"
+          "text": "星象工程师争论了三天，最后把坐标写法也纳入公共标准。纪子轩低声说：回家不再是愿望，是可以复核的工程。"
         },
         "beacon": {
           "name": "跨界信标",
