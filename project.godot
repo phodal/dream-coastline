@@ -30,7 +30,9 @@ QuestState="*res://src/nova/autoload/quest_state.gd"
 
 [dialogic]
 
-directories/dch_directory={}
+directories/dch_directory={
+"jizi_xuan": "res://dialogic/characters/jizi_xuan.dch"
+}
 directories/dtl_directory={}
 layout/style_directory={}
 

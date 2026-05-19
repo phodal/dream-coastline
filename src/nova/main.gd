@@ -193,10 +193,17 @@ func _smoke_inspect(item_id: String) -> bool:
 func _run_dialogic_bridge_smoke() -> void:
 	var backdrop_path: String = director.visual_repository.get_backdrop_path(GameState.current_scene_id, GameState.current_location_id)
 	var ok: bool = dialogic_bridge.smoke({
-		"speaker": "旁白",
+		"speaker": "纪子轩",
 		"title": "Dialogic Bridge Smoke",
 		"text": "Dialogic timeline bridge is available.",
 		"flags": ["dialogic_bridge_smoke"],
+		"characters": [{
+			"id": "jizi_xuan",
+			"name": "纪子轩",
+			"path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png",
+			"dialogic_id": "jizi_xuan",
+			"portrait": "phone",
+		}],
 	}, backdrop_path)
 	print("dialogic-bridge-smoke status=%s installed=%s backdrop=%s" % [
 		"PASS" if ok else "FAIL",
@@ -212,6 +219,7 @@ func _run_asset_smoke() -> void:
 		"res://assets/branding/dream-coastline-splash.png",
 		"res://assets/branding/dream-coastline-icon.png",
 		"res://assets/characters/jizixuan/player_default.png",
+		"res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png",
 		"res://assets/characters/main/jizi_xuan/model_sheet.png",
 		"res://assets/characters/main/xiali/model_sheet.png",
 		"res://assets/characters/main/wensu/model_sheet.png",

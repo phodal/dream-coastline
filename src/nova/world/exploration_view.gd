@@ -11,13 +11,15 @@ var flag_label: Label
 var quest_label: Label
 var choice_list: VBoxContainer
 var prop_layer: Control
-var player_sprite: TextureRect
+var protagonist_portrait: TextureRect
 var _choice_buttons: Array[Button] = []
 var _selected_choice_index := 0
 var _scene_id := ""
 var _location_id := ""
 var _location: Dictionary = {}
 var _visual: Dictionary = {}
+
+const PROTAGONIST_PORTRAIT := "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png"
 
 
 func _ready() -> void:
@@ -40,63 +42,63 @@ func _ready() -> void:
 	prop_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(prop_layer)
 
-	player_sprite = TextureRect.new()
-	player_sprite.name = "PlayerSprite"
-	player_sprite.anchor_left = 0.44
-	player_sprite.anchor_top = 0.56
-	player_sprite.anchor_right = 0.44
-	player_sprite.anchor_bottom = 0.56
-	player_sprite.offset_left = -36.0
-	player_sprite.offset_top = -52.0
-	player_sprite.offset_right = 36.0
-	player_sprite.offset_bottom = 52.0
-	player_sprite.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	player_sprite.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
-	if ResourceLoader.exists("res://assets/characters/jizixuan/player_default.png"):
-		var atlas := AtlasTexture.new()
-		atlas.atlas = load("res://assets/characters/jizixuan/player_default.png")
-		atlas.region = Rect2(16.0, 0.0, 16.0, 16.0)
-		player_sprite.texture = atlas
-	add_child(player_sprite)
+	protagonist_portrait = TextureRect.new()
+	protagonist_portrait.name = "ProtagonistPortrait"
+	protagonist_portrait.anchor_left = 0.0
+	protagonist_portrait.anchor_top = 1.0
+	protagonist_portrait.anchor_right = 0.0
+	protagonist_portrait.anchor_bottom = 1.0
+	protagonist_portrait.offset_left = 26.0
+	protagonist_portrait.offset_top = -450.0
+	protagonist_portrait.offset_right = 286.0
+	protagonist_portrait.offset_bottom = 18.0
+	protagonist_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	protagonist_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+	protagonist_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	protagonist_portrait.z_index = 4
+	protagonist_portrait.texture = _load_texture(PROTAGONIST_PORTRAIT)
+	add_child(protagonist_portrait)
 
-	var top := PanelContainer.new()
-	top.anchor_left = 0.0
-	top.anchor_top = 0.0
-	top.anchor_right = 0.0
-	top.anchor_bottom = 0.0
-	top.offset_left = 42.0
-	top.offset_top = 32.0
-	top.offset_right = 740.0
-	top.offset_bottom = 210.0
-	add_child(top)
-	top.add_theme_stylebox_override("panel", _panel_style(Color(0.025, 0.03, 0.042, 0.84)))
+	var dialogue := PanelContainer.new()
+	dialogue.name = "BottomNarration"
+	dialogue.anchor_left = 0.18
+	dialogue.anchor_top = 1.0
+	dialogue.anchor_right = 0.70
+	dialogue.anchor_bottom = 1.0
+	dialogue.offset_left = 0.0
+	dialogue.offset_top = -178.0
+	dialogue.offset_right = 0.0
+	dialogue.offset_bottom = -32.0
+	dialogue.z_index = 5
+	add_child(dialogue)
+	dialogue.add_theme_stylebox_override("panel", _panel_style(Color(0.025, 0.03, 0.04, 0.9)))
 
-	var top_margin := MarginContainer.new()
-	top_margin.add_theme_constant_override("margin_left", 18)
-	top_margin.add_theme_constant_override("margin_top", 14)
-	top_margin.add_theme_constant_override("margin_right", 18)
-	top_margin.add_theme_constant_override("margin_bottom", 14)
-	top.add_child(top_margin)
+	var dialogue_margin := MarginContainer.new()
+	dialogue_margin.add_theme_constant_override("margin_left", 24)
+	dialogue_margin.add_theme_constant_override("margin_top", 14)
+	dialogue_margin.add_theme_constant_override("margin_right", 24)
+	dialogue_margin.add_theme_constant_override("margin_bottom", 14)
+	dialogue.add_child(dialogue_margin)
 
-	var top_rows := VBoxContainer.new()
-	top_rows.add_theme_constant_override("separation", 6)
-	top_margin.add_child(top_rows)
+	var dialogue_rows := VBoxContainer.new()
+	dialogue_rows.add_theme_constant_override("separation", 6)
+	dialogue_margin.add_child(dialogue_rows)
 
 	scene_label = Label.new()
-	scene_label.add_theme_font_size_override("font_size", 19)
+	scene_label.add_theme_font_size_override("font_size", 17)
 	scene_label.add_theme_color_override("font_color", Color(0.85, 0.68, 0.38))
-	top_rows.add_child(scene_label)
+	dialogue_rows.add_child(scene_label)
 
 	location_label = Label.new()
-	location_label.add_theme_font_size_override("font_size", 30)
+	location_label.add_theme_font_size_override("font_size", 28)
 	location_label.add_theme_color_override("font_color", Color(0.94, 0.93, 0.88))
-	top_rows.add_child(location_label)
+	dialogue_rows.add_child(location_label)
 
 	description_label = Label.new()
 	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	description_label.add_theme_font_size_override("font_size", 20)
 	description_label.add_theme_color_override("font_color", Color(0.78, 0.81, 0.78))
-	top_rows.add_child(description_label)
+	dialogue_rows.add_child(description_label)
 
 	var side := PanelContainer.new()
 	side.anchor_left = 1.0
@@ -279,6 +281,17 @@ func _panel_style(color: Color) -> StyleBoxFlat:
 	style.corner_radius_bottom_left = 6
 	style.corner_radius_bottom_right = 6
 	return style
+
+
+func _load_texture(path: String) -> Texture2D:
+	if ResourceLoader.exists(path):
+		return load(path)
+	if not FileAccess.file_exists(path):
+		return null
+	var image := Image.new()
+	if image.load(path) != OK:
+		return null
+	return ImageTexture.create_from_image(image)
 
 
 func _kind_color(kind: String) -> Color:

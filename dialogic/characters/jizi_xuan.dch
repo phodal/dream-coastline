@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="DialogicCharacter" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/dialogic/Resources/character.gd" id="1_jizi"]
+
+[resource]
+script = ExtResource("1_jizi")
+display_name = "纪子轩"
+nicknames = ["jizi_xuan", "jizixuan"]
+color = Color(0.92, 0.78, 0.46, 1)
+description = "Dream Coastline protagonist before finding the black pen."
+scale = 1.0
+offset = Vector2(0, 0)
+mirror = false
+default_portrait = "phone"
+portraits = {
+"phone": {
+"image": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png",
+"offset": Vector2(0, 0),
+"scene": "res://addons/dialogic/Modules/Character/default_portrait.tscn"
+}
+}
+custom_info = {
+"style": "xianjian_phone"
+}

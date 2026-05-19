@@ -9,8 +9,8 @@ signal runtime_error(message: String)
 const StoryRepository := preload("res://src/nova/data/story_repository.gd")
 const VisualRepository := preload("res://src/nova/data/visual_repository.gd")
 const CHARACTER_APPEARANCES := {
-	"jizi_xuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/model_sheet.png"},
-	"jizixuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/model_sheet.png"},
+	"jizi_xuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png", "dialogic_id": "jizi_xuan", "portrait": "phone"},
+	"jizixuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png", "dialogic_id": "jizi_xuan", "portrait": "phone"},
 	"xiali": {"name": "夏离", "path": "res://assets/characters/main/xiali/model_sheet.png"},
 	"wensu": {"name": "闻素", "path": "res://assets/characters/main/wensu/model_sheet.png"},
 	"atang": {"name": "阿棠", "path": "res://assets/characters/main/atang/model_sheet.png"},
@@ -171,5 +171,7 @@ func _characters_for_item(item_id: String, item: Dictionary) -> Array[Dictionary
 			"id": character_id,
 			"name": str(appearance.get("name", character_id)),
 			"path": str(appearance.get("path", "")),
+			"dialogic_id": str(appearance.get("dialogic_id", "")),
+			"portrait": str(appearance.get("portrait", "")),
 		})
 	return result

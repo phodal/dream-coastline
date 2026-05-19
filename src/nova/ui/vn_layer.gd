@@ -33,10 +33,10 @@ func _ready() -> void:
 
 	character_layer = HBoxContainer.new()
 	character_layer.name = "EventCharacters"
-	character_layer.anchor_left = 0.54
-	character_layer.anchor_right = 0.92
-	character_layer.anchor_top = 0.13
-	character_layer.anchor_bottom = 0.58
+	character_layer.anchor_left = 0.02
+	character_layer.anchor_right = 0.34
+	character_layer.anchor_top = 0.20
+	character_layer.anchor_bottom = 0.96
 	character_layer.add_theme_constant_override("separation", 16)
 	character_layer.visible = false
 	root.add_child(character_layer)
@@ -138,7 +138,7 @@ func _render_characters(characters: Array) -> void:
 		var character: Dictionary = raw_character
 		var path := str(character.get("path", ""))
 		var name := str(character.get("name", character.get("id", "")))
-		if path.is_empty() or not ResourceLoader.exists(path):
+		if path.is_empty() or _load_texture(path) == null:
 			continue
 		character_layer.add_child(_build_character_card(name, path))
 	character_layer.visible = character_layer.get_child_count() > 0
@@ -146,9 +146,9 @@ func _render_characters(characters: Array) -> void:
 
 func _build_character_card(label_text: String, texture_path: String) -> Control:
 	var card := PanelContainer.new()
-	card.custom_minimum_size = Vector2(190.0, 300.0)
+	card.custom_minimum_size = Vector2(320.0, 520.0)
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.add_theme_stylebox_override("panel", _panel_style(Color(0.025, 0.028, 0.038, 0.5)))
+	card.add_theme_stylebox_override("panel", _panel_style(Color(0.025, 0.028, 0.038, 0.28)))
 
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 10)
@@ -162,11 +162,11 @@ func _build_character_card(label_text: String, texture_path: String) -> Control:
 	margin.add_child(rows)
 
 	var portrait := TextureRect.new()
-	portrait.custom_minimum_size = Vector2(170.0, 238.0)
+	portrait.custom_minimum_size = Vector2(300.0, 454.0)
 	portrait.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
-	portrait.texture = load(texture_path)
+	portrait.texture = _load_texture(texture_path)
 	rows.add_child(portrait)
 
 	var name := Label.new()
@@ -191,3 +191,14 @@ func _panel_style(color: Color) -> StyleBoxFlat:
 	style.corner_radius_bottom_left = 6
 	style.corner_radius_bottom_right = 6
 	return style
+
+
+func _load_texture(path: String) -> Texture2D:
+	if ResourceLoader.exists(path):
+		return load(path)
+	if not FileAccess.file_exists(path):
+		return null
+	var image := Image.new()
+	if image.load(path) != OK:
+		return null
+	return ImageTexture.create_from_image(image)
