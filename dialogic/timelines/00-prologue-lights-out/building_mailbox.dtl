@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/building.png"]
+旁白: 信箱里只有几张广告纸。父亲每天都会拿的报纸，不见了。
+[signal set_flag:checked_mailbox]
+[end_timeline]

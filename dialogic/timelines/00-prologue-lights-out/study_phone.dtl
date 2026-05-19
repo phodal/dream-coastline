@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/study.png"]
+旁白: 手机只闪过一格信号，随后任务栏像被墨水擦掉，剩下一排无法识别的方块。
+[signal set_flag:checked_phone_signal]
+[end_timeline]

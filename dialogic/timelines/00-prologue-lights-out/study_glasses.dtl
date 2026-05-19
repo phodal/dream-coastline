@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/study.png"]
+旁白: 父亲很少离开眼镜。镜片上有一道指纹，像他刚刚抬头看过什么。
+[signal set_flag:checked_glasses]
+[end_timeline]

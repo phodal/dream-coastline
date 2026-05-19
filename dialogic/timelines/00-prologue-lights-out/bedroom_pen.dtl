@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png"]
+旁白: 你碰到钢笔，手指忽然刺痛。血滴在信上，英文被墨迹吞掉：墨颀历三百一十七年，王城陷落。灯灭了。
+[signal set_flag:entered_moqi]
+[end_timeline]

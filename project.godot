@@ -37,7 +37,24 @@ directories/dch_directory={
 "xiali": "res://dialogic/characters/xiali.dch",
 "xiaoyan": "res://dialogic/characters/xiaoyan.dch"
 }
-directories/dtl_directory={}
+directories/dtl_directory={
+"00-prologue-lights-out/bedroom_letter": "res://dialogic/timelines/00-prologue-lights-out/bedroom_letter.dtl",
+"00-prologue-lights-out/bedroom_pen": "res://dialogic/timelines/00-prologue-lights-out/bedroom_pen.dtl",
+"00-prologue-lights-out/bedroom_window": "res://dialogic/timelines/00-prologue-lights-out/bedroom_window.dtl",
+"00-prologue-lights-out/building_lamp": "res://dialogic/timelines/00-prologue-lights-out/building_lamp.dtl",
+"00-prologue-lights-out/building_mailbox": "res://dialogic/timelines/00-prologue-lights-out/building_mailbox.dtl",
+"00-prologue-lights-out/home_air": "res://dialogic/timelines/00-prologue-lights-out/home_air.dtl",
+"00-prologue-lights-out/home_lock": "res://dialogic/timelines/00-prologue-lights-out/home_lock.dtl",
+"00-prologue-lights-out/living_room_dinner": "res://dialogic/timelines/00-prologue-lights-out/living_room_dinner.dtl",
+"00-prologue-lights-out/living_room_photo": "res://dialogic/timelines/00-prologue-lights-out/living_room_photo.dtl",
+"00-prologue-lights-out/living_room_tv": "res://dialogic/timelines/00-prologue-lights-out/living_room_tv.dtl",
+"00-prologue-lights-out/street_poster": "res://dialogic/timelines/00-prologue-lights-out/street_poster.dtl",
+"00-prologue-lights-out/street_vending": "res://dialogic/timelines/00-prologue-lights-out/street_vending.dtl",
+"00-prologue-lights-out/street_window": "res://dialogic/timelines/00-prologue-lights-out/street_window.dtl",
+"00-prologue-lights-out/study_glasses": "res://dialogic/timelines/00-prologue-lights-out/study_glasses.dtl",
+"00-prologue-lights-out/study_note": "res://dialogic/timelines/00-prologue-lights-out/study_note.dtl",
+"00-prologue-lights-out/study_phone": "res://dialogic/timelines/00-prologue-lights-out/study_phone.dtl"
+}
 layout/style_directory={}
 
 [display]

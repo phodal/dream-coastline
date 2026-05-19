@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/living_room.png"]
+旁白: 照片里父亲站得很直，母亲笑得有些累。你第一次觉得照片像证物。
+[signal set_flag:checked_family_photo]
+[end_timeline]

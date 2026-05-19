@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/living_room.png"]
+旁白: 屏幕漆黑。遥控器放在父亲常坐的位置，新闻频道没有声音。
+[signal set_flag:checked_tv]
+[end_timeline]

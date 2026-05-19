@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/home.png"]
+旁白: 凉掉的饭菜味混在黑暗里，比任何回答都更不对劲。
+[signal set_flag:smelled_cold_food]
+[end_timeline]

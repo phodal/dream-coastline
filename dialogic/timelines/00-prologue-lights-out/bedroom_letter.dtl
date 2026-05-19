@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png"]
+旁白: 信纸上只有一句英文：To be Continue ... 语法不对，却像一句命令。
+[signal set_flag:read_continue_letter]
+[end_timeline]

@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png"]
+旁白: 窗户被打开一条缝。夜风掀起信纸一角，像有人刚从这里离开。
+[signal set_flag:checked_bedroom_window]
+[end_timeline]

@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/home.png"]
+旁白: 锁舌没有弹出。像有人出门太急，也像有人根本没有离开。
+[signal set_flag:checked_unlocked_door]
+[end_timeline]

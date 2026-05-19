@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/study.png"]
+旁白: 笔记停在半句：如果灯先灭，不要立刻续写。你不明白续写是什么意思。
+[signal set_flag:checked_mother_note]
+[end_timeline]

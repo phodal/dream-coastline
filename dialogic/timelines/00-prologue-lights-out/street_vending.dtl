@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/street.png"]
+旁白: 机器嗡嗡作响。整条街都暗下去，只有它还固执地亮着。
+[signal set_flag:heard_vending_hum]
+[end_timeline]

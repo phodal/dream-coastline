@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/street.png"]
+旁白: 这个时间，厨房灯本该亮着。可那扇窗一片漆黑，像一块被墨涂死的纸。
+[signal set_flag:noticed_dark_window]
+[end_timeline]

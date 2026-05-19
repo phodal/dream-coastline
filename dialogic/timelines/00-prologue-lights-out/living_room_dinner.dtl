@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/living_room.png"]
+旁白: 饭菜已经凉透。筷子摆得很正，像时间在开饭前突然停住。
+[signal set_flag:checked_cold_dinner]
+[end_timeline]

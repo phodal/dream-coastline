@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/street.png"]
+旁白: 纸边被风吹得发皱。照片还没看清，心里已经先空了一下。
+[signal set_flag:saw_missing_poster]
+[end_timeline]

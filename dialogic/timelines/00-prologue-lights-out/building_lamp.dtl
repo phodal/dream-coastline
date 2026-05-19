@@ -1,0 +1,4 @@
+[background arg="res://assets/illustrations/playable/00-prologue-lights-out/building.png"]
+旁白: 你拍了拍手，灯泡没有反应。黑暗停在头顶，像故意给谁留的位置。
+[signal set_flag:checked_voice_lamp]
+[end_timeline]
