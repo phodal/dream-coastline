@@ -8,6 +8,7 @@ signal runtime_error(message: String)
 
 const StoryRepository := preload("res://src/nova/data/story_repository.gd")
 const VisualRepository := preload("res://src/nova/data/visual_repository.gd")
+const DialogicBridge := preload("res://src/nova/dialogic_bridge.gd")
 const CHARACTER_APPEARANCES := {
 	"jizi_xuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png", "dialogic_id": "jizi_xuan", "portrait": "phone"},
 	"jizixuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png", "dialogic_id": "jizi_xuan", "portrait": "phone"},
@@ -84,6 +85,11 @@ func inspect_item(item_id: String) -> bool:
 		"time_seconds": item.get("time_seconds", 0),
 		"mode": GameMode.VN_CUTSCENE,
 		"characters": _characters_for_item(item_id, item),
+		"timeline_path": DialogicBridge.resolve_timeline_path(
+			GameState.current_scene_id,
+			GameState.current_location_id,
+			item_id,
+		),
 	})
 	return true
 

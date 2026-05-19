@@ -3,6 +3,8 @@ extends Node
 signal finished(payload: Dictionary)
 
 const DialogicTimelineScript := preload("res://addons/dialogic/Resources/timeline.gd")
+## Base directory for authored .dtl timeline files.
+const TIMELINE_DIR := "res://dialogic/timelines"
 
 var _active_payload: Dictionary = {}
 var _dialogic_node: Node = null
@@ -21,17 +23,34 @@ func can_play_runtime() -> bool:
 	return _dialogic_node != null and _dialogic_node.has_method("start")
 
 
+## Returns the res:// path of the authored .dtl file for this item, or "" if none exists.
+## Path convention: dialogic/timelines/{scene_id}/{location_id}_{item_id}.dtl
+static func resolve_timeline_path(scene_id: String, location_id: String, item_id: String) -> String:
+	if scene_id.is_empty() or location_id.is_empty() or item_id.is_empty():
+		return ""
+	var path := "%s/%s/%s_%s.dtl" % [TIMELINE_DIR, scene_id, location_id, item_id]
+	if ResourceLoader.exists(path) or FileAccess.file_exists(ProjectSettings.globalize_path(path)):
+		return path
+	return ""
+
+
 func play_payload(payload: Dictionary, backdrop_path: String) -> bool:
 	if not can_play_runtime():
-		return false
-	var timeline = build_timeline(payload, backdrop_path)
-	if timeline == null:
 		return false
 	_active_payload = payload.duplicate(true)
 	if variable_bridge != null:
 		variable_bridge.sync_flags_to_dialogic()
 	if not _dialogic_node.timeline_ended.is_connected(_on_dialogic_timeline_ended):
 		_dialogic_node.timeline_ended.connect(_on_dialogic_timeline_ended)
+	# Prefer authored .dtl file when available.
+	var timeline_path: String = str(payload.get("timeline_path", ""))
+	if not timeline_path.is_empty() and (ResourceLoader.exists(timeline_path) or FileAccess.file_exists(ProjectSettings.globalize_path(timeline_path))):
+		_dialogic_node.start(timeline_path)
+		return true
+	# Fall back to building from JSON payload.
+	var timeline = build_timeline(payload, backdrop_path)
+	if timeline == null:
+		return false
 	_dialogic_node.start(timeline)
 	return true
 
