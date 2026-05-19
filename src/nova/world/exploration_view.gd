@@ -11,6 +11,7 @@ var flag_label: Label
 var quest_label: Label
 var choice_list: VBoxContainer
 var prop_layer: Control
+var player_sprite: TextureRect
 var _scene_id := ""
 var _location_id := ""
 var _location: Dictionary = {}
@@ -18,30 +19,53 @@ var _visual: Dictionary = {}
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 	backdrop = TextureRect.new()
 	backdrop.name = "Backdrop"
-	backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	add_child(backdrop)
 
 	var shade := ColorRect.new()
 	shade.color = Color(0.015, 0.018, 0.024, 0.32)
-	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(shade)
 
 	prop_layer = Control.new()
 	prop_layer.name = "PropLayer"
-	prop_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	prop_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(prop_layer)
 
+	player_sprite = TextureRect.new()
+	player_sprite.name = "PlayerSprite"
+	player_sprite.anchor_left = 0.44
+	player_sprite.anchor_top = 0.56
+	player_sprite.anchor_right = 0.44
+	player_sprite.anchor_bottom = 0.56
+	player_sprite.offset_left = -36.0
+	player_sprite.offset_top = -52.0
+	player_sprite.offset_right = 36.0
+	player_sprite.offset_bottom = 52.0
+	player_sprite.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	player_sprite.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+	if ResourceLoader.exists("res://assets/characters/jizixuan/player_default.png"):
+		var atlas := AtlasTexture.new()
+		atlas.atlas = load("res://assets/characters/jizixuan/player_default.png")
+		atlas.region = Rect2(16.0, 0.0, 16.0, 16.0)
+		player_sprite.texture = atlas
+	add_child(player_sprite)
+
 	var top := PanelContainer.new()
-	top.anchor_left = 0.04
-	top.anchor_top = 0.04
-	top.anchor_right = 0.58
-	top.anchor_bottom = 0.25
+	top.anchor_left = 0.0
+	top.anchor_top = 0.0
+	top.anchor_right = 0.0
+	top.anchor_bottom = 0.0
+	top.offset_left = 42.0
+	top.offset_top = 32.0
+	top.offset_right = 740.0
+	top.offset_bottom = 210.0
 	add_child(top)
 	top.add_theme_stylebox_override("panel", _panel_style(Color(0.025, 0.03, 0.042, 0.84)))
 
@@ -73,10 +97,14 @@ func _ready() -> void:
 	top_rows.add_child(description_label)
 
 	var side := PanelContainer.new()
-	side.anchor_left = 0.66
-	side.anchor_top = 0.08
-	side.anchor_right = 0.96
-	side.anchor_bottom = 0.88
+	side.anchor_left = 1.0
+	side.anchor_top = 0.0
+	side.anchor_right = 1.0
+	side.anchor_bottom = 1.0
+	side.offset_left = -410.0
+	side.offset_top = 54.0
+	side.offset_right = -42.0
+	side.offset_bottom = -54.0
 	add_child(side)
 	side.add_theme_stylebox_override("panel", _panel_style(Color(0.025, 0.028, 0.038, 0.9)))
 
@@ -99,6 +127,7 @@ func _ready() -> void:
 
 	choice_list = VBoxContainer.new()
 	choice_list.add_theme_constant_override("separation", 8)
+	choice_list.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	side_rows.add_child(choice_list)
 
 	var spacer := Control.new()
@@ -109,6 +138,7 @@ func _ready() -> void:
 	quest_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	quest_label.add_theme_font_size_override("font_size", 16)
 	quest_label.add_theme_color_override("font_color", Color(0.73, 0.76, 0.72))
+	quest_label.clip_text = true
 	side_rows.add_child(quest_label)
 
 	flag_label = Label.new()

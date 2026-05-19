@@ -8,6 +8,14 @@ signal runtime_error(message: String)
 
 const StoryRepository := preload("res://src/nova/data/story_repository.gd")
 const VisualRepository := preload("res://src/nova/data/visual_repository.gd")
+const CHARACTER_APPEARANCES := {
+	"jizi_xuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/model_sheet.png"},
+	"jizixuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/model_sheet.png"},
+	"xiali": {"name": "夏离", "path": "res://assets/characters/main/xiali/model_sheet.png"},
+	"wensu": {"name": "闻素", "path": "res://assets/characters/main/wensu/model_sheet.png"},
+	"atang": {"name": "阿棠", "path": "res://assets/characters/main/atang/model_sheet.png"},
+	"xiaoyan": {"name": "小砚", "path": ""},
+}
 
 var story_repository = StoryRepository.new()
 var visual_repository = VisualRepository.new()
@@ -59,20 +67,22 @@ func inspect_item(item_id: String) -> bool:
 	if not StoryFlags.has_all(requires):
 		var missing := _first_missing(requires)
 		start_cutscene({
-			"speaker": "旁白",
+			"speaker": _speaker_for_item(item_id, item),
 			"title": str(item.get("name", item_id)),
 			"text": "现在还不能确认它。还缺少线索：%s。" % missing,
 			"flags": [],
 			"mode": GameMode.DIALOGUE,
+			"characters": _characters_for_item(item_id, item),
 		})
 		return false
 	start_cutscene({
-		"speaker": "旁白",
+		"speaker": _speaker_for_item(item_id, item),
 		"title": str(item.get("name", item_id)),
 		"text": str(item.get("text", "")),
 		"flags": item.get("flags", []),
 		"time_seconds": item.get("time_seconds", 0),
 		"mode": GameMode.VN_CUTSCENE,
+		"characters": _characters_for_item(item_id, item),
 	})
 	return true
 
@@ -129,3 +139,37 @@ func _first_missing(flags: Array) -> String:
 		if not StoryFlags.has_flag(str(flag)):
 			return str(flag)
 	return "unknown"
+
+
+func _speaker_for_item(item_id: String, item: Dictionary) -> String:
+	var characters := _characters_for_item(item_id, item)
+	if not characters.is_empty():
+		return str(characters[0].get("name", item.get("name", item_id)))
+	return "旁白"
+
+
+func _characters_for_item(item_id: String, item: Dictionary) -> Array[Dictionary]:
+	var ids: Array[String] = []
+	if CHARACTER_APPEARANCES.has(item_id):
+		ids.append(item_id)
+	if item.has("character_id"):
+		var character_id := str(item.get("character_id", ""))
+		if not character_id.is_empty() and not ids.has(character_id):
+			ids.append(character_id)
+	if item.has("characters"):
+		for raw_id in item.get("characters", []):
+			var character_id := str(raw_id)
+			if not character_id.is_empty() and not ids.has(character_id):
+				ids.append(character_id)
+
+	var result: Array[Dictionary] = []
+	for character_id in ids:
+		if not CHARACTER_APPEARANCES.has(character_id):
+			continue
+		var appearance: Dictionary = CHARACTER_APPEARANCES[character_id]
+		result.append({
+			"id": character_id,
+			"name": str(appearance.get("name", character_id)),
+			"path": str(appearance.get("path", "")),
+		})
+	return result

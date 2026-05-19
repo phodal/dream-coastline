@@ -19,6 +19,7 @@ assets/opengameart/spells/Pixelart Spells/
 builds/
 artifacts/scene-screenshots/
 artifacts/ui-screenshots/
+artifacts/nova-runtime-smoke.png
 artifacts/story-movie/
 artifacts/playtest-*/
 *.gd.uid
