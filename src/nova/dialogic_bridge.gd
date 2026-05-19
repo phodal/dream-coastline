@@ -42,6 +42,11 @@ func play_payload(payload: Dictionary, backdrop_path: String) -> bool:
 		variable_bridge.sync_flags_to_dialogic()
 	if not _dialogic_node.timeline_ended.is_connected(_on_dialogic_timeline_ended):
 		_dialogic_node.timeline_ended.connect(_on_dialogic_timeline_ended)
+	# Apply Dream Coastline style when Styles subsystem is available.
+	if _dialogic_node.has_method("get_subsystem"):
+		var styles = _dialogic_node.get_subsystem("Styles")
+		if styles != null and styles.has_method("change_style"):
+			styles.change_style("Dream Coastline")
 	# Prefer authored .dtl file when available.
 	var timeline_path: String = str(payload.get("timeline_path", ""))
 	if not timeline_path.is_empty() and (ResourceLoader.exists(timeline_path) or FileAccess.file_exists(ProjectSettings.globalize_path(timeline_path))):

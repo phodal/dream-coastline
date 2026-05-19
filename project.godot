@@ -55,7 +55,9 @@ directories/dtl_directory={
 "00-prologue-lights-out/study_note": "res://dialogic/timelines/00-prologue-lights-out/study_note.dtl",
 "00-prologue-lights-out/study_phone": "res://dialogic/timelines/00-prologue-lights-out/study_phone.dtl"
 }
-layout/style_directory={}
+layout/style_directory={
+"Dream Coastline": "res://dialogic/styles/dream_coastline.tres"
+}
 
 [display]
 
