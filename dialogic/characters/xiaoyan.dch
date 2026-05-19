@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DialogicCharacter" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/dialogic/Resources/character.gd" id="1_xiaoyan"]
+
+[resource]
+script = ExtResource("1_xiaoyan")
+display_name = "小砚"
+nicknames = ["xiaoyan"]
+color = Color(0.72, 0.82, 0.64, 1)
+description = "A key character in Dream Coastline."
+scale = 1.0
+offset = Vector2(0, 0)
+mirror = false
+default_portrait = "default"
+portraits = {}
+custom_info = {}

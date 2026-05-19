@@ -11,10 +11,10 @@ const VisualRepository := preload("res://src/nova/data/visual_repository.gd")
 const CHARACTER_APPEARANCES := {
 	"jizi_xuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png", "dialogic_id": "jizi_xuan", "portrait": "phone"},
 	"jizixuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png", "dialogic_id": "jizi_xuan", "portrait": "phone"},
-	"xiali": {"name": "夏离", "path": "res://assets/characters/main/xiali/model_sheet.png"},
-	"wensu": {"name": "闻素", "path": "res://assets/characters/main/wensu/model_sheet.png"},
-	"atang": {"name": "阿棠", "path": "res://assets/characters/main/atang/model_sheet.png"},
-	"xiaoyan": {"name": "小砚", "path": ""},
+	"xiali": {"name": "夏离", "path": "res://assets/characters/main/xiali/model_sheet.png", "dialogic_id": "xiali", "portrait": "default"},
+	"wensu": {"name": "闻素", "path": "res://assets/characters/main/wensu/model_sheet.png", "dialogic_id": "wensu", "portrait": "default"},
+	"atang": {"name": "阿棠", "path": "res://assets/characters/main/atang/model_sheet.png", "dialogic_id": "atang", "portrait": "default"},
+	"xiaoyan": {"name": "小砚", "path": "", "dialogic_id": "xiaoyan", "portrait": "default"},
 }
 
 var story_repository = StoryRepository.new()
@@ -79,6 +79,7 @@ func inspect_item(item_id: String) -> bool:
 		"speaker": _speaker_for_item(item_id, item),
 		"title": str(item.get("name", item_id)),
 		"text": str(item.get("text", "")),
+		"dialogue": item.get("dialogue", []),
 		"flags": item.get("flags", []),
 		"time_seconds": item.get("time_seconds", 0),
 		"mode": GameMode.VN_CUTSCENE,

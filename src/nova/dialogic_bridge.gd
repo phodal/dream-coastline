@@ -6,6 +6,8 @@ const DialogicTimelineScript := preload("res://addons/dialogic/Resources/timelin
 
 var _active_payload: Dictionary = {}
 var _dialogic_node: Node = null
+## Optional reference to DialogicVariableBridge for flag sync.
+var variable_bridge: Node = null
 
 
 func is_dialogic_installed() -> bool:
@@ -26,6 +28,8 @@ func play_payload(payload: Dictionary, backdrop_path: String) -> bool:
 	if timeline == null:
 		return false
 	_active_payload = payload.duplicate(true)
+	if variable_bridge != null:
+		variable_bridge.sync_flags_to_dialogic()
 	if not _dialogic_node.timeline_ended.is_connected(_on_dialogic_timeline_ended):
 		_dialogic_node.timeline_ended.connect(_on_dialogic_timeline_ended)
 	_dialogic_node.start(timeline)
@@ -40,27 +44,61 @@ func build_timeline(payload: Dictionary, backdrop_path: String):
 	return timeline
 
 
+## Build Dialogic timeline text from a story payload.
+##
+## Supports two dialogue formats:
+##   1. Legacy single-text: payload["text"] = "single narration block"
+##   2. Multi-line dialogue: payload["dialogue"] = [
+##        {"speaker": "jizi_xuan", "text": "..."},
+##        {"speaker": "旁白", "text": "...", "flags": ["flag_to_set"]},
+##      ]
+##
+## Flags set via payload["flags"] are emitted as [signal set_flag:name] events
+## so the DialogicVariableBridge can pick them up mid-timeline.
 func build_timeline_text(payload: Dictionary, backdrop_path: String) -> String:
 	var lines: Array[String] = []
 	if not backdrop_path.is_empty():
 		lines.append("[background arg=\"%s\"]" % _escape_shortcode_value(backdrop_path))
+
+	var payload_characters := _dialogic_characters(payload)
+
+	# Join all characters from payload once (for single-text mode)
 	var dialogic_speaker := ""
-	for character in _dialogic_characters(payload):
+	for character in payload_characters:
 		var character_id := str(character.get("dialogic_id", "")).strip_edges()
 		var portrait := str(character.get("portrait", "")).strip_edges()
 		if portrait.is_empty():
-			portrait = "phone"
+			portrait = "default"
 		lines.append("join %s (%s) left" % [_escape_identifier(character_id), _escape_identifier(portrait)])
 		if dialogic_speaker.is_empty():
 			dialogic_speaker = character_id
-	var speaker := dialogic_speaker
-	if speaker.is_empty():
-		speaker = str(payload.get("speaker", "旁白")).strip_edges()
-	if speaker.is_empty():
-		speaker = "旁白"
-	var text := str(payload.get("text", "")).replace("\n", "\\\n")
-	lines.append("%s: %s" % [_escape_speaker(speaker), text])
-	for character in _dialogic_characters(payload):
+
+	# Multi-line dialogue array takes priority over single text.
+	var dialogue: Array = payload.get("dialogue", [])
+	if not dialogue.is_empty():
+		for entry in dialogue:
+			if typeof(entry) != TYPE_DICTIONARY:
+				continue
+			var speaker := _resolve_speaker(str(entry.get("speaker", "旁白")), dialogic_speaker)
+			var text := str(entry.get("text", "")).replace("\n", "\\\n")
+			lines.append("%s: %s" % [_escape_speaker(speaker), text])
+			# Emit flag signals inline for mid-dialogue flag progression
+			for flag in entry.get("flags", []):
+				lines.append("[signal set_flag:%s]" % str(flag))
+	else:
+		# Legacy single-text block
+		var speaker := dialogic_speaker
+		if speaker.is_empty():
+			speaker = str(payload.get("speaker", "旁白")).strip_edges()
+		if speaker.is_empty():
+			speaker = "旁白"
+		var text := str(payload.get("text", "")).replace("\n", "\\\n")
+		lines.append("%s: %s" % [_escape_speaker(speaker), text])
+		# Emit flag signals for all payload-level flags
+		for flag in payload.get("flags", []):
+			lines.append("[signal set_flag:%s]" % str(flag))
+
+	for character in payload_characters:
 		var character_id := str(character.get("dialogic_id", "")).strip_edges()
 		lines.append("leave %s" % _escape_identifier(character_id))
 	lines.append("[end_timeline]")
@@ -77,8 +115,16 @@ func _on_dialogic_timeline_ended() -> void:
 		return
 	var payload := _active_payload.duplicate(true)
 	_active_payload.clear()
+	if variable_bridge != null:
+		variable_bridge.sync_flags_from_dialogic()
 	finished.emit(payload)
 
+
+## Resolve a speaker name to a Dialogic identifier when possible.
+func _resolve_speaker(speaker_raw: String, dialogic_speaker_fallback: String) -> String:
+	if speaker_raw.is_empty() or speaker_raw == "旁白":
+		return "旁白" if dialogic_speaker_fallback.is_empty() else dialogic_speaker_fallback
+	return speaker_raw
 
 func _escape_speaker(speaker: String) -> String:
 	if speaker.find(" ") != -1:

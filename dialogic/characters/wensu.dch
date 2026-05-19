@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="DialogicCharacter" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/dialogic/Resources/character.gd" id="1_wensu"]
+
+[resource]
+script = ExtResource("1_wensu")
+display_name = "闻素"
+nicknames = ["wensu"]
+color = Color(0.76, 0.62, 0.88, 1)
+description = "A key character in Dream Coastline."
+scale = 1.0
+offset = Vector2(0, 0)
+mirror = false
+default_portrait = "default"
+portraits = {
+"default": {
+"image": "res://assets/characters/main/wensu/model_sheet.png",
+"offset": Vector2(0, 0),
+"scene": "res://addons/dialogic/Modules/Character/default_portrait.tscn"
+}
+}
+custom_info = {}

@@ -4,6 +4,7 @@ const SceneDirectorScript := preload("res://src/nova/scene_director.gd")
 const ExplorationViewScript := preload("res://src/nova/world/exploration_view.gd")
 const VNLayerScript := preload("res://src/nova/ui/vn_layer.gd")
 const DialogicBridgeScript := preload("res://src/nova/dialogic_bridge.gd")
+const DialogicVariableBridgeScript := preload("res://src/nova/dialogic_variable_bridge.gd")
 const StartupSplashScript := preload("res://src/nova/ui/startup_splash.gd")
 const AudioDirectorScript := preload("res://scripts/core/audio_director.gd")
 
@@ -11,6 +12,7 @@ var director
 var exploration_view
 var vn_layer
 var dialogic_bridge
+var dialogic_variable_bridge
 var startup_splash
 var audio_director
 
@@ -42,6 +44,11 @@ func _ready() -> void:
 	dialogic_bridge.name = "DialogicBridge"
 	dialogic_bridge.finished.connect(_finish_cutscene)
 	add_child(dialogic_bridge)
+
+	dialogic_variable_bridge = DialogicVariableBridgeScript.new()
+	dialogic_variable_bridge.name = "DialogicVariableBridge"
+	add_child(dialogic_variable_bridge)
+	dialogic_bridge.variable_bridge = dialogic_variable_bridge
 
 	if not _is_smoke_run() and not OS.get_cmdline_user_args().has("--capture-nova-screenshot"):
 		startup_splash = StartupSplashScript.new()
@@ -192,6 +199,7 @@ func _smoke_inspect(item_id: String) -> bool:
 
 func _run_dialogic_bridge_smoke() -> void:
 	var backdrop_path: String = director.visual_repository.get_backdrop_path(GameState.current_scene_id, GameState.current_location_id)
+	# Smoke single-text payload
 	var ok: bool = dialogic_bridge.smoke({
 		"speaker": "纪子轩",
 		"title": "Dialogic Bridge Smoke",
@@ -205,9 +213,27 @@ func _run_dialogic_bridge_smoke() -> void:
 			"portrait": "phone",
 		}],
 	}, backdrop_path)
-	print("dialogic-bridge-smoke status=%s installed=%s backdrop=%s" % [
+	# Smoke multi-line dialogue payload with new characters
+	var multi_ok: bool = dialogic_bridge.smoke({
+		"title": "Multi-Character Dialogue Smoke",
+		"dialogue": [
+			{"speaker": "jizi_xuan", "text": "序幕，黑暗中的夜晚。", "flags": ["dialogic_bridge_smoke"]},
+			{"speaker": "xiali", "text": "夏离出场了。"},
+		],
+		"characters": [
+			{"id": "jizi_xuan", "name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png", "dialogic_id": "jizi_xuan", "portrait": "phone"},
+			{"id": "xiali", "name": "夏离", "path": "res://assets/characters/main/xiali/model_sheet.png", "dialogic_id": "xiali", "portrait": "default"},
+		],
+	}, backdrop_path)
+	ok = ok and multi_ok
+	# Smoke variable bridge
+	var vbridge_ok: bool = dialogic_variable_bridge != null
+	ok = ok and vbridge_ok
+	print("dialogic-bridge-smoke status=%s installed=%s multi=%s vbridge=%s backdrop=%s" % [
 		"PASS" if ok else "FAIL",
 		str(dialogic_bridge.is_dialogic_installed()),
+		str(multi_ok),
+		str(vbridge_ok),
 		backdrop_path,
 	])
 	get_tree().quit(0 if ok else 1)

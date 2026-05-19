@@ -93,7 +93,7 @@ func _ready() -> void:
 	accept_button = Button.new()
 	accept_button.text = "继续"
 	accept_button.size_flags_horizontal = Control.SIZE_SHRINK_END
-	accept_button.pressed.connect(_accept)
+	accept_button.pressed.connect(_advance_or_accept)
 	rows.add_child(accept_button)
 
 
@@ -104,8 +104,18 @@ func show_payload(payload: Dictionary, backdrop_path: String) -> void:
 	else:
 		backdrop.texture = null
 	title_label.text = str(payload.get("title", ""))
-	speaker_label.text = str(payload.get("speaker", "旁白"))
-	body_label.text = str(payload.get("text", ""))
+
+	# Multi-line dialogue: show first entry; subsequent lines shown on accept.
+	var dialogue: Array = payload.get("dialogue", [])
+	if not dialogue.is_empty():
+		var first: Dictionary = dialogue[0] if typeof(dialogue[0]) == TYPE_DICTIONARY else {}
+		speaker_label.text = str(first.get("speaker", payload.get("speaker", "旁白")))
+		body_label.text = str(first.get("text", payload.get("text", "")))
+		_payload["_dialogue_index"] = 0
+	else:
+		speaker_label.text = str(payload.get("speaker", "旁白"))
+		body_label.text = str(payload.get("text", ""))
+
 	_render_characters(payload.get("characters", []))
 	visible = true
 	accept_button.grab_focus()
@@ -115,8 +125,24 @@ func _input(event: InputEvent) -> void:
 	if not visible:
 		return
 	if event.is_action_pressed("ui_accept") or event.is_action_pressed("interact"):
-		_accept()
+		_advance_or_accept()
 		get_viewport().set_input_as_handled()
+
+
+## Advance multi-line dialogue or accept/close when finished.
+func _advance_or_accept() -> void:
+	if not visible:
+		return
+	var dialogue: Array = _payload.get("dialogue", [])
+	var current_index: int = int(_payload.get("_dialogue_index", 0))
+	var next_index := current_index + 1
+	if not dialogue.is_empty() and next_index < dialogue.size():
+		var entry: Dictionary = dialogue[next_index] if typeof(dialogue[next_index]) == TYPE_DICTIONARY else {}
+		speaker_label.text = str(entry.get("speaker", "旁白"))
+		body_label.text = str(entry.get("text", ""))
+		_payload["_dialogue_index"] = next_index
+		return
+	_accept()
 
 
 func _accept() -> void:
