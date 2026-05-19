@@ -219,6 +219,7 @@ STEPS: list[Step] = [
     Step("story-movie-smoke", "quick", "validate reproducible story movie generation dependencies and output", story_movie_smoke),
     Step("godot-load", "quick", "load the Godot project headlessly", godot_load),
     Step("smoke-nova-runtime", "quick", "validate Nova exploration and VN cutscene runtime", godot_smoke("--smoke-nova-runtime")),
+    Step("smoke-nova-progression", "quick", "validate Nova first-scene canonical progression", godot_smoke("--smoke-nova-progression")),
     Step("smoke-nova-assets", "quick", "validate Nova splash, character, and audio assets", godot_smoke("--smoke-nova-assets")),
     Step("smoke-dialogic-bridge", "quick", "validate Dialogic addon install and timeline bridge", godot_smoke("--smoke-dialogic-bridge")),
     Step("capture-nova-screenshot", "visual", "capture a visible Nova runtime frame", render_frame),

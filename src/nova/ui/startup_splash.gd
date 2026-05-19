@@ -78,6 +78,8 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if _dismissed or not visible:
+		return
 	if _timer < _min_duration:
 		return
 	if event.is_action_pressed("ui_accept") or event.is_action_pressed("interact") or event is InputEventMouseButton:

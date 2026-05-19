@@ -123,6 +123,7 @@ func _accept() -> void:
 	if not visible:
 		return
 	visible = false
+	accept_button.release_focus()
 	_render_characters([])
 	accepted.emit(_payload)
 

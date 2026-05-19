@@ -58,6 +58,8 @@ func _ready() -> void:
 		return
 	if OS.get_cmdline_user_args().has("--smoke-nova-runtime"):
 		call_deferred("_run_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-progression"):
+		call_deferred("_run_progression_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-assets"):
 		call_deferred("_run_asset_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-dialogic-bridge"):
@@ -135,6 +137,57 @@ func _run_smoke() -> void:
 			ok = ok and StoryFlags.has_flag(str(flags[0]))
 	print("nova-runtime-smoke status=%s scene=%s location=%s item=%s" % ["PASS" if ok else "FAIL", scene_id, location_id, first_item])
 	get_tree().quit(0 if ok else 1)
+
+
+func _run_progression_smoke() -> void:
+	var ok := true
+	ok = ok and _smoke_inspect("window")
+	ok = ok and _smoke_move("building")
+	ok = ok and _smoke_move("home")
+	ok = ok and _smoke_inspect("lock")
+	ok = ok and _smoke_move("living_room")
+	ok = ok and _smoke_inspect("dinner")
+	ok = ok and _smoke_inspect("photo")
+	ok = ok and _smoke_move("study")
+	ok = ok and _smoke_inspect("glasses")
+	ok = ok and _smoke_inspect("note")
+	ok = ok and _smoke_inspect("phone")
+	ok = ok and _smoke_move("living_room")
+	ok = ok and _smoke_move("bedroom")
+	ok = ok and _smoke_inspect("letter")
+	ok = ok and _smoke_inspect("pen")
+
+	var required_flags: Array = director.story_repository.get_required_flags(GameState.current_scene_id)
+	ok = ok and StoryFlags.has_all(required_flags)
+	ok = ok and StoryFlags.has_flag("entered_moqi")
+	print("nova-progression-smoke status=%s scene=%s location=%s flags=%s" % [
+		"PASS" if ok else "FAIL",
+		GameState.current_scene_id,
+		GameState.current_location_id,
+		StoryFlags.export_flags().keys().size(),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _smoke_move(location_id: String) -> bool:
+	return director.move_to(location_id)
+
+
+func _smoke_inspect(item_id: String) -> bool:
+	var scene_id := GameState.current_scene_id
+	var location_id := GameState.current_location_id
+	var items: Dictionary = director.story_repository.get_items(scene_id, location_id)
+	if not items.has(item_id):
+		push_warning("Progression smoke missing item %s at %s/%s" % [item_id, scene_id, location_id])
+		return false
+	var ok: bool = director.inspect_item(item_id)
+	if not ok:
+		return false
+	var item: Dictionary = items[item_id]
+	_finish_cutscene({
+		"flags": item.get("flags", []),
+	})
+	return true
 
 
 func _run_dialogic_bridge_smoke() -> void:

@@ -12,6 +12,8 @@ var quest_label: Label
 var choice_list: VBoxContainer
 var prop_layer: Control
 var player_sprite: TextureRect
+var _choice_buttons: Array[Button] = []
+var _selected_choice_index := 0
 var _scene_id := ""
 var _location_id := ""
 var _location: Dictionary = {}
@@ -169,6 +171,8 @@ func present(scene_id: String, location_id: String, location: Dictionary, visual
 func _render_choices(choices: Array[Dictionary]) -> void:
 	for child in choice_list.get_children():
 		child.queue_free()
+	_choice_buttons.clear()
+	_selected_choice_index = 0
 	for choice in choices:
 		var button := Button.new()
 		button.text = str(choice.get("label", ""))
@@ -182,9 +186,52 @@ func _render_choices(choices: Array[Dictionary]) -> void:
 			button.pressed.connect(func() -> void: inspect_requested.emit(choice_id))
 		elif choice_type == "move":
 			button.pressed.connect(func() -> void: move_requested.emit(choice_id))
+		var index := _choice_buttons.size()
+		button.focus_entered.connect(func() -> void: _selected_choice_index = index)
 		choice_list.add_child(button)
+		_choice_buttons.append(button)
 	if choice_list.get_child_count() > 0:
-		choice_list.get_child(0).grab_focus()
+		call_deferred("_focus_first_choice")
+
+
+func _focus_first_choice() -> void:
+	_focus_choice(_selected_choice_index)
+
+
+func _input(event: InputEvent) -> void:
+	if not visible or GameMode.current_mode != GameMode.EXPLORATION or _choice_buttons.is_empty():
+		return
+	if event.is_action_pressed("ui_down"):
+		_focus_choice(_next_enabled_choice(1))
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_up"):
+		_focus_choice(_next_enabled_choice(-1))
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("ui_accept") or event.is_action_pressed("interact"):
+		var button := _choice_buttons[_selected_choice_index]
+		if not button.disabled:
+			button.pressed.emit()
+			get_viewport().set_input_as_handled()
+
+
+func _focus_choice(index: int) -> void:
+	if _choice_buttons.is_empty() or not visible:
+		return
+	_selected_choice_index = clampi(index, 0, _choice_buttons.size() - 1)
+	var button := _choice_buttons[_selected_choice_index]
+	if not button.disabled:
+		button.grab_focus()
+
+
+func _next_enabled_choice(direction: int) -> int:
+	if _choice_buttons.is_empty():
+		return 0
+	var index := _selected_choice_index
+	for step in _choice_buttons.size():
+		index = wrapi(index + direction, 0, _choice_buttons.size())
+		if not _choice_buttons[index].disabled:
+			return index
+	return _selected_choice_index
 
 
 func _render_props(props: Array) -> void:
