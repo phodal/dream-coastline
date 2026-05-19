@@ -85,12 +85,12 @@ func _ready() -> void:
 	dialogue_margin.add_child(dialogue_rows)
 
 	scene_label = Label.new()
-	scene_label.add_theme_font_size_override("font_size", 17)
-	scene_label.add_theme_color_override("font_color", Color(0.85, 0.68, 0.38))
+	scene_label.add_theme_font_size_override("font_size", 16)
+	scene_label.add_theme_color_override("font_color", Color(0.78, 0.63, 0.34))
 	dialogue_rows.add_child(scene_label)
 
 	location_label = Label.new()
-	location_label.add_theme_font_size_override("font_size", 28)
+	location_label.add_theme_font_size_override("font_size", 24)
 	location_label.add_theme_color_override("font_color", Color(0.94, 0.93, 0.88))
 	dialogue_rows.add_child(location_label)
 
@@ -157,8 +157,9 @@ func present(scene_id: String, location_id: String, location: Dictionary, visual
 	_location_id = location_id
 	_location = location
 	_visual = visual
-	scene_label.text = scene_id
-	location_label.text = str(location.get("name", location_id))
+	var location_name := str(location.get("name", location_id))
+	scene_label.text = "地点 · %s" % location_name
+	location_label.text = "旁白"
 	description_label.text = str(location.get("description", ""))
 	var backdrop_path := str(visual.get("illustrated_backdrop", ""))
 	if not backdrop_path.is_empty() and ResourceLoader.exists(backdrop_path):
@@ -265,7 +266,10 @@ func _refresh_status() -> void:
 	quest_label.text = "任务\n%s" % "\n".join(quest_lines)
 	var flag_names := StoryFlags.export_flags().keys()
 	flag_names.sort()
-	flag_label.text = "Flags: %s" % ", ".join(flag_names.slice(maxi(flag_names.size() - 6, 0), flag_names.size()))
+	if flag_names.is_empty():
+		flag_label.text = ""
+	else:
+		flag_label.text = "线索：%s" % "、".join(flag_names.slice(maxi(flag_names.size() - 4, 0), flag_names.size()))
 
 
 func _panel_style(color: Color) -> StyleBoxFlat:
