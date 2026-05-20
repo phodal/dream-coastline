@@ -1,0 +1,4 @@
+旁白: 无名兽 被击退。
+[signal arg="set_flag:defeated_nameless"]
+[signal arg="set_flag:received_broken_nameplate"]
+[end_timeline]

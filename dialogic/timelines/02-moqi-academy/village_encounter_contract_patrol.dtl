@@ -1,0 +1,3 @@
+旁白: 巡契残影从井边旧符里浮出。你用“止”稳住裂纹，把它压回封条残迹里。
+[signal arg="set_flag:cleared_contract_patrol"]
+[end_timeline]

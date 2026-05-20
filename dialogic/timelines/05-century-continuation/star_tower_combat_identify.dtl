@@ -1,0 +1,4 @@
+旁白: “名”字亮起。目标显形：静默干扰。
+[signal arg="set_flag:named_silent_interference"]
+[signal arg="set_flag:locked_interference_signature"]
+[end_timeline]

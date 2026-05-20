@@ -1,0 +1,4 @@
+旁白: 封字塔 被击退。
+[signal arg="set_flag:defeated_seal_tower"]
+[signal arg="set_flag:defeated_seal_tower"]
+[end_timeline]

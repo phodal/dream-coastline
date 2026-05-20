@@ -1,0 +1,3 @@
+旁白: 你确认节点的名字。它不是废墟，而是仍在等待维护的公共系统。
+[signal arg="set_flag:named_first_node"]
+[end_timeline]

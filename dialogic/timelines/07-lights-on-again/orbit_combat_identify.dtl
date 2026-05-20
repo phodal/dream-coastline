@@ -1,0 +1,4 @@
+旁白: “名”字亮起。目标显形：静默协议。
+[signal arg="set_flag:named_final_protocol"]
+[signal arg="set_flag:locked_final_protocol"]
+[end_timeline]

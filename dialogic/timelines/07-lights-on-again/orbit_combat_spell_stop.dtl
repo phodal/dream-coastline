@@ -1,0 +1,3 @@
+旁白: 你用“止”让最终删除判定停在一瞬。两个文明把这一瞬写进续页。
+[signal arg="set_flag:paused_final_deletion"]
+[end_timeline]

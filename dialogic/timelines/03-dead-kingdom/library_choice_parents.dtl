@@ -1,0 +1,9 @@
+join jizi_xuan (phone) left
+join xiali (default) left
+jizi_xuan: 我需要先找父母留下的线索。
+xiali: 墨颀不会等你慢慢选择，但我明白这个选择为什么会痛。
+[signal arg="set_flag:chose_parent_books"]
+[signal arg="set_flag:resolved_book_route"]
+leave jizi_xuan
+leave xiali
+[end_timeline]

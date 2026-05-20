@@ -33,9 +33,9 @@ func connect_dialogic() -> bool:
 func sync_flags_to_dialogic() -> void:
 	if not connect_dialogic():
 		return
+	_ensure_dialogic_flags_namespace()
 	for flag_name in StoryFlags.export_flags().keys():
-		var path := "%s.%s" % [FLAGS_NAMESPACE, flag_name]
-		_dialogic.VAR.set_variable(path, true)
+		_dialogic.current_state_info["variables"][FLAGS_NAMESPACE][flag_name] = true
 
 
 ## Pull any flag variables that were set inside a Dialogic timeline back into StoryFlags.
@@ -43,6 +43,7 @@ func sync_flags_to_dialogic() -> void:
 func sync_flags_from_dialogic() -> void:
 	if _dialogic == null:
 		return
+	_ensure_dialogic_flags_namespace()
 	var state: Dictionary = _dialogic.current_state_info.get("variables", {})
 	var flags_dict: Dictionary = state.get(FLAGS_NAMESPACE, {})
 	for flag_name in flags_dict.keys():
@@ -53,8 +54,8 @@ func sync_flags_from_dialogic() -> void:
 func _on_story_flag_changed(flag: String, value: bool) -> void:
 	if _dialogic == null:
 		return
-	var path := "%s.%s" % [FLAGS_NAMESPACE, flag]
-	_dialogic.VAR.set_variable(path, value)
+	_ensure_dialogic_flags_namespace()
+	_dialogic.current_state_info["variables"][FLAGS_NAMESPACE][flag] = value
 
 
 ## Handle [signal set_flag:flag_name] events emitted from Dialogic timelines.
@@ -68,3 +69,12 @@ func _on_dialogic_signal_event(argument: Variant) -> void:
 		var flag_name := text.trim_prefix("clear_flag:").strip_edges()
 		if not flag_name.is_empty():
 			StoryFlags.set_flag(flag_name, false)
+
+
+func _ensure_dialogic_flags_namespace() -> void:
+	if _dialogic == null:
+		return
+	if not _dialogic.current_state_info.has("variables"):
+		_dialogic.current_state_info["variables"] = {}
+	if not _dialogic.current_state_info["variables"].has(FLAGS_NAMESPACE):
+		_dialogic.current_state_info["variables"][FLAGS_NAMESPACE] = {}

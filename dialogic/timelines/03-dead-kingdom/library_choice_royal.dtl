@@ -1,0 +1,9 @@
+join jizi_xuan (phone) left
+join xiali (default) left
+jizi_xuan: 先交给夏离保管，王都需要一个能压住局面的人。
+xiali: 我可以接住它，但这不是一个干净的答案。
+[signal arg="set_flag:chose_royal_books"]
+[signal arg="set_flag:resolved_book_route"]
+leave jizi_xuan
+leave xiali
+[end_timeline]

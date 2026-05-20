@@ -1,0 +1,3 @@
+旁白: 你用“名”确认水源。井口浮出清水，孩子们第一次喊出你的名字。
+[signal arg="set_flag:repaired_well"]
+[end_timeline]

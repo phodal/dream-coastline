@@ -1,0 +1,245 @@
+{
+  "script_id": "moqi-core",
+  "font_path": "res://assets/fonts/moqi/MoqiSymbols.ttf",
+  "design_rules": {
+    "grid": "1000 unit square",
+    "source": "Chinese radical semantics redrawn as ink-and-seal interface symbols",
+    "non_goal": "Do not render the glyphs as ordinary readable Chinese characters."
+  },
+  "glyphs": [
+    {
+      "id": "name",
+      "label": "名",
+      "codepoint": "U+E001",
+      "tier": "true",
+      "source_radicals": ["口", "夕"],
+      "meaning": "确认身份、存在、真名。",
+      "visual_contract": "A sealed mouth frame plus a small identity spark; should read as naming/recognition, not a normal Chinese 名."
+    },
+    {
+      "id": "door",
+      "label": "门",
+      "codepoint": "U+E002",
+      "tier": "law",
+      "source_radicals": ["门"],
+      "meaning": "连接空间、开启路径、建立通道。",
+      "visual_contract": "A threshold frame with a broken hinge mark; should read as passage/rule boundary."
+    },
+    {
+      "id": "fire",
+      "label": "火",
+      "codepoint": "U+E003",
+      "tier": "true",
+      "source_radicals": ["火"],
+      "meaning": "能量、激活、燃烧、过载。",
+      "visual_contract": "A central ink flame with two feeder sparks; should read as activation/energy, not a literal campfire icon."
+    },
+    {
+      "id": "stop",
+      "label": "止",
+      "codepoint": "U+E004",
+      "tier": "law",
+      "source_radicals": ["止"],
+      "meaning": "停止、固定、封印、稳定。",
+      "visual_contract": "A grounded stop peg crossing a boundary line; should read as stabilization and pause."
+    },
+    {
+      "id": "contract",
+      "label": "约",
+      "codepoint": "U+E005",
+      "tier": "law",
+      "source_radicals": ["纟", "勺"],
+      "meaning": "契约、规则、关系。",
+      "visual_contract": "A knot enclosed by a rule bracket; should read as binding/permission."
+    },
+    {
+      "id": "history",
+      "label": "史",
+      "codepoint": "U+E006",
+      "tier": "daily",
+      "source_radicals": ["口", "又"],
+      "meaning": "记录、历史、连续性。",
+      "visual_contract": "A scroll spine with index cuts; should read as archive/history."
+    },
+    {
+      "id": "star",
+      "label": "星",
+      "codepoint": "U+E007",
+      "tier": "true",
+      "source_radicals": ["日", "生"],
+      "meaning": "远方、坐标、观测。",
+      "visual_contract": "A star point over a measuring horizon; should read as observation/coordinate."
+    },
+    {
+      "id": "continue",
+      "label": "续",
+      "codepoint": "U+E008",
+      "tier": "true",
+      "source_radicals": ["纟", "卖"],
+      "meaning": "延续、接续、复写。",
+      "visual_contract": "Two linked page strokes with a continuation thread; should read as continuation/backup."
+    },
+    {
+      "id": "truth",
+      "label": "真",
+      "codepoint": "U+E009",
+      "tier": "true",
+      "source_radicals": ["十", "目"],
+      "meaning": "真实、校验、底层事实。",
+      "visual_contract": "A verification eye under a seal mark; should read as truth/grounding, not an ordinary 真."
+    },
+    {
+      "id": "return",
+      "label": "返",
+      "codepoint": "U+E00A",
+      "tier": "law",
+      "source_radicals": ["辶", "反"],
+      "meaning": "返回、回到前一状态或位置。",
+      "visual_contract": "A path stroke folding back into itself; should read as return/rollback."
+    },
+    {
+      "id": "body",
+      "label": "身",
+      "codepoint": "U+E00B",
+      "tier": "daily",
+      "source_radicals": ["身"],
+      "meaning": "身体、载体、实体。",
+      "visual_contract": "A vertical body spine with two bound shoulders; should read as embodied carrier."
+    },
+    {
+      "id": "move",
+      "label": "行",
+      "codepoint": "U+E00C",
+      "tier": "daily",
+      "source_radicals": ["彳", "亍"],
+      "meaning": "行动、路径、执行。",
+      "visual_contract": "A crossroad with paired stepping strokes; should read as movement/path execution."
+    },
+    {
+      "id": "fast",
+      "label": "疾",
+      "codepoint": "U+E00D",
+      "tier": "true",
+      "source_radicals": ["疒", "矢"],
+      "meaning": "高速、急促、加速。",
+      "visual_contract": "A forward arrow with trailing cut marks; should read as acceleration."
+    },
+    {
+      "id": "water",
+      "label": "水",
+      "codepoint": "U+E00E",
+      "tier": "daily",
+      "source_radicals": ["水"],
+      "meaning": "水流、井、基础设施循环。",
+      "visual_contract": "A central water channel with two side drops; should read as controlled flow."
+    },
+    {
+      "id": "book",
+      "label": "书",
+      "codepoint": "U+E00F",
+      "tier": "daily",
+      "source_radicals": ["书"],
+      "meaning": "书写、字典、档案文本。",
+      "visual_contract": "An open page spine with index teeth; should read as book/dictionary."
+    },
+    {
+      "id": "light",
+      "label": "光",
+      "codepoint": "U+E010",
+      "tier": "true",
+      "source_radicals": ["儿", "火"],
+      "meaning": "照明、显现、被看见。",
+      "visual_contract": "A contained light core with short witness rays; should read as illumination/visibility."
+    },
+    {
+      "id": "homecoming",
+      "label": "归",
+      "codepoint": "U+E011",
+      "tier": "law",
+      "source_radicals": ["彐", "止"],
+      "meaning": "归位、回家、回到所属坐标。",
+      "visual_contract": "A threshold receiving an inward arrow; should read as homecoming/return-to-place."
+    },
+    {
+      "id": "bridge",
+      "label": "桥",
+      "codepoint": "U+E012",
+      "tier": "true",
+      "source_radicals": ["木", "乔"],
+      "meaning": "桥接、跨界连接、接口稳定。",
+      "visual_contract": "An arch bridge over a gap with two anchor piers; should read as bridge/interface."
+    },
+    {
+      "id": "silence",
+      "label": "静",
+      "codepoint": "U+E013",
+      "tier": "law",
+      "source_radicals": ["青", "争"],
+      "meaning": "静默、低噪、不可被观测。",
+      "visual_contract": "A sealed signal field with muted bars; should read as silence/suppression."
+    },
+    {
+      "id": "erase",
+      "label": "删",
+      "codepoint": "U+E014",
+      "tier": "law",
+      "source_radicals": ["册", "刂"],
+      "meaning": "删除、抹除、让文本和名字空白化。",
+      "visual_contract": "A page block cut by a hard deletion slash; should read as erasure."
+    },
+    {
+      "id": "boundary",
+      "label": "界",
+      "codepoint": "U+E015",
+      "tier": "law",
+      "source_radicals": ["田", "介"],
+      "meaning": "边界、世界分区、规则域。",
+      "visual_contract": "A divided field frame with a central crossing; should read as domain boundary."
+    },
+    {
+      "id": "repair",
+      "label": "修",
+      "codepoint": "U+E016",
+      "tier": "daily",
+      "source_radicals": ["亻", "攸"],
+      "meaning": "修复、维护、复盘后改正。",
+      "visual_contract": "A patch square held by a tool stroke; should read as repair/maintenance."
+    },
+    {
+      "id": "protect",
+      "label": "护",
+      "codepoint": "U+E017",
+      "tier": "law",
+      "source_radicals": ["扌", "户"],
+      "meaning": "保护、守护、权限防护。",
+      "visual_contract": "A shielded door with a hand-like guard stroke; should read as protection."
+    },
+    {
+      "id": "state",
+      "label": "国",
+      "codepoint": "U+E018",
+      "tier": "law",
+      "source_radicals": ["囗", "玉"],
+      "meaning": "疆域、公共系统、国书作用域。",
+      "visual_contract": "A civic enclosure with a central statebook node; should read as governed domain."
+    },
+    {
+      "id": "law",
+      "label": "律",
+      "codepoint": "U+E019",
+      "tier": "law",
+      "source_radicals": ["彳", "聿"],
+      "meaning": "法律、程序、可执行规则。",
+      "visual_contract": "A rule column with measured bars; should read as legal procedure."
+    },
+    {
+      "id": "ink",
+      "label": "墨",
+      "codepoint": "U+E01A",
+      "tier": "true",
+      "source_radicals": ["黑", "土"],
+      "meaning": "墨力、书写介质、文字能量。",
+      "visual_contract": "A heavy ink drop settling into a ground seal; should read as ink-energy."
+    }
+  ]
+}

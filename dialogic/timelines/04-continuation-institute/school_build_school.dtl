@@ -1,0 +1,3 @@
+旁白: 第一座公开学塾开课。任务面板里，许多□□变成了可读的名字。
+[signal arg="set_flag:opened_first_school"]
+[end_timeline]

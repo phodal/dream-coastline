@@ -15,9 +15,13 @@ var dialogic_bridge
 var dialogic_variable_bridge
 var startup_splash
 var audio_director
+var _dialogic_runtime_finished := false
+var _dialogic_runtime_payload: Dictionary = {}
+var _dialogic_runtime_started_with_dialogic := false
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	director = SceneDirectorScript.new()
 	director.name = "SceneDirector"
@@ -33,6 +37,8 @@ func _ready() -> void:
 	exploration_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	exploration_view.inspect_requested.connect(_inspect_item)
 	exploration_view.move_requested.connect(_move_to)
+	exploration_view.choice_requested.connect(_choose_location_choice)
+	exploration_view.story_action_requested.connect(_perform_story_action)
 	add_child(exploration_view)
 
 	vn_layer = VNLayerScript.new()
@@ -67,10 +73,16 @@ func _ready() -> void:
 		call_deferred("_run_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-progression"):
 		call_deferred("_run_progression_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-choices"):
+		call_deferred("_run_choice_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-all-scenes"):
+		call_deferred("_run_all_scenes_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-assets"):
 		call_deferred("_run_asset_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-dialogic-bridge"):
 		call_deferred("_run_dialogic_bridge_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-dialogic-runtime"):
+		call_deferred("_run_dialogic_runtime_smoke")
 	elif OS.get_cmdline_user_args().has("--capture-nova-screenshot"):
 		call_deferred("_capture_screenshot")
 
@@ -97,6 +109,18 @@ func _inspect_item(item_id: String) -> void:
 func _move_to(location_id: String) -> void:
 	if director.move_to(location_id) and audio_director != null:
 		audio_director.play_step()
+
+
+func _choose_location_choice(choice_id: String) -> void:
+	if audio_director != null:
+		audio_director.play_ui()
+	director.choose_location_choice(choice_id)
+
+
+func _perform_story_action(action_type: String, action_id: String) -> void:
+	if audio_director != null:
+		audio_director.play_ui()
+	director.perform_story_action(action_type, action_id)
 
 
 func _show_cutscene(payload: Dictionary) -> void:
@@ -165,13 +189,46 @@ func _run_progression_smoke() -> void:
 	ok = ok and _smoke_inspect("pen")
 
 	var required_flags: Array = director.story_repository.get_required_flags(GameState.current_scene_id)
-	ok = ok and StoryFlags.has_all(required_flags)
 	ok = ok and StoryFlags.has_flag("entered_moqi")
+	ok = ok and GameState.current_scene_id == "01-illiterate"
+	ok = ok and GameState.current_location_id == director.story_repository.get_start_location("01-illiterate")
 	print("nova-progression-smoke status=%s scene=%s location=%s flags=%s" % [
 		"PASS" if ok else "FAIL",
 		GameState.current_scene_id,
 		GameState.current_location_id,
 		StoryFlags.export_flags().keys().size(),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _run_choice_smoke() -> void:
+	StoryFlags.reset()
+	GameState.start_scene("03-dead-kingdom", "library")
+	for flag in director.story_repository.get_initial_flags("03-dead-kingdom"):
+		StoryFlags.set_flag(str(flag), true)
+	StoryFlags.set_flag("found_reform_records", true)
+	director.present_current_location()
+	var choices: Array[Dictionary] = director.build_location_choices()
+	var has_public_choice: bool = choices.any(func(choice: Dictionary) -> bool:
+		return str(choice.get("type", "")) == "choice" and str(choice.get("id", "")) == "public" and bool(choice.get("enabled", false))
+	)
+	var ok: bool = has_public_choice and director.choose_location_choice("public")
+	_finish_cutscene({
+		"flags": ["chose_public_books", "resolved_book_route"],
+	})
+	var after_choices: Array[Dictionary] = director.build_location_choices()
+	var disabled_after_resolve: bool = after_choices.any(func(choice: Dictionary) -> bool:
+		return str(choice.get("type", "")) == "choice" and str(choice.get("id", "")) == "royal" and not bool(choice.get("enabled", true))
+	)
+	ok = ok and StoryFlags.has_flag("chose_public_books")
+	ok = ok and StoryFlags.has_flag("resolved_book_route")
+	ok = ok and disabled_after_resolve
+	ok = ok and DialogicBridgeScript.resolve_choice_timeline_path("03-dead-kingdom", "library", "public").ends_with("library_choice_public.dtl")
+	print("nova-choice-smoke status=%s scene=%s location=%s resolved=%s" % [
+		"PASS" if ok else "FAIL",
+		GameState.current_scene_id,
+		GameState.current_location_id,
+		str(StoryFlags.has_flag("resolved_book_route")),
 	])
 	get_tree().quit(0 if ok else 1)
 
@@ -195,6 +252,229 @@ func _smoke_inspect(item_id: String) -> bool:
 		"flags": item.get("flags", []),
 	})
 	return true
+
+
+func _run_all_scenes_smoke() -> void:
+	StoryFlags.reset()
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	director.present_current_location()
+
+	var ok := true
+	var completed: Array[String] = []
+	var scene_guard := 0
+	while ok and scene_guard < 16:
+		scene_guard += 1
+		var scene_id: String = GameState.current_scene_id
+		if scene_id.is_empty():
+			ok = false
+			break
+		if not _smoke_complete_current_scene(scene_id):
+			ok = false
+			break
+		completed.append(scene_id)
+		if director.story_repository.next_scene_id(scene_id).is_empty():
+			break
+
+	ok = ok and completed.size() == director.story_repository.scene_ids().size()
+	ok = ok and GameState.current_scene_id == director.story_repository.scene_ids().back()
+	ok = ok and StoryFlags.has_all(director.story_repository.get_required_flags(GameState.current_scene_id))
+	print("nova-all-scenes-smoke status=%s scenes=%s flags=%s current=%s/%s" % [
+		"PASS" if ok else "FAIL",
+		completed.size(),
+		StoryFlags.export_flags().keys().size(),
+		GameState.current_scene_id,
+		GameState.current_location_id,
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _smoke_complete_current_scene(scene_id: String) -> bool:
+	var loops := 0
+	while GameState.current_scene_id == scene_id and loops < 128:
+		loops += 1
+		var before_flags := StoryFlags.export_flags().keys().size()
+		var scene: Dictionary = director.story_repository.get_scene(scene_id)
+		var locations: Dictionary = scene.get("locations", {})
+		for raw_location_id in locations.keys():
+			if GameState.current_scene_id != scene_id:
+				return true
+			var location_id := str(raw_location_id)
+			if not _smoke_move_to_location(scene_id, location_id):
+				return false
+			if not _smoke_apply_location_actions(scene_id, location_id):
+				return false
+		if GameState.current_scene_id != scene_id:
+			return true
+		var required_flags: Array = director.story_repository.get_required_flags(scene_id)
+		if required_flags.is_empty() or StoryFlags.has_all(required_flags):
+			return true
+		var after_flags := StoryFlags.export_flags().keys().size()
+		if after_flags <= before_flags:
+			push_warning("Nova all-scenes smoke stalled at %s/%s; missing %s" % [
+				scene_id,
+				GameState.current_location_id,
+				_smoke_first_missing(required_flags),
+			])
+			return false
+	push_warning("Nova all-scenes smoke exceeded loop guard at %s" % scene_id)
+	return false
+
+
+func _smoke_apply_location_actions(scene_id: String, location_id: String) -> bool:
+	var items: Dictionary = director.story_repository.get_items(scene_id, location_id)
+	for raw_item_id in items.keys():
+		var item_id := str(raw_item_id)
+		var item: Dictionary = items[item_id]
+		if not _smoke_record_pending(item):
+			continue
+		if not StoryFlags.has_all(_smoke_array(item.get("requires", []))):
+			continue
+		if not director.inspect_item(item_id):
+			return false
+		_finish_cutscene({"flags": _smoke_array(item.get("flags", []))})
+
+	var choices: Dictionary = director.story_repository.get_location_choices(scene_id, location_id)
+	var resolved_flag: String = director.story_repository.get_branch_resolved_flag(scene_id)
+	var branch_resolved: bool = not resolved_flag.is_empty() and StoryFlags.has_flag(resolved_flag)
+	for raw_choice_id in choices.keys():
+		if branch_resolved:
+			break
+		var choice_id := str(raw_choice_id)
+		var choice: Dictionary = choices[choice_id]
+		if not _smoke_record_pending(choice):
+			continue
+		if not StoryFlags.has_all(_smoke_array(choice.get("requires", []))):
+			continue
+		if not director.choose_location_choice(choice_id):
+			return false
+		_finish_cutscene({"flags": _smoke_array(choice.get("flags", []))})
+		branch_resolved = not resolved_flag.is_empty() and StoryFlags.has_flag(resolved_flag)
+
+	if not _smoke_apply_record_actions("glyph", director.story_repository.get_glyph_actions(scene_id, location_id)):
+		return false
+	if not _smoke_apply_record_actions("build", director.story_repository.get_build_actions(scene_id, location_id)):
+		return false
+	if not _smoke_apply_record_actions("encounter", director.story_repository.get_encounters(scene_id, location_id)):
+		return false
+	if not _smoke_apply_record_actions("combo", director.story_repository.get_combos(scene_id, location_id)):
+		return false
+	return _smoke_apply_combat_actions(director.story_repository.get_combat(scene_id, location_id))
+
+
+func _smoke_apply_record_actions(action_type: String, records: Dictionary) -> bool:
+	for raw_action_id in records.keys():
+		var action_id := str(raw_action_id)
+		var record: Dictionary = records[action_id]
+		if not _smoke_record_pending(record):
+			continue
+		if not StoryFlags.has_all(_smoke_array(record.get("requires", []))):
+			continue
+		if not director.perform_story_action(action_type, action_id):
+			return false
+		_finish_cutscene({"flags": _smoke_array(record.get("flags", []))})
+	return true
+
+
+func _smoke_apply_combat_actions(combat: Dictionary) -> bool:
+	if combat.is_empty():
+		return true
+	var lock_flag := str(combat.get("lock_flag", ""))
+	var learn_flag := str(combat.get("learn_flag", ""))
+	if not lock_flag.is_empty() and not StoryFlags.has_flag(lock_flag):
+		if learn_flag.is_empty() or StoryFlags.has_flag(learn_flag):
+			var identify_flags: Array = []
+			identify_flags.append(lock_flag)
+			identify_flags.append_array(_smoke_array(combat.get("success_flags", [])))
+			if not director.perform_story_action("combat_identify", "identify"):
+				return false
+			_finish_cutscene({"flags": identify_flags})
+	var spells: Dictionary = combat.get("spells", {})
+	for raw_spell_id in spells.keys():
+		var spell_id := str(raw_spell_id)
+		var spell: Dictionary = spells[spell_id]
+		if not _smoke_record_pending(spell):
+			continue
+		if not StoryFlags.has_all(_smoke_array(spell.get("requires", []))):
+			continue
+		if not director.perform_story_action("combat_spell", spell_id):
+			return false
+		_finish_cutscene({"flags": _smoke_array(spell.get("flags", []))})
+	var win_flag := str(combat.get("win_flag", ""))
+	if not win_flag.is_empty() and not StoryFlags.has_flag(win_flag):
+		if StoryFlags.has_all(_smoke_array(combat.get("required_attack_flags", []))):
+			var resolve_flags: Array = []
+			resolve_flags.append(win_flag)
+			resolve_flags.append_array(_smoke_array(combat.get("reward_flags", [])))
+			if not director.perform_story_action("combat_resolve", "resolve"):
+				return false
+			_finish_cutscene({"flags": resolve_flags})
+	return true
+
+
+func _smoke_move_to_location(scene_id: String, target_location_id: String) -> bool:
+	if GameState.current_location_id == target_location_id:
+		return true
+	var path := _smoke_find_path(scene_id, GameState.current_location_id, target_location_id)
+	if path.is_empty():
+		push_warning("Nova all-scenes smoke cannot reach %s/%s from %s" % [
+			scene_id,
+			target_location_id,
+			GameState.current_location_id,
+		])
+		return false
+	for location_id in path:
+		if not director.move_to(str(location_id)):
+			return false
+	return true
+
+
+func _smoke_find_path(scene_id: String, start_location_id: String, target_location_id: String) -> Array[String]:
+	var frontier: Array[String] = [start_location_id]
+	var previous: Dictionary = {start_location_id: ""}
+	var index := 0
+	while index < frontier.size():
+		var current := frontier[index]
+		index += 1
+		if current == target_location_id:
+			break
+		var exits: Dictionary = director.story_repository.get_exits(scene_id, current)
+		for raw_next_id in exits.keys():
+			var next_id := str(raw_next_id)
+			if previous.has(next_id):
+				continue
+			previous[next_id] = current
+			frontier.append(next_id)
+	if not previous.has(target_location_id):
+		return []
+	var path: Array[String] = []
+	var cursor := target_location_id
+	while cursor != start_location_id:
+		path.push_front(cursor)
+		cursor = str(previous.get(cursor, ""))
+		if cursor.is_empty():
+			return []
+	return path
+
+
+func _smoke_record_pending(record: Dictionary) -> bool:
+	var flags := _smoke_array(record.get("flags", []))
+	return not flags.is_empty() and not StoryFlags.has_any(flags)
+
+
+func _smoke_array(value) -> Array:
+	if typeof(value) == TYPE_ARRAY:
+		return value
+	return []
+
+
+func _smoke_first_missing(flags: Array) -> String:
+	for flag in flags:
+		if not StoryFlags.has_flag(str(flag)):
+			return str(flag)
+	return "unknown"
 
 
 func _run_dialogic_bridge_smoke() -> void:
@@ -235,6 +515,65 @@ func _run_dialogic_bridge_smoke() -> void:
 		str(multi_ok),
 		str(vbridge_ok),
 		backdrop_path,
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _run_dialogic_runtime_smoke() -> void:
+	if DisplayServer.get_name() == "headless":
+		print("dialogic-runtime-smoke status=SKIP reason=headless")
+		get_tree().quit(0)
+		return
+	StoryFlags.reset()
+	GameState.start_scene("00-prologue-lights-out", "street")
+	director.present_current_location()
+	_dialogic_runtime_finished = false
+	_dialogic_runtime_payload = {}
+	_dialogic_runtime_started_with_dialogic = false
+	if not dialogic_bridge.finished.is_connected(_on_dialogic_runtime_finished):
+		dialogic_bridge.finished.connect(_on_dialogic_runtime_finished)
+	var ok: bool = director.inspect_item("window")
+	var dialogic_node := get_node_or_null("/root/Dialogic")
+	ok = ok and dialogic_node != null and dialogic_bridge.can_play_runtime()
+	if ok and dialogic_node != null and dialogic_node.has_subsystem("Inputs"):
+		dialogic_node.Inputs.auto_skip.time_per_event = 0.01
+		dialogic_node.Inputs.auto_skip.disable_on_user_input = false
+		dialogic_node.Inputs.auto_skip.enabled = true
+	_dialogic_runtime_started_with_dialogic = ok and vn_layer.visible == false
+	var timer := Timer.new()
+	timer.name = "DialogicRuntimeSmokeTimer"
+	timer.one_shot = true
+	timer.wait_time = 3.0 if ok else 0.1
+	timer.process_mode = Node.PROCESS_MODE_ALWAYS
+	timer.timeout.connect(_finish_dialogic_runtime_smoke.bind(ok))
+	add_child(timer)
+	timer.start()
+
+
+func _on_dialogic_runtime_finished(payload: Dictionary) -> void:
+	_dialogic_runtime_finished = true
+	_dialogic_runtime_payload = payload.duplicate(true)
+
+
+func _finish_dialogic_runtime_smoke(start_ok: bool) -> void:
+	var dialogic_node := get_node_or_null("/root/Dialogic")
+	if dialogic_node != null and dialogic_node.has_subsystem("Inputs"):
+		dialogic_node.Inputs.auto_skip.enabled = false
+	var ok := start_ok
+	ok = ok and _dialogic_runtime_finished
+	ok = ok and _dialogic_runtime_started_with_dialogic
+	ok = ok and StoryFlags.has_flag("noticed_dark_window")
+	ok = ok and str(_dialogic_runtime_payload.get("timeline_path", "")).ends_with("street_window.dtl")
+	var screenshot_path := ProjectSettings.globalize_path("res://artifacts/dialogic-runtime-smoke.png")
+	if ok:
+		DirAccess.make_dir_recursive_absolute(screenshot_path.get_base_dir())
+		var image := get_viewport().get_texture().get_image()
+		ok = image != null and image.save_png(screenshot_path) == OK
+	print("dialogic-runtime-smoke status=%s finished=%s flag=%s screenshot=%s" % [
+		"PASS" if ok else "FAIL",
+		str(_dialogic_runtime_finished),
+		str(StoryFlags.has_flag("noticed_dark_window")),
+		screenshot_path,
 	])
 	get_tree().quit(0 if ok else 1)
 

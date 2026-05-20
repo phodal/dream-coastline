@@ -2,6 +2,10 @@ extends Control
 
 signal inspect_requested(item_id: String)
 signal move_requested(location_id: String)
+signal choice_requested(choice_id: String)
+signal story_action_requested(action_type: String, action_id: String)
+
+const MoqiText := preload("res://src/nova/ui/moqi_text.gd")
 
 var backdrop: TextureRect
 var scene_label: Label
@@ -18,12 +22,14 @@ var _scene_id := ""
 var _location_id := ""
 var _location: Dictionary = {}
 var _visual: Dictionary = {}
+var _moqi_font: Font
 
 const PROTAGONIST_PORTRAIT := "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png"
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_moqi_font = MoqiText.load_font()
 
 	backdrop = TextureRect.new()
 	backdrop.name = "Backdrop"
@@ -183,18 +189,73 @@ func _render_choices(choices: Array[Dictionary]) -> void:
 		button.focus_mode = Control.FOCUS_ALL
 		if bool(choice.get("done", false)):
 			button.text += "  ✓"
+		_configure_choice_button_display(button, choice)
 		var choice_type := str(choice.get("type", ""))
 		var choice_id := str(choice.get("id", ""))
 		if choice_type == "inspect":
 			button.pressed.connect(func() -> void: inspect_requested.emit(choice_id))
 		elif choice_type == "move":
 			button.pressed.connect(func() -> void: move_requested.emit(choice_id))
+		elif choice_type == "choice":
+			button.pressed.connect(func() -> void: choice_requested.emit(choice_id))
+		elif choice_type == "story_action":
+			var action_type := str(choice.get("action_type", ""))
+			button.pressed.connect(func() -> void: story_action_requested.emit(action_type, choice_id))
 		var index := _choice_buttons.size()
 		button.focus_entered.connect(func() -> void: _selected_choice_index = index)
 		choice_list.add_child(button)
 		_choice_buttons.append(button)
 	if choice_list.get_child_count() > 0:
 		call_deferred("_focus_first_choice")
+
+
+func _configure_choice_button_display(button: Button, choice: Dictionary) -> void:
+	var glyph := str(choice.get("moqi_glyph", ""))
+	if glyph.is_empty() or _moqi_font == null:
+		return
+
+	button.text = ""
+	button.tooltip_text = str(choice.get("label", ""))
+	button.custom_minimum_size = Vector2(0.0, 48.0)
+
+	var row := HBoxContainer.new()
+	row.name = "MoqiChoiceRow"
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	row.offset_left = 14.0
+	row.offset_top = 4.0
+	row.offset_right = -14.0
+	row.offset_bottom = -4.0
+	row.add_theme_constant_override("separation", 8)
+	button.add_child(row)
+
+	var prefix := _choice_row_label(str(choice.get("moqi_prefix", "")), button.disabled, false)
+	row.add_child(prefix)
+
+	var glyph_label := _choice_row_label(glyph, button.disabled, true)
+	glyph_label.add_theme_font_override(&"font", _moqi_font)
+	glyph_label.add_theme_font_size_override("font_size", 30)
+	row.add_child(glyph_label)
+
+	var label_text := str(choice.get("moqi_label", ""))
+	if bool(choice.get("done", false)):
+		label_text += "  ✓"
+	row.add_child(_choice_row_label(label_text, button.disabled, false))
+
+
+func _choice_row_label(text: String, disabled: bool, is_glyph: bool) -> Label:
+	var label := Label.new()
+	label.text = text
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	label.clip_text = true
+	label.add_theme_font_size_override("font_size", 18)
+	var enabled_color := Color(0.88, 0.86, 0.78)
+	if is_glyph:
+		enabled_color = Color(0.98, 0.75, 0.34)
+	label.add_theme_color_override("font_color", Color(0.46, 0.47, 0.43) if disabled else enabled_color)
+	return label
 
 
 func _focus_first_choice() -> void:

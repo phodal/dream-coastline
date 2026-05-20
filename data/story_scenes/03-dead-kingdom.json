@@ -144,27 +144,53 @@
       },
       "choices": {
         "public": {
+          "name": "公开书院路线",
           "time_seconds": 60,
           "requires": ["found_reform_records"],
+          "characters": ["jizi_xuan", "wensu", "xiali"],
           "flags": ["chose_public_books", "resolved_book_route"],
+          "dialogue": [
+            {"speaker": "jizi_xuan", "text": "把这些藏书交给闻素，开成公开书院。"},
+            {"speaker": "xiali", "text": "这会让旧王都的贵族彻底站到对面。"},
+            {"speaker": "wensu", "text": "但名字不能再只属于王宫。"}
+          ],
           "text": "你决定把王都藏书交给闻素建立公开书院。夏离第一次没有立刻反对。"
         },
         "royal": {
+          "name": "王权保管路线",
           "time_seconds": 60,
           "requires": ["found_reform_records"],
+          "characters": ["jizi_xuan", "xiali"],
           "flags": ["chose_royal_books", "resolved_book_route"],
+          "dialogue": [
+            {"speaker": "jizi_xuan", "text": "先交给夏离保管，王都需要一个能压住局面的人。"},
+            {"speaker": "xiali", "text": "我可以接住它，但这不是一个干净的答案。"}
+          ],
           "text": "你把藏书交给夏离作为复国资本。这会强化王权路线，但削弱公开教育速度。"
         },
         "engineers": {
+          "name": "工匠组织路线",
           "time_seconds": 60,
           "requires": ["found_reform_records"],
+          "characters": ["jizi_xuan", "atang", "wensu"],
           "flags": ["chose_engineer_books", "resolved_book_route"],
+          "dialogue": [
+            {"speaker": "jizi_xuan", "text": "交给工匠组织。先让城市重新动起来。"},
+            {"speaker": "atang", "text": "我能把它们变成图纸和工具。"},
+            {"speaker": "wensu", "text": "那就别忘了教会人读懂这些图纸。"}
+          ],
           "text": "你把藏书交给工匠组织。工程路线会更快，但闻素担心基础教育跟不上。"
         },
         "parents": {
+          "name": "父母线索路线",
           "time_seconds": 60,
           "requires": ["found_reform_records"],
+          "characters": ["jizi_xuan", "xiali"],
           "flags": ["chose_parent_books", "resolved_book_route"],
+          "dialogue": [
+            {"speaker": "jizi_xuan", "text": "我需要先找父母留下的线索。"},
+            {"speaker": "xiali", "text": "墨颀不会等你慢慢选择，但我明白这个选择为什么会痛。"}
+          ],
           "text": "你保留资料优先寻找父母线索。夏离提醒你：墨颀不会等你慢慢选择。"
         }
       }

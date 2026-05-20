@@ -135,6 +135,10 @@ def story_review_panels(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_story_review_panels.py")
 
 
+def dialogic_timelines(runner: Runner, step: Step) -> int:
+    return runner.run_python(step, "tools/validate_dialogic_timelines.py")
+
+
 def story_movie_smoke(runner: Runner, step: Step) -> int:
     code = runner.run_python(step, "tools/build_story_movie.py", "--check-deps")
     if code != 0:
@@ -184,6 +188,10 @@ def render_frame(runner: Runner, step: Step) -> int:
     return runner.run_godot(step, "--capture-nova-screenshot", headless=False, quit_after=120)
 
 
+def dialogic_runtime_smoke(runner: Runner, step: Step) -> int:
+    return runner.run_godot(step, "--smoke-dialogic-runtime", headless=False, quit_after=5000)
+
+
 def screenshot_starts(runner: Runner, step: Step) -> int:
     command = [
         sys.executable,
@@ -216,12 +224,16 @@ STEPS: list[Step] = [
     ),
     Step("character-visual-models", "quick", "validate main character visual model contracts", character_visual_models),
     Step("story-review-panels", "quick", "validate story review panel coverage and character refs", story_review_panels),
+    Step("dialogic-timelines", "quick", "validate Dialogic timeline coverage and drift", dialogic_timelines),
     Step("story-movie-smoke", "quick", "validate reproducible story movie generation dependencies and output", story_movie_smoke),
     Step("godot-load", "quick", "load the Godot project headlessly", godot_load),
     Step("smoke-nova-runtime", "quick", "validate Nova exploration and VN cutscene runtime", godot_smoke("--smoke-nova-runtime")),
     Step("smoke-nova-progression", "quick", "validate Nova first-scene canonical progression", godot_smoke("--smoke-nova-progression")),
+    Step("smoke-nova-choices", "quick", "validate Nova location choices and route flags", godot_smoke("--smoke-nova-choices")),
+    Step("smoke-nova-all-scenes", "quick", "validate Nova narrative actions across all scenes", godot_smoke("--smoke-nova-all-scenes")),
     Step("smoke-nova-assets", "quick", "validate Nova splash, character, and audio assets", godot_smoke("--smoke-nova-assets")),
     Step("smoke-dialogic-bridge", "quick", "validate Dialogic addon install and timeline bridge", godot_smoke("--smoke-dialogic-bridge")),
+    Step("smoke-dialogic-runtime", "visual", "validate visible Dialogic playback and flag writeback", dialogic_runtime_smoke),
     Step("capture-nova-screenshot", "visual", "capture a visible Nova runtime frame", render_frame),
     Step("screenshots", "visual", "capture screenshot review contact sheet", screenshot_starts),
 ]

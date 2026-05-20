@@ -1,0 +1,12 @@
+join jizi_xuan (phone) left
+join atang (default) left
+join wensu (default) left
+jizi_xuan: 交给工匠组织。先让城市重新动起来。
+atang: 我能把它们变成图纸和工具。
+wensu: 那就别忘了教会人读懂这些图纸。
+[signal arg="set_flag:chose_engineer_books"]
+[signal arg="set_flag:resolved_book_route"]
+leave jizi_xuan
+leave atang
+leave wensu
+[end_timeline]

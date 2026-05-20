@@ -1,0 +1,4 @@
+旁白: 墨律司执契官 被击退。
+[signal arg="set_flag:defeated_contract_officer"]
+[signal arg="set_flag:opened_node_core"]
+[end_timeline]

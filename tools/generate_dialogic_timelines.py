@@ -9,12 +9,12 @@ Output: dialogic/timelines/{scene_id}/{location_id}_{item_id}.dtl
 Usage:
     python3 tools/generate_dialogic_timelines.py [--scene SCENE_ID] [--dry-run]
 
-Each .dtl file corresponds to one interactive item in the game world.
+Each .dtl file corresponds to one interactive item or location-level choice in the game world.
 The timeline format follows Dialogic's text-based event syntax:
   [background arg="path"]
   join character_id (portrait) left
   speaker: text line
-  [signal set_flag:flag_name]
+  [signal arg="set_flag:flag_name"]
   leave character_id
   [end_timeline]
 """
@@ -27,6 +27,7 @@ import re
 STORY_DIR = "data/story_scenes"
 VISUAL_DIR = "data/visual_scenes"
 OUTPUT_DIR = "dialogic/timelines"
+PROJECT_FILE = "project.godot"
 
 # Maps story JSON character_id → (dialogic_id, portrait)
 CHARACTER_MAP = {
@@ -91,6 +92,7 @@ def build_dtl_text(
     payload_flags: list[str] = item.get("flags", [])
 
     if dialogue:
+        emitted_flags: set[str] = set()
         for entry in dialogue:
             if not isinstance(entry, dict):
                 continue
@@ -99,7 +101,11 @@ def build_dtl_text(
             speaker = _resolve_speaker(speaker_raw, dialogic_speaker)
             lines.append(f"{escape_speaker(speaker)}: {text}")
             for flag in entry.get("flags", []):
-                lines.append(f"[signal set_flag:{flag}]")
+                emitted_flags.add(str(flag))
+                lines.append(f'[signal arg="set_flag:{escape_shortcode_value(str(flag))}"]')
+        for flag in payload_flags:
+            if str(flag) not in emitted_flags:
+                lines.append(f'[signal arg="set_flag:{escape_shortcode_value(str(flag))}"]')
     else:
         # Single text block
         text = str(item.get("text", "")).replace("\n", "\\\n")
@@ -107,7 +113,7 @@ def build_dtl_text(
         lines.append(f"{escape_speaker(speaker)}: {text}")
         # Emit flag signals for all item-level flags
         for flag in payload_flags:
-            lines.append(f"[signal set_flag:{flag}]")
+            lines.append(f'[signal arg="set_flag:{escape_shortcode_value(str(flag))}"]')
 
     # Leave characters
     for d_id, _ in dialogic_chars:
@@ -177,7 +183,109 @@ def generate_for_scene(scene_id: str, dry_run: bool = False) -> int:
                 print(f"[write] {rel_path}")
             count += 1
 
+        for choice_id, choice in location.get("choices", {}).items():
+            dtl_text = build_dtl_text(
+                item=choice,
+                backdrop_path=backdrop_path,
+                character_ids=collect_item_character_ids(choice),
+            )
+
+            rel_path = os.path.join(out_dir, f"{location_id}_choice_{choice_id}.dtl")
+            if dry_run:
+                print(f"[dry-run] would write {rel_path} ({len(dtl_text)} chars)")
+                print(dtl_text[:200], "...\n" if len(dtl_text) > 200 else "\n")
+            else:
+                os.makedirs(out_dir, exist_ok=True)
+                with open(rel_path, "w", encoding="utf-8") as f:
+                    f.write(dtl_text)
+                print(f"[write] {rel_path}")
+            count += 1
+
+        for action_type, collection_name in [
+            ("glyph", "glyph_actions"),
+            ("build", "build_actions"),
+            ("encounter", "encounters"),
+            ("combo", "combos"),
+        ]:
+            for action_id, action in location.get(collection_name, {}).items():
+                rel_path = os.path.join(out_dir, f"{location_id}_{action_type}_{action_id}.dtl")
+                dtl_text = build_dtl_text(
+                    item=action,
+                    backdrop_path=backdrop_path,
+                    character_ids=collect_item_character_ids(action),
+                )
+                if dry_run:
+                    print(f"[dry-run] would write {rel_path} ({len(dtl_text)} chars)")
+                    print(dtl_text[:200], "...\n" if len(dtl_text) > 200 else "\n")
+                else:
+                    os.makedirs(out_dir, exist_ok=True)
+                    with open(rel_path, "w", encoding="utf-8") as f:
+                        f.write(dtl_text)
+                    print(f"[write] {rel_path}")
+                count += 1
+
+        combat = location.get("combat", {})
+        if isinstance(combat, dict) and combat:
+            identify_payload = {
+                "text": f"“名”字亮起。目标显形：{combat.get('revealed_name', '敌人')}。",
+                "flags": [flag for flag in [combat.get("lock_flag")] if flag] + list(combat.get("success_flags", [])),
+            }
+            count += write_generated_timeline(
+                out_dir=out_dir,
+                location_id=location_id,
+                item_id="combat_identify",
+                item=identify_payload,
+                backdrop_path=backdrop_path,
+                dry_run=dry_run,
+            )
+            for spell_id, spell in combat.get("spells", {}).items():
+                count += write_generated_timeline(
+                    out_dir=out_dir,
+                    location_id=location_id,
+                    item_id=f"combat_spell_{spell_id}",
+                    item=spell,
+                    backdrop_path=backdrop_path,
+                    dry_run=dry_run,
+                )
+            resolve_payload = {
+                "text": f"{combat.get('revealed_name', '敌人')} 被击退。",
+                "flags": [flag for flag in [combat.get("win_flag")] if flag] + list(combat.get("reward_flags", [])),
+            }
+            count += write_generated_timeline(
+                out_dir=out_dir,
+                location_id=location_id,
+                item_id="combat_resolve",
+                item=resolve_payload,
+                backdrop_path=backdrop_path,
+                dry_run=dry_run,
+            )
+
     return count
+
+
+def write_generated_timeline(
+    out_dir: str,
+    location_id: str,
+    item_id: str,
+    item: dict,
+    backdrop_path: str,
+    dry_run: bool,
+) -> int:
+    dtl_text = build_dtl_text(
+        item=item,
+        backdrop_path=backdrop_path,
+        character_ids=collect_item_character_ids(item),
+    )
+    rel_path = os.path.join(out_dir, f"{location_id}_{item_id}.dtl")
+    if dry_run:
+        print(f"[dry-run] would write {rel_path} ({len(dtl_text)} chars)")
+        print(dtl_text[:200], "...\n" if len(dtl_text) > 200 else "\n")
+    else:
+        os.makedirs(out_dir, exist_ok=True)
+        with open(rel_path, "w", encoding="utf-8") as f:
+            f.write(dtl_text)
+        print(f"[write] {rel_path}")
+    return 1
 
 
 def generate_all(dry_run: bool = False) -> int:
@@ -191,6 +299,46 @@ def generate_all(dry_run: bool = False) -> int:
         scene_id = fname[: -len(".json")]
         total += generate_for_scene(scene_id, dry_run=dry_run)
     return total
+
+
+def sync_project_dtl_directory(dry_run: bool = False) -> None:
+    project_path = PROJECT_FILE
+    if not os.path.exists(project_path):
+        return
+    entries: list[tuple[str, str]] = []
+    for root, _, files in os.walk(OUTPUT_DIR):
+        for fname in files:
+            if not fname.endswith(".dtl"):
+                continue
+            path = os.path.join(root, fname).replace(os.sep, "/")
+            key = path.removeprefix(f"{OUTPUT_DIR}/").removesuffix(".dtl")
+            entries.append((key, f"res://{path}"))
+    entries.sort()
+    block_lines = ["directories/dtl_directory={"]
+    for index, (key, path) in enumerate(entries):
+        suffix = "," if index + 1 < len(entries) else ""
+        block_lines.append(f'"{key}": "{path}"{suffix}')
+    block_lines.append("}")
+    new_block = "\n".join(block_lines)
+
+    with open(project_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    marker = "directories/dtl_directory={"
+    start = content.find(marker)
+    if start == -1:
+        return
+    end = content.find("\n}", start)
+    if end == -1:
+        return
+    end += len("\n}")
+    updated = content[:start] + new_block + content[end:]
+    if dry_run:
+        print(f"[dry-run] would sync {project_path} ({len(entries)} timeline entries)")
+        return
+    if updated != content:
+        with open(project_path, "w", encoding="utf-8") as f:
+            f.write(updated)
+        print(f"[write] synced {project_path} ({len(entries)} timeline entries)")
 
 
 def main() -> None:
@@ -208,6 +356,7 @@ def main() -> None:
         count = generate_for_scene(args.scene, dry_run=args.dry_run)
     else:
         count = generate_all(dry_run=args.dry_run)
+    sync_project_dtl_directory(dry_run=args.dry_run)
 
     action = "would generate" if args.dry_run else "generated"
     print(f"\nTotal: {action} {count} timeline(s).")

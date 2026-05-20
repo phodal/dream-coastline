@@ -25,6 +25,13 @@ func has_all(flags: Array) -> bool:
 	return true
 
 
+func has_any(flags: Array) -> bool:
+	for flag in flags:
+		if has_flag(str(flag)):
+			return true
+	return false
+
+
 func export_flags() -> Dictionary:
 	return _flags.duplicate(true)
 

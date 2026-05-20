@@ -39,6 +39,11 @@
           "name": "手机",
           "time_seconds": 45,
           "flags": ["checked_phone_no_service"],
+          "character_id": "jizi_xuan",
+          "dialogue": [
+            {"speaker": "jizi_xuan", "text": "……这是哪？"},
+            {"speaker": "旁白", "text": "手机屏幕显示无服务，随后爬满黑色墨痕。连系统语言都变成无法识别的方块。"}
+          ],
           "text": "纪子轩低声说：“……这是哪？”手机屏幕显示无服务，随后爬满黑色墨痕。连系统语言都变成无法识别的方块。"
         },
         "sign": {
@@ -89,6 +94,12 @@
           "name": "小砚",
           "time_seconds": 60,
           "flags": ["met_xiaoyan"],
+          "characters": ["jizi_xuan", "xiaoyan"],
+          "dialogue": [
+            {"speaker": "xiaoyan", "text": "□□？□□□！"},
+            {"speaker": "jizi_xuan", "text": "我听不懂，你能说普通话吗？"},
+            {"speaker": "旁白", "text": "小砚也听不懂，只能指向你的笔，又指向树林。"}
+          ],
           "text": "小砚急切地说：“□□？□□□！”纪子轩退了半步：“我听不懂，你能说普通话吗？”小砚听不懂，只能指向你的笔，又指向树林。"
         },
         "notice": {

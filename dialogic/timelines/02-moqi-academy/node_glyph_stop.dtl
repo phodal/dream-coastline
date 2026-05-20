@@ -1,0 +1,3 @@
+旁白: 你写下“止”，节点裂纹停止扩散。
+[signal arg="set_flag:stabilized_first_node"]
+[end_timeline]

@@ -34,6 +34,14 @@ static func resolve_timeline_path(scene_id: String, location_id: String, item_id
 	return ""
 
 
+static func resolve_choice_timeline_path(scene_id: String, location_id: String, choice_id: String) -> String:
+	return resolve_timeline_path(scene_id, location_id, "choice_%s" % choice_id)
+
+
+static func resolve_action_timeline_path(scene_id: String, location_id: String, action_type: String, action_id: String) -> String:
+	return resolve_timeline_path(scene_id, location_id, "%s_%s" % [action_type, action_id])
+
+
 func play_payload(payload: Dictionary, backdrop_path: String) -> bool:
 	if not can_play_runtime():
 		return false
@@ -77,7 +85,7 @@ func build_timeline(payload: Dictionary, backdrop_path: String):
 ##        {"speaker": "旁白", "text": "...", "flags": ["flag_to_set"]},
 ##      ]
 ##
-## Flags set via payload["flags"] are emitted as [signal set_flag:name] events
+## Flags set via payload["flags"] are emitted as [signal arg="set_flag:name"] events
 ## so the DialogicVariableBridge can pick them up mid-timeline.
 func build_timeline_text(payload: Dictionary, backdrop_path: String) -> String:
 	var lines: Array[String] = []
@@ -100,6 +108,7 @@ func build_timeline_text(payload: Dictionary, backdrop_path: String) -> String:
 	# Multi-line dialogue array takes priority over single text.
 	var dialogue: Array = payload.get("dialogue", [])
 	if not dialogue.is_empty():
+		var emitted_flags: Array[String] = []
 		for entry in dialogue:
 			if typeof(entry) != TYPE_DICTIONARY:
 				continue
@@ -108,7 +117,11 @@ func build_timeline_text(payload: Dictionary, backdrop_path: String) -> String:
 			lines.append("%s: %s" % [_escape_speaker(speaker), text])
 			# Emit flag signals inline for mid-dialogue flag progression
 			for flag in entry.get("flags", []):
-				lines.append("[signal set_flag:%s]" % str(flag))
+				emitted_flags.append(str(flag))
+				lines.append("[signal arg=\"set_flag:%s\"]" % _escape_shortcode_value(str(flag)))
+		for flag in payload.get("flags", []):
+			if not emitted_flags.has(str(flag)):
+				lines.append("[signal arg=\"set_flag:%s\"]" % _escape_shortcode_value(str(flag)))
 	else:
 		# Legacy single-text block
 		var speaker := dialogic_speaker
@@ -120,7 +133,7 @@ func build_timeline_text(payload: Dictionary, backdrop_path: String) -> String:
 		lines.append("%s: %s" % [_escape_speaker(speaker), text])
 		# Emit flag signals for all payload-level flags
 		for flag in payload.get("flags", []):
-			lines.append("[signal set_flag:%s]" % str(flag))
+			lines.append("[signal arg=\"set_flag:%s\"]" % _escape_shortcode_value(str(flag)))
 
 	for character in payload_characters:
 		var character_id := str(character.get("dialogic_id", "")).strip_edges()

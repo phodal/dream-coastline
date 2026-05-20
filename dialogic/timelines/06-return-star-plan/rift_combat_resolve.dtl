@@ -1,0 +1,4 @@
+旁白: 静默探针 被击退。
+[signal arg="set_flag:defeated_invasion_probe"]
+[signal arg="set_flag:defeated_invasion_probe"]
+[end_timeline]

@@ -1,0 +1,3 @@
+旁白: 归星门开启。纪子轩站在门前，身后不是一个人，而是一个成长起来的文明。他低声说：这一次，不是我一个人回家。
+[signal arg="set_flag:opened_return_gate"]
+[end_timeline]

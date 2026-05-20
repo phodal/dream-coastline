@@ -1,0 +1,4 @@
+旁白: 国书残影 被击退。
+[signal arg="set_flag:defeated_royal_shadow"]
+[signal arg="set_flag:xiali_rejects_old_kings"]
+[end_timeline]

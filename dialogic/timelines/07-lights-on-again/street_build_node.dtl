@@ -1,0 +1,3 @@
+旁白: 现代第一座临时国书节点建立。它很粗糙，但足以承载名字样本。
+[signal arg="set_flag:temporary_node_built"]
+[end_timeline]
