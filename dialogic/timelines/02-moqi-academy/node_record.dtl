@@ -1,0 +1,3 @@
+旁白: 母亲的影像说：子轩，如果你看见这段记录，说明墨颀还没有结束。不要急着回来。
+[signal set_flag:viewed_parent_record]
+[end_timeline]

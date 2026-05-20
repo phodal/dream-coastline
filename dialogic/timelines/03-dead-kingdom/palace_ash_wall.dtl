@@ -1,0 +1,3 @@
+旁白: 墙上还留着半行儿童练字。夏离伸手摸过灰烬，说：我以为他们只需要机会，没想到他们还需要时间。
+[signal set_flag:saw_burned_route_wall]
+[end_timeline]

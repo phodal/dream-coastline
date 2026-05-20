@@ -1,0 +1,3 @@
+旁白: “门”不是木板，而是通行规则。理解它后，地图上多出许多原本看不见的入口。
+[signal set_flag:learned_door]
+[end_timeline]

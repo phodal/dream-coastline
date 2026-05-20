@@ -1,0 +1,3 @@
+旁白: 录音只剩断句：如果你回来了，不要先找我们，先让这座城重新被看见。
+[signal set_flag:heard_parent_echo]
+[end_timeline]

@@ -1,0 +1,3 @@
+旁白: 观测结果被擦白。现在还看不见敌人，只能确认有一套远端静默协议正在擦掉现代星球坐标。
+[signal set_flag:identified_silent_interference]
+[end_timeline]

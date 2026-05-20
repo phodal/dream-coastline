@@ -1,0 +1,3 @@
+旁白: 营地外有一串很轻的蹄印，旁边落着断裂名牌。小砚想喊它，却只发出一个缺了一半的音。
+[signal set_flag:saw_lost_name_deer]
+[end_timeline]

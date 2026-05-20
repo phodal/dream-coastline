@@ -1,0 +1,3 @@
+旁白: 节点底层留着母亲的细字：不要只修这个节点，要让每个人都知道为什么它会坏。
+[signal set_flag:read_mother_node_annotation]
+[end_timeline]

@@ -1,0 +1,3 @@
+旁白: 墨井鳐腹部的井符亮了一下，水流方向像被写错的笔画一样倒转。闻素说：别把它当神迹，这是系统反馈。
+[signal set_flag:read_ink_well_ray_feedback]
+[end_timeline]

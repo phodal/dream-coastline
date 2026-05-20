@@ -1,0 +1,3 @@
+旁白: 门上符文亮了一半。你说“我不会写”，下一秒，一道墨色笔画从旁边划过。
+[signal set_flag:checked_broken_gate]
+[end_timeline]

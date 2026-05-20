@@ -1,0 +1,3 @@
+旁白: 夏离没有再说复国。他说：若我只是让王座重新坐满，这座城还是会死第二次。
+[signal set_flag:xiali_answered_without_throne]
+[end_timeline]

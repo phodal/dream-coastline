@@ -1,0 +1,3 @@
+旁白: 讲堂前排留着闻素的空椅。学生们没有为她停课，而是把她留下的复盘法继续教给下一届。教材页边留着她的一句：如果我不在了，就让错误继续教下一届。
+[signal set_flag:witnessed_wensu_absence]
+[end_timeline]

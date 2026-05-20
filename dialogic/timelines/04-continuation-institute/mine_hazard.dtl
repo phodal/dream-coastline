@@ -1,0 +1,3 @@
+旁白: 矿道裂纹被旧书记官标成低优先级。工人只能背口诀，没人知道为什么要停。
+[signal set_flag:checked_mine_hazard]
+[end_timeline]

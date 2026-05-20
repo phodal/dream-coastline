@@ -1,0 +1,5 @@
+旁白: 父母留下最终提示：名，门，星，归，续。确认其名，开启其门，使星归位，令文明继续。
+[signal set_flag:learned_star]
+[signal set_flag:learned_return]
+[signal set_flag:learned_continue]
+[end_timeline]

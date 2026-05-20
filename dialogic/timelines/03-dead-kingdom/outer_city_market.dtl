@@ -1,0 +1,3 @@
+旁白: 摊位摆得整齐，价格牌每天自动更新，却没有人问价。秩序还活着，生活已经死了。
+[signal set_flag:saw_market_without_buyers]
+[end_timeline]

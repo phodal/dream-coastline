@@ -1,0 +1,3 @@
+旁白: 巡逻符器还在执行旧命令。它们保护街道，却不保护街上的人。
+[signal set_flag:saw_dead_city_order]
+[end_timeline]

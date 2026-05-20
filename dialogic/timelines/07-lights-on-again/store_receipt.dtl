@@ -1,0 +1,3 @@
+旁白: 收银小票重新打印出店员姓名。她盯着那几个字，像确认自己还在这个世界。
+[signal set_flag:recovered_receipt_name]
+[end_timeline]

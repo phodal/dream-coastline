@@ -1,0 +1,3 @@
+旁白: 它不是怪物，而是协议实体。它让技能名称变成□□，让地图失去标记。
+[signal set_flag:identified_invasion_probe]
+[end_timeline]

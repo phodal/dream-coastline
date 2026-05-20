@@ -1,0 +1,3 @@
+旁白: 母亲说：我们无法向宇宙求救，因为求救信号会被静默。父亲说：你不是被送去逃生。你是被送去点燃一支火种。
+[signal set_flag:received_parent_truth]
+[end_timeline]

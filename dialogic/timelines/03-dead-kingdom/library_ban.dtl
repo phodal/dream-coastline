@@ -1,0 +1,3 @@
+旁白: 禁令没有说平民不能学，只说未授权学习会导致国书不稳定。它把恐惧写成法律。
+[signal set_flag:found_knowledge_ban]
+[end_timeline]

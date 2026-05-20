@@ -1,0 +1,3 @@
+旁白: 第一次信标只收到一段现代噪声。纪子轩听见像是学校铃声的断片，然后整段记录被擦白。
+[signal set_flag:logged_failed_signal]
+[end_timeline]

@@ -1,0 +1,3 @@
+旁白: 路牌写着□□□ / □□ / □□□。你意识到自己不是看不清，而是根本不认识这里的字。
+[signal set_flag:checked_broken_sign]
+[end_timeline]

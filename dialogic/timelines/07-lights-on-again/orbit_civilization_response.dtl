@@ -1,0 +1,3 @@
+旁白: 墨颀各城同时亮起：学塾、档案馆、工坊、星象塔都在回写同一句话：该文明选择继续。夏离说：墨颀各城都在回写。你不是一个人。
+[signal set_flag:heard_civilization_response]
+[end_timeline]

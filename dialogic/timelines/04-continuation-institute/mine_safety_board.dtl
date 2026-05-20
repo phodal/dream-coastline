@@ -1,0 +1,3 @@
+旁白: 矿场入口挂起公开安全板：今天谁检查、哪里有裂纹、为什么停工，都写给每个工人看。
+[signal set_flag:installed_safety_board]
+[end_timeline]

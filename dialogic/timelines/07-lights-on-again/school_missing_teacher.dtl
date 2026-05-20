@@ -1,0 +1,3 @@
+旁白: 讲台上有一张点名表，班主任那一栏空着。纪子轩忽然想不起她的声音。
+[signal set_flag:found_missing_teacher]
+[end_timeline]

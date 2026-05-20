@@ -1,0 +1,3 @@
+旁白: “止”不是停下动作，而是稳定边界。它能让裂纹暂时不再扩大。
+[signal set_flag:learned_stop]
+[end_timeline]

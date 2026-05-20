@@ -1,0 +1,3 @@
+旁白: 现代信标能给出物理坐标，墨颀国书能确认意义坐标。二者缺一不可。
+[signal set_flag:checked_modern_beacon]
+[end_timeline]

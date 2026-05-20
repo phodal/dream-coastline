@@ -1,0 +1,3 @@
+旁白: 星图不再是神话，而是可以校验的坐标文本。每一颗星都需要名、义、约和史。
+[signal set_flag:mapped_stars_as_text]
+[end_timeline]

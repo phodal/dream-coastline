@@ -1,0 +1,3 @@
+旁白: 你看见学校、街道、家。灯一盏盏熄灭，信纸上的字变成：Continue failed.
+[signal set_flag:saw_modern_star_darkening]
+[end_timeline]

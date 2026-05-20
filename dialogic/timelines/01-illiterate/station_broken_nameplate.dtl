@@ -1,0 +1,3 @@
+旁白: 无名兽消散后，地上只剩半张旧名牌。它曾经不是怪物，而是某个被删除的人。
+[signal set_flag:inspected_broken_nameplate]
+[end_timeline]

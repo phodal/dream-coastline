@@ -1,0 +1,3 @@
+旁白: 契约把节点、村落和你的行动绑在一起。硬闯会让井水再次停摆。
+[signal set_flag:checked_contract_lock]
+[end_timeline]

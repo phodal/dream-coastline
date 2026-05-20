@@ -1,0 +1,3 @@
+旁白: 大量平民名册被标记为低优先级维护。死城不是一天死的。
+[signal set_flag:found_missing_rolls]
+[end_timeline]

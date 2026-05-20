@@ -1,0 +1,3 @@
+旁白: 老人说他们只会照着旧符抄，没人教过为什么这样写。
+[signal set_flag:saw_knowledge_lockout]
+[end_timeline]

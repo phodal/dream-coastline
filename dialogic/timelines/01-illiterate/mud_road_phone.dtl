@@ -1,0 +1,3 @@
+旁白: 纪子轩低声说：“……这是哪？”手机屏幕显示无服务，随后爬满黑色墨痕。连系统语言都变成无法识别的方块。
+[signal set_flag:checked_phone_no_service]
+[end_timeline]

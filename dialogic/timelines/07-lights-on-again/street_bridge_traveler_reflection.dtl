@@ -1,0 +1,3 @@
+旁白: 橱窗里映出一个海玻璃般的人影。你用“名”确认它，系统没有给出居民姓名，只显示：归桥旅人。
+[signal set_flag:saw_return_bridge_traveler]
+[end_timeline]

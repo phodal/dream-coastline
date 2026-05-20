@@ -1,0 +1,3 @@
+旁白: 联系人列表全是未知联系人。你必须先让城市重新被观测，名字才有地方落下。
+[signal set_flag:checked_unknown_contacts]
+[end_timeline]

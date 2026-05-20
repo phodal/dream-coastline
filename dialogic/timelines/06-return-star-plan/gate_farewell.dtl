@@ -1,0 +1,3 @@
+旁白: 夏离看着门内的现代夜色，说：这一次，不是你一个人回家。
+[signal set_flag:heard_return_gate_farewell]
+[end_timeline]

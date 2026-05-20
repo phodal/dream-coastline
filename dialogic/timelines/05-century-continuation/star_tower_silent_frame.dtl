@@ -1,0 +1,3 @@
+旁白: 影像里，纪子轩家的窗户还是黑的。不同的是，这一次整条街的窗户都在一格一格熄灭。
+[signal set_flag:saw_first_silent_frame]
+[end_timeline]

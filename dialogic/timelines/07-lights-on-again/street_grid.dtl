@@ -1,0 +1,3 @@
+旁白: 现代电网还能供电，但可观测性被削弱。普通灯光必须和符灯一起点亮。
+[signal set_flag:checked_city_grid]
+[end_timeline]

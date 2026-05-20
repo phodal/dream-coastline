@@ -1,0 +1,3 @@
+旁白: 店员反复问：我是谁？收银机屏幕显示未知员工。
+[signal set_flag:found_faceless_clerk]
+[end_timeline]

@@ -1,0 +1,3 @@
+旁白: 公共字典页边被擦白。如果它被删掉，所有人的学习都会断页。
+[signal set_flag:dictionary_under_attack]
+[end_timeline]

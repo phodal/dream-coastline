@@ -1,0 +1,3 @@
+旁白: 告示宣称夏离导致王城陷落。夏离没有辩解，只把手攥得发白。
+[signal set_flag:saw_xiali_propaganda]
+[end_timeline]

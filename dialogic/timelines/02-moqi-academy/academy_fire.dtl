@@ -1,0 +1,3 @@
+旁白: “火”是能源，也是警告。闻素让你先学会启动，再学会停止。
+[signal set_flag:learned_fire]
+[end_timeline]

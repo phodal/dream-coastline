@@ -1,0 +1,3 @@
+旁白: 星门需要现代坐标、墨颀国书和续页舰三者同时稳定。任何一项乱码都会坍缩。
+[signal set_flag:checked_gate_calibration]
+[end_timeline]

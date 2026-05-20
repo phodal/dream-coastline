@@ -1,0 +1,3 @@
+旁白: 抄本里没有拷问夏离是否叛国，只反复问他：谁允许你把字教给无名之人？
+[signal set_flag:read_trial_transcripts]
+[end_timeline]

@@ -1,0 +1,3 @@
+旁白: 柜门上的封条写着“未授权者不得授字”。夏离沉默了很久。
+[signal set_flag:checked_dictionary_cabinet]
+[end_timeline]

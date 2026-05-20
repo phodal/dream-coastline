@@ -1,0 +1,3 @@
+旁白: 队伍栏里，夏离、工程师和父母记录全部变成□□。这一次被攻击的不是血量，而是关系本身。
+[signal set_flag:saw_deleted_party_names]
+[end_timeline]

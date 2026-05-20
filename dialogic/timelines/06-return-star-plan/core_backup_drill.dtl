@@ -1,0 +1,3 @@
+旁白: 演练中，技能名被故意擦成□□。三个城市同时回写字典，十七秒后，名字恢复。
+[signal set_flag:passed_backup_drill]
+[end_timeline]

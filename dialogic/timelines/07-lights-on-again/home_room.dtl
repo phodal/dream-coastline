@@ -1,0 +1,3 @@
+旁白: 同一张餐桌，同一封信。这一次你知道，灯没亮不是家事，而是星球级静默。
+[signal set_flag:confirmed_home_silenced]
+[end_timeline]

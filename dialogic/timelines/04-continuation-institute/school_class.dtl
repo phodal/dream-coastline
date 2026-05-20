@@ -1,0 +1,3 @@
+旁白: 小砚把“名”写得歪歪扭扭。他抬头说：我第一次能完整写出自己的名字。
+[signal set_flag:held_first_class]
+[end_timeline]

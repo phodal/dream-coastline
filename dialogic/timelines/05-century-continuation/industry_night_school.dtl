@@ -1,0 +1,3 @@
+旁白: 工人下工后坐进夜校。许多人写得很慢，但他们第一次不用求书记官替自己读告示。
+[signal set_flag:saw_night_school_expansion]
+[end_timeline]

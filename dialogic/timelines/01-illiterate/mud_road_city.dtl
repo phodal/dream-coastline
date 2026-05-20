@@ -1,0 +1,3 @@
+旁白: 远处的城墙在燃烧。那不是晚霞，是一整座城正在陷落。
+[signal set_flag:saw_burning_city]
+[end_timeline]

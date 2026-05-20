@@ -1,0 +1,3 @@
+旁白: 小砚的名字在 UI 上变成□□。你终于明白：它不是杀人，是让人被世界忘掉。
+[signal set_flag:saw_xiaoyan_name_fading]
+[end_timeline]

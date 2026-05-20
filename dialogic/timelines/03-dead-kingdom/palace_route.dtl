@@ -1,0 +1,3 @@
+旁白: 你用日志和文献复原路线：夏离的改革太急，墨律司的封锁更致命，两者共同撕裂王都。
+[signal set_flag:restored_fall_route]
+[end_timeline]

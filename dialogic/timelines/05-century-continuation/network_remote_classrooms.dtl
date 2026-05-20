@@ -1,0 +1,3 @@
+旁白: 边境孩子通过国书网络听课。屏幕上还有延迟和乱码，但他们能把同一个字写在同一套标准里。
+[signal set_flag:confirmed_remote_classrooms]
+[end_timeline]
