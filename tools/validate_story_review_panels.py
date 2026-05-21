@@ -15,7 +15,7 @@ CHARACTER_MODELS = ROOT / "data" / "character_visual_models.json"
 
 GENERATION_STATUSES = {"ready", "fallback", "pending"}
 MIN_NON_TRANSITION_PANELS = {
-    "00-prologue-lights-out": 0,
+    "00-prologue-lights-out": 3,
 }
 
 

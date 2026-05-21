@@ -10,7 +10,7 @@ This pass checks the current playable story scenes against visual scene data, st
 
 | Scene | Story locations | Visual locations | Generated music | Generated SFX | Voice samples in story text | Story review imagery |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| `00-prologue-lights-out` | 6 | 6 | 3 / 3 | 5 / 5 | 0 / 0 | Chapter transition image only |
+| `00-prologue-lights-out` | 6 | 6 | 3 / 3 | 5 / 5 | 0 / 0 | 1 chapter transition + 6 command panels |
 | `01-illiterate` | 4 | 4 | 3 / 3 | 5 / 5 | 3 / 3 | 5 scene review images |
 | `02-moqi-academy` | 4 | 4 | 4 / 4 | 9 / 9 | 3 / 3 | 2 scene review images |
 | `03-dead-kingdom` | 5 | 5 | 5 / 5 | 7 / 7 | 3 / 3 | 3 scene review images |
@@ -24,7 +24,7 @@ This pass checks the current playable story scenes against visual scene data, st
 - No missing generated audio asset was found for the current sample-generation scope. All `sample_generation: true` music and SFX entries have MP3 files and Godot import metadata.
 - No missing voice trigger text was found after this pass. The existing voice sample set is 25 / 25 present in story text across scenes `01`-`07`.
 - The prologue intentionally has no character voice sample. Its current audio language is environmental: exterior night ambience, stairwell/home ambience, blackout stinger, footstep, inspect, letter, and blackout one-shots.
-- The prologue still does not have multi-panel `assets/illustrations/story_review/00-prologue-lights-out/*` imagery. It is covered by the chapter transition image in `data/chapter_illustrations.json`. If the prologue needs the same storyboard-style review UI as later scenes, add 3-4 story review panels for street, stairwell, home/study, and bedroom blackout.
+- The prologue now has command-level review coverage in `data/chapter_illustrations.json` by reusing the six playable backdrops for street, stairwell, home, living room, study, and bedroom. `tools/validate_story_review_panels.py` now requires at least three non-transition prologue review panels so this does not regress.
 - The runtime now treats item interactions that grant a scene ending flag as a `success` event, so the prologue bedroom pen can use the blackout SFX instead of the generic inspect sound.
 - `MUS-02-002` remains generated but is marked `runtime_enabled: false` so it can stay in the asset archive without being selected by runtime background-music rotation.
 
@@ -60,6 +60,5 @@ These action voice lines are production planning entries. `status: planned` mean
 
 ## Next Useful Supplement
 
-1. Add prologue story-review panels if the review UI should show more than the chapter transition image.
-2. Generate selected `data/action_voice_lines` entries into `assets/audio/generated/action_voices/<scene-id>/` and mark only completed lines as `generated`.
-3. Add a small runtime check that reports missing playable audio targets per scene before story review playback starts.
+1. Generate selected `data/action_voice_lines` entries into `assets/audio/generated/action_voices/<scene-id>/` and mark only completed lines as `generated`.
+2. Replace the prologue's reused playable backdrops with dedicated `assets/illustrations/story_review/00-prologue-lights-out/*` storyboard panels if the review UI needs a distinct storyboard style.
