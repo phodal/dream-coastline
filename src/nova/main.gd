@@ -79,6 +79,8 @@ func _ready() -> void:
 		call_deferred("_run_all_scenes_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-assets"):
 		call_deferred("_run_asset_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-story-audio-targets"):
+		call_deferred("_run_story_audio_targets_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-dialogic-bridge"):
 		call_deferred("_run_dialogic_bridge_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-dialogic-runtime"):
@@ -598,6 +600,36 @@ func _run_asset_smoke() -> void:
 		"PASS" if ok else "FAIL",
 		required_files.size(),
 		str(audio_director != null),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _run_story_audio_targets_smoke() -> void:
+	var ok := true
+	var checked := 0
+	var missing_count := 0
+	if audio_director == null or not audio_director.has_method("missing_story_audio_targets"):
+		ok = false
+	else:
+		for scene_id in director.story_repository.scene_ids():
+			checked += 1
+			var missing: Array = audio_director.missing_story_audio_targets(str(scene_id))
+			missing_count += missing.size()
+			if not missing.is_empty():
+				ok = false
+				for entry in missing.slice(0, 8):
+					if not (entry is Dictionary):
+						continue
+					print("story-audio-targets-missing scene=%s kind=%s id=%s path=%s" % [
+						str(scene_id),
+						str(entry.get("kind", "")),
+						str(entry.get("id", "")),
+						str(entry.get("path", "")),
+					])
+	print("story-audio-targets-smoke status=%s scenes=%d missing=%d" % [
+		"PASS" if ok else "FAIL",
+		checked,
+		missing_count,
 	])
 	get_tree().quit(0 if ok else 1)
 

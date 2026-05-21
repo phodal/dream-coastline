@@ -45,6 +45,8 @@ the repo data is structurally wrong.
 - Run the headless Godot project-load check.
 - Run `--smoke-nova-runtime` to prove the new exploration/cutscene path can
   read story and visual JSON.
+- Run `--smoke-story-audio-targets` to report missing generated story audio
+  targets before review playback depends on them.
 - Run `--smoke-dialogic-bridge` to prove Dialogic is installed and the Nova
   payload can be converted to a Dialogic timeline.
 

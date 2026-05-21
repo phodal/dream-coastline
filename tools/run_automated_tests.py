@@ -237,6 +237,7 @@ STEPS: list[Step] = [
     Step("smoke-nova-choices", "quick", "validate Nova location choices and route flags", godot_smoke("--smoke-nova-choices")),
     Step("smoke-nova-all-scenes", "quick", "validate Nova narrative actions across all scenes", godot_smoke("--smoke-nova-all-scenes")),
     Step("smoke-nova-assets", "quick", "validate Nova splash, character, and audio assets", godot_smoke("--smoke-nova-assets")),
+    Step("smoke-story-audio-targets", "quick", "validate generated story audio targets", godot_smoke("--smoke-story-audio-targets")),
     Step("smoke-dialogic-bridge", "quick", "validate Dialogic addon install and timeline bridge", godot_smoke("--smoke-dialogic-bridge")),
     Step("smoke-dialogic-runtime", "visual", "validate visible Dialogic playback and flag writeback", dialogic_runtime_smoke),
     Step("capture-nova-screenshot", "visual", "capture a visible Nova runtime frame", render_frame),

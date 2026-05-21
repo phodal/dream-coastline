@@ -4,6 +4,7 @@ extends Node
 const SAMPLE_RATE := 22050
 const EVENTS := ["ui", "step", "blocked", "interact", "transition", "success", "write", "attack", "engage", "build", "continue", "cast_name", "cast_door", "cast_fire", "cast_stop"]
 const AUDIO_CUE_DIR := "res://data/audio_cues"
+const ACTION_VOICE_DIR := "res://data/action_voice_lines"
 const EVENT_VOLUME_DB := {
 	"ui": -8.0,
 	"step": -15.0,
@@ -204,6 +205,15 @@ func verify_streams() -> bool:
 	return true
 
 
+func missing_story_audio_targets(scene_id: String, include_planned_action_voice := false) -> Array[Dictionary]:
+	var missing: Array[Dictionary] = []
+	if scene_id.is_empty():
+		return missing
+	_collect_missing_audio_cue_targets(scene_id, missing)
+	_collect_missing_action_voice_targets(scene_id, missing, include_planned_action_voice)
+	return missing
+
+
 func _play(event_name: String) -> void:
 	if not enabled or not players.has(event_name):
 		return
@@ -310,6 +320,90 @@ func _load_audio_cue_file(path: String) -> void:
 			continue
 		for location_id in sound.get("locations", []):
 			_set_story_event_path(scene_id, str(location_id), event_name, target_path)
+
+
+func _collect_missing_audio_cue_targets(scene_id: String, missing: Array[Dictionary]) -> void:
+	var path := "%s/%s.json" % [AUDIO_CUE_DIR, scene_id]
+	if not FileAccess.file_exists(path):
+		missing.append({
+			"kind": "audio_cue_file",
+			"id": scene_id,
+			"path": path,
+		})
+		return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not (parsed is Dictionary):
+		missing.append({
+			"kind": "audio_cue_file",
+			"id": scene_id,
+			"path": path,
+		})
+		return
+	var data: Dictionary = parsed
+	_collect_missing_audio_section(data.get("cues", []), "cue", missing)
+	_collect_missing_audio_section(data.get("voice_samples", []), "voice_sample", missing)
+	_collect_missing_audio_section(data.get("event_sounds", []), "event_sound", missing)
+
+
+func _collect_missing_audio_section(records: Array, kind: String, missing: Array[Dictionary]) -> void:
+	for raw_record in records:
+		if not (raw_record is Dictionary):
+			continue
+		var record: Dictionary = raw_record
+		if record.has("runtime_enabled") and not bool(record.get("runtime_enabled")):
+			continue
+		if record.has("sample_generation") and not bool(record.get("sample_generation")):
+			continue
+		var target_path := _res_path(str(record.get("target_path", "")))
+		if target_path.is_empty() or FileAccess.file_exists(target_path):
+			continue
+		missing.append({
+			"kind": kind,
+			"id": _audio_record_id(record, kind),
+			"path": target_path,
+		})
+
+
+func _collect_missing_action_voice_targets(scene_id: String, missing: Array[Dictionary], include_planned: bool) -> void:
+	var path := "%s/%s.json" % [ACTION_VOICE_DIR, scene_id]
+	if not FileAccess.file_exists(path):
+		return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not (parsed is Dictionary):
+		missing.append({
+			"kind": "action_voice_manifest",
+			"id": scene_id,
+			"path": path,
+		})
+		return
+	var data: Dictionary = parsed
+	for raw_action in data.get("actions", []):
+		if not (raw_action is Dictionary):
+			continue
+		var action: Dictionary = raw_action
+		for raw_line in action.get("playback_queue", []):
+			if not (raw_line is Dictionary):
+				continue
+			var line: Dictionary = raw_line
+			var status := str(line.get("status", "planned"))
+			if status != "generated" and not include_planned:
+				continue
+			var target_path := _res_path(str(line.get("target_path", "")))
+			if target_path.is_empty() or FileAccess.file_exists(target_path):
+				continue
+			missing.append({
+				"kind": "action_voice",
+				"id": "%s/%s" % [str(action.get("action_id", "")), str(line.get("line_id", ""))],
+				"path": target_path,
+			})
+
+
+func _audio_record_id(record: Dictionary, fallback: String) -> String:
+	for key in ["cue_id", "line_id", "sfx_id"]:
+		var value := str(record.get(key, ""))
+		if not value.is_empty():
+			return value
+	return fallback
 
 
 func _set_story_music_path(scene_id: String, location_id: String, path: String) -> void:

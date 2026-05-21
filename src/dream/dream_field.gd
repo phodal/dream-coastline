@@ -2182,6 +2182,7 @@ func _play_story_review(args: PackedStringArray) -> void:
 		print("story-review-playback status=FAIL reason=missing-scene scene=%s" % scene_id)
 		get_tree().quit(1)
 		return
+	_report_story_review_audio_targets(scene_id)
 
 	review_step_seconds = maxf(REVIEW_MIN_STEP_SECONDS, float(_arg_value(args, "--review-step-seconds", str(REVIEW_DEFAULT_STEP_SECONDS))))
 	var max_steps := maxi(1, int(_arg_value(args, "--review-max-steps", "320")))
@@ -2225,6 +2226,28 @@ func _play_story_review(args: PackedStringArray) -> void:
 		str(current_scene.get("id", "")),
 	])
 	get_tree().quit(0)
+
+
+func _report_story_review_audio_targets(scene_id: String) -> void:
+	if audio_director == null or not audio_director.has_method("missing_story_audio_targets"):
+		return
+	var missing: Array = audio_director.missing_story_audio_targets(scene_id)
+	print("story-review-audio-targets status=%s scene=%s missing=%d" % [
+		"PASS" if missing.is_empty() else "WARN",
+		scene_id,
+		missing.size(),
+	])
+	for entry in missing.slice(0, 12):
+		if not (entry is Dictionary):
+			continue
+		print("story-review-audio-missing scene=%s kind=%s id=%s path=%s" % [
+			scene_id,
+			str(entry.get("kind", "")),
+			str(entry.get("id", "")),
+			str(entry.get("path", "")),
+		])
+	if missing.size() > 12:
+		print("story-review-audio-missing-more scene=%s count=%d" % [scene_id, missing.size() - 12])
 
 
 func _capture_story_review_frame(output_dir: String, frame_index: int, command: String) -> Dictionary:
