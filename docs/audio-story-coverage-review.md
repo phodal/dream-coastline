@@ -24,7 +24,7 @@ This pass checks the current playable story scenes against visual scene data, st
 - No missing generated audio asset was found for the current sample-generation scope. All `sample_generation: true` music and SFX entries have MP3 files and Godot import metadata.
 - No missing voice trigger text was found after this pass. The existing voice sample set is 25 / 25 present in story text across scenes `01`-`07`.
 - The prologue intentionally has no character voice sample. Its current audio language is environmental: exterior night ambience, stairwell/home ambience, blackout stinger, footstep, inspect, letter, and blackout one-shots.
-- The prologue now has command-level review coverage in `data/chapter_illustrations.json` by reusing the six playable backdrops for street, stairwell, home, living room, study, and bedroom. `tools/validate_story_review_panels.py` now requires at least three non-transition prologue review panels so this does not regress.
+- The prologue now has command-level review coverage in `data/chapter_illustrations.json` with six dedicated story-review panels under `assets/illustrations/story_review/00-prologue-lights-out/` for street, stairwell, home, living room, study, and bedroom. `tools/validate_story_review_panels.py` now requires at least three non-transition prologue review panels so this does not regress.
 - The runtime now treats item interactions that grant a scene ending flag as a `success` event, so the prologue bedroom pen can use the blackout SFX instead of the generic inspect sound.
 - `MUS-02-002` remains generated but is marked `runtime_enabled: false` so it can stay in the asset archive without being selected by runtime background-music rotation.
 
@@ -62,4 +62,4 @@ These action voice lines are production planning entries. `status: planned` mean
 ## Next Useful Supplement
 
 1. Generate a first playable-action VO batch with `--type action-voice`, then review pacing and loudness before marking broader batches as production-ready.
-2. Replace the prologue's reused playable backdrops with dedicated `assets/illustrations/story_review/00-prologue-lights-out/*` storyboard panels if the review UI needs a distinct storyboard style.
+2. Record a fresh story-review movie pass after the first generated action-voice batch is approved.
