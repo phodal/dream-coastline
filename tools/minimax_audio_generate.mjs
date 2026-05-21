@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { createHash, randomBytes } from "node:crypto";
 import { spawn } from "node:child_process";
 import { dirname, resolve } from "node:path";
@@ -18,11 +18,14 @@ function usage() {
   node tools/minimax_audio_generate.mjs --type music --scene-id 01-illiterate --cue-id MUS-01-001
   node tools/minimax_audio_generate.mjs --type sfx --scene-id 01-illiterate --cue-id SFX-01-STEP-MUD
   node tools/minimax_audio_generate.mjs --type voice --scene-id 01-illiterate --cue-id DLG-01-SAMPLE-JZX
+  node tools/minimax_audio_generate.mjs --type action-voice --scene-id 00-prologue-lights-out --cue-id AVL-00-001
 
 Options:
-  --type music|voice|sfx|all  Defaults to all.
+  --type music|voice|sfx|action-voice|all
+                              Defaults to all. all excludes action-voice.
   --scene-id <id>             Defaults to 01-illiterate.
   --cue-id <id>               Select one music cue or voice line.
+  --action-id <id>            Select one action voice queue.
   --dry-run                   Print sanitized jobs without calling MiniMax.
   --limit-samples [n]         Only sample_generation items; optional max count.
   --manifest <path>           Defaults to data/audio_generation_manifest.json.
@@ -34,6 +37,7 @@ function parseArgs(argv) {
     type: "all",
     sceneId: DEFAULT_SCENE_ID,
     cueId: null,
+    actionId: null,
     dryRun: false,
     limitSamples: false,
     sampleLimit: null,
@@ -51,6 +55,8 @@ function parseArgs(argv) {
       args.sceneId = argv[++index];
     } else if (arg === "--cue-id") {
       args.cueId = argv[++index];
+    } else if (arg === "--action-id") {
+      args.actionId = argv[++index];
     } else if (arg === "--dry-run") {
       args.dryRun = true;
     } else if (arg === "--limit-samples") {
@@ -66,8 +72,11 @@ function parseArgs(argv) {
       throw new Error(`Unknown argument: ${arg}`);
     }
   }
-  if (!["music", "voice", "sfx", "all"].includes(args.type)) {
-    throw new Error("--type must be music, voice, sfx, or all");
+  if (!["music", "voice", "sfx", "action-voice", "all"].includes(args.type)) {
+    throw new Error("--type must be music, voice, sfx, action-voice, or all");
+  }
+  if (args.actionId && args.type !== "action-voice") {
+    throw new Error("--action-id is only valid with --type action-voice");
   }
   if (args.sampleLimit !== null && (!Number.isInteger(args.sampleLimit) || args.sampleLimit < 1)) {
     throw new Error("--limit-samples value must be a positive integer");
@@ -136,7 +145,108 @@ function selectItems(items, args, idField) {
   return selected;
 }
 
-async function buildJobs(args) {
+async function listAudioCueFiles() {
+  const entries = await readdir(resolve(ROOT, "data/audio_cues"));
+  return entries
+    .filter((entry) => entry.endsWith(".json"))
+    .sort()
+    .map((entry) => `data/audio_cues/${entry}`);
+}
+
+function rememberVoiceSetting(settings, sample, source) {
+  if (!sample?.character_id || settings.has(sample.character_id)) {
+    return;
+  }
+  settings.set(sample.character_id, {
+    voice_id: sample.voice_id,
+    speed: sample.speed ?? 1,
+    vol: sample.vol ?? 1,
+    pitch: sample.pitch ?? 0,
+    source,
+  });
+}
+
+async function buildVoiceSettingsIndex(sceneId, cueData, env) {
+  const settings = new Map();
+  for (const sample of cueData.voice_samples || []) {
+    rememberVoiceSetting(settings, sample, `data/audio_cues/${sceneId}.json`);
+  }
+  for (const cuePath of await listAudioCueFiles()) {
+    const otherCueData = await readJson(cuePath);
+    for (const sample of otherCueData.voice_samples || []) {
+      rememberVoiceSetting(settings, sample, cuePath);
+    }
+  }
+  settings.set("narrator", {
+    voice_id: env.MINIMAX_NARRATOR_VOICE_ID || env.MINIMAX_DEFAULT_VOICE_ID || "male-qn-qingse",
+    speed: 0.96,
+    vol: 1,
+    pitch: -1,
+    source: "MINIMAX_NARRATOR_VOICE_ID|MINIMAX_DEFAULT_VOICE_ID|built-in-default",
+  });
+  return settings;
+}
+
+function applyVoiceSettings(actionLine, action, voiceSettings, env) {
+  const speakerId = actionLine.speaker_id || "narrator";
+  const settings = voiceSettings.get(speakerId) || {
+    voice_id: env.MINIMAX_DEFAULT_VOICE_ID || "male-qn-qingse",
+    speed: 1,
+    vol: 1,
+    pitch: 0,
+    source: "MINIMAX_DEFAULT_VOICE_ID|built-in-default",
+  };
+  return {
+    ...actionLine,
+    character_id: speakerId,
+    voice_id: settings.voice_id,
+    speed: settings.speed,
+    vol: settings.vol,
+    pitch: settings.pitch,
+    voice_setting_source: settings.source,
+    action_id: action.action_id,
+    action_type: action.action_type,
+    location_id: action.location_id,
+    record_id: action.record_id,
+  };
+}
+
+async function buildActionVoiceJobs(args, cueData, env) {
+  if (!args.cueId && !args.actionId && !args.limitSamples) {
+    throw new Error("--type action-voice requires --cue-id, --action-id, or --limit-samples");
+  }
+  const manifestPath = `data/action_voice_lines/${args.sceneId}.json`;
+  const manifest = await readJson(manifestPath);
+  const voiceSettings = await buildVoiceSettingsIndex(args.sceneId, cueData, env);
+  const jobs = [];
+  for (const action of manifest.actions || []) {
+    if (args.actionId && action.action_id !== args.actionId) {
+      continue;
+    }
+    for (const rawLine of action.playback_queue || []) {
+      if (args.cueId && rawLine.line_id !== args.cueId) {
+        continue;
+      }
+      if (!args.cueId && rawLine.status !== "planned") {
+        continue;
+      }
+      jobs.push({
+        jobType: "action-voice",
+        id: rawLine.line_id,
+        sceneId: manifest.scene_id,
+        action,
+        actionVoiceManifestPath: manifestPath,
+        line: applyVoiceSettings(rawLine, action, voiceSettings, env),
+      });
+    }
+  }
+  if (args.limitSamples && args.sampleLimit !== null) {
+    return jobs.slice(0, args.sampleLimit);
+  }
+  return jobs;
+}
+
+async function buildJobs(args, env) {
   const cueData = await readJson(`data/audio_cues/${args.sceneId}.json`);
   const jobs = [];
   if (args.type === "music" || args.type === "all") {
@@ -169,8 +279,14 @@ async function buildJobs(args) {
       });
     }
   }
+  if (args.type === "action-voice") {
+    jobs.push(...await buildActionVoiceJobs(args, cueData, env));
+  }
   if (args.cueId && jobs.length === 0) {
-    throw new Error(`No cue, voice sample, or sound effect matched --cue-id ${args.cueId}`);
+    throw new Error(`No cue, voice sample, sound effect, or action voice matched --cue-id ${args.cueId}`);
+  }
+  if (args.actionId && jobs.length === 0) {
+    throw new Error(`No action voice queue matched --action-id ${args.actionId}`);
   }
   return jobs;
 }
@@ -202,10 +318,12 @@ function printDryRun(jobs, env) {
       };
     }
     return {
-      type: "voice",
+      type: job.jobType,
       line_id: job.line.line_id,
       character_id: job.line.character_id,
+      action_id: job.line.action_id || undefined,
       voice_id: job.line.voice_id,
+      voice_setting_source: job.line.voice_setting_source || undefined,
       model: ttsModel,
       endpoint: TTS_ENDPOINT,
       text: job.line.text,
@@ -690,11 +808,15 @@ async function generateVoice(job, env) {
     await writeFile(outputPath, Buffer.concat(audioChunks));
     return {
       asset_id: job.id,
-      type: "voice",
+      type: job.jobType === "action-voice" ? "action_voice" : "voice",
       provider: "minimax",
       scene_id: job.sceneId,
       line_id: job.line.line_id,
       character_id: job.line.character_id,
+      speaker_id: job.line.character_id,
+      action_id: job.line.action_id || null,
+      action_type: job.line.action_type || null,
+      location_id: job.line.location_id || null,
       voice_id: job.line.voice_id,
       model,
       output_path: job.line.target_path,
@@ -708,11 +830,34 @@ async function generateVoice(job, env) {
         sample_rate: 32000,
         bitrate: 128000,
         channel: 1,
+        voice_setting_source: job.line.voice_setting_source || null,
       },
     };
   } finally {
     socket.close();
   }
+}
+
+async function markActionVoiceGenerated(job, asset) {
+  const manifest = await readJson(job.actionVoiceManifestPath);
+  let updated = false;
+  for (const action of manifest.actions || []) {
+    for (const line of action.playback_queue || []) {
+      if (line.line_id !== job.line.line_id) {
+        continue;
+      }
+      line.status = "generated";
+      line.target_path = asset.output_path;
+      line.generated_at = asset.generated_at;
+      line.provider = asset.provider;
+      line.model = asset.model;
+      updated = true;
+    }
+  }
+  if (!updated) {
+    throw new Error(`Could not mark generated action voice line ${job.line.line_id}`);
+  }
+  await writeJson(job.actionVoiceManifestPath, manifest);
 }
 
 async function loadManifest(repoPath) {
@@ -743,7 +888,7 @@ function upsertAsset(manifest, asset) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const env = await readEnvFile();
-  const jobs = await buildJobs(args);
+  const jobs = await buildJobs(args, env);
   if (args.dryRun) {
     printDryRun(jobs, env);
     return;
@@ -761,6 +906,9 @@ async function main() {
         : await generateVoice(job, env);
     upsertAsset(manifest, asset);
     await writeJson(args.manifest, manifest);
+    if (job.jobType === "action-voice") {
+      await markActionVoiceGenerated(job, asset);
+    }
     console.log(`Wrote ${asset.output_path}`);
   }
 }

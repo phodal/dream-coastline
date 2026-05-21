@@ -147,12 +147,24 @@ python3 tools/validate_action_voice_manifest.py
 
 `playback_queue` 是后续 TTS 和 runtime queue 的稳定输入。`status: planned` 只表示该行已纳入制作计划；只有 `status: generated` 会要求 MP3 文件存在。
 
+生成单条可玩动作 VO 时使用 MiniMax 工具的独立类型，不经过旧的 `--type all`：
+
+```sh
+node tools/minimax_audio_generate.mjs \
+  --type action-voice \
+  --scene-id 00-prologue-lights-out \
+  --cue-id AVL-00-001
+```
+
+生成成功后工具会把对应 `data/action_voice_lines/<scene-id>.json` 行标记为 `generated`，并继续写入 `data/audio_generation_manifest.json`。
+
 ## MiniMax First Pass
 
 MiniMax 生成链路记录在 `docs/minimax-audio-pipeline.md`。首轮不要把音乐和角色语音混成同一个表：
 
 - 场景音乐与环境声写入 `data/audio_cues/<scene-id>.json`。
 - 角色样片写入同一 cue 文件的 `voice_samples`，继续引用 `data/character_voice_profiles.json`。
+- 可玩动作 VO 只从 `data/action_voice_lines/<scene-id>.json` 进入 `--type action-voice`。
 - 实际生成用 `tools/minimax_audio_generate.mjs`，先跑 `--dry-run --limit-samples`。
 - API key 只放 `.env` 或 shell 环境变量，不写入 manifest、文档或提交。
 

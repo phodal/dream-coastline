@@ -42,6 +42,8 @@ the repo data is structurally wrong.
 - Run `tools/validate_supply_catalog.py`.
 - Run `tools/validate_action_voice_manifest.py` to keep full playable-action
   VO planning coverage aligned with story JSON.
+- Run `minimax-action-voice-dry-run` to check the MiniMax generator can build a
+  selected playable-action VO job without calling the provider.
 - Run the headless Godot project-load check.
 - Run `--smoke-nova-runtime` to prove the new exploration/cutscene path can
   read story and visual JSON.

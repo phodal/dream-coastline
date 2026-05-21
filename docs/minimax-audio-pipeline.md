@@ -23,6 +23,9 @@ the account is confirmed for the paid `music-2.6` model.
 - `data/audio_cues/01-illiterate.json` contains first-act music cues and the
   three first-pass voice samples, plus short gameplay `event_sounds` for the
   OpenRPG field loop.
+- `data/action_voice_lines/<scene-id>.json` contains playable action voice
+  queues for Nova/Dialogic-era field actions. These are generated only through
+  the explicit `action-voice` type, never through `--type all`.
 - `data/audio_generation_manifest.json` records generated assets, models,
   sanitized prompt/text summaries, output paths, and MiniMax trace IDs. It must
   never contain `MINIMAX_API_KEY`.
@@ -80,6 +83,31 @@ node tools/minimax_audio_generate.mjs \
 Music is written under `assets/audio/generated/music/<scene-id>/`. Voice samples
 are written under `assets/audio/generated/voices/<scene-id>/`.
 
+Generate a selected playable action line:
+
+```sh
+node tools/minimax_audio_generate.mjs \
+  --type action-voice \
+  --scene-id 00-prologue-lights-out \
+  --cue-id AVL-00-001
+```
+
+Or generate one action queue:
+
+```sh
+node tools/minimax_audio_generate.mjs \
+  --type action-voice \
+  --scene-id 00-prologue-lights-out \
+  --action-id street.inspect.window
+```
+
+Action voices are written under
+`assets/audio/generated/action_voices/<scene-id>/`. On success the tool marks
+the matching `data/action_voice_lines/<scene-id>.json` line as `generated`, so
+`validate_action_voice_manifest.py` can enforce that generated lines have real
+files. `--type action-voice` requires `--cue-id`, `--action-id`, or
+`--limit-samples` to avoid accidental full-scene generation.
+
 Short gameplay SFX use the MiniMax music endpoint, then the tool trims and
 normalizes the result into game-ready one-shots:
 
@@ -99,8 +127,10 @@ Run these checks before committing cue or tooling changes:
 ```sh
 python3 tools/validate_character_voice_profiles.py
 python3 tools/validate_audio_cues.py
+python3 tools/validate_action_voice_manifest.py
 node --check tools/minimax_audio_generate.mjs
 node tools/minimax_audio_generate.mjs --scene-id 01-illiterate --dry-run --limit-samples
+node tools/minimax_audio_generate.mjs --type action-voice --scene-id 00-prologue-lights-out --cue-id AVL-00-001 --dry-run
 ```
 
 If real samples were generated, also confirm that the generated files are

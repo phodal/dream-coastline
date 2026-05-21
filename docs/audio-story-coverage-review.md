@@ -44,6 +44,7 @@ The remaining limitation is now represented as a separate data contract instead 
 - Full playable-action VO planning now lives in `data/action_voice_lines/<scene-id>.json`.
 - The manifests cover every `inspect`, `choice`, `glyph`, `build`, `encounter`, `combo`, and narrative combat identify/spell/resolve action.
 - Current generated scope: 8 scene manifests, 187 playable actions, 199 planned voice lines.
+- Selected planned lines can now be generated with `node tools/minimax_audio_generate.mjs --type action-voice --scene-id <scene-id> --cue-id <line-id>`.
 - Validate with `python3 tools/validate_action_voice_manifest.py` or the `action-voice-lines` automated test step.
 
 These action voice lines are production planning entries. `status: planned` means no final audio file is expected yet; only `status: generated` requires the referenced MP3 to exist.
@@ -60,5 +61,5 @@ These action voice lines are production planning entries. `status: planned` mean
 
 ## Next Useful Supplement
 
-1. Generate selected `data/action_voice_lines` entries into `assets/audio/generated/action_voices/<scene-id>/` and mark only completed lines as `generated`.
+1. Generate a first playable-action VO batch with `--type action-voice`, then review pacing and loudness before marking broader batches as production-ready.
 2. Replace the prologue's reused playable backdrops with dedicated `assets/illustrations/story_review/00-prologue-lights-out/*` storyboard panels if the review UI needs a distinct storyboard style.
