@@ -21,7 +21,12 @@ func _ready() -> void:
 	layer = 20
 	_build_controls()
 	_root.visible = false
+	set_process_input(true)
 	set_process_unhandled_input(true)
+
+
+func _input(event: InputEvent) -> void:
+	_try_advance(event)
 
 
 func set_review_subtitle_mode(enabled: bool) -> void:
@@ -109,12 +114,28 @@ func show_illustration_for(title: String, body: String, texture_path: String, se
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	_try_advance(event)
+
+
+func _try_advance(event: InputEvent) -> void:
 	if not _waiting:
 		return
 	var accepts_dialogic := InputMap.has_action("dialogic_default_action") and event.is_action_pressed("dialogic_default_action")
-	if event.is_action_pressed("ui_accept") or event.is_action_pressed("interact") or accepts_dialogic:
+	if event.is_action_pressed("ui_accept") or event.is_action_pressed("interact") or accepts_dialogic or _is_raw_advance_event(event):
 		get_viewport().set_input_as_handled()
 		advanced.emit()
+
+
+func _is_raw_advance_event(event: InputEvent) -> bool:
+	if event is InputEventKey:
+		var key_event := event as InputEventKey
+		if not key_event.is_pressed() or key_event.is_echo():
+			return false
+		return key_event.keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE] or key_event.physical_keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE]
+	if event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		return mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT
+	return false
 
 
 func _build_controls() -> void:

@@ -12,6 +12,21 @@ var _dialogic_node: Node = null
 var variable_bridge: Node = null
 
 
+func _ready() -> void:
+	set_process_input(true)
+
+
+func _input(event: InputEvent) -> void:
+	if _active_payload.is_empty() or _dialogic_node == null:
+		return
+	if not _is_raw_advance_event(event):
+		return
+	var inputs = _dialogic_node.get("Inputs")
+	if inputs != null and inputs.has_method("handle_input"):
+		inputs.handle_input()
+		get_viewport().set_input_as_handled()
+
+
 func is_dialogic_installed() -> bool:
 	return FileAccess.file_exists("res://addons/dialogic/plugin.cfg") and FileAccess.file_exists("res://addons/dialogic/Core/DialogicGameHandler.gd")
 
@@ -155,6 +170,18 @@ func _on_dialogic_timeline_ended() -> void:
 	if variable_bridge != null:
 		variable_bridge.sync_flags_from_dialogic()
 	finished.emit(payload)
+
+
+func _is_raw_advance_event(event: InputEvent) -> bool:
+	if event is InputEventKey:
+		var key_event := event as InputEventKey
+		if not key_event.is_pressed() or key_event.is_echo():
+			return false
+		return key_event.keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE] or key_event.physical_keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE]
+	if event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		return mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT
+	return false
 
 
 ## Resolve a speaker name to a Dialogic identifier when possible.
