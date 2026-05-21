@@ -41,3 +41,4 @@
 - Yarn Spinner GDScript 的 YSLS 自动生成会扫描全项目脚本；当前旧 `scripts/core/game_session.gd` 会触发 warning-as-error，Yarn spike 的 `.yarnproject.import` 要关闭 `generate_ysls`，只维护 `data/yarn/*.ysls.json`。
 - 停用或删除 Godot `.gdextension` 后，本地 `.godot/extension_list.cfg` 可能还会尝试加载旧 Rust 扩展；验证新入口前先清掉这个缓存，再跑 headless smoke。
 - Dialogic 原生 timeline 在真实窗口里可能吃不到 `dialogic_default_action`；Nova 侧需要在 Dialogic 活跃时把 Enter/Space/左键 raw input 转发到 `Dialogic.Inputs.handle_input()`，并用 Computer Use 实测能回到 action menu。
+- CI 的干净 checkout 没有 `.godot/global_script_class_cache.cfg` 和 imported 资源；Dialogic autoload 用 `res://` 路径更稳，headless gate 要先预热 Godot editor import，但 editor 会改写 `project.godot` 的 Dialogic registry，必须在预导入后恢复源码侧文件再继续 smoke。

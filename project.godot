@@ -22,7 +22,7 @@ config/icon="res://assets/branding/dream-coastline-icon.png"
 
 [autoload]
 
-Dialogic="*uid://ds2q0uclmolvu"
+Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 GameMode="*res://src/nova/autoload/game_mode.gd"
 GameState="*res://src/nova/autoload/game_state.gd"
 StoryFlags="*res://src/nova/autoload/story_flags.gd"

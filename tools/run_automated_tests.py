@@ -66,9 +66,35 @@ class Runner:
             command.extend(["--quit-after", str(quit_after), "--", flag])
         return self.run_command(step, command)
 
+    def run_godot_editor_import(self, step: Step) -> int:
+        command = [str(self.godot), "--editor", "--headless", "--path", str(ROOT), "--quit"]
+        if self.args.dry_run:
+            return self.run_command(step, command)
+
+        project_file = ROOT / "project.godot"
+        project_before = project_file.read_bytes() if project_file.exists() else None
+        import_files_before = source_import_files()
+        code = self.run_command(step, command)
+        if project_before is not None and project_file.exists() and project_file.read_bytes() != project_before:
+            project_file.write_bytes(project_before)
+        for path in source_import_files() - import_files_before:
+            try:
+                path.unlink()
+            except FileNotFoundError:
+                pass
+        return code
+
 
 def format_command(command: list[str]) -> str:
     return " ".join(shlex.quote(part) for part in command)
+
+
+def source_import_files() -> set[Path]:
+    return {
+        path
+        for path in ROOT.rglob("*.import")
+        if ".git" not in path.parts and ".godot" not in path.parts and path.is_file()
+    }
 
 
 def validate_json_data(runner: Runner, step: Step) -> int:
@@ -201,6 +227,10 @@ def godot_load(runner: Runner, step: Step) -> int:
     return runner.run_godot(step, None)
 
 
+def godot_import_cache(runner: Runner, step: Step) -> int:
+    return runner.run_godot_editor_import(step)
+
+
 def godot_smoke(flag: str, *, quit_after: int = 100) -> StepAction:
     def action(runner: Runner, step: Step) -> int:
         return runner.run_godot(step, flag, quit_after=quit_after)
@@ -252,6 +282,7 @@ STEPS: list[Step] = [
     Step("story-review-panels", "quick", "validate story review panel coverage and character refs", story_review_panels),
     Step("dialogic-timelines", "quick", "validate Dialogic timeline coverage and drift", dialogic_timelines),
     Step("story-movie-smoke", "quick", "validate reproducible story movie generation dependencies and output", story_movie_smoke),
+    Step("godot-import-cache", "quick", "prime Godot script class and asset import cache", godot_import_cache),
     Step("godot-load", "quick", "load the Godot project headlessly", godot_load),
     Step("smoke-nova-runtime", "quick", "validate Nova exploration and VN cutscene runtime", godot_smoke("--smoke-nova-runtime")),
     Step("smoke-nova-progression", "quick", "validate Nova first-scene canonical progression", godot_smoke("--smoke-nova-progression")),
