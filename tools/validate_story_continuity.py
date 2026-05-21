@@ -85,6 +85,16 @@ def validate_initial_flag_chain(scenes: list[dict[str, Any]], failures: list[str
             )
 
 
+def validate_ending_flag_contract(scenes: list[dict[str, Any]], failures: list[str]) -> None:
+    for scene in scenes:
+        ending_flag = scene.get("ending_flag")
+        if not ending_flag:
+            failures.append(f"{scene['id']} is missing ending_flag")
+            continue
+        if ending_flag not in scene.get("required_flags", []):
+            failures.append(f"{scene['id']} required_flags should include ending_flag {ending_flag}")
+
+
 def validate_no_unproducible_requires(scenes: list[dict[str, Any]], failures: list[str]) -> None:
     for scene in scenes:
         produced, required = collect_flags(scene)
@@ -269,6 +279,7 @@ def main() -> int:
     failures: list[str] = []
 
     validate_initial_flag_chain(scenes, failures)
+    validate_ending_flag_contract(scenes, failures)
     validate_no_unproducible_requires(scenes, failures)
     validate_enemy_first_contact(scenes_by_id, failures)
     dead_kingdom = scenes_by_id.get("03-dead-kingdom")

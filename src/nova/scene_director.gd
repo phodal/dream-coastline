@@ -418,8 +418,11 @@ func _blocked_payload(title: String, text: String) -> Dictionary:
 
 func _update_scene_completion() -> void:
 	var scene_id := GameState.current_scene_id
+	var ending_flag := story_repository.get_ending_flag(scene_id)
+	if not ending_flag.is_empty() and not StoryFlags.has_flag(ending_flag):
+		return
 	var required_flags := story_repository.get_required_flags(scene_id)
-	if not required_flags.is_empty() and StoryFlags.has_all(required_flags):
+	if required_flags.is_empty() or StoryFlags.has_all(required_flags):
 		QuestState.set_status(scene_id, QuestState.COMPLETE)
 		_advance_to_next_scene(scene_id)
 
