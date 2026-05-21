@@ -127,6 +127,10 @@ def character_voice_profiles(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_character_voice_profiles.py")
 
 
+def action_voice_lines(runner: Runner, step: Step) -> int:
+    return runner.run_python(step, "tools/validate_action_voice_manifest.py")
+
+
 def character_development_profiles(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_character_development_profiles.py")
 
@@ -216,6 +220,7 @@ STEPS: list[Step] = [
     Step("equipment-catalog", "quick", "validate equipment carrier catalog", equipment_catalog),
     Step("supply-catalog", "quick", "validate supply and consumable carrier catalog", supply_catalog),
     Step("character-voice-profiles", "quick", "validate character voice and dialogue contracts", character_voice_profiles),
+    Step("action-voice-lines", "quick", "validate per-action voice-line coverage", action_voice_lines),
     Step(
         "character-development-profiles",
         "quick",

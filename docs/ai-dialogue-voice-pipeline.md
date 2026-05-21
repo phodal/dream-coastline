@@ -117,6 +117,36 @@ manifest 至少记录：
 
 对白生成模型只负责文本和表演方向；TTS 或音频工具再负责实际音频。不要把 API key、供应商私有配置或临时音频缓存提交进仓库。
 
+## Playable Action VO Contract
+
+关键台词样片继续放在 `data/audio_cues/<scene-id>.json#voice_samples`。完整可玩动作 VO 不写回 `voice_samples`，避免把样片表变成几百行生产队列。
+
+可玩动作 VO 使用独立 manifest：
+
+```sh
+python3 tools/generate_action_voice_manifest.py
+python3 tools/validate_action_voice_manifest.py
+```
+
+输出路径：
+
+- `data/action_voice_lines/<scene-id>.json`
+- 计划音频路径：`assets/audio/generated/action_voices/<scene-id>/<line-id>.mp3`
+
+每个 manifest 覆盖该幕所有 playable action：
+
+- `inspect`
+- `choice`
+- `glyph`
+- `build`
+- `encounter`
+- `combo`
+- `combat_identify`
+- `combat_spell`
+- `combat_resolve`
+
+`playback_queue` 是后续 TTS 和 runtime queue 的稳定输入。`status: planned` 只表示该行已纳入制作计划；只有 `status: generated` 会要求 MP3 文件存在。
+
 ## MiniMax First Pass
 
 MiniMax 生成链路记录在 `docs/minimax-audio-pipeline.md`。首轮不要把音乐和角色语音混成同一个表：
@@ -130,6 +160,7 @@ MiniMax 生成链路记录在 `docs/minimax-audio-pipeline.md`。首轮不要把
 
 - `python3 tools/validate_character_voice_profiles.py` 通过。
 - `python3 tools/validate_audio_cues.py` 通过。
+- `python3 tools/validate_action_voice_manifest.py` 通过。
 - AI 输出的每个角色都能追溯到 `five/people`、`five/script`、`five/scene` 或 `data/story_scenes`。
 - 同一角色在不同章节的口吻变化能解释为弧光，不是随机换声线。
 - 每个 TTS prompt 都是抽象音色描述，没有真人克隆、公众人物或具体演员引用。

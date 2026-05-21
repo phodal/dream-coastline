@@ -1,0 +1,897 @@
+{
+  "schema_version": 1,
+  "scene_id": "07-lights-on-again",
+  "scene_title": "第七幕：灯重新亮起",
+  "source": "data/story_scenes/07-lights-on-again.json",
+  "generated_from": [
+    "data/story_scenes/07-lights-on-again.json",
+    "data/character_voice_profiles.json"
+  ],
+  "coverage_scope": "full_playable_action_voice_manifest",
+  "line_status_values": [
+    "planned",
+    "generated",
+    "skipped"
+  ],
+  "actions": [
+    {
+      "action_id": "home.inspect.room",
+      "scene_id": "07-lights-on-again",
+      "location_id": "home",
+      "action_type": "inspect",
+      "record_id": "room",
+      "display_name": "半静默的家",
+      "requires": [],
+      "sets_flags": [
+        "confirmed_home_silenced"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.home.items.room"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-001",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "同一张餐桌，同一封信。这一次你知道，灯没亮不是家事，而是星球级静默。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-001.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "home.inspect.parents_echo",
+      "scene_id": "07-lights-on-again",
+      "location_id": "home",
+      "action_type": "inspect",
+      "record_id": "parents_echo",
+      "display_name": "父母留下的回声",
+      "requires": [
+        "confirmed_home_silenced"
+      ],
+      "sets_flags": [
+        "heard_parent_echo"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.home.items.parents_echo"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-002",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "录音只剩断句：如果你回来了，不要先找我们，先让这座城重新被看见。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-002.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "home.inspect.city_first",
+      "scene_id": "07-lights-on-again",
+      "location_id": "home",
+      "action_type": "inspect",
+      "record_id": "city_first",
+      "display_name": "先救城市的选择",
+      "requires": [
+        "heard_parent_echo"
+      ],
+      "sets_flags": [
+        "chose_city_before_parents"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.home.items.city_first"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-003",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "纪子轩看向父母房间，又看向窗外逐排熄灭的楼。最后他关上房门：先让这座城被看见，再回来找他们。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-003.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "home.inspect.contacts",
+      "scene_id": "07-lights-on-again",
+      "location_id": "home",
+      "action_type": "inspect",
+      "record_id": "contacts",
+      "display_name": "手机联系人",
+      "requires": [],
+      "sets_flags": [
+        "checked_unknown_contacts"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.home.items.contacts"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-004",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "联系人列表全是未知联系人。你必须先让城市重新被观测，名字才有地方落下。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-004.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "school.inspect.corridor",
+      "scene_id": "07-lights-on-again",
+      "location_id": "school",
+      "action_type": "inspect",
+      "record_id": "corridor",
+      "display_name": "无尽走廊",
+      "requires": [],
+      "sets_flags": [
+        "confirmed_school_erasure"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.school.items.corridor"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-005",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "走廊没有尽头。地图上的学校轮廓被擦掉，只剩一个没有意义的方框。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-005.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "school.inspect.missing_teacher",
+      "scene_id": "07-lights-on-again",
+      "location_id": "school",
+      "action_type": "inspect",
+      "record_id": "missing_teacher",
+      "display_name": "缺席的班主任",
+      "requires": [
+        "confirmed_school_erasure"
+      ],
+      "sets_flags": [
+        "found_missing_teacher"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.school.items.missing_teacher"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-006",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "讲台上有一张点名表，班主任那一栏空着。纪子轩忽然想不起她的声音。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-006.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "school.inspect.classmates",
+      "scene_id": "07-lights-on-again",
+      "location_id": "school",
+      "action_type": "inspect",
+      "record_id": "classmates",
+      "display_name": "同学名牌",
+      "requires": [],
+      "sets_flags": [
+        "saw_classmate_names_lost"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.school.items.classmates"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-007",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "名牌上只剩？？？。第一幕的无名兽不再是怪物，而是现代每个人可能的未来。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-007.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "street.inspect.grid",
+      "scene_id": "07-lights-on-again",
+      "location_id": "street",
+      "action_type": "inspect",
+      "record_id": "grid",
+      "display_name": "城市电网",
+      "requires": [],
+      "sets_flags": [
+        "checked_city_grid"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.street.items.grid"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-008",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "现代电网还能供电，但可观测性被削弱。普通灯光必须和符灯一起点亮。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-008.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "street.inspect.neighbors",
+      "scene_id": "07-lights-on-again",
+      "location_id": "street",
+      "action_type": "inspect",
+      "record_id": "neighbors",
+      "display_name": "无脸邻居",
+      "requires": [
+        "checked_city_grid"
+      ],
+      "sets_flags": [
+        "saw_faceless_neighbors"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.street.items.neighbors"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-009",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "楼下邻居站在路灯阴影里，脸像被磨平的旧照片。你知道下一步会轮到他们的名字。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-009.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "street.inspect.node_base",
+      "scene_id": "07-lights-on-again",
+      "location_id": "street",
+      "action_type": "inspect",
+      "record_id": "node_base",
+      "display_name": "节点基座",
+      "requires": [],
+      "sets_flags": [
+        "prepared_node_base"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.street.items.node_base"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-010",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "续文院工程师把国书核心接到路口变电箱。两个文明的接口很不稳定。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-010.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "street.inspect.bridge_traveler_reflection",
+      "scene_id": "07-lights-on-again",
+      "location_id": "street",
+      "action_type": "inspect",
+      "record_id": "bridge_traveler_reflection",
+      "display_name": "橱窗里的归桥旅人",
+      "requires": [
+        "temporary_node_built"
+      ],
+      "sets_flags": [
+        "saw_return_bridge_traveler"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.street.items.bridge_traveler_reflection"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-011",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "橱窗里映出一个海玻璃般的人影。你用“名”确认它，系统没有给出居民姓名，只显示：归桥旅人。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-011.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "street.build.lights",
+      "scene_id": "07-lights-on-again",
+      "location_id": "street",
+      "action_type": "build",
+      "record_id": "lights",
+      "display_name": "lights",
+      "requires": [
+        "checked_city_grid"
+      ],
+      "sets_flags": [
+        "lit_city_grid"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.street.build_actions.lights"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-012",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "路灯和符灯同时亮起一排。城市重新获得一点可观测性。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-012.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "street.build.node",
+      "scene_id": "07-lights-on-again",
+      "location_id": "street",
+      "action_type": "build",
+      "record_id": "node",
+      "display_name": "node",
+      "requires": [
+        "prepared_node_base",
+        "lit_city_grid"
+      ],
+      "sets_flags": [
+        "temporary_node_built"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.street.build_actions.node"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-013",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "现代第一座临时国书节点建立。它很粗糙，但足以承载名字样本。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-013.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "store.inspect.clerk",
+      "scene_id": "07-lights-on-again",
+      "location_id": "store",
+      "action_type": "inspect",
+      "record_id": "clerk",
+      "display_name": "无脸店员",
+      "requires": [],
+      "sets_flags": [
+        "found_faceless_clerk"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.store.items.clerk"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-014",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "店员反复问：我是谁？收银机屏幕显示未知员工。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-014.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "store.inspect.receipt",
+      "scene_id": "07-lights-on-again",
+      "location_id": "store",
+      "action_type": "inspect",
+      "record_id": "receipt",
+      "display_name": "恢复姓名的小票",
+      "requires": [
+        "rescued_clerk_name"
+      ],
+      "sets_flags": [
+        "recovered_receipt_name"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.store.items.receipt"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-015",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "收银小票重新打印出店员姓名。她盯着那几个字，像确认自己还在这个世界。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-015.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "store.glyph.name",
+      "scene_id": "07-lights-on-again",
+      "location_id": "store",
+      "action_type": "glyph",
+      "record_id": "name",
+      "display_name": "name",
+      "requires": [
+        "learned_name",
+        "temporary_node_built",
+        "found_faceless_clerk"
+      ],
+      "sets_flags": [
+        "rescued_clerk_name"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.store.glyph_actions.name"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-016",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你呼出店员的名字。她的脸重新出现，货架标签也恢复了第一行文字。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-016.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "lab.inspect.formula",
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "action_type": "inspect",
+      "record_id": "formula",
+      "display_name": "最终字组合",
+      "requires": [],
+      "sets_flags": [
+        "learned_star",
+        "learned_return",
+        "learned_continue"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.lab.items.formula"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-017",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "父母留下最终提示：名，门，星，归，续。确认其名，开启其门，使星归位，令文明继续。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-017.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "lab.inspect.beacon",
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "action_type": "inspect",
+      "record_id": "beacon",
+      "display_name": "现代信标",
+      "requires": [],
+      "sets_flags": [
+        "checked_modern_beacon"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.lab.items.beacon"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-018",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "现代信标能给出物理坐标，墨颀国书能确认意义坐标。二者缺一不可。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-018.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "lab.inspect.parents_record",
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "action_type": "inspect",
+      "record_id": "parents_record",
+      "display_name": "父母最终记录",
+      "requires": [
+        "modern_node_stable"
+      ],
+      "sets_flags": [
+        "read_parent_final_record"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.lab.items.parents_record"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-019",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "父母记录不是完整影像，只拼出母亲的手、父亲的眼镜和一段延迟十几年的呼吸。母亲说：如果你听见这段，不要先来找我们。父亲接上：先让城市被看见。纪子轩想回答自己已经长大了，录音却在这时停顿，像真的听见了一样，补了一句：我们知道。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-019.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "lab.inspect.failed_bridge_test",
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "action_type": "inspect",
+      "record_id": "failed_bridge_test",
+      "display_name": "失败的归桥测试",
+      "requires": [
+        "modern_node_stable",
+        "learned_star",
+        "learned_return",
+        "learned_continue"
+      ],
+      "sets_flags": [
+        "survived_failed_bridge_test"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.lab.items.failed_bridge_test"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-020",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "第一次归桥同步失败，实验室墙面短暂变成空白。父母的半张影像差点被擦掉，夏离用主国书压住删除，纪子轩把失败日志写在记录旁边：我不会再把他们当成答案，我要把他们也救回来。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-020.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "lab.inspect.traveler_warning",
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "action_type": "inspect",
+      "record_id": "traveler_warning",
+      "display_name": "归桥旅人的提示",
+      "requires": [
+        "saw_return_bridge_traveler",
+        "survived_failed_bridge_test"
+      ],
+      "sets_flags": [
+        "read_traveler_bridge_warning"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.lab.items.traveler_warning"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-021",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "归桥旅人没有说话，只把手按在误差最大的同步线上。纪子轩明白：先让城市被看见，父母的路才不会断。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-021.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "lab.build.modern_node",
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "action_type": "build",
+      "record_id": "modern_node",
+      "display_name": "modern_node",
+      "requires": [
+        "temporary_node_built",
+        "checked_modern_beacon",
+        "rescued_clerk_name"
+      ],
+      "sets_flags": [
+        "modern_node_stable"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.lab.build_actions.modern_node"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-022",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "现代节点稳定。墨颀文字不再像异物，而像一层能被现代设备读取的协议。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-022.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "lab.build.bridge",
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "action_type": "build",
+      "record_id": "bridge",
+      "display_name": "bridge",
+      "requires": [
+        "modern_node_stable",
+        "learned_star",
+        "learned_return",
+        "learned_continue",
+        "read_parent_final_record",
+        "survived_failed_bridge_test"
+      ],
+      "sets_flags": [
+        "bridge_stable"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.lab.build_actions.bridge"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-023",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "归桥稳定。墨颀星象塔和现代节点完成双向同步，实验室玻璃上短暂映出父母的轮廓。他们没有跨过来，只隔着桥指向窗外重新亮起的街区。纪子轩终于明白：这不是重逢的终点，是把路修到还能继续找他们。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-023.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "orbit.inspect.protocol",
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "action_type": "inspect",
+      "record_id": "protocol",
+      "display_name": "静默协议",
+      "requires": [
+        "bridge_stable"
+      ],
+      "sets_flags": [
+        "identified_final_protocol"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.items.protocol"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-024",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "协议判定：该文明不可控。该文明应静默。该文明不再续写。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-024.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "orbit.inspect.deleted_party_names",
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "action_type": "inspect",
+      "record_id": "deleted_party_names",
+      "display_name": "被删除的队友名",
+      "requires": [
+        "identified_final_protocol"
+      ],
+      "sets_flags": [
+        "saw_deleted_party_names"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.items.deleted_party_names"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-025",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "队伍栏里，夏离、工程师和父母记录全部变成□□。这一次被攻击的不是血量，而是关系本身。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-025.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "orbit.inspect.civilization_response",
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "action_type": "inspect",
+      "record_id": "civilization_response",
+      "display_name": "文明回声",
+      "requires": [
+        "restored_final_ui"
+      ],
+      "sets_flags": [
+        "heard_civilization_response"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.items.civilization_response"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-026",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "墨颀各城同时亮起：学塾、档案馆、工坊、星象塔都在回写同一句话：该文明选择继续。夏离说：墨颀各城都在回写。你不是一个人。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-026.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "orbit.build.restore",
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "action_type": "build",
+      "record_id": "restore",
+      "display_name": "restore",
+      "requires": [
+        "identified_final_protocol",
+        "bound_civilization_backups",
+        "modern_node_stable"
+      ],
+      "sets_flags": [
+        "restored_final_ui"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.build_actions.restore"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-027",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "标准字典、公共档案馆、国书网络、工程师和父母信标一起恢复被删的 UI。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-027.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "orbit.combo.continue",
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "action_type": "combo",
+      "record_id": "continue",
+      "display_name": "continue",
+      "requires": [
+        "defeated_final_protocol",
+        "learned_star",
+        "learned_return",
+        "learned_continue",
+        "lit_city_grid",
+        "rescued_clerk_name",
+        "modern_node_stable",
+        "bridge_stable"
+      ],
+      "sets_flags": [
+        "rejected_silence_protocol"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.combos.continue"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-028",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "名，门，星，归，续。两个文明共同写下 Continue。静默协议被拒绝，家里的灯重新亮起。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-028.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "orbit.combat_identify.identify",
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "action_type": "combat_identify",
+      "record_id": "identify",
+      "display_name": "识名 最终协议",
+      "requires": [
+        "learned_name"
+      ],
+      "sets_flags": [
+        "named_final_protocol",
+        "locked_final_protocol"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-029",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "“名”字亮起。目标显形：静默协议。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-029.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "orbit.combat_spell.stop",
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "action_type": "combat_spell",
+      "record_id": "stop",
+      "display_name": "stop",
+      "requires": [
+        "learned_stop",
+        "restored_final_ui"
+      ],
+      "sets_flags": [
+        "paused_final_deletion"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.combat.spells.stop"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-030",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你用“止”让最终删除判定停在一瞬。两个文明把这一瞬写进续页。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-030.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "orbit.combat_resolve.resolve",
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "action_type": "combat_resolve",
+      "record_id": "resolve",
+      "display_name": "终局 静默协议",
+      "requires": [
+        "identified_final_protocol",
+        "restored_final_ui"
+      ],
+      "sets_flags": [
+        "defeated_final_protocol",
+        "defeated_final_protocol"
+      ],
+      "source_evidence": [
+        "data/story_scenes/07-lights-on-again.json#locations.orbit.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-07-031",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "静默协议 被击退。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/07-lights-on-again/AVL-07-031.mp3"
+        }
+      ]
+    }
+  ]
+}

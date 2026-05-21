@@ -1,0 +1,446 @@
+{
+  "schema_version": 1,
+  "scene_id": "01-illiterate",
+  "scene_title": "第一幕：不会写字的人",
+  "source": "data/story_scenes/01-illiterate.json",
+  "generated_from": [
+    "data/story_scenes/01-illiterate.json",
+    "data/character_voice_profiles.json"
+  ],
+  "coverage_scope": "full_playable_action_voice_manifest",
+  "line_status_values": [
+    "planned",
+    "generated",
+    "skipped"
+  ],
+  "actions": [
+    {
+      "action_id": "mud_road.inspect.phone",
+      "scene_id": "01-illiterate",
+      "location_id": "mud_road",
+      "action_type": "inspect",
+      "record_id": "phone",
+      "display_name": "手机",
+      "requires": [],
+      "sets_flags": [
+        "checked_phone_no_service"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.mud_road.items.phone"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-001",
+          "speaker_id": "jizi_xuan",
+          "speaker_name": "纪子轩",
+          "text": "……这是哪？",
+          "delivery": "遵循 character_voice_profiles 中该角色的 voice_direction 和 dialogue_rules。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-001.mp3",
+          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan"
+        },
+        {
+          "line_id": "AVL-01-002",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "手机屏幕显示无服务，随后爬满黑色墨痕。连系统语言都变成无法识别的方块。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-002.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "mud_road.inspect.sign",
+      "scene_id": "01-illiterate",
+      "location_id": "mud_road",
+      "action_type": "inspect",
+      "record_id": "sign",
+      "display_name": "破损路牌",
+      "requires": [],
+      "sets_flags": [
+        "checked_broken_sign"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.mud_road.items.sign"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-003",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "路牌写着□□□ / □□ / □□□。你意识到自己不是看不清，而是根本不认识这里的字。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-003.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "mud_road.inspect.city",
+      "scene_id": "01-illiterate",
+      "location_id": "mud_road",
+      "action_type": "inspect",
+      "record_id": "city",
+      "display_name": "燃烧的城",
+      "requires": [],
+      "sets_flags": [
+        "saw_burning_city"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.mud_road.items.city"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-004",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "远处的城墙在燃烧。那不是晚霞，是一整座城正在陷落。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-004.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "mud_road.inspect.pen",
+      "scene_id": "01-illiterate",
+      "location_id": "mud_road",
+      "action_type": "inspect",
+      "record_id": "pen",
+      "display_name": "黑色钢笔",
+      "requires": [],
+      "sets_flags": [
+        "checked_black_pen_again"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.mud_road.items.pen"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-005",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你不记得自己什么时候握住了它。它在这个世界里像一件危险的身份证明。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-005.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "camp.inspect.xiaoyan",
+      "scene_id": "01-illiterate",
+      "location_id": "camp",
+      "action_type": "inspect",
+      "record_id": "xiaoyan",
+      "display_name": "小砚",
+      "requires": [],
+      "sets_flags": [
+        "met_xiaoyan"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.camp.items.xiaoyan"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-006",
+          "speaker_id": "xiaoyan",
+          "speaker_name": "小砚",
+          "text": "□□？□□□！",
+          "delivery": "遵循 character_voice_profiles 中该角色的 voice_direction 和 dialogue_rules。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-006.mp3",
+          "voice_profile_ref": "data/character_voice_profiles.json#characters.xiaoyan"
+        },
+        {
+          "line_id": "AVL-01-007",
+          "speaker_id": "jizi_xuan",
+          "speaker_name": "纪子轩",
+          "text": "我听不懂，你能说普通话吗？",
+          "delivery": "遵循 character_voice_profiles 中该角色的 voice_direction 和 dialogue_rules。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-007.mp3",
+          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan"
+        },
+        {
+          "line_id": "AVL-01-008",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "小砚也听不懂，只能指向你的笔，又指向树林。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-008.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "camp.inspect.notice",
+      "scene_id": "01-illiterate",
+      "location_id": "camp",
+      "action_type": "inspect",
+      "record_id": "notice",
+      "display_name": "布告",
+      "requires": [],
+      "sets_flags": [
+        "checked_refugee_notice"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.camp.items.notice"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-009",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "布告上的字像活墨一样抖动。你只看懂它们正在拒绝你。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-009.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "camp.inspect.deer_tracks",
+      "scene_id": "01-illiterate",
+      "location_id": "camp",
+      "action_type": "inspect",
+      "record_id": "deer_tracks",
+      "display_name": "断名蹄印",
+      "requires": [],
+      "sets_flags": [
+        "saw_lost_name_deer"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.camp.items.deer_tracks"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-010",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "营地外有一串很轻的蹄印，旁边落着断裂名牌。小砚想喊它，却只发出一个缺了一半的音。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-010.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "chase.inspect.soldiers",
+      "scene_id": "01-illiterate",
+      "location_id": "chase",
+      "action_type": "inspect",
+      "record_id": "soldiers",
+      "display_name": "墨律司士兵",
+      "requires": [],
+      "sets_flags": [
+        "saw_molusi"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.chase.items.soldiers"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-011",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "他们喊着你听不懂的话，短刃上的文字却让空气发紧。小砚拉住你就跑。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-011.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "chase.inspect.gate",
+      "scene_id": "01-illiterate",
+      "location_id": "chase",
+      "action_type": "inspect",
+      "record_id": "gate",
+      "display_name": "破损石门",
+      "requires": [],
+      "sets_flags": [
+        "checked_broken_gate"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.chase.items.gate"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-012",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "门上符文亮了一半。你说“我不会写”，下一秒，一道墨色笔画从旁边划过。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-012.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "chase.inspect.xiali",
+      "scene_id": "01-illiterate",
+      "location_id": "chase",
+      "action_type": "inspect",
+      "record_id": "xiali",
+      "display_name": "夏离",
+      "requires": [
+        "checked_broken_gate"
+      ],
+      "sets_flags": [
+        "met_xiali"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.chase.items.xiali"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-013",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "夏离看着你手中的笔：“拿着那支笔还敢站在路中间。你是疯子，还是根本不知道自己是什么？”纪子轩说：“我只是想回家。”夏离冷笑：“那你来错地方了。”",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-013.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "station.inspect.strokes",
+      "scene_id": "01-illiterate",
+      "location_id": "station",
+      "action_type": "inspect",
+      "record_id": "strokes",
+      "display_name": "夏离写下的名",
+      "requires": [],
+      "sets_flags": [
+        "learned_name_strokes"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.station.items.strokes"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-014",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "夏离在地上写下“名”。他说：不是描形，是理解它为什么这样写。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-014.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "station.inspect.xiaoyan",
+      "scene_id": "01-illiterate",
+      "location_id": "station",
+      "action_type": "inspect",
+      "record_id": "xiaoyan",
+      "display_name": "小砚的名字",
+      "requires": [],
+      "sets_flags": [
+        "saw_xiaoyan_name_fading"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.station.items.xiaoyan"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-015",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "小砚的名字在 UI 上变成□□。你终于明白：它不是杀人，是让人被世界忘掉。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-015.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "station.inspect.broken_nameplate",
+      "scene_id": "01-illiterate",
+      "location_id": "station",
+      "action_type": "inspect",
+      "record_id": "broken_nameplate",
+      "display_name": "半张旧名牌",
+      "requires": [
+        "defeated_nameless"
+      ],
+      "sets_flags": [
+        "inspected_broken_nameplate"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.station.items.broken_nameplate"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-016",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "无名兽消散后，地上只剩半张旧名牌。它曾经不是怪物，而是某个被删除的人。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-016.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "station.combat_identify.identify",
+      "scene_id": "01-illiterate",
+      "location_id": "station",
+      "action_type": "combat_identify",
+      "record_id": "identify",
+      "display_name": "识名 ？？？",
+      "requires": [
+        "learned_name_strokes"
+      ],
+      "sets_flags": [
+        "named_beast",
+        "learned_name"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.station.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-017",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "“名”字亮起。目标显形：无名兽。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-017.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "station.combat_resolve.resolve",
+      "scene_id": "01-illiterate",
+      "location_id": "station",
+      "action_type": "combat_resolve",
+      "record_id": "resolve",
+      "display_name": "终局 无名兽",
+      "requires": [],
+      "sets_flags": [
+        "defeated_nameless",
+        "received_broken_nameplate"
+      ],
+      "source_evidence": [
+        "data/story_scenes/01-illiterate.json#locations.station.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-01-018",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "无名兽 被击退。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-018.mp3"
+        }
+      ]
+    }
+  ]
+}

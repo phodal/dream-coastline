@@ -1,0 +1,659 @@
+{
+  "schema_version": 1,
+  "scene_id": "06-return-star-plan",
+  "scene_title": "第六幕：归星计划",
+  "source": "data/story_scenes/06-return-star-plan.json",
+  "generated_from": [
+    "data/story_scenes/06-return-star-plan.json",
+    "data/character_voice_profiles.json"
+  ],
+  "coverage_scope": "full_playable_action_voice_manifest",
+  "line_status_values": [
+    "planned",
+    "generated",
+    "skipped"
+  ],
+  "actions": [
+    {
+      "action_id": "astral_tower.inspect.disaster",
+      "scene_id": "06-return-star-plan",
+      "location_id": "astral_tower",
+      "action_type": "inspect",
+      "record_id": "disaster",
+      "display_name": "现代灾难",
+      "requires": [],
+      "sets_flags": [
+        "confirmed_modern_disaster"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.astral_tower.items.disaster"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-001",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "城市地图出现空白，人名从档案中消失。现代科技能发信号，却无法证明信号存在。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-001.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "astral_tower.inspect.parents",
+      "scene_id": "06-return-star-plan",
+      "location_id": "astral_tower",
+      "action_type": "inspect",
+      "record_id": "parents",
+      "display_name": "父母研究摘要",
+      "requires": [],
+      "sets_flags": [
+        "read_parent_research_summary"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.astral_tower.items.parents"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-002",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "父母早就知道：墨颀文字现实技术可能是唯一能抵抗静默的系统。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-002.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "council.inspect.supporters",
+      "scene_id": "06-return-star-plan",
+      "location_id": "council",
+      "action_type": "inspect",
+      "record_id": "supporters",
+      "display_name": "支持派",
+      "requires": [],
+      "sets_flags": [
+        "heard_supporters"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.council.items.supporters"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-003",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "学生、工程师和档案员认为：纪子轩帮助过墨颀，墨颀也应回应另一个文明的求救。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-003.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "council.inspect.opposition",
+      "scene_id": "06-return-star-plan",
+      "location_id": "council",
+      "action_type": "inspect",
+      "record_id": "opposition",
+      "display_name": "反对派",
+      "requires": [],
+      "sets_flags": [
+        "heard_opposition"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.council.items.opposition"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-004",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "反对者说：墨颀刚从灭亡中恢复，归星计划可能让一切成果再次归零。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-004.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "council.inspect.risk_ledger",
+      "scene_id": "06-return-star-plan",
+      "location_id": "council",
+      "action_type": "inspect",
+      "record_id": "risk_ledger",
+      "display_name": "风险账本",
+      "requires": [
+        "heard_supporters",
+        "heard_opposition"
+      ],
+      "sets_flags": [
+        "reviewed_return_risk_ledger"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.council.items.risk_ledger"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-005",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "账本逐项列出能源、教育、城市防护和失败后果。归星不是热血表决，而是把风险写给所有人看。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-005.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "council.build.mandate",
+      "scene_id": "06-return-star-plan",
+      "location_id": "council",
+      "action_type": "build",
+      "record_id": "mandate",
+      "display_name": "mandate",
+      "requires": [
+        "confirmed_modern_disaster",
+        "heard_supporters",
+        "heard_opposition"
+      ],
+      "sets_flags": [
+        "won_return_star_council"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.council.build_actions.mandate"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-006",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "议会通过归星授权。支持度来自前期教育、公开知识、国书稳定和工程能力。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-006.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "dockyard.inspect.blueprint",
+      "scene_id": "06-return-star-plan",
+      "location_id": "dockyard",
+      "action_type": "inspect",
+      "record_id": "blueprint",
+      "display_name": "续页舰蓝图",
+      "requires": [],
+      "sets_flags": [
+        "checked_return_vessel_blueprint"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.dockyard.items.blueprint"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-007",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "蓝图把星象塔、国书节点、移动档案和续页系统写成同一个工程。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-007.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "dockyard.inspect.empty_seats",
+      "scene_id": "06-return-star-plan",
+      "location_id": "dockyard",
+      "action_type": "inspect",
+      "record_id": "empty_seats",
+      "display_name": "空座名单",
+      "requires": [
+        "built_return_vessel"
+      ],
+      "sets_flags": [
+        "marked_empty_seats"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.dockyard.items.empty_seats"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-008",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "续页舰上预留了许多空座：给教师、工程师、档案员，也给那些可能回不来的人。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-008.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "dockyard.build.vessel",
+      "scene_id": "06-return-star-plan",
+      "location_id": "dockyard",
+      "action_type": "build",
+      "record_id": "vessel",
+      "display_name": "vessel",
+      "requires": [
+        "won_return_star_council",
+        "checked_return_vessel_blueprint"
+      ],
+      "sets_flags": [
+        "built_return_vessel"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.dockyard.build_actions.vessel"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-009",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "续页舰完工。它携带的不是军队，而是字典、档案、教师、工程师和国书核心。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-009.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "core.inspect.xiali",
+      "scene_id": "06-return-star-plan",
+      "location_id": "core",
+      "action_type": "inspect",
+      "record_id": "xiali",
+      "display_name": "夏离稳定国书",
+      "requires": [],
+      "sets_flags": [
+        "xiali_stabilizes_core"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.core.items.xiali"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-010",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "夏离说：过去，王守国境。现在，墨颀的国境在星空之外。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-010.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "core.inspect.backup",
+      "scene_id": "06-return-star-plan",
+      "location_id": "core",
+      "action_type": "inspect",
+      "record_id": "backup",
+      "display_name": "文明备份链",
+      "requires": [],
+      "sets_flags": [
+        "designed_backup_chain"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.core.items.backup"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-011",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "标准字典、公共档案馆、国书网络和学生共同书写，将成为战斗中的恢复系统。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-011.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "core.inspect.backup_drill",
+      "scene_id": "06-return-star-plan",
+      "location_id": "core",
+      "action_type": "inspect",
+      "record_id": "backup_drill",
+      "display_name": "备份恢复演练",
+      "requires": [
+        "bound_civilization_backups"
+      ],
+      "sets_flags": [
+        "passed_backup_drill"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.core.items.backup_drill"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-012",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "演练中，技能名被故意擦成□□。三个城市同时回写字典，十七秒后，名字恢复。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-012.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "core.build.backups",
+      "scene_id": "06-return-star-plan",
+      "location_id": "core",
+      "action_type": "build",
+      "record_id": "backups",
+      "display_name": "backups",
+      "requires": [
+        "xiali_stabilizes_core",
+        "designed_backup_chain",
+        "built_return_vessel"
+      ],
+      "sets_flags": [
+        "bound_civilization_backups"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.core.build_actions.backups"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-013",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "备份链绑定完成。之后如果字根被删，国书网络能从多个城市共同恢复。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-013.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "gate.inspect.calibration",
+      "scene_id": "06-return-star-plan",
+      "location_id": "gate",
+      "action_type": "inspect",
+      "record_id": "calibration",
+      "display_name": "最终校准",
+      "requires": [],
+      "sets_flags": [
+        "checked_gate_calibration"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.gate.items.calibration"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-014",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "星门需要现代坐标、墨颀国书和续页舰三者同时稳定。任何一项乱码都会坍缩。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-014.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "gate.inspect.farewell",
+      "scene_id": "06-return-star-plan",
+      "location_id": "gate",
+      "action_type": "inspect",
+      "record_id": "farewell",
+      "display_name": "归星门前的告别",
+      "requires": [
+        "opened_return_gate"
+      ],
+      "sets_flags": [
+        "heard_return_gate_farewell"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.gate.items.farewell"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-015",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "夏离看着门内的现代夜色，说：这一次，不是你一个人回家。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-015.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "gate.build.gate",
+      "scene_id": "06-return-star-plan",
+      "location_id": "gate",
+      "action_type": "build",
+      "record_id": "gate",
+      "display_name": "gate",
+      "requires": [
+        "bound_civilization_backups",
+        "checked_gate_calibration"
+      ],
+      "sets_flags": [
+        "opened_return_gate"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.gate.build_actions.gate"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-016",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "归星门开启。纪子轩站在门前，身后不是一个人，而是一个成长起来的文明。他低声说：这一次，不是我一个人回家。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-016.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "rift.inspect.probe",
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "action_type": "inspect",
+      "record_id": "probe",
+      "display_name": "静默探针",
+      "requires": [
+        "opened_return_gate"
+      ],
+      "sets_flags": [
+        "identified_invasion_probe"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.rift.items.probe"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-017",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "它不是怪物，而是协议实体。它让技能名称变成□□，让地图失去标记。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-017.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "rift.inspect.probe_body",
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "action_type": "inspect",
+      "record_id": "probe_body",
+      "display_name": "静默探针体",
+      "requires": [
+        "identified_invasion_probe"
+      ],
+      "sets_flags": [
+        "recognized_probe_body"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.rift.items.probe_body"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-018",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "探针体外壳没有眼睛，只有黑白分层的删除纹。它旁边漂着被抹掉的技能名和联系人条目，像一段拥有身体的判定。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-018.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "rift.inspect.truth",
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "action_type": "inspect",
+      "record_id": "truth",
+      "display_name": "父母真相",
+      "requires": [
+        "defeated_invasion_probe"
+      ],
+      "sets_flags": [
+        "received_parent_truth"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.rift.items.truth"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-019",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "母亲说：我们无法向宇宙求救，因为求救信号会被静默。父亲说：你不是被送去逃生。你是被送去点燃一支火种。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-019.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "rift.build.return",
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "action_type": "build",
+      "record_id": "return",
+      "display_name": "return",
+      "requires": [
+        "received_parent_truth",
+        "opened_return_gate"
+      ],
+      "sets_flags": [
+        "returned_to_modern_with_moqi"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.rift.build_actions.return"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-020",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "纪子轩跨过归星门。夏离、续文院工程师、国书核心和墨颀星火随他进入现代。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-020.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "rift.combat_identify.identify",
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "action_type": "combat_identify",
+      "record_id": "identify",
+      "display_name": "识名 静默协议",
+      "requires": [
+        "learned_name"
+      ],
+      "sets_flags": [
+        "named_invasion_probe",
+        "locked_invasion_signature"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.rift.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-021",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "“名”字亮起。目标显形：静默探针。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-021.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "rift.combat_spell.stop",
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "action_type": "combat_spell",
+      "record_id": "stop",
+      "display_name": "stop",
+      "requires": [
+        "learned_stop",
+        "bound_civilization_backups",
+        "identified_invasion_probe"
+      ],
+      "sets_flags": [
+        "restored_deleted_glyphs"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.rift.combat.spells.stop"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-022",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "标准字典、档案馆和国书网络同时回写，被删的字根恢复。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-022.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "rift.combat_resolve.resolve",
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "action_type": "combat_resolve",
+      "record_id": "resolve",
+      "display_name": "终局 静默探针",
+      "requires": [
+        "identified_invasion_probe",
+        "restored_deleted_glyphs"
+      ],
+      "sets_flags": [
+        "defeated_invasion_probe",
+        "defeated_invasion_probe"
+      ],
+      "source_evidence": [
+        "data/story_scenes/06-return-star-plan.json#locations.rift.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-06-023",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "静默探针 被击退。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/06-return-star-plan/AVL-06-023.mp3"
+        }
+      ]
+    }
+  ]
+}

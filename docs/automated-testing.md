@@ -40,6 +40,8 @@ the repo data is structurally wrong.
 - Run `tools/validate_story_continuity.py --verbose`.
 - Run `tools/validate_equipment_catalog.py`.
 - Run `tools/validate_supply_catalog.py`.
+- Run `tools/validate_action_voice_manifest.py` to keep full playable-action
+  VO planning coverage aligned with story JSON.
 - Run the headless Godot project-load check.
 - Run `--smoke-nova-runtime` to prove the new exploration/cutscene path can
   read story and visual JSON.

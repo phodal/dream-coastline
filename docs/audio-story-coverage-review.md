@@ -38,7 +38,15 @@ The current pass fills earlier sample-line gaps by embedding the exact generated
 - `06-return-star-plan`: Jizi Xuan and parent truth sample lines are explicit.
 - `07-lights-on-again`: Xiali's civilization-response line is explicit.
 
-The remaining limitation is not a missing sample; it is scope. Current VO is key-line coverage, not full voiced dialogue for every inspect/build/combat action. A full-VO pass should add a separate per-action dialogue manifest and playback queue instead of overloading `voice_samples`.
+The remaining limitation is now represented as a separate data contract instead of being overloaded into `voice_samples`.
+
+- Key-line VO remains in `data/audio_cues/<scene-id>.json#voice_samples`.
+- Full playable-action VO planning now lives in `data/action_voice_lines/<scene-id>.json`.
+- The manifests cover every `inspect`, `choice`, `glyph`, `build`, `encounter`, `combo`, and narrative combat identify/spell/resolve action.
+- Current generated scope: 8 scene manifests, 187 playable actions, 199 planned voice lines.
+- Validate with `python3 tools/validate_action_voice_manifest.py` or the `action-voice-lines` automated test step.
+
+These action voice lines are production planning entries. `status: planned` means no final audio file is expected yet; only `status: generated` requires the referenced MP3 to exist.
 
 ## Prologue Audio Mix Notes
 
@@ -53,5 +61,5 @@ The remaining limitation is not a missing sample; it is scope. Current VO is key
 ## Next Useful Supplement
 
 1. Add prologue story-review panels if the review UI should show more than the chapter transition image.
-2. Split key-line VO and full action VO into separate data contracts before generating hundreds of lines.
+2. Generate selected `data/action_voice_lines` entries into `assets/audio/generated/action_voices/<scene-id>/` and mark only completed lines as `generated`.
 3. Add a small runtime check that reports missing playable audio targets per scene before story review playback starts.

@@ -1,0 +1,824 @@
+{
+  "schema_version": 1,
+  "scene_id": "02-moqi-academy",
+  "scene_title": "第二幕：墨颀书院",
+  "source": "data/story_scenes/02-moqi-academy.json",
+  "generated_from": [
+    "data/story_scenes/02-moqi-academy.json",
+    "data/character_voice_profiles.json"
+  ],
+  "coverage_scope": "full_playable_action_voice_manifest",
+  "line_status_values": [
+    "planned",
+    "generated",
+    "skipped"
+  ],
+  "actions": [
+    {
+      "action_id": "academy.inspect.wensu",
+      "scene_id": "02-moqi-academy",
+      "location_id": "academy",
+      "action_type": "inspect",
+      "record_id": "wensu",
+      "display_name": "闻素",
+      "requires": [],
+      "sets_flags": [
+        "met_wensu"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.academy.items.wensu"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-001",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "闻素说：在墨颀，不会写字的人，不是愚笨。是不被允许存在得太完整。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-001.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "academy.inspect.baseline",
+      "scene_id": "02-moqi-academy",
+      "location_id": "academy",
+      "action_type": "inspect",
+      "record_id": "baseline",
+      "display_name": "闻素的基线测试",
+      "requires": [
+        "met_wensu"
+      ],
+      "sets_flags": [
+        "passed_wensu_baseline"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.academy.items.baseline"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-002",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "闻素没有立刻教新字，而是让你把听不懂、看不懂、误读的地方逐项写下。她说：先承认不知道，才有资格学习。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-002.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "academy.inspect.name",
+      "scene_id": "02-moqi-academy",
+      "location_id": "academy",
+      "action_type": "inspect",
+      "record_id": "name",
+      "display_name": "名",
+      "requires": [],
+      "sets_flags": [
+        "learned_name"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.academy.items.name"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-003",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你复习“名”。它不是标签，而是让一个对象被世界承认。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-003.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "academy.inspect.door",
+      "scene_id": "02-moqi-academy",
+      "location_id": "academy",
+      "action_type": "inspect",
+      "record_id": "door",
+      "display_name": "门",
+      "requires": [],
+      "sets_flags": [
+        "learned_door"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.academy.items.door"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-004",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "“门”不是木板，而是通行规则。理解它后，地图上多出许多原本看不见的入口。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-004.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "academy.inspect.fire",
+      "scene_id": "02-moqi-academy",
+      "location_id": "academy",
+      "action_type": "inspect",
+      "record_id": "fire",
+      "display_name": "火",
+      "requires": [],
+      "sets_flags": [
+        "learned_fire"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.academy.items.fire"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-005",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "“火”是能源，也是警告。闻素让你先学会启动，再学会停止。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-005.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "academy.inspect.stop",
+      "scene_id": "02-moqi-academy",
+      "location_id": "academy",
+      "action_type": "inspect",
+      "record_id": "stop",
+      "display_name": "止",
+      "requires": [],
+      "sets_flags": [
+        "learned_stop"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.academy.items.stop"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-006",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "“止”不是停下动作，而是稳定边界。它能让裂纹暂时不再扩大。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-006.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "village.inspect.well",
+      "scene_id": "02-moqi-academy",
+      "location_id": "village",
+      "action_type": "inspect",
+      "record_id": "well",
+      "display_name": "裂开的水井",
+      "requires": [],
+      "sets_flags": [
+        "checked_broken_well"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.items.well"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-007",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "井沿的裂纹像被删掉的笔画。水源还在，但名字和流向都不稳定。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-007.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "village.inspect.first_failure",
+      "scene_id": "02-moqi-academy",
+      "location_id": "village",
+      "action_type": "inspect",
+      "record_id": "first_failure",
+      "display_name": "第一次修井失败",
+      "requires": [
+        "checked_broken_well"
+      ],
+      "sets_flags": [
+        "owned_first_repair_failure"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.items.first_failure"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-008",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你照着字典抄了一遍旧符，井沿反而裂得更深。夏离想替你收场，闻素拦住他：失败也要记录，否则下一次还会有人照错。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-008.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "village.inspect.villagers",
+      "scene_id": "02-moqi-academy",
+      "location_id": "village",
+      "action_type": "inspect",
+      "record_id": "villagers",
+      "display_name": "村民",
+      "requires": [],
+      "sets_flags": [
+        "saw_knowledge_lockout"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.items.villagers"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-009",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "老人说他们只会照着旧符抄，没人教过为什么这样写。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-009.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "village.inspect.ink_well_ray",
+      "scene_id": "02-moqi-academy",
+      "location_id": "village",
+      "action_type": "inspect",
+      "record_id": "ink_well_ray",
+      "display_name": "墨井鳐",
+      "requires": [
+        "owned_first_repair_failure"
+      ],
+      "sets_flags": [
+        "read_ink_well_ray_feedback"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.items.ink_well_ray"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-010",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "墨井鳐腹部的井符亮了一下，水流方向像被写错的笔画一样倒转。闻素说：别把它当神迹，这是系统反馈。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-010.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "village.glyph.stop",
+      "scene_id": "02-moqi-academy",
+      "location_id": "village",
+      "action_type": "glyph",
+      "record_id": "stop",
+      "display_name": "stop",
+      "requires": [
+        "learned_stop",
+        "checked_broken_well"
+      ],
+      "sets_flags": [
+        "stabilized_well_crack"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.glyph_actions.stop"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-011",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你写下“止”，井沿裂纹不再扩大。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-011.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "village.glyph.fire",
+      "scene_id": "02-moqi-academy",
+      "location_id": "village",
+      "action_type": "glyph",
+      "record_id": "fire",
+      "display_name": "fire",
+      "requires": [
+        "learned_fire",
+        "stabilized_well_crack"
+      ],
+      "sets_flags": [
+        "started_ink_engine"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.glyph_actions.fire"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-012",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你用“火”启动旧墨力炉，水声重新从井底传来。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-012.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "village.glyph.name",
+      "scene_id": "02-moqi-academy",
+      "location_id": "village",
+      "action_type": "glyph",
+      "record_id": "name",
+      "display_name": "name",
+      "requires": [
+        "learned_name",
+        "started_ink_engine"
+      ],
+      "sets_flags": [
+        "repaired_well"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.glyph_actions.name"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-013",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你用“名”确认水源。井口浮出清水，孩子们第一次喊出你的名字。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-013.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "village.encounter.contract_patrol",
+      "scene_id": "02-moqi-academy",
+      "location_id": "village",
+      "action_type": "encounter",
+      "record_id": "contract_patrol",
+      "display_name": "巡契残影",
+      "requires": [
+        "learned_stop",
+        "checked_broken_well"
+      ],
+      "sets_flags": [
+        "cleared_contract_patrol"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.village.encounters.contract_patrol"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-014",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "巡契残影从井边旧符里浮出。你用“止”稳住裂纹，把它压回封条残迹里。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-014.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "archive.inspect.layers",
+      "scene_id": "02-moqi-academy",
+      "location_id": "archive",
+      "action_type": "inspect",
+      "record_id": "layers",
+      "display_name": "三层文字",
+      "requires": [],
+      "sets_flags": [
+        "understood_text_layers"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.archive.items.layers"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-015",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "日常文字记录生活，律文字约束制度，真文字接近现实底层接口。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-015.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "archive.inspect.margins",
+      "scene_id": "02-moqi-academy",
+      "location_id": "archive",
+      "action_type": "inspect",
+      "record_id": "margins",
+      "display_name": "字典页边批注",
+      "requires": [
+        "understood_text_layers"
+      ],
+      "sets_flags": [
+        "understood_dictionary_margins"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.archive.items.margins"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-016",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "页边写着许多被删掉的教学注释：这个字曾经教给平民，后来又被划掉。纪子轩第一次看见知识被收回的痕迹。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-016.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "archive.inspect.cabinet",
+      "scene_id": "02-moqi-academy",
+      "location_id": "archive",
+      "action_type": "inspect",
+      "record_id": "cabinet",
+      "display_name": "封存柜",
+      "requires": [],
+      "sets_flags": [
+        "checked_dictionary_cabinet"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.archive.items.cabinet"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-017",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "柜门上的封条写着“未授权者不得授字”。夏离沉默了很久。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-017.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "archive.glyph.door",
+      "scene_id": "02-moqi-academy",
+      "location_id": "archive",
+      "action_type": "glyph",
+      "record_id": "door",
+      "display_name": "door",
+      "requires": [
+        "learned_door",
+        "checked_dictionary_cabinet"
+      ],
+      "sets_flags": [
+        "got_basic_dictionary"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.archive.glyph_actions.door"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-018",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你写下“门”，不是破坏柜子，而是找到封条规则里的通行漏洞。基础字典到手。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-018.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.inspect.contract",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "inspect",
+      "record_id": "contract",
+      "display_name": "契约封锁",
+      "requires": [],
+      "sets_flags": [
+        "checked_contract_lock"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.items.contract"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-019",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "契约把节点、村落和你的行动绑在一起。硬闯会让井水再次停摆。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-019.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.inspect.contract_hound",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "inspect",
+      "record_id": "contract_hound",
+      "display_name": "契纹犬",
+      "requires": [
+        "checked_contract_lock"
+      ],
+      "sets_flags": [
+        "met_contract_hound"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.items.contract_hound"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-020",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "契纹犬绕着节点走了一圈，脚下没有影子，只有一条条生效中的律文。夏离低声说：它追的不是人，是权限。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-020.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.inspect.mother_annotation",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "inspect",
+      "record_id": "mother_annotation",
+      "display_name": "母亲的节点批注",
+      "requires": [
+        "repaired_first_node"
+      ],
+      "sets_flags": [
+        "read_mother_node_annotation"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.items.mother_annotation"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-021",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "节点底层留着母亲的细字：不要只修这个节点，要让每个人都知道为什么它会坏。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-021.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.inspect.record",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "inspect",
+      "record_id": "record",
+      "display_name": "父母影像",
+      "requires": [
+        "repaired_first_node"
+      ],
+      "sets_flags": [
+        "viewed_parent_record"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.items.record"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-022",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "母亲的影像说：子轩，如果你看见这段记录，说明墨颀还没有结束。不要急着回来。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-022.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.glyph.name",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "glyph",
+      "record_id": "name",
+      "display_name": "name",
+      "requires": [
+        "learned_name",
+        "defeated_contract_officer"
+      ],
+      "sets_flags": [
+        "named_first_node"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.glyph_actions.name"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-023",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你确认节点的名字。它不是废墟，而是仍在等待维护的公共系统。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-023.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.glyph.stop",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "glyph",
+      "record_id": "stop",
+      "display_name": "stop",
+      "requires": [
+        "learned_stop",
+        "named_first_node"
+      ],
+      "sets_flags": [
+        "stabilized_first_node"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.glyph_actions.stop"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-024",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你写下“止”，节点裂纹停止扩散。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-024.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.glyph.fire",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "glyph",
+      "record_id": "fire",
+      "display_name": "fire",
+      "requires": [
+        "learned_fire",
+        "stabilized_first_node",
+        "got_basic_dictionary"
+      ],
+      "sets_flags": [
+        "repaired_first_node"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.glyph_actions.fire"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-025",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你用“火”重启墨力脉冲。国书节点亮起，基础字典开始同步。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-025.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.combat_identify.identify",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "combat_identify",
+      "record_id": "identify",
+      "display_name": "识名 执契官",
+      "requires": [
+        "learned_name"
+      ],
+      "sets_flags": [
+        "named_contract_officer",
+        "confirmed_contract_subject"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-026",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "“名”字亮起。目标显形：墨律司执契官。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-026.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.combat_spell.door",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "combat_spell",
+      "record_id": "door",
+      "display_name": "door",
+      "requires": [
+        "learned_door",
+        "checked_contract_lock"
+      ],
+      "sets_flags": [
+        "found_contract_gap"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.combat.spells.door"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-027",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你用“门”找到契约封锁里的漏洞：执契官也必须遵守他写下的规则。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-027.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.combat_spell.stop",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "combat_spell",
+      "record_id": "stop",
+      "display_name": "stop",
+      "requires": [
+        "learned_stop",
+        "found_contract_gap"
+      ],
+      "sets_flags": [
+        "paused_contract"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.combat.spells.stop"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-028",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你用“止”暂停封锁条款。夏离终于能把攻击送到目标身上。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-028.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "node.combat_resolve.resolve",
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "action_type": "combat_resolve",
+      "record_id": "resolve",
+      "display_name": "终局 墨律司执契官",
+      "requires": [
+        "found_contract_gap",
+        "paused_contract"
+      ],
+      "sets_flags": [
+        "defeated_contract_officer",
+        "opened_node_core"
+      ],
+      "source_evidence": [
+        "data/story_scenes/02-moqi-academy.json#locations.node.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-02-029",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "墨律司执契官 被击退。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-029.mp3"
+        }
+      ]
+    }
+  ]
+}

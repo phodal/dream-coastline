@@ -1,0 +1,689 @@
+{
+  "schema_version": 1,
+  "scene_id": "04-continuation-institute",
+  "scene_title": "第四幕：续文院",
+  "source": "data/story_scenes/04-continuation-institute.json",
+  "generated_from": [
+    "data/story_scenes/04-continuation-institute.json",
+    "data/character_voice_profiles.json"
+  ],
+  "coverage_scope": "full_playable_action_voice_manifest",
+  "line_status_values": [
+    "planned",
+    "generated",
+    "skipped"
+  ],
+  "actions": [
+    {
+      "action_id": "institute.inspect.members",
+      "scene_id": "04-continuation-institute",
+      "location_id": "institute",
+      "action_type": "inspect",
+      "record_id": "members",
+      "display_name": "第一批成员",
+      "requires": [],
+      "sets_flags": [
+        "met_first_members"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.institute.items.members"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-001",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "闻素带来学生，阿棠带来工匠，夏离带来旧军地图。第一次，墨颀的未来不只坐在王座旁。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-001.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "institute.inspect.charter",
+      "scene_id": "04-continuation-institute",
+      "location_id": "institute",
+      "action_type": "inspect",
+      "record_id": "charter",
+      "display_name": "续文院章程",
+      "requires": [],
+      "sets_flags": [
+        "drafted_open_charter"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.institute.items.charter"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-002",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "章程写明：术式必须记录、复核、公开错误。知识开放不是放任，而是共同承担。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-002.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "institute.inspect.noble_observer",
+      "scene_id": "04-continuation-institute",
+      "location_id": "institute",
+      "action_type": "inspect",
+      "record_id": "noble_observer",
+      "display_name": "贵族旁听者",
+      "requires": [
+        "drafted_open_charter"
+      ],
+      "sets_flags": [
+        "publicly_answered_noble_observer"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.institute.items.noble_observer"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-003",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "贵族质问：让普通人改术式，谁来负责？纪子轩把章程推过去：每一步都有记录，所以每个人都能追责。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-003.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "institute.build.institute",
+      "scene_id": "04-continuation-institute",
+      "location_id": "institute",
+      "action_type": "build",
+      "record_id": "institute",
+      "display_name": "institute",
+      "requires": [
+        "met_first_members",
+        "drafted_open_charter"
+      ],
+      "sets_flags": [
+        "founded_institute"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.institute.build_actions.institute"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-004",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "续文院挂牌。夏离宣布：墨颀不再等待一位王来续命。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-004.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "institute.build.dictionary",
+      "scene_id": "04-continuation-institute",
+      "location_id": "institute",
+      "action_type": "build",
+      "record_id": "dictionary",
+      "display_name": "dictionary",
+      "requires": [
+        "founded_institute",
+        "got_basic_dictionary"
+      ],
+      "sets_flags": [
+        "published_standard_dictionary"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.institute.build_actions.dictionary"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-005",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "标准字典第一版发布。字根写法第一次可以被普通人校验。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-005.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "school.inspect.class",
+      "scene_id": "04-continuation-institute",
+      "location_id": "school",
+      "action_type": "inspect",
+      "record_id": "class",
+      "display_name": "第一堂课",
+      "requires": [],
+      "sets_flags": [
+        "held_first_class"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.school.items.class"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-006",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "小砚把“名”写得歪歪扭扭。他抬头说：我第一次能完整写出自己的名字。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-006.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "school.inspect.mistake",
+      "scene_id": "04-continuation-institute",
+      "location_id": "school",
+      "action_type": "inspect",
+      "record_id": "mistake",
+      "display_name": "错误记录",
+      "requires": [],
+      "sets_flags": [
+        "logged_student_errors"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.school.items.mistake"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-007",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "闻素没有擦掉错误，而是把错误抄到复盘板上：文明要学会从错误继续。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-007.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "school.build.school",
+      "scene_id": "04-continuation-institute",
+      "location_id": "school",
+      "action_type": "build",
+      "record_id": "school",
+      "display_name": "school",
+      "requires": [
+        "founded_institute",
+        "held_first_class",
+        "logged_student_errors"
+      ],
+      "sets_flags": [
+        "opened_first_school"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.school.build_actions.school"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-008",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "第一座公开学塾开课。任务面板里，许多□□变成了可读的名字。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-008.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "workshop.inspect.atang",
+      "scene_id": "04-continuation-institute",
+      "location_id": "workshop",
+      "action_type": "inspect",
+      "record_id": "atang",
+      "display_name": "阿棠",
+      "requires": [],
+      "sets_flags": [
+        "met_atang"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.workshop.items.atang"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-009",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "阿棠说：坏掉的时候，明明是我第一个知道它为什么坏。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-009.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "workshop.inspect.flood",
+      "scene_id": "04-continuation-institute",
+      "location_id": "workshop",
+      "action_type": "inspect",
+      "record_id": "flood",
+      "display_name": "防洪符文事故",
+      "requires": [],
+      "sets_flags": [
+        "reviewed_flood_failure"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.workshop.items.flood"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-010",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "第一次共同修复失败，造成小规模回流。你没有隐藏事故，而是组织复盘。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-010.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "workshop.build.workflow",
+      "scene_id": "04-continuation-institute",
+      "location_id": "workshop",
+      "action_type": "build",
+      "record_id": "workflow",
+      "display_name": "workflow",
+      "requires": [
+        "met_atang",
+        "reviewed_flood_failure",
+        "published_standard_dictionary"
+      ],
+      "sets_flags": [
+        "repaired_workshop_flow"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.workshop.build_actions.workflow"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-011",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "工坊建立测试流程：小样、复核、实地修复。第二次防洪符文修复成功。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-011.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "mine.inspect.hazard",
+      "scene_id": "04-continuation-institute",
+      "location_id": "mine",
+      "action_type": "inspect",
+      "record_id": "hazard",
+      "display_name": "危险作业",
+      "requires": [],
+      "sets_flags": [
+        "checked_mine_hazard"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.mine.items.hazard"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-012",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "矿道裂纹被旧书记官标成低优先级。工人只能背口诀，没人知道为什么要停。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-012.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "mine.inspect.safety_board",
+      "scene_id": "04-continuation-institute",
+      "location_id": "mine",
+      "action_type": "inspect",
+      "record_id": "safety_board",
+      "display_name": "公开安全板",
+      "requires": [
+        "solved_mine_safety"
+      ],
+      "sets_flags": [
+        "installed_safety_board"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.mine.items.safety_board"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-013",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "矿场入口挂起公开安全板：今天谁检查、哪里有裂纹、为什么停工，都写给每个工人看。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-013.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "mine.glyph.stop",
+      "scene_id": "04-continuation-institute",
+      "location_id": "mine",
+      "action_type": "glyph",
+      "record_id": "stop",
+      "display_name": "stop",
+      "requires": [
+        "learned_stop",
+        "checked_mine_hazard"
+      ],
+      "sets_flags": [
+        "stabilized_mine"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.mine.glyph_actions.stop"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-014",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你用“止”稳定矿道裂纹，给工人争取撤离和改造时间。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-014.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "mine.build.safety",
+      "scene_id": "04-continuation-institute",
+      "location_id": "mine",
+      "action_type": "build",
+      "record_id": "safety",
+      "display_name": "safety",
+      "requires": [
+        "stabilized_mine",
+        "repaired_workshop_flow"
+      ],
+      "sets_flags": [
+        "solved_mine_safety"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.mine.build_actions.safety"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-015",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "矿场改成公开安全流程。能源提高，但每次作业都必须留下可追溯记录。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-015.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "tower.inspect.array",
+      "scene_id": "04-continuation-institute",
+      "location_id": "tower",
+      "action_type": "inspect",
+      "record_id": "array",
+      "display_name": "通信符阵",
+      "requires": [],
+      "sets_flags": [
+        "checked_comm_array"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.tower.items.array"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-016",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "符阵不是坏了，而是字典版本不一致。不同地区写同一个字，结果却略有偏差。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-016.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "tower.build.comms",
+      "scene_id": "04-continuation-institute",
+      "location_id": "tower",
+      "action_type": "build",
+      "record_id": "comms",
+      "display_name": "comms",
+      "requires": [
+        "checked_comm_array",
+        "published_standard_dictionary",
+        "solved_mine_safety"
+      ],
+      "sets_flags": [
+        "restored_communication_tower"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.tower.build_actions.comms"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-017",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "通信塔恢复。各地学塾第一次能同步字典修订。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-017.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "seal_tower.inspect.students",
+      "scene_id": "04-continuation-institute",
+      "location_id": "seal_tower",
+      "action_type": "inspect",
+      "record_id": "students",
+      "display_name": "学生",
+      "requires": [],
+      "sets_flags": [
+        "students_under_attack"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.items.students"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-018",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "学生刚学会的字开始乱码。小砚抱着字典，拼命重复自己的名字。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-018.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "seal_tower.inspect.dictionary",
+      "scene_id": "04-continuation-institute",
+      "location_id": "seal_tower",
+      "action_type": "inspect",
+      "record_id": "dictionary",
+      "display_name": "公共字典",
+      "requires": [],
+      "sets_flags": [
+        "dictionary_under_attack"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.items.dictionary"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-019",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "公共字典页边被擦白。如果它被删掉，所有人的学习都会断页。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-019.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "seal_tower.build.protect",
+      "scene_id": "04-continuation-institute",
+      "location_id": "seal_tower",
+      "action_type": "build",
+      "record_id": "protect",
+      "display_name": "protect",
+      "requires": [
+        "students_under_attack",
+        "dictionary_under_attack",
+        "restored_communication_tower"
+      ],
+      "sets_flags": [
+        "protected_students",
+        "protected_dictionary"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.build_actions.protect"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-020",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "学生、工匠、教师共同抄写备份。封字塔无法一次删掉所有副本。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-020.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "seal_tower.build.archive",
+      "scene_id": "04-continuation-institute",
+      "location_id": "seal_tower",
+      "action_type": "build",
+      "record_id": "archive",
+      "display_name": "archive",
+      "requires": [
+        "defeated_seal_tower",
+        "protected_dictionary"
+      ],
+      "sets_flags": [
+        "archive_tower_built"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.build_actions.archive"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-021",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "封字塔被改写成公共档案塔。墨颀进入百年续页。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-021.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "seal_tower.combat_identify.identify",
+      "scene_id": "04-continuation-institute",
+      "location_id": "seal_tower",
+      "action_type": "combat_identify",
+      "record_id": "identify",
+      "display_name": "识名 封字塔",
+      "requires": [
+        "learned_name"
+      ],
+      "sets_flags": [
+        "named_seal_tower",
+        "confirmed_archive_target"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-022",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "“名”字亮起。目标显形：封字塔。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-022.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "seal_tower.combat_spell.stop",
+      "scene_id": "04-continuation-institute",
+      "location_id": "seal_tower",
+      "action_type": "combat_spell",
+      "record_id": "stop",
+      "display_name": "stop",
+      "requires": [
+        "learned_stop",
+        "protected_students"
+      ],
+      "sets_flags": [
+        "paused_forgetting"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.combat.spells.stop"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-023",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你用“止”暂停遗忘扩散。学生们接上下一行字。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-023.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "seal_tower.combat_resolve.resolve",
+      "scene_id": "04-continuation-institute",
+      "location_id": "seal_tower",
+      "action_type": "combat_resolve",
+      "record_id": "resolve",
+      "display_name": "终局 封字塔",
+      "requires": [
+        "protected_students",
+        "protected_dictionary",
+        "paused_forgetting"
+      ],
+      "sets_flags": [
+        "defeated_seal_tower",
+        "defeated_seal_tower"
+      ],
+      "source_evidence": [
+        "data/story_scenes/04-continuation-institute.json#locations.seal_tower.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-04-024",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "封字塔 被击退。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-024.mp3"
+        }
+      ]
+    }
+  ]
+}

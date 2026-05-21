@@ -1,0 +1,690 @@
+{
+  "schema_version": 1,
+  "scene_id": "05-century-continuation",
+  "scene_title": "第五幕：百年续页",
+  "source": "data/story_scenes/05-century-continuation.json",
+  "generated_from": [
+    "data/story_scenes/05-century-continuation.json",
+    "data/character_voice_profiles.json"
+  ],
+  "coverage_scope": "full_playable_action_voice_manifest",
+  "line_status_values": [
+    "planned",
+    "generated",
+    "skipped"
+  ],
+  "actions": [
+    {
+      "action_id": "industry.inspect.teachers",
+      "scene_id": "05-century-continuation",
+      "location_id": "industry",
+      "action_type": "inspect",
+      "record_id": "teachers",
+      "display_name": "第一批教师",
+      "requires": [],
+      "sets_flags": [
+        "first_students_teach"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.industry.items.teachers"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-001",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "当年写歪“名”的学生站上讲台。教育系统开始自我复制。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-001.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "industry.inspect.wensu_book",
+      "scene_id": "05-century-continuation",
+      "location_id": "industry",
+      "action_type": "inspect",
+      "record_id": "wensu_book",
+      "display_name": "闻素教材",
+      "requires": [],
+      "sets_flags": [
+        "wensu_textbook_survives"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.industry.items.wensu_book"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-002",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "闻素的《初学墨字》被翻印到第七版。她本人离场后，书仍在教人。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-002.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "industry.inspect.wensu_absence",
+      "scene_id": "05-century-continuation",
+      "location_id": "industry",
+      "action_type": "inspect",
+      "record_id": "wensu_absence",
+      "display_name": "闻素的空椅",
+      "requires": [
+        "wensu_textbook_survives"
+      ],
+      "sets_flags": [
+        "witnessed_wensu_absence"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.industry.items.wensu_absence"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-003",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "讲堂前排留着闻素的空椅。学生们没有为她停课，而是把她留下的复盘法继续教给下一届。教材页边留着她的一句：如果我不在了，就让错误继续教下一届。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-003.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "industry.inspect.night_school",
+      "scene_id": "05-century-continuation",
+      "location_id": "industry",
+      "action_type": "inspect",
+      "record_id": "night_school",
+      "display_name": "夜校灯光",
+      "requires": [
+        "first_students_teach"
+      ],
+      "sets_flags": [
+        "saw_night_school_expansion"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.industry.items.night_school"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-004",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "工人下工后坐进夜校。许多人写得很慢，但他们第一次不用求书记官替自己读告示。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-004.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "industry.build.industry",
+      "scene_id": "05-century-continuation",
+      "location_id": "industry",
+      "action_type": "build",
+      "record_id": "industry",
+      "display_name": "industry",
+      "requires": [
+        "archive_tower_built",
+        "first_students_teach",
+        "wensu_textbook_survives"
+      ],
+      "sets_flags": [
+        "built_text_industry"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.industry.build_actions.industry"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-005",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "墨力炉、符文车、公共照明和印刷符纸进入城市。基础设施不再只靠少数书记官。阿棠在试炉旁说：别先争它叫什么，先让我把它跑起来。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-005.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "network.inspect.xiali",
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "action_type": "inspect",
+      "record_id": "xiali",
+      "display_name": "夏离的选择",
+      "requires": [],
+      "sets_flags": [
+        "xiali_accepts_cost"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.network.items.xiali"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-006",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "夏离说：正因为它不再属于我，它才终于活了。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-006.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "network.inspect.xiali_fading",
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "action_type": "inspect",
+      "record_id": "xiali_fading",
+      "display_name": "夏离逐渐国书化",
+      "requires": [
+        "xiali_accepts_cost"
+      ],
+      "sets_flags": [
+        "saw_xiali_fading"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.network.items.xiali_fading"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-007",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "夏离的影子在三个城市的国书节点里同时出现。北境节点请他批准防灾流程，南港节点请他确认字典版本，旧书院节点却还停着他半句玩笑。他先回答公文，才想起纪子轩站在面前：我刚才是不是又把你当成节点了？",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-007.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "network.inspect.private_anchor",
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "action_type": "inspect",
+      "record_id": "private_anchor",
+      "display_name": "夏离的私人锚点",
+      "requires": [
+        "saw_xiali_fading"
+      ],
+      "sets_flags": [
+        "kept_xiali_private_anchor"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.network.items.private_anchor"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-008",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "纪子轩把旧讲堂的一把椅子编号给夏离留着，旁边贴着他们第一次争吵的日期。夏离看了很久，才低声说：国书会记住我的职责，但这把椅子记住我曾经不想负责。若有一天我只会回答墨颀，就从这里叫我。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-008.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "network.inspect.engineers",
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "action_type": "inspect",
+      "record_id": "engineers",
+      "display_name": "新一代工程师",
+      "requires": [],
+      "sets_flags": [
+        "new_engineers_ready"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.network.items.engineers"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-009",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "小砚的后人维护节点，阿棠的学生维护墨力炉。墨颀第一次不依赖单个天才。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-009.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "network.inspect.remote_classrooms",
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "action_type": "inspect",
+      "record_id": "remote_classrooms",
+      "display_name": "远程学塾",
+      "requires": [
+        "new_engineers_ready"
+      ],
+      "sets_flags": [
+        "confirmed_remote_classrooms"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.network.items.remote_classrooms"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-010",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "边境孩子通过国书网络听课。屏幕上还有延迟和乱码，但他们能把同一个字写在同一套标准里。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-010.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "network.build.bind_xiali",
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "action_type": "build",
+      "record_id": "bind_xiali",
+      "display_name": "bind_xiali",
+      "requires": [
+        "kept_xiali_private_anchor",
+        "built_text_industry"
+      ],
+      "sets_flags": [
+        "bound_xiali_to_statebook"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.network.build_actions.bind_xiali"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-011",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "夏离把名字绑定进国书。仪式完成时，所有节点同时亮起他的名字，又同时把名字拆成权限、职责和备份。纪子轩第一次听见夏离用复数说自己：我们会继续看着墨颀。夏离停了一下，补回一句：我也会。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-011.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "network.build.network",
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "action_type": "build",
+      "record_id": "network",
+      "display_name": "network",
+      "requires": [
+        "new_engineers_ready",
+        "confirmed_remote_classrooms",
+        "bound_xiali_to_statebook"
+      ],
+      "sets_flags": [
+        "built_statebook_network"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.network.build_actions.network"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-012",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "国书网络接通：名册、远程教育、灾害预警和术式版本管理开始跨城同步。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-012.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "astral.inspect.star_map",
+      "scene_id": "05-century-continuation",
+      "location_id": "astral",
+      "action_type": "inspect",
+      "record_id": "star_map",
+      "display_name": "星图",
+      "requires": [],
+      "sets_flags": [
+        "mapped_stars_as_text"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.astral.items.star_map"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-013",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "星图不再是神话，而是可以校验的坐标文本。每一颗星都需要名、义、约和史。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-013.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "astral.inspect.coordinate_standard",
+      "scene_id": "05-century-continuation",
+      "location_id": "astral",
+      "action_type": "inspect",
+      "record_id": "coordinate_standard",
+      "display_name": "坐标书写标准",
+      "requires": [
+        "mapped_stars_as_text"
+      ],
+      "sets_flags": [
+        "standardized_star_coordinates"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.astral.items.coordinate_standard"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-014",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "星象工程师争论了三天，最后把坐标写法也纳入公共标准。纪子轩低声说：回家不再是愿望，是可以复核的工程。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-014.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "astral.inspect.beacon",
+      "scene_id": "05-century-continuation",
+      "location_id": "astral",
+      "action_type": "inspect",
+      "record_id": "beacon",
+      "display_name": "跨界信标",
+      "requires": [],
+      "sets_flags": [
+        "designed_cross_beacon"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.astral.items.beacon"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-015",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "信标原型能证明：墨颀写出的坐标，可以触碰另一个世界的边缘。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-015.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "astral.inspect.failed_signal",
+      "scene_id": "05-century-continuation",
+      "location_id": "astral",
+      "action_type": "inspect",
+      "record_id": "failed_signal",
+      "display_name": "第一次跨界失败",
+      "requires": [
+        "designed_cross_beacon"
+      ],
+      "sets_flags": [
+        "logged_failed_signal"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.astral.items.failed_signal"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-016",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "第一次信标只收到一段现代噪声。纪子轩听见像是学校铃声的断片，然后整段记录被擦白。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-016.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "astral.inspect.star_chart_moth",
+      "scene_id": "05-century-continuation",
+      "location_id": "astral",
+      "action_type": "inspect",
+      "record_id": "star_chart_moth",
+      "display_name": "星象螟",
+      "requires": [
+        "logged_failed_signal"
+      ],
+      "sets_flags": [
+        "identified_star_chart_moth"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.astral.items.star_chart_moth"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-017",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "一只星象螟伏在失败星图上，翅膀像缩小的坐标纸。它啃掉的不是纸，是一次可复核观测。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-017.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "astral.build.astral_tower",
+      "scene_id": "05-century-continuation",
+      "location_id": "astral",
+      "action_type": "build",
+      "record_id": "astral_tower",
+      "display_name": "astral_tower",
+      "requires": [
+        "built_statebook_network",
+        "mapped_stars_as_text",
+        "designed_cross_beacon"
+      ],
+      "sets_flags": [
+        "completed_astral_tower"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.astral.build_actions.astral_tower"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-018",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "星象塔竣工。墨颀终于拥有观测纪子轩世界的能力。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-018.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "star_tower.inspect.city",
+      "scene_id": "05-century-continuation",
+      "location_id": "star_tower",
+      "action_type": "inspect",
+      "record_id": "city",
+      "display_name": "现代城市",
+      "requires": [
+        "completed_astral_tower",
+        "stabilized_silent_interference"
+      ],
+      "sets_flags": [
+        "saw_modern_star_darkening"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.items.city"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-019",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你看见学校、街道、家。灯一盏盏熄灭，信纸上的字变成：Continue failed.",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-019.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "star_tower.inspect.signal",
+      "scene_id": "05-century-continuation",
+      "location_id": "star_tower",
+      "action_type": "inspect",
+      "record_id": "signal",
+      "display_name": "静默信号",
+      "requires": [
+        "completed_astral_tower"
+      ],
+      "sets_flags": [
+        "identified_silent_interference"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.items.signal"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-020",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "观测结果被擦白。现在还看不见敌人，只能确认有一套远端静默协议正在擦掉现代星球坐标。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-020.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "star_tower.inspect.silent_frame",
+      "scene_id": "05-century-continuation",
+      "location_id": "star_tower",
+      "action_type": "inspect",
+      "record_id": "silent_frame",
+      "display_name": "第一帧静默影像",
+      "requires": [
+        "identified_silent_interference"
+      ],
+      "sets_flags": [
+        "saw_first_silent_frame"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.items.silent_frame"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-021",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "影像里，纪子轩家的窗户还是黑的。不同的是，这一次整条街的窗户都在一格一格熄灭。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-021.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "star_tower.combat_identify.identify",
+      "scene_id": "05-century-continuation",
+      "location_id": "star_tower",
+      "action_type": "combat_identify",
+      "record_id": "identify",
+      "display_name": "识名 观测噪声",
+      "requires": [
+        "learned_name"
+      ],
+      "sets_flags": [
+        "named_silent_interference",
+        "locked_interference_signature"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-022",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "“名”字亮起。目标显形：静默干扰。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-022.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "star_tower.combat_spell.stop",
+      "scene_id": "05-century-continuation",
+      "location_id": "star_tower",
+      "action_type": "combat_spell",
+      "record_id": "stop",
+      "display_name": "stop",
+      "requires": [
+        "learned_stop",
+        "identified_silent_interference"
+      ],
+      "sets_flags": [
+        "paused_signal_deletion"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.combat.spells.stop"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-023",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你用“止”暂停坐标删除。星象塔争取到一次完整观测窗口。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-023.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "star_tower.combat_resolve.resolve",
+      "scene_id": "05-century-continuation",
+      "location_id": "star_tower",
+      "action_type": "combat_resolve",
+      "record_id": "resolve",
+      "display_name": "终局 静默干扰",
+      "requires": [
+        "identified_silent_interference",
+        "paused_signal_deletion"
+      ],
+      "sets_flags": [
+        "stabilized_silent_interference",
+        "stabilized_silent_interference"
+      ],
+      "source_evidence": [
+        "data/story_scenes/05-century-continuation.json#locations.star_tower.combat"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-05-024",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "静默干扰 被击退。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-024.mp3"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,465 @@
+{
+  "schema_version": 1,
+  "scene_id": "00-prologue-lights-out",
+  "scene_title": "序幕：灯未亮起的夜晚",
+  "source": "data/story_scenes/00-prologue-lights-out.json",
+  "generated_from": [
+    "data/story_scenes/00-prologue-lights-out.json",
+    "data/character_voice_profiles.json"
+  ],
+  "coverage_scope": "full_playable_action_voice_manifest",
+  "line_status_values": [
+    "planned",
+    "generated",
+    "skipped"
+  ],
+  "actions": [
+    {
+      "action_id": "street.inspect.window",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "street",
+      "action_type": "inspect",
+      "record_id": "window",
+      "display_name": "自家窗户",
+      "requires": [],
+      "sets_flags": [
+        "noticed_dark_window"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.street.items.window"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-001",
+          "speaker_id": "jizi_xuan",
+          "speaker_name": "纪子轩",
+          "text": "这个时间，厨房灯本该亮着。",
+          "delivery": "遵循 character_voice_profiles 中该角色的 voice_direction 和 dialogue_rules。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-001.mp3",
+          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan"
+        },
+        {
+          "line_id": "AVL-00-002",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "可那扇窗一片漆黑，像一块被墨涂死的纸。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-002.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "street.inspect.poster",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "street",
+      "action_type": "inspect",
+      "record_id": "poster",
+      "display_name": "寻人启事",
+      "requires": [],
+      "sets_flags": [
+        "saw_missing_poster"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.street.items.poster"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-003",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "纸边被风吹得发皱。照片还没看清，心里已经先空了一下。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-003.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "street.inspect.vending",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "street",
+      "action_type": "inspect",
+      "record_id": "vending",
+      "display_name": "自动售货机",
+      "requires": [],
+      "sets_flags": [
+        "heard_vending_hum"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.street.items.vending"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-004",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "机器嗡嗡作响。整条街都暗下去，只有它还固执地亮着。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-004.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "building.inspect.lamp",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "building",
+      "action_type": "inspect",
+      "record_id": "lamp",
+      "display_name": "声控灯",
+      "requires": [],
+      "sets_flags": [
+        "checked_voice_lamp"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.building.items.lamp"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-005",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你拍了拍手，灯泡没有反应。黑暗停在头顶，像故意给谁留的位置。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-005.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "building.inspect.mailbox",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "building",
+      "action_type": "inspect",
+      "record_id": "mailbox",
+      "display_name": "信箱",
+      "requires": [],
+      "sets_flags": [
+        "checked_mailbox"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.building.items.mailbox"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-006",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "信箱里只有几张广告纸。父亲每天都会拿的报纸，不见了。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-006.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "home.inspect.lock",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "home",
+      "action_type": "inspect",
+      "record_id": "lock",
+      "display_name": "门锁",
+      "requires": [],
+      "sets_flags": [
+        "checked_unlocked_door"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.home.items.lock"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-007",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "锁舌没有弹出。像有人出门太急，也像有人根本没有离开。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-007.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "home.inspect.air",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "home",
+      "action_type": "inspect",
+      "record_id": "air",
+      "display_name": "屋内气味",
+      "requires": [],
+      "sets_flags": [
+        "smelled_cold_food"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.home.items.air"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-008",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "凉掉的饭菜味混在黑暗里，比任何回答都更不对劲。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-008.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "living_room.inspect.dinner",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "living_room",
+      "action_type": "inspect",
+      "record_id": "dinner",
+      "display_name": "冷掉的晚饭",
+      "requires": [],
+      "sets_flags": [
+        "checked_cold_dinner"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.living_room.items.dinner"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-009",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "饭菜已经凉透。筷子摆得很正，像时间在开饭前突然停住。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-009.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "living_room.inspect.tv",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "living_room",
+      "action_type": "inspect",
+      "record_id": "tv",
+      "display_name": "电视",
+      "requires": [],
+      "sets_flags": [
+        "checked_tv"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.living_room.items.tv"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-010",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "屏幕漆黑。遥控器放在父亲常坐的位置，新闻频道没有声音。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-010.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "living_room.inspect.photo",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "living_room",
+      "action_type": "inspect",
+      "record_id": "photo",
+      "display_name": "全家照",
+      "requires": [],
+      "sets_flags": [
+        "checked_family_photo"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.living_room.items.photo"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-011",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "照片里父亲站得很直，母亲笑得有些累。你第一次觉得照片像证物。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-011.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "study.inspect.glasses",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "study",
+      "action_type": "inspect",
+      "record_id": "glasses",
+      "display_name": "父亲眼镜",
+      "requires": [],
+      "sets_flags": [
+        "checked_glasses"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.study.items.glasses"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-012",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "父亲很少离开眼镜。镜片上有一道指纹，像他刚刚抬头看过什么。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-012.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "study.inspect.note",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "study",
+      "action_type": "inspect",
+      "record_id": "note",
+      "display_name": "母亲笔记",
+      "requires": [],
+      "sets_flags": [
+        "checked_mother_note"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.study.items.note"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-013",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "笔记停在半句：如果灯先灭，不要立刻续写。你不明白续写是什么意思。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-013.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "study.inspect.phone",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "study",
+      "action_type": "inspect",
+      "record_id": "phone",
+      "display_name": "手机信号",
+      "requires": [],
+      "sets_flags": [
+        "checked_phone_signal"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.study.items.phone"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-014",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "手机只闪过一格信号，随后任务栏像被墨水擦掉，剩下一排无法识别的方块。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-014.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "bedroom.inspect.window",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "bedroom",
+      "action_type": "inspect",
+      "record_id": "window",
+      "display_name": "打开的窗",
+      "requires": [],
+      "sets_flags": [
+        "checked_bedroom_window"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.bedroom.items.window"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-015",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "窗户被打开一条缝。夜风掀起信纸一角，像有人刚从这里离开。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-015.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "bedroom.inspect.letter",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "bedroom",
+      "action_type": "inspect",
+      "record_id": "letter",
+      "display_name": "信",
+      "requires": [],
+      "sets_flags": [
+        "read_continue_letter"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.bedroom.items.letter"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-016",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "信纸上只有一句英文：To be Continue ... 语法不对，却像一句命令。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-016.mp3"
+        }
+      ]
+    },
+    {
+      "action_id": "bedroom.inspect.pen",
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "bedroom",
+      "action_type": "inspect",
+      "record_id": "pen",
+      "display_name": "黑色钢笔",
+      "requires": [
+        "read_continue_letter"
+      ],
+      "sets_flags": [
+        "entered_moqi"
+      ],
+      "source_evidence": [
+        "data/story_scenes/00-prologue-lights-out.json#locations.bedroom.items.pen"
+      ],
+      "playback_queue": [
+        {
+          "line_id": "AVL-00-017",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "你碰到钢笔，手指忽然刺痛。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-017.mp3"
+        },
+        {
+          "line_id": "AVL-00-018",
+          "speaker_id": "jizi_xuan",
+          "speaker_name": "纪子轩",
+          "text": "这不是普通的墨。",
+          "delivery": "遵循 character_voice_profiles 中该角色的 voice_direction 和 dialogue_rules。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-018.mp3",
+          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan"
+        },
+        {
+          "line_id": "AVL-00-019",
+          "speaker_id": "narrator",
+          "speaker_name": "旁白",
+          "text": "血滴在信上，英文被墨迹吞掉：墨颀历三百一十七年，王城陷落。灯灭了。",
+          "delivery": "克制旁白，保留画面感，不抢角色表演。",
+          "status": "planned",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-019.mp3"
+        }
+      ]
+    }
+  ]
+}
