@@ -29,6 +29,7 @@ with Dialogic used as the cutscene frontend when available.
   story-action payloads.
 - Nova-native save/continue for restoring the current scene, location, and
   story flags.
+- Nova pause menu for resume, save, return-to-title, and exit.
 - Dialogic timeline generation and bridge support for native Godot dialogue
   playback.
 - Data-backed visual scenes, character models, creature records, equipment,
@@ -60,7 +61,7 @@ smoke tests or taking screenshots.
 | Move | WASD / Arrow keys |
 | Interact / advance | Space / Enter |
 | Continue from title | C, when a Nova save exists |
-| Back / quit smoke run | Esc |
+| Pause / back | Esc |
 
 Gamepad support is available through the Godot input map for movement,
 interaction, and cancel/start-style actions.
@@ -117,6 +118,7 @@ Useful focused checks:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-runtime
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-progression
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-save-continue
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-pause-flow
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-dialogic-bridge
 python3 tools/validate_story_continuity.py --verbose
 python3 tools/validate_dialogic_timelines.py

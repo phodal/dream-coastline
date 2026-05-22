@@ -6,6 +6,7 @@ const VNLayerScript := preload("res://src/nova/ui/vn_layer.gd")
 const DialogicBridgeScript := preload("res://src/nova/dialogic_bridge.gd")
 const DialogicVariableBridgeScript := preload("res://src/nova/dialogic_variable_bridge.gd")
 const StartupSplashScript := preload("res://src/nova/ui/startup_splash.gd")
+const PauseOverlayScript := preload("res://src/nova/ui/pause_overlay.gd")
 const SaveRepositoryScript := preload("res://src/nova/data/save_repository.gd")
 const AudioDirectorScript := preload("res://scripts/core/audio_director.gd")
 
@@ -15,6 +16,7 @@ var vn_layer
 var dialogic_bridge
 var dialogic_variable_bridge
 var startup_splash
+var pause_overlay
 var save_repository
 var audio_director
 var _dialogic_runtime_finished := false
@@ -61,6 +63,14 @@ func _ready() -> void:
 	add_child(dialogic_variable_bridge)
 	dialogic_bridge.variable_bridge = dialogic_variable_bridge
 
+	pause_overlay = PauseOverlayScript.new()
+	pause_overlay.name = "PauseOverlay"
+	pause_overlay.resume_requested.connect(_resume_from_pause)
+	pause_overlay.save_requested.connect(_save_from_pause)
+	pause_overlay.title_requested.connect(_return_to_title_from_pause)
+	pause_overlay.quit_requested.connect(_quit_from_pause)
+	add_child(pause_overlay)
+
 	if not _is_automation_run():
 		startup_splash = StartupSplashScript.new()
 		startup_splash.name = "StartupSplash"
@@ -86,6 +96,8 @@ func _ready() -> void:
 		call_deferred("_run_all_scenes_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-save-continue"):
 		call_deferred("_run_save_continue_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-pause-flow"):
+		call_deferred("_run_pause_flow_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-assets"):
 		call_deferred("_run_asset_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-story-audio-targets"):
@@ -104,7 +116,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if startup_splash != null and startup_splash.visible:
 		return
 	if event.is_action_pressed("pause") or event.is_action_pressed("ui_cancel"):
-		get_tree().quit()
+		if pause_overlay != null and pause_overlay.visible:
+			_resume_from_pause()
+		elif GameMode.current_mode == GameMode.EXPLORATION:
+			_open_pause()
+		get_viewport().set_input_as_handled()
 
 
 func _present_location(scene_id: String, location_id: String, location: Dictionary, visual: Dictionary) -> void:
@@ -168,6 +184,70 @@ func _on_splash_continue_requested() -> void:
 		_save_current_state()
 
 
+func _open_pause() -> void:
+	if pause_overlay == null:
+		return
+	GameMode.set_mode(GameMode.MENU)
+	pause_overlay.set_status("")
+	pause_overlay.open()
+	if audio_director != null:
+		audio_director.play_ui()
+
+
+func _resume_from_pause() -> void:
+	if pause_overlay != null:
+		pause_overlay.close()
+	GameMode.set_mode(GameMode.EXPLORATION)
+	if audio_director != null:
+		audio_director.play_ui()
+
+
+func _save_from_pause() -> void:
+	_save_current_state()
+	if pause_overlay != null:
+		pause_overlay.set_status("已保存")
+	if audio_director != null:
+		audio_director.play_ui()
+
+
+func _return_to_title_from_pause() -> void:
+	_save_current_state()
+	if pause_overlay != null:
+		pause_overlay.close()
+	_reset_to_first_scene()
+	GameMode.set_mode(GameMode.MENU)
+	if not _is_automation_run():
+		_show_startup_splash()
+	if audio_director != null:
+		audio_director.play_ui()
+
+
+func _quit_from_pause() -> void:
+	_save_current_state()
+	get_tree().quit()
+
+
+func _show_startup_splash() -> void:
+	if startup_splash != null:
+		startup_splash.queue_free()
+	startup_splash = StartupSplashScript.new()
+	startup_splash.name = "StartupSplash"
+	startup_splash.configure_continue(save_repository != null and save_repository.has_save())
+	startup_splash.dismissed.connect(_on_splash_dismissed)
+	startup_splash.continue_requested.connect(_on_splash_continue_requested)
+	add_child(startup_splash)
+
+
+func _reset_to_first_scene() -> void:
+	StoryFlags.reset()
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	_restore_quest_status(first_scene)
+	director.present_current_location()
+
+
 func _save_current_state() -> void:
 	if save_repository == null or not _can_write_save():
 		return
@@ -211,13 +291,15 @@ func _restore_quest_status(active_scene_id: String) -> void:
 
 func _can_write_save() -> bool:
 	var args := OS.get_cmdline_user_args()
-	return args.has("--smoke-nova-save-continue") or not _is_automation_run()
+	return args.has("--smoke-nova-save-continue") or args.has("--smoke-nova-pause-flow") or not _is_automation_run()
 
 
 func _nova_save_path() -> String:
 	var args := OS.get_cmdline_user_args()
 	if args.has("--smoke-nova-save-continue"):
 		return "user://nova_save_smoke.json"
+	if args.has("--smoke-nova-pause-flow"):
+		return "user://nova_pause_smoke.json"
 	return _arg_value(args, "--nova-save-path", SaveRepositoryScript.DEFAULT_SAVE_PATH)
 
 
@@ -345,6 +427,40 @@ func _run_save_continue_smoke() -> void:
 		GameState.current_scene_id,
 		GameState.current_location_id,
 		str(StoryFlags.has_flag("noticed_dark_window")),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _run_pause_flow_smoke() -> void:
+	if save_repository != null:
+		save_repository.clear()
+	_reset_to_first_scene()
+	GameMode.set_mode(GameMode.EXPLORATION)
+
+	_open_pause()
+	var ok: bool = pause_overlay != null and pause_overlay.visible and GameMode.current_mode == GameMode.MENU
+	_save_from_pause()
+	ok = ok and save_repository != null and save_repository.has_save()
+	var saved: Dictionary = save_repository.load_game() if save_repository != null else {}
+	ok = ok and str(saved.get("scene_id", "")) == "00-prologue-lights-out"
+	ok = ok and str(saved.get("location_id", "")) == "street"
+
+	_resume_from_pause()
+	ok = ok and pause_overlay != null and not pause_overlay.visible and GameMode.current_mode == GameMode.EXPLORATION
+
+	_open_pause()
+	_return_to_title_from_pause()
+	ok = ok and pause_overlay != null and not pause_overlay.visible
+	ok = ok and GameMode.current_mode == GameMode.MENU
+	ok = ok and GameState.current_scene_id == director.story_repository.first_scene_id()
+	ok = ok and GameState.current_location_id == director.story_repository.get_start_location(GameState.current_scene_id)
+	if save_repository != null:
+		save_repository.clear()
+	print("nova-pause-flow-smoke status=%s scene=%s location=%s mode=%s" % [
+		"PASS" if ok else "FAIL",
+		GameState.current_scene_id,
+		GameState.current_location_id,
+		GameMode.current_mode,
 	])
 	get_tree().quit(0 if ok else 1)
 

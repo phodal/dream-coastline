@@ -49,6 +49,8 @@ the repo data is structurally wrong.
   read story and visual JSON.
 - Run `--smoke-nova-save-continue` to prove the Nova-native save payload can
   restore scene, location, and story flags without the legacy OpenRPG save path.
+- Run `--smoke-nova-pause-flow` to prove pause, manual save, resume, and
+  return-to-title are handled by Nova UI instead of direct process exit.
 - Run `--smoke-story-audio-targets` to report missing generated story audio
   targets before review playback depends on them.
 - Run `--smoke-dialogic-bridge` to prove Dialogic is installed and the Nova
