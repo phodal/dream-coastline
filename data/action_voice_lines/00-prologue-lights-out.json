@@ -35,9 +35,12 @@
           "speaker_name": "纪子轩",
           "text": "这个时间，厨房灯本该亮着。",
           "delivery": "遵循 character_voice_profiles 中该角色的 voice_direction 和 dialogue_rules。",
-          "status": "planned",
+          "status": "generated",
           "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-001.mp3",
-          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan"
+          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan",
+          "generated_at": "2026-05-22T00:16:19.091Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         },
         {
           "line_id": "AVL-00-002",
@@ -45,8 +48,11 @@
           "speaker_name": "旁白",
           "text": "可那扇窗一片漆黑，像一块被墨涂死的纸。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-002.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-002.mp3",
+          "generated_at": "2026-05-22T00:16:19.889Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -71,8 +77,11 @@
           "speaker_name": "旁白",
           "text": "纸边被风吹得发皱。照片还没看清，心里已经先空了一下。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-003.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/00-prologue-lights-out/AVL-00-003.mp3",
+          "generated_at": "2026-05-22T00:16:20.918Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },

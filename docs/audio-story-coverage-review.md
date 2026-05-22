@@ -1,6 +1,6 @@
 # Audio Story Coverage Review
 
-Last reviewed: 2026-05-18
+Last reviewed: 2026-05-22
 
 ## Scope
 
@@ -43,11 +43,23 @@ The remaining limitation is now represented as a separate data contract instead 
 - Key-line VO remains in `data/audio_cues/<scene-id>.json#voice_samples`.
 - Full playable-action VO planning now lives in `data/action_voice_lines/<scene-id>.json`.
 - The manifests cover every `inspect`, `choice`, `glyph`, `build`, `encounter`, `combo`, and narrative combat identify/spell/resolve action.
-- Current generated scope: 8 scene manifests, 187 playable actions, 199 planned voice lines.
+- Current generated scope: 8 scene manifests, 187 playable actions, 3 generated voice lines, 196 planned voice lines.
 - Selected planned lines can now be generated with `node tools/minimax_audio_generate.mjs --type action-voice --scene-id <scene-id> --cue-id <line-id>`.
 - Validate with `python3 tools/validate_action_voice_manifest.py` or the `action-voice-lines` automated test step.
 
 These action voice lines are production planning entries. `status: planned` means no final audio file is expected yet; only `status: generated` requires the referenced MP3 to exist.
+
+## Action VO Production Batch
+
+First produced batch: `2026-05-22-prologue-street-01`
+
+| Line | Action | Duration | Mean volume | Max volume | Status |
+| --- | --- | ---: | ---: | ---: | --- |
+| `AVL-00-001` | `street.inspect.window` | 3.420s | -24.0 dB | -6.2 dB | generated |
+| `AVL-00-002` | `street.inspect.window` | 5.364s | -23.9 dB | -8.2 dB | generated |
+| `AVL-00-003` | `street.inspect.poster` | 6.912s | -23.8 dB | -5.9 dB | generated |
+
+The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 00-prologue-lights-out --limit-samples 3`. It updated `data/action_voice_lines/00-prologue-lights-out.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/00-prologue-lights-out/`. Technical checks used `ffprobe`, `ffmpeg -af volumedetect`, and `python3 tools/validate_action_voice_manifest.py data/action_voice_lines/00-prologue-lights-out.json`.
 
 ## Prologue Audio Mix Notes
 
