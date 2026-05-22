@@ -46,3 +46,5 @@
 - Dialogic 原生 timeline 在真实窗口里可能吃不到 `dialogic_default_action`；Nova 侧需要在 Dialogic 活跃时把 Enter/Space/左键 raw input 转发到 `Dialogic.Inputs.handle_input()`，并用 Computer Use 实测能回到 action menu。
 - CI 的干净 checkout 没有 `.godot/global_script_class_cache.cfg` 和 imported 资源；Dialogic autoload 用 `res://` 路径更稳，headless gate 要先预热 Godot editor import，但 editor 会改写 `project.godot` 的 Dialogic registry，必须在预导入后恢复源码侧文件再继续 smoke。
 - 生成 action VO 音频后需要 Godot import 出 `.mp3.import`，但 import 会顺手生成 Dialogic `.uid` 和改写 `project.godot`；提交前只保留音频资产、manifest 和必要文档。
+- 视觉截图不能只生成 contact sheet；要用 manifest gate 校验 Nova 入口、覆盖范围、asset-backed、PNG 文件和 `index.html`，否则很容易把“有图”误判成“可 review”。
+- 旧 `tools/record_story_review.py` 仍是 DreamField/OpenRPG 录像器；必须要求显式 legacy flag，避免它默认启动 `res://src/main.tscn` 后把旧入口错误误判成 Nova 流程失败。

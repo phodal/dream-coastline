@@ -12,6 +12,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_GODOT = Path("/Applications/Godot.app/Contents/MacOS/Godot")
+CURRENT_ENTRYPOINT = "res://src/nova/main.tscn"
+LEGACY_REVIEW_ENTRYPOINT = "res://src/main.tscn"
 
 
 def parse_args() -> argparse.Namespace:
@@ -31,6 +33,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--keep-avi", action="store_true", help="Keep Godot's native AVI after mp4 transcode.")
     parser.add_argument("--keep-old", action="store_true", help="Keep old movie files before recording.")
     parser.add_argument("--headless", action="store_true", help="Use Godot headless mode. Visible mode is more reliable for movie capture on macOS.")
+    parser.add_argument(
+        "--legacy-openrpg-entrypoint",
+        action="store_true",
+        help="Opt into the legacy DreamField/OpenRPG story-review scene instead of the current Nova runtime.",
+    )
     return parser.parse_args()
 
 
@@ -44,6 +51,19 @@ def find_ffmpeg() -> str | None:
 
 def main() -> int:
     args = parse_args()
+    if not args.legacy_openrpg_entrypoint:
+        print(
+            "story-review-video status=SKIP reason=legacy-entrypoint-disabled "
+            f"current_entrypoint={CURRENT_ENTRYPOINT} legacy_entrypoint={LEGACY_REVIEW_ENTRYPOINT}",
+            file=sys.stderr,
+        )
+        print(
+            "Use tools/capture_scene_screenshots.py for current Nova visual review, "
+            "or pass --legacy-openrpg-entrypoint when explicitly reviewing the old DreamField/OpenRPG scene.",
+            file=sys.stderr,
+        )
+        return 2
+
     output = (ROOT / args.output).resolve() if not Path(args.output).is_absolute() else Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
     if not args.keep_old:
@@ -65,7 +85,7 @@ def main() -> int:
     command.extend(
         [
             "--scene",
-            "res://src/main.tscn",
+            LEGACY_REVIEW_ENTRYPOINT,
             "--resolution",
             args.resolution,
             "--fixed-fps",

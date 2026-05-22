@@ -128,11 +128,13 @@ Capture a visual review set from the active Nova screenshot path:
 
 ```sh
 python3 tools/capture_scene_screenshots.py --scope starts
+python3 tools/validate_scene_screenshot_manifest.py --scope starts --visual-style classic_dark
 ```
 
 This writes review artifacts under `artifacts/scene-screenshots/latest/`.
-Screenshot review is required for visual readability; render smoke only proves
-that the frame is not blank.
+The `screenshots` automated step runs both commands. Screenshot review is
+required for visual readability; render smoke only proves that the frame is not
+blank.
 
 ## Repository Layout
 
@@ -161,6 +163,8 @@ The project treats story and scene data as source files. Common workflows:
 - Prepare AI-assisted scene work with `tools/build_sprint_sheet_prompt.py`
   and validate the resulting contracts with
   `tools/validate_scene_ai_contract.py`.
+- Treat `tools/record_story_review.py` as legacy DreamField/OpenRPG tooling; it
+  requires `--legacy-openrpg-entrypoint` and is not a Nova complete-flow gate.
 
 More detail is available in:
 

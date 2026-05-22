@@ -235,6 +235,38 @@ def story_movie_smoke(runner: Runner, step: Step) -> int:
     )
 
 
+def legacy_review_entrypoint_isolation(runner: Runner, step: Step) -> int:
+    command = [
+        sys.executable,
+        "tools/record_story_review.py",
+        "--scene",
+        "00-prologue-lights-out",
+        "--output",
+        "artifacts/story-review/legacy-isolation-smoke",
+    ]
+    print(f"\n==> {step.id}: {step.description}")
+    print(format_command(command))
+    if runner.args.dry_run:
+        return 0
+    result = subprocess.run(
+        command,
+        cwd=ROOT,
+        check=False,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    if result.stdout:
+        print(result.stdout, end="" if result.stdout.endswith("\n") else "\n")
+    if result.returncode != 2:
+        print(f"legacy-entrypoint-isolation: expected exit 2, got {result.returncode}", file=sys.stderr)
+        return 1
+    if "legacy-entrypoint-disabled" not in result.stdout or "res://src/nova/main.tscn" not in result.stdout:
+        print("legacy-entrypoint-isolation: missing current-entrypoint guidance", file=sys.stderr)
+        return 1
+    return 0
+
+
 def cargo_build(runner: Runner, step: Step) -> int:
     return runner.run_command(step, ["cargo", "build"])
 
@@ -267,11 +299,14 @@ def dialogic_runtime_smoke(runner: Runner, step: Step) -> int:
 
 
 def screenshot_starts(runner: Runner, step: Step) -> int:
+    output = ROOT / "artifacts" / "scene-screenshots" / "latest"
     command = [
         sys.executable,
         "tools/capture_scene_screenshots.py",
         "--godot",
         str(runner.godot),
+        "--output",
+        str(output),
         "--scope",
         runner.args.visual_scope,
         "--visual-style",
@@ -279,7 +314,22 @@ def screenshot_starts(runner: Runner, step: Step) -> int:
     ]
     if runner.args.scene != "all":
         command.extend(["--scene", runner.args.scene])
-    return runner.run_command(step, command)
+    code = runner.run_command(step, command)
+    if code != 0 or runner.args.dry_run:
+        return code
+    return runner.run_command(
+        step,
+        [
+            sys.executable,
+            "tools/validate_scene_screenshot_manifest.py",
+            "--manifest",
+            str(output / "manifest.json"),
+            "--scope",
+            runner.args.visual_scope,
+            "--visual-style",
+            runner.args.visual_style,
+        ],
+    )
 
 
 STEPS: list[Step] = [
@@ -302,6 +352,12 @@ STEPS: list[Step] = [
     Step("story-review-panels", "quick", "validate story review panel coverage and character refs", story_review_panels),
     Step("dialogic-timelines", "quick", "validate Dialogic timeline coverage and drift", dialogic_timelines),
     Step("story-movie-smoke", "quick", "validate reproducible story movie generation dependencies and output", story_movie_smoke),
+    Step(
+        "legacy-entrypoint-isolation",
+        "quick",
+        "ensure legacy story-review recorder is explicit opt-in",
+        legacy_review_entrypoint_isolation,
+    ),
     Step("godot-import-cache", "quick", "prime Godot script class and asset import cache", godot_import_cache),
     Step("godot-load", "quick", "load the Godot project headlessly", godot_load),
     Step("smoke-nova-runtime", "quick", "validate Nova exploration and VN cutscene runtime", godot_smoke("--smoke-nova-runtime")),

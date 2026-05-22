@@ -79,6 +79,13 @@ Use the visual gate whenever a change touches `src/nova/ui/`,
 - Run `tools/capture_scene_screenshots.py --scope starts` for a Nova review
   contact sheet. The tool defaults to `res://src/nova/main.tscn`; use the old
   DreamField/OpenRPG scene only when explicitly reviewing that legacy entry.
+- The `screenshots` automated step now validates the resulting
+  `manifest.json` with `tools/validate_scene_screenshot_manifest.py`, so the
+  gate fails if Nova coverage, PNG files, asset-backed status, or the contact
+  sheet artifact is missing.
+- `tools/record_story_review.py` is a legacy DreamField/OpenRPG recorder and now
+  exits unless `--legacy-openrpg-entrypoint` is passed. Do not use it as a Nova
+  complete-flow gate.
 - For a scene-specific Sprint Sheet or UI brief, run screenshots for that scene
   and review the manifest against the original `SHOT-*` states.
 - Reject visual work if the manifest reports unexpected
