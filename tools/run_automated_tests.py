@@ -157,6 +157,10 @@ def story_continuity(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_story_continuity.py", "--verbose")
 
 
+def nova_manual_route_checklist(runner: Runner, step: Step) -> int:
+    return runner.run_python(step, "tools/build_nova_manual_route_checklist.py", "--check")
+
+
 def equipment_catalog(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_equipment_catalog.py")
 
@@ -337,6 +341,7 @@ STEPS: list[Step] = [
     Step("python-tools", "quick", "compile top-level Python tools", py_compile_tools),
     Step("ascii-scenes", "quick", "verify ASCII walkthrough, duration, and UI gates", ascii_scene_walkthroughs),
     Step("story-continuity", "quick", "validate cross-scene continuity contracts", story_continuity),
+    Step("nova-manual-route-checklist", "quick", "validate generated Nova full-route manual QA checklist", nova_manual_route_checklist),
     Step("equipment-catalog", "quick", "validate equipment carrier catalog", equipment_catalog),
     Step("supply-catalog", "quick", "validate supply and consumable carrier catalog", supply_catalog),
     Step("character-voice-profiles", "quick", "validate character voice and dialogue contracts", character_voice_profiles),

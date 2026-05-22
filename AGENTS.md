@@ -48,3 +48,4 @@
 - 生成 action VO 音频后需要 Godot import 出 `.mp3.import`，但 import 会顺手生成 Dialogic `.uid` 和改写 `project.godot`；提交前只保留音频资产、manifest 和必要文档。
 - 视觉截图不能只生成 contact sheet；要用 manifest gate 校验 Nova 入口、覆盖范围、asset-backed、PNG 文件和 `index.html`，否则很容易把“有图”误判成“可 review”。
 - 旧 `tools/record_story_review.py` 仍是 DreamField/OpenRPG 录像器；必须要求显式 legacy flag，避免它默认启动 `res://src/main.tscn` 后把旧入口错误误判成 Nova 流程失败。
+- 8 幕真实窗口验收不要手写散落步骤；从 `data/story_scenes` 生成 `docs/nova-full-route-manual-qa.md`，再按实际窗口结果勾选和记录卡点。

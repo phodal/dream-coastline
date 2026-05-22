@@ -122,6 +122,7 @@ Useful focused checks:
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-dialogic-bridge
 python3 tools/validate_story_continuity.py --verbose
 python3 tools/validate_dialogic_timelines.py
+python3 tools/build_nova_manual_route_checklist.py --check
 ```
 
 Capture a visual review set from the active Nova screenshot path:
@@ -135,6 +136,11 @@ This writes review artifacts under `artifacts/scene-screenshots/latest/`.
 The `screenshots` automated step runs both commands. Screenshot review is
 required for visual readability; render smoke only proves that the frame is not
 blank.
+
+For live full-route QA, use
+[`docs/nova-full-route-manual-qa.md`](docs/nova-full-route-manual-qa.md). It is
+generated from story walkthrough JSON and covers the 8-scene route, expected
+flags, focus recovery, pause/save, and scene completion checks.
 
 ## Repository Layout
 

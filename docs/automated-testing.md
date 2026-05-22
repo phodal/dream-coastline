@@ -38,6 +38,8 @@ the repo data is structurally wrong.
 - Compile top-level Python tools with `py_compile`.
 - Run every authored ASCII scene through `tools/ascii_five.py <scene> --verify`.
 - Run `tools/validate_story_continuity.py --verbose`.
+- Run `tools/build_nova_manual_route_checklist.py --check` so the full-route
+  live QA checklist stays aligned with story walkthrough JSON.
 - Run `tools/validate_equipment_catalog.py`.
 - Run `tools/validate_supply_catalog.py`.
 - Run `tools/validate_action_voice_manifest.py` to keep full playable-action
@@ -114,6 +116,22 @@ python3 tools/build_sprint_sheet_prompt.py 01-illiterate --mode screenshot-revie
 The generated review prompt is not the acceptance result by itself. Acceptance
 requires checking the screenshots and manifest against the source scene
 contract.
+
+## Manual Full-Route QA
+
+The current live-window route checklist is generated at
+[`docs/nova-full-route-manual-qa.md`](nova-full-route-manual-qa.md). Regenerate
+it after changing story walkthroughs or scene order:
+
+```sh
+python3 tools/build_nova_manual_route_checklist.py
+python3 tools/build_nova_manual_route_checklist.py --check
+```
+
+Use this checklist for the issue #6 full 8-scene manual pass. Headless
+`smoke-nova-all-scenes` proves automated progression, but it does not prove
+that keyboard/mouse focus, Dialogic advance, pause/save, and visible action-menu
+recovery feel correct in a real window.
 
 ## CI Shape
 
