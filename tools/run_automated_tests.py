@@ -64,7 +64,27 @@ class Runner:
             command.append("--quit")
         else:
             command.extend(["--quit-after", str(quit_after), "--", flag])
-        return self.run_command(step, command)
+        print(f"\n==> {step.id}: {step.description}")
+        print(format_command(command))
+        if self.args.dry_run:
+            return 0
+        try:
+            result = subprocess.run(
+                command,
+                cwd=ROOT,
+                check=False,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+            )
+        except FileNotFoundError as error:
+            print(f"missing executable: {error.filename}", file=sys.stderr)
+            return 127
+        if result.stdout:
+            print(result.stdout, end="" if result.stdout.endswith("\n") else "\n")
+        if "SCRIPT ERROR:" in result.stdout or "Failed to load script" in result.stdout:
+            return 1
+        return result.returncode
 
     def run_godot_editor_import(self, step: Step) -> int:
         command = [str(self.godot), "--editor", "--headless", "--path", str(ROOT), "--quit"]
@@ -288,6 +308,7 @@ STEPS: list[Step] = [
     Step("smoke-nova-progression", "quick", "validate Nova first-scene canonical progression", godot_smoke("--smoke-nova-progression")),
     Step("smoke-nova-choices", "quick", "validate Nova location choices and route flags", godot_smoke("--smoke-nova-choices")),
     Step("smoke-nova-all-scenes", "quick", "validate Nova narrative actions across all scenes", godot_smoke("--smoke-nova-all-scenes")),
+    Step("smoke-nova-save-continue", "quick", "validate Nova-native save and continue restoration", godot_smoke("--smoke-nova-save-continue")),
     Step("smoke-nova-assets", "quick", "validate Nova splash, character, and audio assets", godot_smoke("--smoke-nova-assets")),
     Step("smoke-story-audio-targets", "quick", "validate generated story audio targets", godot_smoke("--smoke-story-audio-targets")),
     Step("smoke-dialogic-bridge", "quick", "validate Dialogic addon install and timeline bridge", godot_smoke("--smoke-dialogic-bridge")),

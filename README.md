@@ -1,300 +1,186 @@
 # Dream Coastline
 
-A Godot 4.6 RPG slice now re-architected around the copied
-`godot-open-rpg` field runtime: autoloaded field services, grid movement,
-gamepieces, cutscenes, and interactions drive the playable spine.
+![Dream Coastline title art](assets/branding/dream-coastline-title-loop.png)
 
-The current main scene is `res://src/main.tscn`. It loads Dream Coastline story
-data from `data/story_scenes/`, loads the original asset-backed location scenes
-from `data/visual_scenes/` and `scenes/visual_locations/`, then presents them
-through OpenRPG-style `Gameboard`, `Gamepiece`, `PlayerController`,
-`Interaction`, and `Cutscene` objects. The previous `scripts/ui/*`
-HUD/title/pause stack is retained in the repository for reference, but it is not
-part of the current main runtime.
+Dream Coastline is a 90s-style narrative RPG prototype built with Godot. It
+follows a city where names, memory, and light have started to fail, and turns
+the story into explorable scenes, inspectable objects, and short cutscene
+moments.
+
+The project is currently a playable development slice, not a finished game.
+The main runtime is the Nova narrative layer at `res://src/nova/main.tscn`,
+with Dialogic used as the cutscene frontend when available.
+
+## Status
+
+- Pre-alpha RPG/narrative prototype.
+- Godot 4.6 project with a small optional Rust GDExtension crate.
+- Story, visual scene, audio cue, character, creature, and animation data live
+  in versioned JSON files under `data/`.
+- Automated gates cover static data validation, headless runtime smoke tests,
+  Dialogic bridge checks, and local visual screenshot review.
 
 ## Features
 
-- Tile-based 90s RPG exploration with animated player sprites and facing
-- Eight complete story paths: First Act, Illiterate, Moqi Academy, Dead Kingdom,
-  Continuation Institute, Century Continuation, Return Star Plan, Lights On Again
-- Story Review Mode for early-PAL-style chapter selection, chapter illustration
-  background, canonical walkthrough playback, pause/step controls, and flag
-  visibility so the story can be checked before the full RPG loop is complete
-- Title screen with new game, continue, and return-to-title confirmations
-- Pause menu and settings with volume control
-- Save/load via `SaveGameRepository`
-- Fallback audio director for generated sound streams
-- Gamepad and left stick support alongside keyboard
-- Desktop export presets for macOS, Windows, and Linux
+- Keyboard-driven RPG exploration with visible locations, exits, and
+  inspectable story objects.
+- Eight authored story chapters, from the prologue through `Lights On Again`.
+- Nova runtime for scene progression, story flags, location choices, and
+  story-action payloads.
+- Nova-native save/continue for restoring the current scene, location, and
+  story flags.
+- Dialogic timeline generation and bridge support for native Godot dialogue
+  playback.
+- Data-backed visual scenes, character models, creature records, equipment,
+  supplies, Moqi script glyphs, and animation clip contracts.
+- Screenshot and contact-sheet tooling for reviewing scene readability.
+- Desktop export notes for macOS, Windows, and Linux.
 
-## Godot Structure
+## Quick Start
 
-- `src/main.tscn` is the active main scene.
-- `src/common/` and `src/field/` are copied OpenRPG runtime components:
-  directions, player state, field camera, gameboard/pathfinder, gamepieces,
-  player controller, cutscenes, triggers, and interactions.
-- `project.godot` autoloads `Camera`, `FieldEvents`, `Gameboard`,
-  `GamepieceRegistry`, and `Player` for the OpenRPG field model.
-- `src/dream/dream_field.gd` adapts Dream Coastline data to OpenRPG rooms,
-  player movement, original location scenes, world labels, and interactions.
-- `src/dream/dream_story_repository.gd` loads all eight story JSON files and
-  applies inspect/go/cast/build/choose/engage/combat/combo progression.
-- `src/dream/dream_visual_repository.gd` loads `data/visual_scenes/*.json`,
-  verifies every `asset_scene`, and gives OpenRPG the original prop/spawn
-  coordinates.
-- `src/dream/dream_story_interaction.gd` turns story records into OpenRPG
-  `Interaction` cutscenes.
-- `src/dream/dream_dialogue_layer.gd` provides the new minimal dialogue layer;
-  it does not reuse the previous HUD/title/pause UI.
-- `src/dream/dream_story_review_overlay.gd` provides the fast story review
-  surface. Selecting a middle chapter silently replays earlier canonical
-  walkthroughs to seed carryover flags, then uses chapter illustrations as
-  transition pages before playing the selected scene.
-
-## Development
-
-Godot 4.6.2 is available at:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot
-```
-
-Open the project:
+Install Godot 4.6.x, then open the project:
 
 ```sh
 /Applications/Godot.app/Contents/MacOS/Godot --editor --path .
 ```
 
-Build the Rust GDExtension library:
-
-```sh
-cargo build
-```
-
-Build release GDExtension libraries for desktop export:
-
-```sh
-tools/build_release_libraries.sh
-```
-
-Validate the project can load:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit
-```
-
-Validate the OpenRPG migration:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-story
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-runtime
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-actions
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-open-rpg-visual-scenes
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 5000 -- --smoke-yarn-spinner
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 500 -- --smoke-story-review-mode
-```
-
-The Yarn Spinner GDScript spike is vendored under `addons/yarn_spinner/` and
-uses `data/yarn/dream_coastline.yarnproject`. If the imported Yarn project is
-missing, run the editor import once after installing `ysc`:
-
-```sh
-dotnet tool install YarnSpinner.Console --global --version 3.1.0-alpha1
-/Applications/Godot.app/Contents/MacOS/Godot --editor --headless --path . --quit
-```
-
-Launch the playable story review surface:
+Run the current playable runtime:
 
 ```sh
 /Applications/Godot.app/Contents/MacOS/Godot --path .
 ```
 
-The review overlay opens by default for normal launches. Press `F6` to reopen it
-from the field, or use review shortcuts while the overlay is open: `Enter`
-enters the selected chapter, `A` starts/stops canonical walkthrough playback,
-`P` pauses, `N` steps once, and `Esc` returns to the field.
+On first import, let Godot finish importing project resources before running
+smoke tests or taking screenshots.
 
-Record a hands-off story review video for script and illustration review:
+## Controls
+
+| Action | Keyboard |
+| --- | --- |
+| Move | WASD / Arrow keys |
+| Interact / advance | Space / Enter |
+| Continue from title | C, when a Nova save exists |
+| Back / quit smoke run | Esc |
+
+Gamepad support is available through the Godot input map for movement,
+interaction, and cancel/start-style actions.
+
+## Development Setup
+
+The repository expects these local tools for the full workflow:
+
+- Godot 4.6.x
+- Python 3
+- Rust toolchain, only when working on the GDExtension crate
+- Node.js / npm, only for selected audio-generation helpers
+- .NET toolchain with `ysc`, only when regenerating Yarn Spinner artifacts
+
+Build the optional Rust GDExtension library:
 
 ```sh
-python3 tools/record_story_review.py --scene 01-illiterate --output artifacts/story-review/01-illiterate --fps 10 --step-seconds 0.65
+cargo build
 ```
 
-The recorder uses Godot Movie Maker mode, drives `--play-story-review`
-automatically, transcodes the native movie to mp4, and writes a poster frame.
-Pass `--scope all` to continue from the selected chapter through the remaining
-canonical walkthrough.
+Build release libraries for export presets:
 
-Character visual models for the main cast live in
-`data/character_visual_models.json`; see `docs/character-visual-models.md`
-before generating or replacing character reference art.
+```sh
+tools/build_release_libraries.sh
+```
 
-Run the tiered automated test gates:
+## Testing
+
+Most changes should start with the quick gate:
 
 ```sh
 python3 tools/run_automated_tests.py --tier quick
+```
+
+Use the headless gate before opening a pull request:
+
+```sh
 python3 tools/run_automated_tests.py --tier headless
+```
+
+Use the visual gate when touching scene layout, HUD, visual assets, tile
+generation, character art, or animation clips:
+
+```sh
 python3 tools/run_automated_tests.py --tier visual
 ```
 
-The test strategy and tier definitions live in
-`docs/automated-testing.md`.
+The tier definitions and acceptance rules are documented in
+[`docs/automated-testing.md`](docs/automated-testing.md).
 
-Validate the Godot scene runner can complete every implemented scene:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-autoplay
-```
-
-Validate the first act RPG keyboard path:
+Useful focused checks:
 
 ```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-first-act
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-runtime
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-progression
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-save-continue
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-dialogic-bridge
+python3 tools/validate_story_continuity.py --verbose
+python3 tools/validate_dialogic_timelines.py
 ```
 
-Validate the illiterate scene RPG keyboard path:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-illiterate
-```
-
-Validate the Moqi Academy RPG keyboard path:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-moqi-academy
-```
-
-Validate the dead kingdom RPG keyboard path:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-dead-kingdom
-```
-
-Validate the continuation institute RPG keyboard path:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-continuation-institute
-```
-
-Validate the century continuation RPG keyboard path:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-century-continuation
-```
-
-Validate the return star plan RPG keyboard path:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-return-star-plan
-```
-
-Validate the lights on again RPG keyboard path:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-lights-on-again
-```
-
-Validate the RPG progression data slice:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-rpg-progression
-```
-
-Validate save/load:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-save-load
-```
-
-Validate title/pause/settings flow:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-menu-flow
-```
-
-Validate generated fallback audio streams:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-audio-director
-```
-
-Validate export preset configuration:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-export-config
-```
-
-Validate release GDExtension libraries for macOS, Windows, and Linux:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-release-libraries
-```
-
-Validate keyboard/gamepad input mapping:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-input-map
-```
-
-Validate animation clip contracts for the current player actor:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 --log-file godot-headless.log -- --smoke-animation-clips
-```
-
-Validate a rendered game frame. This uses the real renderer, so run it without
-`--headless`:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path . --quit-after 120 -- --smoke-render-frame
-```
-
-Capture a visual review set for every authored location. This also writes
-`manifest.json` and a local `index.html` contact sheet under
-`artifacts/scene-screenshots/latest/`:
-
-```sh
-python3 tools/capture_scene_screenshots.py
-```
-
-Compare the same scene under the classic dark profile:
-
-```sh
-python3 tools/capture_scene_screenshots.py --scene 02-moqi-academy --visual-style classic_dark
-```
-
-Capture only the opening state for each scene:
+Capture a visual review set from the active Nova screenshot path:
 
 ```sh
 python3 tools/capture_scene_screenshots.py --scope starts
 ```
 
-## Controls
+This writes review artifacts under `artifacts/scene-screenshots/latest/`.
+Screenshot review is required for visual readability; render smoke only proves
+that the frame is not blank.
 
-Keyboard or gamepad inside the Godot window. Use the title screen to start or
-continue.
+## Repository Layout
 
-| Action | Keyboard | Gamepad |
-|--------|----------|---------|
-| Move | WASD / Arrow keys | D-pad / Left stick |
-| Interact | Space / Enter | South button |
-| Pause | Esc | East button / Start |
+| Path | Purpose |
+| --- | --- |
+| `src/nova/` | Current runtime: scene director, exploration view, VN layer, Dialogic bridge, and autoload state. |
+| `data/story_scenes/` | Authored chapter and location content. |
+| `data/visual_scenes/` | Visual scene metadata consumed by Nova. |
+| `dialogic/` | Generated Dialogic characters and timelines. |
+| `assets/` | Branding, character art, illustrations, fonts, UI assets, and visual tiles. |
+| `tools/` | Validation, generation, screenshot, audio, and release helper scripts. |
+| `docs/` | Testing, release, Sprint Sheet, visual, audio, and design notes. |
+| `addons/` | Vendored Godot plugins such as Dialogic and Yarn Spinner experiments. |
 
-## DeepSeek AI
+## Content Pipeline
 
-The project includes a small DeepSeek client for scene design assistance. Configure
-it with `DEEPSEEK_API_KEY` or a local ignored `deepseek.local.cfg`; see
-`docs/deepseek-ai.md`.
+The project treats story and scene data as source files. Common workflows:
 
-MCP integration is configured for Codex through `~/.codex/config.toml`. See
-`docs/godot-mcp.md` for details.
+- Generate Dialogic timelines from story data with
+  `tools/generate_dialogic_timelines.py`.
+- Validate timeline drift with `tools/validate_dialogic_timelines.py`.
+- Validate cross-chapter story continuity with
+  `tools/validate_story_continuity.py --verbose`.
+- Build and validate Moqi script font assets with `tools/build_moqi_font.py`
+  and `res://tools/validate_moqi_font.gd`.
+- Prepare AI-assisted scene work with `tools/build_sprint_sheet_prompt.py`
+  and validate the resulting contracts with
+  `tools/validate_scene_ai_contract.py`.
 
-Sprint Sheet architecture guidance is in `docs/sprint-sheet-architecture.md`.
-Scene-aligned Sprint Sheets, the `scene_sprint_map` AI mapping contract, UI implementation brief workflow, and prompt workflow are in
-`docs/sprint-sheets/`.
-Release/export notes are in `docs/release.md`.
+More detail is available in:
 
-Runtime scene tiles are generated in-repo by
-`tools/generate_visual_asset_scenes.gd` and written to
-`assets/visual_tiles/dream_scene_tiles.png` plus
-`assets/visual_tiles/dream_scene_tileset.tres`.
+- [`docs/sprint-sheet-architecture.md`](docs/sprint-sheet-architecture.md)
+- [`docs/sprint-sheets/`](docs/sprint-sheets/)
+- [`docs/character-visual-models.md`](docs/character-visual-models.md)
+- [`docs/ai-dialogue-voice-pipeline.md`](docs/ai-dialogue-voice-pipeline.md)
+- [`docs/release.md`](docs/release.md)
+
+## Contributing
+
+Contributions should keep runtime behavior, source data, and validation in
+sync. A good change usually includes:
+
+1. A focused code or data diff.
+2. The smallest relevant automated gate from the testing section.
+3. Screenshot evidence when the change affects visual readability.
+4. Updated docs when a workflow, command, or data contract changes.
+
+Please avoid committing generated review artifacts unless they are part of the
+change being reviewed.
+
+## License
+
+See [`LICENSE`](LICENSE) for repository license details.

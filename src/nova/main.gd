@@ -6,6 +6,7 @@ const VNLayerScript := preload("res://src/nova/ui/vn_layer.gd")
 const DialogicBridgeScript := preload("res://src/nova/dialogic_bridge.gd")
 const DialogicVariableBridgeScript := preload("res://src/nova/dialogic_variable_bridge.gd")
 const StartupSplashScript := preload("res://src/nova/ui/startup_splash.gd")
+const SaveRepositoryScript := preload("res://src/nova/data/save_repository.gd")
 const AudioDirectorScript := preload("res://scripts/core/audio_director.gd")
 
 var director
@@ -14,6 +15,7 @@ var vn_layer
 var dialogic_bridge
 var dialogic_variable_bridge
 var startup_splash
+var save_repository
 var audio_director
 var _dialogic_runtime_finished := false
 var _dialogic_runtime_payload: Dictionary = {}
@@ -27,9 +29,12 @@ func _ready() -> void:
 	director.name = "SceneDirector"
 	add_child(director)
 
+	save_repository = SaveRepositoryScript.new()
+	save_repository.configure(_nova_save_path())
+
 	audio_director = AudioDirectorScript.new()
 	audio_director.name = "AudioDirector"
-	audio_director.enabled = not _is_smoke_run()
+	audio_director.enabled = not _is_automation_run()
 	add_child(audio_director)
 
 	exploration_view = ExplorationViewScript.new()
@@ -56,10 +61,12 @@ func _ready() -> void:
 	add_child(dialogic_variable_bridge)
 	dialogic_bridge.variable_bridge = dialogic_variable_bridge
 
-	if not _is_smoke_run() and not OS.get_cmdline_user_args().has("--capture-nova-screenshot"):
+	if not _is_automation_run():
 		startup_splash = StartupSplashScript.new()
 		startup_splash.name = "StartupSplash"
+		startup_splash.configure_continue(save_repository.has_save())
 		startup_splash.dismissed.connect(_on_splash_dismissed)
+		startup_splash.continue_requested.connect(_on_splash_continue_requested)
 		add_child(startup_splash)
 
 	director.location_presented.connect(_present_location)
@@ -77,6 +84,8 @@ func _ready() -> void:
 		call_deferred("_run_choice_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-all-scenes"):
 		call_deferred("_run_all_scenes_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-save-continue"):
+		call_deferred("_run_save_continue_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-assets"):
 		call_deferred("_run_asset_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-story-audio-targets"):
@@ -85,6 +94,8 @@ func _ready() -> void:
 		call_deferred("_run_dialogic_bridge_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-dialogic-runtime"):
 		call_deferred("_run_dialogic_runtime_smoke")
+	elif OS.get_cmdline_user_args().has("--capture-scene-screenshots"):
+		call_deferred("_capture_scene_screenshots")
 	elif OS.get_cmdline_user_args().has("--capture-nova-screenshot"):
 		call_deferred("_capture_screenshot")
 
@@ -109,8 +120,10 @@ func _inspect_item(item_id: String) -> void:
 
 
 func _move_to(location_id: String) -> void:
-	if director.move_to(location_id) and audio_director != null:
-		audio_director.play_step()
+	if director.move_to(location_id):
+		if audio_director != null:
+			audio_director.play_step()
+		_save_current_state()
 
 
 func _choose_location_choice(choice_id: String) -> void:
@@ -135,6 +148,7 @@ func _show_cutscene(payload: Dictionary) -> void:
 
 func _finish_cutscene(payload: Dictionary) -> void:
 	director.finish_cutscene(payload)
+	_save_current_state()
 
 
 func _runtime_error(message: String) -> void:
@@ -144,6 +158,67 @@ func _runtime_error(message: String) -> void:
 func _on_splash_dismissed() -> void:
 	if audio_director != null:
 		audio_director.play_ui()
+	_save_current_state()
+
+
+func _on_splash_continue_requested() -> void:
+	if audio_director != null:
+		audio_director.play_ui()
+	if not _restore_saved_game():
+		_save_current_state()
+
+
+func _save_current_state() -> void:
+	if save_repository == null or not _can_write_save():
+		return
+	save_repository.save_game(
+		GameState.current_scene_id,
+		GameState.current_location_id,
+		StoryFlags.export_flags(),
+	)
+
+
+func _restore_saved_game() -> bool:
+	if save_repository == null or not save_repository.has_save():
+		return false
+	var saved: Dictionary = save_repository.load_game()
+	var scene_id := str(saved.get("scene_id", ""))
+	var location_id := str(saved.get("location_id", ""))
+	if scene_id.is_empty() or location_id.is_empty():
+		return false
+	if director.story_repository.get_location(scene_id, location_id).is_empty():
+		return false
+	StoryFlags.import_flags(saved.get("flags", []))
+	GameState.start_scene(scene_id, location_id)
+	_restore_quest_status(scene_id)
+	director.present_current_location()
+	return true
+
+
+func _restore_quest_status(active_scene_id: String) -> void:
+	QuestState.reset()
+	var scene_ids: Array = director.story_repository.scene_ids()
+	var active_index := scene_ids.find(active_scene_id)
+	for index in range(scene_ids.size()):
+		var scene_id := str(scene_ids[index])
+		var scene: Dictionary = director.story_repository.get_scene(scene_id)
+		QuestState.ensure_quest(scene_id, str(scene.get("title", scene_id)))
+		if active_index != -1 and index < active_index:
+			QuestState.set_status(scene_id, QuestState.COMPLETE)
+		elif scene_id == active_scene_id:
+			QuestState.set_status(scene_id, QuestState.ACTIVE)
+
+
+func _can_write_save() -> bool:
+	var args := OS.get_cmdline_user_args()
+	return args.has("--smoke-nova-save-continue") or not _is_automation_run()
+
+
+func _nova_save_path() -> String:
+	var args := OS.get_cmdline_user_args()
+	if args.has("--smoke-nova-save-continue"):
+		return "user://nova_save_smoke.json"
+	return _arg_value(args, "--nova-save-path", SaveRepositoryScript.DEFAULT_SAVE_PATH)
 
 
 func _run_smoke() -> void:
@@ -231,6 +306,45 @@ func _run_choice_smoke() -> void:
 		GameState.current_scene_id,
 		GameState.current_location_id,
 		str(StoryFlags.has_flag("resolved_book_route")),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _run_save_continue_smoke() -> void:
+	if save_repository != null:
+		save_repository.clear()
+	StoryFlags.reset()
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	_restore_quest_status(first_scene)
+	director.present_current_location()
+
+	var ok := _smoke_inspect("window")
+	ok = ok and director.move_to("building")
+	if ok:
+		_save_current_state()
+	ok = ok and save_repository != null and save_repository.has_save()
+	var saved: Dictionary = save_repository.load_game() if save_repository != null else {}
+	ok = ok and str(saved.get("scene_id", "")) == "00-prologue-lights-out"
+	ok = ok and str(saved.get("location_id", "")) == "building"
+
+	StoryFlags.reset()
+	GameState.start_scene("03-dead-kingdom", "library")
+	_restore_quest_status("03-dead-kingdom")
+	director.present_current_location()
+	ok = ok and _restore_saved_game()
+	ok = ok and GameState.current_scene_id == "00-prologue-lights-out"
+	ok = ok and GameState.current_location_id == "building"
+	ok = ok and StoryFlags.has_flag("noticed_dark_window")
+	if save_repository != null:
+		save_repository.clear()
+	print("nova-save-continue-smoke status=%s scene=%s location=%s flag=%s" % [
+		"PASS" if ok else "FAIL",
+		GameState.current_scene_id,
+		GameState.current_location_id,
+		str(StoryFlags.has_flag("noticed_dark_window")),
 	])
 	get_tree().quit(0 if ok else 1)
 
@@ -656,9 +770,225 @@ func _capture_screenshot() -> void:
 	get_tree().quit(0 if err == OK else 1)
 
 
-func _is_smoke_run() -> bool:
+func _capture_scene_screenshots() -> void:
+	var args := OS.get_cmdline_user_args()
+	var output_dir := _global_capture_path(_arg_value(args, "--capture-output", "user://scene-screenshots"))
+	var scene_filter := _arg_value(args, "--capture-scene", "all")
+	var scope := _arg_value(args, "--capture-scope", "locations")
+	var warmup_frames := maxi(1, int(_arg_value(args, "--capture-warmup-frames", "3")))
+	var mkdir_error := DirAccess.make_dir_recursive_absolute(output_dir)
+	if mkdir_error != OK:
+		print("scene-screenshot-capture status=FAIL architecture=nova reason=mkdir path=%s error=%s" % [output_dir, mkdir_error])
+		get_tree().quit(1)
+		return
+
+	var screenshots: Array[Dictionary] = []
+	var failures: Array[String] = []
+	var scene_ids: Array = director.story_repository.scene_ids()
+	for scene_index in range(scene_ids.size()):
+		var scene_id := str(scene_ids[scene_index])
+		if scene_filter != "all" and scene_filter != scene_id:
+			continue
+		var story_scene: Dictionary = director.story_repository.get_scene(scene_id)
+		var location_ids: Array[String] = _capture_location_ids(story_scene, scope)
+		for location_index in range(location_ids.size()):
+			var location_id := str(location_ids[location_index])
+			var entry := await _capture_location_screenshot(
+				scene_index,
+				scene_id,
+				story_scene,
+				location_id,
+				location_index,
+				output_dir,
+				warmup_frames
+			)
+			if bool(entry.get("ok", false)):
+				screenshots.append(entry)
+			else:
+				failures.append(str(entry.get("failure", "unknown")))
+
+	var manifest := {
+		"version": 3,
+		"generated_by": "--capture-scene-screenshots",
+		"architecture": "nova",
+		"visual_style": _arg_value(args, "--visual-style", "nova"),
+		"scope": scope,
+		"scene_filter": scene_filter,
+		"viewport": {
+			"width": int(get_viewport_rect().size.x),
+			"height": int(get_viewport_rect().size.y),
+		},
+		"screenshot_count": screenshots.size(),
+		"procedural_fallback_count": _capture_asset_status_count(screenshots, "procedural_fallback"),
+		"framework_placeholder_count": _capture_asset_status_count(screenshots, "framework_placeholder"),
+		"asset_backed_count": _capture_asset_status_count(screenshots, "asset_backed"),
+		"screenshots": screenshots,
+		"failures": failures,
+	}
+	var manifest_path := output_dir.path_join("manifest.json")
+	var manifest_file := FileAccess.open(manifest_path, FileAccess.WRITE)
+	if manifest_file == null:
+		print("scene-screenshot-capture status=FAIL architecture=nova reason=manifest path=%s" % manifest_path)
+		get_tree().quit(1)
+		return
+	manifest_file.store_string(JSON.stringify(manifest, "\t"))
+	manifest_file.close()
+
+	var ok := failures.is_empty() and not screenshots.is_empty()
+	print("scene-screenshot-capture status=%s architecture=nova output=%s screenshots=%s failures=%s" % [
+		"PASS" if ok else "FAIL",
+		output_dir,
+		screenshots.size(),
+		failures.size(),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _capture_location_screenshot(
+	scene_index: int,
+	scene_id: String,
+	story_scene: Dictionary,
+	location_id: String,
+	location_index: int,
+	output_dir: String,
+	warmup_frames: int
+) -> Dictionary:
+	var location: Dictionary = director.story_repository.get_location(scene_id, location_id)
+	if location.is_empty():
+		return {"ok": false, "failure": "missing location %s/%s" % [scene_id, location_id]}
+
+	_prepare_capture_location(scene_id, location_id)
+	for _frame in range(warmup_frames):
+		await get_tree().process_frame
+
+	if DisplayServer.get_name() == "headless":
+		return {"ok": false, "failure": "headless display has no viewport texture"}
+
+	var viewport_texture := get_viewport().get_texture()
+	var image: Image = null
+	if viewport_texture != null:
+		image = viewport_texture.get_image()
+	if image == null or image.get_width() <= 0 or image.get_height() <= 0:
+		return {"ok": false, "failure": "empty image %s/%s" % [scene_id, location_id]}
+
+	var filename := "%02d-%s__%02d-%s.png" % [
+		scene_index,
+		_safe_filename(scene_id),
+		location_index,
+		_safe_filename(location_id),
+	]
+	var path := output_dir.path_join(filename)
+	var save_error := image.save_png(path)
+	if save_error != OK:
+		return {"ok": false, "failure": "save failed %s error=%s" % [path, save_error]}
+
+	var visual: Dictionary = director.visual_repository.get_location_visual(scene_id, location_id)
+	return {
+		"ok": true,
+		"scene_index": scene_index,
+		"scene_id": scene_id,
+		"scene_title": str(story_scene.get("title", "")),
+		"location_id": location_id,
+		"location_name": str(location.get("name", location_id)),
+		"terrain": str(visual.get("terrain", "")),
+		"visual_family": str(visual.get("visual_family", "")),
+		"asset_scene": str(visual.get("asset_scene", "")),
+		"asset_status": str(visual.get("asset_status", "")),
+		"asset_loaded": _visual_has_backdrop(visual),
+		"asset_runtime_path": str(visual.get("illustrated_backdrop", "")),
+		"tileset_id": str(visual.get("tileset_id", "")),
+		"visual_mood": str(visual.get("visual_mood", "")),
+		"visual_style": _arg_value(OS.get_cmdline_user_args(), "--visual-style", "nova"),
+		"props": _capture_prop_summary(visual),
+		"path": path,
+		"file": filename,
+	}
+
+
+func _prepare_capture_location(scene_id: String, location_id: String) -> void:
+	StoryFlags.reset()
+	QuestState.reset()
+	for quest_scene_id in director.story_repository.scene_ids():
+		var scene: Dictionary = director.story_repository.get_scene(str(quest_scene_id))
+		QuestState.ensure_quest(str(quest_scene_id), str(scene.get("title", quest_scene_id)))
+	QuestState.set_status(scene_id, QuestState.ACTIVE)
+	GameState.start_scene(scene_id, location_id)
+	for flag in director.story_repository.get_initial_flags(scene_id):
+		StoryFlags.set_flag(str(flag), true)
+	director.present_current_location()
+
+
+func _capture_location_ids(story_scene: Dictionary, scope: String) -> Array[String]:
+	var start_location := str(story_scene.get("start", ""))
+	if scope == "starts":
+		return [start_location]
+
+	var locations: Dictionary = story_scene.get("locations", {})
+	var location_ids: Array[String] = []
+	for location_id in locations.keys():
+		location_ids.append(str(location_id))
+	location_ids.sort()
+	if start_location in location_ids:
+		location_ids.erase(start_location)
+		location_ids.push_front(start_location)
+	return location_ids
+
+
+func _capture_prop_summary(visual: Dictionary) -> Array[Dictionary]:
+	var summary: Array[Dictionary] = []
+	for prop in visual.get("props", []):
+		if typeof(prop) != TYPE_DICTIONARY:
+			continue
+		summary.append({
+			"kind": str(prop.get("kind", "")),
+			"item": str(prop.get("item", "")),
+			"exit": str(prop.get("exit", "")),
+			"action": str(prop.get("action", "")),
+			"x": int(prop.get("x", 0)),
+			"y": int(prop.get("y", 0)),
+		})
+	return summary
+
+
+func _capture_asset_status_count(screenshots: Array[Dictionary], status: String) -> int:
+	var count := 0
+	for shot in screenshots:
+		if str(shot.get("asset_status", "")) == status:
+			count += 1
+	return count
+
+
+func _visual_has_backdrop(visual: Dictionary) -> bool:
+	var path := str(visual.get("illustrated_backdrop", ""))
+	return not path.is_empty() and ResourceLoader.exists(path)
+
+
+func _global_capture_path(path: String) -> String:
+	if path.begins_with("res://") or path.begins_with("user://"):
+		return ProjectSettings.globalize_path(path)
+	return path
+
+
+func _arg_value(args: PackedStringArray, key: String, default_value: String) -> String:
+	for index in range(args.size()):
+		var arg := str(args[index])
+		if arg == key and index + 1 < args.size():
+			return str(args[index + 1])
+		if arg.begins_with(key + "="):
+			return arg.substr(key.length() + 1)
+	return default_value
+
+
+func _safe_filename(value: String) -> String:
+	var safe := value.strip_edges().to_lower()
+	for character in ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", " "]:
+		safe = safe.replace(character, "_")
+	return safe
+
+
+func _is_automation_run() -> bool:
 	var args := OS.get_cmdline_user_args()
 	for arg in args:
-		if str(arg).begins_with("--smoke-"):
+		if str(arg).begins_with("--smoke-") or str(arg).begins_with("--capture-"):
 			return true
 	return false

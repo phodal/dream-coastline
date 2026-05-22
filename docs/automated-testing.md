@@ -47,6 +47,8 @@ the repo data is structurally wrong.
 - Run the headless Godot project-load check.
 - Run `--smoke-nova-runtime` to prove the new exploration/cutscene path can
   read story and visual JSON.
+- Run `--smoke-nova-save-continue` to prove the Nova-native save payload can
+  restore scene, location, and story flags without the legacy OpenRPG save path.
 - Run `--smoke-story-audio-targets` to report missing generated story audio
   targets before review playback depends on them.
 - Run `--smoke-dialogic-bridge` to prove Dialogic is installed and the Nova
@@ -72,8 +74,9 @@ Use the visual gate whenever a change touches `src/nova/ui/`,
 
 - Run `--capture-nova-screenshot` without `--headless` to prove a visible frame is
   not blank.
-- Run `tools/capture_scene_screenshots.py --scope starts` for a review contact
-  sheet.
+- Run `tools/capture_scene_screenshots.py --scope starts` for a Nova review
+  contact sheet. The tool defaults to `res://src/nova/main.tscn`; use the old
+  DreamField/OpenRPG scene only when explicitly reviewing that legacy entry.
 - For a scene-specific Sprint Sheet or UI brief, run screenshots for that scene
   and review the manifest against the original `SHOT-*` states.
 - Reject visual work if the manifest reports unexpected
@@ -121,7 +124,8 @@ Every new test should declare:
 - Test tier: `quick`, `headless`, `visual`, or `release`.
 - Trigger: which files or feature changes require it.
 - Runtime owner: Python tool, Godot smoke flag, Dialogic bridge check, or
-  screenshot tool.
+  screenshot tool. Current scene screenshot ownership is `src/nova/main.gd`
+  through `--capture-scene-screenshots`.
 - Acceptance text: the exact PASS line, manifest field, or failure condition.
 - Non-goal: what the test does not prove.
 

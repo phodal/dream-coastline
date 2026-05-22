@@ -36,5 +36,16 @@ func export_flags() -> Dictionary:
 	return _flags.duplicate(true)
 
 
+func import_flags(flags) -> void:
+	reset()
+	if typeof(flags) == TYPE_DICTIONARY:
+		for flag in flags.keys():
+			if bool(flags[flag]):
+				set_flag(str(flag), true)
+	elif typeof(flags) == TYPE_ARRAY:
+		for flag in flags:
+			set_flag(str(flag), true)
+
+
 func reset() -> void:
 	_flags.clear()

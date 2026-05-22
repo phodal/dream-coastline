@@ -1,14 +1,17 @@
 extends CanvasLayer
 
 signal dismissed
+signal continue_requested
 
 const SPLASH_IMAGE := "res://assets/branding/dream-coastline-title-loop.png"
 const FALLBACK_IMAGE := "res://assets/branding/dream-coastline-splash.png"
 const ICON_IMAGE := "res://assets/branding/dream-coastline-icon.png"
 
+var _continue_enabled := false
 var _dismissed := false
 var _timer := 0.0
 var _min_duration := 1.2
+var _subtitle: Label
 
 
 func _ready() -> void:
@@ -60,17 +63,17 @@ func _ready() -> void:
 	title.add_theme_color_override("font_color", Color(0.95, 0.82, 0.48))
 	root.add_child(title)
 
-	var subtitle := Label.new()
-	subtitle.text = "按 Enter / Space 开始"
-	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	subtitle.anchor_left = 0.0
-	subtitle.anchor_top = 0.76
-	subtitle.anchor_right = 1.0
-	subtitle.anchor_bottom = 0.76
-	subtitle.offset_bottom = 36.0
-	subtitle.add_theme_font_size_override("font_size", 22)
-	subtitle.add_theme_color_override("font_color", Color(0.88, 0.88, 0.82))
-	root.add_child(subtitle)
+	_subtitle = Label.new()
+	_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_subtitle.anchor_left = 0.0
+	_subtitle.anchor_top = 0.76
+	_subtitle.anchor_right = 1.0
+	_subtitle.anchor_bottom = 0.76
+	_subtitle.offset_bottom = 36.0
+	_subtitle.add_theme_font_size_override("font_size", 22)
+	_subtitle.add_theme_color_override("font_color", Color(0.88, 0.88, 0.82))
+	root.add_child(_subtitle)
+	_refresh_subtitle()
 
 
 func _process(delta: float) -> void:
@@ -82,14 +85,43 @@ func _input(event: InputEvent) -> void:
 		return
 	if _timer < _min_duration:
 		return
+	if _continue_enabled and _is_continue_event(event):
+		_complete(true)
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("ui_accept") or event.is_action_pressed("interact") or event is InputEventMouseButton:
 		dismiss()
 		get_viewport().set_input_as_handled()
 
 
+func configure_continue(enabled: bool) -> void:
+	_continue_enabled = enabled
+	_refresh_subtitle()
+
+
 func dismiss() -> void:
+	_complete(false)
+
+
+func _complete(continue_game: bool) -> void:
 	if _dismissed:
 		return
 	_dismissed = true
 	visible = false
-	dismissed.emit()
+	if continue_game:
+		continue_requested.emit()
+	else:
+		dismissed.emit()
+
+
+func _refresh_subtitle() -> void:
+	if _subtitle == null:
+		return
+	_subtitle.text = "Enter / Space 新游戏 · C 继续" if _continue_enabled else "按 Enter / Space 开始"
+
+
+func _is_continue_event(event: InputEvent) -> bool:
+	if event is InputEventKey:
+		var key_event := event as InputEventKey
+		return key_event.pressed and not key_event.echo and key_event.keycode == KEY_C
+	return false
