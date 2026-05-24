@@ -1,3 +1,10 @@
-旁白: 讲堂前排留着闻素的空椅。学生们没有为她停课，而是把她留下的复盘法继续教给下一届。教材页边留着她的一句：如果我不在了，就让错误继续教下一届。
+join jizi_xuan (phone) left
+join wensu (default) left
+jizi_xuan: 这把椅子为什么还空着？
+wensu: 如果我不在了，就别让我的名字替你们上课。让每个孩子自己读、自己问、自己改。
+jizi_xuan: 所以他们没有停课。
+wensu: 这才算我教会了他们。
 [signal arg="set_flag:witnessed_wensu_absence"]
+leave jizi_xuan
+leave wensu
 [end_timeline]

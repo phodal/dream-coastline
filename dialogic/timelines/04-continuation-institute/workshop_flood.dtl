@@ -1,3 +1,11 @@
-旁白: 第一次共同修复失败，造成小规模回流。你没有隐藏事故，而是组织复盘。
+join jizi_xuan (phone) left
+join wensu (default) left
+join atang (default) left
+atang: 如果按旧规矩，这次事故会记在我一个人头上。
+wensu: 按续文院规矩，它要记在流程上。谁抄了旧符、谁复核、谁没看见水位，都写出来。
+jizi_xuan: 不是为了找替罪的人，是为了下一次不用再靠运气。
 [signal arg="set_flag:reviewed_flood_failure"]
+leave jizi_xuan
+leave wensu
+leave atang
 [end_timeline]

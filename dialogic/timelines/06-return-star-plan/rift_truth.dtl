@@ -1,3 +1,8 @@
-旁白: 母亲说：我们无法向宇宙求救，因为求救信号会被静默。父亲说：你不是被送去逃生。你是被送去点燃一支火种。
+join jizi_xuan (phone) left
+jizi_xuan: 母亲的声音先出现，像隔着很厚的水。
+jizi_xuan: 我们无法向宇宙求救，因为求救信号会被静默。
+jizi_xuan: 父亲接上：你不是被送去逃生。你是被送去点燃一支火种。
+jizi_xuan: 那我现在把火带回去。不是一个人带。
 [signal arg="set_flag:received_parent_truth"]
+leave jizi_xuan
 [end_timeline]

@@ -1,0 +1,9 @@
+join jizi_xuan (phone) left
+join atang (default) left
+atang: 看到这张图的人，别先给我立像。先检查第三条管路，我怀疑它五十年后会漏。
+jizi_xuan: 五十年后的学生在旁边写了：已漏，已改，已公开。
+atang: 那就好。一个工匠能做完的事太少，能被别人接着骂、接着改，才算有用。
+[signal arg="set_flag:found_atang_last_blueprint"]
+leave jizi_xuan
+leave atang
+[end_timeline]

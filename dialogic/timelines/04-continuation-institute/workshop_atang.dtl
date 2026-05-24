@@ -1,3 +1,9 @@
-旁白: 阿棠说：坏掉的时候，明明是我第一个知道它为什么坏。
+join jizi_xuan (phone) left
+join atang (default) left
+atang: 旧书记官说我只会敲铁，不该碰字。可每次炉心裂开，先听见声音的人是我。
+jizi_xuan: 那你应该第一个读懂裂纹。
+atang: 别给我特许。把图纸贴出来，让下一个听见声音的人也读得懂。
 [signal arg="set_flag:met_atang"]
+leave jizi_xuan
+leave atang
 [end_timeline]

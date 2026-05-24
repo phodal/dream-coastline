@@ -1,3 +1,9 @@
-旁白: 续页舰上预留了许多空座：给教师、工程师、档案员，也给那些可能回不来的人。
+join jizi_xuan (phone) left
+join atang (default) left
+atang: 这几个空座不是浪漫，是撤离冗余。万一有人回不来，下一班也要知道该接谁的活。
+jizi_xuan: 我以前以为出发就是把所有人带走。
+atang: 工程不是出发。工程是你失败以后，别人还能接着修。
 [signal arg="set_flag:marked_empty_seats"]
+leave jizi_xuan
+leave atang
 [end_timeline]

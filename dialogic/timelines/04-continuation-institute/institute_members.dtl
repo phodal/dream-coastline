@@ -1,3 +1,14 @@
-旁白: 闻素带来学生，阿棠带来工匠，夏离带来旧军地图。第一次，墨颀的未来不只坐在王座旁。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiali (default) left
+join atang (default) left
+wensu: 我带来的不是学生名单，是愿意承认自己还不会的人。
+atang: 我带来的也不是工匠队，是每次机器坏掉时最先被骂的人。
+xiali: 我只带来旧军地图。它曾经只听王令，现在要学会听公共章程。
+jizi_xuan: 那续文院第一条就写清楚：没有谁的字高过复核。
 [signal arg="set_flag:met_first_members"]
+leave jizi_xuan
+leave wensu
+leave xiali
+leave atang
 [end_timeline]

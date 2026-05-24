@@ -28,11 +28,13 @@
   "required_flags": [
     "built_text_industry",
     "witnessed_wensu_absence",
+    "found_atang_last_blueprint",
     "saw_night_school_expansion",
     "bound_xiali_to_statebook",
     "saw_xiali_fading",
     "kept_xiali_private_anchor",
     "confirmed_remote_classrooms",
+    "heard_xiaoyan_roll_call",
     "built_statebook_network",
     "standardized_star_coordinates",
     "logged_failed_signal",
@@ -73,7 +75,14 @@
           "name": "闻素的空椅",
           "time_seconds": 110,
           "requires": ["wensu_textbook_survives"],
+          "characters": ["jizi_xuan", "wensu"],
           "flags": ["witnessed_wensu_absence"],
+          "dialogue": [
+            {"speaker": "jizi_xuan", "text": "这把椅子为什么还空着？"},
+            {"speaker": "wensu", "text": "如果我不在了，就别让我的名字替你们上课。让每个孩子自己读、自己问、自己改。"},
+            {"speaker": "jizi_xuan", "text": "所以他们没有停课。"},
+            {"speaker": "wensu", "text": "这才算我教会了他们。"}
+          ],
           "text": "讲堂前排留着闻素的空椅。学生们没有为她停课，而是把她留下的复盘法继续教给下一届。教材页边留着她的一句：如果我不在了，就让错误继续教下一届。"
         },
         "night_school": {
@@ -82,6 +91,19 @@
           "requires": ["first_students_teach"],
           "flags": ["saw_night_school_expansion"],
           "text": "工人下工后坐进夜校。许多人写得很慢，但他们第一次不用求书记官替自己读告示。"
+        },
+        "atang_blueprint": {
+          "name": "阿棠最后一张蓝图",
+          "time_seconds": 120,
+          "requires": ["built_text_industry"],
+          "characters": ["jizi_xuan", "atang"],
+          "flags": ["found_atang_last_blueprint"],
+          "dialogue": [
+            {"speaker": "atang", "text": "看到这张图的人，别先给我立像。先检查第三条管路，我怀疑它五十年后会漏。"},
+            {"speaker": "jizi_xuan", "text": "五十年后的学生在旁边写了：已漏，已改，已公开。"},
+            {"speaker": "atang", "text": "那就好。一个工匠能做完的事太少，能被别人接着骂、接着改，才算有用。"}
+          ],
+          "text": "阿棠留下的最后一张蓝图没有署名赞词，只有一串给后来工匠的故障预判。页边的新笔迹写着：已复核，已修正，已教给下一届。"
         }
       },
       "build_actions": {
@@ -141,6 +163,19 @@
           "requires": ["new_engineers_ready"],
           "flags": ["confirmed_remote_classrooms"],
           "text": "边境孩子通过国书网络听课。屏幕上还有延迟和乱码，但他们能把同一个字写在同一套标准里。"
+        },
+        "xiaoyan_roll_call": {
+          "name": "小砚留下的点名声",
+          "time_seconds": 110,
+          "requires": ["confirmed_remote_classrooms"],
+          "characters": ["jizi_xuan", "xiaoyan"],
+          "flags": ["heard_xiaoyan_roll_call"],
+          "dialogue": [
+            {"speaker": "xiaoyan", "text": "点名不是为了看谁迟到，是为了确认每个人还在。"},
+            {"speaker": "jizi_xuan", "text": "你当年差点被无名兽删掉。"},
+            {"speaker": "xiaoyan", "text": "所以我把点名表留给后人。哪天有人名字发白，先别问成绩，先把他叫回来。"}
+          ],
+          "text": "国书网络里保存着小砚晚年的点名录。每个名字后都有一次回应，像在反复证明：普通人的名字也值得被系统等待。"
         }
       },
       "build_actions": {
@@ -295,6 +330,7 @@
     "inspect wensu_absence",
     "inspect night_school",
     "build industry",
+    "inspect atang_blueprint",
     "go network",
     "inspect xiali",
     "inspect xiali_fading",
@@ -302,6 +338,7 @@
     "build bind_xiali",
     "inspect engineers",
     "inspect remote_classrooms",
+    "inspect xiaoyan_roll_call",
     "build network",
     "go astral",
     "inspect star_map",

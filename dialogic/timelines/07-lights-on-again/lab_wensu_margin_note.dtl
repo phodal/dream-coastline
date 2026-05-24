@@ -1,0 +1,9 @@
+join jizi_xuan (phone) left
+join wensu (default) left
+wensu: 最终字组合不是咒语。让一个文明继续，不是把答案写大声，是让别人也能检查你为什么这样写。
+jizi_xuan: 所以最后一笔要公开给两个世界看。
+wensu: 对。让静默协议也看见：我们会犯错，但错误不会再只属于少数人。
+[signal arg="set_flag:found_wensu_margin_note"]
+leave jizi_xuan
+leave wensu
+[end_timeline]

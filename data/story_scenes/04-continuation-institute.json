@@ -59,7 +59,14 @@
         "members": {
           "name": "第一批成员",
           "time_seconds": 65,
+          "characters": ["jizi_xuan", "wensu", "xiali", "atang"],
           "flags": ["met_first_members"],
+          "dialogue": [
+            {"speaker": "wensu", "text": "我带来的不是学生名单，是愿意承认自己还不会的人。"},
+            {"speaker": "atang", "text": "我带来的也不是工匠队，是每次机器坏掉时最先被骂的人。"},
+            {"speaker": "xiali", "text": "我只带来旧军地图。它曾经只听王令，现在要学会听公共章程。"},
+            {"speaker": "jizi_xuan", "text": "那续文院第一条就写清楚：没有谁的字高过复核。"}
+          ],
           "text": "闻素带来学生，阿棠带来工匠，夏离带来旧军地图。第一次，墨颀的未来不只坐在王座旁。",
           "route_texts": {
             "chose_public_books": "公开藏书被分成教学、工程和档案三摞。闻素带来学生，阿棠带来工匠，夏离带来旧军地图，所有人都能从同一张桌子开始。",
@@ -130,13 +137,24 @@
         "class": {
           "name": "第一堂课",
           "time_seconds": 60,
+          "characters": ["jizi_xuan", "wensu", "xiaoyan"],
           "flags": ["held_first_class"],
+          "dialogue": [
+            {"speaker": "xiaoyan", "text": "我写得歪，会不会又被收回去？"},
+            {"speaker": "wensu", "text": "写歪的字不会被收回，只会被改正。你今天写错的地方，要留给后来的人看。"},
+            {"speaker": "jizi_xuan", "text": "在我的世界，错题会被擦掉。这里不要擦。"}
+          ],
           "text": "小砚把“名”写得歪歪扭扭。他抬头说：我第一次能完整写出自己的名字。"
         },
         "mistake": {
           "name": "错误记录",
           "time_seconds": 55,
+          "characters": ["wensu", "xiaoyan"],
           "flags": ["logged_student_errors"],
+          "dialogue": [
+            {"speaker": "xiaoyan", "text": "那我名字旁边会永远有一个错字吗？"},
+            {"speaker": "wensu", "text": "会有一条更长的记录：他曾经写错，后来自己改对。文明不是没有错字，是错字不再只能由少数人解释。"}
+          ],
           "text": "闻素没有擦掉错误，而是把错误抄到复盘板上：文明要学会从错误继续。"
         }
       },
@@ -169,13 +187,25 @@
         "atang": {
           "name": "阿棠",
           "time_seconds": 60,
+          "characters": ["jizi_xuan", "atang"],
           "flags": ["met_atang"],
+          "dialogue": [
+            {"speaker": "atang", "text": "旧书记官说我只会敲铁，不该碰字。可每次炉心裂开，先听见声音的人是我。"},
+            {"speaker": "jizi_xuan", "text": "那你应该第一个读懂裂纹。"},
+            {"speaker": "atang", "text": "别给我特许。把图纸贴出来，让下一个听见声音的人也读得懂。"}
+          ],
           "text": "阿棠说：坏掉的时候，明明是我第一个知道它为什么坏。"
         },
         "flood": {
           "name": "防洪符文事故",
           "time_seconds": 70,
+          "characters": ["jizi_xuan", "wensu", "atang"],
           "flags": ["reviewed_flood_failure"],
+          "dialogue": [
+            {"speaker": "atang", "text": "如果按旧规矩，这次事故会记在我一个人头上。"},
+            {"speaker": "wensu", "text": "按续文院规矩，它要记在流程上。谁抄了旧符、谁复核、谁没看见水位，都写出来。"},
+            {"speaker": "jizi_xuan", "text": "不是为了找替罪的人，是为了下一次不用再靠运气。"}
+          ],
           "text": "第一次共同修复失败，造成小规模回流。你没有隐藏事故，而是组织复盘。"
         }
       },

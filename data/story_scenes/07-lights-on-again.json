@@ -21,7 +21,7 @@
     "node_stability": 0,
     "bridge_sync": 0
   },
-  "ending_flag": "rejected_silence_protocol",
+  "ending_flag": "found_parent_bridge_trace",
   "required_flags": [
     "confirmed_home_silenced",
     "heard_parent_echo",
@@ -39,10 +39,18 @@
     "survived_failed_bridge_test",
     "read_traveler_bridge_warning",
     "bridge_stable",
+    "heard_xiaoyan_name_sample",
+    "installed_atang_bridge_fuse",
+    "found_wensu_margin_note",
+    "identified_final_protocol",
+    "heard_protocol_indictment",
     "saw_deleted_party_names",
+    "answered_protocol_with_evidence",
+    "restored_final_ui",
     "heard_civilization_response",
     "defeated_final_protocol",
-    "rejected_silence_protocol"
+    "rejected_silence_protocol",
+    "found_parent_bridge_trace"
   ],
   "locations": {
     "home": {
@@ -121,6 +129,19 @@
           "time_seconds": 60,
           "flags": ["saw_classmate_names_lost"],
           "text": "名牌上只剩？？？。第一幕的无名兽不再是怪物，而是现代每个人可能的未来。"
+        },
+        "xiaoyan_name_sample": {
+          "name": "小砚的点名样本",
+          "time_seconds": 90,
+          "requires": ["saw_classmate_names_lost"],
+          "characters": ["jizi_xuan", "xiaoyan"],
+          "flags": ["heard_xiaoyan_name_sample"],
+          "dialogue": [
+            {"speaker": "xiaoyan", "text": "点名不是为了查谁没来，是为了确认每个人还没有被世界漏掉。"},
+            {"speaker": "jizi_xuan", "text": "现在我终于知道这句话能救人。"},
+            {"speaker": "xiaoyan", "text": "那就先从这些名牌开始。喊到他们答应。"}
+          ],
+          "text": "现代学校的点名表和小砚留下的样本短暂重叠。第一幕被救回的名字，变成终章呼回现代人的方法。"
         }
       }
     },
@@ -174,6 +195,19 @@
           "requires": ["temporary_node_built"],
           "flags": ["saw_return_bridge_traveler"],
           "text": "橱窗里映出一个海玻璃般的人影。你用“名”确认它，系统没有给出居民姓名，只显示：归桥旅人。"
+        },
+        "atang_bridge_fuse": {
+          "name": "阿棠的备用桥栓",
+          "time_seconds": 95,
+          "requires": ["temporary_node_built"],
+          "characters": ["jizi_xuan", "atang"],
+          "flags": ["installed_atang_bridge_fuse"],
+          "dialogue": [
+            {"speaker": "atang", "text": "我不知道现代变电箱长什么样，所以留了三套接口。最丑的那套，通常最能活。"},
+            {"speaker": "jizi_xuan", "text": "它真的接上了。"},
+            {"speaker": "atang", "text": "别谢我。等它烧坏的时候，把烧坏的位置写给下一个人。"}
+          ],
+          "text": "阿棠预留的备用桥栓接进现代变电箱。它不漂亮，但让临时国书节点多撑住一次静默脉冲。"
         }
       },
       "build_actions": {
@@ -266,6 +300,19 @@
           "flags": ["read_parent_final_record"],
           "text": "父母记录不是完整影像，只拼出母亲的手、父亲的眼镜和一段延迟十几年的呼吸。母亲说：如果你听见这段，不要先来找我们。父亲接上：先让城市被看见。纪子轩想回答自己已经长大了，录音却在这时停顿，像真的听见了一样，补了一句：我们知道。"
         },
+        "wensu_margin_note": {
+          "name": "闻素的页边批注",
+          "time_seconds": 90,
+          "requires": ["read_parent_final_record"],
+          "characters": ["jizi_xuan", "wensu"],
+          "flags": ["found_wensu_margin_note"],
+          "dialogue": [
+            {"speaker": "wensu", "text": "最终字组合不是咒语。让一个文明继续，不是把答案写大声，是让别人也能检查你为什么这样写。"},
+            {"speaker": "jizi_xuan", "text": "所以最后一笔要公开给两个世界看。"},
+            {"speaker": "wensu", "text": "对。让静默协议也看见：我们会犯错，但错误不会再只属于少数人。"}
+          ],
+          "text": "父母记录旁夹着闻素教材的残页。她把最终字组合改成一份公开答辩，而不是独属于执笔者的术式。"
+        },
         "failed_bridge_test": {
           "name": "失败的归桥测试",
           "time_seconds": 150,
@@ -279,6 +326,19 @@
           "requires": ["saw_return_bridge_traveler", "survived_failed_bridge_test"],
           "flags": ["read_traveler_bridge_warning"],
           "text": "归桥旅人没有说话，只把手按在误差最大的同步线上。纪子轩明白：先让城市被看见，父母的路才不会断。"
+        },
+        "parent_bridge_trace": {
+          "name": "父母桥迹",
+          "time_seconds": 130,
+          "requires": ["rejected_silence_protocol"],
+          "characters": ["jizi_xuan"],
+          "flags": ["found_parent_bridge_trace"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "归桥稳定后，实验室玻璃上没有出现完整的父母。只有两枚很淡的坐标点，沿着桥的另一端继续闪烁。"},
+            {"speaker": "jizi_xuan", "text": "不是结束。是路终于能被记录了。"},
+            {"speaker": "旁白", "text": "父亲的眼镜轮廓亮了一瞬，母亲的手写在玻璃上留下半句：下一页见。"}
+          ],
+          "text": "静默协议被拒绝后，归桥留下父母仍可追踪的坐标痕迹。没有团圆，但寻找第一次不再只靠一封错写的 Continue。"
         }
       },
       "build_actions": {
@@ -319,12 +379,32 @@
           "flags": ["identified_final_protocol"],
           "text": "协议判定：该文明不可控。该文明应静默。该文明不再续写。"
         },
+        "protocol_indictment": {
+          "name": "协议举证",
+          "time_seconds": 130,
+          "requires": ["identified_final_protocol"],
+          "flags": ["heard_protocol_indictment"],
+          "text": "静默协议展开证据：现代文明把信号送向深空，却无法证明每个名字都被保护；它能制造高速系统，却把错误藏进黑箱；它能照亮城市，却让孤立的人在灯下消失。协议据此判定：继续传播风险高于继续存在。"
+        },
         "deleted_party_names": {
           "name": "被删除的队友名",
           "time_seconds": 120,
-          "requires": ["identified_final_protocol"],
+          "requires": ["heard_protocol_indictment"],
           "flags": ["saw_deleted_party_names"],
           "text": "队伍栏里，夏离、工程师和父母记录全部变成□□。这一次被攻击的不是血量，而是关系本身。"
+        },
+        "counter_evidence": {
+          "name": "文明反证",
+          "time_seconds": 150,
+          "requires": [
+            "saw_deleted_party_names",
+            "found_wensu_margin_note",
+            "installed_atang_bridge_fuse",
+            "heard_xiaoyan_name_sample",
+            "bound_civilization_backups"
+          ],
+          "flags": ["answered_protocol_with_evidence"],
+          "text": "纪子轩把反证逐条写回去：闻素的教材证明错误能公开学习，阿棠的桥栓证明工程能被后来者接手，小砚的点名证明普通人的名字值得等待，夏离和国书备份证明权力可以拆成责任。现代文明尚未合格，但它已被两个世界共同纳入可修正的下一页。"
         },
         "civilization_response": {
           "name": "文明回声",
@@ -337,7 +417,7 @@
       "build_actions": {
         "restore": {
           "time_seconds": 100,
-          "requires": ["identified_final_protocol", "bound_civilization_backups", "modern_node_stable"],
+          "requires": ["answered_protocol_with_evidence", "bound_civilization_backups", "modern_node_stable"],
           "flags": ["restored_final_ui"],
           "metrics": {"bridge_sync": 20, "modern_observability": 20},
           "text": "标准字典、公共档案馆、国书网络、工程师和父母信标一起恢复被删的 UI。"
@@ -395,6 +475,7 @@
     "inspect corridor",
     "inspect missing_teacher",
     "inspect classmates",
+    "inspect xiaoyan_name_sample",
     "go street",
     "inspect grid",
     "inspect neighbors",
@@ -402,6 +483,7 @@
     "inspect node_base",
     "build node",
     "inspect bridge_traveler_reflection",
+    "inspect atang_bridge_fuse",
     "go store",
     "inspect clerk",
     "cast name",
@@ -412,12 +494,15 @@
     "inspect beacon",
     "build modern_node",
     "inspect parents_record",
+    "inspect wensu_margin_note",
     "inspect failed_bridge_test",
     "inspect traveler_warning",
     "build bridge",
     "go orbit",
     "inspect protocol",
+    "inspect protocol_indictment",
     "inspect deleted_party_names",
+    "inspect counter_evidence",
     "build restore",
     "inspect civilization_response",
     "write name",
@@ -429,6 +514,8 @@
     "attack",
     "write name",
     "attack",
-    "combine continue"
+    "combine continue",
+    "go lab",
+    "inspect parent_bridge_trace"
   ]
 }

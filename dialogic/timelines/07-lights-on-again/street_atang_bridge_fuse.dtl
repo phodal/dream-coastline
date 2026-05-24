@@ -1,0 +1,9 @@
+join jizi_xuan (phone) left
+join atang (default) left
+atang: 我不知道现代变电箱长什么样，所以留了三套接口。最丑的那套，通常最能活。
+jizi_xuan: 它真的接上了。
+atang: 别谢我。等它烧坏的时候，把烧坏的位置写给下一个人。
+[signal arg="set_flag:installed_atang_bridge_fuse"]
+leave jizi_xuan
+leave atang
+[end_timeline]

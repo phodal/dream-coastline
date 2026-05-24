@@ -1,3 +1,9 @@
-旁白: 反对者说：墨颀刚从灭亡中恢复，归星计划可能让一切成果再次归零。
+join jizi_xuan (phone) left
+join xiali (default) left
+jizi_xuan: 反对派没有拔剑。他们把矿场能源表、学塾名单和灾害备份摊在桌上。
+xiali: 他们不是胆小。一个刚学会不靠王活着的文明，有权害怕再次失去。
+jizi_xuan: 所以我不能请求他们相信我，只能把失败后果写清楚。
 [signal arg="set_flag:heard_opposition"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

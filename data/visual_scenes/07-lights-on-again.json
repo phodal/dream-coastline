@@ -83,6 +83,16 @@
 					"y": 5.0
 				},
 				{
+					"item": "wensu_margin_note",
+					"kind": "record",
+					"overlay": true,
+					"requires_flags": [
+						"read_parent_final_record"
+					],
+					"x": 5.0,
+					"y": 5.0
+				},
+				{
 					"item": "failed_bridge_test",
 					"kind": "bridge_static",
 					"overlay": true,
@@ -105,6 +115,16 @@
 					],
 					"x": 11.0,
 					"y": 5.0
+				},
+				{
+					"item": "parent_bridge_trace",
+					"kind": "parent_echo",
+					"overlay": true,
+					"requires_flags": [
+						"rejected_silence_protocol"
+					],
+					"x": 6.0,
+					"y": 6.0
 				},
 				{
 					"action": {
@@ -161,6 +181,16 @@
 					"y": 3.0
 				},
 				{
+					"item": "protocol_indictment",
+					"kind": "record",
+					"solid": false,
+					"requires_flags": [
+						"identified_final_protocol"
+					],
+					"x": 5.0,
+					"y": 3.0
+				},
+				{
 					"action": {
 						"arg": "restore",
 						"verb": "build"
@@ -177,6 +207,16 @@
 					"solid": false,
 					"x": 9.0,
 					"y": 3.0
+				},
+				{
+					"item": "counter_evidence",
+					"kind": "record",
+					"solid": false,
+					"requires_flags": [
+						"saw_deleted_party_names"
+					],
+					"x": 9.0,
+					"y": 5.0
 				},
 				{
 					"action": {
@@ -268,6 +308,16 @@
 					"solid": true,
 					"x": 8.0,
 					"y": 3.0
+				},
+				{
+					"item": "xiaoyan_name_sample",
+					"kind": "record",
+					"solid": false,
+					"requires_flags": [
+						"saw_classmate_names_lost"
+					],
+					"x": 9.0,
+					"y": 5.0
 				},
 				{
 					"exit": "home",
@@ -387,6 +437,16 @@
 					"kind": "creature",
 					"solid": false,
 					"x": 11.0,
+					"y": 5.0
+				},
+				{
+					"item": "atang_bridge_fuse",
+					"kind": "record",
+					"overlay": true,
+					"requires_flags": [
+						"temporary_node_built"
+					],
+					"x": 12.0,
 					"y": 5.0
 				},
 				{

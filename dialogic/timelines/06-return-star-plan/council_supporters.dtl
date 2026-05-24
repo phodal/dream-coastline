@@ -1,3 +1,11 @@
-旁白: 学生、工程师和档案员认为：纪子轩帮助过墨颀，墨颀也应回应另一个文明的求救。
+join jizi_xuan (phone) left
+join wensu (default) left
+join atang (default) left
+wensu: 我反对把归星说成报恩。报恩太轻，轻到可以由一个人决定。
+atang: 那就把它拆成账本、船坞、备份和撤退线。能被复核，才有资格上路。
+jizi_xuan: 如果最后票数不够，我会接受。墨颀不是我的工具。
 [signal arg="set_flag:heard_supporters"]
+leave jizi_xuan
+leave wensu
+leave atang
 [end_timeline]

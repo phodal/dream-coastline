@@ -1,3 +1,9 @@
-旁白: 账本逐项列出能源、教育、城市防护和失败后果。归星不是热血表决，而是把风险写给所有人看。
+join jizi_xuan (phone) left
+join xiali (default) left
+xiali: 旧王令会把这一页写成：奉命归星。
+jizi_xuan: 续文院要写成：若失败，哪些城市先断电，哪些孩子先撤离，谁有权叫停。
+xiali: 那它终于不像王令了。
 [signal arg="set_flag:reviewed_return_risk_ledger"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

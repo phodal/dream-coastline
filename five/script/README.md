@@ -13,6 +13,7 @@
 - `pacing-expansion-pass.md`：针对当前时长体感不足的第一轮补强，覆盖第二、三、五、七幕的具体扩写点。
 - `continuity-pass.md`：整体连贯性复查，记录已修正的因果、继承 flag、敌人登场和选择死路问题。
 - `character-payoff-pass.md`：补第五幕夏离国书化代价和第七幕父母半面对面收束。
+- `midgame-dramatic-scene-pass.md`：把第四到第七幕的文明建设、归星议会、终局协议和父母后日谈补成戏剧场景，避免中后段退回任务卡。
 
 ## 验证
 

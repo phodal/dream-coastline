@@ -124,6 +124,16 @@
 					"y": 3.0
 				},
 				{
+					"item": "atang_blueprint",
+					"kind": "record",
+					"overlay": true,
+					"requires_flags": [
+						"built_text_industry"
+					],
+					"x": 10.0,
+					"y": 5.0
+				},
+				{
 					"exit": "network",
 					"kind": "exit",
 					"x": 13.0,
@@ -196,6 +206,16 @@
 						"new_engineers_ready"
 					],
 					"x": 8.0,
+					"y": 5.0
+				},
+				{
+					"item": "xiaoyan_roll_call",
+					"kind": "record",
+					"overlay": true,
+					"requires_flags": [
+						"confirmed_remote_classrooms"
+					],
+					"x": 9.0,
 					"y": 5.0
 				},
 				{

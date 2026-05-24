@@ -89,7 +89,13 @@
         "supporters": {
           "name": "支持派",
           "time_seconds": 70,
+          "characters": ["jizi_xuan", "wensu", "atang"],
           "flags": ["heard_supporters"],
+          "dialogue": [
+            {"speaker": "wensu", "text": "我反对把归星说成报恩。报恩太轻，轻到可以由一个人决定。"},
+            {"speaker": "atang", "text": "那就把它拆成账本、船坞、备份和撤退线。能被复核，才有资格上路。"},
+            {"speaker": "jizi_xuan", "text": "如果最后票数不够，我会接受。墨颀不是我的工具。"}
+          ],
           "text": "学生、工程师和档案员认为：纪子轩帮助过墨颀，墨颀也应回应另一个文明的求救。",
           "route_texts": {
             "chose_public_books": "公开藏书培养出的学生、工程师和档案员一起发言：纪子轩帮助过墨颀，墨颀也应回应另一个文明的求救。",
@@ -101,7 +107,13 @@
         "opposition": {
           "name": "反对派",
           "time_seconds": 70,
+          "characters": ["jizi_xuan", "xiali"],
           "flags": ["heard_opposition"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "反对派没有拔剑。他们把矿场能源表、学塾名单和灾害备份摊在桌上。"},
+            {"speaker": "xiali", "text": "他们不是胆小。一个刚学会不靠王活着的文明，有权害怕再次失去。"},
+            {"speaker": "jizi_xuan", "text": "所以我不能请求他们相信我，只能把失败后果写清楚。"}
+          ],
           "text": "反对者说：墨颀刚从灭亡中恢复，归星计划可能让一切成果再次归零。",
           "route_texts": {
             "chose_public_books": "反对者承认公开教育有效，但他们问：刚学会写名字的孩子，是否应该承担另一个世界的失败后果？",
@@ -114,7 +126,13 @@
           "name": "风险账本",
           "time_seconds": 95,
           "requires": ["heard_supporters", "heard_opposition"],
+          "characters": ["jizi_xuan", "xiali"],
           "flags": ["reviewed_return_risk_ledger"],
+          "dialogue": [
+            {"speaker": "xiali", "text": "旧王令会把这一页写成：奉命归星。"},
+            {"speaker": "jizi_xuan", "text": "续文院要写成：若失败，哪些城市先断电，哪些孩子先撤离，谁有权叫停。"},
+            {"speaker": "xiali", "text": "那它终于不像王令了。"}
+          ],
           "text": "账本逐项列出能源、教育、城市防护和失败后果。归星不是热血表决，而是把风险写给所有人看。"
         }
       },
@@ -160,7 +178,13 @@
           "name": "空座名单",
           "time_seconds": 90,
           "requires": ["built_return_vessel"],
+          "characters": ["jizi_xuan", "atang"],
           "flags": ["marked_empty_seats"],
+          "dialogue": [
+            {"speaker": "atang", "text": "这几个空座不是浪漫，是撤离冗余。万一有人回不来，下一班也要知道该接谁的活。"},
+            {"speaker": "jizi_xuan", "text": "我以前以为出发就是把所有人带走。"},
+            {"speaker": "atang", "text": "工程不是出发。工程是你失败以后，别人还能接着修。"}
+          ],
           "text": "续页舰上预留了许多空座：给教师、工程师、档案员，也给那些可能回不来的人。"
         }
       },
@@ -251,7 +275,15 @@
           "name": "归星门前的告别",
           "time_seconds": 90,
           "requires": ["opened_return_gate"],
+          "characters": ["jizi_xuan", "xiali", "wensu", "atang", "xiaoyan"],
           "flags": ["heard_return_gate_farewell"],
+          "dialogue": [
+            {"speaker": "xiali", "text": "这一次，不是你一个人回家。"},
+            {"speaker": "wensu", "text": "也不是我们替你回家。你要在那边继续教人读懂错误。"},
+            {"speaker": "atang", "text": "节点过热就先拆第三组接口，别逞英雄。"},
+            {"speaker": "xiaoyan", "text": "如果有人名字发白，先喊他。喊到他答应为止。"},
+            {"speaker": "jizi_xuan", "text": "我记住了。"}
+          ],
           "text": "夏离看着门内的现代夜色，说：这一次，不是你一个人回家。"
         }
       },
@@ -305,7 +337,14 @@
           "name": "父母真相",
           "time_seconds": 90,
           "requires": ["defeated_invasion_probe"],
+          "characters": ["jizi_xuan"],
           "flags": ["received_parent_truth"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "母亲的声音先出现，像隔着很厚的水。"},
+            {"speaker": "旁白", "text": "我们无法向宇宙求救，因为求救信号会被静默。"},
+            {"speaker": "旁白", "text": "父亲接上：你不是被送去逃生。你是被送去点燃一支火种。"},
+            {"speaker": "jizi_xuan", "text": "那我现在把火带回去。不是一个人带。"}
+          ],
           "text": "母亲说：我们无法向宇宙求救，因为求救信号会被静默。父亲说：你不是被送去逃生。你是被送去点燃一支火种。"
         }
       },

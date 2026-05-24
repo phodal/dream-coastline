@@ -1,3 +1,11 @@
-旁白: 小砚把“名”写得歪歪扭扭。他抬头说：我第一次能完整写出自己的名字。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiaoyan (default) left
+xiaoyan: 我写得歪，会不会又被收回去？
+wensu: 写歪的字不会被收回，只会被改正。你今天写错的地方，要留给后来的人看。
+jizi_xuan: 在我的世界，错题会被擦掉。这里不要擦。
 [signal arg="set_flag:held_first_class"]
+leave jizi_xuan
+leave wensu
+leave xiaoyan
 [end_timeline]
