@@ -848,6 +848,35 @@
         "imagen_prompt": "Wide comic story panel in a century-later night school and text industry district. An empty teacher chair with Wensu legacy, adult students teaching workers, printing glyph papers without readable text. Ji Zixuan returns as observer. Restrained ink-and-paper RPG."
       },
       {
+        "id": "atang-last-blueprint",
+        "path": "res://assets/illustrations/story_review/05-century-continuation/atang-last-blueprint.png",
+        "target_path": "res://assets/illustrations/story_review/05-century-continuation/atang-last-blueprint.png",
+        "generation_status": "ready",
+        "title": "文字工业时代：阿棠的最后图纸",
+        "caption": "阿棠留下的图纸不是遗物，而是后来工坊继续修正、继续承担风险的公共证据。",
+        "locations": [
+          "industry"
+        ],
+        "commands": [
+          "inspect atang_blueprint",
+          "build industry"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "atang",
+            "costume_state": "astral_engineer",
+            "position": "right",
+            "pose": "legacy_memory"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in a century-later Moqi text industry workshop. An old engineering blueprint from Atang lies open on a drafting table, covered in non-readable glyph marks and later repair annotations; younger engineers compare the old prediction with a repaired pipe and small ink-powered machinery. Ji Zixuan stands as observer, quiet and moved. Restrained ink-and-paper RPG style, warm workshop lanterns, visible tools and public revision board, no readable text."
+      },
+      {
         "id": "xiali-statebook-anchor",
         "path": "res://assets/illustrations/story_review/05-century-continuation/xiali-statebook-anchor.png",
         "target_path": "res://assets/illustrations/story_review/05-century-continuation/xiali-statebook-anchor.png",
@@ -881,6 +910,36 @@
           }
         ],
         "imagen_prompt": "Wide comic story panel of a civic statebook network. Xiali appears in several node-light echoes but one ordinary chair is kept for him; Ji Zixuan marks it as a private anchor. Restrained ink-and-paper RPG, old royal blue, no readable text."
+      },
+      {
+        "id": "xiaoyan-roll-call",
+        "path": "res://assets/illustrations/story_review/05-century-continuation/xiaoyan-roll-call.png",
+        "target_path": "res://assets/illustrations/story_review/05-century-continuation/xiaoyan-roll-call.png",
+        "generation_status": "ready",
+        "title": "国书网络时代：小燕的点名册",
+        "caption": "小燕的点名让国书网络不只是工程规模，而是具体的人仍被一个一个叫到。",
+        "locations": [
+          "network"
+        ],
+        "commands": [
+          "inspect remote_classrooms",
+          "inspect xiaoyan_roll_call",
+          "build network"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "xiaoyan",
+            "costume_state": "student",
+            "position": "right",
+            "pose": "careful_writing"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in a Moqi statebook network classroom. A preserved roll-call record from Xiaoyan glows on a desk while remote classrooms answer through small node windows; ordinary children and workers are represented by symbolic name marks that are not readable. Ji Zixuan listens as the system confirms each person is still present. Restrained ink-and-paper RPG style, soft civic light, quiet emotional tone, no readable text."
       },
       {
         "id": "astral-engineering",
@@ -1216,7 +1275,8 @@
           "go school",
           "inspect corridor",
           "inspect missing_teacher",
-          "inspect classmates"
+          "inspect classmates",
+          "inspect xiaoyan_name_sample"
         ],
         "characters": [
           {
@@ -1243,6 +1303,7 @@
           "inspect beacon",
           "build modern_node",
           "inspect parents_record",
+          "inspect wensu_margin_note",
           "inspect failed_bridge_test",
           "inspect traveler_warning",
           "build bridge"
@@ -1310,6 +1371,7 @@
           "inspect neighbors",
           "build lights",
           "build node",
+          "inspect atang_bridge_fuse",
           "go lab",
           "inspect formula",
           "inspect beacon",
@@ -1334,6 +1396,72 @@
         "imagen_prompt": "Wide comic story panel on a modern city street and parents laboratory bridge. A return bridge traveler silhouette connects modern streets with Moqi continuation pages while Ji Zixuan and Xiali stabilize city lights. Restrained ink-and-paper RPG, no readable text."
       },
       {
+        "id": "protocol-indictment",
+        "path": "res://assets/illustrations/story_review/07-lights-on-again/protocol-indictment.png",
+        "target_path": "res://assets/illustrations/story_review/07-lights-on-again/protocol-indictment.png",
+        "generation_status": "ready",
+        "title": "轨道静默层：协议控诉",
+        "caption": "静默协议把现代文明的孤立、遗忘和失联摆成审判，逼纪子轩用一路收集的具体证据回应。",
+        "locations": [
+          "orbit"
+        ],
+        "commands": [
+          "go orbit",
+          "inspect protocol",
+          "inspect protocol_indictment",
+          "inspect deleted_party_names"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "center",
+            "pose": "steady_resolve"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in the orbital silence layer above a modern city. The silence protocol presents evidence against modern civilization: deep-space signal fragments, black-box system diagrams, isolated lit windows, erased name tags and blank maps, all arranged like a cold tribunal. Ji Zixuan stands small before the vast judgment. Restrained ink-and-paper RPG style, cosmic black-and-white deletion patterns, solemn and tense, no readable text."
+      },
+      {
+        "id": "civilization-counter-evidence",
+        "path": "res://assets/illustrations/story_review/07-lights-on-again/civilization-counter-evidence.png",
+        "target_path": "res://assets/illustrations/story_review/07-lights-on-again/civilization-counter-evidence.png",
+        "generation_status": "ready",
+        "title": "轨道静默层：文明反证",
+        "caption": "闻素的书、阿棠的熔丝、小燕的点名和夏离的国书备份一起证明：文明不是完美，而是愿意继续修复。",
+        "locations": [
+          "orbit"
+        ],
+        "commands": [
+          "inspect counter_evidence",
+          "build restore",
+          "inspect civilization_response",
+          "combine continue"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "center"
+          },
+          {
+            "id": "wensu",
+            "costume_state": "legacy_memory",
+            "position": "left"
+          },
+          {
+            "id": "atang",
+            "costume_state": "astral_engineer",
+            "position": "right"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "statebook_guardian",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in the orbital silence layer as two civilizations answer the judgment. Wensu's open textbook, Atang's rough bridge fuse, Xiaoyan's roll-call sheet, Xiali's statebook backup, modern city lights and Moqi classrooms, workshops, and archives connect as evidence around Ji Zixuan. The mood is a public defense, not a battle pose. Restrained ink-and-paper RPG style, bridge light between modern and Moqi, no readable text."
+      },
+      {
         "id": "final-silence-protocol",
         "path": "res://assets/illustrations/story_review/07-lights-on-again/final-silence-protocol.png",
         "title": "轨道静默层：最终协议",
@@ -1344,7 +1472,9 @@
         "commands": [
           "go orbit",
           "inspect protocol",
+          "inspect protocol_indictment",
           "inspect deleted_party_names",
+          "inspect counter_evidence",
           "build restore",
           "inspect civilization_response",
           "write name",
@@ -1372,6 +1502,31 @@
         "target_path": "res://assets/illustrations/story_review/07-lights-on-again/final-silence-protocol.png",
         "generation_status": "ready",
         "imagen_prompt": "Wide comic story panel in an orbital silence layer. The final protocol deletes party names and interface identity while Ji Zixuan, Xiali, and Atang use shared naming, stop, and continue systems to restore civilization response. Restrained ink-and-paper RPG, no readable text."
+      },
+      {
+        "id": "parent-bridge-trace",
+        "path": "res://assets/illustrations/story_review/07-lights-on-again/parent-bridge-trace.png",
+        "target_path": "res://assets/illustrations/story_review/07-lights-on-again/parent-bridge-trace.png",
+        "generation_status": "ready",
+        "title": "父母实验室：桥的另一端",
+        "caption": "终章不把父母直接还回来，而是给出稳定坐标和继续寻找的方向，让私人牵挂保留余韵。",
+        "locations": [
+          "lab"
+        ],
+        "commands": [
+          "combine continue",
+          "go lab",
+          "inspect parent_bridge_trace"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "center",
+            "pose": "quiet_guardianship"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel in Ji Zixuan's parents laboratory after the final protocol is rejected. The bridge is stable but the parents do not fully appear: two faint coordinate points glow at the far end, the outline of father's glasses and mother's hand are reflected on glass, and the city lights outside are returning. Ji Zixuan stands quietly, understanding this is a path to continue searching. Restrained ink-and-paper RPG style, emotional but not sentimental, no readable text."
       }
     ]
   }
