@@ -1,58 +1,123 @@
 # Dream Coastline
 
-![Dream Coastline title art](assets/branding/dream-coastline-title-loop.png)
+<div align="center">
 
-Dream Coastline is a 90s-style narrative RPG prototype built with Godot. It
-follows a city where names, memory, and light have started to fail, and turns
-the story into explorable scenes, inspectable objects, and short cutscene
-moments.
+![Dream Coastline splash](assets/branding/dream-coastline-splash.png)
 
-The project is currently a playable development slice, not a finished game.
-The main runtime is the Nova narrative layer at `res://src/nova/main.tscn`,
-with Dialogic used as the cutscene frontend when available.
+[![Godot 4.6](https://img.shields.io/badge/Godot-4.6-478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org/)
+[![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
+[![Status: Pre-Alpha](https://img.shields.io/badge/Status-Pre--Alpha-orange)](https://github.com/phodal/dream-coastline)
 
-## Status
+**A 90s-style narrative RPG where names, memory, and light have started to fail.**
 
-- Pre-alpha RPG/narrative prototype.
-- Godot 4.6 project with a small optional Rust GDExtension crate.
-- Story, visual scene, audio cue, character, creature, and animation data live
-  in versioned JSON files under `data/`.
-- Automated gates cover static data validation, headless runtime smoke tests,
-  Dialogic bridge checks, and local visual screenshot review.
+</div>
+
+---
+
+Dream Coastline is an open-source narrative RPG prototype built with [Godot 4](https://godotengine.org/).
+Set in a city slowly losing its language and memory, the game turns story into explorable scenes,
+inspectable objects, and cutscene moments driven entirely by versioned data files.
+
+The project is currently a playable development slice, not a finished game. The main runtime is
+the Nova narrative layer at `res://src/nova/main.tscn`, with Dialogic used as the cutscene
+frontend when available.
+
+---
+
+## Gallery
+
+<div align="center">
+
+| Chapter 0 · Prologue | Chapter 1 · Illiterate | Chapter 2 · Moqi Academy |
+|:---:|:---:|:---:|
+| ![Prologue](assets/illustrations/chapters/00-prologue-lights-out-01.png) | ![Illiterate](assets/illustrations/chapters/01-illiterate-01.png) | ![Moqi Academy](assets/illustrations/chapters/02-moqi-academy-01.png) |
+| *The night the lights went out* | *A person who cannot write* | *Where scripts are taught and lost* |
+
+| Chapter 3 · Dead Kingdom | Chapter 4 · Continuation | Chapter 5 · Century |
+|:---:|:---:|:---:|
+| ![Dead Kingdom](assets/illustrations/chapters/03-dead-kingdom-01.png) | ![Continuation](assets/illustrations/chapters/04-continuation-institute-01.png) | ![Century](assets/illustrations/chapters/05-century-continuation-01.png) |
+| *The city that refused to remember* | *An institute trying to save language* | *A hundred years of missing pages* |
+
+</div>
+
+---
+
+## Characters
+
+<div align="center">
+
+![Main cast contact sheet](artifacts/character-models/main-cast-contact.png)
+
+*Main cast: Jizi Xuan, Xiali, Wensu, and Atang*
+
+</div>
+
+The story follows four characters through eight chapters, each carrying a
+different relationship to the city's failing language and fading memory.
+
+---
+
+## Story Chapters
+
+| # | Title | Setting |
+|---|-------|---------|
+| 0 | 序幕：灯未亮起的夜晚 — *Prologue: The Night Before the Lights Came On* | Home, bedroom, street |
+| 1 | 第一幕：不会写字的人 — *Act 1: The Illiterate* | Outskirts, mud road |
+| 2 | 第二幕：墨颀书院 — *Act 2: Moqi Academy* | Academy, archive |
+| 3 | 第三幕：死去的王国 — *Act 3: Dead Kingdom* | Ruins, propaganda walls |
+| 4 | 第四幕：续文院 — *Act 4: Continuation Institute* | Workshop, mine |
+| 5 | 第五幕：百年续页 — *Act 5: Century Continuation* | Star chart room, night school |
+| 6 | 第六幕：归星计划 — *Act 6: Return Star Plan* | Dockyard, council chamber |
+| 7 | 第七幕：灯重新亮起 — *Act 7: Lights On Again* | Bridge, final silence |
+
+---
 
 ## Features
 
-- Keyboard-driven RPG exploration with visible locations, exits, and
-  inspectable story objects.
-- Eight authored story chapters, from the prologue through `Lights On Again`.
-- Nova runtime for scene progression, story flags, location choices, and
-  story-action payloads.
-- Nova-native save/continue for restoring the current scene, location, and
-  story flags.
-- Nova pause menu for resume, save, return-to-title, and exit.
-- Dialogic timeline generation and bridge support for native Godot dialogue
-  playback.
-- Data-backed visual scenes, character models, creature records, equipment,
-  supplies, Moqi script glyphs, and animation clip contracts.
-- Screenshot and contact-sheet tooling for reviewing scene readability.
-- Desktop export notes for macOS, Windows, and Linux.
+- **Keyboard-driven RPG exploration** with visible locations, exits, and inspectable story objects.
+- **Eight authored story chapters**, from the prologue through *Lights On Again*.
+- **Nova runtime** for scene progression, story flags, location choices, and story-action payloads.
+- **Save / continue** — restores current scene, location, and story flags.
+- **Pause menu** with resume, save, return-to-title, and exit.
+- **Dialogic integration** — timeline generation and bridge support for native Godot dialogue playback.
+- **Moqi script** — a custom in-world writing system with authored glyphs and font tooling.
+- **Creature compendium** — eight creatures with concept art, habitat illustrations, and walk cycles.
+- **Data-driven pipeline** — story scenes, visual scenes, characters, audio cues, and animation clips all live in versioned JSON under `data/`.
+- **Screenshot tooling** — capture and review scene readability with contact sheets and manifests.
+- **Desktop export** — macOS, Windows, and Linux export presets included.
+
+### Moqi Script & Creatures
+
+<div align="center">
+
+| Moqi Script Sample | Creature Habitats |
+|:---:|:---:|
+| ![Moqi font sample](artifacts/moqi-font/sample.png) | ![Creature habitats](artifacts/creature-habitats/contact.png) |
+| *In-world glyph system* | *Eight named creatures* |
+
+</div>
 
 ## Quick Start
 
-Install Godot 4.6.x, then open the project:
+1. Install [Godot 4.6.x](https://godotengine.org/download/).
+2. Clone this repository.
+3. Open the project in Godot and let the initial import finish.
+4. Press **F5** (or use **Project → Run**) to launch the game.
+
+From the command line (macOS example; adjust path for your OS):
 
 ```sh
+# Open the editor
 /Applications/Godot.app/Contents/MacOS/Godot --editor --path .
-```
 
-Run the current playable runtime:
-
-```sh
+# Run directly
 /Applications/Godot.app/Contents/MacOS/Godot --path .
 ```
 
-On first import, let Godot finish importing project resources before running
-smoke tests or taking screenshots.
+> **Note:** On first import, let Godot finish importing all project resources
+> before running smoke tests or taking screenshots.
+
+---
 
 ## Controls
 
