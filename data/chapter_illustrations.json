@@ -451,6 +451,7 @@
           "go node",
           "inspect contract",
           "inspect contract_hound",
+          "engage contract_patrol",
           "write name",
           "cast door",
           "cast stop",
@@ -761,6 +762,40 @@
           }
         ],
         "imagen_prompt": "Wide comic story panel at a rune mine entrance. Workers face a public safety board with symbols represented abstractly, mine cracks stabilized by ink lines, Atang and Ji Zixuan turn a spell into a procedure. Restrained ink-and-paper RPG, no readable text."
+      },
+      {
+        "id": "communication-tower-array",
+        "path": "res://assets/illustrations/story_review/04-continuation-institute/communication-tower-array.png",
+        "target_path": "res://assets/illustrations/story_review/04-continuation-institute/communication-tower-array.png",
+        "generation_status": "ready",
+        "title": "通信塔遗址：字典同步到远处",
+        "caption": "通信塔把续文院从局部救援推到跨地域协作，字典差异被公开校准，远处村落重新接入。",
+        "locations": [
+          "tower"
+        ],
+        "commands": [
+          "go tower",
+          "inspect array",
+          "build comms"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          },
+          {
+            "id": "xiali",
+            "costume_state": "reformer",
+            "position": "center"
+          },
+          {
+            "id": "atang",
+            "costume_state": "continuation_engineer",
+            "position": "right"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel at the ruined communication tower of the Continuation Institute era. A broken rune communication array is being repaired beside a public dictionary synchronization board; students, workers, and engineers compare regional glyph variants as distant village signal lamps reconnect one by one. Ji Zixuan observes while Xiali and Atang help stabilize the array. Restrained ink-and-paper RPG style, warm work lights against old stone, no readable text."
       },
       {
         "id": "seal-tower-forgetting",
@@ -1370,6 +1405,7 @@
           "inspect grid",
           "inspect neighbors",
           "build lights",
+          "inspect node_base",
           "build node",
           "inspect atang_bridge_fuse",
           "go lab",
@@ -1394,6 +1430,31 @@
         "target_path": "res://assets/illustrations/story_review/07-lights-on-again/return-bridge-traveler.png",
         "generation_status": "ready",
         "imagen_prompt": "Wide comic story panel on a modern city street and parents laboratory bridge. A return bridge traveler silhouette connects modern streets with Moqi continuation pages while Ji Zixuan and Xiali stabilize city lights. Restrained ink-and-paper RPG, no readable text."
+      },
+      {
+        "id": "store-name-receipt",
+        "path": "res://assets/illustrations/story_review/07-lights-on-again/store-name-receipt.png",
+        "target_path": "res://assets/illustrations/story_review/07-lights-on-again/store-name-receipt.png",
+        "generation_status": "ready",
+        "title": "便利店：姓名重新打印出来",
+        "caption": "终章救城市不是抽象点灯；无脸店员从小票上找回名字，证明现代世界里具体的人被救回来了。",
+        "locations": [
+          "store"
+        ],
+        "commands": [
+          "go store",
+          "inspect clerk",
+          "cast name",
+          "inspect receipt"
+        ],
+        "characters": [
+          {
+            "id": "jizi_xuan",
+            "costume_state": "civil_engineer",
+            "position": "left"
+          }
+        ],
+        "imagen_prompt": "Wide comic story panel inside a modern convenience store during the final silence crisis. A faceless clerk stands behind the counter asking who they are; Ji Zixuan uses the name glyph system near the register, and a receipt prints symbolic non-readable marks as the clerk's identity returns. The store lights are half restored, shelves and window reflections show the modern city recovering outside. Restrained ink-and-paper RPG style, quiet emotional rescue, no readable text."
       },
       {
         "id": "protocol-indictment",
