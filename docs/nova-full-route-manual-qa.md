@@ -25,7 +25,7 @@ Global acceptance:
 Route summary:
 
 - Scenes: 8
-- Walkthrough commands: 248
+- Walkthrough commands: 257
 
 ## 00-prologue-lights-out - 序幕：灯未亮起的夜晚
 
@@ -342,17 +342,19 @@ Scene acceptance:
 
 - Start location: `industry`
 - Ending flag: `saw_modern_star_darkening`
-- Walkthrough commands: 31
+- Walkthrough commands: 33
 
 Required flags:
 
 - `built_text_industry`
 - `witnessed_wensu_absence`
+- `found_atang_last_blueprint`
 - `saw_night_school_expansion`
 - `bound_xiali_to_statebook`
 - `saw_xiali_fading`
 - `kept_xiali_private_anchor`
 - `confirmed_remote_classrooms`
+- `heard_xiaoyan_roll_call`
 - `built_statebook_network`
 - `standardized_star_coordinates`
 - `logged_failed_signal`
@@ -371,32 +373,34 @@ Live-window route:
 | 3 | `inspect wensu_absence` | `wensu_absence` dialogue/action resolves and any flags are reflected in status |
 | 4 | `inspect night_school` | `night_school` dialogue/action resolves and any flags are reflected in status |
 | 5 | `build industry` | build `industry` resolves with readable feedback |
-| 6 | `go network` | location changes to `network` and action menu regains focus |
-| 7 | `inspect xiali` | `xiali` dialogue/action resolves and any flags are reflected in status |
-| 8 | `inspect xiali_fading` | `xiali_fading` dialogue/action resolves and any flags are reflected in status |
-| 9 | `inspect private_anchor` | `private_anchor` dialogue/action resolves and any flags are reflected in status |
-| 10 | `build bind_xiali` | build `bind_xiali` resolves with readable feedback |
-| 11 | `inspect engineers` | `engineers` dialogue/action resolves and any flags are reflected in status |
-| 12 | `inspect remote_classrooms` | `remote_classrooms` dialogue/action resolves and any flags are reflected in status |
-| 13 | `build network` | build `network` resolves with readable feedback |
-| 14 | `go astral` | location changes to `astral` and action menu regains focus |
-| 15 | `inspect star_map` | `star_map` dialogue/action resolves and any flags are reflected in status |
-| 16 | `inspect coordinate_standard` | `coordinate_standard` dialogue/action resolves and any flags are reflected in status |
-| 17 | `inspect beacon` | `beacon` dialogue/action resolves and any flags are reflected in status |
-| 18 | `inspect failed_signal` | `failed_signal` dialogue/action resolves and any flags are reflected in status |
-| 19 | `inspect star_chart_moth` | `star_chart_moth` dialogue/action resolves and any flags are reflected in status |
-| 20 | `build astral_tower` | build `astral_tower` resolves with readable feedback |
-| 21 | `go star_tower` | location changes to `star_tower` and action menu regains focus |
-| 22 | `inspect signal` | `signal` dialogue/action resolves and any flags are reflected in status |
-| 23 | `inspect silent_frame` | `silent_frame` dialogue/action resolves and any flags are reflected in status |
-| 24 | `write name` | combat action `write name` advances without losing input focus |
-| 25 | `cast stop` | glyph `stop` resolves with readable feedback |
-| 26 | `attack` | screen responds without input deadlock |
-| 27 | `attack` | screen responds without input deadlock |
-| 28 | `write name` | combat action `write name` advances without losing input focus |
+| 6 | `inspect atang_blueprint` | `atang_blueprint` dialogue/action resolves and any flags are reflected in status |
+| 7 | `go network` | location changes to `network` and action menu regains focus |
+| 8 | `inspect xiali` | `xiali` dialogue/action resolves and any flags are reflected in status |
+| 9 | `inspect xiali_fading` | `xiali_fading` dialogue/action resolves and any flags are reflected in status |
+| 10 | `inspect private_anchor` | `private_anchor` dialogue/action resolves and any flags are reflected in status |
+| 11 | `build bind_xiali` | build `bind_xiali` resolves with readable feedback |
+| 12 | `inspect engineers` | `engineers` dialogue/action resolves and any flags are reflected in status |
+| 13 | `inspect remote_classrooms` | `remote_classrooms` dialogue/action resolves and any flags are reflected in status |
+| 14 | `inspect xiaoyan_roll_call` | `xiaoyan_roll_call` dialogue/action resolves and any flags are reflected in status |
+| 15 | `build network` | build `network` resolves with readable feedback |
+| 16 | `go astral` | location changes to `astral` and action menu regains focus |
+| 17 | `inspect star_map` | `star_map` dialogue/action resolves and any flags are reflected in status |
+| 18 | `inspect coordinate_standard` | `coordinate_standard` dialogue/action resolves and any flags are reflected in status |
+| 19 | `inspect beacon` | `beacon` dialogue/action resolves and any flags are reflected in status |
+| 20 | `inspect failed_signal` | `failed_signal` dialogue/action resolves and any flags are reflected in status |
+| 21 | `inspect star_chart_moth` | `star_chart_moth` dialogue/action resolves and any flags are reflected in status |
+| 22 | `build astral_tower` | build `astral_tower` resolves with readable feedback |
+| 23 | `go star_tower` | location changes to `star_tower` and action menu regains focus |
+| 24 | `inspect signal` | `signal` dialogue/action resolves and any flags are reflected in status |
+| 25 | `inspect silent_frame` | `silent_frame` dialogue/action resolves and any flags are reflected in status |
+| 26 | `write name` | combat action `write name` advances without losing input focus |
+| 27 | `cast stop` | glyph `stop` resolves with readable feedback |
+| 28 | `attack` | screen responds without input deadlock |
 | 29 | `attack` | screen responds without input deadlock |
-| 30 | `attack` | screen responds without input deadlock |
-| 31 | `inspect city` | `city` dialogue/action resolves and any flags are reflected in status |
+| 30 | `write name` | combat action `write name` advances without losing input focus |
+| 31 | `attack` | screen responds without input deadlock |
+| 32 | `attack` | screen responds without input deadlock |
+| 33 | `inspect city` | `city` dialogue/action resolves and any flags are reflected in status |
 
 Scene acceptance:
 
@@ -479,8 +483,8 @@ Scene acceptance:
 ## 07-lights-on-again - 第七幕：灯重新亮起
 
 - Start location: `home`
-- Ending flag: `rejected_silence_protocol`
-- Walkthrough commands: 43
+- Ending flag: `found_parent_bridge_trace`
+- Walkthrough commands: 50
 
 Required flags:
 
@@ -500,10 +504,18 @@ Required flags:
 - `survived_failed_bridge_test`
 - `read_traveler_bridge_warning`
 - `bridge_stable`
+- `heard_xiaoyan_name_sample`
+- `installed_atang_bridge_fuse`
+- `found_wensu_margin_note`
+- `identified_final_protocol`
+- `heard_protocol_indictment`
 - `saw_deleted_party_names`
+- `answered_protocol_with_evidence`
+- `restored_final_ui`
 - `heard_civilization_response`
 - `defeated_final_protocol`
 - `rejected_silence_protocol`
+- `found_parent_bridge_trace`
 
 Live-window route:
 
@@ -517,41 +529,48 @@ Live-window route:
 | 6 | `inspect corridor` | `corridor` dialogue/action resolves and any flags are reflected in status |
 | 7 | `inspect missing_teacher` | `missing_teacher` dialogue/action resolves and any flags are reflected in status |
 | 8 | `inspect classmates` | `classmates` dialogue/action resolves and any flags are reflected in status |
-| 9 | `go street` | location changes to `street` and action menu regains focus |
-| 10 | `inspect grid` | `grid` dialogue/action resolves and any flags are reflected in status |
-| 11 | `inspect neighbors` | `neighbors` dialogue/action resolves and any flags are reflected in status |
-| 12 | `build lights` | build `lights` resolves with readable feedback |
-| 13 | `inspect node_base` | `node_base` dialogue/action resolves and any flags are reflected in status |
-| 14 | `build node` | build `node` resolves with readable feedback |
-| 15 | `inspect bridge_traveler_reflection` | `bridge_traveler_reflection` dialogue/action resolves and any flags are reflected in status |
-| 16 | `go store` | location changes to `store` and action menu regains focus |
-| 17 | `inspect clerk` | `clerk` dialogue/action resolves and any flags are reflected in status |
-| 18 | `cast name` | glyph `name` resolves with readable feedback |
-| 19 | `inspect receipt` | `receipt` dialogue/action resolves and any flags are reflected in status |
-| 20 | `go street` | location changes to `street` and action menu regains focus |
-| 21 | `go lab` | location changes to `lab` and action menu regains focus |
-| 22 | `inspect formula` | `formula` dialogue/action resolves and any flags are reflected in status |
-| 23 | `inspect beacon` | `beacon` dialogue/action resolves and any flags are reflected in status |
-| 24 | `build modern_node` | build `modern_node` resolves with readable feedback |
-| 25 | `inspect parents_record` | `parents_record` dialogue/action resolves and any flags are reflected in status |
-| 26 | `inspect failed_bridge_test` | `failed_bridge_test` dialogue/action resolves and any flags are reflected in status |
-| 27 | `inspect traveler_warning` | `traveler_warning` dialogue/action resolves and any flags are reflected in status |
-| 28 | `build bridge` | build `bridge` resolves with readable feedback |
-| 29 | `go orbit` | location changes to `orbit` and action menu regains focus |
-| 30 | `inspect protocol` | `protocol` dialogue/action resolves and any flags are reflected in status |
-| 31 | `inspect deleted_party_names` | `deleted_party_names` dialogue/action resolves and any flags are reflected in status |
-| 32 | `build restore` | build `restore` resolves with readable feedback |
-| 33 | `inspect civilization_response` | `civilization_response` dialogue/action resolves and any flags are reflected in status |
-| 34 | `write name` | combat action `write name` advances without losing input focus |
-| 35 | `cast stop` | glyph `stop` resolves with readable feedback |
-| 36 | `attack` | screen responds without input deadlock |
-| 37 | `attack` | screen responds without input deadlock |
-| 38 | `write name` | combat action `write name` advances without losing input focus |
-| 39 | `attack` | screen responds without input deadlock |
-| 40 | `attack` | screen responds without input deadlock |
-| 41 | `write name` | combat action `write name` advances without losing input focus |
+| 9 | `inspect xiaoyan_name_sample` | `xiaoyan_name_sample` dialogue/action resolves and any flags are reflected in status |
+| 10 | `go street` | location changes to `street` and action menu regains focus |
+| 11 | `inspect grid` | `grid` dialogue/action resolves and any flags are reflected in status |
+| 12 | `inspect neighbors` | `neighbors` dialogue/action resolves and any flags are reflected in status |
+| 13 | `build lights` | build `lights` resolves with readable feedback |
+| 14 | `inspect node_base` | `node_base` dialogue/action resolves and any flags are reflected in status |
+| 15 | `build node` | build `node` resolves with readable feedback |
+| 16 | `inspect bridge_traveler_reflection` | `bridge_traveler_reflection` dialogue/action resolves and any flags are reflected in status |
+| 17 | `inspect atang_bridge_fuse` | `atang_bridge_fuse` dialogue/action resolves and any flags are reflected in status |
+| 18 | `go store` | location changes to `store` and action menu regains focus |
+| 19 | `inspect clerk` | `clerk` dialogue/action resolves and any flags are reflected in status |
+| 20 | `cast name` | glyph `name` resolves with readable feedback |
+| 21 | `inspect receipt` | `receipt` dialogue/action resolves and any flags are reflected in status |
+| 22 | `go street` | location changes to `street` and action menu regains focus |
+| 23 | `go lab` | location changes to `lab` and action menu regains focus |
+| 24 | `inspect formula` | `formula` dialogue/action resolves and any flags are reflected in status |
+| 25 | `inspect beacon` | `beacon` dialogue/action resolves and any flags are reflected in status |
+| 26 | `build modern_node` | build `modern_node` resolves with readable feedback |
+| 27 | `inspect parents_record` | `parents_record` dialogue/action resolves and any flags are reflected in status |
+| 28 | `inspect wensu_margin_note` | `wensu_margin_note` dialogue/action resolves and any flags are reflected in status |
+| 29 | `inspect failed_bridge_test` | `failed_bridge_test` dialogue/action resolves and any flags are reflected in status |
+| 30 | `inspect traveler_warning` | `traveler_warning` dialogue/action resolves and any flags are reflected in status |
+| 31 | `build bridge` | build `bridge` resolves with readable feedback |
+| 32 | `go orbit` | location changes to `orbit` and action menu regains focus |
+| 33 | `inspect protocol` | `protocol` dialogue/action resolves and any flags are reflected in status |
+| 34 | `inspect protocol_indictment` | `protocol_indictment` dialogue/action resolves and any flags are reflected in status |
+| 35 | `inspect deleted_party_names` | `deleted_party_names` dialogue/action resolves and any flags are reflected in status |
+| 36 | `inspect counter_evidence` | `counter_evidence` dialogue/action resolves and any flags are reflected in status |
+| 37 | `build restore` | build `restore` resolves with readable feedback |
+| 38 | `inspect civilization_response` | `civilization_response` dialogue/action resolves and any flags are reflected in status |
+| 39 | `write name` | combat action `write name` advances without losing input focus |
+| 40 | `cast stop` | glyph `stop` resolves with readable feedback |
+| 41 | `attack` | screen responds without input deadlock |
 | 42 | `attack` | screen responds without input deadlock |
-| 43 | `combine continue` | combo `continue` resolves with readable feedback |
+| 43 | `write name` | combat action `write name` advances without losing input focus |
+| 44 | `attack` | screen responds without input deadlock |
+| 45 | `attack` | screen responds without input deadlock |
+| 46 | `write name` | combat action `write name` advances without losing input focus |
+| 47 | `attack` | screen responds without input deadlock |
+| 48 | `combine continue` | combo `continue` resolves with readable feedback |
+| 49 | `go lab` | location changes to `lab` and action menu regains focus |
+| 50 | `inspect parent_bridge_trace` | `parent_bridge_trace` dialogue/action resolves and any flags are reflected in status |
 
 Scene acceptance:
 
@@ -559,5 +578,5 @@ Scene acceptance:
 - [ ] Dialogic text can be advanced with Enter/Space or click when dialogue is active.
 - [ ] Action menu focus returns after each dialogue/action payload.
 - [ ] Pause, resume, save, and return-to-title do not corrupt the current scene.
-- [ ] Ending flag `rejected_silence_protocol` is reached before moving to the next scene.
+- [ ] Ending flag `found_parent_bridge_trace` is reached before moving to the next scene.
 
