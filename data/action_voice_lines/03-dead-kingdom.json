@@ -35,8 +35,11 @@
           "speaker_name": "旁白",
           "text": "巡逻符器还在执行旧命令。它们保护街道，却不保护街上的人。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/03-dead-kingdom/AVL-03-001.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/03-dead-kingdom/AVL-03-001.mp3",
+          "generated_at": "2026-05-26T15:08:57.848Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -63,8 +66,11 @@
           "speaker_name": "旁白",
           "text": "摊位摆得整齐，价格牌每天自动更新，却没有人问价。秩序还活着，生活已经死了。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/03-dead-kingdom/AVL-03-002.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/03-dead-kingdom/AVL-03-002.mp3",
+          "generated_at": "2026-05-26T15:08:59.191Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -89,8 +95,11 @@
           "speaker_name": "旁白",
           "text": "告示宣称夏离导致王城陷落。夏离没有辩解，只把手攥得发白。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/03-dead-kingdom/AVL-03-003.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/03-dead-kingdom/AVL-03-003.mp3",
+          "generated_at": "2026-05-26T15:09:00.488Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -115,8 +124,11 @@
           "speaker_name": "旁白",
           "text": "你找到夏离签过的旧令：基础字根可向平民开放试教。墨律司在旁边写了危险二字。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/03-dead-kingdom/AVL-03-004.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/03-dead-kingdom/AVL-03-004.mp3",
+          "generated_at": "2026-05-26T15:09:01.715Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -143,8 +155,11 @@
           "speaker_name": "旁白",
           "text": "几封信写给夏离：殿下，我们已经会写自己的名字了。信末被墨律司盖上退回二字。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/03-dead-kingdom/AVL-03-005.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/03-dead-kingdom/AVL-03-005.mp3",
+          "generated_at": "2026-05-26T15:09:02.957Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },

@@ -43,7 +43,7 @@ The remaining limitation is now represented as a separate data contract instead 
 - Key-line VO remains in `data/audio_cues/<scene-id>.json#voice_samples`.
 - Full playable-action VO planning now lives in `data/action_voice_lines/<scene-id>.json`.
 - The manifests cover every `inspect`, `choice`, `glyph`, `build`, `encounter`, `combo`, and narrative combat identify/spell/resolve action.
-- Current generated scope: 8 scene manifests, 187 playable actions, 13 generated voice lines, 209 planned voice lines.
+- Current generated scope: 8 scene manifests, 187 playable actions, 18 generated voice lines, 204 planned voice lines.
 - Selected planned lines can now be generated with `node tools/minimax_audio_generate.mjs --type action-voice --scene-id <scene-id> --cue-id <line-id>`.
 - Validate with `python3 tools/validate_action_voice_manifest.py` or the `action-voice-lines` automated test step.
 
@@ -84,6 +84,18 @@ Third produced batch: `2026-05-26-moqi-academy-01`
 | `AVL-02-005` | `academy.inspect.fire` | 6.912s | -24.6 dB | -5.2 dB | generated |
 
 The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 02-moqi-academy --limit-samples 5`. It updated `data/action_voice_lines/02-moqi-academy.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/02-moqi-academy/`.
+
+Fourth produced batch: `2026-05-26-dead-kingdom-01`
+
+| Line | Action | Duration | Mean volume | Max volume | Status |
+| --- | --- | ---: | ---: | ---: | --- |
+| `AVL-03-001` | `outer_city.inspect.order` | 7.128s | -23.7 dB | -6.0 dB | generated |
+| `AVL-03-002` | `outer_city.inspect.market` | 9.576s | -23.8 dB | -5.9 dB | generated |
+| `AVL-03-003` | `outer_city.inspect.poster` | 7.128s | -23.8 dB | -5.7 dB | generated |
+| `AVL-03-004` | `library.inspect.records` | 9.612s | -23.6 dB | -6.7 dB | generated |
+| `AVL-03-005` | `library.inspect.letters` | 9.576s | -23.4 dB | -6.4 dB | generated |
+
+The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 03-dead-kingdom --limit-samples 5`. It updated `data/action_voice_lines/03-dead-kingdom.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/03-dead-kingdom/`.
 
 ## Prologue Audio Mix Notes
 
