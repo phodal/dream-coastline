@@ -386,6 +386,7 @@ STEPS: list[Step] = [
     Step("smoke-nova-progression", "quick", "validate Nova first-scene canonical progression", godot_smoke("--smoke-nova-progression")),
     Step("smoke-nova-choices", "quick", "validate Nova location choices and route flags", godot_smoke("--smoke-nova-choices")),
     Step("smoke-nova-all-scenes", "quick", "validate Nova narrative actions across all scenes", godot_smoke("--smoke-nova-all-scenes")),
+    Step("smoke-nova-manual-route", "quick", "validate Nova canonical walkthrough commands in order", godot_smoke("--smoke-nova-manual-route")),
     Step("smoke-nova-save-continue", "quick", "validate Nova-native save and continue restoration", godot_smoke("--smoke-nova-save-continue")),
     Step("smoke-nova-pause-flow", "quick", "validate Nova pause, save, resume, and return-to-title flow", godot_smoke("--smoke-nova-pause-flow")),
     Step("smoke-nova-assets", "quick", "validate Nova splash, character, and audio assets", godot_smoke("--smoke-nova-assets")),

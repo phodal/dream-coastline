@@ -40,6 +40,8 @@ the repo data is structurally wrong.
 - Run `tools/validate_story_continuity.py --verbose`.
 - Run `tools/build_nova_manual_route_checklist.py --check` so the full-route
   live QA checklist stays aligned with story walkthrough JSON.
+- Run `--smoke-nova-manual-route` to replay every canonical walkthrough command
+  against Nova runtime state in authored order.
 - Run `tools/validate_equipment_catalog.py`.
 - Run `tools/validate_supply_catalog.py`.
 - Run `tools/validate_action_voice_manifest.py` to keep full playable-action
@@ -129,9 +131,10 @@ python3 tools/build_nova_manual_route_checklist.py --check
 ```
 
 Use this checklist for the issue #6 full 8-scene manual pass. Headless
-`smoke-nova-all-scenes` proves automated progression, but it does not prove
-that keyboard/mouse focus, Dialogic advance, pause/save, and visible action-menu
-recovery feel correct in a real window.
+`smoke-nova-all-scenes` proves automated progression, and
+`smoke-nova-manual-route` proves the authored walkthrough commands still replay
+in order. They do not prove that keyboard/mouse focus, Dialogic advance,
+pause/save, and visible action-menu recovery feel correct in a real window.
 
 ## CI Shape
 

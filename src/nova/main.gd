@@ -22,6 +22,7 @@ var audio_director
 var _dialogic_runtime_finished := false
 var _dialogic_runtime_payload: Dictionary = {}
 var _dialogic_runtime_started_with_dialogic := false
+var _manual_route_attack_attempts: Dictionary = {}
 
 
 func _ready() -> void:
@@ -94,6 +95,8 @@ func _ready() -> void:
 		call_deferred("_run_choice_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-all-scenes"):
 		call_deferred("_run_all_scenes_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-manual-route"):
+		call_deferred("_run_manual_route_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-save-continue"):
 		call_deferred("_run_save_continue_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-pause-flow"):
@@ -521,6 +524,236 @@ func _run_all_scenes_smoke() -> void:
 		GameState.current_location_id,
 	])
 	get_tree().quit(0 if ok else 1)
+
+
+func _run_manual_route_smoke() -> void:
+	StoryFlags.reset()
+	_manual_route_attack_attempts.clear()
+	var scene_ids: Array[String] = director.story_repository.scene_ids()
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	director.present_current_location()
+
+	var ok := true
+	var command_count := 0
+	var completed: Array[String] = []
+	for scene_id in scene_ids:
+		if not ok:
+			break
+		if GameState.current_scene_id != scene_id:
+			push_warning("Nova manual-route smoke expected scene %s but got %s" % [scene_id, GameState.current_scene_id])
+			ok = false
+			break
+		var scene: Dictionary = director.story_repository.get_scene(scene_id)
+		var commands: Array = scene.get("walkthrough", [])
+		for raw_command in commands:
+			var command := str(raw_command)
+			command_count += 1
+			if not _manual_route_command(scene_id, command):
+				push_warning("Nova manual-route smoke failed command %s at %s/%s" % [
+					command,
+					GameState.current_scene_id,
+					GameState.current_location_id,
+				])
+				ok = false
+				break
+		if ok and not StoryFlags.has_all(director.story_repository.get_required_flags(scene_id)):
+			push_warning("Nova manual-route smoke missing required flag %s for %s" % [
+				_smoke_first_missing(director.story_repository.get_required_flags(scene_id)),
+				scene_id,
+			])
+			ok = false
+		if ok:
+			completed.append(scene_id)
+
+	ok = ok and completed.size() == scene_ids.size()
+	print("nova-manual-route-smoke status=%s scenes=%s commands=%s flags=%s current=%s/%s" % [
+		"PASS" if ok else "FAIL",
+		completed.size(),
+		command_count,
+		StoryFlags.export_flags().keys().size(),
+		GameState.current_scene_id,
+		GameState.current_location_id,
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _manual_route_command(scene_id: String, command: String) -> bool:
+	var parts := command.split(" ", false, 1)
+	if parts.size() == 0:
+		return true
+	var verb := str(parts[0])
+	var target := str(parts[1]) if parts.size() > 1 else ""
+	match verb:
+		"go":
+			return director.move_to(target)
+		"inspect":
+			return _manual_route_inspect(target)
+		"choose":
+			return _manual_route_choice(target)
+		"write":
+			return _manual_route_write(target)
+		"cast":
+			return _manual_route_cast(target)
+		"build":
+			return _manual_route_record_action("build", target)
+		"engage":
+			return _manual_route_record_action("encounter", target)
+		"combine":
+			return _manual_route_record_action("combo", target)
+		"attack":
+			return _manual_route_attack()
+		_:
+			push_warning("Nova manual-route smoke unknown verb %s in %s" % [verb, command])
+			return false
+
+
+func _manual_route_inspect(item_id: String) -> bool:
+	var scene_id := GameState.current_scene_id
+	var location_id := GameState.current_location_id
+	var items: Dictionary = director.story_repository.get_items(scene_id, location_id)
+	if not items.has(item_id):
+		push_warning("Nova manual-route smoke missing item %s at %s/%s" % [item_id, scene_id, location_id])
+		return false
+	if not director.inspect_item(item_id):
+		return false
+	var item: Dictionary = items[item_id]
+	_finish_cutscene({"flags": item.get("flags", [])})
+	return true
+
+
+func _manual_route_choice(choice_id: String) -> bool:
+	var scene_id := GameState.current_scene_id
+	var location_id := GameState.current_location_id
+	var choices: Dictionary = director.story_repository.get_location_choices(scene_id, location_id)
+	if not choices.has(choice_id):
+		push_warning("Nova manual-route smoke missing choice %s at %s/%s" % [choice_id, scene_id, location_id])
+		return false
+	if not director.choose_location_choice(choice_id):
+		return false
+	var choice: Dictionary = choices[choice_id]
+	_finish_cutscene({"flags": choice.get("flags", [])})
+	return true
+
+
+func _manual_route_write(glyph_id: String) -> bool:
+	var glyphs: Dictionary = director.story_repository.get_glyph_actions(GameState.current_scene_id, GameState.current_location_id)
+	if glyphs.has(glyph_id):
+		var glyph: Dictionary = glyphs[glyph_id]
+		if StoryFlags.has_all(glyph.get("requires", [])):
+			return _manual_route_record_action("glyph", glyph_id)
+	var combat: Dictionary = director.story_repository.get_combat(GameState.current_scene_id, GameState.current_location_id)
+	if glyph_id == "name" and not combat.is_empty():
+		return _manual_route_combat_identify(combat)
+	push_warning("Nova manual-route smoke cannot write %s at %s/%s" % [glyph_id, GameState.current_scene_id, GameState.current_location_id])
+	return false
+
+
+func _manual_route_cast(glyph_id: String) -> bool:
+	var combat: Dictionary = director.story_repository.get_combat(GameState.current_scene_id, GameState.current_location_id)
+	var win_flag := str(combat.get("win_flag", ""))
+	var spells: Dictionary = combat.get("spells", {})
+	if spells.has(glyph_id) and (win_flag.is_empty() or not StoryFlags.has_flag(win_flag)):
+		if not director.perform_story_action("combat_spell", glyph_id):
+			return false
+		var spell: Dictionary = spells[glyph_id]
+		_finish_cutscene({"flags": spell.get("flags", [])})
+		return true
+	var glyphs: Dictionary = director.story_repository.get_glyph_actions(GameState.current_scene_id, GameState.current_location_id)
+	if glyphs.has(glyph_id):
+		return _manual_route_record_action("glyph", glyph_id)
+	push_warning("Nova manual-route smoke cannot cast %s at %s/%s" % [glyph_id, GameState.current_scene_id, GameState.current_location_id])
+	return false
+
+
+func _manual_route_record_action(action_type: String, action_id: String) -> bool:
+	var records: Dictionary = {}
+	match action_type:
+		"glyph":
+			records = director.story_repository.get_glyph_actions(GameState.current_scene_id, GameState.current_location_id)
+		"build":
+			records = director.story_repository.get_build_actions(GameState.current_scene_id, GameState.current_location_id)
+		"encounter":
+			records = director.story_repository.get_encounters(GameState.current_scene_id, GameState.current_location_id)
+		"combo":
+			records = director.story_repository.get_combos(GameState.current_scene_id, GameState.current_location_id)
+		_:
+			return false
+	if not records.has(action_id):
+		push_warning("Nova manual-route smoke missing %s action %s at %s/%s" % [
+			action_type,
+			action_id,
+			GameState.current_scene_id,
+			GameState.current_location_id,
+		])
+		return false
+	var record: Dictionary = records[action_id]
+	var requires: Array = _smoke_array(record.get("requires", []))
+	if not StoryFlags.has_all(requires):
+		push_warning("Nova manual-route smoke blocked %s action %s at %s/%s missing %s" % [
+			action_type,
+			action_id,
+			GameState.current_scene_id,
+			GameState.current_location_id,
+			_smoke_first_missing(requires),
+		])
+		return false
+	if not director.perform_story_action(action_type, action_id):
+		return false
+	_finish_cutscene({"flags": record.get("flags", [])})
+	return true
+
+
+func _manual_route_combat_identify(combat: Dictionary) -> bool:
+	var flags: Array = []
+	var lock_flag := str(combat.get("lock_flag", ""))
+	if not lock_flag.is_empty():
+		flags.append(lock_flag)
+	flags.append_array(_smoke_array(combat.get("success_flags", [])))
+	if not director.perform_story_action("combat_identify", "identify"):
+		return false
+	_finish_cutscene({"flags": flags})
+	return true
+
+
+func _manual_route_attack() -> bool:
+	var combat: Dictionary = director.story_repository.get_combat(GameState.current_scene_id, GameState.current_location_id)
+	if combat.is_empty():
+		push_warning("Nova manual-route smoke attack without combat at %s/%s" % [
+			GameState.current_scene_id,
+			GameState.current_location_id,
+		])
+		return false
+	var win_flag := str(combat.get("win_flag", ""))
+	if not win_flag.is_empty() and StoryFlags.has_flag(win_flag):
+		return true
+	var lock_flag := str(combat.get("lock_flag", ""))
+	if not lock_flag.is_empty() and not StoryFlags.has_flag(lock_flag):
+		_finish_cutscene({"flags": _smoke_array(combat.get("failure_flags", []))})
+		return true
+	var required: Array = _smoke_array(combat.get("required_attack_flags", []))
+	if not StoryFlags.has_all(required):
+		_finish_cutscene({"flags": []})
+		return true
+	var key := "%s/%s" % [GameState.current_scene_id, GameState.current_location_id]
+	var attempts := int(_manual_route_attack_attempts.get(key, 0)) + 1
+	_manual_route_attack_attempts[key] = attempts
+	var success_attempt: int = max(1, int(combat.get("success_attempt", 1)))
+	var flags: Array = []
+	if attempts >= success_attempt:
+		if not win_flag.is_empty():
+			flags.append(win_flag)
+		flags.append_array(_smoke_array(combat.get("reward_flags", [])))
+		if not director.perform_story_action("combat_resolve", "resolve"):
+			return false
+	else:
+		var failure_flags: Array = _smoke_array(combat.get("failure_flags", []))
+		if not failure_flags.is_empty():
+			flags.append(str(failure_flags[(attempts - 1) % failure_flags.size()]))
+	_finish_cutscene({"flags": flags})
+	return true
 
 
 func _smoke_complete_current_scene(scene_id: String) -> bool:
