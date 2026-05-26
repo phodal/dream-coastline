@@ -23,6 +23,8 @@ func _input(event: InputEvent) -> void:
 		return
 	var inputs = _dialogic_node.get("Inputs")
 	if inputs != null and inputs.has_method("handle_input"):
+		if bool(inputs.get("action_was_consumed")):
+			inputs.set("action_was_consumed", false)
 		inputs.handle_input()
 		get_viewport().set_input_as_handled()
 
