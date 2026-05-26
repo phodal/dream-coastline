@@ -4,6 +4,7 @@
 		"home": {
 			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/home.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
 			"props": [
 				{
 					"item": "room",

@@ -38,7 +38,12 @@ def expected_pairs(scope: str, scene_filter: str) -> set[tuple[str, str]]:
     return pairs
 
 
-def validate_manifest(path: Path, expected_scope: str | None, expected_style: str | None) -> list[str]:
+def validate_manifest(
+    path: Path,
+    expected_scope: str | None,
+    expected_style: str | None,
+    require_illustrated_backdrop: bool,
+) -> list[str]:
     failures: list[str] = []
     manifest = load_json(path)
     if not isinstance(manifest, dict):
@@ -86,6 +91,8 @@ def validate_manifest(path: Path, expected_scope: str | None, expected_style: st
             failures.append(f"{label}.ok must be true")
         if shot.get("asset_status") != "asset_backed":
             failures.append(f"{label}.asset_status must be asset_backed")
+        if require_illustrated_backdrop and not str(shot.get("asset_runtime_path", "")).strip():
+            failures.append(f"{label}.asset_runtime_path must point to an illustrated backdrop")
         for field in ["scene_id", "scene_title", "location_id", "location_name", "terrain", "visual_family", "visual_style", "asset_scene"]:
             if not str(shot.get(field, "")).strip():
                 failures.append(f"{label}.{field} must be non-empty")
@@ -115,6 +122,7 @@ def main() -> int:
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--scope", choices=["starts", "locations"])
     parser.add_argument("--visual-style", choices=["sunlit_mmo", "classic_dark"])
+    parser.add_argument("--require-illustrated-backdrop", action="store_true")
     args = parser.parse_args()
 
     manifest_path = args.manifest.expanduser()
@@ -124,7 +132,7 @@ def main() -> int:
         print(f"scene-screenshot-manifest: missing {manifest_path.relative_to(ROOT)}")
         return 1
 
-    failures = validate_manifest(manifest_path, args.scope, args.visual_style)
+    failures = validate_manifest(manifest_path, args.scope, args.visual_style, args.require_illustrated_backdrop)
     if failures:
         for failure in failures:
             print(f"scene-screenshot-manifest: {failure}")

@@ -339,9 +339,7 @@ def screenshot_starts(runner: Runner, step: Step) -> int:
     code = runner.run_command(step, command)
     if code != 0 or runner.args.dry_run:
         return code
-    return runner.run_command(
-        step,
-        [
+    validate_command = [
             sys.executable,
             "tools/validate_scene_screenshot_manifest.py",
             "--manifest",
@@ -350,8 +348,10 @@ def screenshot_starts(runner: Runner, step: Step) -> int:
             runner.args.visual_scope,
             "--visual-style",
             runner.args.visual_style,
-        ],
-    )
+    ]
+    if runner.args.visual_scope == "starts":
+        validate_command.append("--require-illustrated-backdrop")
+    return runner.run_command(step, validate_command)
 
 
 STEPS: list[Step] = [

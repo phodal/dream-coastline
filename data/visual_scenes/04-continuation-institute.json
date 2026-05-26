@@ -4,6 +4,7 @@
 		"institute": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/institute.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
 			"props": [
 				{
 					"item": "members",

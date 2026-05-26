@@ -4,6 +4,7 @@
 		"astral_tower": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/astral_tower.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/chapters/06-return-star-plan-01.png",
 			"props": [
 				{
 					"item": "disaster",

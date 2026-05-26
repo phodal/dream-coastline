@@ -4,6 +4,7 @@
 		"academy": {
 			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/academy.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/chapters/02-moqi-academy-01.png",
 			"props": [
 				{
 					"item": "name",

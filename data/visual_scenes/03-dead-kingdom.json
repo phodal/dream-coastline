@@ -260,6 +260,7 @@
 		"outer_city": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/outer_city.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/chapters/03-dead-kingdom-01.png",
 			"props": [
 				{
 					"item": "poster",

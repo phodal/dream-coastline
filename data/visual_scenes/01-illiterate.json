@@ -118,6 +118,7 @@
 		"mud_road": {
 			"asset_scene": "res://scenes/visual_locations/01-illiterate/mud_road.tscn",
 			"asset_status": "asset_backed",
+			"illustrated_backdrop": "res://assets/illustrations/chapters/01-illiterate-01.png",
 			"props": [
 				{
 					"item": "city",
