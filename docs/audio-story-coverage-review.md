@@ -43,7 +43,7 @@ The remaining limitation is now represented as a separate data contract instead 
 - Key-line VO remains in `data/audio_cues/<scene-id>.json#voice_samples`.
 - Full playable-action VO planning now lives in `data/action_voice_lines/<scene-id>.json`.
 - The manifests cover every `inspect`, `choice`, `glyph`, `build`, `encounter`, `combo`, and narrative combat identify/spell/resolve action.
-- Current generated scope: 8 scene manifests, 187 playable actions, 3 generated voice lines, 219 planned voice lines.
+- Current generated scope: 8 scene manifests, 187 playable actions, 8 generated voice lines, 214 planned voice lines.
 - Selected planned lines can now be generated with `node tools/minimax_audio_generate.mjs --type action-voice --scene-id <scene-id> --cue-id <line-id>`.
 - Validate with `python3 tools/validate_action_voice_manifest.py` or the `action-voice-lines` automated test step.
 
@@ -60,6 +60,18 @@ First produced batch: `2026-05-22-prologue-street-01`
 | `AVL-00-003` | `street.inspect.poster` | 6.912s | -23.8 dB | -5.9 dB | generated |
 
 The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 00-prologue-lights-out --limit-samples 3`. It updated `data/action_voice_lines/00-prologue-lights-out.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/00-prologue-lights-out/`. Technical checks used `ffprobe`, `ffmpeg -af volumedetect`, and `python3 tools/validate_action_voice_manifest.py data/action_voice_lines/00-prologue-lights-out.json`.
+
+Second produced batch: `2026-05-26-illiterate-mud-road-01`
+
+| Line | Action | Duration | Mean volume | Max volume | Status |
+| --- | --- | ---: | ---: | ---: | --- |
+| `AVL-01-001` | `mud_road.inspect.phone` | 1.188s | -24.8 dB | -8.4 dB | generated |
+| `AVL-01-002` | `mud_road.inspect.phone` | 9.036s | -23.3 dB | -6.0 dB | generated |
+| `AVL-01-003` | `mud_road.inspect.sign` | 6.912s | -24.4 dB | -5.3 dB | generated |
+| `AVL-01-004` | `mud_road.inspect.city` | 6.876s | -24.1 dB | -5.1 dB | generated |
+| `AVL-01-005` | `mud_road.inspect.pen` | 7.668s | -23.5 dB | -7.2 dB | generated |
+
+The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 01-illiterate --limit-samples 5`. It updated `data/action_voice_lines/01-illiterate.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/01-illiterate/`.
 
 ## Prologue Audio Mix Notes
 

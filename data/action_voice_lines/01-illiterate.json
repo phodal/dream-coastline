@@ -35,9 +35,12 @@
           "speaker_name": "纪子轩",
           "text": "……这是哪？",
           "delivery": "遵循 character_voice_profiles 中该角色的 voice_direction 和 dialogue_rules。",
-          "status": "planned",
+          "status": "generated",
           "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-001.mp3",
-          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan"
+          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan",
+          "generated_at": "2026-05-26T00:34:27.886Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         },
         {
           "line_id": "AVL-01-002",
@@ -45,8 +48,11 @@
           "speaker_name": "旁白",
           "text": "手机屏幕显示无服务，随后爬满黑色墨痕。连系统语言都变成无法识别的方块。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-002.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-002.mp3",
+          "generated_at": "2026-05-26T00:34:29.082Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -71,8 +77,11 @@
           "speaker_name": "旁白",
           "text": "路牌写着□□□ / □□ / □□□。你意识到自己不是看不清，而是根本不认识这里的字。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-003.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-003.mp3",
+          "generated_at": "2026-05-26T00:34:29.998Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -97,8 +106,11 @@
           "speaker_name": "旁白",
           "text": "远处的城墙在燃烧。那不是晚霞，是一整座城正在陷落。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-004.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-004.mp3",
+          "generated_at": "2026-05-26T00:34:31.035Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -123,8 +135,11 @@
           "speaker_name": "旁白",
           "text": "你不记得自己什么时候握住了它。它在这个世界里像一件危险的身份证明。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-005.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/01-illiterate/AVL-01-005.mp3",
+          "generated_at": "2026-05-26T00:34:32.113Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
