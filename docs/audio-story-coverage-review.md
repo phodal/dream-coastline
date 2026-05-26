@@ -43,7 +43,7 @@ The remaining limitation is now represented as a separate data contract instead 
 - Key-line VO remains in `data/audio_cues/<scene-id>.json#voice_samples`.
 - Full playable-action VO planning now lives in `data/action_voice_lines/<scene-id>.json`.
 - The manifests cover every `inspect`, `choice`, `glyph`, `build`, `encounter`, `combo`, and narrative combat identify/spell/resolve action.
-- Current generated scope: 8 scene manifests, 187 playable actions, 8 generated voice lines, 214 planned voice lines.
+- Current generated scope: 8 scene manifests, 187 playable actions, 13 generated voice lines, 209 planned voice lines.
 - Selected planned lines can now be generated with `node tools/minimax_audio_generate.mjs --type action-voice --scene-id <scene-id> --cue-id <line-id>`.
 - Validate with `python3 tools/validate_action_voice_manifest.py` or the `action-voice-lines` automated test step.
 
@@ -72,6 +72,18 @@ Second produced batch: `2026-05-26-illiterate-mud-road-01`
 | `AVL-01-005` | `mud_road.inspect.pen` | 7.668s | -23.5 dB | -7.2 dB | generated |
 
 The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 01-illiterate --limit-samples 5`. It updated `data/action_voice_lines/01-illiterate.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/01-illiterate/`.
+
+Third produced batch: `2026-05-26-moqi-academy-01`
+
+| Line | Action | Duration | Mean volume | Max volume | Status |
+| --- | --- | ---: | ---: | ---: | --- |
+| `AVL-02-001` | `academy.inspect.wensu` | 8.676s | -24.0 dB | -5.4 dB | generated |
+| `AVL-02-002` | `academy.inspect.baseline` | 13.212s | -23.9 dB | -6.1 dB | generated |
+| `AVL-02-003` | `academy.inspect.name` | 5.832s | -23.8 dB | -6.5 dB | generated |
+| `AVL-02-004` | `academy.inspect.door` | 9.144s | -24.1 dB | -5.6 dB | generated |
+| `AVL-02-005` | `academy.inspect.fire` | 6.912s | -24.6 dB | -5.2 dB | generated |
+
+The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 02-moqi-academy --limit-samples 5`. It updated `data/action_voice_lines/02-moqi-academy.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/02-moqi-academy/`.
 
 ## Prologue Audio Mix Notes
 

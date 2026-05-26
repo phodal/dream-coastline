@@ -35,8 +35,11 @@
           "speaker_name": "旁白",
           "text": "闻素说：在墨颀，不会写字的人，不是愚笨。是不被允许存在得太完整。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-001.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-001.mp3",
+          "generated_at": "2026-05-26T14:10:18.878Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -63,8 +66,11 @@
           "speaker_name": "旁白",
           "text": "闻素没有立刻教新字，而是让你把听不懂、看不懂、误读的地方逐项写下。她说：先承认不知道，才有资格学习。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-002.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-002.mp3",
+          "generated_at": "2026-05-26T14:10:20.490Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -89,8 +95,11 @@
           "speaker_name": "旁白",
           "text": "你复习“名”。它不是标签，而是让一个对象被世界承认。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-003.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-003.mp3",
+          "generated_at": "2026-05-26T14:10:21.440Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -115,8 +124,11 @@
           "speaker_name": "旁白",
           "text": "“门”不是木板，而是通行规则。理解它后，地图上多出许多原本看不见的入口。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-004.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-004.mp3",
+          "generated_at": "2026-05-26T14:10:22.705Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -141,8 +153,11 @@
           "speaker_name": "旁白",
           "text": "“火”是能源，也是警告。闻素让你先学会启动，再学会停止。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-005.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/02-moqi-academy/AVL-02-005.mp3",
+          "generated_at": "2026-05-26T14:10:23.893Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
