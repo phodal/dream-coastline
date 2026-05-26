@@ -90,7 +90,8 @@
 			},
 			"terrain": "node",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "node"
+			"visual_family": "node",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/03-dead-kingdom/xiali-rejects-throne.png"
 		},
 		"hq": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/hq.tscn",
@@ -149,7 +150,8 @@
 			"terrain": "dead_city",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "modern_exterior",
-			"visual_mood": "ruin"
+			"visual_mood": "ruin",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/03-dead-kingdom/dead-city-propaganda.png"
 		},
 		"library": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/library.tscn",
@@ -255,7 +257,8 @@
 			},
 			"terrain": "archive",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "archive"
+			"visual_family": "archive",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/03-dead-kingdom/book-route-choice.png"
 		},
 		"outer_city": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/outer_city.tscn",
@@ -376,7 +379,8 @@
 			"terrain": "ruin",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "ruin",
-			"visual_mood": "ruin"
+			"visual_mood": "ruin",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/03-dead-kingdom/xiali-rejects-throne.png"
 		}
 	},
 	"tile_size": 32.0

@@ -99,7 +99,8 @@
 			},
 			"terrain": "node",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "node"
+			"visual_family": "node",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/06-return-star-plan/civilization-backups.png"
 		},
 		"council": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/council.tscn",
@@ -196,7 +197,8 @@
 			},
 			"terrain": "academy",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "academy"
+			"visual_family": "academy",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/06-return-star-plan/return-star-council.png"
 		},
 		"dockyard": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/dockyard.tscn",
@@ -252,7 +254,8 @@
 			},
 			"terrain": "workshop",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "workshop"
+			"visual_family": "workshop",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/06-return-star-plan/return-vessel-dockyard.png"
 		},
 		"gate": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/gate.tscn",
@@ -308,7 +311,8 @@
 			},
 			"terrain": "node",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "node"
+			"visual_family": "node",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/06-return-star-plan/return-gate-farewell.png"
 		},
 		"rift": {
 			"asset_scene": "res://scenes/visual_locations/06-return-star-plan/rift.tscn",
@@ -392,7 +396,8 @@
 			},
 			"terrain": "node",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "node"
+			"visual_family": "node",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/06-return-star-plan/silence-probe.png"
 		}
 	},
 	"tile_size": 32.0

@@ -93,6 +93,8 @@ def validate_manifest(
             failures.append(f"{label}.asset_status must be asset_backed")
         if require_illustrated_backdrop and not str(shot.get("asset_runtime_path", "")).strip():
             failures.append(f"{label}.asset_runtime_path must point to an illustrated backdrop")
+        if require_illustrated_backdrop and shot.get("asset_loaded") is not True:
+            failures.append(f"{label}.asset_loaded must be true for the illustrated backdrop")
         for field in ["scene_id", "scene_title", "location_id", "location_name", "terrain", "visual_family", "visual_style", "asset_scene"]:
             if not str(shot.get(field, "")).strip():
                 failures.append(f"{label}.{field} must be non-empty")

@@ -349,8 +349,7 @@ def screenshot_starts(runner: Runner, step: Step) -> int:
             "--visual-style",
             runner.args.visual_style,
     ]
-    if runner.args.visual_scope == "starts":
-        validate_command.append("--require-illustrated-backdrop")
+    validate_command.append("--require-illustrated-backdrop")
     return runner.run_command(step, validate_command)
 
 

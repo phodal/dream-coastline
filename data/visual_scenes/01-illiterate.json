@@ -59,7 +59,8 @@
 			},
 			"terrain": "wilderness",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "wilderness"
+			"visual_family": "wilderness",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/01-illiterate/05-xiali-rescue.png"
 		},
 		"chase": {
 			"asset_scene": "res://scenes/visual_locations/01-illiterate/chase.tscn",
@@ -113,7 +114,8 @@
 			},
 			"terrain": "forest",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "forest"
+			"visual_family": "forest",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/01-illiterate/04-chase-soldiers.png"
 		},
 		"mud_road": {
 			"asset_scene": "res://scenes/visual_locations/01-illiterate/mud_road.tscn",
@@ -223,7 +225,8 @@
 			"terrain": "ruin",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "ruin",
-			"visual_mood": "ruin"
+			"visual_mood": "ruin",
+			"illustrated_backdrop": "res://assets/illustrations/story_review/01-illiterate/08-nameplate-payoff.png"
 		}
 	},
 	"tile_size": 32.0
