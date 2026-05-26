@@ -94,15 +94,33 @@ class Runner:
         project_file = ROOT / "project.godot"
         project_before = project_file.read_bytes() if project_file.exists() else None
         import_files_before = source_import_files()
-        code = self.run_command(step, command)
-        if project_before is not None and project_file.exists() and project_file.read_bytes() != project_before:
-            project_file.write_bytes(project_before)
-        for path in source_import_files() - import_files_before:
-            try:
-                path.unlink()
-            except FileNotFoundError:
-                pass
-        return code
+        print(f"\n==> {step.id}: {step.description}")
+        print(format_command(command))
+        try:
+            result = subprocess.run(
+                command,
+                cwd=ROOT,
+                check=False,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+            )
+        except FileNotFoundError as error:
+            print(f"missing executable: {error.filename}", file=sys.stderr)
+            return 127
+        finally:
+            if project_before is not None and project_file.exists() and project_file.read_bytes() != project_before:
+                project_file.write_bytes(project_before)
+            for path in source_import_files() - import_files_before:
+                try:
+                    path.unlink()
+                except FileNotFoundError:
+                    pass
+        if result.stdout:
+            print(result.stdout, end="" if result.stdout.endswith("\n") else "\n")
+        if "SCRIPT ERROR:" in result.stdout or "Failed to load script" in result.stdout:
+            return 1
+        return result.returncode
 
 
 def format_command(command: list[str]) -> str:

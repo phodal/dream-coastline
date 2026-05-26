@@ -14,6 +14,14 @@ const SaveLoadSmokeScript := preload("res://scripts/core/save_load_smoke.gd")
 const AnimationClipRepositorySmokeScript := preload("res://scripts/core/animation_clip_repository_smoke.gd")
 const GameThemeScript := preload("res://scripts/ui/game_theme.gd")
 const GameHudScript := preload("res://scripts/ui/game_hud.gd")
+const LEGACY_REQUIRED_CLASSES := [
+	"RustSceneDatabase",
+	"RustSceneVisualRepository",
+	"RustSaveGameRepository",
+	"RustSettingsRepository",
+	"RustGameSession",
+	"RustRpgPlayerController",
+]
 
 var database
 var visual_repository
@@ -31,21 +39,25 @@ var pending_return_to_title := false
 
 func _ready() -> void:
 	var cmd_args := OS.get_cmdline_user_args()
-	database = RustSceneDatabase.new()
+	if not _legacy_runtime_available():
+		print("legacy-main status=SKIP reason=rust-gdextension-disabled current_entrypoint=res://src/nova/main.tscn legacy_entrypoint=res://src/main.tscn")
+		get_tree().quit(0)
+		return
+	database = _instantiate_legacy_class("RustSceneDatabase")
 	database.load_all()
-	visual_repository = RustSceneVisualRepository.new()
+	visual_repository = _instantiate_legacy_class("RustSceneVisualRepository")
 	visual_repository.load_for_scene_ids(database.scene_ids())
-	save_repository = RustSaveGameRepository.new()
-	settings_repository = RustSettingsRepository.new()
+	save_repository = _instantiate_legacy_class("RustSaveGameRepository")
+	settings_repository = _instantiate_legacy_class("RustSettingsRepository")
 	settings_repository.load()
 	_apply_visual_style_from_settings(cmd_args)
 	settings_repository.apply()
 	call_deferred("_apply_window_position", cmd_args)
 	if _should_layout_debug(cmd_args):
 		_print_layout_debug()
-	session = RustGameSession.new()
+	session = _instantiate_legacy_class("RustGameSession")
 	session.set_database(database)
-	player_controller = RustRpgPlayerController.new()
+	player_controller = _instantiate_legacy_class("RustRpgPlayerController")
 	player_controller.set_session(session)
 	player_controller.set_visual_repository(visual_repository)
 	audio_director = AudioDirectorScript.new()
@@ -147,6 +159,17 @@ func _ready() -> void:
 
 	_build_ui()
 	_load_scene(0)
+
+
+func _legacy_runtime_available() -> bool:
+	for required_class in LEGACY_REQUIRED_CLASSES:
+		if not ClassDB.class_exists(required_class):
+			return false
+	return true
+
+
+func _instantiate_legacy_class(required_class: String) -> Object:
+	return ClassDB.instantiate(required_class)
 
 
 func _process(delta: float) -> void:

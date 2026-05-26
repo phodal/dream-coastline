@@ -43,7 +43,7 @@ The remaining limitation is now represented as a separate data contract instead 
 - Key-line VO remains in `data/audio_cues/<scene-id>.json#voice_samples`.
 - Full playable-action VO planning now lives in `data/action_voice_lines/<scene-id>.json`.
 - The manifests cover every `inspect`, `choice`, `glyph`, `build`, `encounter`, `combo`, and narrative combat identify/spell/resolve action.
-- Current generated scope: 8 scene manifests, 187 playable actions, 3 generated voice lines, 196 planned voice lines.
+- Current generated scope: 8 scene manifests, 187 playable actions, 3 generated voice lines, 219 planned voice lines.
 - Selected planned lines can now be generated with `node tools/minimax_audio_generate.mjs --type action-voice --scene-id <scene-id> --cue-id <line-id>`.
 - Validate with `python3 tools/validate_action_voice_manifest.py` or the `action-voice-lines` automated test step.
 
