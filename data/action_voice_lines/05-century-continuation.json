@@ -35,8 +35,11 @@
           "speaker_name": "旁白",
           "text": "当年写歪“名”的学生站上讲台。教育系统开始自我复制。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-001.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-001.mp3",
+          "generated_at": "2026-05-27T00:10:10.213Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -61,8 +64,11 @@
           "speaker_name": "旁白",
           "text": "闻素的《初学墨字》被翻印到第七版。她本人离场后，书仍在教人。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-002.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-002.mp3",
+          "generated_at": "2026-05-27T00:10:11.395Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -89,9 +95,12 @@
           "speaker_name": "纪子轩",
           "text": "这把椅子为什么还空着？",
           "delivery": "遵循 character_voice_profiles 中该角色的 voice_direction 和 dialogue_rules。",
-          "status": "planned",
+          "status": "generated",
           "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-003.mp3",
-          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan"
+          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan",
+          "generated_at": "2026-05-27T00:10:12.111Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         },
         {
           "line_id": "AVL-05-004",
@@ -99,9 +108,12 @@
           "speaker_name": "闻素",
           "text": "如果我不在了，就别让我的名字替你们上课。让每个孩子自己读、自己问、自己改。",
           "delivery": "遵循 character_voice_profiles 中该角色的 voice_direction 和 dialogue_rules。",
-          "status": "planned",
+          "status": "generated",
           "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-004.mp3",
-          "voice_profile_ref": "data/character_voice_profiles.json#characters.wensu"
+          "voice_profile_ref": "data/character_voice_profiles.json#characters.wensu",
+          "generated_at": "2026-05-27T00:10:13.201Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         },
         {
           "line_id": "AVL-05-005",
@@ -109,9 +121,12 @@
           "speaker_name": "纪子轩",
           "text": "所以他们没有停课。",
           "delivery": "遵循 character_voice_profiles 中该角色的 voice_direction 和 dialogue_rules。",
-          "status": "planned",
+          "status": "generated",
           "target_path": "assets/audio/generated/action_voices/05-century-continuation/AVL-05-005.mp3",
-          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan"
+          "voice_profile_ref": "data/character_voice_profiles.json#characters.jizi_xuan",
+          "generated_at": "2026-05-27T00:10:13.807Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         },
         {
           "line_id": "AVL-05-006",

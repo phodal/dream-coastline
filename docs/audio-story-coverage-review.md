@@ -43,7 +43,7 @@ The remaining limitation is now represented as a separate data contract instead 
 - Key-line VO remains in `data/audio_cues/<scene-id>.json#voice_samples`.
 - Full playable-action VO planning now lives in `data/action_voice_lines/<scene-id>.json`.
 - The manifests cover every `inspect`, `choice`, `glyph`, `build`, `encounter`, `combo`, and narrative combat identify/spell/resolve action.
-- Current generated scope: 8 scene manifests, 187 playable actions, 23 generated voice lines, 199 planned voice lines.
+- Current generated scope: 8 scene manifests, 187 playable actions, 28 generated voice lines, 194 planned voice lines.
 - Selected planned lines can now be generated with `node tools/minimax_audio_generate.mjs --type action-voice --scene-id <scene-id> --cue-id <line-id>`.
 - Validate with `python3 tools/validate_action_voice_manifest.py` or the `action-voice-lines` automated test step.
 
@@ -108,6 +108,18 @@ Fifth produced batch: `2026-05-27-continuation-institute-01`
 | `AVL-04-005` | `institute.build.dictionary` | 6.876s | -23.3 dB | -5.9 dB | generated |
 
 The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 04-continuation-institute --limit-samples 5`. It updated `data/action_voice_lines/04-continuation-institute.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/04-continuation-institute/`.
+
+Sixth produced batch: `2026-05-27-century-continuation-01`
+
+| Line | Action | Duration | Mean volume | Max volume | Status |
+| --- | --- | ---: | ---: | ---: | --- |
+| `AVL-05-001` | `industry.inspect.teachers` | 5.976s | -23.5 dB | -7.3 dB | generated |
+| `AVL-05-002` | `industry.inspect.wensu_book` | 7.056s | -23.2 dB | -6.6 dB | generated |
+| `AVL-05-003` | `industry.inspect.wensu_absence` | 2.664s | -25.1 dB | -8.5 dB | generated |
+| `AVL-05-004` | `industry.inspect.wensu_absence` | 8.568s | -23.9 dB | -7.3 dB | generated |
+| `AVL-05-005` | `industry.inspect.wensu_absence` | 2.520s | -25.9 dB | -10.0 dB | generated |
+
+The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 05-century-continuation --limit-samples 5`. It updated `data/action_voice_lines/05-century-continuation.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/05-century-continuation/`.
 
 ## Prologue Audio Mix Notes
 
