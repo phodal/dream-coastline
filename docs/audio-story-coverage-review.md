@@ -43,7 +43,7 @@ The remaining limitation is now represented as a separate data contract instead 
 - Key-line VO remains in `data/audio_cues/<scene-id>.json#voice_samples`.
 - Full playable-action VO planning now lives in `data/action_voice_lines/<scene-id>.json`.
 - The manifests cover every `inspect`, `choice`, `glyph`, `build`, `encounter`, `combo`, and narrative combat identify/spell/resolve action.
-- Current generated scope: 8 scene manifests, 187 playable actions, 18 generated voice lines, 204 planned voice lines.
+- Current generated scope: 8 scene manifests, 187 playable actions, 23 generated voice lines, 199 planned voice lines.
 - Selected planned lines can now be generated with `node tools/minimax_audio_generate.mjs --type action-voice --scene-id <scene-id> --cue-id <line-id>`.
 - Validate with `python3 tools/validate_action_voice_manifest.py` or the `action-voice-lines` automated test step.
 
@@ -96,6 +96,18 @@ Fourth produced batch: `2026-05-26-dead-kingdom-01`
 | `AVL-03-005` | `library.inspect.letters` | 9.576s | -23.4 dB | -6.4 dB | generated |
 
 The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 03-dead-kingdom --limit-samples 5`. It updated `data/action_voice_lines/03-dead-kingdom.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/03-dead-kingdom/`.
+
+Fifth produced batch: `2026-05-27-continuation-institute-01`
+
+| Line | Action | Duration | Mean volume | Max volume | Status |
+| --- | --- | ---: | ---: | ---: | --- |
+| `AVL-04-001` | `institute.inspect.members` | 12.744s | -23.7 dB | -4.8 dB | generated |
+| `AVL-04-002` | `institute.inspect.charter` | 10.800s | -23.6 dB | -4.7 dB | generated |
+| `AVL-04-003` | `institute.inspect.noble_observer` | 11.160s | -23.2 dB | -4.3 dB | generated |
+| `AVL-04-004` | `institute.build.institute` | 6.876s | -23.7 dB | -6.6 dB | generated |
+| `AVL-04-005` | `institute.build.dictionary` | 6.876s | -23.3 dB | -5.9 dB | generated |
+
+The batch was generated through `node tools/minimax_audio_generate.mjs --type action-voice --scene-id 04-continuation-institute --limit-samples 5`. It updated `data/action_voice_lines/04-continuation-institute.json`, `data/audio_generation_manifest.json`, and Godot-imported MP3 assets under `assets/audio/generated/action_voices/04-continuation-institute/`.
 
 ## Prologue Audio Mix Notes
 

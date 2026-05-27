@@ -35,8 +35,11 @@
           "speaker_name": "旁白",
           "text": "闻素带来学生，阿棠带来工匠，夏离带来旧军地图。第一次，墨颀的未来不只坐在王座旁。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-001.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-001.mp3",
+          "generated_at": "2026-05-27T00:07:13.145Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -61,8 +64,11 @@
           "speaker_name": "旁白",
           "text": "章程写明：术式必须记录、复核、公开错误。知识开放不是放任，而是共同承担。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-002.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-002.mp3",
+          "generated_at": "2026-05-27T00:07:14.330Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -89,8 +95,11 @@
           "speaker_name": "旁白",
           "text": "贵族质问：让普通人改术式，谁来负责？纪子轩把章程推过去：每一步都有记录，所以每个人都能追责。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-003.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-003.mp3",
+          "generated_at": "2026-05-27T00:07:15.551Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -118,8 +127,11 @@
           "speaker_name": "旁白",
           "text": "续文院挂牌。夏离宣布：墨颀不再等待一位王来续命。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-004.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-004.mp3",
+          "generated_at": "2026-05-27T00:07:16.475Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
@@ -147,8 +159,11 @@
           "speaker_name": "旁白",
           "text": "标准字典第一版发布。字根写法第一次可以被普通人校验。",
           "delivery": "克制旁白，保留画面感，不抢角色表演。",
-          "status": "planned",
-          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-005.mp3"
+          "status": "generated",
+          "target_path": "assets/audio/generated/action_voices/04-continuation-institute/AVL-04-005.mp3",
+          "generated_at": "2026-05-27T00:07:17.385Z",
+          "provider": "minimax",
+          "model": "speech-2.8-hd"
         }
       ]
     },
