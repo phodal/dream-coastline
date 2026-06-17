@@ -124,7 +124,7 @@ Use the visual gate whenever a change touches `src/nova/ui/`,
   `manifest.json` with `tools/validate_scene_screenshot_manifest.py`, so the
   gate fails if Nova coverage, PNG files, asset-backed status, or the contact
   sheet artifact is missing. With `--require-illustrated-backdrop`, it also
-  rejects `story_review` fallback art and visible hotspot/debug-flag overlays.
+  rejects non-playable fallback art and visible hotspot/debug-flag overlays.
 - `tools/record_story_review.py` is a legacy DreamField/OpenRPG recorder and now
   exits unless `--legacy-openrpg-entrypoint` is passed. Do not use it as a Nova
   complete-flow gate.

@@ -56,9 +56,10 @@ Current local status:
   plus export-generated UID/class caches, are expected in those logs.
 - The latest export logs show the generated playable backdrops being packaged
   for all three desktop targets, including
+  `assets/illustrations/playable/01-illiterate/mud_road.png.import`,
   `assets/illustrations/playable/03-dead-kingdom/library.png.import`,
-  `assets/illustrations/playable/04-continuation-institute/mine.png.import`,
-  and `assets/illustrations/playable/07-lights-on-again/lab.png.import`.
+  `assets/illustrations/playable/04-continuation-institute/institute.png.import`,
+  and `assets/illustrations/playable/07-lights-on-again/home.png.import`.
 - The latest export logs also include the mastered generated music imports for
   all three desktop targets, spot-checked on
   `assets/audio/generated/music/00-prologue-lights-out/AMB-00-001.mp3.import`,

@@ -4,7 +4,7 @@
 		"home": {
 			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/home.tscn",
 			"asset_status": "asset_backed",
-			"illustrated_backdrop": "res://assets/illustrations/chapters/07-lights-on-again-01.png",
+			"illustrated_backdrop": "res://assets/illustrations/playable/07-lights-on-again/home.png",
 			"props": [
 				{
 					"item": "room",
@@ -53,7 +53,8 @@
 			},
 			"terrain": "room",
 			"tileset_id": "dream_scene_tiles",
-			"visual_family": "modern_interior"
+			"visual_family": "modern_interior",
+			"asset_overlay_alpha": 0.2
 		},
 		"lab": {
 			"asset_scene": "res://scenes/visual_locations/07-lights-on-again/lab.tscn",

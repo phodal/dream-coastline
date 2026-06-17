@@ -4,7 +4,7 @@
 		"institute": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/institute.tscn",
 			"asset_status": "asset_backed",
-			"illustrated_backdrop": "res://assets/illustrations/chapters/04-continuation-institute-01.png",
+			"illustrated_backdrop": "res://assets/illustrations/playable/04-continuation-institute/institute.png",
 			"props": [
 				{
 					"item": "members",
@@ -123,7 +123,8 @@
 			"terrain": "institute",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "modern_interior",
-			"visual_mood": "institutional"
+			"visual_mood": "institutional",
+			"asset_overlay_alpha": 0.2
 		},
 		"mine": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/mine.tscn",

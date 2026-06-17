@@ -68,4 +68,4 @@
 - 音频审计要沿用 runtime 缺失规则：`sample_generation: false` 和 planned action voice 不是失败；长音乐热峰先记录为 mastering warning，不能和缺文件/import 错误混在一起。
 - 批量生成 playable backdrop 后要跑 Godot editor import 保留 `.png.import`，再用 `playable-backdrops` 和 `route-full-screenshots` 确认 JSON 没指回 `story_review` 且运行时真能加载。
 - 重写生成 MP3 做热峰修正后要跑 Godot editor import 和 `audio-mix-audit`；MP3 重新编码可能第一轮仍有残余热峰，需要重复到 `hot_peaks=0`。
-- 截图 manifest 要记录并 gate `hotspot_markers_visible=false`、`debug_flags_visible=false` 和非 `story_review` backdrop；不要只靠肉眼说“没有调试层”。
+- 截图 manifest 要记录并 gate `hotspot_markers_visible=false`、`debug_flags_visible=false` 和 `/playable/` backdrop；不要只靠肉眼说“没有调试层”或“不是章节图”。

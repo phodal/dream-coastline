@@ -21,9 +21,9 @@ the gap between the playable 8-scene route and a public release candidate.
   does not fall back to internal IDs.
 - Visual coverage: `route-full-screenshots` captures 257 screenshots, one after
   every authored walkthrough command, with `asset_backed_count=257` and no
-  procedural fallback or placeholder screenshots. The current manifest sees 0
-  `story_review` backdrop paths, 0 visible hotspot markers, and 0 visible debug
-  flags.
+  procedural fallback or placeholder screenshots. The current manifest sees 257
+  `/playable/` backdrop uses, 0 `/chapters/` or `story_review` backdrop paths,
+  0 visible hotspot markers, and 0 visible debug flags.
 - Checklist sync: `tools/build_nova_manual_route_checklist.py --check` keeps
   `docs/nova-full-route-manual-qa.md` aligned with story data.
 - Dialogic coverage: `tools/validate_dialogic_timelines.py` validates 195
@@ -53,8 +53,9 @@ the gap between the playable 8-scene route and a public release candidate.
   the unzipped app, but `spctl --assess --type execute` rejects it because there
   is no Developer ID signing or notarization.
 - The visual route is reviewable and asset-backed without debug hotspot,
-  debug-flag, or `story_review` fallback leakage; final hand-painted art
-  direction and selective backdrop replacement/polish are still pending.
+  debug-flag, chapter-art, or `story_review` fallback leakage; final
+  hand-painted art direction and selective generated-backdrop replacement/polish
+  are still pending.
 - Generated voice/action audio coverage and machine mix hygiene are present,
   but the soundtrack still needs a final creative listening pass for loudness,
   balance, transitions, and emotional fit.
@@ -70,7 +71,7 @@ the gap between the playable 8-scene route and a public release candidate.
    visual evidence.
 2. Run a physical gamepad live-window pass for action-menu navigation,
    Dialogic advance, pause/save, and continue.
-3. Replace generated or chapter backdrops with final art-direction-approved
+3. Replace generated playable backdrops with final art-direction-approved
    backdrops where needed, then rerun `route-full-screenshots`.
 4. Do the final creative loudness/mastering listening pass for music,
    ambience, SFX, and generated voices now that machine hot-peak warnings are

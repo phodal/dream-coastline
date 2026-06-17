@@ -20,6 +20,8 @@ Result:
 - `asset_backed_count=257`
 - `procedural_fallback_count=0`
 - `framework_placeholder_count=0`
+- `/playable/` backdrop references: 257
+- `/chapters/` backdrop references: 0
 - `story_review` backdrop references: 0
 - `hotspot_markers_visible`: 0
 - `debug_flags_visible`: 0
@@ -38,8 +40,9 @@ Spot checks:
 Follow-up:
 
 - This evidence proves every walkthrough row has a reviewable, asset-backed
-  screen after execution. It does not replace live manual observation for text
-  advance feel, controller comfort, or final art direction.
+  screen after execution, and every captured row now uses location-specific
+  playable art. It does not replace live manual observation for text advance
+  feel, controller comfort, or final art direction.
 
 ## 2026-05-26 Start Contact Sheet
 
@@ -114,13 +117,14 @@ Coverage:
 Follow-up:
 
 - This pass makes every location screenshot reviewable; it does not claim final hand-painted art direction for every location.
-- `tools/generate_playable_backdrops.py --write --update-json` generated 28
-  additional playable-location PNGs, bringing `assets/illustrations/playable`
-  to 34 PNG backdrops. Current route-full manifest evidence reports 34
-  playable paths and 0 `story_review` backdrop paths.
+- `tools/generate_playable_backdrops.py --write --update-json` generated
+  playable-location PNGs for all non-playable visual references, bringing
+  `assets/illustrations/playable` to 41 PNG backdrops. Current route-full
+  manifest evidence reports 41 unique playable paths and 0 `story_review` or
+  `/chapters/` backdrop paths.
 - The 2026-06-18 refreshed `route-full` manifest reports 257 screenshots,
-  220 `/playable/` backdrop uses, 37 `/chapters/` backdrop uses, 0
+  257 `/playable/` backdrop uses, 0 `/chapters/` backdrop uses, 0
   `/story_review/` backdrop uses, 0 visible hotspot markers, and 0 visible
   debug flags. Remaining visual work is final art-direction approval and
-  selective replacement/polish of generated or chapter backdrops, not a known
-  runtime tile-overlay issue.
+  selective replacement/polish of generated playable backdrops, not a known
+  runtime tile-overlay or fallback-art issue.

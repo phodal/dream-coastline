@@ -168,8 +168,8 @@ def validate_manifest(
             failures.append(f"{label}.asset_runtime_path must point to an illustrated backdrop")
         if require_illustrated_backdrop and shot.get("asset_loaded") is not True:
             failures.append(f"{label}.asset_loaded must be true for the illustrated backdrop")
-        if require_illustrated_backdrop and "/story_review/" in str(shot.get("asset_runtime_path", "")):
-            failures.append(f"{label}.asset_runtime_path must not point to story_review art")
+        if require_illustrated_backdrop and "/playable/" not in str(shot.get("asset_runtime_path", "")):
+            failures.append(f"{label}.asset_runtime_path must point to playable location art")
         if shot.get("hotspot_markers_visible") is True:
             failures.append(f"{label}.hotspot_markers_visible must be false for review screenshots")
         if shot.get("debug_flags_visible") is True:

@@ -77,7 +77,7 @@
 		"industry": {
 			"asset_scene": "res://scenes/visual_locations/05-century-continuation/industry.tscn",
 			"asset_status": "asset_backed",
-			"illustrated_backdrop": "res://assets/illustrations/chapters/05-century-continuation-01.png",
+			"illustrated_backdrop": "res://assets/illustrations/playable/05-century-continuation/industry.png",
 			"props": [
 				{
 					"item": "teachers",
@@ -150,7 +150,8 @@
 			"terrain": "industry",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "industry",
-			"visual_mood": "industrial"
+			"visual_mood": "industrial",
+			"asset_overlay_alpha": 0.2
 		},
 		"network": {
 			"asset_scene": "res://scenes/visual_locations/05-century-continuation/network.tscn",

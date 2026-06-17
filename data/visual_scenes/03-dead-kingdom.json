@@ -266,7 +266,7 @@
 		"outer_city": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/outer_city.tscn",
 			"asset_status": "asset_backed",
-			"illustrated_backdrop": "res://assets/illustrations/chapters/03-dead-kingdom-01.png",
+			"illustrated_backdrop": "res://assets/illustrations/playable/03-dead-kingdom/outer_city.png",
 			"props": [
 				{
 					"item": "poster",
@@ -323,7 +323,8 @@
 			"terrain": "dead_city",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "modern_exterior",
-			"visual_mood": "ruin"
+			"visual_mood": "ruin",
+			"asset_overlay_alpha": 0.2
 		},
 		"palace": {
 			"asset_scene": "res://scenes/visual_locations/03-dead-kingdom/palace.tscn",

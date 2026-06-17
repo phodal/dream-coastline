@@ -42,7 +42,7 @@ Results:
   `saved=true`, `scene=00-prologue-lights-out`, `location=street`,
   `mode=menu`.
 - Playable backdrop gate passed for all 41 visual locations, with no current
-  `story_review` backdrop references.
+  non-playable or `story_review` backdrop references.
 - Visible Dialogic runtime smoke passed with the widened runner quit window: `finished=true`, `flag=true`.
 - Visible Nova keyboard/Dialogic smoke passed: keyboard action-menu input opened native Dialogic, auto-skip finished playback, `noticed_dark_window` was written, and the action menu returned.
 - Screenshot manifest gate passed for all 8 scene starts with `classic_dark` style and illustrated backdrops.
@@ -51,7 +51,8 @@ Results:
   `route_command_count=257`, `asset_backed_count=257`, and no procedural
   fallback or placeholder shots. The review sheet is
   `artifacts/scene-screenshots/route-full-latest/index.html`; the manifest
-  includes 34 playable backdrop paths and 0 `story_review` backdrop paths.
+  includes 41 unique playable backdrop paths, 257 `/playable/` uses, 0
+  `/chapters/` uses, and 0 `story_review` backdrop paths.
 - Visual spot-check of the scene 04 start screenshot confirmed build actions now show authored Chinese names (`建设 续文院`, `建设 标准字典`) instead of leaking internal IDs.
 - Visual spot-checks of the full-route sheet covered command 1
   (`inspect window`), command 129 (`go seal_tower`), command 207
@@ -65,8 +66,9 @@ Results:
   validated, export logs written under `artifacts/release-export-logs/`, and no
   forbidden packaged resources detected.
 - Fresh export logs include generated playable backdrop import metadata for all
-  desktop targets, spot-checked on `03-dead-kingdom/library`,
-  `04-continuation-institute/mine`, and `07-lights-on-again/lab`.
+  desktop targets, spot-checked on `01-illiterate/mud_road`,
+  `03-dead-kingdom/library`, `04-continuation-institute/institute`, and
+  `07-lights-on-again/home`.
 - The unzipped macOS app passes local `codesign --verify --deep --strict`; its
   signature is ad-hoc (`Signature=adhoc`, `TeamIdentifier=not set`), and
   Gatekeeper rejects it with `spctl --assess --type execute`.

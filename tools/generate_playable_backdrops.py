@@ -286,7 +286,7 @@ def target_records(paths: list[Path] | None = None) -> list[tuple[Path, str, str
             if not isinstance(visual, dict):
                 continue
             backdrop = str(visual.get("illustrated_backdrop", ""))
-            if "/story_review/" in backdrop:
+            if backdrop and "/playable/" not in backdrop:
                 records.append((path, scene_id, str(location_id), data, visual))
     return records
 
