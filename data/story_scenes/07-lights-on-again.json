@@ -212,6 +212,7 @@
       },
       "build_actions": {
         "lights": {
+          "name": "城市灯网",
           "time_seconds": 90,
           "requires": ["checked_city_grid"],
           "flags": ["lit_city_grid"],
@@ -219,6 +220,7 @@
           "text": "路灯和符灯同时亮起一排。城市重新获得一点可观测性。"
         },
         "node": {
+          "name": "临时国书节点",
           "time_seconds": 110,
           "requires": ["prepared_node_base", "lit_city_grid"],
           "flags": ["temporary_node_built"],
@@ -343,6 +345,7 @@
       },
       "build_actions": {
         "modern_node": {
+          "name": "现代国书节点",
           "time_seconds": 120,
           "requires": ["temporary_node_built", "checked_modern_beacon", "rescued_clerk_name"],
           "flags": ["modern_node_stable"],
@@ -350,6 +353,7 @@
           "text": "现代节点稳定。墨颀文字不再像异物，而像一层能被现代设备读取的协议。"
         },
         "bridge": {
+          "name": "归桥",
           "time_seconds": 150,
           "requires": ["modern_node_stable", "learned_star", "learned_return", "learned_continue", "read_parent_final_record", "survived_failed_bridge_test"],
           "flags": ["bridge_stable"],
@@ -416,6 +420,7 @@
       },
       "build_actions": {
         "restore": {
+          "name": "最终 UI 恢复",
           "time_seconds": 100,
           "requires": ["answered_protocol_with_evidence", "bound_civilization_backups", "modern_node_stable"],
           "flags": ["restored_final_ui"],
@@ -449,6 +454,7 @@
       },
       "combos": {
         "continue": {
+          "name": "共同续写 Continue",
           "time_seconds": 140,
           "requires": [
             "defeated_final_protocol",

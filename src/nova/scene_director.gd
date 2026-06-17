@@ -21,6 +21,7 @@ const CHARACTER_APPEARANCES := {
 
 var story_repository = StoryRepository.new()
 var visual_repository = VisualRepository.new()
+var _combat_attack_attempts: Dictionary = {}
 
 
 func boot() -> bool:
@@ -250,12 +251,13 @@ func _append_combat_choices(result: Array[Dictionary], combat: Dictionary) -> vo
 		return
 	var lock_flag := str(combat.get("lock_flag", ""))
 	var win_flag := str(combat.get("win_flag", ""))
+	var learn_flag := str(combat.get("learn_flag", ""))
 	var identify_choice := {
 		"type": "story_action",
 		"action_type": "combat_identify",
 		"id": "identify",
 		"label": "识名 %s" % str(combat.get("hidden_name", "敌人")),
-		"enabled": not StoryFlags.has_flag(lock_flag),
+		"enabled": (learn_flag.is_empty() or StoryFlags.has_flag(learn_flag)) and (win_flag.is_empty() or not StoryFlags.has_flag(win_flag)),
 		"done": StoryFlags.has_flag(lock_flag),
 		"moqi_prefix": "识名",
 		"moqi_glyph": MoqiText.glyph("name"),
@@ -364,6 +366,21 @@ func _perform_combat_resolve() -> bool:
 	if not StoryFlags.has_all(required):
 		start_cutscene(_blocked_payload("终局", "战场规则还没破解：%s。" % _first_missing(required)))
 		return false
+	var attempt_key := "%s/%s" % [GameState.current_scene_id, GameState.current_location_id]
+	var attempts := _combat_attempt_count(attempt_key, combat) + 1
+	_combat_attack_attempts[attempt_key] = attempts
+	var enemy_hp: int = max(1, int(combat.get("enemy_hp", combat.get("success_attempt", 1))))
+	if attempts < enemy_hp:
+		var failure_flags: Array = _as_array(combat.get("failure_flags", []))
+		var flags: Array = []
+		if not failure_flags.is_empty():
+			flags.append(str(failure_flags[(attempts - 1) % failure_flags.size()]))
+		return _start_synthetic_payload({
+			"title": "终局 %s" % str(combat.get("revealed_name", "敌人")),
+			"text": "%s 没有被击退。名字的笔画再次松开。" % str(combat.get("revealed_name", "敌人")),
+			"flags": flags,
+			"timeline_path": DialogicBridge.resolve_action_timeline_path(GameState.current_scene_id, GameState.current_location_id, "combat", "resolve"),
+		})
 	var flags: Array = []
 	var win_flag := str(combat.get("win_flag", ""))
 	if not win_flag.is_empty():
@@ -375,6 +392,15 @@ func _perform_combat_resolve() -> bool:
 		"flags": flags,
 		"timeline_path": DialogicBridge.resolve_action_timeline_path(GameState.current_scene_id, GameState.current_location_id, "combat", "resolve"),
 	})
+
+
+func _combat_attempt_count(attempt_key: String, combat: Dictionary) -> int:
+	var stored := int(_combat_attack_attempts.get(attempt_key, 0))
+	var failure_count := 0
+	for flag in _as_array(combat.get("failure_flags", [])):
+		if StoryFlags.has_flag(str(flag)):
+			failure_count += 1
+	return maxi(stored, failure_count)
 
 
 func _start_record_payload(record: Dictionary, meta: Dictionary) -> bool:

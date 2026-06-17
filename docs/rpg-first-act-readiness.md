@@ -1,87 +1,79 @@
-# RPG First Act Readiness
+# Nova Route Readiness
 
-This checklist tracks the gap between the current Godot RPG slice and a
-Steam-ready first act.
+This file used to track the first-act RPG slice. The current mainline is the
+Nova full-route runtime at `res://src/nova/main.tscn`, so this snapshot tracks
+the gap between the playable 8-scene route and a public release candidate.
 
 ## Current Evidence
 
-- Real RPG rendering: `scripts/ui/sprite_scene_canvas.gd` draws the play field
-  from project-generated pixel primitives and visual scene data.
-- Keyboard play: `scripts/core/rpg_player_controller.gd` owns player tile,
-  facing, collision checks, movement timing, exits, investigation targets, and
-  prompt text.
-- Keyboard-first HUD: `scripts/ui/prompt_overlay.gd` owns the compact location,
-  action prompt, and latest feedback surface without reserving bottom or right
-  screen regions.
-- UI composition boundary: `scripts/ui/game_hud.gd` owns the top bar, prompt
-  overlay, title screen, pause menu, settings menu, and canvas wiring so
-  `scripts/main.gd` can stay focused on game state, input routing, and
-  persistence.
-- Visual map data: `data/visual_scenes/00-prologue-lights-out.json`,
-  `data/visual_scenes/01-illiterate.json`, and
-  `data/visual_scenes/02-moqi-academy.json`, and
-  `data/visual_scenes/03-dead-kingdom.json`, and
-  `data/visual_scenes/04-continuation-institute.json`, and
-  `data/visual_scenes/05-century-continuation.json`,
-  `data/visual_scenes/06-return-star-plan.json`, and
-  `data/visual_scenes/07-lights-on-again.json` define authored locations, props,
-  exits, spawn points, and solid tiles.
-- Story runtime: `scripts/core/game_session.gd` owns flags, metrics, elapsed
-  time, combat rules, and story progression.
-- Data separation: `data/story_scenes/` holds narrative scene data, while
-  `data/visual_scenes/` holds playable map layout.
-- Verification: the Godot smoke walkthrough completes every implemented scene
-  with `--smoke-autoplay`, and all eight authored keyboard paths are
-  covered by `--smoke-rpg-first-act`, `--smoke-rpg-illiterate`, and
-  `--smoke-rpg-moqi-academy`, `--smoke-rpg-dead-kingdom`, and
-  `--smoke-rpg-continuation-institute`, and
-  `--smoke-rpg-century-continuation`, `--smoke-rpg-return-star-plan`, and
-  `--smoke-rpg-lights-on-again`.
-- Save/load verification: `--smoke-save-load` writes a save, mutates runtime
-  state, reloads it, and checks the restored location, tile, and elapsed time.
-- Menu verification: `--smoke-menu-flow` builds the UI and checks title, new
-  game, pause/resume, settings open/close states, return-to-title confirmation,
-  title quit confirmation, and keyboard focus.
-- Render verification: `--smoke-render-frame` starts the real Godot renderer,
-  captures the viewport image, and checks that the game frame is not blank.
-- Audio verification: `--smoke-audio-director` checks that the generated
-  fallback SFX streams are available before licensed audio assets are added.
-- Export configuration: `export_presets.cfg` defines macOS, Windows Desktop,
-  and Linux/X11 desktop presets, and `--smoke-export-config` verifies preset
-  presence, release branding metadata, and whether local export templates are
-  installed.
-- Input verification: `--smoke-input-map` checks that movement, interact, and
-  pause actions include gamepad button mappings, and that movement also has
-  left-stick axis mappings.
+- Main runtime: `src/nova/main.gd`, `src/nova/scene_director.gd`, and
+  `src/nova/world/exploration_view.gd` drive the current title, exploration,
+  action menu, Dialogic bridge, save/continue, pause, and screenshot gates.
+- Story coverage: `data/story_scenes/*.json` contains 8 authored scenes with a
+  canonical walkthrough totaling 257 commands.
+- Story continuity: `python3 tools/validate_story_continuity.py --verbose`
+  passes for all 8 scenes.
+- Route replay: `--smoke-nova-manual-route`, `--smoke-nova-ui-manual-route`,
+  `--smoke-nova-keyboard-route`, and `--smoke-nova-gamepad-route` each pass
+  the 257-command route.
+- Player-facing labels: `story-action-display-names` validates 259 visible
+  action, exit, combat, build, encounter, and combo labels so the action menu
+  does not fall back to internal IDs.
+- Visual coverage: `route-full-screenshots` captures 257 screenshots, one after
+  every authored walkthrough command, with `asset_backed_count=257` and no
+  procedural fallback or placeholder screenshots. The current manifest sees 0
+  `story_review` backdrop paths, 0 visible hotspot markers, and 0 visible debug
+  flags.
+- Checklist sync: `tools/build_nova_manual_route_checklist.py --check` keeps
+  `docs/nova-full-route-manual-qa.md` aligned with story data.
+- Dialogic coverage: `tools/validate_dialogic_timelines.py` validates 195
+  generated timelines, and the visible Dialogic smokes prove native playback can
+  write flags back and return to the Nova action menu.
+- Save/menu coverage: `--smoke-nova-save-continue`,
+  `--smoke-nova-pause-flow`, and the live input check prove title entry,
+  pause/resume, save, return-to-title, and continue-from-title paths.
+- Controller automation: `--smoke-nova-gamepad-route` covers the full
+  257-command action-menu route, and `--smoke-nova-gamepad-pause-flow` covers
+  joypad pause, save, resume, and return-to-title navigation.
+- Release export: `desktop-release-exports` produces macOS, Windows, and Linux
+  artifacts, validates expected binaries/packs, and scans export logs for
+  forbidden packaged resources.
+- Audio hygiene: `audio-mix-audit` inspects 151 generated/loaded MP3 assets for
+  missing files, Godot import metadata, duration ranges, and obvious
+  peak/mean-volume mistakes; it passes with 0 hot-peak warnings after the 36
+  long-form music/ambience/stinger MP3 files were mastered down.
 
-## Not Yet Steam-Ready
+## Not Yet Release-Complete
 
-- All eight current scenes have explicit visual map data and keyboard smoke
-  paths.
-- Title, settings, pause, save/load, return-to-title confirmation, and title
-  quit confirmation exist. Release UX still needs final controller tuning and
-  platform smoke checks.
-- Story feedback is currently a compact latest-line prompt. Full dialogue still
-  needs speaker portraits, paging, skip behavior, and localization-ready text
-  flow.
-- Player movement now has step timing, interpolated drawing, sprite-sheet
-  walking frames, facing rows, and blocked-tile feedback, but it still needs
-  artist-approved bespoke hero frames and scene transitions.
-- The audio layer has generated fallback SFX for UI, movement, blocked movement,
-  interaction, transitions, and success events, but licensed music, ambience,
-  and final SFX assets still need to be added.
-- Release/export setup has desktop presets, project version/description, and
-  icon/splash configuration. Release exports are still blocked until export
-  templates, final fullscreen/window settings, final bespoke branding art, and
-  platform smoke checks are completed.
-- Automated verification covers story walkthrough rules, all authored keyboard
-  paths, save/load restoration, menu state flow, generated fallback audio,
-  gamepad button mappings, and a rendered frame sanity check. Export preset
-  configuration is covered by `--smoke-export-config`, but binary export is not
-  covered until local export templates are installed.
+- `docs/nova-full-route-manual-qa.md` still has not been checked row by row by
+  a human in the live window. The 257 screenshots are strong evidence, but they
+  are not a substitute for observing input feel, text advance cadence, and
+  focus recovery through the whole route.
+- macOS export is ad-hoc signed. `codesign --verify --deep --strict` passes on
+  the unzipped app, but `spctl --assess --type execute` rejects it because there
+  is no Developer ID signing or notarization.
+- The visual route is reviewable and asset-backed without debug hotspot,
+  debug-flag, or `story_review` fallback leakage; final hand-painted art
+  direction and selective backdrop replacement/polish are still pending.
+- Generated voice/action audio coverage and machine mix hygiene are present,
+  but the soundtrack still needs a final creative listening pass for loudness,
+  balance, transitions, and emotional fit.
+- Controller support now has automated gamepad route and pause/save/title
+  smokes through joypad events, but it still needs a physical-controller
+  live-window pass before claiming controller-ready release quality.
 
 ## Next Implementation Order
 
-1. Replace generic sheet player frames with artist-approved bespoke hero frames.
-2. Install export templates and add platform export smoke checks.
-3. Add final music, ambience, icon/splash, and release metadata.
+1. Run the live-window QA checklist against
+   `docs/nova-full-route-manual-qa.md`, using
+   `artifacts/scene-screenshots/route-full-latest/index.html` as row-level
+   visual evidence.
+2. Run a physical gamepad live-window pass for action-menu navigation,
+   Dialogic advance, pause/save, and continue.
+3. Replace generated or chapter backdrops with final art-direction-approved
+   backdrops where needed, then rerun `route-full-screenshots`.
+4. Do the final creative loudness/mastering listening pass for music,
+   ambience, SFX, and generated voices now that machine hot-peak warnings are
+   clear.
+5. Configure Developer ID signing/notarization/stapling and rerun the release
+   signing checks from `docs/release.md`.

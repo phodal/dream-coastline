@@ -153,7 +153,8 @@
 			"terrain": "archive",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "archive",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/02-moqi-academy/archive-dictionary-cabinet.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/02-moqi-academy/archive.png",
+			"asset_overlay_alpha": 0.2
 		},
 		"node": {
 			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/node.tscn",
@@ -267,7 +268,8 @@
 			"terrain": "node",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "node",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/02-moqi-academy/wensu-first-lesson.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/02-moqi-academy/node.png",
+			"asset_overlay_alpha": 0.2
 		},
 		"village": {
 			"asset_scene": "res://scenes/visual_locations/02-moqi-academy/village.tscn",
@@ -355,7 +357,8 @@
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "academy",
 			"visual_mood": "sunlit",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/02-moqi-academy/wensu-first-lesson.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/02-moqi-academy/village.png",
+			"asset_overlay_alpha": 0.2
 		}
 	},
 	"tile_size": 32.0

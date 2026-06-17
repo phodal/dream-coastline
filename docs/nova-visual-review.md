@@ -1,5 +1,46 @@
 # Nova Visual Review
 
+## 2026-06-18 Full-Route Row Evidence
+
+Command:
+
+```bash
+python3 tools/run_automated_tests.py --only route-full-screenshots --visual-style classic_dark
+```
+
+Artifact:
+
+- `artifacts/scene-screenshots/route-full-latest/index.html`
+- `artifacts/scene-screenshots/route-full-latest/manifest.json`
+
+Result:
+
+- 257 screenshots captured, one after each authored walkthrough command.
+- `route_command_count=257`
+- `asset_backed_count=257`
+- `procedural_fallback_count=0`
+- `framework_placeholder_count=0`
+- `story_review` backdrop references: 0
+- `hotspot_markers_visible`: 0
+- `debug_flags_visible`: 0
+- Manifest validation matches every `(scene, scene step, command)` row from
+  `data/story_scenes/*.json`.
+
+Spot checks:
+
+| Command | Scene/step | Review |
+| ---: | --- | --- |
+| 1 | `00-prologue-lights-out` step 1, `inspect window` | Pass. First action returns to the action menu with authored Chinese labels and the modern night-street backdrop. |
+| 129 | `04-continuation-institute` step 22, `go seal_tower` | Pass. Seal tower state is visible, route progression has unlocked/completed actions, and focus is on the action menu. |
+| 207 | `06-return-star-plan` step 34, `build return` | Pass. Transition lands in the modern home state with readable post-return actions. |
+| 257 | `07-lights-on-again` step 50, `inspect parent_bridge_trace` | Pass. Final lab state remains visible with completed route actions and no debug hotspot overlay. |
+
+Follow-up:
+
+- This evidence proves every walkthrough row has a reviewable, asset-backed
+  screen after execution. It does not replace live manual observation for text
+  advance feel, controller comfort, or final art direction.
+
 ## 2026-05-26 Start Contact Sheet
 
 Command:
@@ -21,16 +62,18 @@ Result:
 | `00-prologue-lights-out` | `street` | Pass. Modern night street, dark-window mood, Dialogic/action panels readable. |
 | `01-illiterate` | `mud_road` | Pass. Mud road, damaged station, broken letters, and displaced child read clearly. |
 | `02-moqi-academy` | `academy` | Pass. Academy, writing tools, mentors, and glyph-learning tone are visible. |
-| `03-dead-kingdom` | `outer_city` | Pass with follow-up. Dead city mood reads, but tile overlays still show as translucent blocks over the backdrop. |
+| `03-dead-kingdom` | `outer_city` | Pass. Dead city mood reads through the illustrated backdrop and action UI without visible debug hotspot or tile overlay artifacts. |
 | `04-continuation-institute` | `institute` | Pass. Workshop/institute construction image now establishes the scene better than the previous gray layout. |
 | `05-century-continuation` | `industry` | Pass. Industrial city and star-tower scale read clearly behind the UI. |
 | `06-return-star-plan` | `astral_tower` | Pass. Astral gate and navigation equipment establish the plan location. |
-| `07-lights-on-again` | `home` | Pass with follow-up. Homecoming and lit windows read clearly, but tile overlays still add translucent blocks. |
+| `07-lights-on-again` | `home` | Pass. Homecoming, lit windows, and modern shoreline read clearly without visible debug hotspot or tile overlay artifacts. |
 
 Follow-up:
 
 - Start screenshots are now reviewable because all 8 start locations have illustrated backdrops.
-- Some old tile overlays remain visible on top of the backdrop. They are acceptable for this pass but should be faded or hidden in a later visual polish slice.
+- The current Nova screenshot manifest records 0 visible hotspot markers, 0
+  debug flags, and 0 `story_review` backdrop references. The old tile-overlay
+  follow-up is no longer visible in the current Nova route screenshots.
 - This review only covers scene starts. Full `--scope locations` review is still required before treating every location as visually complete.
 
 ## 2026-05-26 Location Contact Sheet
@@ -62,7 +105,7 @@ Coverage:
 | `00-prologue-lights-out` | 6 / 6 | Pass. Uses dedicated playable backdrops for modern street and home spaces. |
 | `01-illiterate` | 4 / 4 | Pass. Mud road, camp, chase, and station now read as distinct displaced-war spaces. |
 | `02-moqi-academy` | 4 / 4 | Pass. Academy, archive, node, and village now have readable Moqi learning imagery. |
-| `03-dead-kingdom` | 5 / 5 | Pass with follow-up. Dead city and archive imagery read, but repeated review-art reuse should be replaced by location-specific art later. |
+| `03-dead-kingdom` | 5 / 5 | Pass. Dead city, palace, headquarters, hall, and library now use location-specific playable backdrops. |
 | `04-continuation-institute` | 6 / 6 | Pass. Mine, school, seal tower, communication tower, and workshop no longer fall back to gray layouts. |
 | `05-century-continuation` | 4 / 4 | Pass. Astral engineering, network, and star tower images establish the later-era scale. |
 | `06-return-star-plan` | 6 / 6 | Pass. Council, dockyard, gate, rift, and core spaces now have visible route context. |
@@ -70,6 +113,14 @@ Coverage:
 
 Follow-up:
 
-- This pass makes every location screenshot reviewable; it does not claim final bespoke art for every location.
-- Several locations intentionally reuse the nearest story-review illustration. Later art polish should replace repeated backdrops with location-specific playable images.
-- Translucent tile overlays still appear over some backdrops. They are useful for interaction positioning, but should be visually softened before a final public build.
+- This pass makes every location screenshot reviewable; it does not claim final hand-painted art direction for every location.
+- `tools/generate_playable_backdrops.py --write --update-json` generated 28
+  additional playable-location PNGs, bringing `assets/illustrations/playable`
+  to 34 PNG backdrops. Current route-full manifest evidence reports 34
+  playable paths and 0 `story_review` backdrop paths.
+- The 2026-06-18 refreshed `route-full` manifest reports 257 screenshots,
+  220 `/playable/` backdrop uses, 37 `/chapters/` backdrop uses, 0
+  `/story_review/` backdrop uses, 0 visible hotspot markers, and 0 visible
+  debug flags. Remaining visual work is final art-direction approval and
+  selective replacement/polish of generated or chapter backdrops, not a known
+  runtime tile-overlay issue.

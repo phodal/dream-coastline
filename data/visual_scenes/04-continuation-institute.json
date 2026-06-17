@@ -192,7 +192,8 @@
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "mine",
 			"visual_mood": "ruin",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/04-continuation-institute/mine-safety-board.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/04-continuation-institute/mine.png",
+			"asset_overlay_alpha": 0.2
 		},
 		"school": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/school.tscn",
@@ -250,7 +251,8 @@
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "academy",
 			"visual_mood": "sunlit",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/04-continuation-institute/public-school-class.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/04-continuation-institute/school.png",
+			"asset_overlay_alpha": 0.2
 		},
 		"seal_tower": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/seal_tower.tscn",
@@ -339,7 +341,8 @@
 			"terrain": "node",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "node",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/04-continuation-institute/seal-tower-forgetting.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/04-continuation-institute/seal_tower.png",
+			"asset_overlay_alpha": 0.2
 		},
 		"tower": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/tower.tscn",
@@ -389,7 +392,8 @@
 			"terrain": "node",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "node",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/04-continuation-institute/communication-tower-array.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/04-continuation-institute/tower.png",
+			"asset_overlay_alpha": 0.2
 		},
 		"workshop": {
 			"asset_scene": "res://scenes/visual_locations/04-continuation-institute/workshop.tscn",
@@ -447,7 +451,8 @@
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "workshop",
 			"visual_mood": "sunlit",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/04-continuation-institute/atang-workshop-flow.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/04-continuation-institute/workshop.png",
+			"asset_overlay_alpha": 0.2
 		}
 	},
 	"tile_size": 32.0

@@ -38,9 +38,9 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--scope",
-        choices=["starts", "locations"],
+        choices=["starts", "locations", "route", "route-full"],
         default="locations",
-        help="Capture only each scene start or every authored location.",
+        help="Capture scene starts, authored locations, route checkpoints, or every walkthrough command.",
     )
     parser.add_argument(
         "--warmup-frames",
@@ -255,12 +255,29 @@ def render_card(shot: dict) -> str:
         for prop in shot.get("props", [])
         if prop.get("kind")
     )
+    route_meta = ""
+    if shot.get("scope") in {"route", "route-full"}:
+        choices = ", ".join(str(label) for label in shot.get("choice_labels", []))
+        command = str(shot.get("command", ""))
+        command_line = ""
+        if command:
+            command_line = f"""command row: <code>{html.escape(command)}</code><br>
+        scene step: <code>{html.escape(str(shot.get("scene_command_index", "")))}/{html.escape(str(shot.get("scene_commands_total", "")))}</code><br>
+        """
+        route_meta = f"""
+        checkpoint: <code>{html.escape(str(shot.get("checkpoint", "")))}</code>
+        global command: <code>{html.escape(str(shot.get("command_index", "")))}/{html.escape(str(shot.get("commands_total", "")))}</code><br>
+        {command_line}
+        route source: <code>{html.escape(str(shot.get("route_source_scene_id", "")))}</code><br>
+        choices: {html.escape(choices)}<br>
+        """
     return f"""
     <figure>
       <img src="{html.escape(str(shot.get("file", "")))}" alt="{html.escape(str(shot.get("location_id", "")))}">
       <figcaption>
         <strong>{html.escape(str(shot.get("location_name", "")))}</strong>
         <code>{html.escape(str(shot.get("location_id", "")))}</code><br>
+        {route_meta}
         terrain: <code>{html.escape(str(shot.get("terrain", "")))}</code><br>
         asset: <code>{html.escape(str(shot.get("asset_status", "")))}</code>
         <code>{html.escape(str(shot.get("visual_family", "")))}</code><br>

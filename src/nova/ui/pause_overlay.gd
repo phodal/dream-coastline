@@ -91,11 +91,11 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause"):
 		resume_requested.emit()
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_down"):
+	elif event.is_action_pressed("ui_down") or event.is_action_pressed("move_down"):
 		_selected_index = wrapi(_selected_index + 1, 0, _buttons.size())
 		_focus_selected()
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_up"):
+	elif event.is_action_pressed("ui_up") or event.is_action_pressed("move_up"):
 		_selected_index = wrapi(_selected_index - 1, 0, _buttons.size())
 		_focus_selected()
 		get_viewport().set_input_as_handled()

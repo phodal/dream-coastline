@@ -38,10 +38,24 @@ the repo data is structurally wrong.
 - Compile top-level Python tools with `py_compile`.
 - Run every authored ASCII scene through `tools/ascii_five.py <scene> --verify`.
 - Run `tools/validate_story_continuity.py --verbose`.
+- Check player-facing story labels for authored display names so menus do not
+  expose internal command IDs like `build institute`.
 - Run `tools/build_nova_manual_route_checklist.py --check` so the full-route
   live QA checklist stays aligned with story walkthrough JSON.
+- Run `playable-backdrops` to verify every visual location has an illustrated
+  backdrop file and no current Nova location points at `story_review` art.
 - Run `--smoke-nova-manual-route` to replay every canonical walkthrough command
   against Nova runtime state in authored order.
+- Run `--smoke-nova-ui-manual-route` to replay the same walkthrough through
+  `ExplorationView` action-menu choices, proving each command has an enabled
+  player-facing menu item and returns to exploration after its payload.
+- Run `--smoke-nova-keyboard-route` to replay the walkthrough by sending
+  `ui_down` / `ui_accept` events through the Nova input handlers, proving
+  keyboard menu navigation can reach and trigger every authored command.
+- Run `--smoke-nova-gamepad-route` to replay the walkthrough by sending
+  joypad D-pad/A button events through the `move_down` / `interact` input map,
+  proving controller-style action-menu navigation can reach and trigger every
+  authored command.
 - Run `tools/validate_equipment_catalog.py`.
 - Run `tools/validate_supply_catalog.py`.
 - Run `tools/validate_action_voice_manifest.py` to keep full playable-action
@@ -55,6 +69,9 @@ the repo data is structurally wrong.
   restore scene, location, and story flags without the legacy OpenRPG save path.
 - Run `--smoke-nova-pause-flow` to prove pause, manual save, resume, and
   return-to-title are handled by Nova UI instead of direct process exit.
+- Run `--smoke-nova-gamepad-pause-flow` to send joypad B/D-pad/A events through
+  the root pause handler and pause overlay, proving controller-style pause,
+  save, resume, and return-to-title navigation.
 - Run `--smoke-story-audio-targets` to report missing generated story audio
   targets before review playback depends on them.
 - Run `--smoke-dialogic-bridge` to prove Dialogic is installed and the Nova
@@ -72,21 +89,42 @@ non-headless cutscene playback.
 This tier should not include visible renderer screenshots. It should be safe on
 GitHub Actions Linux runners.
 
+Godot smoke steps must assert their own `status=PASS` output in addition to
+checking the process exit code. This catches cases where the project loads but
+the expected smoke flag is not handled by the active Nova entrypoint.
+
 ## Visual Gate
 
 Use the visual gate whenever a change touches `src/nova/ui/`,
 `src/nova/world/`, `data/visual_scenes/`, `data/visual_assets/`,
 `assets/visual_tiles/`, or playable illustration assets.
 
+- Run `--smoke-dialogic-runtime` without `--headless` to prove native Dialogic
+  playback can finish and write story flags back to Nova.
+- Run `--smoke-nova-keyboard-dialogic` without `--headless` to prove keyboard
+  action-menu navigation can open native Dialogic, then let Dialogic auto-skip
+  finish playback and return to the Nova action menu. This is not a substitute
+  for Enter-by-Enter manual Dialogic QA.
 - Run `--capture-nova-screenshot` without `--headless` to prove a visible frame is
   not blank.
 - Run `tools/capture_scene_screenshots.py --scope starts` for a Nova review
   contact sheet. The tool defaults to `res://src/nova/main.tscn`; use the old
   DreamField/OpenRPG scene only when explicitly reviewing that legacy entry.
+- Run `route-screenshots` or `tools/capture_scene_screenshots.py --scope route`
+  to capture walkthrough checkpoints at each scene start, midpoint, and
+  before-ending state, plus a final route state. This proves late-route action
+  menus remain visible and player-facing after the authored route has unlocked
+  and completed choices.
+- Run `route-full-screenshots` or
+  `tools/capture_scene_screenshots.py --scope route-full` when a route change
+  needs row-level evidence for `docs/nova-full-route-manual-qa.md`. This
+  captures one screenshot after every authored walkthrough command and validates
+  the manifest against each scene, scene step, and command string.
 - The `screenshots` automated step now validates the resulting
   `manifest.json` with `tools/validate_scene_screenshot_manifest.py`, so the
   gate fails if Nova coverage, PNG files, asset-backed status, or the contact
-  sheet artifact is missing.
+  sheet artifact is missing. With `--require-illustrated-backdrop`, it also
+  rejects `story_review` fallback art and visible hotspot/debug-flag overlays.
 - `tools/record_story_review.py` is a legacy DreamField/OpenRPG recorder and now
   exits unless `--legacy-openrpg-entrypoint` is passed. Do not use it as a Nova
   complete-flow gate.
@@ -99,6 +137,40 @@ Use the visual gate whenever a change touches `src/nova/ui/`,
 Render smoke is not a style test. A passing `render-frame-smoke` only says the
 viewport is non-empty and varied enough; it cannot prove a modern apartment, a
 black window, a vending machine, or a Moqi archive reads correctly.
+
+## Release Gate
+
+The release tier is for export-facing checks after the quick/headless runtime
+suite passes.
+
+- Run `--smoke-export-config` to validate macOS, Windows, and Linux desktop
+  presets, local export templates, release branding metadata, and editor/build
+  artifact export exclusions.
+- Run `tools/build_release_libraries.sh` to build the macOS release library and
+  cross-build the Windows/Linux GDExtension libraries.
+- Run `--smoke-release-libraries` to confirm all three export libraries exist at
+  the paths referenced by the project.
+- Run `audio-mix-audit` to inspect generated MP3 files with `ffprobe` and
+  `ffmpeg -af volumedetect`, checking required files, Godot import metadata,
+  duration ranges, and obvious peak/mean-volume mistakes. Long music hot peaks
+  are reported as warnings for final mastering review.
+- If `audio-mix-audit` reports long-form hot peaks, run
+  `python3 tools/master_audio_hot_peaks.py --apply`, rerun Godot editor import
+  so `.mp3.import` metadata is current, and repeat `audio-mix-audit` until
+  `hot_peaks=0`. Re-encoding can leave residual peak warnings after the first
+  pass.
+- Run `desktop-release-exports` to produce macOS, Windows, and Linux artifacts,
+  validate their expected binaries/packs, and scan Godot export logs for
+  forbidden packaged resources such as `.godot/**`, generated artifacts, local
+  config, tools, docs, and build caches.
+  The scanner allows Godot's compiled `.godot/imported` and `.godot/exported`
+  runtime resources, plus export-generated UID/class caches, but rejects other
+  `.godot` paths such as stale extension/editor metadata.
+
+Export templates are still a local Godot installation requirement before
+`--export-release` can produce binaries. The release tier validates local
+artifact creation and package hygiene; it does not prove Developer ID signing,
+notarization, stapling, installer behavior, or store distribution readiness.
 
 ## Contract Gate For AI-Assisted Work
 
@@ -133,8 +205,18 @@ python3 tools/build_nova_manual_route_checklist.py --check
 Use this checklist for the issue #6 full 8-scene manual pass. Headless
 `smoke-nova-all-scenes` proves automated progression, and
 `smoke-nova-manual-route` proves the authored walkthrough commands still replay
-in order. They do not prove that keyboard/mouse focus, Dialogic advance,
-pause/save, and visible action-menu recovery feel correct in a real window.
+in order. `smoke-nova-ui-manual-route` additionally proves the route is exposed
+through enabled Nova action-menu choices. `smoke-nova-keyboard-route` proves
+keyboard navigation can reach and trigger those choices.
+`smoke-nova-gamepad-route` proves the same menu route through joypad D-pad/A
+button events and the project `move_down` / `interact` action bindings.
+`smoke-nova-gamepad-pause-flow` covers joypad pause, save, resume, and
+return-to-title navigation.
+`smoke-nova-keyboard-dialogic` proves a keyboard-selected action can enter
+native Dialogic and return after auto-skipped playback. They still do not prove
+that physical controller focus feel, mouse focus, Enter-by-Enter Dialogic
+advance, pause/save, and the full 257-step visible presentation feel correct in
+a real window.
 
 ## CI Shape
 

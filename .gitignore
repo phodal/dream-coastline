@@ -19,7 +19,13 @@ assets/opengameart/spells/Pixelart Spells/
 builds/
 artifacts/scene-screenshots/
 artifacts/ui-screenshots/
+artifacts/dialogic-runtime-smoke.png
+artifacts/dialogic-runtime-smoke.png.import
+artifacts/nova-keyboard-dialogic-smoke.png
+artifacts/nova-keyboard-dialogic-smoke.png.import
 artifacts/nova-runtime-smoke.png
+artifacts/release-export-logs/
+artifacts/audio-mix-audit/
 artifacts/story-movie/
 artifacts/playtest-*/
 *.gd.uid

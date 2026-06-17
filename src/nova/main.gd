@@ -9,6 +9,9 @@ const StartupSplashScript := preload("res://src/nova/ui/startup_splash.gd")
 const PauseOverlayScript := preload("res://src/nova/ui/pause_overlay.gd")
 const SaveRepositoryScript := preload("res://src/nova/data/save_repository.gd")
 const AudioDirectorScript := preload("res://scripts/core/audio_director.gd")
+const JOYPAD_BUTTON_A := 0
+const JOYPAD_BUTTON_B := 1
+const JOYPAD_BUTTON_DPAD_DOWN := 12
 
 var director
 var exploration_view
@@ -23,6 +26,8 @@ var _dialogic_runtime_finished := false
 var _dialogic_runtime_payload: Dictionary = {}
 var _dialogic_runtime_started_with_dialogic := false
 var _manual_route_attack_attempts: Dictionary = {}
+var _latest_cutscene_payload: Dictionary = {}
+var _suppress_runtime_dialogic := false
 
 
 func _ready() -> void:
@@ -97,16 +102,30 @@ func _ready() -> void:
 		call_deferred("_run_all_scenes_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-manual-route"):
 		call_deferred("_run_manual_route_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-ui-manual-route"):
+		call_deferred("_run_ui_manual_route_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-keyboard-route"):
+		call_deferred("_run_keyboard_route_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-gamepad-route"):
+		call_deferred("_run_gamepad_route_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-save-continue"):
 		call_deferred("_run_save_continue_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-pause-flow"):
 		call_deferred("_run_pause_flow_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-gamepad-pause-flow"):
+		call_deferred("_run_gamepad_pause_flow_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-assets"):
 		call_deferred("_run_asset_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-story-audio-targets"):
 		call_deferred("_run_story_audio_targets_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-dialogic-bridge"):
 		call_deferred("_run_dialogic_bridge_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-keyboard-dialogic"):
+		call_deferred("_run_keyboard_dialogic_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-export-config"):
+		call_deferred("_run_export_config_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-release-libraries"):
+		call_deferred("_run_release_libraries_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-dialogic-runtime"):
 		call_deferred("_run_dialogic_runtime_smoke")
 	elif OS.get_cmdline_user_args().has("--capture-scene-screenshots"):
@@ -158,10 +177,13 @@ func _perform_story_action(action_type: String, action_id: String) -> void:
 
 
 func _show_cutscene(payload: Dictionary) -> void:
+	_latest_cutscene_payload = payload.duplicate(true)
 	var backdrop_path: String = director.visual_repository.get_backdrop_path(GameState.current_scene_id, GameState.current_location_id)
 	if audio_director != null:
 		audio_director.play_story_voice_for_text(GameState.current_scene_id, str(payload.get("text", "")))
-	if not dialogic_bridge.play_payload(payload, backdrop_path):
+	if not _suppress_runtime_dialogic and dialogic_bridge.play_payload(payload, backdrop_path):
+		return
+	else:
 		vn_layer.show_payload(payload, backdrop_path)
 
 
@@ -294,7 +316,12 @@ func _restore_quest_status(active_scene_id: String) -> void:
 
 func _can_write_save() -> bool:
 	var args := OS.get_cmdline_user_args()
-	return args.has("--smoke-nova-save-continue") or args.has("--smoke-nova-pause-flow") or not _is_automation_run()
+	return (
+		args.has("--smoke-nova-save-continue")
+		or args.has("--smoke-nova-pause-flow")
+		or args.has("--smoke-nova-gamepad-pause-flow")
+		or not _is_automation_run()
+	)
 
 
 func _nova_save_path() -> String:
@@ -303,6 +330,8 @@ func _nova_save_path() -> String:
 		return "user://nova_save_smoke.json"
 	if args.has("--smoke-nova-pause-flow"):
 		return "user://nova_pause_smoke.json"
+	if args.has("--smoke-nova-gamepad-pause-flow"):
+		return "user://nova_gamepad_pause_smoke.json"
 	return _arg_value(args, "--nova-save-path", SaveRepositoryScript.DEFAULT_SAVE_PATH)
 
 
@@ -468,6 +497,48 @@ func _run_pause_flow_smoke() -> void:
 	get_tree().quit(0 if ok else 1)
 
 
+func _run_gamepad_pause_flow_smoke() -> void:
+	if save_repository != null:
+		save_repository.clear()
+	_reset_to_first_scene()
+	GameMode.set_mode(GameMode.EXPLORATION)
+
+	_unhandled_input(_joypad_button_event(JOYPAD_BUTTON_B))
+	var ok: bool = pause_overlay != null and pause_overlay.visible and GameMode.current_mode == GameMode.MENU
+	if ok:
+		pause_overlay._input(_joypad_button_event(JOYPAD_BUTTON_DPAD_DOWN))
+		pause_overlay._input(_joypad_button_event(JOYPAD_BUTTON_A))
+	ok = ok and pause_overlay != null and pause_overlay.visible
+	ok = ok and save_repository != null and save_repository.has_save()
+	var saved: Dictionary = save_repository.load_game() if save_repository != null else {}
+	ok = ok and str(saved.get("scene_id", "")) == "00-prologue-lights-out"
+	ok = ok and str(saved.get("location_id", "")) == "street"
+
+	if ok:
+		pause_overlay._input(_joypad_button_event(JOYPAD_BUTTON_B))
+	ok = ok and pause_overlay != null and not pause_overlay.visible and GameMode.current_mode == GameMode.EXPLORATION
+
+	if ok:
+		_unhandled_input(_joypad_button_event(JOYPAD_BUTTON_B))
+		pause_overlay._input(_joypad_button_event(JOYPAD_BUTTON_DPAD_DOWN))
+		pause_overlay._input(_joypad_button_event(JOYPAD_BUTTON_DPAD_DOWN))
+		pause_overlay._input(_joypad_button_event(JOYPAD_BUTTON_A))
+	ok = ok and pause_overlay != null and not pause_overlay.visible
+	ok = ok and GameMode.current_mode == GameMode.MENU
+	ok = ok and GameState.current_scene_id == director.story_repository.first_scene_id()
+	ok = ok and GameState.current_location_id == director.story_repository.get_start_location(GameState.current_scene_id)
+	if save_repository != null:
+		save_repository.clear()
+	print("nova-gamepad-pause-flow-smoke status=%s saved=%s scene=%s location=%s mode=%s" % [
+		"PASS" if ok else "FAIL",
+		str(not saved.is_empty()),
+		GameState.current_scene_id,
+		GameState.current_location_id,
+		GameMode.current_mode,
+	])
+	get_tree().quit(0 if ok else 1)
+
+
 func _smoke_move(location_id: String) -> bool:
 	return director.move_to(location_id)
 
@@ -578,6 +649,360 @@ func _run_manual_route_smoke() -> void:
 		GameState.current_location_id,
 	])
 	get_tree().quit(0 if ok else 1)
+
+
+func _run_ui_manual_route_smoke() -> void:
+	StoryFlags.reset()
+	_manual_route_attack_attempts.clear()
+	_latest_cutscene_payload = {}
+	var scene_ids: Array[String] = director.story_repository.scene_ids()
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	_restore_quest_status(first_scene)
+	director.present_current_location()
+
+	var ok := true
+	var command_count := 0
+	var completed: Array[String] = []
+	for scene_id in scene_ids:
+		if not ok:
+			break
+		if GameState.current_scene_id != scene_id:
+			push_warning("Nova UI route smoke expected scene %s but got %s" % [scene_id, GameState.current_scene_id])
+			ok = false
+			break
+		var scene: Dictionary = director.story_repository.get_scene(scene_id)
+		var commands: Array = scene.get("walkthrough", [])
+		for raw_command in commands:
+			var command := str(raw_command)
+			command_count += 1
+			if not _ui_route_command(command):
+				push_warning("Nova UI route smoke failed command %s at %s/%s choices=%s" % [
+					command,
+					GameState.current_scene_id,
+					GameState.current_location_id,
+					", ".join(exploration_view.current_choice_labels()),
+				])
+				ok = false
+				break
+		if ok and not StoryFlags.has_all(director.story_repository.get_required_flags(scene_id)):
+			push_warning("Nova UI route smoke missing required flag %s for %s" % [
+				_smoke_first_missing(director.story_repository.get_required_flags(scene_id)),
+				scene_id,
+			])
+			ok = false
+		if ok:
+			completed.append(scene_id)
+
+	ok = ok and completed.size() == scene_ids.size()
+	print("nova-ui-manual-route-smoke status=%s scenes=%s commands=%s flags=%s current=%s/%s" % [
+		"PASS" if ok else "FAIL",
+		completed.size(),
+		command_count,
+		StoryFlags.export_flags().keys().size(),
+		GameState.current_scene_id,
+		GameState.current_location_id,
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _run_keyboard_route_smoke() -> void:
+	StoryFlags.reset()
+	_manual_route_attack_attempts.clear()
+	_latest_cutscene_payload = {}
+	var scene_ids: Array[String] = director.story_repository.scene_ids()
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	_restore_quest_status(first_scene)
+	director.present_current_location()
+
+	var ok := true
+	var command_count := 0
+	var completed: Array[String] = []
+	for scene_id in scene_ids:
+		if not ok:
+			break
+		if GameState.current_scene_id != scene_id:
+			push_warning("Nova keyboard route smoke expected scene %s but got %s" % [scene_id, GameState.current_scene_id])
+			ok = false
+			break
+		var scene: Dictionary = director.story_repository.get_scene(scene_id)
+		var commands: Array = scene.get("walkthrough", [])
+		for raw_command in commands:
+			var command := str(raw_command)
+			command_count += 1
+			if not _keyboard_route_command(command):
+				push_warning("Nova keyboard route smoke failed command %s at %s/%s selected=%s choices=%s" % [
+					command,
+					GameState.current_scene_id,
+					GameState.current_location_id,
+					exploration_view.selected_choice_index(),
+					", ".join(exploration_view.current_choice_labels()),
+				])
+				ok = false
+				break
+		if ok and not StoryFlags.has_all(director.story_repository.get_required_flags(scene_id)):
+			push_warning("Nova keyboard route smoke missing required flag %s for %s" % [
+				_smoke_first_missing(director.story_repository.get_required_flags(scene_id)),
+				scene_id,
+			])
+			ok = false
+		if ok:
+			completed.append(scene_id)
+
+	ok = ok and completed.size() == scene_ids.size()
+	print("nova-keyboard-route-smoke status=%s scenes=%s commands=%s flags=%s current=%s/%s" % [
+		"PASS" if ok else "FAIL",
+		completed.size(),
+		command_count,
+		StoryFlags.export_flags().keys().size(),
+		GameState.current_scene_id,
+		GameState.current_location_id,
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _keyboard_route_command(command: String) -> bool:
+	var expected := _ui_route_expected_choice(command)
+	if expected.is_empty():
+		push_warning("Nova keyboard route smoke cannot map command: %s" % command)
+		return false
+	var choice_type := str(expected.get("type", ""))
+	var choice_id := str(expected.get("id", ""))
+	var action_type := str(expected.get("action_type", ""))
+	if not exploration_view.has_enabled_choice(choice_type, choice_id, action_type):
+		return false
+	var target_index: int = exploration_view.choice_index_for(choice_type, choice_id, action_type)
+	if target_index < 0:
+		return false
+	var guard: int = exploration_view.current_choice_labels().size() + 2
+	while exploration_view.selected_choice_index() != target_index and guard > 0:
+		exploration_view._input(_action_event("ui_down"))
+		guard -= 1
+	if exploration_view.selected_choice_index() != target_index:
+		return false
+	_latest_cutscene_payload = {}
+	exploration_view._input(_action_event("ui_accept"))
+	return _advance_keyboard_route_payload()
+
+
+func _advance_keyboard_route_payload() -> bool:
+	var guard := 64
+	while GameMode.current_mode != GameMode.EXPLORATION and guard > 0:
+		if vn_layer.visible:
+			vn_layer._input(_action_event("ui_accept"))
+		elif not _latest_cutscene_payload.is_empty():
+			_finish_cutscene(_latest_cutscene_payload)
+			_latest_cutscene_payload = {}
+		else:
+			return false
+		guard -= 1
+	return GameMode.current_mode == GameMode.EXPLORATION
+
+
+func _run_gamepad_route_smoke() -> void:
+	StoryFlags.reset()
+	_manual_route_attack_attempts.clear()
+	_latest_cutscene_payload = {}
+	var scene_ids: Array[String] = director.story_repository.scene_ids()
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	_restore_quest_status(first_scene)
+	director.present_current_location()
+
+	var ok := true
+	var command_count := 0
+	var completed: Array[String] = []
+	for scene_id in scene_ids:
+		if not ok:
+			break
+		if GameState.current_scene_id != scene_id:
+			push_warning("Nova gamepad route smoke expected scene %s but got %s" % [scene_id, GameState.current_scene_id])
+			ok = false
+			break
+		var scene: Dictionary = director.story_repository.get_scene(scene_id)
+		var commands: Array = scene.get("walkthrough", [])
+		for raw_command in commands:
+			var command := str(raw_command)
+			command_count += 1
+			if not _gamepad_route_command(command):
+				push_warning("Nova gamepad route smoke failed command %s at %s/%s selected=%s choices=%s" % [
+					command,
+					GameState.current_scene_id,
+					GameState.current_location_id,
+					exploration_view.selected_choice_index(),
+					", ".join(exploration_view.current_choice_labels()),
+				])
+				ok = false
+				break
+		if ok and not StoryFlags.has_all(director.story_repository.get_required_flags(scene_id)):
+			push_warning("Nova gamepad route smoke missing required flag %s for %s" % [
+				_smoke_first_missing(director.story_repository.get_required_flags(scene_id)),
+				scene_id,
+			])
+			ok = false
+		if ok:
+			completed.append(scene_id)
+
+	ok = ok and completed.size() == scene_ids.size()
+	print("nova-gamepad-route-smoke status=%s scenes=%s commands=%s flags=%s current=%s/%s" % [
+		"PASS" if ok else "FAIL",
+		completed.size(),
+		command_count,
+		StoryFlags.export_flags().keys().size(),
+		GameState.current_scene_id,
+		GameState.current_location_id,
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _gamepad_route_command(command: String) -> bool:
+	var expected := _ui_route_expected_choice(command)
+	if expected.is_empty():
+		push_warning("Nova gamepad route smoke cannot map command: %s" % command)
+		return false
+	var choice_type := str(expected.get("type", ""))
+	var choice_id := str(expected.get("id", ""))
+	var action_type := str(expected.get("action_type", ""))
+	if not exploration_view.has_enabled_choice(choice_type, choice_id, action_type):
+		return false
+	var target_index: int = exploration_view.choice_index_for(choice_type, choice_id, action_type)
+	if target_index < 0:
+		return false
+	var guard: int = exploration_view.current_choice_labels().size() + 2
+	while exploration_view.selected_choice_index() != target_index and guard > 0:
+		exploration_view._input(_joypad_button_event(JOYPAD_BUTTON_DPAD_DOWN))
+		guard -= 1
+	if exploration_view.selected_choice_index() != target_index:
+		return false
+	_latest_cutscene_payload = {}
+	exploration_view._input(_joypad_button_event(JOYPAD_BUTTON_A))
+	return _advance_gamepad_route_payload()
+
+
+func _advance_gamepad_route_payload() -> bool:
+	var guard := 64
+	while GameMode.current_mode != GameMode.EXPLORATION and guard > 0:
+		if vn_layer.visible:
+			vn_layer._input(_joypad_button_event(JOYPAD_BUTTON_A))
+		elif not _latest_cutscene_payload.is_empty():
+			_finish_cutscene(_latest_cutscene_payload)
+			_latest_cutscene_payload = {}
+		else:
+			return false
+		guard -= 1
+	return GameMode.current_mode == GameMode.EXPLORATION
+
+
+func _action_event(action_name: String) -> InputEventAction:
+	var event := InputEventAction.new()
+	event.action = action_name
+	event.pressed = true
+	return event
+
+
+func _joypad_button_event(button_index: int) -> InputEventJoypadButton:
+	var event := InputEventJoypadButton.new()
+	event.button_index = button_index
+	event.pressed = true
+	event.pressure = 1.0
+	return event
+
+
+func _raw_key_event(keycode: Key) -> InputEventKey:
+	var event := InputEventKey.new()
+	event.keycode = keycode
+	event.physical_keycode = keycode
+	event.pressed = true
+	return event
+
+
+func _ui_route_command(command: String) -> bool:
+	var expected := _ui_route_expected_choice(command)
+	if expected.is_empty():
+		push_warning("Nova UI route smoke cannot map command: %s" % command)
+		return false
+	var choice_type := str(expected.get("type", ""))
+	var choice_id := str(expected.get("id", ""))
+	var action_type := str(expected.get("action_type", ""))
+	if not exploration_view.has_enabled_choice(choice_type, choice_id, action_type):
+		return false
+	_latest_cutscene_payload = {}
+	if not exploration_view.press_choice(choice_type, choice_id, action_type):
+		return false
+	return _finish_ui_route_payload_if_needed()
+
+
+func _ui_route_expected_choice(command: String) -> Dictionary:
+	var parts := command.split(" ", false, 1)
+	if parts.size() == 0:
+		return {}
+	var verb := str(parts[0])
+	var target := str(parts[1]) if parts.size() > 1 else ""
+	match verb:
+		"go":
+			return {"type": "move", "id": target}
+		"inspect":
+			return {"type": "inspect", "id": target}
+		"choose":
+			return {"type": "choice", "id": target}
+		"build":
+			return {"type": "story_action", "action_type": "build", "id": target}
+		"engage":
+			return {"type": "story_action", "action_type": "encounter", "id": target}
+		"combine":
+			return {"type": "story_action", "action_type": "combo", "id": target}
+		"write":
+			return _ui_route_write_choice(target)
+		"cast":
+			return _ui_route_cast_choice(target)
+		"attack":
+			return {"type": "story_action", "action_type": "combat_resolve", "id": "resolve"}
+		_:
+			return {}
+
+
+func _ui_route_write_choice(glyph_id: String) -> Dictionary:
+	var glyphs: Dictionary = director.story_repository.get_glyph_actions(GameState.current_scene_id, GameState.current_location_id)
+	if glyphs.has(glyph_id):
+		var glyph: Dictionary = glyphs[glyph_id]
+		if StoryFlags.has_all(glyph.get("requires", [])):
+			return {"type": "story_action", "action_type": "glyph", "id": glyph_id}
+	var combat: Dictionary = director.story_repository.get_combat(GameState.current_scene_id, GameState.current_location_id)
+	if glyph_id == "name" and not combat.is_empty():
+		return {"type": "story_action", "action_type": "combat_identify", "id": "identify"}
+	return {}
+
+
+func _ui_route_cast_choice(glyph_id: String) -> Dictionary:
+	var combat: Dictionary = director.story_repository.get_combat(GameState.current_scene_id, GameState.current_location_id)
+	var win_flag := str(combat.get("win_flag", ""))
+	var spells: Dictionary = combat.get("spells", {})
+	if spells.has(glyph_id) and (win_flag.is_empty() or not StoryFlags.has_flag(win_flag)):
+		return {"type": "story_action", "action_type": "combat_spell", "id": glyph_id}
+	var glyphs: Dictionary = director.story_repository.get_glyph_actions(GameState.current_scene_id, GameState.current_location_id)
+	if glyphs.has(glyph_id):
+		return {"type": "story_action", "action_type": "glyph", "id": glyph_id}
+	return {}
+
+
+func _finish_ui_route_payload_if_needed() -> bool:
+	if GameMode.current_mode == GameMode.EXPLORATION:
+		return true
+	if _latest_cutscene_payload.is_empty():
+		return false
+	if vn_layer.visible:
+		vn_layer._accept()
+	else:
+		_finish_cutscene(_latest_cutscene_payload)
+	_latest_cutscene_payload = {}
+	return GameMode.current_mode == GameMode.EXPLORATION
 
 
 func _manual_route_command(scene_id: String, command: String) -> bool:
@@ -740,9 +1165,9 @@ func _manual_route_attack() -> bool:
 	var key := "%s/%s" % [GameState.current_scene_id, GameState.current_location_id]
 	var attempts := int(_manual_route_attack_attempts.get(key, 0)) + 1
 	_manual_route_attack_attempts[key] = attempts
-	var success_attempt: int = max(1, int(combat.get("success_attempt", 1)))
+	var enemy_hp: int = max(1, int(combat.get("enemy_hp", combat.get("success_attempt", 1))))
 	var flags: Array = []
-	if attempts >= success_attempt:
+	if attempts >= enemy_hp:
 		if not win_flag.is_empty():
 			flags.append(win_flag)
 		flags.append_array(_smoke_array(combat.get("reward_flags", [])))
@@ -1015,6 +1440,72 @@ func _run_dialogic_runtime_smoke() -> void:
 	timer.start()
 
 
+func _run_keyboard_dialogic_smoke() -> void:
+	if DisplayServer.get_name() == "headless":
+		print("nova-keyboard-dialogic-smoke status=SKIP reason=headless")
+		get_tree().quit(0)
+		return
+	StoryFlags.reset()
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	_restore_quest_status(first_scene)
+	director.present_current_location()
+
+	_dialogic_runtime_finished = false
+	_dialogic_runtime_payload = {}
+	_dialogic_runtime_started_with_dialogic = false
+	_latest_cutscene_payload = {}
+	if not dialogic_bridge.finished.is_connected(_on_dialogic_runtime_finished):
+		dialogic_bridge.finished.connect(_on_dialogic_runtime_finished)
+
+	var target_index: int = exploration_view.choice_index_for("inspect", "window")
+	var menu_ok: bool = target_index >= 0 and exploration_view.has_enabled_choice("inspect", "window")
+	var guard: int = exploration_view.current_choice_labels().size() + 2
+	while menu_ok and exploration_view.selected_choice_index() != target_index and guard > 0:
+		exploration_view._input(_action_event("ui_down"))
+		guard -= 1
+	menu_ok = menu_ok and exploration_view.selected_choice_index() == target_index
+	if menu_ok:
+		exploration_view._input(_action_event("ui_accept"))
+	_dialogic_runtime_started_with_dialogic = menu_ok and not vn_layer.visible and GameMode.current_mode == GameMode.VN_CUTSCENE
+
+	var dialogic_node := get_node_or_null("/root/Dialogic")
+	if _dialogic_runtime_started_with_dialogic and dialogic_node != null and dialogic_node.has_subsystem("Inputs"):
+		dialogic_node.Inputs.auto_skip.time_per_event = 0.01
+		dialogic_node.Inputs.auto_skip.disable_on_user_input = false
+		dialogic_node.Inputs.auto_skip.enabled = true
+	await get_tree().process_frame
+	var deadline_msec: int = Time.get_ticks_msec() + 3500
+	while Time.get_ticks_msec() < deadline_msec and not _dialogic_runtime_finished:
+		await get_tree().process_frame
+	if dialogic_node != null and dialogic_node.has_subsystem("Inputs"):
+		dialogic_node.Inputs.auto_skip.enabled = false
+
+	var menu_restored: bool = GameMode.current_mode == GameMode.EXPLORATION and exploration_view.has_enabled_choice("inspect", "poster")
+	var ok: bool = menu_ok
+	ok = ok and _dialogic_runtime_started_with_dialogic
+	ok = ok and _dialogic_runtime_finished
+	ok = ok and StoryFlags.has_flag("noticed_dark_window")
+	ok = ok and menu_restored
+	ok = ok and str(_dialogic_runtime_payload.get("timeline_path", "")).ends_with("street_window.dtl")
+	var screenshot_path := ProjectSettings.globalize_path("res://artifacts/nova-keyboard-dialogic-smoke.png")
+	if ok:
+		DirAccess.make_dir_recursive_absolute(screenshot_path.get_base_dir())
+		var image := get_viewport().get_texture().get_image()
+		ok = image != null and image.save_png(screenshot_path) == OK
+	print("nova-keyboard-dialogic-smoke status=%s started=%s finished=%s flag=%s menu=%s advance=auto_skip screenshot=%s" % [
+		"PASS" if ok else "FAIL",
+		str(_dialogic_runtime_started_with_dialogic),
+		str(_dialogic_runtime_finished),
+		str(StoryFlags.has_flag("noticed_dark_window")),
+		str(menu_restored),
+		screenshot_path,
+	])
+	get_tree().quit(0 if ok else 1)
+
+
 func _on_dialogic_runtime_finished(payload: Dictionary) -> void:
 	_dialogic_runtime_finished = true
 	_dialogic_runtime_payload = payload.duplicate(true)
@@ -1097,6 +1588,135 @@ func _run_story_audio_targets_smoke() -> void:
 	get_tree().quit(0 if ok else 1)
 
 
+func _run_export_config_smoke() -> void:
+	var config := ConfigFile.new()
+	var error := config.load("res://export_presets.cfg")
+	if error != OK:
+		print("export-config-smoke status=FAIL reason=missing-export-presets error=%s" % error)
+		get_tree().quit(1)
+		return
+
+	var expected := ["macOS", "Windows Desktop", "Linux/X11"]
+	var required_excludes := [
+		"tools/**",
+		"docs/**",
+		"five/**",
+		"artifacts/**",
+		"builds/**",
+		"target/**",
+		".godot/**",
+		".zig-cache/**",
+		".DS_Store",
+		".env",
+		"deepseek.local.cfg",
+		"*.log",
+		".claude/**",
+		".cursor/**",
+		".idea/**",
+		".tmp/**",
+		".venv/**",
+		"node_modules/**",
+		"addons/dialogic/Editor/**",
+		"addons/yarn_spinner/editor/**",
+		"addons/yarn_spinner/templates/**",
+	]
+	var found: Array[String] = []
+	var filter_missing: Array[String] = []
+	for section in config.get_sections():
+		if not str(section).begins_with("preset.") or str(section).ends_with(".options"):
+			continue
+		var preset_name := str(config.get_value(section, "name", ""))
+		if expected.has(preset_name):
+			found.append(preset_name)
+			var exclude_filter := str(config.get_value(section, "exclude_filter", ""))
+			var excludes := exclude_filter.split(",", false)
+			for required in required_excludes:
+				if not excludes.has(required):
+					filter_missing.append("%s missing exclude %s" % [preset_name, required])
+
+	var missing: Array[String] = []
+	for preset_name in expected:
+		if not found.has(preset_name):
+			missing.append(preset_name)
+
+	var templates_path := _export_templates_path()
+	var templates_installed := DirAccess.dir_exists_absolute(templates_path)
+	var branding_missing := _release_branding_missing()
+	var ok := templates_installed and missing.is_empty() and branding_missing.is_empty() and filter_missing.is_empty()
+	print("export-config-smoke status=%s presets=%s/%s templates=%s branding=%s excludes=%s path=%s" % [
+		"PASS" if ok else "FAIL",
+		found.size(),
+		expected.size(),
+		"installed" if templates_installed else "missing",
+		"ok" if branding_missing.is_empty() else "missing",
+		"ok" if filter_missing.is_empty() else "missing",
+		templates_path,
+	])
+	if not missing.is_empty():
+		print("missing=", missing)
+	if not templates_installed:
+		print("failure= export templates missing at %s" % templates_path)
+	for failure in filter_missing:
+		print("failure=", failure)
+	for failure in branding_missing:
+		print("failure=", failure)
+	get_tree().quit(0 if ok else 1)
+
+
+func _run_release_libraries_smoke() -> void:
+	var expected := {
+		"macos": "res://target/release/libdream_coastline.dylib",
+		"windows": "res://target/release/dream_coastline.dll",
+		"linux": "res://target/release/libdream_coastline.so",
+	}
+	var missing: Array[String] = []
+	for platform in expected.keys():
+		var path := str(expected[platform])
+		if not FileAccess.file_exists(path):
+			missing.append("%s library missing at %s" % [platform, path])
+
+	var ok := missing.is_empty()
+	print("release-libraries-smoke status=%s libraries=%s/%s" % [
+		"PASS" if ok else "FAIL",
+		expected.size() - missing.size(),
+		expected.size(),
+	])
+	for failure in missing:
+		print("failure=", failure)
+	get_tree().quit(0 if ok else 1)
+
+
+func _release_branding_missing() -> Array[String]:
+	var missing: Array[String] = []
+	var icon_path := str(ProjectSettings.get_setting("application/config/icon", ""))
+	var splash_path := str(ProjectSettings.get_setting("application/boot_splash/image", ""))
+	var version := str(ProjectSettings.get_setting("application/config/version", ""))
+	var description := str(ProjectSettings.get_setting("application/config/description", ""))
+	if icon_path.is_empty() or not FileAccess.file_exists(icon_path):
+		missing.append("application icon missing")
+	if splash_path.is_empty() or not FileAccess.file_exists(splash_path):
+		missing.append("boot splash image missing")
+	if version.is_empty():
+		missing.append("application version missing")
+	if description.is_empty():
+		missing.append("application description missing")
+	return missing
+
+
+func _export_templates_path() -> String:
+	var version := Engine.get_version_info()
+	var template_version := "%s.%s.%s.%s" % [
+		version.get("major", 0),
+		version.get("minor", 0),
+		version.get("patch", 0),
+		version.get("status", "stable"),
+	]
+	return "%s/Library/Application Support/Godot/export_templates/%s" % [
+		OS.get_environment("HOME"),
+		template_version,
+	]
+
+
 func _capture_screenshot() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -1133,28 +1753,43 @@ func _capture_scene_screenshots() -> void:
 
 	var screenshots: Array[Dictionary] = []
 	var failures: Array[String] = []
-	var scene_ids: Array = director.story_repository.scene_ids()
-	for scene_index in range(scene_ids.size()):
-		var scene_id := str(scene_ids[scene_index])
-		if scene_filter != "all" and scene_filter != scene_id:
-			continue
-		var story_scene: Dictionary = director.story_repository.get_scene(scene_id)
-		var location_ids: Array[String] = _capture_location_ids(story_scene, scope)
-		for location_index in range(location_ids.size()):
-			var location_id := str(location_ids[location_index])
-			var entry := await _capture_location_screenshot(
-				scene_index,
-				scene_id,
-				story_scene,
-				location_id,
-				location_index,
-				output_dir,
-				warmup_frames
-			)
-			if bool(entry.get("ok", false)):
+	var route_command_count := 0
+	if scope == "route" or scope == "route-full":
+		var route_result: Dictionary = await _capture_route_screenshots(
+			output_dir,
+			scene_filter,
+			warmup_frames,
+			scope == "route-full"
+		)
+		route_command_count = int(route_result.get("route_command_count", 0))
+		for entry in route_result.get("screenshots", []):
+			if typeof(entry) == TYPE_DICTIONARY:
 				screenshots.append(entry)
-			else:
-				failures.append(str(entry.get("failure", "unknown")))
+		for failure in route_result.get("failures", []):
+			failures.append(str(failure))
+	else:
+		var scene_ids: Array = director.story_repository.scene_ids()
+		for scene_index in range(scene_ids.size()):
+			var scene_id := str(scene_ids[scene_index])
+			if scene_filter != "all" and scene_filter != scene_id:
+				continue
+			var story_scene: Dictionary = director.story_repository.get_scene(scene_id)
+			var location_ids: Array[String] = _capture_location_ids(story_scene, scope)
+			for location_index in range(location_ids.size()):
+				var location_id := str(location_ids[location_index])
+				var entry := await _capture_location_screenshot(
+					scene_index,
+					scene_id,
+					story_scene,
+					location_id,
+					location_index,
+					output_dir,
+					warmup_frames
+				)
+				if bool(entry.get("ok", false)):
+					screenshots.append(entry)
+				else:
+					failures.append(str(entry.get("failure", "unknown")))
 
 	var manifest := {
 		"version": 3,
@@ -1171,6 +1806,7 @@ func _capture_scene_screenshots() -> void:
 		"procedural_fallback_count": _capture_asset_status_count(screenshots, "procedural_fallback"),
 		"framework_placeholder_count": _capture_asset_status_count(screenshots, "framework_placeholder"),
 		"asset_backed_count": _capture_asset_status_count(screenshots, "asset_backed"),
+		"route_command_count": route_command_count,
 		"screenshots": screenshots,
 		"failures": failures,
 	}
@@ -1191,6 +1827,224 @@ func _capture_scene_screenshots() -> void:
 		failures.size(),
 	])
 	get_tree().quit(0 if ok else 1)
+
+
+func _capture_route_screenshots(output_dir: String, scene_filter: String, warmup_frames: int, full_route: bool) -> Dictionary:
+	StoryFlags.reset()
+	_manual_route_attack_attempts.clear()
+	_latest_cutscene_payload = {}
+	_suppress_runtime_dialogic = true
+	var scene_ids: Array[String] = director.story_repository.scene_ids()
+	var selected_scene_ids: Array[String] = []
+	var route_commands_total := 0
+	for raw_scene_id in scene_ids:
+		var selected_scene_id := str(raw_scene_id)
+		if scene_filter != "all" and scene_filter != selected_scene_id:
+			continue
+		selected_scene_ids.append(selected_scene_id)
+		var selected_scene: Dictionary = director.story_repository.get_scene(selected_scene_id)
+		route_commands_total += int(selected_scene.get("walkthrough", []).size())
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	_restore_quest_status(first_scene)
+	director.present_current_location()
+
+	var screenshots: Array[Dictionary] = []
+	var failures: Array[String] = []
+	var command_count := 0
+	var route_index := 0
+	var ok := true
+	var scope_label := "route-full" if full_route else "route"
+	for source_scene_id in selected_scene_ids:
+		if GameState.current_scene_id != source_scene_id:
+			failures.append("route expected scene %s but got %s" % [source_scene_id, GameState.current_scene_id])
+			ok = false
+			break
+		var story_scene: Dictionary = director.story_repository.get_scene(source_scene_id)
+		var commands: Array = story_scene.get("walkthrough", [])
+		var checkpoint_indexes: Dictionary = _route_checkpoint_indexes(commands.size())
+		for command_index in range(commands.size()):
+			if not full_route:
+				for checkpoint in checkpoint_indexes.get(command_index, []):
+					var entry := await _capture_current_route_screenshot(
+						route_index,
+						scope_label,
+						source_scene_id,
+						str(checkpoint),
+						command_index,
+						commands.size(),
+						output_dir,
+						warmup_frames
+					)
+					route_index += 1
+					if bool(entry.get("ok", false)):
+						screenshots.append(entry)
+					else:
+						failures.append(str(entry.get("failure", "unknown")))
+						ok = false
+						break
+				if not ok:
+					break
+			var command := str(commands[command_index])
+			command_count += 1
+			if not _ui_route_command(command):
+				failures.append("route command failed %s at %s/%s choices=%s" % [
+					command,
+					GameState.current_scene_id,
+					GameState.current_location_id,
+					", ".join(exploration_view.current_choice_labels()),
+				])
+				ok = false
+				break
+			if full_route:
+				var entry := await _capture_current_route_screenshot(
+					route_index,
+					scope_label,
+					source_scene_id,
+					"command",
+					command_count,
+					route_commands_total,
+					output_dir,
+					warmup_frames,
+					command,
+					command_index + 1,
+					commands.size()
+				)
+				route_index += 1
+				if bool(entry.get("ok", false)):
+					screenshots.append(entry)
+				else:
+					failures.append(str(entry.get("failure", "unknown")))
+					ok = false
+					break
+		if not ok:
+			break
+		if not StoryFlags.has_all(director.story_repository.get_required_flags(source_scene_id)):
+			failures.append("route missing required flag %s for %s" % [
+				_smoke_first_missing(director.story_repository.get_required_flags(source_scene_id)),
+				source_scene_id,
+			])
+			ok = false
+			break
+	if ok and not full_route:
+		var final_entry := await _capture_current_route_screenshot(
+			route_index,
+			scope_label,
+			"route",
+			"final",
+			command_count,
+			command_count,
+			output_dir,
+			warmup_frames
+		)
+		if bool(final_entry.get("ok", false)):
+			screenshots.append(final_entry)
+		else:
+			failures.append(str(final_entry.get("failure", "unknown")))
+	_suppress_runtime_dialogic = false
+	return {
+		"screenshots": screenshots,
+		"failures": failures,
+		"route_command_count": command_count,
+	}
+
+
+func _capture_current_route_screenshot(
+	route_index: int,
+	scope_label: String,
+	source_scene_id: String,
+	checkpoint: String,
+	command_index: int,
+	commands_total: int,
+	output_dir: String,
+	warmup_frames: int,
+	command: String = "",
+	scene_command_index: int = 0,
+	scene_commands_total: int = 0
+) -> Dictionary:
+	for _frame in range(warmup_frames):
+		await get_tree().process_frame
+
+	if DisplayServer.get_name() == "headless":
+		return {"ok": false, "failure": "headless display has no viewport texture"}
+
+	var scene_id := GameState.current_scene_id
+	var location_id := GameState.current_location_id
+	var story_scene: Dictionary = director.story_repository.get_scene(scene_id)
+	var location: Dictionary = director.story_repository.get_location(scene_id, location_id)
+	if location.is_empty():
+		return {"ok": false, "failure": "missing route location %s/%s" % [scene_id, location_id]}
+
+	var viewport_texture := get_viewport().get_texture()
+	var image: Image = null
+	if viewport_texture != null:
+		image = viewport_texture.get_image()
+	if image == null or image.get_width() <= 0 or image.get_height() <= 0:
+		return {"ok": false, "failure": "empty route image %s/%s" % [scene_id, location_id]}
+
+	var filename := "%03d-%s-%s__%s__%03d-%s.png" % [
+		route_index,
+		_safe_filename(scope_label),
+		_safe_filename(source_scene_id),
+		_safe_filename(checkpoint),
+		command_index,
+		_safe_filename(location_id),
+	]
+	var path := output_dir.path_join(filename)
+	var save_error := image.save_png(path)
+	if save_error != OK:
+		return {"ok": false, "failure": "save failed %s error=%s" % [path, save_error]}
+
+	var visual: Dictionary = director.visual_repository.get_location_visual(scene_id, location_id)
+	return {
+		"ok": true,
+		"scope": scope_label,
+		"route_index": route_index,
+		"route_source_scene_id": source_scene_id,
+		"checkpoint": checkpoint,
+		"command": command,
+		"command_index": command_index,
+		"commands_total": commands_total,
+		"scene_command_index": scene_command_index,
+		"scene_commands_total": scene_commands_total,
+		"choice_labels": exploration_view.current_choice_labels(),
+		"scene_id": scene_id,
+		"scene_title": str(story_scene.get("title", "")),
+		"location_id": location_id,
+		"location_name": str(location.get("name", location_id)),
+		"terrain": str(visual.get("terrain", "")),
+		"visual_family": str(visual.get("visual_family", "")),
+		"asset_scene": str(visual.get("asset_scene", "")),
+		"asset_status": str(visual.get("asset_status", "")),
+		"asset_loaded": _visual_has_backdrop(visual),
+		"asset_runtime_path": str(visual.get("illustrated_backdrop", "")),
+		"hotspot_markers_visible": exploration_view.hotspot_markers_visible(),
+		"debug_flags_visible": exploration_view.debug_flags_visible(),
+		"tileset_id": str(visual.get("tileset_id", "")),
+		"visual_mood": str(visual.get("visual_mood", "")),
+		"visual_style": _arg_value(OS.get_cmdline_user_args(), "--visual-style", "nova"),
+		"props": _capture_prop_summary(visual),
+		"path": path,
+		"file": filename,
+	}
+
+
+func _route_checkpoint_indexes(command_total: int) -> Dictionary:
+	var indexes := {}
+	var mid_index: int = maxi(0, int(command_total / 2))
+	var before_end_index: int = maxi(0, command_total - 1)
+	_append_route_checkpoint(indexes, 0, "start")
+	_append_route_checkpoint(indexes, mid_index, "mid")
+	_append_route_checkpoint(indexes, before_end_index, "before_end")
+	return indexes
+
+
+func _append_route_checkpoint(indexes: Dictionary, command_index: int, checkpoint: String) -> void:
+	var checkpoints: Array = indexes.get(command_index, [])
+	checkpoints.append(checkpoint)
+	indexes[command_index] = checkpoints
 
 
 func _capture_location_screenshot(
@@ -1245,6 +2099,8 @@ func _capture_location_screenshot(
 		"asset_status": str(visual.get("asset_status", "")),
 		"asset_loaded": _visual_has_backdrop(visual),
 		"asset_runtime_path": str(visual.get("illustrated_backdrop", "")),
+		"hotspot_markers_visible": exploration_view.hotspot_markers_visible(),
+		"debug_flags_visible": exploration_view.debug_flags_visible(),
 		"tileset_id": str(visual.get("tileset_id", "")),
 		"visual_mood": str(visual.get("visual_mood", "")),
 		"visual_style": _arg_value(OS.get_cmdline_user_args(), "--visual-style", "nova"),

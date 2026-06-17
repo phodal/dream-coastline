@@ -138,6 +138,7 @@
       },
       "build_actions": {
         "mandate": {
+          "name": "归星授权",
           "time_seconds": 100,
           "requires": ["confirmed_modern_disaster", "heard_supporters", "heard_opposition"],
           "flags": ["won_return_star_council"],
@@ -190,6 +191,7 @@
       },
       "build_actions": {
         "vessel": {
+          "name": "续页舰",
           "time_seconds": 120,
           "requires": ["won_return_star_council", "checked_return_vessel_blueprint"],
           "flags": ["built_return_vessel"],
@@ -240,6 +242,7 @@
       },
       "build_actions": {
         "backups": {
+          "name": "文明备份链",
           "time_seconds": 110,
           "requires": ["xiali_stabilizes_core", "designed_backup_chain", "built_return_vessel"],
           "flags": ["bound_civilization_backups"],
@@ -289,6 +292,7 @@
       },
       "build_actions": {
         "gate": {
+          "name": "归星门",
           "time_seconds": 120,
           "requires": ["bound_civilization_backups", "checked_gate_calibration"],
           "flags": ["opened_return_gate"],
@@ -350,6 +354,7 @@
       },
       "build_actions": {
         "return": {
+          "name": "归星返航",
           "time_seconds": 90,
           "requires": ["received_parent_truth", "opened_return_gate"],
           "flags": ["returned_to_modern_with_moqi"],

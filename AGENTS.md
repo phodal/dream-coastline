@@ -49,3 +49,23 @@
 - 视觉截图不能只生成 contact sheet；要用 manifest gate 校验 Nova 入口、覆盖范围、asset-backed、PNG 文件和 `index.html`，否则很容易把“有图”误判成“可 review”。
 - 旧 `tools/record_story_review.py` 仍是 DreamField/OpenRPG 录像器；必须要求显式 legacy flag，避免它默认启动 `res://src/main.tscn` 后把旧入口错误误判成 Nova 流程失败。
 - 8 幕真实窗口验收不要手写散落步骤；从 `data/story_scenes` 生成 `docs/nova-full-route-manual-qa.md`，再按实际窗口结果勾选和记录卡点。
+- Nova 的 `data/visual_scenes` 15x9 坐标不能直接当插画热点覆盖到玩家画面；默认不要显示 hotspot/debug flag，除非显式用调试开关打开。
+- Godot release export 不能只看命令成功或 PCK 字符串；要检查 `export_presets.cfg` 排除项和导出日志 `Storing File`，防止 editor-only、artifacts、builds、target 混进玩家包。
+- Godot 导出体积正常也可能把 `.godot` 缓存、日志或本地配置打进包；release gate 要保存并扫描 export log，而不是只检查 zip/exe/pck 存在。
+- 扫描 release export log 时要区分 Godot 生成的 `.godot/imported` / `.godot/exported` 运行时资源和真正的本地/editor 泄漏；不要把前者误判成失败。
+- macOS 导出有 `_CodeSignature` 不等于可分发；当前 Godot 默认是 ad-hoc 签名，`codesign --verify` 可以过，但没有 Developer ID/notarization 时 `spctl` 仍会拒绝。
+- 真实窗口验收时 Computer Use 可能能截图但 `press_key` 报 app not active；先用 `osascript` 激活 Godot 并发送 keycode，再用 Computer Use 读屏确认结果。
+- 新增 Godot smoke step 时必须检查对应 `status=PASS` 输出；只看 exit code 会把未进入 Nova smoke 分支的命令误判成通过。
+- 战斗 walkthrough 不能只测 `SceneDirector` 内部状态；要用 UI route smoke 检查 `ExplorationView` 菜单是否真的有 enabled 按钮，并区分写名的 `success_attempt` 与攻击轮数 `enemy_hp`。
+- UI route smoke 只能证明按钮可触发；还要用 keyboard route smoke 走 `ui_down` / `ui_accept`，否则方向键焦点和确认键回归问题仍可能漏掉。
+- Dialogic 键盘 smoke 要先导航到确切 action menu 目标再按确认，不能只检查按钮存在后接受当前焦点；用 auto-skip 收尾只能证明回写和返回菜单，不等于逐句手动 Dialogic QA。
+- Dialogic 真实窗口 smoke 的 `--quit-after 5000` 可能会卡在 3 秒计时器前退出；runner 里给这类可见播放 gate 留到 `10000`，并继续看 `status=PASS`。
+- 玩家可见的 item / exit / build / combo / encounter / combat 名称不能退回内部 ID；新增记录时必须补中文显示名，并让 quick gate 的 `story-action-display-names` 通过。
+- route screenshot 要走 `--capture-scene-screenshots --capture-scope route`，并在回放中压住原生 Dialogic；否则能生成 manifest 但 Godot 退出清理时可能崩溃，且晚期 action menu 状态没有被稳定审查。
+- 需要给完整 walkthrough 做逐行视觉证据时用 `--capture-scope route-full`；它应按 scene step + command 校验 257 张截图，不能拿 25 张 checkpoint contact sheet 冒充逐行验收。
+- 生成大量 review 截图后要确保 `artifacts/.gdignore` 仍在；否则 Godot editor import 会扫描几百张 PNG，让 quick gate 变慢并产生无意义 `.import` 噪声。
+- 手柄支持不能只配 `project.godot` input map；探索/暂停菜单也要监听 `move_up` / `move_down`，并用 `InputEventJoypadButton` 的 gamepad route 和 gamepad pause-flow smoke 验证真实绑定。
+- 音频审计要沿用 runtime 缺失规则：`sample_generation: false` 和 planned action voice 不是失败；长音乐热峰先记录为 mastering warning，不能和缺文件/import 错误混在一起。
+- 批量生成 playable backdrop 后要跑 Godot editor import 保留 `.png.import`，再用 `playable-backdrops` 和 `route-full-screenshots` 确认 JSON 没指回 `story_review` 且运行时真能加载。
+- 重写生成 MP3 做热峰修正后要跑 Godot editor import 和 `audio-mix-audit`；MP3 重新编码可能第一轮仍有残余热峰，需要重复到 `hot_peaks=0`。
+- 截图 manifest 要记录并 gate `hotspot_markers_visible=false`、`debug_flags_visible=false` 和非 `story_review` backdrop；不要只靠肉眼说“没有调试层”。

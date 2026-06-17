@@ -108,6 +108,7 @@
       },
       "build_actions": {
         "industry": {
+          "name": "文字工业",
           "time_seconds": 100,
           "requires": ["archive_tower_built", "first_students_teach", "wensu_textbook_survives"],
           "flags": ["built_text_industry"],
@@ -180,6 +181,7 @@
       },
       "build_actions": {
         "bind_xiali": {
+          "name": "夏离国书锚点",
           "time_seconds": 120,
           "requires": ["kept_xiali_private_anchor", "built_text_industry"],
           "flags": ["bound_xiali_to_statebook"],
@@ -187,6 +189,7 @@
           "text": "夏离把名字绑定进国书。仪式完成时，所有节点同时亮起他的名字，又同时把名字拆成权限、职责和备份。纪子轩第一次听见夏离用复数说自己：我们会继续看着墨颀。夏离停了一下，补回一句：我也会。"
         },
         "network": {
+          "name": "国书网络",
           "time_seconds": 110,
           "requires": ["new_engineers_ready", "confirmed_remote_classrooms", "bound_xiali_to_statebook"],
           "flags": ["built_statebook_network"],
@@ -254,6 +257,7 @@
       },
       "build_actions": {
         "astral_tower": {
+          "name": "星象塔",
           "time_seconds": 130,
           "requires": ["built_statebook_network", "mapped_stars_as_text", "designed_cross_beacon"],
           "flags": ["completed_astral_tower"],

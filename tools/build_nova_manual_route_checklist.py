@@ -111,6 +111,16 @@ Recommended setup:
 /Applications/Godot.app/Contents/MacOS/Godot --path .
 ```
 
+Automated row-level visual evidence:
+
+```sh
+python3 tools/run_automated_tests.py --only route-full-screenshots --visual-style classic_dark
+```
+
+This produces `artifacts/scene-screenshots/route-full-latest/index.html` and a
+manifest with one screenshot per walkthrough command. Use it to review row
+evidence, but only tick the manual checkboxes after live-window observation.
+
 Global acceptance:
 
 - [ ] Start from the title splash and enter Nova with Enter/Space.

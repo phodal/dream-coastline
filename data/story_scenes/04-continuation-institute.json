@@ -97,6 +97,7 @@
       },
       "build_actions": {
         "institute": {
+          "name": "续文院",
           "time_seconds": 80,
           "requires": ["met_first_members", "drafted_open_charter"],
           "flags": ["founded_institute"],
@@ -104,6 +105,7 @@
           "text": "续文院挂牌。夏离宣布：墨颀不再等待一位王来续命。"
         },
         "dictionary": {
+          "name": "标准字典",
           "time_seconds": 70,
           "requires": ["founded_institute", "got_basic_dictionary"],
           "flags": ["published_standard_dictionary"],
@@ -160,6 +162,7 @@
       },
       "build_actions": {
         "school": {
+          "name": "公开学塾",
           "time_seconds": 75,
           "requires": ["founded_institute", "held_first_class", "logged_student_errors"],
           "flags": ["opened_first_school"],
@@ -211,6 +214,7 @@
       },
       "build_actions": {
         "workflow": {
+          "name": "工坊测试流程",
           "time_seconds": 80,
           "requires": ["met_atang", "reviewed_flood_failure", "published_standard_dictionary"],
           "flags": ["repaired_workshop_flow"],
@@ -265,6 +269,7 @@
       },
       "build_actions": {
         "safety": {
+          "name": "矿场安全流程",
           "time_seconds": 80,
           "requires": ["stabilized_mine", "repaired_workshop_flow"],
           "flags": ["solved_mine_safety"],
@@ -298,6 +303,7 @@
       },
       "build_actions": {
         "comms": {
+          "name": "通信塔",
           "time_seconds": 90,
           "requires": ["checked_comm_array", "published_standard_dictionary", "solved_mine_safety"],
           "flags": ["restored_communication_tower"],
@@ -335,6 +341,7 @@
       },
       "build_actions": {
         "protect": {
+          "name": "学生字典备份",
           "time_seconds": 70,
           "requires": ["students_under_attack", "dictionary_under_attack", "restored_communication_tower"],
           "flags": ["protected_students", "protected_dictionary"],
@@ -342,6 +349,7 @@
           "text": "学生、工匠、教师共同抄写备份。封字塔无法一次删掉所有副本。"
         },
         "archive": {
+          "name": "公共档案塔",
           "time_seconds": 90,
           "requires": ["defeated_seal_tower", "protected_dictionary"],
           "flags": ["archive_tower_built"],

@@ -71,7 +71,8 @@
 			"terrain": "node",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "node",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/05-century-continuation/astral-engineering.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/05-century-continuation/astral.png",
+			"asset_overlay_alpha": 0.2
 		},
 		"industry": {
 			"asset_scene": "res://scenes/visual_locations/05-century-continuation/industry.tscn",
@@ -251,7 +252,8 @@
 			"terrain": "node",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "node",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/05-century-continuation/wensu-legacy-night-school.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/05-century-continuation/network.png",
+			"asset_overlay_alpha": 0.2
 		},
 		"star_tower": {
 			"asset_scene": "res://scenes/visual_locations/05-century-continuation/star_tower.tscn",
@@ -325,7 +327,8 @@
 			"terrain": "node",
 			"tileset_id": "dream_scene_tiles",
 			"visual_family": "node",
-			"illustrated_backdrop": "res://assets/illustrations/story_review/05-century-continuation/star-chart-moth.png"
+			"illustrated_backdrop": "res://assets/illustrations/playable/05-century-continuation/star_tower.png",
+			"asset_overlay_alpha": 0.2
 		}
 	},
 	"tile_size": 32.0

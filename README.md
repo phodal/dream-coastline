@@ -6,7 +6,7 @@
 
 [![Godot 4.6](https://img.shields.io/badge/Godot-4.6-478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org/)
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
-[![Status: Pre-Alpha](https://img.shields.io/badge/Status-Pre--Alpha-orange)](https://github.com/phodal/dream-coastline)
+[![Status: Playable QA](https://img.shields.io/badge/Status-Playable_QA-blue)](https://github.com/phodal/dream-coastline)
 
 **A 90s-style narrative RPG where names, memory, and light have started to fail.**
 
@@ -18,9 +18,10 @@ Dream Coastline is an open-source narrative RPG prototype built with [Godot 4](h
 Set in a city slowly losing its language and memory, the game turns story into explorable scenes,
 inspectable objects, and cutscene moments driven entirely by versioned data files.
 
-The project is currently a playable development slice, not a finished game. The main runtime is
-the Nova narrative layer at `res://src/nova/main.tscn`, with Dialogic used as the cutscene
-frontend when available.
+The project is currently a full-route playable QA build, not a store-ready
+release. The main runtime is the Nova narrative layer at
+`res://src/nova/main.tscn`, with Dialogic used as the cutscene frontend when
+available.
 
 ---
 
@@ -182,9 +183,12 @@ Useful focused checks:
 ```sh
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-runtime
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-progression
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-gamepad-route
+/Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-gamepad-pause-flow
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-save-continue
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-nova-pause-flow
 /Applications/Godot.app/Contents/MacOS/Godot --path . --headless --quit-after 100 -- --smoke-dialogic-bridge
+python3 tools/run_automated_tests.py --only playable-backdrops
 python3 tools/validate_story_continuity.py --verbose
 python3 tools/validate_dialogic_timelines.py
 python3 tools/build_nova_manual_route_checklist.py --check
@@ -195,12 +199,16 @@ Capture a visual review set from the active Nova screenshot path:
 ```sh
 python3 tools/capture_scene_screenshots.py --scope starts
 python3 tools/validate_scene_screenshot_manifest.py --scope starts --visual-style classic_dark
+python3 tools/run_automated_tests.py --only route-full-screenshots --visual-style classic_dark
 ```
 
 This writes review artifacts under `artifacts/scene-screenshots/latest/`.
-The `screenshots` automated step runs both commands. Screenshot review is
-required for visual readability; render smoke only proves that the frame is not
-blank.
+The `screenshots` automated step runs the start-screenshot capture and manifest
+validation. Screenshot review is required for visual readability; render smoke
+only proves that the frame is not blank. The `route-full-screenshots` step
+writes a separate
+`artifacts/scene-screenshots/route-full-latest/` review sheet with one
+screenshot per authored walkthrough command.
 
 For live full-route QA, use
 [`docs/nova-full-route-manual-qa.md`](docs/nova-full-route-manual-qa.md). It is

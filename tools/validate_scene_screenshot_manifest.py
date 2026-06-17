@@ -18,12 +18,16 @@ def load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def expected_pairs(scope: str, scene_filter: str) -> set[tuple[str, str]]:
-    pairs: set[tuple[str, str]] = set()
+def expected_scene_paths(scene_filter: str) -> list[Path]:
     scene_paths = sorted(STORY_DIR.glob("*.json"))
     if scene_filter != "all":
         scene_paths = [STORY_DIR / f"{scene_filter}.json"]
-    for path in scene_paths:
+    return scene_paths
+
+
+def expected_pairs(scope: str, scene_filter: str) -> set[tuple[str, str]]:
+    pairs: set[tuple[str, str]] = set()
+    for path in expected_scene_paths(scene_filter):
         scene = load_json(path)
         scene_id = str(scene.get("id", path.stem))
         locations = scene.get("locations", {})
@@ -36,6 +40,31 @@ def expected_pairs(scope: str, scene_filter: str) -> set[tuple[str, str]]:
             for location_id in locations:
                 pairs.add((scene_id, str(location_id)))
     return pairs
+
+
+def expected_route_keys(scene_filter: str) -> set[tuple[str, str]]:
+    keys: set[tuple[str, str]] = set()
+    for path in expected_scene_paths(scene_filter):
+        scene = load_json(path)
+        scene_id = str(scene.get("id", path.stem))
+        keys.add((scene_id, "start"))
+        keys.add((scene_id, "mid"))
+        keys.add((scene_id, "before_end"))
+    keys.add(("route", "final"))
+    return keys
+
+
+def expected_route_full_keys(scene_filter: str) -> set[tuple[str, int, str]]:
+    keys: set[tuple[str, int, str]] = set()
+    for path in expected_scene_paths(scene_filter):
+        scene = load_json(path)
+        scene_id = str(scene.get("id", path.stem))
+        commands = scene.get("walkthrough", [])
+        if not isinstance(commands, list):
+            continue
+        for index, command in enumerate(commands, 1):
+            keys.add((scene_id, index, str(command)))
+    return keys
 
 
 def validate_manifest(
@@ -78,6 +107,9 @@ def validate_manifest(
     if manifest.get("procedural_fallback_count") != 0:
         failures.append("procedural_fallback_count must be 0")
 
+    scope = str(manifest.get("scope", expected_scope or ""))
+    route_seen: set[tuple[str, str]] = set()
+    route_full_seen: set[tuple[str, int, str]] = set()
     seen: set[tuple[str, str]] = set()
     for index, shot in enumerate(screenshots):
         label = f"screenshots[{index}]"
@@ -87,6 +119,47 @@ def validate_manifest(
         scene_id = str(shot.get("scene_id", ""))
         location_id = str(shot.get("location_id", ""))
         seen.add((scene_id, location_id))
+        if scope in {"route", "route-full"}:
+            route_source_scene_id = str(shot.get("route_source_scene_id", ""))
+            checkpoint = str(shot.get("checkpoint", ""))
+            if not route_source_scene_id:
+                failures.append(f"{label}.route_source_scene_id must be non-empty for route scope")
+            if not isinstance(shot.get("choice_labels"), list) or not shot.get("choice_labels"):
+                failures.append(f"{label}.choice_labels must be a non-empty list for route scope")
+            if scope == "route":
+                route_seen.add((route_source_scene_id, checkpoint))
+                if checkpoint not in {"start", "mid", "before_end", "final"}:
+                    failures.append(f"{label}.checkpoint is invalid for route scope")
+            else:
+                command = str(shot.get("command", ""))
+                scene_command_index = shot.get("scene_command_index")
+                scene_commands_total = shot.get("scene_commands_total")
+                command_index = shot.get("command_index")
+                commands_total = shot.get("commands_total")
+                if checkpoint != "command":
+                    failures.append(f"{label}.checkpoint must be command for route-full scope")
+                if not command:
+                    failures.append(f"{label}.command must be non-empty for route-full scope")
+                if not isinstance(scene_command_index, int) or scene_command_index <= 0:
+                    failures.append(f"{label}.scene_command_index must be a positive integer")
+                    scene_command_index_value = -1
+                else:
+                    scene_command_index_value = scene_command_index
+                if not isinstance(scene_commands_total, int) or scene_commands_total <= 0:
+                    failures.append(f"{label}.scene_commands_total must be a positive integer")
+                elif isinstance(scene_command_index, int) and scene_command_index > scene_commands_total:
+                    failures.append(f"{label}.scene_command_index exceeds scene_commands_total")
+                route_command_count = manifest.get("route_command_count")
+                if not isinstance(command_index, int) or command_index <= 0:
+                    failures.append(f"{label}.command_index must be a positive integer")
+                if not isinstance(commands_total, int) or commands_total <= 0:
+                    failures.append(f"{label}.commands_total must be a positive integer")
+                elif isinstance(route_command_count, int) and commands_total != route_command_count:
+                    failures.append(f"{label}.commands_total must equal route_command_count")
+                if isinstance(command_index, int) and isinstance(commands_total, int) and command_index > commands_total:
+                    failures.append(f"{label}.command_index exceeds commands_total")
+                if scene_command_index_value > 0:
+                    route_full_seen.add((route_source_scene_id, scene_command_index_value, command))
         if shot.get("ok") is not True:
             failures.append(f"{label}.ok must be true")
         if shot.get("asset_status") != "asset_backed":
@@ -95,6 +168,12 @@ def validate_manifest(
             failures.append(f"{label}.asset_runtime_path must point to an illustrated backdrop")
         if require_illustrated_backdrop and shot.get("asset_loaded") is not True:
             failures.append(f"{label}.asset_loaded must be true for the illustrated backdrop")
+        if require_illustrated_backdrop and "/story_review/" in str(shot.get("asset_runtime_path", "")):
+            failures.append(f"{label}.asset_runtime_path must not point to story_review art")
+        if shot.get("hotspot_markers_visible") is True:
+            failures.append(f"{label}.hotspot_markers_visible must be false for review screenshots")
+        if shot.get("debug_flags_visible") is True:
+            failures.append(f"{label}.debug_flags_visible must be false for review screenshots")
         for field in ["scene_id", "scene_title", "location_id", "location_name", "terrain", "visual_family", "visual_style", "asset_scene"]:
             if not str(shot.get(field, "")).strip():
                 failures.append(f"{label}.{field} must be non-empty")
@@ -107,22 +186,48 @@ def validate_manifest(
         elif image_path.stat().st_size < 1024:
             failures.append(f"{label}.file is too small for review: {image_path.relative_to(ROOT)}")
 
-    scope = str(manifest.get("scope", expected_scope or ""))
     scene_filter = str(manifest.get("scene_filter", "all"))
-    expected = expected_pairs(scope, scene_filter)
-    missing = expected - seen
-    extra = seen - expected
-    if missing:
-        failures.append("missing screenshot coverage: " + ", ".join(f"{scene}/{location}" for scene, location in sorted(missing)))
-    if extra:
-        failures.append("unexpected screenshot coverage: " + ", ".join(f"{scene}/{location}" for scene, location in sorted(extra)))
+    if scope == "route":
+        expected_route = expected_route_keys(scene_filter)
+        missing_route = expected_route - route_seen
+        extra_route = route_seen - expected_route
+        if missing_route:
+            failures.append("missing route screenshot coverage: " + ", ".join(f"{scene}/{checkpoint}" for scene, checkpoint in sorted(missing_route)))
+        if extra_route:
+            failures.append("unexpected route screenshot coverage: " + ", ".join(f"{scene}/{checkpoint}" for scene, checkpoint in sorted(extra_route)))
+    elif scope == "route-full":
+        expected_route_full = expected_route_full_keys(scene_filter)
+        missing_route_full = expected_route_full - route_full_seen
+        extra_route_full = route_full_seen - expected_route_full
+        if manifest.get("route_command_count") != len(expected_route_full):
+            failures.append("route_command_count must match authored walkthrough command count")
+        if manifest.get("screenshot_count") != len(expected_route_full):
+            failures.append("screenshot_count must match authored walkthrough command count for route-full")
+        if missing_route_full:
+            failures.append(
+                "missing route-full screenshot coverage: "
+                + ", ".join(f"{scene}#{index}:{command}" for scene, index, command in sorted(missing_route_full))
+            )
+        if extra_route_full:
+            failures.append(
+                "unexpected route-full screenshot coverage: "
+                + ", ".join(f"{scene}#{index}:{command}" for scene, index, command in sorted(extra_route_full))
+            )
+    else:
+        expected = expected_pairs(scope, scene_filter)
+        missing = expected - seen
+        extra = seen - expected
+        if missing:
+            failures.append("missing screenshot coverage: " + ", ".join(f"{scene}/{location}" for scene, location in sorted(missing)))
+        if extra:
+            failures.append("unexpected screenshot coverage: " + ", ".join(f"{scene}/{location}" for scene, location in sorted(extra)))
     return failures
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
-    parser.add_argument("--scope", choices=["starts", "locations"])
+    parser.add_argument("--scope", choices=["starts", "locations", "route", "route-full"])
     parser.add_argument("--visual-style", choices=["sunlit_mmo", "classic_dark"])
     parser.add_argument("--require-illustrated-backdrop", action="store_true")
     args = parser.parse_args()

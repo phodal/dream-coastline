@@ -6,6 +6,7 @@ signal choice_requested(choice_id: String)
 signal story_action_requested(action_type: String, action_id: String)
 
 const MoqiText := preload("res://src/nova/ui/moqi_text.gd")
+const HotspotMarker := preload("res://src/nova/world/hotspot_marker.gd")
 
 var backdrop: TextureRect
 var scene_label: Label
@@ -192,6 +193,10 @@ func _render_choices(choices: Array[Dictionary]) -> void:
 		_configure_choice_button_display(button, choice)
 		var choice_type := str(choice.get("type", ""))
 		var choice_id := str(choice.get("id", ""))
+		var action_type := str(choice.get("action_type", ""))
+		button.set_meta("choice_type", choice_type)
+		button.set_meta("choice_id", choice_id)
+		button.set_meta("action_type", action_type)
 		if choice_type == "inspect":
 			button.pressed.connect(func() -> void: inspect_requested.emit(choice_id))
 		elif choice_type == "move":
@@ -199,7 +204,6 @@ func _render_choices(choices: Array[Dictionary]) -> void:
 		elif choice_type == "choice":
 			button.pressed.connect(func() -> void: choice_requested.emit(choice_id))
 		elif choice_type == "story_action":
-			var action_type := str(choice.get("action_type", ""))
 			button.pressed.connect(func() -> void: story_action_requested.emit(action_type, choice_id))
 		var index := _choice_buttons.size()
 		button.focus_entered.connect(func() -> void: _selected_choice_index = index)
@@ -207,6 +211,64 @@ func _render_choices(choices: Array[Dictionary]) -> void:
 		_choice_buttons.append(button)
 	if choice_list.get_child_count() > 0:
 		call_deferred("_focus_first_choice")
+
+
+func has_enabled_choice(choice_type: String, choice_id: String, action_type: String = "") -> bool:
+	var button := _choice_button_for(choice_type, choice_id, action_type)
+	return button != null and not button.disabled
+
+
+func press_choice(choice_type: String, choice_id: String, action_type: String = "") -> bool:
+	var button := _choice_button_for(choice_type, choice_id, action_type)
+	if button == null or button.disabled:
+		return false
+	_selected_choice_index = _choice_buttons.find(button)
+	button.pressed.emit()
+	return true
+
+
+func current_choice_labels() -> Array[String]:
+	var labels: Array[String] = []
+	for button in _choice_buttons:
+		labels.append(str(button.text if not str(button.text).is_empty() else button.tooltip_text))
+	return labels
+
+
+func choice_index_for(choice_type: String, choice_id: String, action_type: String = "") -> int:
+	for index in range(_choice_buttons.size()):
+		var button := _choice_buttons[index]
+		if str(button.get_meta("choice_type", "")) != choice_type:
+			continue
+		if str(button.get_meta("choice_id", "")) != choice_id:
+			continue
+		if not action_type.is_empty() and str(button.get_meta("action_type", "")) != action_type:
+			continue
+		return index
+	return -1
+
+
+func selected_choice_index() -> int:
+	return _selected_choice_index
+
+
+func hotspot_markers_visible() -> bool:
+	return _show_hotspot_markers()
+
+
+func debug_flags_visible() -> bool:
+	return _show_debug_flags()
+
+
+func _choice_button_for(choice_type: String, choice_id: String, action_type: String = "") -> Button:
+	for button in _choice_buttons:
+		if str(button.get_meta("choice_type", "")) != choice_type:
+			continue
+		if str(button.get_meta("choice_id", "")) != choice_id:
+			continue
+		if not action_type.is_empty() and str(button.get_meta("action_type", "")) != action_type:
+			continue
+		return button
+	return null
 
 
 func _configure_choice_button_display(button: Button, choice: Dictionary) -> void:
@@ -265,10 +327,10 @@ func _focus_first_choice() -> void:
 func _input(event: InputEvent) -> void:
 	if not visible or GameMode.current_mode != GameMode.EXPLORATION or _choice_buttons.is_empty():
 		return
-	if event.is_action_pressed("ui_down"):
+	if event.is_action_pressed("ui_down") or event.is_action_pressed("move_down"):
 		_focus_choice(_next_enabled_choice(1))
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("ui_up"):
+	elif event.is_action_pressed("ui_up") or event.is_action_pressed("move_up"):
 		_focus_choice(_next_enabled_choice(-1))
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_accept") or event.is_action_pressed("interact"):
@@ -301,20 +363,30 @@ func _next_enabled_choice(direction: int) -> int:
 func _render_props(props: Array) -> void:
 	for child in prop_layer.get_children():
 		child.queue_free()
+	if not _show_hotspot_markers():
+		return
 	for prop in props:
 		if typeof(prop) != TYPE_DICTIONARY:
 			continue
-		var marker := ColorRect.new()
+		if not _is_interactive_prop(prop):
+			continue
 		var kind := str(prop.get("kind", "prop"))
-		marker.color = _kind_color(kind)
+		var marker := HotspotMarker.new()
+		marker.configure(kind, _kind_color(kind))
 		var x: float = float(prop.get("x", 7.0)) / 15.0
 		var y: float = float(prop.get("y", 4.0)) / 9.0
 		var w: float = max(1.0, float(prop.get("w", 1.0))) / 15.0
 		var h: float = max(1.0, float(prop.get("h", 1.0))) / 9.0
-		marker.anchor_left = clampf(x, 0.0, 0.96)
-		marker.anchor_top = clampf(y, 0.0, 0.92)
-		marker.anchor_right = clampf(x + w, 0.04, 1.0)
-		marker.anchor_bottom = clampf(y + h, 0.08, 1.0)
+		var center_x := clampf(x + w * 0.5, 0.03, 0.97)
+		var center_y := clampf(y + h * 0.5, 0.06, 0.94)
+		marker.anchor_left = center_x
+		marker.anchor_top = center_y
+		marker.anchor_right = center_x
+		marker.anchor_bottom = center_y
+		marker.offset_left = -18.0
+		marker.offset_top = -18.0
+		marker.offset_right = 18.0
+		marker.offset_bottom = 18.0
 		marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		prop_layer.add_child(marker)
 
@@ -323,13 +395,20 @@ func _refresh_status() -> void:
 	var quests := QuestState.active_summary()
 	var quest_lines: Array[String] = []
 	for quest in quests:
-		quest_lines.append("%s：%s" % [quest.get("title", quest.get("id", "")), quest.get("status", "")])
-	quest_label.text = "任务\n%s" % "\n".join(quest_lines)
-	var flag_names := StoryFlags.export_flags().keys()
-	flag_names.sort()
-	if flag_names.is_empty():
-		flag_label.text = ""
+		if str(quest.get("status", "")) == QuestState.ACTIVE:
+			quest_lines.append("当前章节：%s" % quest.get("title", quest.get("id", "")))
+	if quest_lines.is_empty():
+		quest_label.text = ""
 	else:
+		quest_label.text = "章节进度\n%s" % "\n".join(quest_lines)
+
+	if not _show_debug_flags():
+		flag_label.text = ""
+		flag_label.visible = false
+	else:
+		flag_label.visible = true
+		var flag_names := StoryFlags.export_flags().keys()
+		flag_names.sort()
 		flag_label.text = "线索：%s" % "、".join(flag_names.slice(maxi(flag_names.size() - 4, 0), flag_names.size()))
 
 
@@ -362,10 +441,26 @@ func _load_texture(path: String) -> Texture2D:
 func _kind_color(kind: String) -> Color:
 	match kind:
 		"exit", "stairs", "portal":
-			return Color(0.35, 0.62, 0.95, 0.22)
+			return Color(0.35, 0.68, 0.96, 0.78)
 		"window", "window_dark", "lamp":
-			return Color(0.95, 0.76, 0.28, 0.2)
+			return Color(0.95, 0.76, 0.28, 0.78)
 		"letter", "pen", "photo", "note":
-			return Color(0.85, 0.88, 0.72, 0.24)
+			return Color(0.86, 0.88, 0.72, 0.74)
 		_:
-			return Color(0.64, 0.82, 0.64, 0.14)
+			return Color(0.64, 0.82, 0.64, 0.64)
+
+
+func _is_interactive_prop(prop: Dictionary) -> bool:
+	return prop.has("item") or prop.has("exit") or bool(prop.get("interactive", false))
+
+
+func _show_debug_flags() -> bool:
+	if OS.get_environment("DREAM_COASTLINE_SHOW_DEBUG_FLAGS") == "1":
+		return true
+	return OS.get_cmdline_user_args().has("--debug-story-flags")
+
+
+func _show_hotspot_markers() -> bool:
+	if OS.get_environment("DREAM_COASTLINE_SHOW_HOTSPOTS") == "1":
+		return true
+	return OS.get_cmdline_user_args().has("--show-hotspots")
