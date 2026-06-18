@@ -14,8 +14,8 @@ the gap between the playable 8-scene route and a public release candidate.
 - Story continuity: `python3 tools/validate_story_continuity.py --verbose`
   passes for all 8 scenes.
 - Route replay: `--smoke-nova-manual-route`, `--smoke-nova-ui-manual-route`,
-  `--smoke-nova-keyboard-route`, and `--smoke-nova-gamepad-route` each pass
-  the 257-command route.
+  `--smoke-nova-mouse-route`, `--smoke-nova-keyboard-route`, and
+  `--smoke-nova-gamepad-route` each pass the 257-command route.
 - Player-facing labels: `story-action-display-names` validates 259 visible
   action, exit, combat, build, encounter, and combo labels so the action menu
   does not fall back to internal IDs.
@@ -48,7 +48,7 @@ the gap between the playable 8-scene route and a public release candidate.
 - `docs/nova-full-route-manual-qa.md` still has not been checked row by row by
   a human in the live window. The 257 screenshots are strong evidence, but they
   are not a substitute for observing input feel, text advance cadence, and
-  focus recovery through the whole route.
+  focus recovery through the whole route with a physical keyboard and mouse.
 - macOS export is ad-hoc signed. `codesign --verify --deep --strict` passes on
   the unzipped app, but `spctl --assess --type execute` rejects it because there
   is no Developer ID signing or notarization.

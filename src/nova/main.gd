@@ -104,6 +104,8 @@ func _ready() -> void:
 		call_deferred("_run_manual_route_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-ui-manual-route"):
 		call_deferred("_run_ui_manual_route_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-mouse-route"):
+		call_deferred("_run_mouse_route_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-keyboard-route"):
 		call_deferred("_run_keyboard_route_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-gamepad-route"):
@@ -764,6 +766,83 @@ func _run_keyboard_route_smoke() -> void:
 		GameState.current_location_id,
 	])
 	get_tree().quit(0 if ok else 1)
+
+
+func _run_mouse_route_smoke() -> void:
+	StoryFlags.reset()
+	_manual_route_attack_attempts.clear()
+	_latest_cutscene_payload = {}
+	var scene_ids: Array[String] = director.story_repository.scene_ids()
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	_restore_quest_status(first_scene)
+	director.present_current_location()
+
+	var ok := true
+	var command_count := 0
+	var completed: Array[String] = []
+	for scene_id in scene_ids:
+		if not ok:
+			break
+		if GameState.current_scene_id != scene_id:
+			push_warning("Nova mouse route smoke expected scene %s but got %s" % [scene_id, GameState.current_scene_id])
+			ok = false
+			break
+		var scene: Dictionary = director.story_repository.get_scene(scene_id)
+		var commands: Array = scene.get("walkthrough", [])
+		for raw_command in commands:
+			var command := str(raw_command)
+			command_count += 1
+			if not _mouse_route_command(command):
+				push_warning("Nova mouse route smoke failed command %s at %s/%s selected=%s choices=%s" % [
+					command,
+					GameState.current_scene_id,
+					GameState.current_location_id,
+					exploration_view.selected_choice_index(),
+					", ".join(exploration_view.current_choice_labels()),
+				])
+				ok = false
+				break
+		if ok and not StoryFlags.has_all(director.story_repository.get_required_flags(scene_id)):
+			push_warning("Nova mouse route smoke missing required flag %s for %s" % [
+				_smoke_first_missing(director.story_repository.get_required_flags(scene_id)),
+				scene_id,
+			])
+			ok = false
+		if ok:
+			completed.append(scene_id)
+
+	ok = ok and completed.size() == scene_ids.size()
+	print("nova-mouse-route-smoke status=%s scenes=%s commands=%s flags=%s current=%s/%s" % [
+		"PASS" if ok else "FAIL",
+		completed.size(),
+		command_count,
+		StoryFlags.export_flags().keys().size(),
+		GameState.current_scene_id,
+		GameState.current_location_id,
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _mouse_route_command(command: String) -> bool:
+	var expected := _ui_route_expected_choice(command)
+	if expected.is_empty():
+		push_warning("Nova mouse route smoke cannot map command: %s" % command)
+		return false
+	var choice_type := str(expected.get("type", ""))
+	var choice_id := str(expected.get("id", ""))
+	var action_type := str(expected.get("action_type", ""))
+	if not exploration_view.has_enabled_choice(choice_type, choice_id, action_type):
+		return false
+	var target_index: int = exploration_view.choice_index_for(choice_type, choice_id, action_type)
+	if target_index < 0:
+		return false
+	_latest_cutscene_payload = {}
+	if not exploration_view.click_choice(choice_type, choice_id, action_type):
+		return false
+	return _finish_ui_route_payload_if_needed()
 
 
 func _keyboard_route_command(command: String) -> bool:

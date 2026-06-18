@@ -823,6 +823,12 @@ STEPS: list[Step] = [
         godot_smoke("--smoke-nova-ui-manual-route", expected_output="nova-ui-manual-route-smoke status=PASS"),
     ),
     Step(
+        "smoke-nova-mouse-route",
+        "quick",
+        "validate Nova walkthrough commands through action-menu button click semantics",
+        godot_smoke("--smoke-nova-mouse-route", expected_output="nova-mouse-route-smoke status=PASS"),
+    ),
+    Step(
         "smoke-nova-keyboard-route",
         "quick",
         "validate Nova walkthrough commands through keyboard menu navigation",

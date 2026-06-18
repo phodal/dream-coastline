@@ -227,6 +227,19 @@ func press_choice(choice_type: String, choice_id: String, action_type: String = 
 	return true
 
 
+func click_choice(choice_type: String, choice_id: String, action_type: String = "") -> bool:
+	var button := _choice_button_for(choice_type, choice_id, action_type)
+	if button == null or button.disabled:
+		return false
+	_selected_choice_index = _choice_buttons.find(button)
+	if _selected_choice_index < 0:
+		return false
+	button.grab_focus()
+	button.grab_click_focus()
+	button.pressed.emit()
+	return true
+
+
 func current_choice_labels() -> Array[String]:
 	var labels: Array[String] = []
 	for button in _choice_buttons:

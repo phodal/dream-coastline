@@ -49,6 +49,9 @@ the repo data is structurally wrong.
 - Run `--smoke-nova-ui-manual-route` to replay the same walkthrough through
   `ExplorationView` action-menu choices, proving each command has an enabled
   player-facing menu item and returns to exploration after its payload.
+- Run `--smoke-nova-mouse-route` to replay the walkthrough through action-menu
+  button click semantics, proving every visible command button can be clicked,
+  synchronizes selection, and returns to exploration after its payload.
 - Run `--smoke-nova-keyboard-route` to replay the walkthrough by sending
   `ui_down` / `ui_accept` events through the Nova input handlers, proving
   keyboard menu navigation can reach and trigger every authored command.
@@ -206,17 +209,19 @@ Use this checklist for the issue #6 full 8-scene manual pass. Headless
 `smoke-nova-all-scenes` proves automated progression, and
 `smoke-nova-manual-route` proves the authored walkthrough commands still replay
 in order. `smoke-nova-ui-manual-route` additionally proves the route is exposed
-through enabled Nova action-menu choices. `smoke-nova-keyboard-route` proves
-keyboard navigation can reach and trigger those choices.
+through enabled Nova action-menu choices. `smoke-nova-mouse-route` proves those
+choices can be triggered through button click semantics.
+`smoke-nova-keyboard-route` proves keyboard navigation can reach and trigger
+those choices.
 `smoke-nova-gamepad-route` proves the same menu route through joypad D-pad/A
 button events and the project `move_down` / `interact` action bindings.
 `smoke-nova-gamepad-pause-flow` covers joypad pause, save, resume, and
 return-to-title navigation.
 `smoke-nova-keyboard-dialogic` proves a keyboard-selected action can enter
 native Dialogic and return after auto-skipped playback. They still do not prove
-that physical controller focus feel, mouse focus, Enter-by-Enter Dialogic
-advance, pause/save, and the full 257-step visible presentation feel correct in
-a real window.
+that physical controller focus feel, physical mouse hover/click feel,
+Enter-by-Enter Dialogic advance, pause/save, and the full 257-step visible
+presentation feel correct in a real window.
 
 ## CI Shape
 

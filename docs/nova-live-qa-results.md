@@ -34,6 +34,9 @@ Results:
 - Quick gate passed with 34 steps, including `story-action-display-names status=PASS records=259`.
 - Non-headless Nova manual-route smoke passed: `scenes=8`, `commands=257`, `flags=205`, `current=07-lights-on-again/lab`.
 - Non-headless Nova UI manual-route smoke passed through `ExplorationView` action-menu choices: `scenes=8`, `commands=257`, `flags=205`, `current=07-lights-on-again/lab`.
+- Headless Nova mouse-route smoke passed through action-menu button click
+  semantics: `scenes=8`, `commands=257`, `flags=205`,
+  `current=07-lights-on-again/lab`.
 - Non-headless Nova keyboard-route smoke passed via `ui_down` / `ui_accept` input handlers: `scenes=8`, `commands=257`, `flags=205`, `current=07-lights-on-again/lab`.
 - Headless Nova gamepad-route smoke passed via joypad D-pad/A events and the
   project `move_down` / `interact` bindings: `scenes=8`, `commands=257`,
@@ -84,10 +87,10 @@ Live window input check:
 Remaining manual QA:
 
 - The current build has refreshed visible-window smoke coverage, 257-step UI
-  menu coverage, 257-step keyboard-navigation coverage, 257-row screenshot
-  evidence, 257-step gamepad-navigation automation, gamepad pause/save/title
-  automation, focused Dialogic runtime/keyboard smokes, and a focused input
-  check, but
+  menu coverage, 257-step button-click semantics coverage, 257-step
+  keyboard-navigation coverage, 257-row screenshot evidence, 257-step
+  gamepad-navigation automation, gamepad pause/save/title automation, focused
+  Dialogic runtime/keyboard smokes, and a focused input check, but
   `docs/nova-full-route-manual-qa.md` still has not been checked row-by-row
   through the entire route with human observation.
 - Store-grade Developer ID signing, notarization, stapling, and
