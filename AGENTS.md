@@ -70,3 +70,4 @@
 - 批量生成 playable backdrop 后要跑 Godot editor import 保留 `.png.import`，再用 `playable-backdrops` 和 `route-full-screenshots` 确认 JSON 没指回 `story_review` 且运行时真能加载。
 - 重写生成 MP3 做热峰修正后要跑 Godot editor import 和 `audio-mix-audit`；MP3 重新编码可能第一轮仍有残余热峰，需要重复到 `hot_peaks=0`。
 - 截图 manifest 要记录并 gate `hotspot_markers_visible=false`、`debug_flags_visible=false` 和 `/playable/` backdrop；不要只靠肉眼说“没有调试层”或“不是章节图”。
+- 程序生成的 playable backdrop 只解决运行时缺图；最终美术替换要走 `data/playable_backdrop_imagen_manifest.json` 的 `PBG-*` 任务，用 Imagen 参考当前 playable PNG 和 story-review 风格图逐张替换。

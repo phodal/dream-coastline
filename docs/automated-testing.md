@@ -44,6 +44,8 @@ the repo data is structurally wrong.
   live QA checklist stays aligned with story walkthrough JSON.
 - Run `playable-backdrops` to verify every visual location has an illustrated
   backdrop file and no current Nova location points at `story_review` art.
+- Run `tools/build_playable_backdrop_imagen_manifest.py --check` to keep the
+  final-art Imagen replacement manifest aligned with every playable backdrop.
 - Run `--smoke-nova-manual-route` to replay every canonical walkthrough command
   against Nova runtime state in authored order.
 - Run `--smoke-nova-ui-manual-route` to replay the same walkthrough through
@@ -136,6 +138,10 @@ Use the visual gate whenever a change touches `src/nova/ui/`,
 - Reject visual work if the manifest reports unexpected
   `procedural_fallback_count` or if the contact sheet violates
   `must_read_as` / `must_not_read_as` facts from the source map.
+- For final playable backdrop replacement, use
+  `data/playable_backdrop_imagen_manifest.json` one `PBG-*` id at a time. The
+  current deterministic PNG is the runtime reference, while
+  `style_reference_paths` lists existing scene art for Imagen style matching.
 
 Render smoke is not a style test. A passing `render-frame-smoke` only says the
 viewport is non-empty and varied enough; it cannot prove a modern apartment, a

@@ -43,6 +43,10 @@ Follow-up:
   screen after execution, and every captured row now uses location-specific
   playable art. It does not replace live manual observation for text advance
   feel, controller comfort, or final art direction.
+- Final backdrop art replacement is tracked in
+  `data/playable_backdrop_imagen_manifest.json`: 41 `PBG-*` records, each with
+  an Imagen prompt, current playable PNG reference, scene style references, and
+  screenshot acceptance checks.
 
 ## 2026-05-26 Start Contact Sheet
 
@@ -128,3 +132,7 @@ Follow-up:
   debug flags. Remaining visual work is final art-direction approval and
   selective replacement/polish of generated playable backdrops, not a known
   runtime tile-overlay or fallback-art issue.
+- The final-art handoff is now explicit: run
+  `python3 tools/build_playable_backdrop_imagen_manifest.py --check` to verify
+  every playable location still has an Imagen replacement prompt before
+  generating or swapping art.

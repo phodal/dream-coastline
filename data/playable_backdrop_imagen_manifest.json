@@ -1,0 +1,1980 @@
+{
+  "schema": "dream-coastline.playable_backdrop_imagen_manifest.v1",
+  "purpose": "Final-quality Imagen replacement plan for Nova playable-location backdrops.",
+  "notes": [
+    "Runtime coverage is already provided by deterministic playable PNGs.",
+    "Use this manifest for final art-direction replacement, one stable backdrop id at a time.",
+    "After replacing any target_path, run Godot editor import before screenshot gates."
+  ],
+  "backdrops": [
+    {
+      "id": "PBG-00-BEDROOM",
+      "scene_id": "00-prologue-lights-out",
+      "scene_title": "序幕：灯未亮起的夜晚",
+      "location_id": "bedroom",
+      "location_name": "纪子轩房间",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png",
+      "current_reference_path": "res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/00-prologue-lights-out/bedroom-continue-letter.png"
+      ],
+      "visual_family": "modern_interior",
+      "visual_mood": "silenced",
+      "terrain": "room",
+      "source_scene_contract": {
+        "description": "你的房门半掩着。桌上放着一封没有署名的信和一支黑色钢笔。",
+        "story_items": [
+          "letter",
+          "pen",
+          "window"
+        ],
+        "exits": [
+          "living_room"
+        ],
+        "visual_props": [
+          "bed",
+          "window:window",
+          "desk",
+          "letter:letter",
+          "pen:pen",
+          "portal",
+          "exit:living_room"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 序幕：灯未亮起的夜晚, location 纪子轩房间 (bedroom). Scene description: 你的房门半掩着。桌上放着一封没有署名的信和一支黑色钢笔。 Terrain: room; visual family: modern_interior; mood: silenced. Visible semantic anchors: 打开的窗, 信, 黑色钢笔, bed, window:window, desk, letter:letter, pen:pen, portal, exit:living_room, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-00-BUILDING",
+      "scene_id": "00-prologue-lights-out",
+      "scene_title": "序幕：灯未亮起的夜晚",
+      "location_id": "building",
+      "location_name": "居民楼门口",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/building.png",
+      "current_reference_path": "res://assets/illustrations/playable/00-prologue-lights-out/building.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/00-prologue-lights-out/building-voice-lamp.png"
+      ],
+      "visual_family": "modern_interior",
+      "visual_mood": "silenced",
+      "terrain": "interior",
+      "source_scene_contract": {
+        "description": "楼道里没有脚步声。你咳了一下，声控灯却像没听见一样沉着。",
+        "story_items": [
+          "lamp",
+          "mailbox"
+        ],
+        "exits": [
+          "home",
+          "street"
+        ],
+        "visual_props": [
+          "lamp:lamp",
+          "mailbox:mailbox",
+          "stairs:home",
+          "exit:home",
+          "exit:street"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 序幕：灯未亮起的夜晚, location 居民楼门口 (building). Scene description: 楼道里没有脚步声。你咳了一下，声控灯却像没听见一样沉着。 Terrain: interior; visual family: modern_interior; mood: silenced. Visible semantic anchors: 声控灯, 信箱, lamp:lamp, mailbox:mailbox, stairs:home, exit:home, exit:street, 回到街边, 家门口. The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-00-HOME",
+      "scene_id": "00-prologue-lights-out",
+      "scene_title": "序幕：灯未亮起的夜晚",
+      "location_id": "home",
+      "location_name": "家门口",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/home.png",
+      "current_reference_path": "res://assets/illustrations/playable/00-prologue-lights-out/home.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/00-prologue-lights-out/home-unlocked-door.png"
+      ],
+      "visual_family": "modern_interior",
+      "visual_mood": "silenced",
+      "terrain": "interior",
+      "source_scene_contract": {
+        "description": "门没有锁。你叫了一声妈，屋里静得连回声都没有。",
+        "story_items": [
+          "air",
+          "lock"
+        ],
+        "exits": [
+          "building",
+          "living_room"
+        ],
+        "visual_props": [
+          "door_open:lock",
+          "shadow:air",
+          "exit:living_room",
+          "exit:building"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 序幕：灯未亮起的夜晚, location 家门口 (home). Scene description: 门没有锁。你叫了一声妈，屋里静得连回声都没有。 Terrain: interior; visual family: modern_interior; mood: silenced. Visible semantic anchors: 门锁, 屋内气味, door_open:lock, shadow:air, exit:living_room, exit:building, 返回楼道, 客厅. The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-00-LIVING_ROOM",
+      "scene_id": "00-prologue-lights-out",
+      "scene_title": "序幕：灯未亮起的夜晚",
+      "location_id": "living_room",
+      "location_name": "客厅",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/living_room.png",
+      "current_reference_path": "res://assets/illustrations/playable/00-prologue-lights-out/living_room.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/00-prologue-lights-out/living-room-cold-dinner.png"
+      ],
+      "visual_family": "modern_interior",
+      "visual_mood": "silenced",
+      "terrain": "room",
+      "source_scene_contract": {
+        "description": "灯亮起后，房间整洁得异常。晚饭摆在桌上，电视关着。",
+        "story_items": [
+          "dinner",
+          "photo",
+          "tv"
+        ],
+        "exits": [
+          "bedroom",
+          "home",
+          "study"
+        ],
+        "visual_props": [
+          "sofa",
+          "table",
+          "dinner:dinner",
+          "tv:tv",
+          "photo:photo",
+          "exit:study",
+          "exit:bedroom"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 序幕：灯未亮起的夜晚, location 客厅 (living_room). Scene description: 灯亮起后，房间整洁得异常。晚饭摆在桌上，电视关着。 Terrain: room; visual family: modern_interior; mood: silenced. Visible semantic anchors: 冷掉的晚饭, 电视, 全家照, sofa, table, dinner:dinner, tv:tv, photo:photo, exit:study, exit:bedroom, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-00-STREET",
+      "scene_id": "00-prologue-lights-out",
+      "scene_title": "序幕：灯未亮起的夜晚",
+      "location_id": "street",
+      "location_name": "居民楼外",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/street.png",
+      "current_reference_path": "res://assets/illustrations/playable/00-prologue-lights-out/street.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/chapters/00-prologue-lights-out-01.png",
+        "res://assets/illustrations/story_review/00-prologue-lights-out/street-dark-window.png"
+      ],
+      "visual_family": "modern_exterior",
+      "visual_mood": "silenced",
+      "terrain": "street",
+      "source_scene_contract": {
+        "description": "晚风把寻人启事吹得哗啦作响。那扇本该亮着灯的厨房窗，此刻黑得像被谁擦掉了。",
+        "story_items": [
+          "poster",
+          "vending",
+          "window"
+        ],
+        "exits": [
+          "building"
+        ],
+        "visual_props": [
+          "building",
+          "vending:vending",
+          "poster:poster",
+          "window_dark:window",
+          "exit:building"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 序幕：灯未亮起的夜晚, location 居民楼外 (street). Scene description: 晚风把寻人启事吹得哗啦作响。那扇本该亮着灯的厨房窗，此刻黑得像被谁擦掉了。 Terrain: street; visual family: modern_exterior; mood: silenced. Visible semantic anchors: 自家窗户, 寻人启事, 自动售货机, building, vending:vending, poster:poster, window_dark:window, exit:building, 居民楼门口. The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-00-STUDY",
+      "scene_id": "00-prologue-lights-out",
+      "scene_title": "序幕：灯未亮起的夜晚",
+      "location_id": "study",
+      "location_name": "父母书房",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/study.png",
+      "current_reference_path": "res://assets/illustrations/playable/00-prologue-lights-out/study.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/00-prologue-lights-out/study-phone-signal.png"
+      ],
+      "visual_family": "modern_interior",
+      "visual_mood": "silenced",
+      "terrain": "room",
+      "source_scene_contract": {
+        "description": "父亲的眼镜留在桌上。母亲的笔记翻到一半，纸页边缘有淡淡墨味。",
+        "story_items": [
+          "glasses",
+          "note",
+          "phone"
+        ],
+        "exits": [
+          "living_room"
+        ],
+        "visual_props": [
+          "desk",
+          "bookcase",
+          "glasses:glasses",
+          "note:note",
+          "phone:phone",
+          "exit:living_room"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 序幕：灯未亮起的夜晚, location 父母书房 (study). Scene description: 父亲的眼镜留在桌上。母亲的笔记翻到一半，纸页边缘有淡淡墨味。 Terrain: room; visual family: modern_interior; mood: silenced. Visible semantic anchors: 父亲眼镜, 母亲笔记, 手机信号, desk, bookcase, glasses:glasses, note:note, phone:phone, exit:living_room, 客厅. The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-01-CAMP",
+      "scene_id": "01-illiterate",
+      "scene_title": "第一幕：不会写字的人",
+      "location_id": "camp",
+      "location_name": "边境流民营",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/01-illiterate/camp.png",
+      "current_reference_path": "res://assets/illustrations/playable/01-illiterate/camp.png",
+      "style_reference_paths": [
+        "res://assets/characters/creatures/creature_002_lost_name_deer/habitat.png"
+      ],
+      "visual_family": "wilderness",
+      "visual_mood": "",
+      "terrain": "wilderness",
+      "source_scene_contract": {
+        "description": "流民营里的人压低声音。一个瘦小孩子看见你手里的笔，惊得后退半步。",
+        "story_items": [
+          "deer_tracks",
+          "notice",
+          "xiaoyan"
+        ],
+        "exits": [
+          "chase",
+          "mud_road"
+        ],
+        "visual_props": [
+          "tent",
+          "notice:notice",
+          "creature:deer_tracks",
+          "campfire",
+          "xiaoyan:xiaoyan",
+          "exit:mud_road",
+          "exit:chase"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第一幕：不会写字的人, location 边境流民营 (camp). Scene description: 流民营里的人压低声音。一个瘦小孩子看见你手里的笔，惊得后退半步。 Terrain: wilderness; visual family: wilderness; mood: . Visible semantic anchors: 小砚, 布告, 断名蹄印, tent, notice:notice, creature:deer_tracks, campfire, xiaoyan:xiaoyan, exit:mud_road, exit:chase, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-01-CHASE",
+      "scene_id": "01-illiterate",
+      "scene_title": "第一幕：不会写字的人",
+      "location_id": "chase",
+      "location_name": "树林逃跑路线",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/01-illiterate/chase.png",
+      "current_reference_path": "res://assets/illustrations/playable/01-illiterate/chase.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/01-illiterate/04-chase-soldiers.png",
+        "res://assets/illustrations/story_review/01-illiterate/05-xiali-rescue.png"
+      ],
+      "visual_family": "forest",
+      "visual_mood": "",
+      "terrain": "forest",
+      "source_scene_contract": {
+        "description": "金属碰撞声逼近。两个深色长袍士兵看见黑色钢笔，立刻拔刃。",
+        "story_items": [
+          "gate",
+          "soldiers",
+          "xiali"
+        ],
+        "exits": [
+          "camp",
+          "station"
+        ],
+        "visual_props": [
+          "tree",
+          "gate:gate",
+          "xiali:xiali",
+          "soldier:soldiers",
+          "exit:camp",
+          "exit:station"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第一幕：不会写字的人, location 树林逃跑路线 (chase). Scene description: 金属碰撞声逼近。两个深色长袍士兵看见黑色钢笔，立刻拔刃。 Terrain: forest; visual family: forest; mood: . Visible semantic anchors: 墨律司士兵, 破损石门, 夏离, tree, gate:gate, xiali:xiali, soldier:soldiers, exit:camp, exit:station, 边境流民营, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-01-MUD_ROAD",
+      "scene_id": "01-illiterate",
+      "scene_title": "第一幕：不会写字的人",
+      "location_id": "mud_road",
+      "location_name": "泥路边",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/01-illiterate/mud_road.png",
+      "current_reference_path": "res://assets/illustrations/playable/01-illiterate/mud_road.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/01-illiterate/01-mud-road-phone.png"
+      ],
+      "visual_family": "wilderness",
+      "visual_mood": "",
+      "terrain": "wilderness",
+      "source_scene_contract": {
+        "description": "黄昏将尽。你趴在泥地上，手里仍攥着那支黑色钢笔。任务目标被墨框遮住，像一组失字符号。",
+        "story_items": [
+          "city",
+          "pen",
+          "phone",
+          "sign"
+        ],
+        "exits": [
+          "camp"
+        ],
+        "visual_props": [
+          "city_fire:city",
+          "sign:sign",
+          "pen:pen",
+          "phone:phone",
+          "exit:camp"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第一幕：不会写字的人, location 泥路边 (mud_road). Scene description: 黄昏将尽。你趴在泥地上，手里仍攥着那支黑色钢笔。任务目标被墨框遮住，像一组失字符号。 Terrain: wilderness; visual family: wilderness; mood: . Visible semantic anchors: 手机, 破损路牌, 燃烧的城, 黑色钢笔, city_fire:city, sign:sign, pen:pen, phone:phone, exit:camp, 边境流民营. The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-01-STATION",
+      "scene_id": "01-illiterate",
+      "scene_title": "第一幕：不会写字的人",
+      "location_id": "station",
+      "location_name": "废弃驿站",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/01-illiterate/station.png",
+      "current_reference_path": "res://assets/illustrations/playable/01-illiterate/station.png",
+      "style_reference_paths": [
+        "res://assets/characters/creatures/creature_001_nameless_beast/habitat.png",
+        "res://assets/illustrations/story_review/01-illiterate/07-write-name.png",
+        "res://assets/illustrations/story_review/01-illiterate/08-nameplate-payoff.png"
+      ],
+      "visual_family": "ruin",
+      "visual_mood": "ruin",
+      "terrain": "ruin",
+      "source_scene_contract": {
+        "description": "木门反复开合，但门外没有路。角落里站着一个没有脸、没有名字的人形轮廓。",
+        "story_items": [
+          "broken_nameplate",
+          "strokes",
+          "xiaoyan"
+        ],
+        "exits": [
+          "chase"
+        ],
+        "visual_props": [
+          "rune:strokes",
+          "xiaoyan:xiaoyan",
+          "record:broken_nameplate",
+          "rune",
+          "enemy",
+          "exit:chase"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第一幕：不会写字的人, location 废弃驿站 (station). Scene description: 木门反复开合，但门外没有路。角落里站着一个没有脸、没有名字的人形轮廓。 Terrain: ruin; visual family: ruin; mood: ruin. Visible semantic anchors: 夏离写下的名, 小砚的名字, 半张旧名牌, rune:strokes, xiaoyan:xiaoyan, record:broken_nameplate, rune, enemy, exit:chase, 树林逃跑路线. The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-02-ACADEMY",
+      "scene_id": "02-moqi-academy",
+      "scene_title": "第二幕：墨颀书院",
+      "location_id": "academy",
+      "location_name": "隐秘书院",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/02-moqi-academy/academy.png",
+      "current_reference_path": "res://assets/illustrations/playable/02-moqi-academy/academy.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/02-moqi-academy/wensu-first-lesson.png"
+      ],
+      "visual_family": "academy",
+      "visual_mood": "moqi_shadow",
+      "terrain": "academy",
+      "source_scene_contract": {
+        "description": "夏离把你带到隐秘书院。闻素愿意教你基础墨文，但先让你承认自己真的不会。",
+        "story_items": [
+          "baseline",
+          "door",
+          "fire",
+          "name",
+          "stop",
+          "wensu"
+        ],
+        "exits": [
+          "archive",
+          "village"
+        ],
+        "visual_props": [
+          "rune:name",
+          "rune:door",
+          "rune:fire",
+          "rune:stop",
+          "academy_seal",
+          "wensu:wensu",
+          "record:baseline",
+          "xiali",
+          "exit:archive",
+          "exit:village"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第二幕：墨颀书院, location 隐秘书院 (academy). Scene description: 夏离把你带到隐秘书院。闻素愿意教你基础墨文，但先让你承认自己真的不会。 Terrain: academy; visual family: academy; mood: moqi_shadow. Visible semantic anchors: 闻素, 闻素的基线测试, 名, 门, 火, 止, rune:name, rune:door, rune:fire, rune:stop, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-02-ARCHIVE",
+      "scene_id": "02-moqi-academy",
+      "scene_title": "第二幕：墨颀书院",
+      "location_id": "archive",
+      "location_name": "地下藏书室",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/02-moqi-academy/archive.png",
+      "current_reference_path": "res://assets/illustrations/playable/02-moqi-academy/archive.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/02-moqi-academy/archive-dictionary-cabinet.png"
+      ],
+      "visual_family": "archive",
+      "visual_mood": "",
+      "terrain": "archive",
+      "source_scene_contract": {
+        "description": "闻素解释三层文字结构。基础字典被封在旧柜里，封条属于墨律司。",
+        "story_items": [
+          "cabinet",
+          "layers",
+          "margins"
+        ],
+        "exits": [
+          "academy",
+          "node",
+          "village"
+        ],
+        "visual_props": [
+          "bookcase",
+          "rune:layers",
+          "record:margins",
+          "cabinet:cabinet",
+          "rune",
+          "exit:academy",
+          "exit:village",
+          "exit:node"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第二幕：墨颀书院, location 地下藏书室 (archive). Scene description: 闻素解释三层文字结构。基础字典被封在旧柜里，封条属于墨律司。 Terrain: archive; visual family: archive; mood: . Visible semantic anchors: 三层文字, 字典页边批注, 封存柜, bookcase, rune:layers, record:margins, cabinet:cabinet, rune, exit:academy, exit:village, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-02-NODE",
+      "scene_id": "02-moqi-academy",
+      "scene_title": "第二幕：墨颀书院",
+      "location_id": "node",
+      "location_name": "第一个国书节点",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/02-moqi-academy/node.png",
+      "current_reference_path": "res://assets/illustrations/playable/02-moqi-academy/node.png",
+      "style_reference_paths": [
+        "res://assets/characters/creatures/creature_004_contract_hound/habitat.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "第一座国书节点几乎失效。执契官守在节点前，说文字不该交给不会承担代价的人。",
+        "story_items": [
+          "contract",
+          "contract_hound",
+          "mother_annotation",
+          "record"
+        ],
+        "exits": [
+          "archive"
+        ],
+        "visual_props": [
+          "node:contract",
+          "creature:contract_hound",
+          "rune",
+          "rune",
+          "rune",
+          "rune",
+          "rune",
+          "officer",
+          "record:record",
+          "record:mother_annotation",
+          "exit:archive"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第二幕：墨颀书院, location 第一个国书节点 (node). Scene description: 第一座国书节点几乎失效。执契官守在节点前，说文字不该交给不会承担代价的人。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 契约封锁, 契纹犬, 母亲的节点批注, 父母影像, node:contract, creature:contract_hound, rune, rune, rune, rune, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-02-VILLAGE",
+      "scene_id": "02-moqi-academy",
+      "scene_title": "第二幕：墨颀书院",
+      "location_id": "village",
+      "location_name": "边境村落",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/02-moqi-academy/village.png",
+      "current_reference_path": "res://assets/illustrations/playable/02-moqi-academy/village.png",
+      "style_reference_paths": [
+        "res://assets/characters/creatures/creature_003_ink_well_ray/habitat.png"
+      ],
+      "visual_family": "academy",
+      "visual_mood": "sunlit",
+      "terrain": "village",
+      "source_scene_contract": {
+        "description": "村落水井的符文损坏。夏离想继续赶路，你却看见村民连基础维护都不会。",
+        "story_items": [
+          "first_failure",
+          "ink_well_ray",
+          "villagers",
+          "well"
+        ],
+        "exits": [
+          "academy",
+          "archive"
+        ],
+        "visual_props": [
+          "well:well",
+          "record:first_failure",
+          "creature:ink_well_ray",
+          "rune",
+          "rune",
+          "rune",
+          "villager:villagers",
+          "exit:academy",
+          "exit:archive"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第二幕：墨颀书院, location 边境村落 (village). Scene description: 村落水井的符文损坏。夏离想继续赶路，你却看见村民连基础维护都不会。 Terrain: village; visual family: academy; mood: sunlit. Visible semantic anchors: 裂开的水井, 第一次修井失败, 村民, 墨井鳐, well:well, record:first_failure, creature:ink_well_ray, rune, rune, rune, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-03-HALL",
+      "scene_id": "03-dead-kingdom",
+      "scene_title": "第三幕：死去的王国",
+      "location_id": "hall",
+      "location_name": "主国书殿",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/03-dead-kingdom/hall.png",
+      "current_reference_path": "res://assets/illustrations/playable/03-dead-kingdom/hall.png",
+      "style_reference_paths": [
+        "res://assets/characters/creatures/creature_005_statebook_remnant/habitat.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "国书殿召出历代王的残影。它不问你能不能打赢，只问墨颀是否必须有王。",
+        "story_items": [
+          "answer",
+          "plan",
+          "question",
+          "statebook_remnant"
+        ],
+        "exits": [
+          "palace"
+        ],
+        "visual_props": [
+          "node:question",
+          "creature:statebook_remnant",
+          "rune",
+          "rune",
+          "rune",
+          "record:answer",
+          "enemy",
+          "record:plan",
+          "exit:palace"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第三幕：死去的王国, location 主国书殿 (hall). Scene description: 国书殿召出历代王的残影。它不问你能不能打赢，只问墨颀是否必须有王。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 王权质问, 国书残麟, 夏离的回答, 父母完整计划, node:question, creature:statebook_remnant, rune, rune, rune, record:answer, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-03-HQ",
+      "scene_id": "03-dead-kingdom",
+      "scene_title": "第三幕：死去的王国",
+      "location_id": "hq",
+      "location_name": "墨律司总部",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/03-dead-kingdom/hq.png",
+      "current_reference_path": "res://assets/illustrations/playable/03-dead-kingdom/hq.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/03-dead-kingdom/xiali-rejects-throne.png"
+      ],
+      "visual_family": "modern_exterior",
+      "visual_mood": "ruin",
+      "terrain": "dead_city",
+      "source_scene_contract": {
+        "description": "墨律司总部比王宫更完整。这里保存着国书封锁的真实操作记录。",
+        "story_items": [
+          "logs",
+          "names",
+          "transcripts"
+        ],
+        "exits": [
+          "library",
+          "outer_city",
+          "palace"
+        ],
+        "visual_props": [
+          "record:logs",
+          "record:transcripts",
+          "record:names",
+          "cabinet",
+          "exit:outer_city",
+          "exit:palace",
+          "exit:library"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第三幕：死去的王国, location 墨律司总部 (hq). Scene description: 墨律司总部比王宫更完整。这里保存着国书封锁的真实操作记录。 Terrain: dead_city; visual family: modern_exterior; mood: ruin. Visible semantic anchors: 封锁日志, 审讯抄本, 缺页名册, record:logs, record:transcripts, record:names, cabinet, exit:outer_city, exit:palace, exit:library, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-03-LIBRARY",
+      "scene_id": "03-dead-kingdom",
+      "scene_title": "第三幕：死去的王国",
+      "location_id": "library",
+      "location_name": "贵族藏书楼",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/03-dead-kingdom/library.png",
+      "current_reference_path": "res://assets/illustrations/playable/03-dead-kingdom/library.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/03-dead-kingdom/book-route-choice.png"
+      ],
+      "visual_family": "archive",
+      "visual_mood": "",
+      "terrain": "archive",
+      "source_scene_contract": {
+        "description": "藏书楼里保存着改革前后的文献差异。这里能证明夏离曾经试图开放基础文字教育。",
+        "story_items": [
+          "ban",
+          "letters",
+          "records"
+        ],
+        "exits": [
+          "hq",
+          "outer_city",
+          "palace"
+        ],
+        "visual_props": [
+          "bookcase",
+          "record:records",
+          "record:letters",
+          "record:ban",
+          "route_marker",
+          "rune",
+          "route_marker",
+          "route_marker",
+          "exit:outer_city",
+          "exit:hq",
+          "exit:palace"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第三幕：死去的王国, location 贵族藏书楼 (library). Scene description: 藏书楼里保存着改革前后的文献差异。这里能证明夏离曾经试图开放基础文字教育。 Terrain: archive; visual family: archive; mood: . Visible semantic anchors: 改革文献, 学生退回的信, 禁令抄本, bookcase, record:records, record:letters, record:ban, route_marker, rune, route_marker, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-03-OUTER_CITY",
+      "scene_id": "03-dead-kingdom",
+      "scene_title": "第三幕：死去的王国",
+      "location_id": "outer_city",
+      "location_name": "旧王都外城",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/03-dead-kingdom/outer_city.png",
+      "current_reference_path": "res://assets/illustrations/playable/03-dead-kingdom/outer_city.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/03-dead-kingdom/dead-city-propaganda.png"
+      ],
+      "visual_family": "modern_exterior",
+      "visual_mood": "ruin",
+      "terrain": "dead_city",
+      "source_scene_contract": {
+        "description": "旧王都没有完全毁灭，而是被墨律司维持成一座有秩序的死城。",
+        "story_items": [
+          "market",
+          "order",
+          "poster"
+        ],
+        "exits": [
+          "hq",
+          "library"
+        ],
+        "visual_props": [
+          "poster:poster",
+          "record:market",
+          "node:order",
+          "order_monument",
+          "officer",
+          "exit:hq",
+          "exit:library"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第三幕：死去的王国, location 旧王都外城 (outer_city). Scene description: 旧王都没有完全毁灭，而是被墨律司维持成一座有秩序的死城。 Terrain: dead_city; visual family: modern_exterior; mood: ruin. Visible semantic anchors: 死城秩序, 没有买主的集市, 罪人告示, poster:poster, record:market, node:order, order_monument, officer, exit:hq, exit:library, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-03-PALACE",
+      "scene_id": "03-dead-kingdom",
+      "scene_title": "第三幕：死去的王国",
+      "location_id": "palace",
+      "location_name": "残破宫城",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/03-dead-kingdom/palace.png",
+      "current_reference_path": "res://assets/illustrations/playable/03-dead-kingdom/palace.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/03-dead-kingdom/xiali-rejects-throne.png"
+      ],
+      "visual_family": "ruin",
+      "visual_mood": "ruin",
+      "terrain": "ruin",
+      "source_scene_contract": {
+        "description": "宫城里残留着王城陷落当晚的路线。夏离终于承认改革太急，但拒绝回到封闭制度。",
+        "story_items": [
+          "ash_wall",
+          "route",
+          "xiali"
+        ],
+        "exits": [
+          "hall",
+          "hq",
+          "library"
+        ],
+        "visual_props": [
+          "gate:route",
+          "record:ash_wall",
+          "xiali:xiali",
+          "city_fire",
+          "exit:library",
+          "exit:hq",
+          "exit:hall"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第三幕：死去的王国, location 残破宫城 (palace). Scene description: 宫城里残留着王城陷落当晚的路线。夏离终于承认改革太急，但拒绝回到封闭制度。 Terrain: ruin; visual family: ruin; mood: ruin. Visible semantic anchors: 陷落路线, 烧黑的教学墙, 夏离, gate:route, record:ash_wall, xiali:xiali, city_fire, exit:library, exit:hq, exit:hall, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-04-INSTITUTE",
+      "scene_id": "04-continuation-institute",
+      "scene_title": "第四幕：续文院",
+      "location_id": "institute",
+      "location_name": "续文院初址",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/institute.png",
+      "current_reference_path": "res://assets/illustrations/playable/04-continuation-institute/institute.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/04-continuation-institute/first-members-table.png"
+      ],
+      "visual_family": "modern_interior",
+      "visual_mood": "institutional",
+      "terrain": "institute",
+      "source_scene_contract": {
+        "description": "这里不是王宫，也不是旧书院，而是开放式研究、教育和工程组织的起点。",
+        "story_items": [
+          "charter",
+          "members",
+          "noble_observer"
+        ],
+        "exits": [
+          "mine",
+          "school",
+          "workshop"
+        ],
+        "visual_props": [
+          "wensu:members",
+          "record:charter",
+          "officer:noble_observer",
+          "construction_frame",
+          "route_marker",
+          "route_marker",
+          "route_marker",
+          "route_marker",
+          "rune",
+          "rune",
+          "exit:workshop",
+          "exit:school",
+          "exit:mine"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第四幕：续文院, location 续文院初址 (institute). Scene description: 这里不是王宫，也不是旧书院，而是开放式研究、教育和工程组织的起点。 Terrain: institute; visual family: modern_interior; mood: institutional. Visible semantic anchors: 第一批成员, 续文院章程, 贵族旁听者, wensu:members, record:charter, officer:noble_observer, construction_frame, route_marker, route_marker, route_marker, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-04-MINE",
+      "scene_id": "04-continuation-institute",
+      "scene_title": "第四幕：续文院",
+      "location_id": "mine",
+      "location_name": "符文矿场",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/mine.png",
+      "current_reference_path": "res://assets/illustrations/playable/04-continuation-institute/mine.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/04-continuation-institute/mine-safety-board.png"
+      ],
+      "visual_family": "mine",
+      "visual_mood": "ruin",
+      "terrain": "mine",
+      "source_scene_contract": {
+        "description": "符文矿场提供能源，也吞掉了太多人。旧制度只要求产量，不要求每个人都懂危险。",
+        "story_items": [
+          "hazard",
+          "safety_board"
+        ],
+        "exits": [
+          "institute",
+          "tower",
+          "workshop"
+        ],
+        "visual_props": [
+          "gate:hazard",
+          "rune",
+          "rune",
+          "record:safety_board",
+          "exit:institute",
+          "exit:workshop",
+          "exit:tower"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第四幕：续文院, location 符文矿场 (mine). Scene description: 符文矿场提供能源，也吞掉了太多人。旧制度只要求产量，不要求每个人都懂危险。 Terrain: mine; visual family: mine; mood: ruin. Visible semantic anchors: 危险作业, 公开安全板, gate:hazard, rune, rune, record:safety_board, exit:institute, exit:workshop, exit:tower, 续文院初址, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-04-SCHOOL",
+      "scene_id": "04-continuation-institute",
+      "scene_title": "第四幕：续文院",
+      "location_id": "school",
+      "location_name": "平民学塾",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/school.png",
+      "current_reference_path": "res://assets/illustrations/playable/04-continuation-institute/school.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/04-continuation-institute/public-school-class.png"
+      ],
+      "visual_family": "academy",
+      "visual_mood": "sunlit",
+      "terrain": "academy",
+      "source_scene_contract": {
+        "description": "平民第一次系统学习基础墨文。贵族派来的书记官站在门外，脸色很差。",
+        "story_items": [
+          "class",
+          "mistake"
+        ],
+        "exits": [
+          "institute",
+          "tower",
+          "workshop"
+        ],
+        "visual_props": [
+          "student:class",
+          "record:mistake",
+          "rune",
+          "exit:institute",
+          "exit:workshop",
+          "exit:tower"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第四幕：续文院, location 平民学塾 (school). Scene description: 平民第一次系统学习基础墨文。贵族派来的书记官站在门外，脸色很差。 Terrain: academy; visual family: academy; mood: sunlit. Visible semantic anchors: 第一堂课, 错误记录, student:class, record:mistake, rune, exit:institute, exit:workshop, exit:tower, 续文院初址, 工坊区, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-04-SEAL_TOWER",
+      "scene_id": "04-continuation-institute",
+      "scene_title": "第四幕：续文院",
+      "location_id": "seal_tower",
+      "location_name": "封字塔",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/seal_tower.png",
+      "current_reference_path": "res://assets/illustrations/playable/04-continuation-institute/seal_tower.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/04-continuation-institute/seal-tower-forgetting.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "封字塔试图让整个地区的平民忘记新学会的文字。你必须保护学生和字典。",
+        "story_items": [
+          "dictionary",
+          "students"
+        ],
+        "exits": [
+          "tower"
+        ],
+        "visual_props": [
+          "student:students",
+          "record:dictionary",
+          "rune",
+          "rune",
+          "rune",
+          "enemy",
+          "rune",
+          "exit:tower"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第四幕：续文院, location 封字塔 (seal_tower). Scene description: 封字塔试图让整个地区的平民忘记新学会的文字。你必须保护学生和字典。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 学生, 公共字典, student:students, record:dictionary, rune, rune, rune, enemy, rune, exit:tower, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-04-TOWER",
+      "scene_id": "04-continuation-institute",
+      "scene_title": "第四幕：续文院",
+      "location_id": "tower",
+      "location_name": "通信塔遗址",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/tower.png",
+      "current_reference_path": "res://assets/illustrations/playable/04-continuation-institute/tower.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/04-continuation-institute/communication-tower-array.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "通信塔能恢复远距离协作。没有它，续文院只能救眼前这一小片地区。",
+        "story_items": [
+          "array"
+        ],
+        "exits": [
+          "mine",
+          "school",
+          "seal_tower"
+        ],
+        "visual_props": [
+          "node:array",
+          "rune",
+          "exit:school",
+          "exit:mine",
+          "exit:seal_tower"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第四幕：续文院, location 通信塔遗址 (tower). Scene description: 通信塔能恢复远距离协作。没有它，续文院只能救眼前这一小片地区。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 通信符阵, node:array, rune, exit:school, exit:mine, exit:seal_tower, 平民学塾, 符文矿场, 封字塔. The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-04-WORKSHOP",
+      "scene_id": "04-continuation-institute",
+      "scene_title": "第四幕：续文院",
+      "location_id": "workshop",
+      "location_name": "工坊区",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/workshop.png",
+      "current_reference_path": "res://assets/illustrations/playable/04-continuation-institute/workshop.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/04-continuation-institute/atang-workshop-flow.png"
+      ],
+      "visual_family": "workshop",
+      "visual_mood": "sunlit",
+      "terrain": "workshop",
+      "source_scene_contract": {
+        "description": "阿棠把字根知识转成工具、材料和维修流程。她比任何书记官都先知道机器为什么坏。",
+        "story_items": [
+          "atang",
+          "flood"
+        ],
+        "exits": [
+          "institute",
+          "mine",
+          "school"
+        ],
+        "visual_props": [
+          "villager:atang",
+          "city_fire:flood",
+          "rune",
+          "exit:institute",
+          "exit:school",
+          "exit:mine"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第四幕：续文院, location 工坊区 (workshop). Scene description: 阿棠把字根知识转成工具、材料和维修流程。她比任何书记官都先知道机器为什么坏。 Terrain: workshop; visual family: workshop; mood: sunlit. Visible semantic anchors: 阿棠, 防洪符文事故, villager:atang, city_fire:flood, rune, exit:institute, exit:school, exit:mine, 续文院初址, 平民学塾, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-05-ASTRAL",
+      "scene_id": "05-century-continuation",
+      "scene_title": "第五幕：百年续页",
+      "location_id": "astral",
+      "location_name": "星象工程时代",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/05-century-continuation/astral.png",
+      "current_reference_path": "res://assets/illustrations/playable/05-century-continuation/astral.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/05-century-continuation/astral-engineering.png",
+        "res://assets/illustrations/story_review/05-century-continuation/star-chart-moth.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "墨颀开始把星空变成可书写、可验证的工程。纪子轩第一次觉得回家需要整个文明。",
+        "story_items": [
+          "beacon",
+          "coordinate_standard",
+          "failed_signal",
+          "star_chart_moth",
+          "star_map"
+        ],
+        "exits": [
+          "network",
+          "star_tower"
+        ],
+        "visual_props": [
+          "record:star_map",
+          "node:beacon",
+          "record:coordinate_standard",
+          "rune",
+          "record:failed_signal",
+          "creature:star_chart_moth",
+          "exit:network",
+          "exit:star_tower"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第五幕：百年续页, location 星象工程时代 (astral). Scene description: 墨颀开始把星空变成可书写、可验证的工程。纪子轩第一次觉得回家需要整个文明。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 星图, 坐标书写标准, 跨界信标, 第一次跨界失败, 星象螟, record:star_map, node:beacon, record:coordinate_standard, rune, record:failed_signal, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-05-INDUSTRY",
+      "scene_id": "05-century-continuation",
+      "scene_title": "第五幕：百年续页",
+      "location_id": "industry",
+      "location_name": "文字工业时代",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/05-century-continuation/industry.png",
+      "current_reference_path": "res://assets/illustrations/playable/05-century-continuation/industry.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/05-century-continuation/wensu-legacy-night-school.png",
+        "res://assets/illustrations/story_review/05-century-continuation/atang-last-blueprint.png"
+      ],
+      "visual_family": "industry",
+      "visual_mood": "industrial",
+      "terrain": "industry",
+      "source_scene_contract": {
+        "description": "百年续页开始。纪子轩会在关键节点被续笔召回，看见墨颀以年和十年为单位成长。",
+        "story_items": [
+          "atang_blueprint",
+          "night_school",
+          "teachers",
+          "wensu_absence",
+          "wensu_book"
+        ],
+        "exits": [
+          "network"
+        ],
+        "visual_props": [
+          "student:teachers",
+          "record:wensu_book",
+          "private_anchor:wensu_absence",
+          "factory_stack",
+          "student:night_school",
+          "rune",
+          "record:atang_blueprint",
+          "exit:network"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第五幕：百年续页, location 文字工业时代 (industry). Scene description: 百年续页开始。纪子轩会在关键节点被续笔召回，看见墨颀以年和十年为单位成长。 Terrain: industry; visual family: industry; mood: industrial. Visible semantic anchors: 第一批教师, 闻素教材, 闻素的空椅, 夜校灯光, 阿棠最后一张蓝图, student:teachers, record:wensu_book, private_anchor:wensu_absence, factory_stack, student:night_school, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-05-NETWORK",
+      "scene_id": "05-century-continuation",
+      "scene_title": "第五幕：百年续页",
+      "location_id": "network",
+      "location_name": "国书网络时代",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/05-century-continuation/network.png",
+      "current_reference_path": "res://assets/illustrations/playable/05-century-continuation/network.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/05-century-continuation/xiali-statebook-anchor.png",
+        "res://assets/illustrations/story_review/05-century-continuation/xiaoyan-roll-call.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "多个城市国书节点开始联网。夏离决定把自己的名字绑定进国书，陪墨颀跨过长时间。",
+        "story_items": [
+          "engineers",
+          "private_anchor",
+          "remote_classrooms",
+          "xiali",
+          "xiali_fading",
+          "xiaoyan_roll_call"
+        ],
+        "exits": [
+          "astral",
+          "industry"
+        ],
+        "visual_props": [
+          "xiali:xiali",
+          "xiali_echo:xiali_fading",
+          "private_anchor:private_anchor",
+          "rune",
+          "villager:engineers",
+          "remote_classroom:remote_classrooms",
+          "record:xiaoyan_roll_call",
+          "rune",
+          "exit:industry",
+          "exit:astral"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第五幕：百年续页, location 国书网络时代 (network). Scene description: 多个城市国书节点开始联网。夏离决定把自己的名字绑定进国书，陪墨颀跨过长时间。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 夏离的选择, 夏离逐渐国书化, 夏离的私人锚点, 新一代工程师, 远程学塾, 小砚留下的点名声, xiali:xiali, xiali_echo:xiali_fading, private_anchor:private_anchor, rune, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-05-STAR_TOWER",
+      "scene_id": "05-century-continuation",
+      "scene_title": "第五幕：百年续页",
+      "location_id": "star_tower",
+      "location_name": "星象塔顶",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/05-century-continuation/star_tower.png",
+      "current_reference_path": "res://assets/illustrations/playable/05-century-continuation/star_tower.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/05-century-continuation/modern-star-darkening.png",
+        "res://assets/illustrations/story_review/05-century-continuation/star-chart-moth.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "星象塔第一次看见现代星球。那里不是神界，而是正在变暗的文明现场。",
+        "story_items": [
+          "city",
+          "signal",
+          "silent_frame"
+        ],
+        "exits": [
+          "astral"
+        ],
+        "visual_props": [
+          "node:signal",
+          "record:silent_frame",
+          "rune",
+          "rune",
+          "enemy",
+          "city_fire:city",
+          "exit:astral"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第五幕：百年续页, location 星象塔顶 (star_tower). Scene description: 星象塔第一次看见现代星球。那里不是神界，而是正在变暗的文明现场。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 现代城市, 静默信号, 第一帧静默影像, node:signal, record:silent_frame, rune, rune, enemy, city_fire:city, exit:astral, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-06-ASTRAL_TOWER",
+      "scene_id": "06-return-star-plan",
+      "scene_title": "第六幕：归星计划",
+      "location_id": "astral_tower",
+      "location_name": "星象塔",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/06-return-star-plan/astral_tower.png",
+      "current_reference_path": "res://assets/illustrations/playable/06-return-star-plan/astral_tower.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/06-return-star-plan/return-star-council.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "astral",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "现代星球坐标仍在快速消失。归星计划不再是回家，而是救援一个正在静默的文明。",
+        "story_items": [
+          "disaster",
+          "parents"
+        ],
+        "exits": [
+          "council"
+        ],
+        "visual_props": [
+          "node:disaster",
+          "record:parents",
+          "astral_dial",
+          "exit:council"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第六幕：归星计划, location 星象塔 (astral_tower). Scene description: 现代星球坐标仍在快速消失。归星计划不再是回家，而是救援一个正在静默的文明。 Terrain: node; visual family: node; mood: astral. Visible semantic anchors: 现代灾难, 父母研究摘要, node:disaster, record:parents, astral_dial, exit:council, 归星议会. The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-06-CORE",
+      "scene_id": "06-return-star-plan",
+      "scene_title": "第六幕：归星计划",
+      "location_id": "core",
+      "location_name": "国书核心",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/06-return-star-plan/core.png",
+      "current_reference_path": "res://assets/illustrations/playable/06-return-star-plan/core.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/06-return-star-plan/civilization-backups.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "静默探针会删除字根、地图和名字。你必须把文明系统做成可恢复的备份链。",
+        "story_items": [
+          "backup",
+          "backup_drill",
+          "xiali"
+        ],
+        "exits": [
+          "dockyard",
+          "gate"
+        ],
+        "visual_props": [
+          "xiali:xiali",
+          "record:backup",
+          "record:backup_drill",
+          "rune",
+          "exit:dockyard",
+          "exit:gate"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第六幕：归星计划, location 国书核心 (core). Scene description: 静默探针会删除字根、地图和名字。你必须把文明系统做成可恢复的备份链。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 夏离稳定国书, 文明备份链, 备份恢复演练, xiali:xiali, record:backup, record:backup_drill, rune, exit:dockyard, exit:gate, 浮空船坞, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-06-COUNCIL",
+      "scene_id": "06-return-star-plan",
+      "scene_title": "第六幕：归星计划",
+      "location_id": "council",
+      "location_name": "归星议会",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/06-return-star-plan/council.png",
+      "current_reference_path": "res://assets/illustrations/playable/06-return-star-plan/council.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/06-return-star-plan/return-star-council.png"
+      ],
+      "visual_family": "academy",
+      "visual_mood": "",
+      "terrain": "academy",
+      "source_scene_contract": {
+        "description": "支持者和反对者都不是工具人。一个刚复苏的文明，是否有资格承担跨世界救援？",
+        "story_items": [
+          "opposition",
+          "risk_ledger",
+          "supporters"
+        ],
+        "exits": [
+          "astral_tower",
+          "dockyard"
+        ],
+        "visual_props": [
+          "student:supporters",
+          "officer:opposition",
+          "record:risk_ledger",
+          "route_marker",
+          "route_marker",
+          "route_marker",
+          "route_marker",
+          "rune",
+          "exit:astral_tower",
+          "exit:dockyard"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第六幕：归星计划, location 归星议会 (council). Scene description: 支持者和反对者都不是工具人。一个刚复苏的文明，是否有资格承担跨世界救援？ Terrain: academy; visual family: academy; mood: . Visible semantic anchors: 支持派, 反对派, 风险账本, student:supporters, officer:opposition, record:risk_ledger, route_marker, route_marker, route_marker, route_marker, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-06-DOCKYARD",
+      "scene_id": "06-return-star-plan",
+      "scene_title": "第六幕：归星计划",
+      "location_id": "dockyard",
+      "location_name": "浮空船坞",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/06-return-star-plan/dockyard.png",
+      "current_reference_path": "res://assets/illustrations/playable/06-return-star-plan/dockyard.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/06-return-star-plan/return-vessel-dockyard.png"
+      ],
+      "visual_family": "workshop",
+      "visual_mood": "",
+      "terrain": "workshop",
+      "source_scene_contract": {
+        "description": "归星需要跨界工程载体。它不是一艘船，而是一段可以移动的文明状态。",
+        "story_items": [
+          "blueprint",
+          "empty_seats"
+        ],
+        "exits": [
+          "core",
+          "council",
+          "gate"
+        ],
+        "visual_props": [
+          "record:blueprint",
+          "student:empty_seats",
+          "rune",
+          "exit:council",
+          "exit:core",
+          "exit:gate"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第六幕：归星计划, location 浮空船坞 (dockyard). Scene description: 归星需要跨界工程载体。它不是一艘船，而是一段可以移动的文明状态。 Terrain: workshop; visual family: workshop; mood: . Visible semantic anchors: 续页舰蓝图, 空座名单, record:blueprint, student:empty_seats, rune, exit:council, exit:core, exit:gate, 归星议会, 国书核心, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-06-GATE",
+      "scene_id": "06-return-star-plan",
+      "scene_title": "第六幕：归星计划",
+      "location_id": "gate",
+      "location_name": "归星门",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/06-return-star-plan/gate.png",
+      "current_reference_path": "res://assets/illustrations/playable/06-return-star-plan/gate.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/06-return-star-plan/return-gate-farewell.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "归星门完成最终校准时，静默探针入侵。它不谈判，只执行删除协议。",
+        "story_items": [
+          "calibration",
+          "farewell"
+        ],
+        "exits": [
+          "core",
+          "dockyard",
+          "rift"
+        ],
+        "visual_props": [
+          "node:calibration",
+          "rune",
+          "xiali:farewell",
+          "exit:dockyard",
+          "exit:core",
+          "exit:rift"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第六幕：归星计划, location 归星门 (gate). Scene description: 归星门完成最终校准时，静默探针入侵。它不谈判，只执行删除协议。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 最终校准, 归星门前的告别, node:calibration, rune, xiali:farewell, exit:dockyard, exit:core, exit:rift, 浮空船坞, 国书核心, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-06-RIFT",
+      "scene_id": "06-return-star-plan",
+      "scene_title": "第六幕：归星计划",
+      "location_id": "rift",
+      "location_name": "现代世界裂隙",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/06-return-star-plan/rift.png",
+      "current_reference_path": "res://assets/illustrations/playable/06-return-star-plan/rift.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/06-return-star-plan/silence-probe.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "静默探针正删除坐标、档案和名字。你必须调用整个文明的备份来战斗。",
+        "story_items": [
+          "probe",
+          "probe_body",
+          "truth"
+        ],
+        "exits": [
+          "gate"
+        ],
+        "visual_props": [
+          "enemy:probe",
+          "creature:probe_body",
+          "rune",
+          "rune",
+          "enemy",
+          "record:truth",
+          "rune",
+          "exit:gate"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第六幕：归星计划, location 现代世界裂隙 (rift). Scene description: 静默探针正删除坐标、档案和名字。你必须调用整个文明的备份来战斗。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 静默探针, 静默探针体, 父母真相, enemy:probe, creature:probe_body, rune, rune, enemy, record:truth, rune, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-07-HOME",
+      "scene_id": "07-lights-on-again",
+      "scene_title": "第七幕：灯重新亮起",
+      "location_id": "home",
+      "location_name": "纪子轩家",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/home.png",
+      "current_reference_path": "res://assets/illustrations/playable/07-lights-on-again/home.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/07-lights-on-again/half-silenced-home.png"
+      ],
+      "visual_family": "modern_interior",
+      "visual_mood": "",
+      "terrain": "room",
+      "source_scene_contract": {
+        "description": "你回到家。熟悉的房间半静默化：门牌号消失，灯没有亮，手机联系人全是未知。",
+        "story_items": [
+          "city_first",
+          "contacts",
+          "parents_echo",
+          "room"
+        ],
+        "exits": [
+          "school",
+          "street"
+        ],
+        "visual_props": [
+          "table:room",
+          "parent_echo:parents_echo",
+          "window_dark:city_first",
+          "phone:contacts",
+          "exit:school",
+          "exit:street"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第七幕：灯重新亮起, location 纪子轩家 (home). Scene description: 你回到家。熟悉的房间半静默化：门牌号消失，灯没有亮，手机联系人全是未知。 Terrain: room; visual family: modern_interior; mood: . Visible semantic anchors: 半静默的家, 父母留下的回声, 先救城市的选择, 手机联系人, table:room, parent_echo:parents_echo, window_dark:city_first, phone:contacts, exit:school, exit:street, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-07-LAB",
+      "scene_id": "07-lights-on-again",
+      "scene_title": "第七幕：灯重新亮起",
+      "location_id": "lab",
+      "location_name": "父母实验室",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/lab.png",
+      "current_reference_path": "res://assets/illustrations/playable/07-lights-on-again/lab.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/07-lights-on-again/parents-lab-bridge.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/return-bridge-traveler.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/parent-bridge-trace.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "父母实验室把现代信标和墨颀国书系统接在一起。这里能稳定归桥。",
+        "story_items": [
+          "beacon",
+          "failed_bridge_test",
+          "formula",
+          "parent_bridge_trace",
+          "parents_record",
+          "traveler_warning",
+          "wensu_margin_note"
+        ],
+        "exits": [
+          "orbit",
+          "street"
+        ],
+        "visual_props": [
+          "record:formula",
+          "node:beacon",
+          "parent_echo:parents_record",
+          "record:wensu_margin_note",
+          "bridge_static:failed_bridge_test",
+          "creature:traveler_warning",
+          "parent_echo:parent_bridge_trace",
+          "rune",
+          "rune",
+          "exit:street",
+          "exit:orbit"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第七幕：灯重新亮起, location 父母实验室 (lab). Scene description: 父母实验室把现代信标和墨颀国书系统接在一起。这里能稳定归桥。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 最终字组合, 现代信标, 父母最终记录, 闻素的页边批注, 失败的归桥测试, 归桥旅人的提示, 父母桥迹, record:formula, node:beacon, parent_echo:parents_record, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-07-ORBIT",
+      "scene_id": "07-lights-on-again",
+      "scene_title": "第七幕：灯重新亮起",
+      "location_id": "orbit",
+      "location_name": "轨道静默层",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/orbit.png",
+      "current_reference_path": "res://assets/illustrations/playable/07-lights-on-again/orbit.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/07-lights-on-again/lights-continue.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/protocol-indictment.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/civilization-counter-evidence.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/final-silence-protocol.png"
+      ],
+      "visual_family": "node",
+      "visual_mood": "",
+      "terrain": "node",
+      "source_scene_contract": {
+        "description": "最终敌人不是怪物，而是一套判定系统。它要删除意义，而不只是摧毁物体。",
+        "story_items": [
+          "civilization_response",
+          "counter_evidence",
+          "deleted_party_names",
+          "protocol",
+          "protocol_indictment"
+        ],
+        "exits": [
+          "lab"
+        ],
+        "visual_props": [
+          "enemy:protocol",
+          "record:protocol_indictment",
+          "rune",
+          "record:deleted_party_names",
+          "record:counter_evidence",
+          "rune",
+          "rune",
+          "enemy",
+          "rune",
+          "node:civilization_response",
+          "exit:lab"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第七幕：灯重新亮起, location 轨道静默层 (orbit). Scene description: 最终敌人不是怪物，而是一套判定系统。它要删除意义，而不只是摧毁物体。 Terrain: node; visual family: node; mood: . Visible semantic anchors: 静默协议, 协议举证, 被删除的队友名, 文明反证, 文明回声, enemy:protocol, record:protocol_indictment, rune, record:deleted_party_names, record:counter_evidence, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-07-SCHOOL",
+      "scene_id": "07-lights-on-again",
+      "scene_title": "第七幕：灯重新亮起",
+      "location_id": "school",
+      "location_name": "学校",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/school.png",
+      "current_reference_path": "res://assets/illustrations/playable/07-lights-on-again/school.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/07-lights-on-again/school-erasure.png"
+      ],
+      "visual_family": "academy",
+      "visual_mood": "sunlit",
+      "terrain": "academy",
+      "source_scene_contract": {
+        "description": "学校还在，却像没有人记得它为什么存在。公告栏只剩空白纸。",
+        "story_items": [
+          "classmates",
+          "corridor",
+          "missing_teacher",
+          "xiaoyan_name_sample"
+        ],
+        "exits": [
+          "home",
+          "street"
+        ],
+        "visual_props": [
+          "gate:corridor",
+          "record:missing_teacher",
+          "student:classmates",
+          "record:xiaoyan_name_sample",
+          "exit:home",
+          "exit:street"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第七幕：灯重新亮起, location 学校 (school). Scene description: 学校还在，却像没有人记得它为什么存在。公告栏只剩空白纸。 Terrain: academy; visual family: academy; mood: sunlit. Visible semantic anchors: 无尽走廊, 缺席的班主任, 同学名牌, 小砚的点名样本, gate:corridor, record:missing_teacher, student:classmates, record:xiaoyan_name_sample, exit:home, exit:street, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-07-STORE",
+      "scene_id": "07-lights-on-again",
+      "scene_title": "第七幕：灯重新亮起",
+      "location_id": "store",
+      "location_name": "便利店",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/store.png",
+      "current_reference_path": "res://assets/illustrations/playable/07-lights-on-again/store.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/07-lights-on-again/store-name-receipt.png"
+      ],
+      "visual_family": "modern_interior",
+      "visual_mood": "",
+      "terrain": "room",
+      "source_scene_contract": {
+        "description": "便利店店员忘记了自己的名字。呼名任务把第一幕的“名”系统带回现代。",
+        "story_items": [
+          "clerk",
+          "receipt"
+        ],
+        "exits": [
+          "street"
+        ],
+        "visual_props": [
+          "villager:clerk",
+          "rune",
+          "record:receipt",
+          "exit:street"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第七幕：灯重新亮起, location 便利店 (store). Scene description: 便利店店员忘记了自己的名字。呼名任务把第一幕的“名”系统带回现代。 Terrain: room; visual family: modern_interior; mood: . Visible semantic anchors: 无脸店员, 恢复姓名的小票, villager:clerk, rune, record:receipt, exit:street, 城市街道. The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    },
+    {
+      "id": "PBG-07-STREET",
+      "scene_id": "07-lights-on-again",
+      "scene_title": "第七幕：灯重新亮起",
+      "location_id": "street",
+      "location_name": "城市街道",
+      "generation_status": "needs_imagen_final_art",
+      "provider": "Imagen",
+      "aspect_ratio": "16:9",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/street.png",
+      "current_reference_path": "res://assets/illustrations/playable/07-lights-on-again/street.png",
+      "style_reference_paths": [
+        "res://assets/illustrations/story_review/07-lights-on-again/return-bridge-traveler.png"
+      ],
+      "visual_family": "modern_exterior",
+      "visual_mood": "",
+      "terrain": "street",
+      "source_scene_contract": {
+        "description": "城市灯光成片熄灭。墨颀文字在现代不稳定，必须先建立临时国书节点。",
+        "story_items": [
+          "atang_bridge_fuse",
+          "bridge_traveler_reflection",
+          "grid",
+          "neighbors",
+          "node_base"
+        ],
+        "exits": [
+          "home",
+          "lab",
+          "school",
+          "store"
+        ],
+        "visual_props": [
+          "lamp:grid",
+          "rune",
+          "villager:neighbors",
+          "node:node_base",
+          "rune",
+          "creature:bridge_traveler_reflection",
+          "record:atang_bridge_fuse",
+          "exit:home",
+          "exit:school",
+          "exit:store",
+          "exit:lab"
+        ]
+      },
+      "prompt": "Final playable location backdrop for 第七幕：灯重新亮起, location 城市街道 (street). Scene description: 城市灯光成片熄灭。墨颀文字在现代不稳定，必须先建立临时国书节点。 Terrain: street; visual family: modern_exterior; mood: . Visible semantic anchors: 城市电网, 无脸邻居, 节点基座, 橱窗里的归桥旅人, 阿棠的备用桥栓, lamp:grid, rune, villager:neighbors, node:node_base, rune, .... The image must work behind Nova's RPG action menu, so keep the main focal shapes readable in the center and leave the lower UI area visually calm without becoming empty. Match the art direction of the provided reference panels for this scene. Restrained ink-and-paper narrative RPG location art, playable 16:9 backdrop, muted palette, clean silhouettes, soft vignette, clear foreground/midground/background depth, no readable text, no UI, no debug markers.",
+      "negative_prompt": "Do not add menus, buttons, subtitles, text labels, speech bubbles, watermarks, debug hotspots, grid overlays, generic fantasy castle scenery, photorealistic stock-image lighting, or unrelated characters.",
+      "acceptance": [
+        "Output replaces the target_path PNG and keeps the Godot import metadata refreshed.",
+        "Screenshot manifest still reports asset_loaded=true, procedural_fallback=false, hotspot_markers_visible=false, and debug_flags_visible=false.",
+        "The scene reads as the named story location before reading the action menu.",
+        "The image contains no readable text, UI chrome, watermark, or debug overlay."
+      ]
+    }
+  ]
+}

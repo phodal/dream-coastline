@@ -394,6 +394,10 @@ def playable_backdrops(runner: Runner, step: Step) -> int:
     return 0
 
 
+def playable_backdrop_imagen_manifest(runner: Runner, step: Step) -> int:
+    return runner.run_python(step, "tools/build_playable_backdrop_imagen_manifest.py", "--check")
+
+
 def dialogic_timelines(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_dialogic_timelines.py")
 
@@ -776,6 +780,12 @@ STEPS: list[Step] = [
     Step("character-visual-models", "quick", "validate main character visual model contracts", character_visual_models),
     Step("story-review-panels", "quick", "validate story review panel coverage and character refs", story_review_panels),
     Step("playable-backdrops", "quick", "validate playable-location backdrop coverage", playable_backdrops),
+    Step(
+        "playable-backdrop-imagen-manifest",
+        "quick",
+        "validate Imagen final-art prompt coverage for playable backdrops",
+        playable_backdrop_imagen_manifest,
+    ),
     Step("dialogic-timelines", "quick", "validate Dialogic timeline coverage and drift", dialogic_timelines),
     Step("story-movie-smoke", "quick", "validate reproducible story movie generation dependencies and output", story_movie_smoke),
     Step(
