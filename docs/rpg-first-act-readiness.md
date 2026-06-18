@@ -49,6 +49,8 @@ the gap between the playable 8-scene route and a public release candidate.
   a human in the live window. The 257 screenshots are strong evidence, but they
   are not a substitute for observing input feel, text advance cadence, and
   focus recovery through the whole route with a physical keyboard and mouse.
+  The checklist now includes `route-full #NNN` keys that map each row to the
+  screenshot manifest `command_index` for faster review.
 - macOS export is ad-hoc signed. `codesign --verify --deep --strict` passes on
   the unzipped app, but `spctl --assess --type execute` rejects it because there
   is no Developer ID signing or notarization.
@@ -67,8 +69,8 @@ the gap between the playable 8-scene route and a public release candidate.
 
 1. Run the live-window QA checklist against
    `docs/nova-full-route-manual-qa.md`, using
-   `artifacts/scene-screenshots/route-full-latest/index.html` as row-level
-   visual evidence.
+   `artifacts/scene-screenshots/route-full-latest/index.html` and the
+   per-row `route-full #NNN` keys as row-level visual evidence.
 2. Run a physical gamepad live-window pass for action-menu navigation,
    Dialogic advance, pause/save, and continue.
 3. Replace generated playable backdrops with final art-direction-approved

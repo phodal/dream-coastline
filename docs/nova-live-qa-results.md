@@ -92,7 +92,9 @@ Remaining manual QA:
   gamepad-navigation automation, gamepad pause/save/title automation, focused
   Dialogic runtime/keyboard smokes, and a focused input check, but
   `docs/nova-full-route-manual-qa.md` still has not been checked row-by-row
-  through the entire route with human observation.
+  through the entire route with human observation. The checklist rows now carry
+  `route-full #NNN` evidence keys that match the screenshot manifest
+  `command_index` values.
 - Store-grade Developer ID signing, notarization, stapling, and
   installer/distribution validation are still outside the proven scope.
 

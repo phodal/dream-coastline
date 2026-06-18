@@ -46,10 +46,16 @@ def command_expectation(command: str) -> str:
     return "screen responds without input deadlock"
 
 
-def render_command_rows(commands: list[str]) -> str:
-    rows = ["| Step | Command | Expected live-window observation |", "| ---: | --- | --- |"]
+def render_command_rows(commands: list[str], route_start_index: int) -> str:
+    rows = [
+        "| Step | Route-full evidence key | Command | Expected live-window observation |",
+        "| ---: | --- | --- | --- |",
+    ]
     for index, command in enumerate(commands, 1):
-        rows.append(f"| {index} | `{command}` | {command_expectation(command)} |")
+        route_index = route_start_index + index
+        rows.append(
+            f"| {index} | `route-full #{route_index:03d}` | `{command}` | {command_expectation(command)} |"
+        )
     return "\n".join(rows)
 
 
@@ -70,6 +76,7 @@ def build_markdown() -> str:
         ending_flag = str(scene.get("ending_flag", ""))
         required_flags = [str(flag) for flag in scene.get("required_flags", [])]
         commands = [str(command) for command in scene.get("walkthrough", [])]
+        route_start_index = total_commands
         total_commands += len(commands)
         scene_sections.append(
             f"""## {scene_id} - {title}
@@ -84,7 +91,7 @@ Required flags:
 
 Live-window route:
 
-{render_command_rows(commands)}
+{render_command_rows(commands, route_start_index)}
 
 Scene acceptance:
 
@@ -119,7 +126,9 @@ python3 tools/run_automated_tests.py --only route-full-screenshots --visual-styl
 
 This produces `artifacts/scene-screenshots/route-full-latest/index.html` and a
 manifest with one screenshot per walkthrough command. Use it to review row
-evidence, but only tick the manual checkboxes after live-window observation.
+evidence. The route table below includes a stable `route-full #NNN` key that
+matches the manifest `command_index`, but only tick the manual checkboxes after
+live-window observation.
 
 Global acceptance:
 

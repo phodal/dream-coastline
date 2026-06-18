@@ -217,6 +217,10 @@ Use this checklist for the issue #6 full 8-scene manual pass. Headless
 in order. `smoke-nova-ui-manual-route` additionally proves the route is exposed
 through enabled Nova action-menu choices. `smoke-nova-mouse-route` proves those
 choices can be triggered through button click semantics.
+The checklist also includes `route-full #NNN` keys that match the
+`route-full-screenshots` manifest `command_index` values, so each manual row can
+be compared against the corresponding screenshot evidence before live-window
+sign-off.
 `smoke-nova-keyboard-route` proves keyboard navigation can reach and trigger
 those choices.
 `smoke-nova-gamepad-route` proves the same menu route through joypad D-pad/A
