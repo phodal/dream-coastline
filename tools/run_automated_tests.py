@@ -335,6 +335,10 @@ def action_voice_lines(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_action_voice_manifest.py")
 
 
+def audio_listening_checklist(runner: Runner, step: Step) -> int:
+    return runner.run_python(step, "tools/build_audio_listening_checklist.py", "--check")
+
+
 def minimax_action_voice_dry_run(runner: Runner, step: Step) -> int:
     code = runner.run_command(step, ["node", "--check", "tools/minimax_audio_generate.mjs"])
     if code != 0:
@@ -770,6 +774,7 @@ STEPS: list[Step] = [
     Step("supply-catalog", "quick", "validate supply and consumable carrier catalog", supply_catalog),
     Step("character-voice-profiles", "quick", "validate character voice and dialogue contracts", character_voice_profiles),
     Step("action-voice-lines", "quick", "validate per-action voice-line coverage", action_voice_lines),
+    Step("audio-listening-checklist", "quick", "validate generated audio listening QA checklist", audio_listening_checklist),
     Step("minimax-action-voice-dry-run", "quick", "validate MiniMax action voice job building", minimax_action_voice_dry_run),
     Step(
         "character-development-profiles",

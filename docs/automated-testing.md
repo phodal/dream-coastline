@@ -65,6 +65,9 @@ the repo data is structurally wrong.
 - Run `tools/validate_supply_catalog.py`.
 - Run `tools/validate_action_voice_manifest.py` to keep full playable-action
   VO planning coverage aligned with story JSON.
+- Run `tools/build_audio_listening_checklist.py --check` so generated music,
+  ambience, SFX, voice samples, and action VO stay aligned with the final
+  human listening checklist.
 - Run `minimax-action-voice-dry-run` to check the MiniMax generator can build a
   selected playable-action VO job without calling the provider.
 - Run the headless Godot project-load check.

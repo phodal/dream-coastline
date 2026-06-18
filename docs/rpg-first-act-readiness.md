@@ -60,7 +60,9 @@ the gap between the playable 8-scene route and a public release candidate.
   are still pending.
 - Generated voice/action audio coverage and machine mix hygiene are present,
   but the soundtrack still needs a final creative listening pass for loudness,
-  balance, transitions, and emotional fit.
+  balance, transitions, and emotional fit. Use
+  `docs/nova-audio-listening-qa.md`, which covers the current 151 generated
+  listening assets and keeps planned/disabled lines out of the required pass.
 - Controller support now has automated gamepad route and pause/save/title
   smokes through joypad events, but it still needs a physical-controller
   live-window pass before claiming controller-ready release quality.
@@ -76,7 +78,8 @@ the gap between the playable 8-scene route and a public release candidate.
 3. Replace generated playable backdrops with final art-direction-approved
    backdrops where needed, then rerun `route-full-screenshots`.
 4. Do the final creative loudness/mastering listening pass for music,
-   ambience, SFX, and generated voices now that machine hot-peak warnings are
+   ambience, SFX, and generated voices with
+   `docs/nova-audio-listening-qa.md` now that machine hot-peak warnings are
    clear.
 5. Configure Developer ID signing/notarization/stapling and rerun the release
    signing checks from `docs/release.md`.

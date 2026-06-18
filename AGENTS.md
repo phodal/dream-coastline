@@ -71,3 +71,4 @@
 - 重写生成 MP3 做热峰修正后要跑 Godot editor import 和 `audio-mix-audit`；MP3 重新编码可能第一轮仍有残余热峰，需要重复到 `hot_peaks=0`。
 - 截图 manifest 要记录并 gate `hotspot_markers_visible=false`、`debug_flags_visible=false` 和 `/playable/` backdrop；不要只靠肉眼说“没有调试层”或“不是章节图”。
 - 程序生成的 playable backdrop 只解决运行时缺图；最终美术替换要走 `data/playable_backdrop_imagen_manifest.json` 的 `PBG-*` 任务，用 Imagen 参考当前 playable PNG 和 story-review 风格图逐张替换。
+- `audio-mix-audit` 只证明文件、import、时长和电平；最终听感要用 `docs/nova-audio-listening-qa.md` 逐场景勾选，不能把机器热峰为 0 当成创意审批通过。
