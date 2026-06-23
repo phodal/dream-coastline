@@ -30,11 +30,14 @@ the gap between the playable 8-scene route and a public release candidate.
   generated timelines, and the visible Dialogic smokes prove native playback can
   write flags back and return to the Nova action menu.
 - Save/menu coverage: `--smoke-nova-save-continue`,
-  `--smoke-nova-pause-flow`, and the live input check prove title entry,
-  pause/resume, save, return-to-title, and continue-from-title paths.
+  `--smoke-nova-gamepad-continue`, `--smoke-nova-pause-flow`, and the live
+  input check prove title entry, pause/resume, save, return-to-title, and
+  continue-from-title paths.
 - Controller automation: `--smoke-nova-gamepad-route` covers the full
-  257-command action-menu route, and `--smoke-nova-gamepad-pause-flow` covers
-  joypad pause, save, resume, and return-to-title navigation.
+  257-command action-menu route, `--smoke-nova-gamepad-continue` covers
+  title-screen save restoration through joypad input, and
+  `--smoke-nova-gamepad-pause-flow` covers joypad pause, save, resume, and
+  return-to-title navigation.
 - Release export: `desktop-release-exports` produces macOS, Windows, and Linux
   artifacts, validates expected binaries/packs, and scans export logs for
   forbidden packaged resources.

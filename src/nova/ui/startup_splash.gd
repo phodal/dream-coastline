@@ -6,6 +6,7 @@ signal continue_requested
 const SPLASH_IMAGE := "res://assets/branding/dream-coastline-title-loop.png"
 const FALLBACK_IMAGE := "res://assets/branding/dream-coastline-splash.png"
 const ICON_IMAGE := "res://assets/branding/dream-coastline-icon.png"
+const JOYPAD_BUTTON_X_INDEX := 2
 
 var _continue_enabled := false
 var _dismissed := false
@@ -81,17 +82,22 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if handle_startup_input(event):
+		get_viewport().set_input_as_handled()
+
+
+func handle_startup_input(event: InputEvent) -> bool:
 	if _dismissed or not visible:
-		return
+		return false
 	if _timer < _min_duration:
-		return
+		return false
 	if _continue_enabled and _is_continue_event(event):
 		_complete(true)
-		get_viewport().set_input_as_handled()
-		return
+		return true
 	if event.is_action_pressed("ui_accept") or event.is_action_pressed("interact") or event is InputEventMouseButton:
 		dismiss()
-		get_viewport().set_input_as_handled()
+		return true
+	return false
 
 
 func configure_continue(enabled: bool) -> void:
@@ -117,11 +123,16 @@ func _complete(continue_game: bool) -> void:
 func _refresh_subtitle() -> void:
 	if _subtitle == null:
 		return
-	_subtitle.text = "Enter / Space 新游戏 · C 继续" if _continue_enabled else "按 Enter / Space 开始"
+	_subtitle.text = "Enter / A 新游戏 · C / X 继续" if _continue_enabled else "按 Enter / A 开始"
 
 
 func _is_continue_event(event: InputEvent) -> bool:
+	if event.is_action_pressed("continue_game"):
+		return true
 	if event is InputEventKey:
 		var key_event := event as InputEventKey
 		return key_event.pressed and not key_event.echo and key_event.keycode == KEY_C
+	if event is InputEventJoypadButton:
+		var joypad_event := event as InputEventJoypadButton
+		return joypad_event.pressed and joypad_event.button_index == JOYPAD_BUTTON_X_INDEX
 	return false

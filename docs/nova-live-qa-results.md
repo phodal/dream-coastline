@@ -13,6 +13,7 @@ python3 tools/run_automated_tests.py --tier quick
 python3 tools/run_automated_tests.py --only smoke-nova-ui-manual-route
 python3 tools/run_automated_tests.py --only smoke-nova-keyboard-route
 python3 tools/run_automated_tests.py --only smoke-nova-gamepad-route
+python3 tools/run_automated_tests.py --only smoke-nova-gamepad-continue
 python3 tools/run_automated_tests.py --only smoke-nova-gamepad-pause-flow
 python3 tools/run_automated_tests.py --only playable-backdrops
 python3 tools/run_automated_tests.py --only smoke-dialogic-runtime
@@ -41,6 +42,9 @@ Results:
 - Headless Nova gamepad-route smoke passed via joypad D-pad/A events and the
   project `move_down` / `interact` bindings: `scenes=8`, `commands=257`,
   `flags=205`, `current=07-lights-on-again/lab`.
+- Headless Nova gamepad continue smoke passed from the title splash via joypad
+  X after creating a save: `scene=00-prologue-lights-out`, `location=building`,
+  `flag=true`.
 - Headless Nova gamepad pause-flow smoke passed via joypad B/D-pad/A events:
   `saved=true`, `scene=00-prologue-lights-out`, `location=street`,
   `mode=menu`.

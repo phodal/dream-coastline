@@ -862,6 +862,12 @@ STEPS: list[Step] = [
         godot_smoke("--smoke-nova-save-continue", expected_output="nova-save-continue-smoke status=PASS"),
     ),
     Step(
+        "smoke-nova-gamepad-continue",
+        "quick",
+        "validate title-screen continue restoration through gamepad input",
+        godot_smoke("--smoke-nova-gamepad-continue", expected_output="nova-gamepad-continue-smoke status=PASS"),
+    ),
+    Step(
         "smoke-nova-pause-flow",
         "quick",
         "validate Nova pause, save, resume, and return-to-title flow",

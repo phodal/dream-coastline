@@ -75,6 +75,8 @@ the repo data is structurally wrong.
   read story and visual JSON.
 - Run `--smoke-nova-save-continue` to prove the Nova-native save payload can
   restore scene, location, and story flags without the legacy OpenRPG save path.
+- Run `--smoke-nova-gamepad-continue` to prove the title splash can restore a
+  saved Nova route through joypad input, not only keyboard `C`.
 - Run `--smoke-nova-pause-flow` to prove pause, manual save, resume, and
   return-to-title are handled by Nova UI instead of direct process exit.
 - Run `--smoke-nova-gamepad-pause-flow` to send joypad B/D-pad/A events through
@@ -228,6 +230,8 @@ sign-off.
 those choices.
 `smoke-nova-gamepad-route` proves the same menu route through joypad D-pad/A
 button events and the project `move_down` / `interact` action bindings.
+`smoke-nova-gamepad-continue` proves a saved game can be restored from the title
+screen with a joypad button instead of requiring keyboard `C`.
 `smoke-nova-gamepad-pause-flow` covers joypad pause, save, resume, and
 return-to-title navigation.
 `smoke-nova-keyboard-dialogic` proves a keyboard-selected action can enter

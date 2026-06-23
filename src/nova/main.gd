@@ -11,6 +11,7 @@ const SaveRepositoryScript := preload("res://src/nova/data/save_repository.gd")
 const AudioDirectorScript := preload("res://scripts/core/audio_director.gd")
 const JOYPAD_BUTTON_A := 0
 const JOYPAD_BUTTON_B := 1
+const JOYPAD_BUTTON_X := 2
 const JOYPAD_BUTTON_DPAD_DOWN := 12
 
 var director
@@ -112,6 +113,8 @@ func _ready() -> void:
 		call_deferred("_run_gamepad_route_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-save-continue"):
 		call_deferred("_run_save_continue_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-gamepad-continue"):
+		call_deferred("_run_gamepad_continue_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-pause-flow"):
 		call_deferred("_run_pause_flow_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-gamepad-pause-flow"):
@@ -320,6 +323,7 @@ func _can_write_save() -> bool:
 	var args := OS.get_cmdline_user_args()
 	return (
 		args.has("--smoke-nova-save-continue")
+		or args.has("--smoke-nova-gamepad-continue")
 		or args.has("--smoke-nova-pause-flow")
 		or args.has("--smoke-nova-gamepad-pause-flow")
 		or not _is_automation_run()
@@ -330,6 +334,8 @@ func _nova_save_path() -> String:
 	var args := OS.get_cmdline_user_args()
 	if args.has("--smoke-nova-save-continue"):
 		return "user://nova_save_smoke.json"
+	if args.has("--smoke-nova-gamepad-continue"):
+		return "user://nova_gamepad_continue_smoke.json"
 	if args.has("--smoke-nova-pause-flow"):
 		return "user://nova_pause_smoke.json"
 	if args.has("--smoke-nova-gamepad-pause-flow"):
@@ -457,6 +463,60 @@ func _run_save_continue_smoke() -> void:
 	if save_repository != null:
 		save_repository.clear()
 	print("nova-save-continue-smoke status=%s scene=%s location=%s flag=%s" % [
+		"PASS" if ok else "FAIL",
+		GameState.current_scene_id,
+		GameState.current_location_id,
+		str(StoryFlags.has_flag("noticed_dark_window")),
+	])
+	get_tree().quit(0 if ok else 1)
+
+
+func _run_gamepad_continue_smoke() -> void:
+	if save_repository != null:
+		save_repository.clear()
+	StoryFlags.reset()
+	var first_scene: String = director.story_repository.first_scene_id()
+	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
+	for flag in director.story_repository.get_initial_flags(first_scene):
+		StoryFlags.set_flag(str(flag), true)
+	_restore_quest_status(first_scene)
+	director.present_current_location()
+
+	var ok := _smoke_inspect("window")
+	ok = ok and director.move_to("building")
+	if ok:
+		_save_current_state()
+	var saved: Dictionary = save_repository.load_game() if save_repository != null else {}
+	ok = ok and str(saved.get("scene_id", "")) == "00-prologue-lights-out"
+	ok = ok and str(saved.get("location_id", "")) == "building"
+
+	GameState.start_scene("03-dead-kingdom", "library")
+	_restore_quest_status("03-dead-kingdom")
+	director.present_current_location()
+	if startup_splash != null:
+		startup_splash.queue_free()
+	startup_splash = StartupSplashScript.new()
+	startup_splash.name = "StartupSplash"
+	startup_splash.continue_requested.connect(_on_splash_continue_requested)
+	add_child(startup_splash)
+	await get_tree().process_frame
+	startup_splash.configure_continue(true)
+	startup_splash._timer = 2.0
+	var continue_event := _joypad_button_event(JOYPAD_BUTTON_X)
+	var event_matches: bool = startup_splash._is_continue_event(continue_event)
+	if not event_matches:
+		push_warning("Nova gamepad continue smoke event did not match continue_game")
+	var handled: bool = event_matches and startup_splash.handle_startup_input(continue_event)
+	if not handled:
+		push_warning("Nova gamepad continue smoke did not handle startup input")
+
+	ok = ok and handled
+	ok = ok and GameState.current_scene_id == "00-prologue-lights-out"
+	ok = ok and GameState.current_location_id == "building"
+	ok = ok and StoryFlags.has_flag("noticed_dark_window")
+	if save_repository != null:
+		save_repository.clear()
+	print("nova-gamepad-continue-smoke status=%s scene=%s location=%s flag=%s" % [
 		"PASS" if ok else "FAIL",
 		GameState.current_scene_id,
 		GameState.current_location_id,

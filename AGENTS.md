@@ -65,6 +65,7 @@
 - 需要给完整 walkthrough 做逐行视觉证据时用 `--capture-scope route-full`；它应按 scene step + command 校验 257 张截图，不能拿 25 张 checkpoint contact sheet 冒充逐行验收。
 - 生成大量 review 截图后要确保 `artifacts/.gdignore` 仍在；否则 Godot editor import 会扫描几百张 PNG，让 quick gate 变慢并产生无意义 `.import` 噪声。
 - 手柄支持不能只配 `project.godot` input map；探索/暂停菜单也要监听 `move_up` / `move_down`，并用 `InputEventJoypadButton` 的 gamepad route 和 gamepad pause-flow smoke 验证真实绑定。
+- 标题页继续存档不能只支持键盘 `C`；手柄继续要有专门 smoke（`smoke-nova-gamepad-continue`），否则 return-to-title 后实体手柄会卡在只能开新局。
 - 鼠标体验不能只靠 UI route 直接 emit；要用 `smoke-nova-mouse-route` 走按钮 click 语义，真实窗口再补 hover/click 手感观察。
 - 音频审计要沿用 runtime 缺失规则：`sample_generation: false` 和 planned action voice 不是失败；长音乐热峰先记录为 mastering warning，不能和缺文件/import 错误混在一起。
 - 批量生成 playable backdrop 后要跑 Godot editor import 保留 `.png.import`，再用 `playable-backdrops` 和 `route-full-screenshots` 确认 JSON 没指回 `story_review` 且运行时真能加载。
