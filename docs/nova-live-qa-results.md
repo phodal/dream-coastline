@@ -1,5 +1,40 @@
 # Nova Live QA Results
 
+## 2026-06-23 Live Window Partial QA Refresh
+
+Commands:
+
+```bash
+/Applications/Godot.app/Contents/MacOS/Godot --path /Users/phodal/game/dream-coastline
+```
+
+Computer Use check:
+
+- Title splash accepted `Return` and entered the Nova gameplay screen.
+- The first live gameplay screen was `居民楼外`, with player-facing action
+  labels for `调查 自家窗户`, `调查 寻人启事`, `调查 自动售货机`, and
+  `前往 居民楼门口`.
+- The initial gameplay HUD did not show raw story flags, hotspot markers, or
+  debug overlays.
+- The first action accepted `Return`, opened the story/Dialogic-style text
+  layer with a character portrait, advanced through multiple `Return` inputs,
+  and returned to the action menu.
+- Pause opened with `Escape`, preserved the Nova scene as a dimmed backdrop,
+  resumed with `Return`, and restored the action-menu focus.
+- Pause save selected through the real keyboard focus path, showed `已保存`,
+  returned to title through the pause menu, and `C` from the title restored the
+  saved gameplay state.
+
+Remaining manual QA:
+
+- This refresh covers the first route action plus the title, pause, save,
+  return-to-title, and continue paths in a visible Godot window. It is still a
+  partial live-window QA pass, not a row-by-row completion of the 257-command
+  route in `docs/nova-full-route-manual-qa.md`.
+- The remaining human QA is the full 8-scene visible route pass against the
+  checklist rows, plus the separate physical-controller live-window pass and
+  final creative approvals for art/audio.
+
 ## 2026-06-18 Live Window Refresh
 
 Commands:

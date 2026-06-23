@@ -6,6 +6,13 @@ issue #6, not a replacement for headless smoke tests.
 
 Current entrypoint: `res://src/nova/main.tscn`
 
+Manual QA progress:
+
+- 2026-06-23 partial live-window refresh covered title entry, first action
+  Dialogic/text playback, pause/resume, pause save, return-to-title, and
+  keyboard continue from title. The complete 8-scene, 257-command live route is
+  still not checked row-by-row.
+
 Recommended setup:
 
 ```sh
@@ -26,11 +33,11 @@ live-window observation.
 
 Global acceptance:
 
-- [ ] Start from the title splash and enter Nova with Enter/Space.
-- [ ] First Dialogic payload advances and returns to the Nova action menu.
+- [x] Start from the title splash and enter Nova with Enter/Space.
+- [x] First Dialogic payload advances and returns to the Nova action menu.
 - [ ] Complete all 8 scenes in order without input deadlock.
-- [ ] Save/continue works after at least one mid-route save.
-- [ ] Pause/resume and return-to-title work during exploration.
+- [x] Save/continue works after at least one mid-route save.
+- [x] Pause/resume and return-to-title work during exploration.
 - [ ] No legacy `res://src/main.tscn` / DreamField/OpenRPG entry is used for this route.
 - [ ] Record any visual, audio, or input issue against the scene and command step below.
 
@@ -591,4 +598,3 @@ Scene acceptance:
 - [ ] Action menu focus returns after each dialogue/action payload.
 - [ ] Pause, resume, save, and return-to-title do not corrupt the current scene.
 - [ ] Ending flag `found_parent_bridge_trace` is reached before moving to the next scene.
-
