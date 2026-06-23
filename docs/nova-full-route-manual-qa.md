@@ -10,7 +10,8 @@ Manual QA progress:
 
 - 2026-06-23 partial live-window refresh covered title entry, first action
   Dialogic/text playback, pause/resume, pause save, return-to-title, and
-  keyboard continue from title. The complete 8-scene, 257-command live route is
+  keyboard continue from title. It also completed the prologue live route to
+  `01-illiterate/mud_road`; the complete 8-scene, 257-command live route is
   still not checked row-by-row.
 
 Recommended setup:
@@ -91,11 +92,11 @@ Live-window route:
 
 Scene acceptance:
 
-- [ ] Scene starts from the expected location after previous scene completion.
-- [ ] Dialogic text can be advanced with Enter/Space or click when dialogue is active.
-- [ ] Action menu focus returns after each dialogue/action payload.
-- [ ] Pause, resume, save, and return-to-title do not corrupt the current scene.
-- [ ] Ending flag `entered_moqi` is reached before moving to the next scene.
+- [x] Scene starts from the expected location after previous scene completion.
+- [x] Dialogic text can be advanced with Enter/Space or click when dialogue is active.
+- [x] Action menu focus returns after each dialogue/action payload.
+- [x] Pause, resume, save, and return-to-title do not corrupt the current scene.
+- [x] Ending flag `entered_moqi` is reached before moving to the next scene.
 
 ## 01-illiterate - 第一幕：不会写字的人
 

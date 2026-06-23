@@ -24,13 +24,31 @@ Computer Use check:
 - Pause save selected through the real keyboard focus path, showed `已保存`,
   returned to title through the pause menu, and `C` from the title restored the
   saved gameplay state.
+- Continued the visible-window route through all 20 prologue commands across
+  the six prologue locations: `居民楼外`, `居民楼门口`, `家门口`, `客厅`,
+  `父母书房`, and `纪子轩房间`. The route ended by triggering `黑色钢笔`.
+- Because this pass resumed from an earlier partial save, the first required
+  flag `noticed_dark_window` was missing until `自家窗户` was replayed at the
+  end of the session. After that replay, the visible window advanced from
+  `00-prologue-lights-out` to `01-illiterate` at `mud_road`.
+- The live save file confirmed `scene_id=01-illiterate`,
+  `location_id=mud_road`, and both `entered_moqi` and `noticed_dark_window`
+  persisted.
+
+Issues found:
+
+- Quitting the visible Godot session through macOS after the route check crashed
+  with `signal 11` during Godot cleanup (`ObjectDB::cleanup` /
+  `GDScriptInstance::~GDScriptInstance`). The route state was saved before the
+  crash, but release QA should still verify the player-facing quit path does
+  not crash.
 
 Remaining manual QA:
 
-- This refresh covers the first route action plus the title, pause, save,
+- This refresh covers the first scene route, title, pause, save,
   return-to-title, and continue paths in a visible Godot window. It is still a
-  partial live-window QA pass, not a row-by-row completion of the 257-command
-  route in `docs/nova-full-route-manual-qa.md`.
+  partial live-window QA pass, not a row-by-row completion of the full
+  257-command route in `docs/nova-full-route-manual-qa.md`.
 - The remaining human QA is the full 8-scene visible route pass against the
   checklist rows, plus the separate physical-controller live-window pass and
   final creative approvals for art/audio.
