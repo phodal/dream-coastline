@@ -50,6 +50,7 @@
 - 旧 `tools/record_story_review.py` 仍是 DreamField/OpenRPG 录像器；必须要求显式 legacy flag，避免它默认启动 `res://src/main.tscn` 后把旧入口错误误判成 Nova 流程失败。
 - 8 幕真实窗口验收不要手写散落步骤；从 `data/story_scenes` 生成 `docs/nova-full-route-manual-qa.md`，再按实际窗口结果勾选和记录卡点。
 - `docs/nova-full-route-manual-qa.md` 是 quick gate 校验的生成文件；真人路线 QA 勾选进度要写到 `docs/nova-full-route-manual-progress.json` 后重新生成，不要直接手改 checklist。
+- `docs/nova-full-route-manual-progress.json` 不能只把全局 full-route 勾成 true；必须所有 scene acceptance 都完整勾选后，生成器才允许全局通关，避免真人 QA 假绿。
 - Nova 的 `data/visual_scenes` 15x9 坐标不能直接当插画热点覆盖到玩家画面；默认不要显示 hotspot/debug flag，除非显式用调试开关打开。
 - Godot release export 不能只看命令成功或 PCK 字符串；要检查 `export_presets.cfg` 排除项和导出日志 `Storing File`，防止 editor-only、artifacts、builds、target 混进玩家包。
 - Godot 导出体积正常也可能把 `.godot` 缓存、日志或本地配置打进包；release gate 要保存并扫描 export log，而不是只检查 zip/exe/pck 存在。

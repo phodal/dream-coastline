@@ -216,6 +216,12 @@ python3 tools/build_nova_manual_route_checklist.py
 python3 tools/build_nova_manual_route_checklist.py --check
 ```
 
+Manual checkbox state lives in
+[`docs/nova-full-route-manual-progress.json`](nova-full-route-manual-progress.json).
+The generator validates this progress file before rendering the checklist:
+unknown keys, non-boolean checkbox values, or a global full-route pass without
+all scene acceptance checks will fail `--check`.
+
 Use this checklist for the issue #6 full 8-scene manual pass. Headless
 `smoke-nova-all-scenes` proves automated progression, and
 `smoke-nova-manual-route` proves the authored walkthrough commands still replay

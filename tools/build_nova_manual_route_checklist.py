@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -171,6 +172,61 @@ def render_scene_acceptance(progress: dict[str, Any], scene_id: str, ending_flag
     return "\n".join(rows)
 
 
+def validate_progress(progress: dict[str, Any], scene_ids: list[str]) -> list[str]:
+    failures: list[str] = []
+    known_global_keys = {key for key, _label in GLOBAL_ACCEPTANCE_ITEMS}
+    known_scene_keys = {key for key, _label in SCENE_ACCEPTANCE_ITEMS}
+
+    notes = progress.get("progress_notes", [])
+    if "progress_notes" in progress and not isinstance(notes, list):
+        failures.append("progress_notes must be a list")
+    elif any(not isinstance(note, str) for note in notes):
+        failures.append("progress_notes entries must be strings")
+
+    global_acceptance = progress.get("global_acceptance", {})
+    if "global_acceptance" in progress and not isinstance(global_acceptance, dict):
+        failures.append("global_acceptance must be an object")
+        global_acceptance = {}
+    for key, value in global_acceptance.items():
+        if key not in known_global_keys:
+            failures.append(f"global_acceptance has unknown key: {key}")
+        elif not isinstance(value, bool):
+            failures.append(f"global_acceptance.{key} must be true or false")
+
+    scene_acceptance = progress.get("scene_acceptance", {})
+    if "scene_acceptance" in progress and not isinstance(scene_acceptance, dict):
+        failures.append("scene_acceptance must be an object")
+        scene_acceptance = {}
+    known_scene_ids = set(scene_ids)
+    for scene_id, scene_progress in scene_acceptance.items():
+        if scene_id not in known_scene_ids:
+            failures.append(f"scene_acceptance has unknown scene: {scene_id}")
+            continue
+        if not isinstance(scene_progress, dict):
+            failures.append(f"scene_acceptance.{scene_id} must be an object")
+            continue
+        for key, value in scene_progress.items():
+            if key not in known_scene_keys:
+                failures.append(f"scene_acceptance.{scene_id} has unknown key: {key}")
+            elif not isinstance(value, bool):
+                failures.append(f"scene_acceptance.{scene_id}.{key} must be true or false")
+
+    if global_acceptance.get("full_route_no_deadlock") is True:
+        incomplete = []
+        for scene_id in scene_ids:
+            scene_progress = scene_acceptance.get(scene_id, {})
+            if not isinstance(scene_progress, dict) or not all(scene_progress.get(key) is True for key in known_scene_keys):
+                incomplete.append(scene_id)
+        if incomplete:
+            failures.append(
+                "global_acceptance.full_route_no_deadlock requires all scene acceptance checks; "
+                + "missing complete scenes: "
+                + ", ".join(incomplete)
+            )
+
+    return failures
+
+
 def build_markdown(progress: dict[str, Any] | None = None) -> str:
     progress = progress or {}
     scene_sections: list[str] = []
@@ -260,7 +316,13 @@ def main() -> int:
     progress = args.progress.expanduser()
     if not progress.is_absolute():
         progress = ROOT / progress
-    markdown = build_markdown(load_progress(progress)).rstrip() + "\n"
+    progress_data = load_progress(progress)
+    progress_failures = validate_progress(progress_data, [path.stem for path in scene_paths()])
+    if progress_failures:
+        for failure in progress_failures:
+            print(f"nova-manual-route-checklist: {failure}", file=sys.stderr)
+        return 1
+    markdown = build_markdown(progress_data).rstrip() + "\n"
     if args.check:
         if not output.exists():
             print(f"nova-manual-route-checklist: missing {output.relative_to(ROOT)}")
