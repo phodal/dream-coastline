@@ -49,6 +49,7 @@
 - 视觉截图不能只生成 contact sheet；要用 manifest gate 校验 Nova 入口、覆盖范围、asset-backed、PNG 文件和 `index.html`，否则很容易把“有图”误判成“可 review”。
 - 旧 `tools/record_story_review.py` 仍是 DreamField/OpenRPG 录像器；必须要求显式 legacy flag，避免它默认启动 `res://src/main.tscn` 后把旧入口错误误判成 Nova 流程失败。
 - 8 幕真实窗口验收不要手写散落步骤；从 `data/story_scenes` 生成 `docs/nova-full-route-manual-qa.md`，再按实际窗口结果勾选和记录卡点。
+- `docs/nova-full-route-manual-qa.md` 是 quick gate 校验的生成文件；真人路线 QA 勾选进度要写到 `docs/nova-full-route-manual-progress.json` 后重新生成，不要直接手改 checklist。
 - Nova 的 `data/visual_scenes` 15x9 坐标不能直接当插画热点覆盖到玩家画面；默认不要显示 hotspot/debug flag，除非显式用调试开关打开。
 - Godot release export 不能只看命令成功或 PCK 字符串；要检查 `export_presets.cfg` 排除项和导出日志 `Storing File`，防止 editor-only、artifacts、builds、target 混进玩家包。
 - Godot 导出体积正常也可能把 `.godot` 缓存、日志或本地配置打进包；release gate 要保存并扫描 export log，而不是只检查 zip/exe/pck 存在。
@@ -73,3 +74,4 @@
 - 截图 manifest 要记录并 gate `hotspot_markers_visible=false`、`debug_flags_visible=false` 和 `/playable/` backdrop；不要只靠肉眼说“没有调试层”或“不是章节图”。
 - 程序生成的 playable backdrop 只解决运行时缺图；最终美术替换要走 `data/playable_backdrop_imagen_manifest.json` 的 `PBG-*` 任务，用 Imagen 参考当前 playable PNG 和 story-review 风格图逐张替换。
 - `audio-mix-audit` 只证明文件、import、时长和电平；最终听感要用 `docs/nova-audio-listening-qa.md` 逐场景勾选，不能把机器热峰为 0 当成创意审批通过。
+- Dialogic autoload 只要初始化，Godot 退出就可能打印 `ObjectDB instances leaked` / `resources still in use`；玩家退出 gate 应检查 `status=PASS` 和 `Program crashed with signal`，不要把已知 autoload warning 和真实崩溃混为一谈。

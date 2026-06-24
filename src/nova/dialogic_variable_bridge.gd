@@ -78,3 +78,12 @@ func _ensure_dialogic_flags_namespace() -> void:
 		_dialogic.current_state_info["variables"] = {}
 	if not _dialogic.current_state_info["variables"].has(FLAGS_NAMESPACE):
 		_dialogic.current_state_info["variables"][FLAGS_NAMESPACE] = {}
+
+
+func shutdown() -> void:
+	if StoryFlags.flag_changed.is_connected(_on_story_flag_changed):
+		StoryFlags.flag_changed.disconnect(_on_story_flag_changed)
+	if _dialogic != null and _connected and _dialogic.signal_event.is_connected(_on_dialogic_signal_event):
+		_dialogic.signal_event.disconnect(_on_dialogic_signal_event)
+	_dialogic = null
+	_connected = false

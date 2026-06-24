@@ -42,6 +42,13 @@ Issues found:
   `GDScriptInstance::~GDScriptInstance`). The route state was saved before the
   crash, but release QA should still verify the player-facing quit path does
   not crash.
+- Follow-up on 2026-06-24 added `--smoke-nova-player-quit`, routes the pause
+  menu quit and window close request through Nova shutdown, and disconnects the
+  Dialogic bridge before quitting. Headless and visible player-quit smokes
+  passed without crash diagnostics. Dialogic's project autoload still reports
+  `ObjectDB instances leaked` / `26 resources still in use` on any project
+  exit, including bare `--quit`, so those warnings are tracked separately from
+  player quit crashes.
 
 Remaining manual QA:
 

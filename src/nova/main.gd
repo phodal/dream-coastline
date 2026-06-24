@@ -29,10 +29,12 @@ var _dialogic_runtime_started_with_dialogic := false
 var _manual_route_attack_attempts: Dictionary = {}
 var _latest_cutscene_payload: Dictionary = {}
 var _suppress_runtime_dialogic := false
+var _quit_requested := false
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().auto_accept_quit = false
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	director = SceneDirectorScript.new()
 	director.name = "SceneDirector"
@@ -119,6 +121,8 @@ func _ready() -> void:
 		call_deferred("_run_pause_flow_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-gamepad-pause-flow"):
 		call_deferred("_run_gamepad_pause_flow_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-player-quit"):
+		call_deferred("_run_player_quit_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-assets"):
 		call_deferred("_run_asset_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-story-audio-targets"):
@@ -137,6 +141,11 @@ func _ready() -> void:
 		call_deferred("_capture_scene_screenshots")
 	elif OS.get_cmdline_user_args().has("--capture-nova-screenshot"):
 		call_deferred("_capture_screenshot")
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		_request_player_quit(0)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -253,8 +262,36 @@ func _return_to_title_from_pause() -> void:
 
 
 func _quit_from_pause() -> void:
+	_request_player_quit(0)
+
+
+func _request_player_quit(exit_code: int = 0) -> void:
+	if _quit_requested:
+		return
+	_quit_requested = true
 	_save_current_state()
-	get_tree().quit()
+	call_deferred("_quit_after_runtime_shutdown", exit_code)
+
+
+func _quit_after_runtime_shutdown(exit_code: int = 0) -> void:
+	await _shutdown_runtime()
+	get_tree().quit(exit_code)
+
+
+func _shutdown_runtime() -> void:
+	if dialogic_bridge != null and dialogic_bridge.has_method("shutdown"):
+		dialogic_bridge.shutdown()
+	if dialogic_variable_bridge != null and dialogic_variable_bridge.has_method("shutdown"):
+		dialogic_variable_bridge.shutdown()
+	var dialogic := get_node_or_null("/root/Dialogic")
+	if dialogic != null:
+		if dialogic.has_method("clear"):
+			await dialogic.clear()
+		var parent := dialogic.get_parent()
+		if parent != null:
+			parent.remove_child(dialogic)
+		dialogic.free()
+	await get_tree().process_frame
 
 
 func _show_startup_splash() -> void:
@@ -599,6 +636,22 @@ func _run_gamepad_pause_flow_smoke() -> void:
 		GameMode.current_mode,
 	])
 	get_tree().quit(0 if ok else 1)
+
+
+func _run_player_quit_smoke() -> void:
+	if save_repository != null:
+		save_repository.clear()
+	_reset_to_first_scene()
+	GameMode.set_mode(GameMode.EXPLORATION)
+	_open_pause()
+	var ok: bool = pause_overlay != null and pause_overlay.visible and GameMode.current_mode == GameMode.MENU
+	print("nova-player-quit-smoke status=%s scene=%s location=%s mode=%s" % [
+		"PASS" if ok else "FAIL",
+		GameState.current_scene_id,
+		GameState.current_location_id,
+		GameMode.current_mode,
+	])
+	_request_player_quit(0 if ok else 1)
 
 
 func _smoke_move(location_id: String) -> bool:

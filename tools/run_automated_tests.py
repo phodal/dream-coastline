@@ -100,6 +100,7 @@ class Runner:
         headless: bool = True,
         quit_after: int = 100,
         expected_output: str | None = None,
+        forbidden_output: tuple[str, ...] = (),
     ) -> int:
         command = [str(self.godot), "--path", str(ROOT)]
         if headless:
@@ -132,6 +133,10 @@ class Runner:
             print(result.stdout, end="" if result.stdout.endswith("\n") else "\n")
         if "SCRIPT ERROR:" in result.stdout or "Failed to load script" in result.stdout:
             return 1
+        for forbidden in forbidden_output:
+            if forbidden in result.stdout:
+                print(f"{step.id}: forbidden output present: {forbidden}", file=sys.stderr)
+                return 1
         if expected_output is not None and expected_output not in result.stdout:
             print(f"{step.id}: missing expected output: {expected_output}", file=sys.stderr)
             return 1
@@ -674,6 +679,17 @@ def godot_smoke(flag: str, *, quit_after: int = 100, expected_output: str | None
     return action
 
 
+def nova_player_quit_smoke(runner: Runner, step: Step) -> int:
+    return runner.run_godot(
+        step,
+        "--smoke-nova-player-quit",
+        expected_output="nova-player-quit-smoke status=PASS",
+        forbidden_output=(
+            "Program crashed with signal",
+        ),
+    )
+
+
 def render_frame(runner: Runner, step: Step) -> int:
     return runner.run_godot(
         step,
@@ -878,6 +894,12 @@ STEPS: list[Step] = [
         "quick",
         "validate Nova pause, save, resume, and return-to-title flow through gamepad input",
         godot_smoke("--smoke-nova-gamepad-pause-flow", expected_output="nova-gamepad-pause-flow-smoke status=PASS"),
+    ),
+    Step(
+        "smoke-nova-player-quit",
+        "quick",
+        "validate Nova player quit exits without crash diagnostics",
+        nova_player_quit_smoke,
     ),
     Step(
         "smoke-nova-assets",

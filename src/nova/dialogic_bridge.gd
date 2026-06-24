@@ -174,6 +174,15 @@ func _on_dialogic_timeline_ended() -> void:
 	finished.emit(payload)
 
 
+func shutdown() -> void:
+	set_process_input(false)
+	_active_payload.clear()
+	if _dialogic_node != null and _dialogic_node.timeline_ended.is_connected(_on_dialogic_timeline_ended):
+		_dialogic_node.timeline_ended.disconnect(_on_dialogic_timeline_ended)
+	_dialogic_node = null
+	variable_bridge = null
+
+
 func _is_raw_advance_event(event: InputEvent) -> bool:
 	if event is InputEventKey:
 		var key_event := event as InputEventKey

@@ -1,20 +1,20 @@
 # Nova Full-Route Manual QA
 
 This checklist is generated from `data/story_scenes/*.json` by
-`tools/build_nova_manual_route_checklist.py`. It is a live-window QA aid for
+`tools/build_nova_manual_route_checklist.py`. Manual progress is sourced from
+`docs/nova-full-route-manual-progress.json`. It is a live-window QA aid for
 issue #6, not a replacement for headless smoke tests.
 
 Current entrypoint: `res://src/nova/main.tscn`
 
 Manual QA progress:
 
-- 2026-06-23 partial live-window refresh covered title entry, first action
-  Dialogic/text playback, pause/resume, pause save, return-to-title, and
-  keyboard continue from title. It also completed the prologue live route to
-  `01-illiterate/mud_road`; the complete 8-scene, 257-command live route is
-  still not checked row-by-row.
+- 2026-06-23 partial live-window refresh covered title entry, first action Dialogic/text playback, pause/resume, pause save, return-to-title, and keyboard continue from title. It also completed the prologue live route to `01-illiterate/mud_road`; the complete 8-scene, 257-command live route is still not checked row-by-row.
 
 Recommended setup:
+
+To update checked manual progress, edit
+`docs/nova-full-route-manual-progress.json`, then regenerate this checklist.
 
 ```sh
 /Applications/Godot.app/Contents/MacOS/Godot --path .
