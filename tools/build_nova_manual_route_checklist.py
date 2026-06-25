@@ -111,15 +111,32 @@ def command_expectation(command: str) -> str:
     return "screen responds without input deadlock"
 
 
-def render_command_rows(commands: list[str], route_start_index: int) -> str:
+def observed_command_steps(progress: dict[str, Any], scene_id: str) -> set[int]:
+    observations = progress.get("command_observations", {})
+    if not isinstance(observations, dict):
+        return set()
+    steps = observations.get(scene_id, [])
+    if not isinstance(steps, list):
+        return set()
+    return {step for step in steps if isinstance(step, int)}
+
+
+def render_command_rows(
+    commands: list[str],
+    route_start_index: int,
+    progress: dict[str, Any],
+    scene_id: str,
+) -> str:
+    observed_steps = observed_command_steps(progress, scene_id)
     rows = [
-        "| Step | Route-full evidence key | Command | Expected live-window observation |",
-        "| ---: | --- | --- | --- |",
+        "| Step | Live observed | Route-full evidence key | Command | Expected live-window observation |",
+        "| ---: | --- | --- | --- | --- |",
     ]
     for index, command in enumerate(commands, 1):
         route_index = route_start_index + index
+        checked = "x" if index in observed_steps else " "
         rows.append(
-            f"| {index} | `route-full #{route_index:03d}` | `{command}` | {command_expectation(command)} |"
+            f"| {index} | [{checked}] | `route-full #{route_index:03d}` | `{command}` | {command_expectation(command)} |"
         )
     return "\n".join(rows)
 
@@ -172,10 +189,11 @@ def render_scene_acceptance(progress: dict[str, Any], scene_id: str, ending_flag
     return "\n".join(rows)
 
 
-def validate_progress(progress: dict[str, Any], scene_ids: list[str]) -> list[str]:
+def validate_progress(progress: dict[str, Any], scene_command_counts: dict[str, int]) -> list[str]:
     failures: list[str] = []
     known_global_keys = {key for key, _label in GLOBAL_ACCEPTANCE_ITEMS}
     known_scene_keys = {key for key, _label in SCENE_ACCEPTANCE_ITEMS}
+    scene_ids = list(scene_command_counts)
 
     notes = progress.get("progress_notes", [])
     if "progress_notes" in progress and not isinstance(notes, list):
@@ -211,6 +229,30 @@ def validate_progress(progress: dict[str, Any], scene_ids: list[str]) -> list[st
             elif not isinstance(value, bool):
                 failures.append(f"scene_acceptance.{scene_id}.{key} must be true or false")
 
+    command_observations = progress.get("command_observations", {})
+    if "command_observations" in progress and not isinstance(command_observations, dict):
+        failures.append("command_observations must be an object")
+        command_observations = {}
+    for scene_id, observed_steps in command_observations.items():
+        if scene_id not in known_scene_ids:
+            failures.append(f"command_observations has unknown scene: {scene_id}")
+            continue
+        if not isinstance(observed_steps, list):
+            failures.append(f"command_observations.{scene_id} must be a list")
+            continue
+        seen_steps: set[int] = set()
+        for value in observed_steps:
+            if type(value) is not int:
+                failures.append(f"command_observations.{scene_id} entries must be integer step numbers")
+                continue
+            if value < 1 or value > scene_command_counts[scene_id]:
+                failures.append(
+                    f"command_observations.{scene_id} step {value} is outside 1..{scene_command_counts[scene_id]}"
+                )
+            elif value in seen_steps:
+                failures.append(f"command_observations.{scene_id} repeats step {value}")
+            seen_steps.add(value)
+
     if global_acceptance.get("full_route_no_deadlock") is True:
         incomplete = []
         for scene_id in scene_ids:
@@ -222,6 +264,19 @@ def validate_progress(progress: dict[str, Any], scene_ids: list[str]) -> list[st
                 "global_acceptance.full_route_no_deadlock requires all scene acceptance checks; "
                 + "missing complete scenes: "
                 + ", ".join(incomplete)
+            )
+        incomplete_command_scenes = []
+        for scene_id, command_count in scene_command_counts.items():
+            observed_steps = set(command_observations.get(scene_id, []))
+            expected_steps = set(range(1, command_count + 1))
+            if observed_steps != expected_steps:
+                missing = len(expected_steps - observed_steps)
+                incomplete_command_scenes.append(f"{scene_id} ({missing} missing)")
+        if incomplete_command_scenes:
+            failures.append(
+                "global_acceptance.full_route_no_deadlock requires all live command observations; "
+                + "incomplete scenes: "
+                + ", ".join(incomplete_command_scenes)
             )
 
     return failures
@@ -254,7 +309,7 @@ Required flags:
 
 Live-window route:
 
-{render_command_rows(commands, route_start_index)}
+{render_command_rows(commands, route_start_index, progress, scene_id)}
 
 {render_scene_acceptance(progress, scene_id, ending_flag)}
 """
@@ -289,7 +344,8 @@ python3 tools/run_automated_tests.py --only route-full-screenshots --visual-styl
 This produces `artifacts/scene-screenshots/route-full-latest/index.html` and a
 manifest with one screenshot per walkthrough command. Use it to review row
 evidence. The route table below includes a stable `route-full #NNN` key that
-matches the manifest `command_index`, but only tick the manual checkboxes after
+matches the manifest `command_index`. The `Live observed` column is sourced
+from `command_observations` in the progress JSON; only mark rows after
 live-window observation.
 
 {render_global_acceptance(progress, len(scene_sections))}
@@ -317,7 +373,13 @@ def main() -> int:
     if not progress.is_absolute():
         progress = ROOT / progress
     progress_data = load_progress(progress)
-    progress_failures = validate_progress(progress_data, [path.stem for path in scene_paths()])
+    progress_failures = validate_progress(
+        progress_data,
+        {
+            str(load_json(path).get("id", path.stem)): len(load_json(path).get("walkthrough", []))
+            for path in scene_paths()
+        },
+    )
     if progress_failures:
         for failure in progress_failures:
             print(f"nova-manual-route-checklist: {failure}", file=sys.stderr)

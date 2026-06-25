@@ -220,7 +220,9 @@ Manual checkbox state lives in
 [`docs/nova-full-route-manual-progress.json`](nova-full-route-manual-progress.json).
 The generator validates this progress file before rendering the checklist:
 unknown keys, non-boolean checkbox values, or a global full-route pass without
-all scene acceptance checks will fail `--check`.
+all scene acceptance checks will fail `--check`. The route table's `Live
+observed` column is sourced from `command_observations`, and the global
+full-route pass also requires all 257 command rows to be observed.
 
 Use this checklist for the issue #6 full 8-scene manual pass. Headless
 `smoke-nova-all-scenes` proves automated progression, and
@@ -228,9 +230,9 @@ Use this checklist for the issue #6 full 8-scene manual pass. Headless
 in order. `smoke-nova-ui-manual-route` additionally proves the route is exposed
 through enabled Nova action-menu choices. `smoke-nova-mouse-route` proves those
 choices can be triggered through button click semantics.
-The checklist also includes `route-full #NNN` keys that match the
-`route-full-screenshots` manifest `command_index` values, so each manual row can
-be compared against the corresponding screenshot evidence before live-window
+The checklist includes `route-full #NNN` keys that match the
+`route-full-screenshots` manifest `command_index` values, so each live-observed
+manual row can be compared against the corresponding screenshot evidence before
 sign-off.
 `smoke-nova-keyboard-route` proves keyboard navigation can reach and trigger
 those choices.
