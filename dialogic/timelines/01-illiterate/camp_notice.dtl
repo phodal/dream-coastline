@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/camp.png"]
-旁白: 布告上的字像活墨一样抖动。你只看懂它们正在拒绝你。
+join jizi_xuan (phone) left
+旁白: 布告钉在最大一顶帐篷外，纸角盖着深红方印。每当你试着辨认，字便像活墨一样挪开。
+jizi_xuan: 路牌只是看不懂，这张纸却在主动躲我。
+旁白: 小砚指向方印，再把两根手指并成刀，在自己手腕前重重划过。附近的人立刻拉下袖口。
+jizi_xuan: 这是命令，也是威胁。那群士兵靠文字让所有人服从。
 [signal arg="set_flag:checked_refugee_notice"]
+leave jizi_xuan
 [end_timeline]

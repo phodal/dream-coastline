@@ -1,4 +1,13 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/camp.png"]
-旁白: 营地外有一串很轻的蹄印，旁边落着断裂名牌。小砚想喊它，却只发出一个缺了一半的音。
+join xiaoyan (default) left
+join jizi_xuan (phone) left
+旁白: 蹄印绕开帐篷和火堆，只在盛水的木碗旁停留。断裂名牌的一半还挂在低矮树枝上。
+xiaoyan: 阿……阿……
+旁白: 小砚想喊它，声音却卡在缺失的那个字上。林边的幼鹿随之缩紧身体，角上的残缺字根轻轻碰响。
+jizi_xuan: 它没有袭击营地。它在等有人把名字还给它。
+旁白: 你捡起半张名牌。背面刻着一道被强行削断的笔画，和布告方印里的纹路完全相同。
+jizi_xuan: 士兵夺走名字，布告让人不敢说出口。这个营地不是避难所，是下一批名单。
 [signal arg="set_flag:saw_lost_name_deer"]
+leave xiaoyan
+leave jizi_xuan
 [end_timeline]
