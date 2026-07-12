@@ -438,6 +438,45 @@
         "The subdued right side preserves clear contrast for five action rows."
       ],
       "human_approved": false
+    },
+    "PBG-01-CHASE": {
+      "scene_id": "01-illiterate",
+      "location_id": "chase",
+      "target_path": "res://assets/illustrations/playable/01-illiterate/chase.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/01-illiterate/chase.png",
+        "res://assets/illustrations/story_review/01-illiterate/04-chase-soldiers.png",
+        "res://assets/illustrations/story_review/01-illiterate/05-xiali-rescue.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "Two blade-drawing ink-law soldiers, the raised modern pen, Xiali opening a side gate, and the lit abandoned station form a clear pursuit-to-rescue route.",
+        "The scene contains no readable generated text, signage, or debug overlays.",
+        "The subdued right side preserves clear contrast for five action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-01-STATION": {
+      "scene_id": "01-illiterate",
+      "location_id": "station",
+      "target_path": "res://assets/illustrations/playable/01-illiterate/station.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/01-illiterate/station.png",
+        "res://assets/characters/creatures/creature_001_nameless_beast/habitat.png",
+        "res://assets/illustrations/story_review/01-illiterate/07-write-name.png",
+        "res://assets/illustrations/story_review/01-illiterate/08-nameplate-payoff.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The fragmented faceless outline, impossible blank doorway, blank broken nameplate, ink dish and watchful Xiali read as an identity-restoration encounter rather than a generic ghost fight.",
+        "All pseudo-calligraphy was removed; walls, nameplate and props contain no readable generated text.",
+        "The subdued right side preserves readable naming actions and the combat-resource summary."
+      ],
+      "human_approved": false
     }
   }
 }
