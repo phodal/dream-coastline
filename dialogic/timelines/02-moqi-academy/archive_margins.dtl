@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/archive.png"]
-旁白: 页边写着许多被删掉的教学注释：这个字曾经教给平民，后来又被划掉。纪子轩第一次看见知识被收回的痕迹。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiali (default) left
+旁白: 一本旧字典的正文很干净，页边却挤满不同年代的细字。墨色越旧，解释越接近日常经验。
+jizi_xuan: 这里写着“止”曾经用于护坡、接骨和阻止瘟疫扩散，后来为什么只剩军用封锁？
+wensu: 每次灾难后，官署都会把一种民间用法列为危险。收回教学权，再把幸存的方法登记成专有律文。
+xiali: 我受训时只学过如何用“止”困住目标。没人说村医曾用它稳定伤口。
+旁白: 另一页的“火”旁，平民炉具设计被整段刮去，只留下国书能源节点的标准写法。
+jizi_xuan: 知识不是自然失传，是先被记录、再被宣布不该由原来的人拥有。
+wensu: 页边批注就是收回过程留下的伤疤。读字典时别只问它保存了什么，也要问它删掉了谁。
 [signal arg="set_flag:understood_dictionary_margins"]
+leave jizi_xuan
+leave wensu
+leave xiali
 [end_timeline]

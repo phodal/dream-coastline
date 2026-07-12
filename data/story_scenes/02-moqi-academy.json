@@ -345,6 +345,16 @@
           "name": "三层文字",
           "time_seconds": 65,
           "flags": ["understood_text_layers"],
+          "characters": ["jizi_xuan", "wensu"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "藏书室最外层摆着账本、书信和菜谱；向内一圈是盖满官印的法册；中央石台只放着几页锁在玻璃下的薄纸。"},
+            {"speaker": "wensu", "text": "日常文字记录生活，律文字分配权限，真文字直接接近现实运行的接口。"},
+            {"speaker": "jizi_xuan", "text": "同一个“门”字，在三层里会有什么不同？"},
+            {"speaker": "wensu", "text": "日常层说那里有扇门；律文层决定谁能通过；真文层可以让原本没有门的地方出现出口。"},
+            {"speaker": "旁白", "text": "你想起讲堂里展开的门和驿站停止开合的门。相同字形背后，执行深度完全不同。"},
+            {"speaker": "jizi_xuan", "text": "问题不只是有人识字、有人不识字。还有人只能描述世界，有人却能规定甚至改写世界。"},
+            {"speaker": "wensu", "text": "这就是墨颀最不愿写进启蒙课的第一句话。"}
+          ],
           "text": "日常文字记录生活，律文字约束制度，真文字接近现实底层接口。"
         },
         "margins": {
@@ -352,12 +362,32 @@
           "time_seconds": 70,
           "requires": ["understood_text_layers"],
           "flags": ["understood_dictionary_margins"],
+          "characters": ["jizi_xuan", "wensu", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "一本旧字典的正文很干净，页边却挤满不同年代的细字。墨色越旧，解释越接近日常经验。"},
+            {"speaker": "jizi_xuan", "text": "这里写着“止”曾经用于护坡、接骨和阻止瘟疫扩散，后来为什么只剩军用封锁？"},
+            {"speaker": "wensu", "text": "每次灾难后，官署都会把一种民间用法列为危险。收回教学权，再把幸存的方法登记成专有律文。"},
+            {"speaker": "xiali", "text": "我受训时只学过如何用“止”困住目标。没人说村医曾用它稳定伤口。"},
+            {"speaker": "旁白", "text": "另一页的“火”旁，平民炉具设计被整段刮去，只留下国书能源节点的标准写法。"},
+            {"speaker": "jizi_xuan", "text": "知识不是自然失传，是先被记录、再被宣布不该由原来的人拥有。"},
+            {"speaker": "wensu", "text": "页边批注就是收回过程留下的伤疤。读字典时别只问它保存了什么，也要问它删掉了谁。"}
+          ],
           "text": "页边写着许多被删掉的教学注释：这个字曾经教给平民，后来又被划掉。纪子轩第一次看见知识被收回的痕迹。"
         },
         "cabinet": {
           "name": "封存柜",
           "time_seconds": 45,
           "flags": ["checked_dictionary_cabinet"],
+          "characters": ["jizi_xuan", "xiali", "wensu"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "中央封存柜里摆着最基础的教学字典，柜门封条却比真文字石台多了两层。"},
+            {"speaker": "jizi_xuan", "text": "里面不是危险真文，只是教人理解基础字。为什么保护得更严？"},
+            {"speaker": "wensu", "text": "真文数量有限，基础知识却能让很多人开始追问。对制度而言，后者扩散得更快。"},
+            {"speaker": "旁白", "text": "封条写着“未授权者不得授字”。授权名单最下方有夏离的旧编号，旁边盖着红色注销印。"},
+            {"speaker": "xiali", "text": "我曾经替墨律司收走村塾字册。名单里的老师被带走以后，这个编号就获得了一次晋升。"},
+            {"speaker": "jizi_xuan", "text": "所以你沉默，不是因为打不开柜子，是因为你以前站在封条另一边。"},
+            {"speaker": "xiali", "text": "打开它。我不需要你替我原谅，只需要这次别再让字典留在柜里。"}
+          ],
           "text": "柜门上的封条写着“未授权者不得授字”。夏离沉默了很久。"
         }
       },
@@ -367,6 +397,17 @@
           "requires": ["learned_door", "checked_dictionary_cabinet"],
           "flags": ["got_basic_dictionary"],
           "glyph_mastery": {"door": 1},
+          "characters": ["jizi_xuan", "xiali", "wensu"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "你没有把“门”写在柜锁上，而是沿封条逐句寻找它定义的通行对象。"},
+            {"speaker": "jizi_xuan", "text": "规则禁止“未授权者授字”，却没有禁止字典自己离开封存位置，也没有定义谁能搬运。"},
+            {"speaker": "wensu", "text": "这是漏洞，也是一项责任。绕开规则不等于规则消失，执契官会沿执行记录找到这里。"},
+            {"speaker": "旁白", "text": "你将“门”写在柜内与书架之间的空隙。两处空间短暂相接，基础字典无声滑到外层书架。"},
+            {"speaker": "xiali", "text": "没有破坏柜门，没有伪造授权。可在墨律司眼里，教出去的字本身就是罪证。"},
+            {"speaker": "jizi_xuan", "text": "那就把村民的维修记录夹进去。字典不只离开柜子，还带着它在现实里救过谁的证据。"},
+            {"speaker": "旁白", "text": "闻素将页边批注和修井方案一并装订。封存柜仍旧紧闭，看起来什么也没发生，只有知识已经换了位置。"},
+            {"speaker": "wensu", "text": "下一站是国书节点。那里会告诉你，谁在替整个墨颀决定哪些位置可以改变。"}
+          ],
           "text": "你写下“门”，不是破坏柜子，而是找到封条规则里的通行漏洞。基础字典到手。"
         }
       }

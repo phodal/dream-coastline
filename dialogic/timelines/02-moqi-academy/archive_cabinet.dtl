@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/archive.png"]
-旁白: 柜门上的封条写着“未授权者不得授字”。夏离沉默了很久。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 中央封存柜里摆着最基础的教学字典，柜门封条却比真文字石台多了两层。
+jizi_xuan: 里面不是危险真文，只是教人理解基础字。为什么保护得更严？
+wensu: 真文数量有限，基础知识却能让很多人开始追问。对制度而言，后者扩散得更快。
+旁白: 封条写着“未授权者不得授字”。授权名单最下方有夏离的旧编号，旁边盖着红色注销印。
+xiali: 我曾经替墨律司收走村塾字册。名单里的老师被带走以后，这个编号就获得了一次晋升。
+jizi_xuan: 所以你沉默，不是因为打不开柜子，是因为你以前站在封条另一边。
+xiali: 打开它。我不需要你替我原谅，只需要这次别再让字典留在柜里。
 [signal arg="set_flag:checked_dictionary_cabinet"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]

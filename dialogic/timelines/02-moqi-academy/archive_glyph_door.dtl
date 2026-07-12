@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/archive.png"]
-旁白: 你写下“门”，不是破坏柜子，而是找到封条规则里的通行漏洞。基础字典到手。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 你没有把“门”写在柜锁上，而是沿封条逐句寻找它定义的通行对象。
+jizi_xuan: 规则禁止“未授权者授字”，却没有禁止字典自己离开封存位置，也没有定义谁能搬运。
+wensu: 这是漏洞，也是一项责任。绕开规则不等于规则消失，执契官会沿执行记录找到这里。
+旁白: 你将“门”写在柜内与书架之间的空隙。两处空间短暂相接，基础字典无声滑到外层书架。
+xiali: 没有破坏柜门，没有伪造授权。可在墨律司眼里，教出去的字本身就是罪证。
+jizi_xuan: 那就把村民的维修记录夹进去。字典不只离开柜子，还带着它在现实里救过谁的证据。
+旁白: 闻素将页边批注和修井方案一并装订。封存柜仍旧紧闭，看起来什么也没发生，只有知识已经换了位置。
+wensu: 下一站是国书节点。那里会告诉你，谁在替整个墨颀决定哪些位置可以改变。
 [signal arg="set_flag:got_basic_dictionary"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]

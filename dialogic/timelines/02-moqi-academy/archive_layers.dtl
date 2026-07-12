@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/archive.png"]
-旁白: 日常文字记录生活，律文字约束制度，真文字接近现实底层接口。
+join jizi_xuan (phone) left
+join wensu (default) left
+旁白: 藏书室最外层摆着账本、书信和菜谱；向内一圈是盖满官印的法册；中央石台只放着几页锁在玻璃下的薄纸。
+wensu: 日常文字记录生活，律文字分配权限，真文字直接接近现实运行的接口。
+jizi_xuan: 同一个“门”字，在三层里会有什么不同？
+wensu: 日常层说那里有扇门；律文层决定谁能通过；真文层可以让原本没有门的地方出现出口。
+旁白: 你想起讲堂里展开的门和驿站停止开合的门。相同字形背后，执行深度完全不同。
+jizi_xuan: 问题不只是有人识字、有人不识字。还有人只能描述世界，有人却能规定甚至改写世界。
+wensu: 这就是墨颀最不愿写进启蒙课的第一句话。
 [signal arg="set_flag:understood_text_layers"]
+leave jizi_xuan
+leave wensu
 [end_timeline]
