@@ -109,6 +109,24 @@
         "The dark right aisle preserves action-menu contrast while the central prototype remains visible."
       ],
       "human_approved": false
+    },
+    "PBG-05-INDUSTRY": {
+      "scene_id": "05-century-continuation",
+      "location_id": "industry",
+      "target_path": "res://assets/illustrations/playable/05-century-continuation/industry.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/05-century-continuation/industry.png",
+        "res://assets/illustrations/story_review/05-century-continuation/atang-last-blueprint.png"
+      ],
+      "acceptance_observations": [
+        "Nova location capture passed at 1280x720 with asset_loaded=true and no fallback/debug markers.",
+        "Layered workshops, pump channels, material lifts, public-lit rooms, and maintained civic systems establish a century-scale industrial city.",
+        "The city reads as inhabited and historically accumulated rather than a single workshop or generic steampunk skyline.",
+        "The dark right skyline preserves action-menu contrast while the uncovered center retains urban scale."
+      ],
+      "human_approved": false
     }
   }
 }
