@@ -4,6 +4,9 @@ join jizi_xuan (phone) left
 jizi_xuan: 镜腿没有折，镜片也没摔花。他是自己摘下来放好的。
 旁白: 右侧镜片沾着一点干掉的黑墨，桌面对应的位置却没有墨瓶。
 jizi_xuan: 他看到的东西离得很近，近到墨会溅上眼镜。
+旁白: 你戴上眼镜。度数让房间立刻模糊，只有母亲笔记页边的淡墨线反而变得清楚。
+jizi_xuan: 父亲最后看的不是电脑。他在借镜片读纸上肉眼看不见的东西。
+旁白: 你摘下眼镜时，右镜片上的墨点已经从圆点伸成了一小段箭头。
 [signal arg="set_flag:checked_glasses"]
 leave jizi_xuan
 [end_timeline]

@@ -4,6 +4,9 @@ join jizi_xuan (phone) left
 jizi_xuan: 他出差也会让母亲代拿。报纸不该在这个时间还没送到。
 旁白: 你摸到箱底一圈潮湿的灰。旁边几户都塞得很满，只有自家像被人提前清理过。
 jizi_xuan: 不是没人回来。是有人不想留下日期。
+旁白: 广告纸的投递日期也被齐整地撕掉，撕口朝着同一个方向。
+jizi_xuan: 父亲查资料时会把日期圈起来。清掉日期，等于切断他留下的顺序。
+旁白: 你把最上面一张广告折起收进口袋，至少先保住这段没有日期的证据。
 [signal arg="set_flag:checked_mailbox"]
 leave jizi_xuan
 [end_timeline]

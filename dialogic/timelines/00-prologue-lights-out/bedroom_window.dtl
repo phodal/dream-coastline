@@ -4,6 +4,9 @@ join jizi_xuan (phone) left
 jizi_xuan: 纱窗锁扣从里面打开，窗台却没有脚印。
 旁白: 楼下街灯把树影投进来，影子每次摇过书桌，信纸上的空白就多一块。
 jizi_xuan: 不是风在吹纸。是纸上的东西正从窗外离开。
+旁白: 你关窗，空白扩散便停住；再推开一指，纸角立刻褪去一行。
+jizi_xuan: 窗外不是入口，是出口。有人用这间房把文字送到了别处。
+旁白: 你扣紧锁扣。玻璃上映出书桌后的影子，那里似乎多站着一个人，回头时却只剩钢笔。
 [signal arg="set_flag:checked_bedroom_window"]
 leave jizi_xuan
 [end_timeline]

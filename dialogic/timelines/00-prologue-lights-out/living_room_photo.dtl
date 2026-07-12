@@ -4,6 +4,9 @@ join jizi_xuan (phone) left
 jizi_xuan: 这是去年在海边拍的。父亲嫌风大，母亲笑他头发乱。
 旁白: 玻璃内侧多了一道细细的黑痕，正好从父母之间穿过。你用指甲刮不到它。
 jizi_xuan: 照片没有坏。被改动的是里面那一刻。
+旁白: 你把相框转向灯光。黑痕不是裂缝，而是一串极细的笔画，沿着父母的影子向外延伸。
+jizi_xuan: 他们不是被从照片里抹掉。有什么东西正顺着照片找他们。
+旁白: 你将相框正面朝下放回桌上。笔画在木面下仍隐约发亮。
 [signal arg="set_flag:checked_family_photo"]
 leave jizi_xuan
 [end_timeline]

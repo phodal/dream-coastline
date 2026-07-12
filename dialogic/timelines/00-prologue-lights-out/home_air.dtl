@@ -4,6 +4,9 @@ join jizi_xuan (phone) left
 jizi_xuan: 是母亲炖汤时会放的姜。她今晚确实做过饭。
 旁白: 气味没有焦糊，也没有煤气味。厨房像正常收了火，只是等吃饭的人同时离开了。
 jizi_xuan: 不是事故。至少不是发生在厨房里的事故。
+旁白: 你打开排风扇。扇叶转动时，黑暗里浮起一线淡墨味，和饭菜气味完全分开。
+jizi_xuan: 墨味来自屋里，不是楼道。父母失踪前已经把某样东西带回家。
+旁白: 你关掉排风扇。那线墨味仍朝书房方向缓慢移动。
 [signal arg="set_flag:smelled_cold_food"]
 leave jizi_xuan
 [end_timeline]
