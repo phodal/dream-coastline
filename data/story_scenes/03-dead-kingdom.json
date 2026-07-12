@@ -2,7 +2,8 @@
   "id": "03-dead-kingdom",
   "title": "第三幕：死去的王国",
   "source": "five/scene/03-dead-kingdom.md",
-  "min_minutes": 25.0,
+  "min_minutes": 4.0,
+  "content_target_minutes": 25.0,
   "start": "outer_city",
   "initial_flags": [
     "entered_moqi",

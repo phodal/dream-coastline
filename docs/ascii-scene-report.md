@@ -13,19 +13,21 @@ for scene in 00-prologue-lights-out 01-illiterate 02-moqi-academy 03-dead-kingdo
 done
 ```
 
-| Scene | Estimated playtime | Commands | Coverage | UI |
+| Scene | Evidence reading estimate | Long-form target | Commands | Coverage | UI |
 | --- | ---: | ---: | ---: | --- |
-| `00-prologue-lights-out` | 12.2 min | 20 | 9/9 | PASS |
-| `01-illiterate` | 15.4 min | 22 | 9/9 | PASS |
-| `02-moqi-academy` | 20.6 min | 27 | 10/10 | PASS |
-| `03-dead-kingdom` | 18.7 min | 23 | 8/8 | PASS |
-| `04-continuation-institute` | 28.0 min | 31 | 8/8 | PASS |
-| `05-century-continuation` | 22.8 min | 22 | 6/6 | PASS |
-| `06-return-star-plan` | 29.3 min | 29 | 8/8 | PASS |
-| `07-lights-on-again` | 32.4 min | 32 | 8/8 | PASS |
+| `00-prologue-lights-out` | 2.6 min | 10 min | 20 | 9/9 | PASS |
+| `01-illiterate` | 2.8 min | 15 min | 24 | 9/9 | PASS |
+| `02-moqi-academy` | 4.4 min | 25 min | 34 | 10/10 | PASS |
+| `03-dead-kingdom` | 4.1 min | 25 min | 29 | 8/8 | PASS |
+| `04-continuation-institute` | 4.6 min | 30 min | 33 | 8/8 | PASS |
+| `05-century-continuation` | 5.6 min | 35 min | 33 | 6/6 | PASS |
+| `06-return-star-plan` | 5.0 min | 35 min | 34 | 8/8 | PASS |
+| `07-lights-on-again` | 8.4 min | 45 min | 50 | 8/8 | PASS |
 
-All scenes pass the 5 minute minimum, completion coverage, and ASCII UI width
-gate.
+These are reading-density estimates, not observed playtime. The authored
+`time_seconds` values remain visible as beat-budget metadata but are no longer
+reported or gated as player time. Current evidence totals roughly 37 minutes
+against the 220-minute long-form target, so the content gap remains explicit.
 
 ## UI Notes
 

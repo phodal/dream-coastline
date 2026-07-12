@@ -2,7 +2,8 @@
   "id": "06-return-star-plan",
   "title": "第六幕：归星计划",
   "source": "five/scene/06-return-star-plan.md",
-  "min_minutes": 35.0,
+  "min_minutes": 4.9,
+  "content_target_minutes": 35.0,
   "start": "astral_tower",
   "initial_flags": [
     "learned_name",

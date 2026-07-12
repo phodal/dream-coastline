@@ -401,15 +401,19 @@ def run_walkthrough(scene: dict, commands: Iterable[str] | None = None) -> tuple
 def report(scene: dict, state: GameState) -> str:
     required = set(scene["required_flags"])
     missing = sorted(required - state.flags)
-    minutes = state.elapsed_seconds / 60
-    duration_ok = minutes >= float(scene["min_minutes"])
+    authored_minutes = state.elapsed_seconds / 60
+    evidence_minutes = evidence_reading_minutes(scene)
+    duration_ok = evidence_minutes >= float(scene["min_minutes"])
+    content_target = float(scene.get("content_target_minutes", scene["min_minutes"]))
     complete = state.ended and not missing
     lines = [
         f"Scene: {scene['id']} - {scene['title']}",
         f"Source: {scene['source']}",
-        f"Estimated playtime: {minutes:.1f} min ({state.elapsed_seconds}s)",
-        f"Minimum target: {scene['min_minutes']:.1f} min",
-        f"Duration gate: {'PASS' if duration_ok else 'FAIL'}",
+        f"Evidence reading estimate: {evidence_minutes:.1f} min (visible text + command overhead)",
+        f"Authored beat budget: {authored_minutes:.1f} min ({state.elapsed_seconds}s metadata; not observed playtime)",
+        f"Current density floor: {scene['min_minutes']:.1f} min",
+        f"Long-form content target: {content_target:.1f} min (gap {max(0.0, content_target - evidence_minutes):.1f} min)",
+        f"Evidence duration gate: {'PASS' if duration_ok else 'FAIL'}",
         f"Completion gate: {'PASS' if complete else 'FAIL'}",
         f"Required clue coverage: {len(required - set(missing))}/{len(required)}",
     ]
@@ -417,6 +421,21 @@ def report(scene: dict, state: GameState) -> str:
         lines.append("Missing flags: " + ", ".join(missing))
     lines.append("Walkthrough commands: " + str(len(state.log)))
     return "\n".join(lines)
+
+
+def evidence_reading_minutes(scene: dict) -> float:
+    visible_characters = 0
+    for location in scene.get("locations", {}).values():
+        for collection_name in ("items", "choices", "glyph_actions", "build_actions", "encounters", "combos"):
+            for record in location.get(collection_name, {}).values():
+                dialogue = record.get("dialogue", [])
+                if dialogue:
+                    visible_characters += sum(len(str(entry.get("text", ""))) for entry in dialogue if isinstance(entry, dict))
+                else:
+                    visible_characters += len(str(record.get("text", "")))
+    reading_minutes = visible_characters / 250.0
+    command_overhead_minutes = len(scene.get("walkthrough", [])) * 2.0 / 60.0
+    return reading_minutes + command_overhead_minutes
 
 
 def verify_ui(scene: dict) -> tuple[bool, list[str]]:
@@ -452,7 +471,7 @@ def main() -> int:
         if args.report or args.verify:
             print(report(scene, state))
         ui_ok, problems = verify_ui(scene)
-        duration_ok = state.elapsed_seconds / 60 >= float(scene["min_minutes"])
+        duration_ok = evidence_reading_minutes(scene) >= float(scene["min_minutes"])
         complete = state.ended and set(scene["required_flags"]).issubset(state.flags)
         if args.verify:
             if not ui_ok:

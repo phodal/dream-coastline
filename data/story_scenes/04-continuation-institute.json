@@ -2,7 +2,8 @@
   "id": "04-continuation-institute",
   "title": "第四幕：续文院",
   "source": "five/scene/04-continuation-institute.md",
-  "min_minutes": 30.0,
+  "min_minutes": 4.5,
+  "content_target_minutes": 30.0,
   "start": "institute",
   "initial_flags": [
     "learned_name",

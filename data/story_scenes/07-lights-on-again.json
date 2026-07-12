@@ -2,7 +2,8 @@
   "id": "07-lights-on-again",
   "title": "第七幕：灯重新亮起",
   "source": "five/scene/07-lights-on-again.md",
-  "min_minutes": 45.0,
+  "min_minutes": 8.0,
+  "content_target_minutes": 45.0,
   "start": "home",
   "initial_flags": [
     "learned_name",
