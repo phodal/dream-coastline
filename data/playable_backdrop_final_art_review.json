@@ -127,6 +127,60 @@
         "The dark right skyline preserves action-menu contrast while the uncovered center retains urban scale."
       ],
       "human_approved": false
+    },
+    "PBG-05-ASTRAL": {
+      "scene_id": "05-century-continuation",
+      "location_id": "astral",
+      "target_path": "res://assets/illustrations/playable/05-century-continuation/astral.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/05-century-continuation/astral.png",
+        "res://assets/illustrations/story_review/05-century-continuation/astral-engineering.png"
+      ],
+      "acceptance_observations": [
+        "Nova location capture passed at 1280x720 with asset_loaded=true and no fallback/debug markers.",
+        "Mechanical trackers, survey decks, calibration tables, shared observers, and a failed distant beacon read as public navigation engineering rather than magic.",
+        "Charts use abstract star points and lines without readable generated text; the moth motif remains understated.",
+        "The dark sky on the right preserves menu contrast while the instruments and skyline remain visible."
+      ],
+      "human_approved": false
+    },
+    "PBG-05-NETWORK": {
+      "scene_id": "05-century-continuation",
+      "location_id": "network",
+      "target_path": "res://assets/illustrations/playable/05-century-continuation/network.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/05-century-continuation/network.png",
+        "res://assets/illustrations/story_review/05-century-continuation/xiali-statebook-anchor.png"
+      ],
+      "acceptance_observations": [
+        "Nova location capture passed at 1280x720 with asset_loaded=true and no fallback/debug markers.",
+        "Branching cables, linked classroom windows, distributed terminals, and many maintainers read as a public knowledge network rather than a centralized control room.",
+        "The isolated desk in the right-side emptiness carries the private-anchor tension without depicting a named character.",
+        "Abstract node diagrams avoid readable generated text and remain legible beneath the UI composition."
+      ],
+      "human_approved": false
+    },
+    "PBG-05-STAR_TOWER": {
+      "scene_id": "05-century-continuation",
+      "location_id": "star_tower",
+      "target_path": "res://assets/illustrations/playable/05-century-continuation/star_tower.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/05-century-continuation/star_tower.png",
+        "res://assets/illustrations/story_review/05-century-continuation/modern-star-darkening.png"
+      ],
+      "acceptance_observations": [
+        "Nova location capture passed at 1280x720 with asset_loaded=true and no fallback/debug markers.",
+        "The summit platform, city-scale horizon, mechanical signal ring, service gantries, and open tactical floor establish an infrastructure crisis rather than a magical arena.",
+        "The beacon visibly loses segments into pale blankness while abstract instruments avoid readable generated text.",
+        "The right-side night sky preserves menu contrast and the battle resource panel remains readable."
+      ],
+      "human_approved": false
     }
   }
 }
