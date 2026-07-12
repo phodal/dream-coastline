@@ -343,6 +343,24 @@
         "The subdued right side preserves clear contrast for four action rows."
       ],
       "human_approved": false
+    },
+    "PBG-07-STREET": {
+      "scene_id": "07-lights-on-again",
+      "location_id": "street",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/street.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/07-lights-on-again/street.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/return-bridge-traveler.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "Dark residential bands, failed signals, cooperative residents, and the paper-and-battery temporary record node read as civic continuity work during a semantic blackout.",
+        "Storefronts and paper strips contain no readable generated text or brands.",
+        "The subdued right side preserves clear contrast and scrollable access for eleven action rows."
+      ],
+      "human_approved": false
     }
   }
 }
