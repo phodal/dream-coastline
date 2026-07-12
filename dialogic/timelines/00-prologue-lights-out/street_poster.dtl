@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/street.png"]
+join jizi_xuan (phone) left
 旁白: 纸边被风吹得发皱。照片还没看清，心里已经先空了一下。
+jizi_xuan: 启事贴得很新，胶带却已经被雨泡白了。
+旁白: 照片里的脸被折痕切开。姓名栏留着一片不自然的空，像打印机故意绕过了那里。
+jizi_xuan: 寻人启事怎么会没有名字？
 [signal arg="set_flag:saw_missing_poster"]
+leave jizi_xuan
 [end_timeline]

@@ -1,4 +1,10 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/building.png"]
+join jizi_xuan (phone) left
 旁白: 你拍了拍手，灯泡没有反应。黑暗停在头顶，像故意给谁留的位置。
+jizi_xuan: 你又咳了一声，比平时更用力。
+旁白: 楼上的灯被声音惊亮，脚下这一盏仍旧沉默。它不是坏了，更像拒绝承认这里有人。
+jizi_xuan: 爸？妈？能听见吗？
+旁白: 回答你的只有电梯井深处一次很轻的金属回响。
 [signal arg="set_flag:checked_voice_lamp"]
+leave jizi_xuan
 [end_timeline]

@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/building.png"]
+join jizi_xuan (phone) left
 旁白: 信箱里只有几张广告纸。父亲每天都会拿的报纸，不见了。
+jizi_xuan: 他出差也会让母亲代拿。报纸不该在这个时间还没送到。
+旁白: 你摸到箱底一圈潮湿的灰。旁边几户都塞得很满，只有自家像被人提前清理过。
+jizi_xuan: 不是没人回来。是有人不想留下日期。
 [signal arg="set_flag:checked_mailbox"]
+leave jizi_xuan
 [end_timeline]

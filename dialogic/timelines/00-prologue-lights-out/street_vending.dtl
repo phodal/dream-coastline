@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/street.png"]
+join jizi_xuan (phone) left
 旁白: 机器嗡嗡作响。整条街都暗下去，只有它还固执地亮着。
+jizi_xuan: 你按下常买的那一格。按钮亮了，机器没有落货。
+旁白: 投币口吐回硬币，屏幕上的商品名依次暗掉，只剩价格旁边的空框。
+jizi_xuan: 连它也忘了自己在卖什么。
 [signal arg="set_flag:heard_vending_hum"]
+leave jizi_xuan
 [end_timeline]
