@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png"]
+join jizi_xuan (phone) left
 旁白: 窗户被打开一条缝。夜风掀起信纸一角，像有人刚从这里离开。
+jizi_xuan: 纱窗锁扣从里面打开，窗台却没有脚印。
+旁白: 楼下街灯把树影投进来，影子每次摇过书桌，信纸上的空白就多一块。
+jizi_xuan: 不是风在吹纸。是纸上的东西正从窗外离开。
 [signal arg="set_flag:checked_bedroom_window"]
+leave jizi_xuan
 [end_timeline]

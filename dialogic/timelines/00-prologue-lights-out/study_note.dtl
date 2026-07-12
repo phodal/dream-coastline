@@ -1,4 +1,10 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/study.png"]
+join jizi_xuan (phone) left
 旁白: 笔记停在半句：如果灯先灭，不要立刻续写。你不明白续写是什么意思。
+jizi_xuan: 后半页被撕走了，断口很新。母亲从来不撕研究笔记。
+旁白: 你把纸斜向台灯。下一页压着三道笔痕：门、名字，还有一个被反复涂黑的圆。
+jizi_xuan: 她不是写给同事看的。她在给后来找到这里的人留步骤。
+旁白: 纸页边缘的墨味越来越浓，像刚有人在隔壁落笔。
 [signal arg="set_flag:checked_mother_note"]
+leave jizi_xuan
 [end_timeline]

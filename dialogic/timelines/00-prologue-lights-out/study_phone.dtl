@@ -1,4 +1,10 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/study.png"]
+join jizi_xuan (phone) left
 旁白: 手机只闪过一格信号，随后任务栏像被墨水擦掉，剩下一排无法识别的方块。
+jizi_xuan: 你拨父亲的号码。没有忙音，也没有“无法接通”。
+旁白: 通话计时跳到一秒，听筒里传来翻纸声；第二秒，联系人姓名变成空白。
+jizi_xuan: 爸？如果你能听见，敲一下。
+旁白: 第三秒传来一次轻响。随后信号、号码和通话记录一起被黑色方块覆盖。
 [signal arg="set_flag:checked_phone_signal"]
+leave jizi_xuan
 [end_timeline]

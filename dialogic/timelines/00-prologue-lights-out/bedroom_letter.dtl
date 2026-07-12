@@ -1,4 +1,10 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png"]
+join jizi_xuan (phone) left
 旁白: 信纸上只有一句英文：To be Continue ... 语法不对，却像一句命令。
+jizi_xuan: 应该是“To be continued”。少掉的不是一个字母，是一句话本来该有的结尾。
+旁白: 你翻到背面。纸纤维里压着父亲眼镜上的同一种黑墨，边角还有母亲常用的折页记号。
+jizi_xuan: 他们都碰过这封信。他们知道我会看到。
+旁白: 桌上的钢笔滚了半圈，笔尖停在 Continue 后面的空白处。
 [signal arg="set_flag:read_continue_letter"]
+leave jizi_xuan
 [end_timeline]

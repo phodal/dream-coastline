@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/study.png"]
+join jizi_xuan (phone) left
 旁白: 父亲很少离开眼镜。镜片上有一道指纹，像他刚刚抬头看过什么。
+jizi_xuan: 镜腿没有折，镜片也没摔花。他是自己摘下来放好的。
+旁白: 右侧镜片沾着一点干掉的黑墨，桌面对应的位置却没有墨瓶。
+jizi_xuan: 他看到的东西离得很近，近到墨会溅上眼镜。
 [signal arg="set_flag:checked_glasses"]
+leave jizi_xuan
 [end_timeline]
