@@ -361,6 +361,47 @@
         "The subdued right side preserves clear contrast and scrollable access for eleven action rows."
       ],
       "human_approved": false
+    },
+    "PBG-07-LAB": {
+      "scene_id": "07-lights-on-again",
+      "location_id": "lab",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/lab.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/07-lights-on-again/lab.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/parents-lab-bridge.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/return-bridge-traveler.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/parent-bridge-trace.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The physical bridge arc between modern beacon hardware and the record frame, failed rig, paired stools and coats, family photo, and distant traveler reflection read as accumulated parental cross-world research.",
+        "Screens, notes, diagrams, and archive strips remain abstract with no readable generated text or formulas.",
+        "The subdued right side preserves clear contrast and scrollable access for eleven action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-07-ORBIT": {
+      "scene_id": "07-lights-on-again",
+      "location_id": "orbit",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/orbit.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/07-lights-on-again/orbit.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/lights-continue.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/protocol-indictment.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/civilization-counter-evidence.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/final-silence-protocol.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The impersonal concentric adjudication system, blank judgment panels, balancing arms, erased gaps, and many streams of lived counter-evidence read as protocol versus civilization meaning.",
+        "Evidence sheets and panels remain abstract with no readable generated text or formulas.",
+        "The subdued right side preserves the scrollable battle actions, readable critical labels, and combat-resource summary."
+      ],
+      "human_approved": false
     }
   }
 }
