@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
-旁白: 巡契残影从井边旧符里浮出。你用“止”稳住裂纹，把它压回封条残迹里。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 你刚把方案贴到井沿，旧官印中便浮出披甲残影。它没有脸，只重复举起写着“禁止改动”的契板。
+xiali: 巡契残影。原本用于阻止盗改，如今连合法维修也会触发。
+jizi_xuan: 它依赖旧契约判断违规。先不攻击残影，限制那条正在扩大的执行边界。
+旁白: 你写下“止”，把目标明确落在官印向外蔓延的墨线上。残影的契板停在半空，盔甲逐层褪回封条。
+wensu: 消耗了一份墨量和专注，但保住了封条里的原始记录。拆除规则以前，先留下它曾经怎样伤人的证据。
+旁白: 村民没有欢呼，只把旧官印拓在失败记录旁。第一次，禁止维修本身也成了可被审查的故障。
 [signal arg="set_flag:cleared_contract_patrol"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]

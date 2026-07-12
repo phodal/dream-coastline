@@ -1,4 +1,13 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
-旁白: 你用“火”启动旧墨力炉，水声重新从井底传来。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 旧墨力炉的启动槽里积满黑泥。夏离清出残渣，你按新水路方向重新接好三枚导墨片。
+xiali: 炉芯还能转，但点火后若流向判断错了，刚稳定的裂纹会从内部炸开。
+jizi_xuan: 所以先让墨井鳐确认。第三枚腹符亮起时，才启动对应导墨片。
+旁白: 鳐影翻身，第三枚符闪亮。你写下“火”，炉芯发出低沉轰鸣，水声终于从井底而不是裂缝中传来。
+xiali: 启动正确。别急着庆祝，系统运转不代表流出的东西就是这口井原来的水。
+jizi_xuan: 还差“名”。我们要确认水源，而不是给任何流动物都贴上清水的标签。
 [signal arg="set_flag:started_ink_engine"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

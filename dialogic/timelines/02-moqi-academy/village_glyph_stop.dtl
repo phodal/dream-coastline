@@ -1,4 +1,12 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
-旁白: 你写下“止”，井沿裂纹不再扩大。
+join jizi_xuan (phone) left
+join wensu (default) left
+旁白: 井沿裂口仍在增长。你没有覆盖整口井，而是在老人草图标出的三处分叉前分别落笔。
+jizi_xuan: 停止的是裂纹扩张，不是水流，也不是墨井鳐。边界到这三处为止。
+旁白: 三个“止”字依次展开，像支架撑住松动石层。井水继续流动，裂口却不再吞掉新的笔画。
+wensu: 稳定成功，但墨量已经减少。之后每一步都要在资源耗尽前验证，不能靠重复试错。
+旁白: 墨井鳐降到离水面更近的位置。它仍无法离开，却不再被扩张裂纹拖向井壁。
 [signal arg="set_flag:stabilized_well_crack"]
+leave jizi_xuan
+leave wensu
 [end_timeline]

@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
-旁白: 你用“名”确认水源。井口浮出清水，孩子们第一次喊出你的名字。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiali (default) left
+旁白: 浑浊水流升到井口。你没有立刻写“清水”，而是将老人草图、鳐腹符文与井底回声逐项对应。
+jizi_xuan: 对象是旧山泉，见证者是村民和墨井鳐，流向是修正后的东侧井脉。现在关系完整了。
+旁白: “名”字落入水面，没有压住水，而是把三条证据连成一圈。浑浊墨色随之沉到底部。
+wensu: 确认成立。你没有命令它成为清水，只证明了它确实来自仍在流动的山泉。
+旁白: 墨井鳐穿过水环，腹部四枚符第一次同时稳定。它绕井一周，向老人草图上未标出的支流投下一道影子。
+xiali: 它还给了你下一次维护的位置。看来这口井终于不再只由官印解释。
+旁白: 孩子们装满水桶，其中一个试着喊出你的名字。其他人跟着念，发音各不相同，却没有一个变成空框。
+jizi_xuan: 把今天的方案和失败一起留在维修册里。下次井脉改变，不该还要等书院的人来。
 [signal arg="set_flag:repaired_well"]
+leave jizi_xuan
+leave wensu
+leave xiali
 [end_timeline]
