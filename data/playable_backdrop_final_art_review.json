@@ -253,6 +253,42 @@
         "The subdued right side preserves clear contrast for six action rows."
       ],
       "human_approved": false
+    },
+    "PBG-06-GATE": {
+      "scene_id": "06-return-star-plan",
+      "location_id": "gate",
+      "target_path": "res://assets/illustrations/playable/06-return-star-plan/gate.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/06-return-star-plan/gate.png",
+        "res://assets/illustrations/story_review/06-return-star-plan/return-gate-farewell.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The calibrated transit ring, restrained farewell, distant vessel, and thin cold fracture read as departure immediately before an incursion.",
+        "The gate remains mechanical and observatory-built rather than reading as a generic fantasy portal.",
+        "The subdued right side preserves clear contrast for six action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-06-RIFT": {
+      "scene_id": "06-return-star-plan",
+      "location_id": "rift",
+      "target_path": "res://assets/illustrations/playable/06-return-star-plan/rift.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/06-return-star-plan/rift.png",
+        "res://assets/illustrations/story_review/06-return-star-plan/silence-probe.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The geometric probe, erased paper-like city seam, scattered archives, and assembling preservation cylinders read as deletion opposed by civilization memory.",
+        "The threat remains a non-humanoid protocol machine rather than a generic monster or explosion.",
+        "The subdued right side preserves readable battle actions and the visible combat-resource summary."
+      ],
+      "human_approved": false
     }
   }
 }
