@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
-旁白: 你照着字典抄了一遍旧符，井沿反而裂得更深。夏离想替你收场，闻素拦住他：失败也要记录，否则下一次还会有人照错。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 你从井旁旧册里找到完整水符，按原样临摹。最后一笔落下，井底传来沉闷断裂声。
+旁白: 裂纹猛地向外延伸，排队的村民抱起水桶后退。墨井鳐被倒卷水流托高，腹部重重撞上横梁。
+jizi_xuan: 停下！我抄的是完整符，为什么反而更糟？
+xiali: 先把笔给我。我能强行封住井口，至少不会继续裂。
+wensu: 不。让他自己写下发生了什么。替他收场，会把错误连同原因一起藏掉。
+jizi_xuan: 旧册记录的是修建时的水流方向，现在井脉已经改变。我复制了正确答案，却用在错误时间。
+旁白: 你在失败记录上注明裂纹位置、墨井鳐反应和倒流水声。村民第一次围过来，不是等修复，而是一起描述现象。
+wensu: 失败归你，记录也归你。只有这样，下一次成功才不是运气。
 [signal arg="set_flag:owned_first_repair_failure"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]

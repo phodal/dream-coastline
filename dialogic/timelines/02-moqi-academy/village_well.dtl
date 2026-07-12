@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
-旁白: 井沿的裂纹像被删掉的笔画。水源还在，但名字和流向都不稳定。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 井边排着十几个空桶，水面却停在伸手够不到的位置。井沿裂纹每隔几息便多出一小段。
+xiali: 最近的安全水源在两天路外。我们没有时间把整座井拆开。
+jizi_xuan: 裂纹像被删掉的笔画，但井里的水还在动。坏掉的可能不是水源，是描述水该怎么走的规则。
+wensu: 先区分对象、边界和流向。修错任何一层，井都会把你的命令当成新的故障。
+旁白: 井口上方的墨井鳐缓慢翻身，腹部符文与井沿残字方向相反，像一面活着的镜子。
+jizi_xuan: 它也被困住了。修井不只是让村民取水，还要让它重新顺着水流移动。
 [signal arg="set_flag:checked_broken_well"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]

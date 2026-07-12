@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
-旁白: 墨井鳐腹部的井符亮了一下，水流方向像被写错的笔画一样倒转。闻素说：别把它当神迹，这是系统反馈。
+join jizi_xuan (phone) left
+join wensu (default) left
+旁白: 墨井鳐从横梁落回井口，缓慢翻出腹部。四枚井符依次亮起，水下旋涡随之改变方向。
+jizi_xuan: 它在重复刚才的故障，但第三枚符亮起时，水流短暂恢复正常。
+wensu: 别叫它神迹。长期生活在井脉里的生物，比维修册更早感受到流向变化。
+旁白: 你把鳐腹符号与老人草图叠在一起，两条独立证据指向同一处偏移的水道。
+jizi_xuan: 先用“止”限制裂纹，再按新方向启动墨力炉，最后用“名”确认真正的水源。顺序不能反。
+wensu: 现在你读到的不是答案，而是系统反馈。执行以前，再问一次谁会承受你下一次写错。
+旁白: 孩子们仍抱着空桶，墨井鳐也无法离开。你在失败记录下方写出新的三步方案，并让老人逐项确认。
 [signal arg="set_flag:read_ink_well_ray_feedback"]
+leave jizi_xuan
+leave wensu
 [end_timeline]

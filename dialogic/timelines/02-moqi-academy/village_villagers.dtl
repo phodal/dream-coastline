@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
-旁白: 老人说他们只会照着旧符抄，没人教过为什么这样写。
+join jizi_xuan (phone) left
+join wensu (default) left
+旁白: 一位老人拿来三代人抄写的维修册。每页符文都很工整，旁边却没有一行解释。
+jizi_xuan: 你们每年都修这口井，没人教过这些字为什么这样写吗？
+旁白: 老人摇头，指向册尾的官印。没有书院许可，村民只能复制核准过的笔画，不能改动结构。
+wensu: 他们不是缺少经验。制度只允许经验成为手艺，不允许它成为能传授的知识。
+jizi_xuan: 所以井脉一变，最了解这口井的人反而没有修改权限。
+旁白: 老人从袖中取出一张私藏草图。上面早已画出新水路，只是所有关键位置都用图形代替了禁写的字。
+jizi_xuan: 他们早就知道答案，只是不能用系统承认的方式说出来。
 [signal arg="set_flag:saw_knowledge_lockout"]
+leave jizi_xuan
+leave wensu
 [end_timeline]
