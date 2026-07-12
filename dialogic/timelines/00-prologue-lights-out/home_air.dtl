@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/home.png"]
+join jizi_xuan (phone) left
 旁白: 凉掉的饭菜味混在黑暗里，比任何回答都更不对劲。
+jizi_xuan: 是母亲炖汤时会放的姜。她今晚确实做过饭。
+旁白: 气味没有焦糊，也没有煤气味。厨房像正常收了火，只是等吃饭的人同时离开了。
+jizi_xuan: 不是事故。至少不是发生在厨房里的事故。
 [signal arg="set_flag:smelled_cold_food"]
+leave jizi_xuan
 [end_timeline]

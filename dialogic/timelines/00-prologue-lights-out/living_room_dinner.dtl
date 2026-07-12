@@ -1,4 +1,10 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/living_room.png"]
+join jizi_xuan (phone) left
 旁白: 饭菜已经凉透。筷子摆得很正，像时间在开饭前突然停住。
+jizi_xuan: 三副碗筷。我的饭也盛好了。
+旁白: 汤面凝着一层薄油，米饭边缘已经发硬。桌布没有被扯动，椅子也都推回原位。
+jizi_xuan: 他们不是吃到一半离开的。饭摆好以后，谁都没有坐下。
+旁白: 你摸了摸碗底。最后一点余温也没有。
 [signal arg="set_flag:checked_cold_dinner"]
+leave jizi_xuan
 [end_timeline]

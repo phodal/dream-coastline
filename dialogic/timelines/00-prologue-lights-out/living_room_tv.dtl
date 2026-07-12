@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/living_room.png"]
+join jizi_xuan (phone) left
 旁白: 屏幕漆黑。遥控器放在父亲常坐的位置，新闻频道没有声音。
+jizi_xuan: 你按下电源。指示灯亮了一瞬，又缩回黑暗里。
+旁白: 第二次开机时，屏幕浮出没有台标的灰色画面。字幕区闪过一排空框，随即全部消失。
+jizi_xuan: 不是没信号。它刚才想显示什么。
 [signal arg="set_flag:checked_tv"]
+leave jizi_xuan
 [end_timeline]

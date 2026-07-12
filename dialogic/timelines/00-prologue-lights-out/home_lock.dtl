@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/home.png"]
+join jizi_xuan (phone) left
 旁白: 锁舌没有弹出。像有人出门太急，也像有人根本没有离开。
+jizi_xuan: 母亲睡前会检查两遍。父亲还会顺手拉一下门。
+旁白: 你把门推开一点，又停住。鞋柜旁的拖鞋都在，门缝里却没有人应声。
+jizi_xuan: 如果他们没出去，为什么不锁门？
 [signal arg="set_flag:checked_unlocked_door"]
+leave jizi_xuan
 [end_timeline]
