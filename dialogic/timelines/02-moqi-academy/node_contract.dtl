@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
-旁白: 契约把节点、村落和你的行动绑在一起。硬闯会让井水再次停摆。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 节点外围的契文并非围墙，而是一圈不断重写的条件：任何未授权接触都会从最近村落抽走水与墨力。
+jizi_xuan: 它把节点安全和村民生存绑在一起。我们硬闯，刚修好的井就会再次停摆。
+wensu: 典型的代价转移。制定规则的人不承担防御成本，最缺权限的人替他承受。
+xiali: 执契官会说这是必要牺牲，因为国书节点比一座边境村更重要。
+旁白: 契文底部列着维护责任，却只有“服从封锁”一项指向执契官，其余风险全部落在无名村落。
+jizi_xuan: 契约不是没有漏洞。它宣称所有参与者都受约束，却把书写者藏在参与者定义之外。
+wensu: 记住这个缝隙。先确认执契官也是契约主体，再用“门”让规则真正通向他。
 [signal arg="set_flag:checked_contract_lock"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]

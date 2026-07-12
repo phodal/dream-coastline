@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
-旁白: 契纹犬绕着节点走了一圈，脚下没有影子，只有一条条生效中的律文。夏离低声说：它追的不是人，是权限。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 契纹犬从封条间站起，身体由层层锁纹折成。它没有鼻息，抬头时却准确对准你刚动过的那句契文。
+xiali: 别跑。它不追气味，只追没有权限却试图改变规则的人。
+jizi_xuan: 那它不是执契官的宠物，是契约自动生成的执行工具。
+旁白: 你向左绕行，犬身封条便把路径写回原点；你停止接触契文，它也立刻伏下，没有继续攻击。
+jizi_xuan: 它没有恨意，只执行条件。如果改变权限定义，也许不用毁掉它。
+xiali: 墨律司教我们把这种工具叫忠诚。你看到的是另一件事：它甚至没有拒绝命令的字。
+旁白: 契纹犬颈部有一道空白条款，原本应写着维护终止条件，却被整齐裁去。
 [signal arg="set_flag:met_contract_hound"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

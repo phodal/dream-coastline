@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
-旁白: 节点底层留着母亲的细字：不要只修这个节点，要让每个人都知道为什么它会坏。
+join jizi_xuan (phone) left
+join wensu (default) left
+旁白: 节点重启后，底层维护页浮出一行极细批注。字迹与家中笔记相同，末笔总向右上轻轻挑起。
+jizi_xuan: 是母亲。她来过这里，而且知道节点会再次损坏。
+旁白: 批注写着：不要只修这个节点，要让每个人都知道为什么它会坏。下方附着一份未能同步的公开教学方案。
+wensu: 她要求把维护接口降到日常文字层，让村落自己拥有诊断权。国书院以安全为由驳回。
+jizi_xuan: 她不是来秘密修补系统，而是想取消只有少数人能修补的前提。
+旁白: 教学方案最后记录了驳回者权限编号。编号属于续文院，日期正是父母失踪前三天。
+jizi_xuan: 他们离开家不是意外。有人在这份提案之后追踪了他们。
+wensu: 节点里还有影像。先看完，再决定你要追的是父母，还是他们没做完的事。
 [signal arg="set_flag:read_mother_node_annotation"]
+leave jizi_xuan
+leave wensu
 [end_timeline]
