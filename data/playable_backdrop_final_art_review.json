@@ -402,6 +402,42 @@
         "The subdued right side preserves the scrollable battle actions, readable critical labels, and combat-resource summary."
       ],
       "human_approved": false
+    },
+    "PBG-01-MUD_ROAD": {
+      "scene_id": "01-illiterate",
+      "location_id": "mud_road",
+      "target_path": "res://assets/illustrations/playable/01-illiterate/mud_road.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/01-illiterate/mud_road.png",
+        "res://assets/illustrations/story_review/01-illiterate/01-mud-road-phone.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "After runtime-driven composition revision, the modern phone and black fountain pen remain clearly visible above the dialogue panel beside the blank ink-framed road sign and burning border city.",
+        "The phone screen and sign contain only abstract erased marks with no readable generated text.",
+        "The subdued right side preserves clear contrast for five action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-01-CAMP": {
+      "scene_id": "01-illiterate",
+      "location_id": "camp",
+      "target_path": "res://assets/illustrations/playable/01-illiterate/camp.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/01-illiterate/camp.png",
+        "res://assets/characters/creatures/creature_002_lost_name_deer/habitat.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The recoiling child, raised modern fountain pen, blank official notice, patched tents, communal fire, and guarded border wall read as a fearful inhabited refugee camp under writing control.",
+        "The notice remains fully blank with no readable generated text.",
+        "The subdued right side preserves clear contrast for five action rows."
+      ],
+      "human_approved": false
     }
   }
 }
