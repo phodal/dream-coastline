@@ -477,6 +477,42 @@
         "The subdued right side preserves readable naming actions and the combat-resource summary."
       ],
       "human_approved": false
+    },
+    "PBG-02-ACADEMY": {
+      "scene_id": "02-moqi-academy",
+      "location_id": "academy",
+      "target_path": "res://assets/illustrations/playable/02-moqi-academy/academy.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/02-moqi-academy/academy.png",
+        "res://assets/illustrations/story_review/02-moqi-academy/wensu-first-lesson.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "Wensu's raised lesson table, Xiali at the hidden door, empty student cushion, controlled brazier and abstract name/fire/stop layers read as a clandestine first literacy lesson.",
+        "Wall diagrams and practice tiles remain geometric and contain no readable generated text or pseudo-calligraphy.",
+        "The subdued right side preserves clear contrast for eight action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-02-ARCHIVE": {
+      "scene_id": "02-moqi-academy",
+      "location_id": "archive",
+      "target_path": "res://assets/illustrations/playable/02-moqi-academy/archive.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/02-moqi-academy/archive.png",
+        "res://assets/illustrations/story_review/02-moqi-academy/archive-dictionary-cabinet.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The three nested cabinet barriers, official sealing cords, protected core compartment, Wensu and layered transparent study frames read as foundational literacy under institutional lock.",
+        "Shelves, drawers and annotation cards remain abstract with no readable generated text or pseudo-calligraphy.",
+        "The subdued right side preserves clear contrast for seven action rows."
+      ],
+      "human_approved": false
     }
   }
 }
