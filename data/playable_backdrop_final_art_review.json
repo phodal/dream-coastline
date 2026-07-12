@@ -513,6 +513,42 @@
         "The subdued right side preserves clear contrast for seven action rows."
       ],
       "human_approved": false
+    },
+    "PBG-02-NODE": {
+      "scene_id": "02-moqi-academy",
+      "location_id": "node",
+      "target_path": "res://assets/illustrations/playable/02-moqi-academy/node.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/02-moqi-academy/node.png",
+        "res://assets/characters/creatures/creature_004_contract_hound/habitat.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The broken concentric node, contract officer, cord-and-weight checkpoint, riveted contract hound, record cylinder and warmer repaired maternal strip read as a civic access confrontation over responsibility.",
+        "All official strips and hound plates were revised to contain no readable generated text or pseudo-calligraphy.",
+        "The subdued right side preserves the scrollable battle actions, readable critical labels and combat-resource summary."
+      ],
+      "human_approved": false
+    },
+    "PBG-02-VILLAGE": {
+      "scene_id": "02-moqi-academy",
+      "location_id": "village",
+      "target_path": "res://assets/illustrations/playable/02-moqi-academy/village.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/02-moqi-academy/village.png",
+        "res://assets/characters/creatures/creature_003_ink_well_ray/habitat.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The damaged well ring, wrongly fitted repair piece, weak bucket line, villagers comparing blank maintenance tiles, departing Xiali and subtle ink-well ray read as preventable community infrastructure failure.",
+        "Maintenance tiles and village surfaces contain no readable generated text or pseudo-calligraphy.",
+        "The subdued right side preserves clear contrast and scrollable access for ten action rows."
+      ],
+      "human_approved": false
     }
   }
 }
