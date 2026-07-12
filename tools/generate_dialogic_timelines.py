@@ -109,7 +109,7 @@ def build_dtl_text(
     else:
         # Single text block
         text = str(item.get("text", "")).replace("\n", "\\\n")
-        speaker = dialogic_speaker if dialogic_speaker else DEFAULT_NARRATOR
+        speaker = DEFAULT_NARRATOR
         lines.append(f"{escape_speaker(speaker)}: {text}")
         # Emit flag signals for all item-level flags
         for flag in payload_flags:
@@ -124,11 +124,11 @@ def build_dtl_text(
 
 
 def _resolve_speaker(speaker_raw: str, dialogic_speaker: str) -> str:
-    """Prefer dialogic character id over display name, fall back to narrator."""
+    """Resolve authored speakers without turning narration into character speech."""
     if speaker_raw in CHARACTER_MAP:
         return CHARACTER_MAP[speaker_raw][0]
     if not speaker_raw or speaker_raw == DEFAULT_NARRATOR:
-        return dialogic_speaker if dialogic_speaker else DEFAULT_NARRATOR
+        return DEFAULT_NARRATOR
     return speaker_raw
 
 

@@ -10,7 +10,10 @@ func set_flag(flag: String, value := true) -> void:
 		return
 	if _flags.get(flag, false) == value:
 		return
-	_flags[flag] = value
+	if value:
+		_flags[flag] = true
+	else:
+		_flags.erase(flag)
 	flag_changed.emit(flag, value)
 
 

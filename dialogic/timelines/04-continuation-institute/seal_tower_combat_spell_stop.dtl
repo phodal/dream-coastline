@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/04-continuation-institute/seal_tower.png"]
 旁白: 你用“止”暂停遗忘扩散。学生们接上下一行字。
 [signal arg="set_flag:paused_forgetting"]
 [end_timeline]

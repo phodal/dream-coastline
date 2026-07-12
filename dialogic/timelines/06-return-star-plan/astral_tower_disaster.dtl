@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/06-return-star-plan/astral_tower.png"]
 旁白: 城市地图出现空白，人名从档案中消失。现代科技能发信号，却无法证明信号存在。
 [signal arg="set_flag:confirmed_modern_disaster"]
 [end_timeline]

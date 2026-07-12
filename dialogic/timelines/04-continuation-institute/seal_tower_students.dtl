@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/04-continuation-institute/seal_tower.png"]
 旁白: 学生刚学会的字开始乱码。小砚抱着字典，拼命重复自己的名字。
 [signal arg="set_flag:students_under_attack"]
 [end_timeline]

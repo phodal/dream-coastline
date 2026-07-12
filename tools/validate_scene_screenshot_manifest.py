@@ -124,8 +124,11 @@ def validate_manifest(
             checkpoint = str(shot.get("checkpoint", ""))
             if not route_source_scene_id:
                 failures.append(f"{label}.route_source_scene_id must be non-empty for route scope")
-            if not isinstance(shot.get("choice_labels"), list) or not shot.get("choice_labels"):
+            choice_labels = shot.get("choice_labels")
+            if not isinstance(choice_labels, list) or not choice_labels:
                 failures.append(f"{label}.choice_labels must be a non-empty list for route scope")
+            elif any(not str(choice_label).strip() for choice_label in choice_labels):
+                failures.append(f"{label}.choice_labels must not contain blank player-facing labels")
             if scope == "route":
                 route_seen.add((route_source_scene_id, checkpoint))
                 if checkpoint not in {"start", "mid", "before_end", "final"}:
@@ -236,7 +239,7 @@ def main() -> int:
     if not manifest_path.is_absolute():
         manifest_path = ROOT / manifest_path
     if not manifest_path.exists():
-        print(f"scene-screenshot-manifest: missing {manifest_path.relative_to(ROOT)}")
+        print(f"scene-screenshot-manifest: missing {_display_path(manifest_path)}")
         return 1
 
     failures = validate_manifest(manifest_path, args.scope, args.visual_style, args.require_illustrated_backdrop)
@@ -249,13 +252,20 @@ def main() -> int:
     print(
         "scene-screenshot-manifest: OK path=%s screenshots=%s scope=%s style=%s"
         % (
-            manifest_path.relative_to(ROOT),
+            _display_path(manifest_path),
             manifest.get("screenshot_count", 0),
             manifest.get("scope", ""),
             manifest.get("visual_style", ""),
         )
     )
     return 0
+
+
+def _display_path(path: Path) -> Path:
+    try:
+        return path.relative_to(ROOT)
+    except ValueError:
+        return path
 
 
 if __name__ == "__main__":

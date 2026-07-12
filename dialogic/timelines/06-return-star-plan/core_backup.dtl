@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/06-return-star-plan/core.png"]
 旁白: 标准字典、公共档案馆、国书网络和学生共同书写，将成为战斗中的恢复系统。
 [signal arg="set_flag:designed_backup_chain"]
 [end_timeline]

@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/04-continuation-institute/mine.png"]
 旁白: 你用“止”稳定矿道裂纹，给工人争取撤离和改造时间。
 [signal arg="set_flag:stabilized_mine"]
 [end_timeline]

@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/01-illiterate/camp.png"]
 旁白: 布告上的字像活墨一样抖动。你只看懂它们正在拒绝你。
 [signal arg="set_flag:checked_refugee_notice"]
 [end_timeline]

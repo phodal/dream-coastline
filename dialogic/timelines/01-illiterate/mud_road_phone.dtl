@@ -1,6 +1,7 @@
+[background arg="res://assets/illustrations/playable/01-illiterate/mud_road.png"]
 join jizi_xuan (phone) left
 jizi_xuan: ……这是哪？
-jizi_xuan: 手机屏幕显示无服务，随后爬满黑色墨痕。连系统语言都变成无法识别的方块。
+旁白: 手机屏幕显示无服务，随后爬满黑色墨痕。连系统语言都变成无法识别的方块。
 [signal arg="set_flag:checked_phone_no_service"]
 leave jizi_xuan
 [end_timeline]

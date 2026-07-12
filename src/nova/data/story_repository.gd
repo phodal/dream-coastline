@@ -104,6 +104,10 @@ func get_initial_flags(scene_id: String) -> Array:
 	return get_scene(scene_id).get("initial_flags", [])
 
 
+func get_scene_metrics(scene_id: String) -> Dictionary:
+	return get_scene(scene_id).get("metrics", {}).duplicate(true)
+
+
 func get_ending_flag(scene_id: String) -> String:
 	return str(get_scene(scene_id).get("ending_flag", ""))
 
@@ -111,6 +115,10 @@ func get_ending_flag(scene_id: String) -> String:
 func get_branch_resolved_flag(scene_id: String) -> String:
 	var branch_consequences: Dictionary = get_scene(scene_id).get("branch_consequences", {})
 	return str(branch_consequences.get("resolved_flag", ""))
+
+
+func get_branch_consequences(scene_id: String) -> Dictionary:
+	return get_scene(scene_id).get("branch_consequences", {}).duplicate(true)
 
 
 func get_required_flags(scene_id: String) -> Array:

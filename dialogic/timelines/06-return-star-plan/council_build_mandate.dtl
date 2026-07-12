@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/06-return-star-plan/council.png"]
 旁白: 议会通过归星授权。支持度来自前期教育、公开知识、国书稳定和工程能力。
 [signal arg="set_flag:won_return_star_council"]
 [end_timeline]

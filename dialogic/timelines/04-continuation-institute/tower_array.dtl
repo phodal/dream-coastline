@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/04-continuation-institute/tower.png"]
 旁白: 符阵不是坏了，而是字典版本不一致。不同地区写同一个字，结果却略有偏差。
 [signal arg="set_flag:checked_comm_array"]
 [end_timeline]

@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/06-return-star-plan/dockyard.png"]
 旁白: 蓝图把星象塔、国书节点、移动档案和续页系统写成同一个工程。
 [signal arg="set_flag:checked_return_vessel_blueprint"]
 [end_timeline]

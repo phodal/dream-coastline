@@ -6,7 +6,10 @@ const MainPanel: PackedScene = preload("uid://de6yhw4r8jqb3")
 const PLUGIN_NAME := "Dialogic"
 const PLUGIN_HANDLER_PATH := "res://addons/dialogic/Core/DialogicGameHandler.gd"
 const PLUGIN_ICON_PATH := "uid://dybg3l5pwetne"
-const PLUGIN_INSPECTOR_PATH := "uid://bok1je25mskp7"
+# Script UIDs live in generated *.gd.uid files, which are intentionally not
+# committed by this project. Use the stable resource path so a clean checkout
+# can enable Dialogic without relying on a developer machine's UID cache.
+const PLUGIN_INSPECTOR_PATH := "res://addons/dialogic/Editor/Inspector/inspector_plugin.gd"
 
 ## References used by various other scripts to quickly reference these things
 var editor_view: Control  # the root of the dialogic editor

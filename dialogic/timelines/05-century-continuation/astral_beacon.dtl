@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/05-century-continuation/astral.png"]
 旁白: 信标原型能证明：墨颀写出的坐标，可以触碰另一个世界的边缘。
 [signal arg="set_flag:designed_cross_beacon"]
 [end_timeline]

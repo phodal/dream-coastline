@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/05-century-continuation/astral.png"]
 旁白: 一只星象螟伏在失败星图上，翅膀像缩小的坐标纸。它啃掉的不是纸，是一次可复核观测。
 [signal arg="set_flag:identified_star_chart_moth"]
 [end_timeline]

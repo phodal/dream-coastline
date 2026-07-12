@@ -2,6 +2,7 @@ extends CanvasLayer
 
 signal resume_requested
 signal save_requested
+signal settings_requested
 signal title_requested
 signal quit_requested
 
@@ -56,6 +57,7 @@ func _ready() -> void:
 
 	_add_button(rows, "继续", func() -> void: resume_requested.emit())
 	_add_button(rows, "保存", func() -> void: save_requested.emit())
+	_add_button(rows, "设置与辅助功能", func() -> void: settings_requested.emit())
 	_add_button(rows, "返回标题", func() -> void: title_requested.emit())
 	_add_button(rows, "退出", func() -> void: quit_requested.emit())
 

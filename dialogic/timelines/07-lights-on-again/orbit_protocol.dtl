@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/07-lights-on-again/orbit.png"]
 旁白: 协议判定：该文明不可控。该文明应静默。该文明不再续写。
 [signal arg="set_flag:identified_final_protocol"]
 [end_timeline]

@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/07-lights-on-again/orbit.png"]
 旁白: 队伍栏里，夏离、工程师和父母记录全部变成□□。这一次被攻击的不是血量，而是关系本身。
 [signal arg="set_flag:saw_deleted_party_names"]
 [end_timeline]

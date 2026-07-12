@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/03-dead-kingdom/library.png"]
 旁白: 禁令没有说平民不能学，只说未授权学习会导致国书不稳定。它把恐惧写成法律。
 [signal arg="set_flag:found_knowledge_ban"]
 [end_timeline]

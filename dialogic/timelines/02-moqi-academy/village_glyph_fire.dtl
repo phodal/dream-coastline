@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
 旁白: 你用“火”启动旧墨力炉，水声重新从井底传来。
 [signal arg="set_flag:started_ink_engine"]
 [end_timeline]

@@ -13,8 +13,10 @@ var scene_label: Label
 var location_label: Label
 var description_label: Label
 var flag_label: Label
+var resource_label: Label
 var quest_label: Label
 var choice_list: VBoxContainer
+var choice_scroll: ScrollContainer
 var prop_layer: Control
 var protagonist_portrait: TextureRect
 var _choice_buttons: Array[Button] = []
@@ -136,14 +138,19 @@ func _ready() -> void:
 	action_title.add_theme_color_override("font_color", Color(0.9, 0.78, 0.46))
 	side_rows.add_child(action_title)
 
+	choice_scroll = ScrollContainer.new()
+	choice_scroll.name = "ActionScroll"
+	choice_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	choice_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	choice_scroll.follow_focus = true
+	choice_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	choice_scroll.custom_minimum_size.y = 180.0
+	side_rows.add_child(choice_scroll)
+
 	choice_list = VBoxContainer.new()
 	choice_list.add_theme_constant_override("separation", 8)
-	choice_list.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	side_rows.add_child(choice_list)
-
-	var spacer := Control.new()
-	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	side_rows.add_child(spacer)
+	choice_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	choice_scroll.add_child(choice_list)
 
 	quest_label = Label.new()
 	quest_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -151,6 +158,12 @@ func _ready() -> void:
 	quest_label.add_theme_color_override("font_color", Color(0.73, 0.76, 0.72))
 	quest_label.clip_text = true
 	side_rows.add_child(quest_label)
+
+	resource_label = Label.new()
+	resource_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	resource_label.add_theme_font_size_override("font_size", 17)
+	resource_label.add_theme_color_override("font_color", Color(0.95, 0.78, 0.42))
+	side_rows.add_child(resource_label)
 
 	flag_label = Label.new()
 	flag_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -176,6 +189,22 @@ func present(scene_id: String, location_id: String, location: Dictionary, visual
 	_render_props(visual.get("props", []))
 	_render_choices(choices)
 	_refresh_status()
+
+
+func apply_accessibility(text_scale: float, high_contrast: bool) -> void:
+	var scale := clampf(text_scale, 1.0, 1.5)
+	scene_label.add_theme_font_size_override("font_size", int(round(16.0 * scale)))
+	location_label.add_theme_font_size_override("font_size", int(round(24.0 * scale)))
+	description_label.add_theme_font_size_override("font_size", int(round(20.0 * scale)))
+	quest_label.add_theme_font_size_override("font_size", int(round(16.0 * scale)))
+	resource_label.add_theme_font_size_override("font_size", int(round(17.0 * scale)))
+	flag_label.add_theme_font_size_override("font_size", int(round(15.0 * scale)))
+	var primary := Color.WHITE if high_contrast else Color(0.94, 0.93, 0.88)
+	var secondary := Color(0.92, 0.94, 0.92) if high_contrast else Color(0.78, 0.81, 0.78)
+	location_label.add_theme_color_override("font_color", primary)
+	description_label.add_theme_color_override("font_color", secondary)
+	for button in _choice_buttons:
+		button.add_theme_font_size_override("font_size", int(round(16.0 * scale)))
 
 
 func _render_choices(choices: Array[Dictionary]) -> void:
@@ -243,7 +272,7 @@ func click_choice(choice_type: String, choice_id: String, action_type: String = 
 func current_choice_labels() -> Array[String]:
 	var labels: Array[String] = []
 	for button in _choice_buttons:
-		labels.append(str(button.text if not str(button.text).is_empty() else button.tooltip_text))
+		labels.append(str(button.text))
 	return labels
 
 
@@ -289,48 +318,17 @@ func _configure_choice_button_display(button: Button, choice: Dictionary) -> voi
 	if glyph.is_empty() or _moqi_font == null:
 		return
 
-	button.text = ""
-	button.tooltip_text = str(choice.get("label", ""))
-	button.custom_minimum_size = Vector2(0.0, 48.0)
-
-	var row := HBoxContainer.new()
-	row.name = "MoqiChoiceRow"
-	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	row.offset_left = 14.0
-	row.offset_top = 4.0
-	row.offset_right = -14.0
-	row.offset_bottom = -4.0
-	row.add_theme_constant_override("separation", 8)
-	button.add_child(row)
-
-	var prefix := _choice_row_label(str(choice.get("moqi_prefix", "")), button.disabled, false)
-	row.add_child(prefix)
-
-	var glyph_label := _choice_row_label(glyph, button.disabled, true)
-	glyph_label.add_theme_font_override(&"font", _moqi_font)
-	glyph_label.add_theme_font_size_override("font_size", 30)
-	row.add_child(glyph_label)
-
-	var label_text := str(choice.get("moqi_label", ""))
+	# Keep a real Button label as the authoritative player-facing text. The
+	# previous nested HBox renderer was clipped by Button layout in route
+	# screenshots, while tests silently fell back to tooltip_text and stayed
+	# green. The Moqi glyph remains available as semantic metadata until it has
+	# a renderer that can be screenshot-verified without hiding the action.
+	button.text = str(choice.get("label", ""))
 	if bool(choice.get("done", false)):
-		label_text += "  ✓"
-	row.add_child(_choice_row_label(label_text, button.disabled, false))
-
-
-func _choice_row_label(text: String, disabled: bool, is_glyph: bool) -> Label:
-	var label := Label.new()
-	label.text = text
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	label.clip_text = true
-	label.add_theme_font_size_override("font_size", 18)
-	var enabled_color := Color(0.88, 0.86, 0.78)
-	if is_glyph:
-		enabled_color = Color(0.98, 0.75, 0.34)
-	label.add_theme_color_override("font_color", Color(0.46, 0.47, 0.43) if disabled else enabled_color)
-	return label
+		button.text += "  ✓"
+	button.tooltip_text = button.text
+	button.custom_minimum_size = Vector2(0.0, 48.0)
+	button.set_meta("moqi_glyph", glyph)
 
 
 func _focus_first_choice() -> void:
@@ -414,6 +412,17 @@ func _refresh_status() -> void:
 		quest_label.text = ""
 	else:
 		quest_label.text = "章节进度\n%s" % "\n".join(quest_lines)
+	var director := get_node_or_null("../SceneDirector")
+	var combat: Dictionary = director.current_combat_status() if director != null and director.has_method("current_combat_status") else {}
+	if combat.is_empty() or not bool(combat.get("active", false)):
+		resource_label.text = ""
+	else:
+		resource_label.text = "战斗资源\n生命 %d/%d　墨量 %d/%d\n%s %d/%d　补给 %d" % [
+			int(combat.get("player_hp", 0)), int(combat.get("player_hp_max", 0)),
+			int(combat.get("ink", 0)), int(combat.get("ink_max", 0)),
+			str(combat.get("enemy_name", "敌人")), int(combat.get("enemy_hp", 0)), int(combat.get("enemy_hp_max", 0)),
+			int(combat.get("supplies", 0)),
+		]
 
 	if not _show_debug_flags():
 		flag_label.text = ""

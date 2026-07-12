@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/05-century-continuation/industry.png"]
 旁白: 闻素的《初学墨字》被翻印到第七版。她本人离场后，书仍在教人。
 [signal arg="set_flag:wensu_textbook_survives"]
 [end_timeline]

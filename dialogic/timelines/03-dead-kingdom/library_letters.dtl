@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/03-dead-kingdom/library.png"]
 旁白: 几封信写给夏离：殿下，我们已经会写自己的名字了。信末被墨律司盖上退回二字。
 [signal arg="set_flag:found_student_letters"]
 [end_timeline]

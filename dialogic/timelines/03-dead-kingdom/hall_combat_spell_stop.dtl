@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/03-dead-kingdom/hall.png"]
 旁白: 你用“止”暂停王权锁。夏离终于回答：若国只能靠王活着，那它早已死了。
 [signal arg="set_flag:paused_royal_lock"]
 [end_timeline]

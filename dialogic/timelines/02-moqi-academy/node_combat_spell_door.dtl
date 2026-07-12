@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
 旁白: 你用“门”找到契约封锁里的漏洞：执契官也必须遵守他写下的规则。
 [signal arg="set_flag:found_contract_gap"]
 [end_timeline]

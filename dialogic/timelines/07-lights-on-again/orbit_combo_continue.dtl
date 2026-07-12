@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/07-lights-on-again/orbit.png"]
 旁白: 名，门，星，归，续。两个文明共同写下 Continue。静默协议被拒绝，家里的灯重新亮起。
 [signal arg="set_flag:rejected_silence_protocol"]
 [end_timeline]

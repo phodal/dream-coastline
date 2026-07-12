@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/07-lights-on-again/street.png"]
 旁白: 楼下邻居站在路灯阴影里，脸像被磨平的旧照片。你知道下一步会轮到他们的名字。
 [signal arg="set_flag:saw_faceless_neighbors"]
 [end_timeline]

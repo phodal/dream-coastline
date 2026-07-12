@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/03-dead-kingdom/hq.png"]
 旁白: 日志显示：墨律司强行封锁国书后，城市符文出现连锁崩坏。王城陷落不是单一叛乱。
 [signal arg="set_flag:found_lockdown_logs"]
 [end_timeline]

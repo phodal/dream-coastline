@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/07-lights-on-again/school.png"]
 旁白: 走廊没有尽头。地图上的学校轮廓被擦掉，只剩一个没有意义的方框。
 [signal arg="set_flag:confirmed_school_erasure"]
 [end_timeline]

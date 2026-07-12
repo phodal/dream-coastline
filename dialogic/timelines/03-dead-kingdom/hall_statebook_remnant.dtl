@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/03-dead-kingdom/hall.png"]
 旁白: 残麟的每一片页鳞都盖着旧王印。它不咆哮，只把所有通路折回王座，像在问：离开王，国还剩什么？
 [signal arg="set_flag:met_statebook_remnant"]
 [end_timeline]

@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/05-century-continuation/industry.png"]
 旁白: 当年写歪“名”的学生站上讲台。教育系统开始自我复制。
 [signal arg="set_flag:first_students_teach"]
 [end_timeline]

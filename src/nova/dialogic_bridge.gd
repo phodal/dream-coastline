@@ -141,9 +141,7 @@ func build_timeline_text(payload: Dictionary, backdrop_path: String) -> String:
 				lines.append("[signal arg=\"set_flag:%s\"]" % _escape_shortcode_value(str(flag)))
 	else:
 		# Legacy single-text block
-		var speaker := dialogic_speaker
-		if speaker.is_empty():
-			speaker = str(payload.get("speaker", "旁白")).strip_edges()
+		var speaker := _resolve_speaker(str(payload.get("speaker", "旁白")).strip_edges(), dialogic_speaker)
 		if speaker.is_empty():
 			speaker = "旁白"
 		var text := str(payload.get("text", "")).replace("\n", "\\\n")
@@ -198,7 +196,7 @@ func _is_raw_advance_event(event: InputEvent) -> bool:
 ## Resolve a speaker name to a Dialogic identifier when possible.
 func _resolve_speaker(speaker_raw: String, dialogic_speaker_fallback: String) -> String:
 	if speaker_raw.is_empty() or speaker_raw == "旁白":
-		return "旁白" if dialogic_speaker_fallback.is_empty() else dialogic_speaker_fallback
+		return "旁白"
 	return speaker_raw
 
 func _escape_speaker(speaker: String) -> String:

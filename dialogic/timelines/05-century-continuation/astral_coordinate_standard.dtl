@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/05-century-continuation/astral.png"]
 旁白: 星象工程师争论了三天，最后把坐标写法也纳入公共标准。纪子轩低声说：回家不再是愿望，是可以复核的工程。
 [signal arg="set_flag:standardized_star_coordinates"]
 [end_timeline]

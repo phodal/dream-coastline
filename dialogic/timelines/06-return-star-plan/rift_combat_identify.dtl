@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/06-return-star-plan/rift.png"]
 旁白: “名”字亮起。目标显形：静默探针。
 [signal arg="set_flag:named_invasion_probe"]
 [signal arg="set_flag:locked_invasion_signature"]

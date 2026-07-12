@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/02-moqi-academy/academy.png"]
 旁白: 你复习“名”。它不是标签，而是让一个对象被世界承认。
 [signal arg="set_flag:learned_name"]
 [end_timeline]

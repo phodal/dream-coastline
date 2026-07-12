@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/02-moqi-academy/academy.png"]
 旁白: 闻素说：在墨颀，不会写字的人，不是愚笨。是不被允许存在得太完整。
 [signal arg="set_flag:met_wensu"]
 [end_timeline]

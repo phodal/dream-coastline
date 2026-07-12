@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/06-return-star-plan/astral_tower.png"]
 旁白: 父母早就知道：墨颀文字现实技术可能是唯一能抵抗静默的系统。
 [signal arg="set_flag:read_parent_research_summary"]
 [end_timeline]

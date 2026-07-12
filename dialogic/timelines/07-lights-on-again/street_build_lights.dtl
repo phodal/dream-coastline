@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/07-lights-on-again/street.png"]
 旁白: 路灯和符灯同时亮起一排。城市重新获得一点可观测性。
 [signal arg="set_flag:lit_city_grid"]
 [end_timeline]

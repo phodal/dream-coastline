@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
 旁白: 你用“止”暂停封锁条款。夏离终于能把攻击送到目标身上。
 [signal arg="set_flag:paused_contract"]
 [end_timeline]

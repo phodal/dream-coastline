@@ -44,6 +44,51 @@ def expected_timeline_paths() -> set[Path]:
     return expected
 
 
+def expected_timeline_records() -> list[tuple[Path, dict]]:
+    records: list[tuple[Path, dict]] = []
+    for story_path in sorted(STORY_DIR.glob("*.json")):
+        scene = load_json(story_path)
+        scene_id = scene.get("id", story_path.stem)
+        for location_id, location in scene.get("locations", {}).items():
+            for item_id, item in location.get("items", {}).items():
+                records.append((TIMELINE_DIR / scene_id / f"{location_id}_{item_id}.dtl", item))
+            for choice_id, choice in location.get("choices", {}).items():
+                records.append((TIMELINE_DIR / scene_id / f"{location_id}_choice_{choice_id}.dtl", choice))
+            for action_type, collection_name in [
+                ("glyph", "glyph_actions"),
+                ("build", "build_actions"),
+                ("encounter", "encounters"),
+                ("combo", "combos"),
+            ]:
+                for action_id, action in location.get(collection_name, {}).items():
+                    records.append(
+                        (TIMELINE_DIR / scene_id / f"{location_id}_{action_type}_{action_id}.dtl", action)
+                    )
+    return records
+
+
+def semantic_failures() -> list[str]:
+    failures: list[str] = []
+    for path, record in expected_timeline_records():
+        if not path.exists():
+            continue
+        content = path.read_text(encoding="utf-8")
+        dialogue = record.get("dialogue", [])
+        if dialogue:
+            narrator_lines = [entry for entry in dialogue if entry.get("speaker", "旁白") in ("", "旁白")]
+            for entry in narrator_lines:
+                expected = f"旁白: {str(entry.get('text', '')).replace(chr(10), chr(92) + chr(10))}"
+                if expected not in content:
+                    failures.append(
+                        f"narrator attribution drift: {path.relative_to(ROOT)} text={entry.get('text', '')!r}"
+                    )
+        else:
+            expected = f"旁白: {str(record.get('text', '')).replace(chr(10), chr(92) + chr(10))}"
+            if expected not in content:
+                failures.append(f"single-text narration drift: {path.relative_to(ROOT)}")
+    return failures
+
+
 def project_registered_timeline_paths() -> set[Path]:
     content = PROJECT_FILE.read_text(encoding="utf-8")
     marker = "directories/dtl_directory={"
@@ -77,6 +122,7 @@ def main() -> int:
     failures.extend(f"stale timeline: {path.relative_to(ROOT)}" for path in stale)
     failures.extend(f"missing project registry entry: {path.relative_to(ROOT)}" for path in registry_missing)
     failures.extend(f"stale project registry entry: {path.relative_to(ROOT)}" for path in registry_stale)
+    failures.extend(semantic_failures())
 
     if failures:
         for failure in failures:

@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/06-return-star-plan/rift.png"]
 旁白: 标准字典、档案馆和国书网络同时回写，被删的字根恢复。
 [signal arg="set_flag:restored_deleted_glyphs"]
 [end_timeline]

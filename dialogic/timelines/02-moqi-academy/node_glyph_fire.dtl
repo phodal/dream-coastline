@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
 旁白: 你用“火”重启墨力脉冲。国书节点亮起，基础字典开始同步。
 [signal arg="set_flag:repaired_first_node"]
 [end_timeline]

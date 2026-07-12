@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
 旁白: 你照着字典抄了一遍旧符，井沿反而裂得更深。夏离想替你收场，闻素拦住他：失败也要记录，否则下一次还会有人照错。
 [signal arg="set_flag:owned_first_repair_failure"]
 [end_timeline]

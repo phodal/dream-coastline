@@ -1,7 +1,8 @@
+[background arg="res://assets/illustrations/playable/07-lights-on-again/lab.png"]
 join jizi_xuan (phone) left
-jizi_xuan: 归桥稳定后，实验室玻璃上没有出现完整的父母。只有两枚很淡的坐标点，沿着桥的另一端继续闪烁。
+旁白: 归桥稳定后，实验室玻璃上没有出现完整的父母。只有两枚很淡的坐标点，沿着桥的另一端继续闪烁。
 jizi_xuan: 不是结束。是路终于能被记录了。
-jizi_xuan: 父亲的眼镜轮廓亮了一瞬，母亲的手写在玻璃上留下半句：下一页见。
+旁白: 父亲的眼镜轮廓亮了一瞬，母亲的手写在玻璃上留下半句：下一页见。
 [signal arg="set_flag:found_parent_bridge_trace"]
 leave jizi_xuan
 [end_timeline]

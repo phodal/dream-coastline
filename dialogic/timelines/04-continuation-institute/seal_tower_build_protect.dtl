@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/04-continuation-institute/seal_tower.png"]
 旁白: 学生、工匠、教师共同抄写备份。封字塔无法一次删掉所有副本。
 [signal arg="set_flag:protected_students"]
 [signal arg="set_flag:protected_dictionary"]

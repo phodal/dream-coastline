@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/07-lights-on-again/store.png"]
 旁白: 你呼出店员的名字。她的脸重新出现，货架标签也恢复了第一行文字。
 [signal arg="set_flag:rescued_clerk_name"]
 [end_timeline]

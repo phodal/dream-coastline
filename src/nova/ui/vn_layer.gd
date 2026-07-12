@@ -121,6 +121,14 @@ func show_payload(payload: Dictionary, backdrop_path: String) -> void:
 	accept_button.grab_focus()
 
 
+func apply_accessibility(text_scale: float, high_contrast: bool) -> void:
+	var scale := clampf(text_scale, 1.0, 1.5)
+	title_label.add_theme_font_size_override("font_size", int(round(20.0 * scale)))
+	speaker_label.add_theme_font_size_override("font_size", int(round(24.0 * scale)))
+	body_label.add_theme_font_size_override("font_size", int(round(25.0 * scale)))
+	body_label.add_theme_color_override("font_color", Color.WHITE if high_contrast else Color(0.86, 0.88, 0.84))
+
+
 func _input(event: InputEvent) -> void:
 	if not visible:
 		return

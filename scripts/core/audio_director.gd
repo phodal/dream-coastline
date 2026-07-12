@@ -236,6 +236,8 @@ func _load_story_audio() -> void:
 
 	for path in _audio_cue_files():
 		_load_audio_cue_file(path)
+	for path in _action_voice_files():
+		_load_action_voice_file(path)
 
 	for scene_id in story_music_by_scene_location.keys():
 		var scene_music: Dictionary = story_music_by_scene_location[scene_id]
@@ -265,6 +267,18 @@ func _audio_cue_files() -> PackedStringArray:
 	return paths
 
 
+func _action_voice_files() -> PackedStringArray:
+	var paths := PackedStringArray()
+	var directory := DirAccess.open(ACTION_VOICE_DIR)
+	if directory == null:
+		return paths
+	for filename in directory.get_files():
+		if filename.get_extension().to_lower() == "json":
+			paths.append("%s/%s" % [ACTION_VOICE_DIR, filename])
+	paths.sort()
+	return paths
+
+
 func _load_audio_cue_file(path: String) -> void:
 	if not FileAccess.file_exists(path):
 		return
@@ -282,7 +296,8 @@ func _load_audio_cue_file(path: String) -> void:
 			continue
 		if cue.has("runtime_enabled") and not bool(cue.get("runtime_enabled")):
 			continue
-		if str(cue.get("type", "")) != "music":
+		var cue_type := str(cue.get("type", ""))
+		if cue_type != "music" and cue_type != "ambience" and cue_type != "stinger":
 			continue
 		var target_path := _res_path(str(cue.get("target_path", "")))
 		if target_path.is_empty() or not FileAccess.file_exists(target_path):
@@ -290,7 +305,10 @@ func _load_audio_cue_file(path: String) -> void:
 		var default_location_id := str(cue.get("location_id", ""))
 		var cue_locations: Array = cue.get("locations", [default_location_id])
 		for location_id in cue_locations:
-			_set_story_music_path(scene_id, str(location_id), target_path)
+			if cue_type == "stinger":
+				_set_story_event_path(scene_id, str(location_id), "transition", target_path)
+			else:
+				_set_story_music_path(scene_id, str(location_id), target_path)
 
 	for voice in data.get("voice_samples", []):
 		if not (voice is Dictionary):
@@ -320,6 +338,58 @@ func _load_audio_cue_file(path: String) -> void:
 			continue
 		for location_id in sound.get("locations", []):
 			_set_story_event_path(scene_id, str(location_id), event_name, target_path)
+
+
+func _load_action_voice_file(path: String) -> void:
+	if not FileAccess.file_exists(path):
+		return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not (parsed is Dictionary):
+		push_warning("Action voice manifest is not an object: %s" % path)
+		return
+	var data: Dictionary = parsed
+	var scene_id := str(data.get("scene_id", ""))
+	if scene_id.is_empty():
+		return
+	var scene_voices: Array = story_voices_by_scene.get(scene_id, [])
+	for raw_action in data.get("actions", []):
+		if not (raw_action is Dictionary):
+			continue
+		for raw_line in raw_action.get("playback_queue", []):
+			if not (raw_line is Dictionary):
+				continue
+			var line: Dictionary = raw_line
+			if str(line.get("status", "planned")) != "generated":
+				continue
+			var target_path := _res_path(str(line.get("target_path", "")))
+			var text := str(line.get("text", ""))
+			if target_path.is_empty() or text.is_empty() or not FileAccess.file_exists(target_path):
+				continue
+			scene_voices.append({
+				"line_id": str(line.get("line_id", "")),
+				"match": text,
+				"path": target_path,
+				"source": "action_voice",
+			})
+	story_voices_by_scene[scene_id] = scene_voices
+
+
+func runtime_audio_coverage() -> Dictionary:
+	var music_locations := 0
+	var event_bindings := 0
+	var voice_lines := 0
+	for scene_music in story_music_by_scene_location.values():
+		music_locations += (scene_music as Dictionary).size()
+	for scene_voices in story_voices_by_scene.values():
+		voice_lines += (scene_voices as Array).size()
+	for scene_events in story_events_by_scene_location.values():
+		for location_events in (scene_events as Dictionary).values():
+			event_bindings += (location_events as Dictionary).size()
+	return {
+		"music_locations": music_locations,
+		"voice_lines": voice_lines,
+		"event_bindings": event_bindings,
+	}
 
 
 func _collect_missing_audio_cue_targets(scene_id: String, missing: Array[Dictionary]) -> void:

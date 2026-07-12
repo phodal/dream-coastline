@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/05-century-continuation/astral.png"]
 旁白: 星象塔竣工。墨颀终于拥有观测纪子轩世界的能力。
 [signal arg="set_flag:completed_astral_tower"]
 [end_timeline]

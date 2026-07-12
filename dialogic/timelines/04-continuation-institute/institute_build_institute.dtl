@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/04-continuation-institute/institute.png"]
 旁白: 续文院挂牌。夏离宣布：墨颀不再等待一位王来续命。
 [signal arg="set_flag:founded_institute"]
 [end_timeline]

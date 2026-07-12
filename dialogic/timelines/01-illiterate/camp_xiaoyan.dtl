@@ -1,8 +1,9 @@
+[background arg="res://assets/illustrations/playable/01-illiterate/camp.png"]
 join jizi_xuan (phone) left
 join xiaoyan (default) left
 xiaoyan: □□？□□□！
 jizi_xuan: 我听不懂，你能说普通话吗？
-jizi_xuan: 小砚也听不懂，只能指向你的笔，又指向树林。
+旁白: 小砚也听不懂，只能指向你的笔，又指向树林。
 [signal arg="set_flag:met_xiaoyan"]
 leave jizi_xuan
 leave xiaoyan

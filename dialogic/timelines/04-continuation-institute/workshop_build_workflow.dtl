@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/04-continuation-institute/workshop.png"]
 旁白: 工坊建立测试流程：小样、复核、实地修复。第二次防洪符文修复成功。
 [signal arg="set_flag:repaired_workshop_flow"]
 [end_timeline]

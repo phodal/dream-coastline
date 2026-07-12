@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/05-century-continuation/star_tower.png"]
 旁白: 你看见学校、街道、家。灯一盏盏熄灭，信纸上的字变成：Continue failed.
 [signal arg="set_flag:saw_modern_star_darkening"]
 [end_timeline]

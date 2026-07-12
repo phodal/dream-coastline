@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/02-moqi-academy/village.png"]
 旁白: 井沿的裂纹像被删掉的笔画。水源还在，但名字和流向都不稳定。
 [signal arg="set_flag:checked_broken_well"]
 [end_timeline]

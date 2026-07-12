@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/01-illiterate/chase.png"]
 旁白: 他们喊着你听不懂的话，短刃上的文字却让空气发紧。小砚拉住你就跑。
 [signal arg="set_flag:saw_molusi"]
 [end_timeline]

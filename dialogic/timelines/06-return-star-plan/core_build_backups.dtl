@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/06-return-star-plan/core.png"]
 旁白: 备份链绑定完成。之后如果字根被删，国书网络能从多个城市共同恢复。
 [signal arg="set_flag:bound_civilization_backups"]
 [end_timeline]

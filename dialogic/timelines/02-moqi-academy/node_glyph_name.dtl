@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
 旁白: 你确认节点的名字。它不是废墟，而是仍在等待维护的公共系统。
 [signal arg="set_flag:named_first_node"]
 [end_timeline]

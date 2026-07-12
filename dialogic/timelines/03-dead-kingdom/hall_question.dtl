@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/03-dead-kingdom/hall.png"]
 旁白: 残影问：无王之国，何以为国？夏离沉默得像一座快塌的城。
 [signal arg="set_flag:heard_royal_question"]
 [end_timeline]

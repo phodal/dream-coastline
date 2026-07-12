@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/05-century-continuation/industry.png"]
 旁白: 墨力炉、符文车、公共照明和印刷符纸进入城市。基础设施不再只靠少数书记官。阿棠在试炉旁说：别先争它叫什么，先让我把它跑起来。
 [signal arg="set_flag:built_text_industry"]
 [end_timeline]

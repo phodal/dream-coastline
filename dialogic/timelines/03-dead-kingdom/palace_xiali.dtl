@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/03-dead-kingdom/palace.png"]
 旁白: 夏离说：我想救墨颀，但我以为只要我写得足够快，所有人就会跟上。
 [signal arg="set_flag:xiali_faces_failure"]
 [end_timeline]

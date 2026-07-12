@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/04-continuation-institute/institute.png"]
 旁白: 贵族质问：让普通人改术式，谁来负责？纪子轩把章程推过去：每一步都有记录，所以每个人都能追责。
 [signal arg="set_flag:publicly_answered_noble_observer"]
 [end_timeline]

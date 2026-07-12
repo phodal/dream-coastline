@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/04-continuation-institute/seal_tower.png"]
 旁白: 公共字典页边被擦白。如果它被删掉，所有人的学习都会断页。
 [signal arg="set_flag:dictionary_under_attack"]
 [end_timeline]

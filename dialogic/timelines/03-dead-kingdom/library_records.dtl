@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/03-dead-kingdom/library.png"]
 旁白: 你找到夏离签过的旧令：基础字根可向平民开放试教。墨律司在旁边写了危险二字。
 [signal arg="set_flag:found_reform_records"]
 [end_timeline]

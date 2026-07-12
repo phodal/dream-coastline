@@ -1,8 +1,8 @@
 [background arg="res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png"]
 join jizi_xuan (phone) left
-jizi_xuan: 你碰到钢笔，手指忽然刺痛。
+旁白: 你碰到钢笔，手指忽然刺痛。
 jizi_xuan: 这不是普通的墨。
-jizi_xuan: 血滴在信上，英文被墨迹吞掉：墨颀历三百一十七年，王城陷落。灯灭了。
+旁白: 血滴在信上，英文被墨迹吞掉：墨颀历三百一十七年，王城陷落。灯灭了。
 [signal arg="set_flag:entered_moqi"]
 leave jizi_xuan
 [end_timeline]

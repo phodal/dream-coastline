@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
 旁白: “名”字亮起。目标显形：墨律司执契官。
 [signal arg="set_flag:named_contract_officer"]
 [signal arg="set_flag:confirmed_contract_subject"]

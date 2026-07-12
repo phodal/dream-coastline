@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/03-dead-kingdom/hall.png"]
 旁白: 你写下“门”，让国书看见王以外的通路：书院、工匠、村落、共同维护者。
 [signal arg="set_flag:broken_royal_rule"]
 [end_timeline]

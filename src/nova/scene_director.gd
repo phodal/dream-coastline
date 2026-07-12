@@ -4,6 +4,7 @@ signal project_loaded
 signal location_presented(scene_id: String, location_id: String, location: Dictionary, visual: Dictionary)
 signal cutscene_started(payload: Dictionary)
 signal cutscene_finished(payload: Dictionary)
+signal story_completed(summary: Dictionary)
 signal runtime_error(message: String)
 
 const StoryRepository := preload("res://src/nova/data/story_repository.gd")
@@ -22,6 +23,7 @@ const CHARACTER_APPEARANCES := {
 var story_repository = StoryRepository.new()
 var visual_repository = VisualRepository.new()
 var _combat_attack_attempts: Dictionary = {}
+var _story_completed := false
 
 
 func boot() -> bool:
@@ -34,8 +36,8 @@ func boot() -> bool:
 		var scene := story_repository.get_scene(scene_id)
 		QuestState.ensure_quest(scene_id, str(scene.get("title", scene_id)))
 	var first_scene := story_repository.first_scene_id()
-	GameState.start_scene(first_scene, story_repository.get_start_location(first_scene))
-	_apply_initial_flags(first_scene)
+	GameState.reset_story_progress()
+	_enter_scene(first_scene, story_repository.get_start_location(first_scene))
 	QuestState.set_status(first_scene, QuestState.ACTIVE)
 	GameMode.set_mode(GameMode.EXPLORATION)
 	project_loaded.emit()
@@ -48,6 +50,7 @@ func present_current_location() -> void:
 	var location_id := GameState.current_location_id
 	var location := story_repository.get_location(scene_id, location_id)
 	var visual := visual_repository.get_location_visual(scene_id, location_id)
+	GameState.ensure_combat_resources(story_repository.get_combat(scene_id, location_id))
 	location_presented.emit(scene_id, location_id, location, visual)
 
 
@@ -79,16 +82,18 @@ func inspect_item(item_id: String) -> bool:
 			"characters": _characters_for_item(item_id, item),
 		})
 		return false
+	var route_text := _active_route_text(item)
 	start_cutscene({
 		"speaker": _speaker_for_item(item_id, item),
 		"title": str(item.get("name", item_id)),
-		"text": str(item.get("text", "")),
-		"dialogue": item.get("dialogue", []),
+		"text": route_text if not route_text.is_empty() else str(item.get("text", "")),
+		"dialogue": [] if not route_text.is_empty() else item.get("dialogue", []),
 		"flags": item.get("flags", []),
+		"metrics": item.get("metrics", {}),
 		"time_seconds": item.get("time_seconds", 0),
 		"mode": GameMode.VN_CUTSCENE,
 		"characters": _characters_for_item(item_id, item),
-		"timeline_path": DialogicBridge.resolve_timeline_path(
+		"timeline_path": "" if not route_text.is_empty() else DialogicBridge.resolve_timeline_path(
 			GameState.current_scene_id,
 			GameState.current_location_id,
 			item_id,
@@ -126,16 +131,20 @@ func choose_location_choice(choice_id: String) -> bool:
 			"characters": _characters_for_item(choice_id, choice),
 		})
 		return false
+	var route_text := _active_route_text(choice)
 	start_cutscene({
 		"speaker": _speaker_for_item(choice_id, choice),
 		"title": str(choice.get("name", choice_id)),
-		"text": str(choice.get("text", "")),
-		"dialogue": choice.get("dialogue", []),
+		"text": route_text if not route_text.is_empty() else str(choice.get("text", "")),
+		"dialogue": [] if not route_text.is_empty() else choice.get("dialogue", []),
 		"flags": choice.get("flags", []),
+		"metrics": choice.get("metrics", {}),
 		"time_seconds": choice.get("time_seconds", 0),
 		"mode": GameMode.VN_CUTSCENE,
 		"characters": _characters_for_item(choice_id, choice),
-		"timeline_path": DialogicBridge.resolve_choice_timeline_path(
+		"branch_choice_id": choice_id,
+		"branch_source_scene_id": GameState.current_scene_id,
+		"timeline_path": "" if not route_text.is_empty() else DialogicBridge.resolve_choice_timeline_path(
 			GameState.current_scene_id,
 			GameState.current_location_id,
 			choice_id,
@@ -173,6 +182,8 @@ func start_cutscene(payload: Dictionary) -> void:
 func finish_cutscene(payload: Dictionary) -> void:
 	for flag in payload.get("flags", []):
 		StoryFlags.set_flag(str(flag), true)
+	GameState.apply_metrics(payload.get("metrics", {}))
+	_record_branch_consequence(payload)
 	_update_scene_completion()
 	GameMode.set_mode(GameMode.EXPLORATION)
 	cutscene_finished.emit(payload)
@@ -321,6 +332,24 @@ func _perform_combat_identify() -> bool:
 	if not learn_flag.is_empty() and not StoryFlags.has_flag(learn_flag):
 		start_cutscene(_blocked_payload("识名", "你还没有理解“名”的笔画。"))
 		return false
+	var resources := GameState.ensure_combat_resources(combat)
+	resources["name_attempts"] = int(resources.get("name_attempts", 0)) + 1
+	var success_attempt := maxi(1, int(combat.get("success_attempt", 1)))
+	if int(resources["name_attempts"]) < success_attempt:
+		_damage_player(resources, 1)
+		var failure_flags: Array = _as_array(combat.get("failure_flags", []))
+		var failed_flags: Array = []
+		if not failure_flags.is_empty():
+			failed_flags.append(str(failure_flags[mini(int(resources["name_attempts"]) - 1, failure_flags.size() - 1)]))
+		GameState.update_combat_resources(resources)
+		return _start_synthetic_payload({
+			"title": "识名失败",
+			"text": "符文碎开，敌人趁隙逼近。生命 -1；还要再稳定 %d 次笔画。" % (success_attempt - int(resources["name_attempts"])),
+			"flags": failed_flags,
+			"timeline_path": "",
+		})
+	resources["attacks_since_name"] = 0
+	GameState.update_combat_resources(resources)
 	var flags: Array = []
 	var lock_flag := str(combat.get("lock_flag", ""))
 	if not lock_flag.is_empty():
@@ -345,6 +374,12 @@ func _perform_combat_spell(spell_id: String) -> bool:
 		start_cutscene(_blocked_payload("破解", "目标还没有被识名，规则无法落点。"))
 		return false
 	var spell: Dictionary = spells[spell_id]
+	var resources := GameState.ensure_combat_resources(combat)
+	if int(resources.get("ink", 0)) <= 0:
+		start_cutscene(_blocked_payload("墨量不足", "笔尖已经干涸。需要使用补给恢复墨量。"))
+		return false
+	resources["ink"] = int(resources.get("ink", 0)) - 1
+	GameState.update_combat_resources(resources)
 	return _start_record_payload(spell, {
 		"action_type": "combat_spell",
 		"action_id": spell_id,
@@ -366,21 +401,28 @@ func _perform_combat_resolve() -> bool:
 	if not StoryFlags.has_all(required):
 		start_cutscene(_blocked_payload("终局", "战场规则还没破解：%s。" % _first_missing(required)))
 		return false
-	var attempt_key := "%s/%s" % [GameState.current_scene_id, GameState.current_location_id]
-	var attempts := _combat_attempt_count(attempt_key, combat) + 1
-	_combat_attack_attempts[attempt_key] = attempts
-	var enemy_hp: int = max(1, int(combat.get("enemy_hp", combat.get("success_attempt", 1))))
-	if attempts < enemy_hp:
+	var resources := GameState.ensure_combat_resources(combat)
+	resources["enemy_hp"] = maxi(0, int(resources.get("enemy_hp", 1)) - 1)
+	resources["attacks_since_name"] = int(resources.get("attacks_since_name", 0)) + 1
+	var remaining_enemy_hp := int(resources.get("enemy_hp", 0))
+	if remaining_enemy_hp > 0:
+		_damage_player(resources, 1)
 		var failure_flags: Array = _as_array(combat.get("failure_flags", []))
 		var flags: Array = []
 		if not failure_flags.is_empty():
-			flags.append(str(failure_flags[(attempts - 1) % failure_flags.size()]))
+			flags.append(str(failure_flags[(int(resources["attacks_since_name"]) - 1) % failure_flags.size()]))
+		var lost_name := int(resources["attacks_since_name"]) >= maxi(1, int(combat.get("lose_name_every", 999)))
+		if lost_name:
+			StoryFlags.set_flag(lock_flag, false)
+			resources["attacks_since_name"] = 0
+		GameState.update_combat_resources(resources)
 		return _start_synthetic_payload({
 			"title": "终局 %s" % str(combat.get("revealed_name", "敌人")),
-			"text": "%s 没有被击退。名字的笔画再次松开。" % str(combat.get("revealed_name", "敌人")),
+			"text": "攻击命中，敌方生命剩余 %d。你受到 1 点反击伤害。%s" % [remaining_enemy_hp, "名字正在松开，需要重新识名。" if lost_name else ""],
 			"flags": flags,
 			"timeline_path": DialogicBridge.resolve_action_timeline_path(GameState.current_scene_id, GameState.current_location_id, "combat", "resolve"),
 		})
+	GameState.update_combat_resources(resources)
 	var flags: Array = []
 	var win_flag := str(combat.get("win_flag", ""))
 	if not win_flag.is_empty():
@@ -392,6 +434,31 @@ func _perform_combat_resolve() -> bool:
 		"flags": flags,
 		"timeline_path": DialogicBridge.resolve_action_timeline_path(GameState.current_scene_id, GameState.current_location_id, "combat", "resolve"),
 	})
+
+
+func current_combat_status() -> Dictionary:
+	var combat := story_repository.get_combat(GameState.current_scene_id, GameState.current_location_id)
+	if combat.is_empty():
+		return {}
+	var resources := GameState.ensure_combat_resources(combat).duplicate(true)
+	resources["enemy_name"] = str(combat.get("revealed_name", combat.get("hidden_name", "敌人"))) if StoryFlags.has_flag(str(combat.get("lock_flag", ""))) else str(combat.get("hidden_name", "？？？"))
+	resources["active"] = not StoryFlags.has_flag(str(combat.get("win_flag", "")))
+	return resources
+
+
+func _damage_player(resources: Dictionary, amount: int) -> void:
+	resources["player_hp"] = maxi(0, int(resources.get("player_hp", 1)) - amount)
+	if int(resources["player_hp"]) > 0:
+		return
+	var supplies := int(resources.get("supplies", 0))
+	if supplies > 0:
+		resources["supplies"] = supplies - 1
+		resources["player_hp"] = int(resources.get("player_hp_max", 5))
+		resources["ink"] = int(resources.get("ink_max", 3))
+		StoryFlags.set_flag("used_combat_supply", true)
+	else:
+		resources["player_hp"] = 1
+		StoryFlags.set_flag("survived_without_supplies", true)
 
 
 func _combat_attempt_count(attempt_key: String, combat: Dictionary) -> int:
@@ -408,15 +475,17 @@ func _start_record_payload(record: Dictionary, meta: Dictionary) -> bool:
 	if not StoryFlags.has_all(requires):
 		start_cutscene(_blocked_payload(str(meta.get("title", "行动")), "前置条件不足：%s。" % _first_missing(requires)))
 		return false
+	var route_text := _active_route_text(record)
 	return _start_synthetic_payload({
 		"title": str(meta.get("title", record.get("name", meta.get("action_id", "行动")))),
-		"text": str(record.get("text", record.get("success_text", ""))),
-		"dialogue": record.get("dialogue", []),
+		"text": route_text if not route_text.is_empty() else str(record.get("text", record.get("success_text", ""))),
+		"dialogue": [] if not route_text.is_empty() else record.get("dialogue", []),
 		"flags": record.get("flags", []),
+		"metrics": record.get("metrics", {}),
 		"time_seconds": record.get("time_seconds", 0),
 		"mode": GameMode.VN_CUTSCENE,
 		"characters": _characters_for_item(str(meta.get("action_id", "")), record),
-		"timeline_path": str(meta.get("timeline_path", "")),
+		"timeline_path": "" if not route_text.is_empty() else str(meta.get("timeline_path", "")),
 	})
 
 
@@ -456,19 +525,93 @@ func _update_scene_completion() -> void:
 func _advance_to_next_scene(completed_scene_id: String) -> void:
 	var next_scene := story_repository.next_scene_id(completed_scene_id)
 	if next_scene.is_empty():
+		if not _story_completed:
+			_story_completed = true
+			story_completed.emit({
+				"scene_id": completed_scene_id,
+				"scene_title": str(story_repository.get_scene(completed_scene_id).get("title", completed_scene_id)),
+				"metrics": GameState.metrics.duplicate(true),
+				"route_flags": GameState.carried_flags.duplicate(true),
+			})
 		return
 	var next_location := story_repository.get_start_location(next_scene)
 	if next_location.is_empty():
 		runtime_error.emit("Next scene has no start location: %s" % next_scene)
 		return
-	GameState.start_scene(next_scene, next_location)
-	_apply_initial_flags(next_scene)
+	_enter_scene(next_scene, next_location)
 	QuestState.set_status(next_scene, QuestState.ACTIVE)
+
+
+func restart_story() -> void:
+	_story_completed = false
+	StoryFlags.reset()
+	GameState.reset_story_progress()
+	var first_scene := story_repository.first_scene_id()
+	_enter_scene(first_scene, story_repository.get_start_location(first_scene))
+
+
+func _enter_scene(scene_id: String, location_id: String) -> void:
+	GameState.start_scene(scene_id, location_id)
+	GameState.set_scene_metrics(story_repository.get_scene_metrics(scene_id))
+	_apply_initial_flags(scene_id)
+	_apply_carried_story_state(scene_id)
 
 
 func _apply_initial_flags(scene_id: String) -> void:
 	for flag in story_repository.get_initial_flags(scene_id):
 		StoryFlags.set_flag(str(flag), true)
+
+
+func _apply_carried_story_state(scene_id: String) -> void:
+	for flag in GameState.carried_branch_excluded_flags.keys():
+		StoryFlags.set_flag(str(flag), false)
+	for flag in GameState.carried_flags.keys():
+		if bool(GameState.carried_flags[flag]):
+			StoryFlags.set_flag(str(flag), true)
+	var metric_delta: Dictionary = GameState.carried_metrics_by_scene.get(scene_id, {})
+	GameState.apply_metrics(metric_delta)
+
+
+func _record_branch_consequence(payload: Dictionary) -> void:
+	var source_scene_id := str(payload.get("branch_source_scene_id", ""))
+	if source_scene_id.is_empty():
+		return
+	var contract := story_repository.get_branch_consequences(source_scene_id)
+	var resolved_flag := str(contract.get("resolved_flag", ""))
+	var payload_flags: Array = payload.get("flags", [])
+	if resolved_flag.is_empty() or not _array_has_text(payload_flags, resolved_flag):
+		return
+	GameState.carried_flags[resolved_flag] = true
+	var routes: Dictionary = contract.get("routes", {})
+	for route_id in routes.keys():
+		var route_contract: Dictionary = routes[route_id]
+		var route_flag := str(route_contract.get("flag", ""))
+		if route_flag.is_empty():
+			continue
+		GameState.carried_branch_excluded_flags[route_flag] = true
+		StoryFlags.set_flag(route_flag, false)
+		if not _array_has_text(payload_flags, route_flag):
+			continue
+		GameState.carried_flags[route_flag] = true
+		StoryFlags.set_flag(route_flag, true)
+		var next_scene_metrics: Dictionary = route_contract.get("next_scene_metrics", {})
+		for target_scene_id in next_scene_metrics.keys():
+			GameState.add_carried_metrics(str(target_scene_id), next_scene_metrics[target_scene_id])
+
+
+func _active_route_text(record: Dictionary) -> String:
+	var route_texts: Dictionary = record.get("route_texts", {})
+	for route_flag in route_texts.keys():
+		if StoryFlags.has_flag(str(route_flag)):
+			return str(route_texts[route_flag])
+	return ""
+
+
+func _array_has_text(values: Array, text: String) -> bool:
+	for value in values:
+		if str(value) == text:
+			return true
+	return false
 
 
 func _first_missing(flags: Array) -> String:

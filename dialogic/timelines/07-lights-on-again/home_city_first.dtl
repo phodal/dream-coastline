@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/07-lights-on-again/home.png"]
 旁白: 纪子轩看向父母房间，又看向窗外逐排熄灭的楼。最后他关上房门：先让这座城被看见，再回来找他们。
 [signal arg="set_flag:chose_city_before_parents"]
 [end_timeline]

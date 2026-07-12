@@ -1,3 +1,4 @@
+[background arg="res://assets/illustrations/playable/01-illiterate/station.png"]
 旁白: 无名兽消散后，地上只剩半张旧名牌。它曾经不是怪物，而是某个被删除的人。
 [signal arg="set_flag:inspected_broken_nameplate"]
 [end_timeline]

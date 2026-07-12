@@ -7,8 +7,11 @@ const DialogicBridgeScript := preload("res://src/nova/dialogic_bridge.gd")
 const DialogicVariableBridgeScript := preload("res://src/nova/dialogic_variable_bridge.gd")
 const StartupSplashScript := preload("res://src/nova/ui/startup_splash.gd")
 const PauseOverlayScript := preload("res://src/nova/ui/pause_overlay.gd")
+const EndingOverlayScript := preload("res://src/nova/ui/ending_overlay.gd")
 const SaveRepositoryScript := preload("res://src/nova/data/save_repository.gd")
 const AudioDirectorScript := preload("res://scripts/core/audio_director.gd")
+const SettingsRepositoryScript := preload("res://scripts/core/settings_repository.gd")
+const SettingsOverlayScript := preload("res://src/nova/ui/settings_overlay.gd")
 const JOYPAD_BUTTON_A := 0
 const JOYPAD_BUTTON_B := 1
 const JOYPAD_BUTTON_X := 2
@@ -21,8 +24,11 @@ var dialogic_bridge
 var dialogic_variable_bridge
 var startup_splash
 var pause_overlay
+var ending_overlay
 var save_repository
 var audio_director
+var settings_repository
+var settings_overlay
 var _dialogic_runtime_finished := false
 var _dialogic_runtime_payload: Dictionary = {}
 var _dialogic_runtime_started_with_dialogic := false
@@ -42,6 +48,10 @@ func _ready() -> void:
 
 	save_repository = SaveRepositoryScript.new()
 	save_repository.configure(_nova_save_path())
+	settings_repository = SettingsRepositoryScript.new()
+	settings_repository.configure(_nova_settings_path())
+	settings_repository.load()
+	settings_repository.apply()
 
 	audio_director = AudioDirectorScript.new()
 	audio_director.name = "AudioDirector"
@@ -76,9 +86,23 @@ func _ready() -> void:
 	pause_overlay.name = "PauseOverlay"
 	pause_overlay.resume_requested.connect(_resume_from_pause)
 	pause_overlay.save_requested.connect(_save_from_pause)
+	pause_overlay.settings_requested.connect(_open_settings)
 	pause_overlay.title_requested.connect(_return_to_title_from_pause)
 	pause_overlay.quit_requested.connect(_quit_from_pause)
 	add_child(pause_overlay)
+
+	settings_overlay = SettingsOverlayScript.new()
+	settings_overlay.name = "SettingsOverlay"
+	settings_overlay.configure(settings_repository)
+	settings_overlay.closed.connect(_close_settings)
+	settings_overlay.accessibility_changed.connect(_apply_accessibility)
+	add_child(settings_overlay)
+
+	ending_overlay = EndingOverlayScript.new()
+	ending_overlay.name = "EndingOverlay"
+	ending_overlay.title_requested.connect(_return_to_title_from_ending)
+	ending_overlay.restart_requested.connect(_restart_from_ending)
+	add_child(ending_overlay)
 
 	if not _is_automation_run():
 		startup_splash = StartupSplashScript.new()
@@ -90,11 +114,13 @@ func _ready() -> void:
 
 	director.location_presented.connect(_present_location)
 	director.cutscene_started.connect(_show_cutscene)
+	director.story_completed.connect(_show_ending)
 	director.runtime_error.connect(_runtime_error)
 
 	if not director.boot():
 		get_tree().quit(1)
 		return
+	_apply_accessibility(settings_repository.text_scale, settings_repository.high_contrast)
 	if OS.get_cmdline_user_args().has("--smoke-nova-runtime"):
 		call_deferred("_run_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-progression"):
@@ -115,6 +141,10 @@ func _ready() -> void:
 		call_deferred("_run_gamepad_route_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-save-continue"):
 		call_deferred("_run_save_continue_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-combat-resources"):
+		call_deferred("_run_combat_resources_smoke")
+	elif OS.get_cmdline_user_args().has("--smoke-nova-settings"):
+		call_deferred("_run_settings_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-gamepad-continue"):
 		call_deferred("_run_gamepad_continue_smoke")
 	elif OS.get_cmdline_user_args().has("--smoke-nova-pause-flow"):
@@ -141,6 +171,8 @@ func _ready() -> void:
 		call_deferred("_capture_scene_screenshots")
 	elif OS.get_cmdline_user_args().has("--capture-nova-screenshot"):
 		call_deferred("_capture_screenshot")
+	elif OS.get_cmdline_user_args().has("--capture-settings-screenshot"):
+		call_deferred("_capture_settings_screenshot")
 
 
 func _notification(what: int) -> void:
@@ -185,9 +217,50 @@ func _choose_location_choice(choice_id: String) -> void:
 
 
 func _perform_story_action(action_type: String, action_id: String) -> void:
+	var started: bool = bool(director.perform_story_action(action_type, action_id))
+	if started and audio_director != null:
+		audio_director.play_event(_audio_event_for_story_action(action_type, action_id))
+
+
+func _show_ending(summary: Dictionary) -> void:
+	_save_current_state()
+	GameMode.set_mode(GameMode.MENU)
+	if ending_overlay != null:
+		ending_overlay.open(summary)
 	if audio_director != null:
-		audio_director.play_ui()
-	director.perform_story_action(action_type, action_id)
+		audio_director.play_success()
+
+
+func _return_to_title_from_ending() -> void:
+	if ending_overlay != null:
+		ending_overlay.close()
+	_return_to_title_from_pause()
+
+
+func _restart_from_ending() -> void:
+	if ending_overlay != null:
+		ending_overlay.close()
+	director.restart_story()
+	GameMode.set_mode(GameMode.EXPLORATION)
+	director.present_current_location()
+	_save_current_state()
+
+
+func _audio_event_for_story_action(action_type: String, action_id: String) -> String:
+	match action_type:
+		"glyph":
+			return "write"
+		"build":
+			return "build"
+		"encounter", "combat_identify":
+			return "engage"
+		"combat_spell":
+			return "cast_%s" % action_id if action_id in ["name", "door", "fire", "stop"] else "attack"
+		"combat_resolve":
+			return "success"
+		"combo":
+			return "continue"
+	return "interact"
 
 
 func _show_cutscene(payload: Dictionary) -> void:
@@ -241,10 +314,29 @@ func _resume_from_pause() -> void:
 		audio_director.play_ui()
 
 
-func _save_from_pause() -> void:
-	_save_current_state()
+func _open_settings() -> void:
 	if pause_overlay != null:
-		pause_overlay.set_status("已保存")
+		pause_overlay.visible = false
+	if settings_overlay != null:
+		settings_overlay.open()
+
+
+func _close_settings() -> void:
+	if pause_overlay != null:
+		pause_overlay.open()
+
+
+func _apply_accessibility(text_scale: float, high_contrast: bool) -> void:
+	if exploration_view != null:
+		exploration_view.apply_accessibility(text_scale, high_contrast)
+	if vn_layer != null:
+		vn_layer.apply_accessibility(text_scale, high_contrast)
+
+
+func _save_from_pause() -> void:
+	var saved := _save_current_state()
+	if pause_overlay != null:
+		pause_overlay.set_status("已保存" if saved else "保存失败，请检查磁盘空间")
 	if audio_director != null:
 		audio_director.play_ui()
 
@@ -306,22 +398,20 @@ func _show_startup_splash() -> void:
 
 
 func _reset_to_first_scene() -> void:
-	StoryFlags.reset()
-	var first_scene: String = director.story_repository.first_scene_id()
-	GameState.start_scene(first_scene, director.story_repository.get_start_location(first_scene))
-	for flag in director.story_repository.get_initial_flags(first_scene):
-		StoryFlags.set_flag(str(flag), true)
+	director.restart_story()
+	var first_scene: String = GameState.current_scene_id
 	_restore_quest_status(first_scene)
 	director.present_current_location()
 
 
-func _save_current_state() -> void:
+func _save_current_state() -> bool:
 	if save_repository == null or not _can_write_save():
-		return
-	save_repository.save_game(
+		return false
+	return save_repository.save_game(
 		GameState.current_scene_id,
 		GameState.current_location_id,
 		StoryFlags.export_flags(),
+		GameState.export_story_progress(),
 	)
 
 
@@ -336,6 +426,7 @@ func _restore_saved_game() -> bool:
 	if director.story_repository.get_location(scene_id, location_id).is_empty():
 		return false
 	StoryFlags.import_flags(saved.get("flags", []))
+	GameState.import_story_progress(saved.get("story_progress", {}))
 	GameState.start_scene(scene_id, location_id)
 	_restore_quest_status(scene_id)
 	director.present_current_location()
@@ -359,7 +450,9 @@ func _restore_quest_status(active_scene_id: String) -> void:
 func _can_write_save() -> bool:
 	var args := OS.get_cmdline_user_args()
 	return (
-		args.has("--smoke-nova-save-continue")
+		args.has("--smoke-nova-choices")
+		or args.has("--smoke-nova-save-continue")
+		or args.has("--smoke-nova-combat-resources")
 		or args.has("--smoke-nova-gamepad-continue")
 		or args.has("--smoke-nova-pause-flow")
 		or args.has("--smoke-nova-gamepad-pause-flow")
@@ -369,8 +462,12 @@ func _can_write_save() -> bool:
 
 func _nova_save_path() -> String:
 	var args := OS.get_cmdline_user_args()
+	if args.has("--smoke-nova-choices"):
+		return "user://nova_choice_smoke.json"
 	if args.has("--smoke-nova-save-continue"):
 		return "user://nova_save_smoke.json"
+	if args.has("--smoke-nova-combat-resources"):
+		return "user://nova_combat_resources_smoke.json"
 	if args.has("--smoke-nova-gamepad-continue"):
 		return "user://nova_gamepad_continue_smoke.json"
 	if args.has("--smoke-nova-pause-flow"):
@@ -378,6 +475,75 @@ func _nova_save_path() -> String:
 	if args.has("--smoke-nova-gamepad-pause-flow"):
 		return "user://nova_gamepad_pause_smoke.json"
 	return _arg_value(args, "--nova-save-path", SaveRepositoryScript.DEFAULT_SAVE_PATH)
+
+
+func _nova_settings_path() -> String:
+	return "user://nova_settings_smoke.json" if OS.get_cmdline_user_args().has("--smoke-nova-settings") else SettingsRepositoryScript.SETTINGS_PATH
+
+
+func _run_combat_resources_smoke() -> void:
+	if save_repository != null:
+		save_repository.clear()
+	StoryFlags.reset()
+	GameState.reset_story_progress()
+	director._enter_scene("01-illiterate", "station")
+	StoryFlags.set_flag("learned_name_strokes", true)
+	var ok := true
+	for attempt in range(3):
+		ok = ok and director.perform_story_action("combat_identify", "identify")
+		director.finish_cutscene(_latest_cutscene_payload)
+	var before_attack: Dictionary = director.current_combat_status()
+	ok = ok and int(before_attack.get("player_hp", -1)) == 3
+	ok = ok and StoryFlags.has_flag("named_beast")
+	ok = ok and director.perform_story_action("combat_resolve", "resolve")
+	director.finish_cutscene(_latest_cutscene_payload)
+	var after_attack: Dictionary = director.current_combat_status()
+	ok = ok and int(after_attack.get("enemy_hp", -1)) == 3
+	ok = ok and int(after_attack.get("player_hp", -1)) == 2
+	ok = ok and int(after_attack.get("ink", -1)) == 3
+	ok = ok and int(after_attack.get("supplies", -1)) == 2
+	ok = ok and _save_current_state()
+	GameState.combat_resources.clear()
+	var saved: Dictionary = save_repository.load_game()
+	GameState.import_story_progress(saved.get("story_progress", {}))
+	var restored: Dictionary = GameState.combat_resources.get("01-illiterate/station", {})
+	ok = ok and int(restored.get("enemy_hp", -1)) == 3
+	ok = ok and int(restored.get("player_hp", -1)) == 2
+	print("nova-combat-resources-smoke status=%s player_hp=%d enemy_hp=%d ink=%d supplies=%d saved=%s" % [
+		"PASS" if ok else "FAIL",
+		int(restored.get("player_hp", -1)), int(restored.get("enemy_hp", -1)),
+		int(restored.get("ink", -1)), int(restored.get("supplies", -1)), str(not saved.is_empty()),
+	])
+	save_repository.clear()
+	get_tree().quit(0 if ok else 1)
+
+
+func _run_settings_smoke() -> void:
+	settings_repository.clear()
+	settings_repository.text_scale = 1.5
+	settings_repository.high_contrast = true
+	settings_repository.dialogue_speed = 0.5
+	var ok: bool = bool(settings_repository.set_key_binding("interact", KEY_F))
+	settings_repository.save()
+	var restored = SettingsRepositoryScript.new()
+	restored.configure(_nova_settings_path())
+	restored.load()
+	restored.apply()
+	ok = ok and is_equal_approx(float(restored.text_scale), 1.5)
+	ok = ok and bool(restored.high_contrast)
+	ok = ok and is_equal_approx(float(restored.dialogue_speed), 0.5)
+	ok = ok and int(restored.key_bindings.get("interact", 0)) == KEY_F
+	var mapped := false
+	for event in InputMap.action_get_events("interact"):
+		if event is InputEventKey and int(event.keycode) == KEY_F:
+			mapped = true
+	ok = ok and mapped
+	print("nova-settings-smoke status=%s text_scale=%.2f contrast=%s dialogue_speed=%.2f interact=%s mapped=%s" % [
+		"PASS" if ok else "FAIL", float(restored.text_scale), str(restored.high_contrast),
+		float(restored.dialogue_speed), restored.key_label("interact"), str(mapped),
+	])
+	restored.clear()
+	get_tree().quit(0 if ok else 1)
 
 
 func _run_smoke() -> void:
@@ -438,35 +604,104 @@ func _run_progression_smoke() -> void:
 
 
 func _run_choice_smoke() -> void:
-	StoryFlags.reset()
-	GameState.start_scene("03-dead-kingdom", "library")
-	for flag in director.story_repository.get_initial_flags("03-dead-kingdom"):
-		StoryFlags.set_flag(str(flag), true)
-	StoryFlags.set_flag("found_reform_records", true)
-	director.present_current_location()
-	var choices: Array[Dictionary] = director.build_location_choices()
-	var has_public_choice: bool = choices.any(func(choice: Dictionary) -> bool:
-		return str(choice.get("type", "")) == "choice" and str(choice.get("id", "")) == "public" and bool(choice.get("enabled", false))
-	)
-	var ok: bool = has_public_choice and director.choose_location_choice("public")
-	_finish_cutscene({
-		"flags": ["chose_public_books", "resolved_book_route"],
-	})
-	var after_choices: Array[Dictionary] = director.build_location_choices()
-	var disabled_after_resolve: bool = after_choices.any(func(choice: Dictionary) -> bool:
-		return str(choice.get("type", "")) == "choice" and str(choice.get("id", "")) == "royal" and not bool(choice.get("enabled", true))
-	)
-	ok = ok and StoryFlags.has_flag("chose_public_books")
-	ok = ok and StoryFlags.has_flag("resolved_book_route")
-	ok = ok and disabled_after_resolve
-	ok = ok and DialogicBridgeScript.resolve_choice_timeline_path("03-dead-kingdom", "library", "public").ends_with("library_choice_public.dtl")
-	print("nova-choice-smoke status=%s scene=%s location=%s resolved=%s" % [
+	if save_repository != null:
+		save_repository.clear()
+	var contract: Dictionary = director.story_repository.get_branch_consequences("03-dead-kingdom")
+	var routes: Dictionary = contract.get("routes", {})
+	var ok: bool = routes.size() == 4
+	var tested_routes := 0
+	var save_roundtrip_passed := false
+	for route_id in routes.keys():
+		StoryFlags.reset()
+		GameState.reset_story_progress()
+		director._enter_scene("03-dead-kingdom", "library")
+		StoryFlags.set_flag("found_reform_records", true)
+		director.present_current_location()
+		var choices: Array[Dictionary] = director.build_location_choices()
+		var route_available: bool = choices.any(func(choice: Dictionary) -> bool:
+			return str(choice.get("type", "")) == "choice" and str(choice.get("id", "")) == str(route_id) and bool(choice.get("enabled", false))
+		)
+		ok = ok and route_available and director.choose_location_choice(str(route_id))
+		var branch_payload := _latest_cutscene_payload.duplicate(true)
+		ok = ok and str(branch_payload.get("branch_choice_id", "")) == str(route_id)
+		_finish_cutscene(branch_payload)
+
+		var route_contract: Dictionary = routes[route_id]
+		var selected_flag := str(route_contract.get("flag", ""))
+		ok = ok and StoryFlags.has_flag("resolved_book_route") and StoryFlags.has_flag(selected_flag)
+		for other_route_id in routes.keys():
+			var other_flag := str(routes[other_route_id].get("flag", ""))
+			if str(other_route_id) != str(route_id):
+				ok = ok and not StoryFlags.has_flag(other_flag)
+
+		director._enter_scene("04-continuation-institute", "institute")
+		var delta_04: Dictionary = route_contract.get("next_scene_metrics", {}).get("04-continuation-institute", {})
+		ok = ok and _metrics_match_base_plus_delta(
+			GameState.metrics,
+			director.story_repository.get_scene_metrics("04-continuation-institute"),
+			delta_04,
+		)
+		ok = ok and StoryFlags.has_flag(selected_flag)
+		if selected_flag != "chose_public_books":
+			ok = ok and not StoryFlags.has_flag("chose_public_books")
+
+		var members: Dictionary = director.story_repository.get_items("04-continuation-institute", "institute").get("members", {})
+		ok = ok and director.inspect_item("members")
+		var route_payload := _latest_cutscene_payload.duplicate(true)
+		ok = ok and str(route_payload.get("text", "")) == str(members.get("route_texts", {}).get(selected_flag, ""))
+		ok = ok and str(route_payload.get("timeline_path", "")).is_empty()
+		ok = ok and route_payload.get("dialogue", []).is_empty()
+		_finish_cutscene(route_payload)
+
+		director._enter_scene("06-return-star-plan", director.story_repository.get_start_location("06-return-star-plan"))
+		var delta_06: Dictionary = route_contract.get("next_scene_metrics", {}).get("06-return-star-plan", {})
+		ok = ok and _metrics_match_base_plus_delta(
+			GameState.metrics,
+			director.story_repository.get_scene_metrics("06-return-star-plan"),
+			delta_06,
+		)
+
+		if str(route_id) == "engineers":
+			director._enter_scene("04-continuation-institute", "institute")
+			_save_current_state()
+			var saved: Dictionary = save_repository.load_game()
+			ok = ok and int(saved.get("version", 0)) == 2
+			ok = ok and not saved.get("story_progress", {}).is_empty()
+			StoryFlags.reset()
+			GameState.reset_story_progress()
+			var restored: bool = _restore_saved_game()
+			save_roundtrip_passed = (
+				restored
+				and StoryFlags.has_flag("chose_engineer_books")
+				and not StoryFlags.has_flag("chose_public_books")
+				and _metrics_match_base_plus_delta(
+					GameState.metrics,
+					director.story_repository.get_scene_metrics("04-continuation-institute"),
+					delta_04,
+				)
+			)
+			ok = ok and save_roundtrip_passed
+		tested_routes += 1
+	if save_repository != null:
+		save_repository.clear()
+	print("nova-choice-smoke status=%s routes=%s saved=%s current=%s/%s" % [
 		"PASS" if ok else "FAIL",
+		tested_routes,
+		str(save_roundtrip_passed),
 		GameState.current_scene_id,
 		GameState.current_location_id,
-		str(StoryFlags.has_flag("resolved_book_route")),
 	])
 	get_tree().quit(0 if ok else 1)
+
+
+func _metrics_match_base_plus_delta(actual: Dictionary, base: Dictionary, delta: Dictionary) -> bool:
+	for key in base.keys():
+		if int(actual.get(key, 0)) != int(base[key]) + int(delta.get(key, 0)):
+			return false
+	for key in delta.keys():
+		if int(actual.get(key, 0)) != int(base.get(key, 0)) + int(delta[key]):
+			return false
+	return true
 
 
 func _run_save_continue_smoke() -> void:
@@ -702,12 +937,14 @@ func _run_all_scenes_smoke() -> void:
 	ok = ok and completed.size() == director.story_repository.scene_ids().size()
 	ok = ok and GameState.current_scene_id == director.story_repository.scene_ids().back()
 	ok = ok and StoryFlags.has_all(director.story_repository.get_required_flags(GameState.current_scene_id))
-	print("nova-all-scenes-smoke status=%s scenes=%s flags=%s current=%s/%s" % [
+	ok = ok and director._story_completed and ending_overlay != null and ending_overlay.visible
+	print("nova-all-scenes-smoke status=%s scenes=%s flags=%s current=%s/%s ending=%s" % [
 		"PASS" if ok else "FAIL",
 		completed.size(),
 		StoryFlags.export_flags().keys().size(),
 		GameState.current_scene_id,
 		GameState.current_location_id,
+		str(ending_overlay != null and ending_overlay.visible),
 	])
 	get_tree().quit(0 if ok else 1)
 
@@ -1742,10 +1979,17 @@ func _run_asset_smoke() -> void:
 	for path in required_files:
 		ok = ok and FileAccess.file_exists(path)
 	ok = ok and audio_director != null and audio_director.verify_streams()
-	print("nova-assets-smoke status=%s files=%s audio=%s" % [
+	var coverage: Dictionary = audio_director.runtime_audio_coverage() if audio_director != null else {}
+	ok = ok and int(coverage.get("voice_lines", 0)) >= 28
+	ok = ok and int(coverage.get("event_bindings", 0)) >= 60
+	ok = ok and int(coverage.get("music_locations", 0)) >= 3
+	print("nova-assets-smoke status=%s files=%s audio=%s voices=%d events=%d music_locations=%d" % [
 		"PASS" if ok else "FAIL",
 		required_files.size(),
 		str(audio_director != null),
+		int(coverage.get("voice_lines", 0)),
+		int(coverage.get("event_bindings", 0)),
+		int(coverage.get("music_locations", 0)),
 	])
 	get_tree().quit(0 if ok else 1)
 
@@ -1928,6 +2172,24 @@ func _capture_screenshot() -> void:
 		return
 	var err := image.save_png(output_path)
 	print("nova-screenshot status=%s path=%s" % ["PASS" if err == OK else "FAIL", output_path])
+	get_tree().quit(0 if err == OK else 1)
+
+
+func _capture_settings_screenshot() -> void:
+	_open_pause()
+	_open_settings()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if DisplayServer.get_name() == "headless":
+		print("nova-settings-screenshot status=SKIP reason=headless-display")
+		get_tree().quit(0)
+		return
+	var args := OS.get_cmdline_user_args()
+	var output_path := ProjectSettings.globalize_path(_arg_value(args, "--capture-output", "res://artifacts/nova-settings.png"))
+	DirAccess.make_dir_recursive_absolute(output_path.get_base_dir())
+	var image := get_viewport().get_texture().get_image()
+	var err := image.save_png(output_path) if image != null else ERR_CANT_CREATE
+	print("nova-settings-screenshot status=%s path=%s" % ["PASS" if err == OK else "FAIL", output_path])
 	get_tree().quit(0 if err == OK else 1)
 
 
