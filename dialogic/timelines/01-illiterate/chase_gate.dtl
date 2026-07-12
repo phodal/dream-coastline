@@ -1,4 +1,10 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/chase.png"]
-旁白: 门上符文亮了一半。你说“我不会写”，下一秒，一道墨色笔画从旁边划过。
+join jizi_xuan (phone) left
+旁白: 石门只剩半边，门楣符文断在正中。小砚钻过去后回身招手，你跨过时却撞上一层冰冷阻力。
+jizi_xuan: 它挡的不是身体。是我身上某种不属于这里的东西。
+旁白: 你脱口说出“我不会写”。钢笔随声音发热，断裂符文自行补上一笔，阻力短暂裂开。
+旁白: 一道墨色笔画从树后掠过，精准击碎追兵射来的字刃。出手的人没有现身。
+jizi_xuan: 有人听懂了我，也知道怎样让这扇门放行。
 [signal arg="set_flag:checked_broken_gate"]
+leave jizi_xuan
 [end_timeline]

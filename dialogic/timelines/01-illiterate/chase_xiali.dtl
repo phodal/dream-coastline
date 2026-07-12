@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/chase.png"]
-旁白: 夏离看着你手中的笔：“拿着那支笔还敢站在路中间。你是疯子，还是根本不知道自己是什么？”纪子轩说：“我只是想回家。”夏离冷笑：“那你来错地方了。”
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 树后的人收回短笔。她先确认追兵被石门隔开，才把笔尖转向你的喉咙。
+xiali: 拿着那支笔还敢站在路中间。你是疯子，还是根本不知道自己是什么？
+jizi_xuan: 我不知道这是什么。我只想找到父母，然后回家。
+xiali: 在墨颀，说不知道通常比撒谎更危险。墨律司会把你拆成每一个认识的字来审。
+旁白: 小砚挡到你面前，急促比划断裂名牌。夏离看见上面的削痕，笔尖终于偏开半寸。
+xiali: 他们已经开始收名字了。废驿站能躲一夜，但进去以后，别乱叫任何东西。
+jizi_xuan: 为什么帮我？
+xiali: 我帮的是这个孩子。至于你——最好证明那支笔没有选错人。
 [signal arg="set_flag:met_xiali"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

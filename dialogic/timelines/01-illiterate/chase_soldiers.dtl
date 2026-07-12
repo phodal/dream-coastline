@@ -1,4 +1,10 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/chase.png"]
-旁白: 他们喊着你听不懂的话，短刃上的文字却让空气发紧。小砚拉住你就跑。
+join jizi_xuan (phone) left
+旁白: 两个深色长袍的人穿过营地，胸前方印与布告完全相同。短刃上的字让周围火焰同时压低。
+旁白: 其中一人看见你手里的钢笔，立即改变手势。原本搜查流民的队伍全部转向你。
+jizi_xuan: 他们认得这支笔，而且比抓逃难的人更在意它。
+旁白: 小砚扯住你的袖口冲向树林。身后传来整齐喝令，地上的布告字迹随声音亮起。
+jizi_xuan: 命令能驱动纸上的字。被他们追上，恐怕连名字都会变成武器。
 [signal arg="set_flag:saw_molusi"]
+leave jizi_xuan
 [end_timeline]
