@@ -639,6 +639,115 @@
         "The subdued right side preserves the scrollable battle actions, readable critical labels and combat-resource summary."
       ],
       "human_approved": false
+    },
+    "PBG-00-STREET": {
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "street",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/street.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "Existing project final-art candidate",
+      "source_references": [
+        "res://assets/illustrations/playable/00-prologue-lights-out/street.png",
+        "res://assets/illustrations/chapters/00-prologue-lights-out-01.png",
+        "res://assets/illustrations/story_review/00-prologue-lights-out/street-dark-window.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the existing playable asset with no fallback, hotspot marker, or debug flag.",
+        "The coastal residential slope, single erased kitchen window, drifting ink and papers, lit tower and vending machine read as a specific modern-night disappearance rather than a generic city backdrop.",
+        "Posters and product rows contain no readable generated text at runtime resolution.",
+        "The subdued right side preserves clear contrast for four action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-00-BEDROOM": {
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "bedroom",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "Existing project final-art candidate",
+      "source_references": [
+        "res://assets/illustrations/playable/00-prologue-lights-out/bedroom.png",
+        "res://assets/illustrations/story_review/00-prologue-lights-out/bedroom-continue-letter.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the existing playable asset with no fallback, hotspot marker, or debug flag.",
+        "The half-open door, unsigned letter, black fountain pen, desk lamp and ink entering through the city window read as a lived-in bedroom at the exact threshold of the incident.",
+        "Letter and desk surfaces contain no readable generated text.",
+        "The subdued right side preserves clear contrast for four action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-00-BUILDING": {
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "building",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/building.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "Existing project final-art candidate",
+      "source_references": [
+        "res://assets/illustrations/playable/00-prologue-lights-out/building.png",
+        "res://assets/illustrations/story_review/00-prologue-lights-out/building-voice-lamp.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the existing playable asset with no fallback, hotspot marker, or debug flag.",
+        "The silent apartment corridor, dormant voice-control lamp, mailbox bank, dark elevator and distant home door read as an ordinary shared space becoming unnaturally quiet.",
+        "Notice-board and mailbox micro-detail remains non-readable texture at runtime resolution.",
+        "The subdued right side preserves clear contrast for four action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-00-HOME": {
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "home",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/home.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "Existing project final-art candidate",
+      "source_references": [
+        "res://assets/illustrations/playable/00-prologue-lights-out/home.png",
+        "res://assets/illustrations/story_review/00-prologue-lights-out/home-unlocked-door.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the existing playable asset with no fallback, hotspot marker, or debug flag.",
+        "The unlocked front door, orderly family shoes and coats, dark quiet interior and inked coastal night read as a familiar home with a specific absence rather than an abandoned apartment.",
+        "Door and household surfaces contain no readable generated text.",
+        "The subdued right side preserves clear contrast for four action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-00-LIVING_ROOM": {
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "living_room",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/living_room.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "Existing project final-art candidate",
+      "source_references": [
+        "res://assets/illustrations/playable/00-prologue-lights-out/living_room.png",
+        "res://assets/illustrations/story_review/00-prologue-lights-out/living-room-cold-dinner.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the existing playable asset with no fallback, hotspot marker, or debug flag.",
+        "The lit but silent family room, untouched cold dinner, powered-off television, family photo wall and empty seating read as a recently occupied home interrupted at dinner.",
+        "Photographs and household objects contain no readable generated text.",
+        "The subdued right side preserves clear contrast for six action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-00-STUDY": {
+      "scene_id": "00-prologue-lights-out",
+      "location_id": "study",
+      "target_path": "res://assets/illustrations/playable/00-prologue-lights-out/study.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "Existing project final-art candidate",
+      "source_references": [
+        "res://assets/illustrations/playable/00-prologue-lights-out/study.png",
+        "res://assets/illustrations/story_review/00-prologue-lights-out/study-phone-signal.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the existing playable asset with no fallback, hotspot marker, or debug flag.",
+        "The paired parental work traces, father's glasses, half-open mother's notebook, family photographs, phone-signal evidence and lit desk against the dark city read as an active family investigation space.",
+        "Notebook, books and device surfaces contain no readable generated text at runtime resolution.",
+        "The subdued right side preserves clear contrast for four action rows."
+      ],
+      "human_approved": false
     }
   }
 }
