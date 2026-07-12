@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/academy.png"]
-旁白: 闻素说：在墨颀，不会写字的人，不是愚笨。是不被允许存在得太完整。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 旧讲堂没有门牌。夏离在空墙上敲了三下，一道原本不存在的门才从砖缝里展开。
+wensu: 你带回来一个握着国书笔、却连路牌都读不懂的人。这个笑话成本很高。
+xiali: 他在废驿站识名成功，也保住了小砚。至少不是毫无用处。
+jizi_xuan: 我不是来证明有用。我在找父母，他们可能到过这里。
+旁白: 闻素没有回答，只翻看半张旧名牌，又让你把手机上残缺的家庭照片放到桌面。
+wensu: 在墨颀，不会写字的人不是愚笨，是不被允许存在得太完整。你父母知道这句话的代价。
+jizi_xuan: 你认识他们。
+wensu: 我认识他们留下的问题。想知道答案，先证明你能看见问题本身。
 [signal arg="set_flag:met_wensu"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]

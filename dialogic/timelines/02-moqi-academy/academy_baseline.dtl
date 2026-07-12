@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/academy.png"]
-旁白: 闻素没有立刻教新字，而是让你把听不懂、看不懂、误读的地方逐项写下。她说：先承认不知道，才有资格学习。
+join jizi_xuan (phone) left
+join wensu (default) left
+旁白: 闻素把路牌、布告和旧名牌的拓片排成一列，没有告诉你哪张来自哪里。
+wensu: 先说你不知道什么。不要猜，也不要用“差不多”填空。
+jizi_xuan: 路牌的字不躲我，布告会主动改变位置；名牌上的笔画则像被外力削掉。
+wensu: 很好。第一张是语言隔离，第二张是权限拒绝，第三张是记录破坏。三种现象不能都叫看不懂。
+旁白: 她又让你复述驿站战斗。每当你说“怪物”，便用笔杆敲一下桌面。
+jizi_xuan: 我确认的是它被夺走过名字，不是它生来就是怪物。
+wensu: 通过。承认未知不是谦虚，是防止错误解释获得执行权限。
 [signal arg="set_flag:passed_wensu_baseline"]
+leave jizi_xuan
+leave wensu
 [end_timeline]

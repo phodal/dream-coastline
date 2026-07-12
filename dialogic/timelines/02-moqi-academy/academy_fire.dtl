@@ -1,4 +1,13 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/academy.png"]
-旁白: “火”是能源，也是警告。闻素让你先学会启动，再学会停止。
+join jizi_xuan (phone) left
+join wensu (default) left
+旁白: 讲台下嵌着一台停转的墨力炉。闻素让你写“火”，却把灭火用的砂桶放在伸手够不到的位置。
+jizi_xuan: 你是在测试我会不会先点燃再说。
+wensu: 力量最喜欢被误认为进步。先告诉我启动以后，谁负责停止。
+旁白: 你检查炉壁，发现旧“火”字旁还有一枚几乎磨平的“止”。两者原本属于同一套回路。
+jizi_xuan: 单独抄“火”会绕开保护。村里的旧设备如果只剩启动字，维修就是在制造下一次事故。
+wensu: 现在可以点火。记住：能源字也是警告字，缺少约束的知识不叫完整知识。
 [signal arg="set_flag:learned_fire"]
+leave jizi_xuan
+leave wensu
 [end_timeline]

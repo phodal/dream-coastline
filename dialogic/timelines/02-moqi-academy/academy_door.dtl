@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/academy.png"]
-旁白: “门”不是木板，而是通行规则。理解它后，地图上多出许多原本看不见的入口。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiali (default) left
+旁白: 闻素让你对着讲堂出口写“门”。墙面立刻多出三个相同门框，却只有一个能通向走廊。
+jizi_xuan: 形状一样，目的地却不同。我要怎样知道哪扇是真的？
+wensu: 门从来不负责真实，只负责谁能从哪里通过。先问规则服务谁。
+xiali: 左边只认书院身份，中间收取墨量，右边允许任何人出去，却不许回来。
+旁白: 你把“门”的最后一竖落在中间门框外侧，拒绝支付不明代价。左侧门随即显出隐藏铰链。
+jizi_xuan: 理解通行规则后，原本看不见的入口才会出现。也包括被故意藏起来的路。
 [signal arg="set_flag:learned_door"]
+leave jizi_xuan
+leave wensu
+leave xiali
 [end_timeline]

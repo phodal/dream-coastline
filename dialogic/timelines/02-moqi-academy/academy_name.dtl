@@ -1,4 +1,13 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/academy.png"]
-旁白: 你复习“名”。它不是标签，而是让一个对象被世界承认。
+join jizi_xuan (phone) left
+join wensu (default) left
+wensu: 再写一次“名”。这回桌上没有无名兽，也没有要你救的人。
+旁白: 你写完后，墨迹只是一枚普通字形，没有发光，也没有牵住任何对象。
+jizi_xuan: 少了具体的人。驿站里我知道自己在确认谁，现在只是写一个概念。
+wensu: 所以“名”不是标签。它建立对象、称呼与见证者之间的关系。少一个，接口就不完整。
+旁白: 闻素把旧名牌放到字旁。墨迹立刻向断口伸出一线，却在碰到方印前停下。
+jizi_xuan: 它还能识别记录被谁阻断。学会名字，也等于学会追查删除者。
 [signal arg="set_flag:learned_name"]
+leave jizi_xuan
+leave wensu
 [end_timeline]

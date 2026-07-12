@@ -1,4 +1,13 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/academy.png"]
-旁白: “止”不是停下动作，而是稳定边界。它能让裂纹暂时不再扩大。
+join jizi_xuan (phone) left
+join wensu (default) left
+旁白: 闻素在水盆边缘划开一道细缝。水没有立刻流出，裂纹却沿着你视线一点点增长。
+jizi_xuan: 我写“止”，是让水停下，还是让裂纹停下？
+wensu: 如果连边界都没定义，停止只会随机选一个对象。看清正在扩大的是什么。
+旁白: 你将笔尖落在裂纹前方，而不是压住水面。“止”字展开成一道窄线，裂口在碰到它时凝住。
+jizi_xuan: 它没有修好水盆，只替我争取了处理原因的时间。
+wensu: 对。稳定不是解决。去边境村落看看，把这四个字放进一个不允许你重来的问题里。
 [signal arg="set_flag:learned_stop"]
+leave jizi_xuan
+leave wensu
 [end_timeline]

@@ -60,6 +60,17 @@
           "name": "闻素",
           "time_seconds": 60,
           "flags": ["met_wensu"],
+          "characters": ["jizi_xuan", "xiali", "wensu"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "旧讲堂没有门牌。夏离在空墙上敲了三下，一道原本不存在的门才从砖缝里展开。"},
+            {"speaker": "wensu", "text": "你带回来一个握着国书笔、却连路牌都读不懂的人。这个笑话成本很高。"},
+            {"speaker": "xiali", "text": "他在废驿站识名成功，也保住了小砚。至少不是毫无用处。"},
+            {"speaker": "jizi_xuan", "text": "我不是来证明有用。我在找父母，他们可能到过这里。"},
+            {"speaker": "旁白", "text": "闻素没有回答，只翻看半张旧名牌，又让你把手机上残缺的家庭照片放到桌面。"},
+            {"speaker": "wensu", "text": "在墨颀，不会写字的人不是愚笨，是不被允许存在得太完整。你父母知道这句话的代价。"},
+            {"speaker": "jizi_xuan", "text": "你认识他们。"},
+            {"speaker": "wensu", "text": "我认识他们留下的问题。想知道答案，先证明你能看见问题本身。"}
+          ],
           "text": "闻素说：在墨颀，不会写字的人，不是愚笨。是不被允许存在得太完整。"
         },
         "baseline": {
@@ -67,6 +78,16 @@
           "time_seconds": 90,
           "requires": ["met_wensu"],
           "flags": ["passed_wensu_baseline"],
+          "characters": ["jizi_xuan", "wensu"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "闻素把路牌、布告和旧名牌的拓片排成一列，没有告诉你哪张来自哪里。"},
+            {"speaker": "wensu", "text": "先说你不知道什么。不要猜，也不要用“差不多”填空。"},
+            {"speaker": "jizi_xuan", "text": "路牌的字不躲我，布告会主动改变位置；名牌上的笔画则像被外力削掉。"},
+            {"speaker": "wensu", "text": "很好。第一张是语言隔离，第二张是权限拒绝，第三张是记录破坏。三种现象不能都叫看不懂。"},
+            {"speaker": "旁白", "text": "她又让你复述驿站战斗。每当你说“怪物”，便用笔杆敲一下桌面。"},
+            {"speaker": "jizi_xuan", "text": "我确认的是它被夺走过名字，不是它生来就是怪物。"},
+            {"speaker": "wensu", "text": "通过。承认未知不是谦虚，是防止错误解释获得执行权限。"}
+          ],
           "text": "闻素没有立刻教新字，而是让你把听不懂、看不懂、误读的地方逐项写下。她说：先承认不知道，才有资格学习。"
         },
         "name": {
@@ -74,6 +95,15 @@
           "time_seconds": 45,
           "flags": ["learned_name"],
           "glyph_mastery": {"name": 1},
+          "characters": ["jizi_xuan", "wensu"],
+          "dialogue": [
+            {"speaker": "wensu", "text": "再写一次“名”。这回桌上没有无名兽，也没有要你救的人。"},
+            {"speaker": "旁白", "text": "你写完后，墨迹只是一枚普通字形，没有发光，也没有牵住任何对象。"},
+            {"speaker": "jizi_xuan", "text": "少了具体的人。驿站里我知道自己在确认谁，现在只是写一个概念。"},
+            {"speaker": "wensu", "text": "所以“名”不是标签。它建立对象、称呼与见证者之间的关系。少一个，接口就不完整。"},
+            {"speaker": "旁白", "text": "闻素把旧名牌放到字旁。墨迹立刻向断口伸出一线，却在碰到方印前停下。"},
+            {"speaker": "jizi_xuan", "text": "它还能识别记录被谁阻断。学会名字，也等于学会追查删除者。"}
+          ],
           "text": "你复习“名”。它不是标签，而是让一个对象被世界承认。"
         },
         "door": {
@@ -81,6 +111,15 @@
           "time_seconds": 50,
           "flags": ["learned_door"],
           "glyph_mastery": {"door": 1},
+          "characters": ["jizi_xuan", "wensu", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "闻素让你对着讲堂出口写“门”。墙面立刻多出三个相同门框，却只有一个能通向走廊。"},
+            {"speaker": "jizi_xuan", "text": "形状一样，目的地却不同。我要怎样知道哪扇是真的？"},
+            {"speaker": "wensu", "text": "门从来不负责真实，只负责谁能从哪里通过。先问规则服务谁。"},
+            {"speaker": "xiali", "text": "左边只认书院身份，中间收取墨量，右边允许任何人出去，却不许回来。"},
+            {"speaker": "旁白", "text": "你把“门”的最后一竖落在中间门框外侧，拒绝支付不明代价。左侧门随即显出隐藏铰链。"},
+            {"speaker": "jizi_xuan", "text": "理解通行规则后，原本看不见的入口才会出现。也包括被故意藏起来的路。"}
+          ],
           "text": "“门”不是木板，而是通行规则。理解它后，地图上多出许多原本看不见的入口。"
         },
         "fire": {
@@ -88,6 +127,15 @@
           "time_seconds": 50,
           "flags": ["learned_fire"],
           "glyph_mastery": {"fire": 1},
+          "characters": ["jizi_xuan", "wensu"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "讲台下嵌着一台停转的墨力炉。闻素让你写“火”，却把灭火用的砂桶放在伸手够不到的位置。"},
+            {"speaker": "jizi_xuan", "text": "你是在测试我会不会先点燃再说。"},
+            {"speaker": "wensu", "text": "力量最喜欢被误认为进步。先告诉我启动以后，谁负责停止。"},
+            {"speaker": "旁白", "text": "你检查炉壁，发现旧“火”字旁还有一枚几乎磨平的“止”。两者原本属于同一套回路。"},
+            {"speaker": "jizi_xuan", "text": "单独抄“火”会绕开保护。村里的旧设备如果只剩启动字，维修就是在制造下一次事故。"},
+            {"speaker": "wensu", "text": "现在可以点火。记住：能源字也是警告字，缺少约束的知识不叫完整知识。"}
+          ],
           "text": "“火”是能源，也是警告。闻素让你先学会启动，再学会停止。"
         },
         "stop": {
@@ -95,6 +143,15 @@
           "time_seconds": 50,
           "flags": ["learned_stop"],
           "glyph_mastery": {"stop": 1},
+          "characters": ["jizi_xuan", "wensu"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "闻素在水盆边缘划开一道细缝。水没有立刻流出，裂纹却沿着你视线一点点增长。"},
+            {"speaker": "jizi_xuan", "text": "我写“止”，是让水停下，还是让裂纹停下？"},
+            {"speaker": "wensu", "text": "如果连边界都没定义，停止只会随机选一个对象。看清正在扩大的是什么。"},
+            {"speaker": "旁白", "text": "你将笔尖落在裂纹前方，而不是压住水面。“止”字展开成一道窄线，裂口在碰到它时凝住。"},
+            {"speaker": "jizi_xuan", "text": "它没有修好水盆，只替我争取了处理原因的时间。"},
+            {"speaker": "wensu", "text": "对。稳定不是解决。去边境村落看看，把这四个字放进一个不允许你重来的问题里。"}
+          ],
           "text": "“止”不是停下动作，而是稳定边界。它能让裂纹暂时不再扩大。"
         }
       }
