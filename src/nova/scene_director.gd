@@ -342,11 +342,10 @@ func _perform_combat_identify() -> bool:
 		if not failure_flags.is_empty():
 			failed_flags.append(str(failure_flags[mini(int(resources["name_attempts"]) - 1, failure_flags.size() - 1)]))
 		GameState.update_combat_resources(resources)
-		return _start_synthetic_payload({
+		return _start_combat_payload(combat, "identify_failure_dialogues", int(resources["name_attempts"]) - 1, {
 			"title": "识名失败",
 			"text": "符文碎开，敌人趁隙逼近。生命 -1；还要再稳定 %d 次笔画。" % (success_attempt - int(resources["name_attempts"])),
 			"flags": failed_flags,
-			"timeline_path": "",
 		})
 	resources["attacks_since_name"] = 0
 	GameState.update_combat_resources(resources)
@@ -355,11 +354,10 @@ func _perform_combat_identify() -> bool:
 	if not lock_flag.is_empty():
 		flags.append(lock_flag)
 	flags.append_array(combat.get("success_flags", []))
-	return _start_synthetic_payload({
+	return _start_combat_payload(combat, "identify_success_dialogue", 0, {
 		"title": "识名 %s" % str(combat.get("hidden_name", "敌人")),
 		"text": "“名”字亮起。目标显形：%s。" % str(combat.get("revealed_name", "敌人")),
 		"flags": flags,
-		"timeline_path": DialogicBridge.resolve_action_timeline_path(GameState.current_scene_id, GameState.current_location_id, "combat", "identify"),
 	})
 
 
@@ -416,11 +414,11 @@ func _perform_combat_resolve() -> bool:
 			StoryFlags.set_flag(lock_flag, false)
 			resources["attacks_since_name"] = 0
 		GameState.update_combat_resources(resources)
-		return _start_synthetic_payload({
+		var dialogue_key := "resolve_lost_name_dialogue" if lost_name else "resolve_hit_dialogues"
+		return _start_combat_payload(combat, dialogue_key, int(resources["attacks_since_name"]) - 1, {
 			"title": "终局 %s" % str(combat.get("revealed_name", "敌人")),
 			"text": "攻击命中，敌方生命剩余 %d。你受到 1 点反击伤害。%s" % [remaining_enemy_hp, "名字正在松开，需要重新识名。" if lost_name else ""],
 			"flags": flags,
-			"timeline_path": DialogicBridge.resolve_action_timeline_path(GameState.current_scene_id, GameState.current_location_id, "combat", "resolve"),
 		})
 	GameState.update_combat_resources(resources)
 	var flags: Array = []
@@ -428,12 +426,33 @@ func _perform_combat_resolve() -> bool:
 	if not win_flag.is_empty():
 		flags.append(win_flag)
 	flags.append_array(combat.get("reward_flags", []))
-	return _start_synthetic_payload({
+	return _start_combat_payload(combat, "resolve_success_dialogue", 0, {
 		"title": "终局 %s" % str(combat.get("revealed_name", "敌人")),
 		"text": "%s 被击退。" % str(combat.get("revealed_name", "敌人")),
 		"flags": flags,
-		"timeline_path": DialogicBridge.resolve_action_timeline_path(GameState.current_scene_id, GameState.current_location_id, "combat", "resolve"),
 	})
+
+
+func _start_combat_payload(combat: Dictionary, dialogue_key: String, stage_index: int, fallback: Dictionary) -> bool:
+	var authored = combat.get(dialogue_key, [])
+	var dialogue: Array = []
+	if authored is Array and not authored.is_empty():
+		if authored[0] is Array:
+			dialogue = authored[mini(maxi(stage_index, 0), authored.size() - 1)]
+		else:
+			dialogue = authored
+	if not dialogue.is_empty():
+		fallback["dialogue"] = dialogue
+		var combined_text := ""
+		for entry in dialogue:
+			if not combined_text.is_empty():
+				combined_text += " "
+			combined_text += str(entry.get("text", ""))
+		fallback["text"] = combined_text
+	# Combat feedback varies by attempt and HP; a static generated timeline would
+	# hide the current payload behind generic identify/resolve narration.
+	fallback["timeline_path"] = ""
+	return _start_synthetic_payload(fallback)
 
 
 func current_combat_status() -> Dictionary:

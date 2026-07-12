@@ -433,6 +433,25 @@ def evidence_reading_minutes(scene: dict) -> float:
                     visible_characters += sum(len(str(entry.get("text", ""))) for entry in dialogue if isinstance(entry, dict))
                 else:
                     visible_characters += len(str(record.get("text", "")))
+        combat = location.get("combat", {})
+        for key in (
+            "identify_failure_dialogues",
+            "identify_success_dialogue",
+            "resolve_hit_dialogues",
+            "resolve_lost_name_dialogue",
+            "resolve_success_dialogue",
+        ):
+            authored = combat.get(key, [])
+            if authored and isinstance(authored[0], list):
+                dialogue_groups = authored
+            else:
+                dialogue_groups = [authored]
+            for dialogue in dialogue_groups:
+                visible_characters += sum(
+                    len(str(entry.get("text", "")))
+                    for entry in dialogue
+                    if isinstance(entry, dict)
+                )
     reading_minutes = visible_characters / 250.0
     command_overhead_minutes = len(scene.get("walkthrough", [])) * 2.0 / 60.0
     return reading_minutes + command_overhead_minutes
