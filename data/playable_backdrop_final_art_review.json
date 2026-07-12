@@ -621,6 +621,24 @@
         "The subdued right side preserves clear contrast for six action rows."
       ],
       "human_approved": false
+    },
+    "PBG-03-HALL": {
+      "scene_id": "03-dead-kingdom",
+      "location_id": "hall",
+      "target_path": "res://assets/illustrations/playable/03-dead-kingdom/hall.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/03-dead-kingdom/hall.png",
+        "res://assets/characters/creatures/creature_005_statebook_remnant/habitat.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "Faceless incomplete ruler remnants, the empty throne, surrounding civic seats, constitutional balances and question/plan/answer stations read as a systemic trial over whether Moqi requires a king.",
+        "All ruler robes, archive cylinders and wall fragments were revised to contain no readable generated text or pseudo-calligraphy.",
+        "The subdued right side preserves the scrollable battle actions, readable critical labels and combat-resource summary."
+      ],
+      "human_approved": false
     }
   }
 }
