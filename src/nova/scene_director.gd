@@ -443,6 +443,7 @@ func _start_combat_payload(combat: Dictionary, dialogue_key: String, stage_index
 			dialogue = authored
 	if not dialogue.is_empty():
 		fallback["dialogue"] = dialogue
+		fallback["characters"] = _characters_for_item("", combat)
 		var combined_text := ""
 		for entry in dialogue:
 			if not combined_text.is_empty():
