@@ -246,12 +246,33 @@
           "name": "夏离写下的名",
           "time_seconds": 65,
           "flags": ["learned_name_strokes"],
-          "text": "夏离在地上写下“名”。他说：不是描形，是理解它为什么这样写。"
+          "characters": ["jizi_xuan", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "夏离用短笔蘸了窗缝里的雨水，在灰地上写下一个“名”。墨迹没有散，反而微微浮起。"},
+            {"speaker": "xiali", "text": "别描形。先看上半部——夜里看不清脸，人会先问对方叫什么。"},
+            {"speaker": "jizi_xuan", "text": "所以这个字不是标签，是让一个人从黑暗里被认出来？"},
+            {"speaker": "xiali", "text": "总算不是全无药救。墨颀的字服从理解，不服从漂亮。"},
+            {"speaker": "旁白", "text": "你握住钢笔，照着她的顺序落下第一笔。笔尖拖得很重，像纸下压着另一个人的手。"},
+            {"speaker": "xiali", "text": "稳住。你不是在创造名字，是在证明那个名字还存在。"},
+            {"speaker": "旁白", "text": "最后一笔闭合时，墙上即将消失的“名”字短暂恢复完整，角落里的无脸轮廓也第一次后退。"},
+            {"speaker": "jizi_xuan", "text": "它怕的不是这个字。它怕有人还记得字后面是谁。"}
+          ],
+          "text": "夏离在地上写下“名”。她说：不是描形，是理解它为什么这样写。"
         },
         "xiaoyan": {
           "name": "小砚的名字",
           "time_seconds": 45,
           "flags": ["saw_xiaoyan_name_fading"],
+          "characters": ["jizi_xuan", "xiaoyan", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "小砚头顶原本模糊的两个字忽明忽暗，右边一笔正被角落里的影子缓慢扯走。"},
+            {"speaker": "xiaoyan", "text": "小……□。"},
+            {"speaker": "jizi_xuan", "text": "小砚。你叫小砚，我记得。"},
+            {"speaker": "旁白", "text": "你每重复一次，缺口便停顿一瞬；一旦呼吸中断，方框又继续扩大。"},
+            {"speaker": "xiali", "text": "别只喊。看着他，想清楚你喊的是谁。无名兽吃的是名字和人的联系。"},
+            {"speaker": "jizi_xuan", "text": "流民营里踩掉名字，不是迷信。被叫得越少，它就越容易把人从世界里剥走。"},
+            {"speaker": "旁白", "text": "小砚抓紧你的袖口。角落里的轮廓终于抬头，空白面孔朝向你刚写下的“名”。"}
+          ],
           "text": "小砚的名字在 UI 上变成□□。你终于明白：它不是杀人，是让人被世界忘掉。"
         },
         "broken_nameplate": {
@@ -259,6 +280,17 @@
           "time_seconds": 40,
           "requires": ["defeated_nameless"],
           "flags": ["inspected_broken_nameplate"],
+          "characters": ["jizi_xuan", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "无名兽散去后，地上没有尸体，只剩半张旧名牌。木片被无数次摩挲，边缘已经像河石一样圆。"},
+            {"speaker": "jizi_xuan", "text": "这和营地外那一半很像。它以前也戴着名字。"},
+            {"speaker": "旁白", "text": "夏离翻过名牌。背面同样刻着墨律司方印，只是年代更久，印痕几乎吃穿木片。"},
+            {"speaker": "xiali", "text": "收名令不是今天才有。墨律司把被删除的人叫作怪物，便没人会追问他们原来是谁。"},
+            {"speaker": "jizi_xuan", "text": "我们刚才打败的，也许只是一个忘了怎样回答的人。"},
+            {"speaker": "旁白", "text": "小砚把营地捡到的半片贴上去。断口无法吻合，却让残缺笔画同时亮了一下。"},
+            {"speaker": "xiali", "text": "想找你父母，就先学会分辨谁在写历史，谁又被从历史里删掉。书院或许还有答案。"},
+            {"speaker": "jizi_xuan", "text": "那就去书院。至少下一次，我想在出手前知道对方的名字。"}
+          ],
           "text": "无名兽消散后，地上只剩半张旧名牌。它曾经不是怪物，而是某个被删除的人。"
         }
       },

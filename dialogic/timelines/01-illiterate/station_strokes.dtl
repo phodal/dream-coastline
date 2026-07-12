@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/station.png"]
-旁白: 夏离在地上写下“名”。他说：不是描形，是理解它为什么这样写。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 夏离用短笔蘸了窗缝里的雨水，在灰地上写下一个“名”。墨迹没有散，反而微微浮起。
+xiali: 别描形。先看上半部——夜里看不清脸，人会先问对方叫什么。
+jizi_xuan: 所以这个字不是标签，是让一个人从黑暗里被认出来？
+xiali: 总算不是全无药救。墨颀的字服从理解，不服从漂亮。
+旁白: 你握住钢笔，照着她的顺序落下第一笔。笔尖拖得很重，像纸下压着另一个人的手。
+xiali: 稳住。你不是在创造名字，是在证明那个名字还存在。
+旁白: 最后一笔闭合时，墙上即将消失的“名”字短暂恢复完整，角落里的无脸轮廓也第一次后退。
+jizi_xuan: 它怕的不是这个字。它怕有人还记得字后面是谁。
 [signal arg="set_flag:learned_name_strokes"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

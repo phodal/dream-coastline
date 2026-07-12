@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/station.png"]
-旁白: 无名兽消散后，地上只剩半张旧名牌。它曾经不是怪物，而是某个被删除的人。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 无名兽散去后，地上没有尸体，只剩半张旧名牌。木片被无数次摩挲，边缘已经像河石一样圆。
+jizi_xuan: 这和营地外那一半很像。它以前也戴着名字。
+旁白: 夏离翻过名牌。背面同样刻着墨律司方印，只是年代更久，印痕几乎吃穿木片。
+xiali: 收名令不是今天才有。墨律司把被删除的人叫作怪物，便没人会追问他们原来是谁。
+jizi_xuan: 我们刚才打败的，也许只是一个忘了怎样回答的人。
+旁白: 小砚把营地捡到的半片贴上去。断口无法吻合，却让残缺笔画同时亮了一下。
+xiali: 想找你父母，就先学会分辨谁在写历史，谁又被从历史里删掉。书院或许还有答案。
+jizi_xuan: 那就去书院。至少下一次，我想在出手前知道对方的名字。
 [signal arg="set_flag:inspected_broken_nameplate"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

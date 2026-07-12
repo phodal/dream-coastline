@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/station.png"]
-旁白: 小砚的名字在 UI 上变成□□。你终于明白：它不是杀人，是让人被世界忘掉。
+join jizi_xuan (phone) left
+join xiaoyan (default) left
+join xiali (default) left
+旁白: 小砚头顶原本模糊的两个字忽明忽暗，右边一笔正被角落里的影子缓慢扯走。
+xiaoyan: 小……□。
+jizi_xuan: 小砚。你叫小砚，我记得。
+旁白: 你每重复一次，缺口便停顿一瞬；一旦呼吸中断，方框又继续扩大。
+xiali: 别只喊。看着他，想清楚你喊的是谁。无名兽吃的是名字和人的联系。
+jizi_xuan: 流民营里踩掉名字，不是迷信。被叫得越少，它就越容易把人从世界里剥走。
+旁白: 小砚抓紧你的袖口。角落里的轮廓终于抬头，空白面孔朝向你刚写下的“名”。
 [signal arg="set_flag:saw_xiaoyan_name_fading"]
+leave jizi_xuan
+leave xiaoyan
+leave xiali
 [end_timeline]
