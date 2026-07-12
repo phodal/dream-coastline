@@ -235,6 +235,24 @@
         "The subdued right side preserves clear contrast for six action rows."
       ],
       "human_approved": false
+    },
+    "PBG-06-DOCKYARD": {
+      "scene_id": "06-return-star-plan",
+      "location_id": "dockyard",
+      "target_path": "res://assets/illustrations/playable/06-return-star-plan/dockyard.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/06-return-star-plan/dockyard.png",
+        "res://assets/illustrations/story_review/06-return-star-plan/return-vessel-dockyard.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The suspended return vessel, maintenance cradle, loading crew, rescue canisters, and city-height dock read as urgent expedition preparation.",
+        "The vessel remains fragile and mission-specific rather than reading as a weaponized warship.",
+        "The subdued right side preserves clear contrast for six action rows."
+      ],
+      "human_approved": false
     }
   }
 }
