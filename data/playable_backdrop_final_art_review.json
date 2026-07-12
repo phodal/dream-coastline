@@ -289,6 +289,60 @@
         "The subdued right side preserves readable battle actions and the visible combat-resource summary."
       ],
       "human_approved": false
+    },
+    "PBG-07-HOME": {
+      "scene_id": "07-lights-on-again",
+      "location_id": "home",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/home.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/07-lights-on-again/home.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/half-silenced-home.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The blank door plate, unlit lamp, faded family frames, paired cups, abstract phone contacts, and dark city bands read as a familiar home losing identity.",
+        "The phone and paper surfaces contain no readable generated text.",
+        "The subdued right side preserves clear contrast for six action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-07-SCHOOL": {
+      "scene_id": "07-lights-on-again",
+      "location_id": "school",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/school.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/07-lights-on-again/school.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/school-erasure.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "Blank announcement sheets, unlabeled trophies and doors, intact classrooms, and uncertain students read as a school whose shared purpose is being erased.",
+        "Boards and plaques contain no readable generated text.",
+        "The subdued right side preserves clear contrast for six action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-07-STORE": {
+      "scene_id": "07-lights-on-again",
+      "location_id": "store",
+      "target_path": "res://assets/illustrations/playable/07-lights-on-again/store.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/07-lights-on-again/store.png",
+        "res://assets/illustrations/story_review/07-lights-on-again/store-name-receipt.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The blank badge, long blank receipt, identity-faded staff photos, concerned clerk, and restrained amber naming thread read as an everyday name-restoration task.",
+        "Products, terminal, receipt, and badge contain no readable generated text or brands.",
+        "The subdued right side preserves clear contrast for four action rows."
+      ],
+      "human_approved": false
     }
   }
 }
