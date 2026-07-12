@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/mud_road.png"]
-旁白: 路牌写着□□□ / □□ / □□□。你意识到自己不是看不清，而是根本不认识这里的字。
+join jizi_xuan (phone) left
+旁白: 路牌写着□□□ / □□ / □□□。缺损处没有刮痕，那些方框本来就是字的一部分。
+jizi_xuan: 我看得见笔画，却不知道它们在说什么。像每个字都把门关上了。
+旁白: 最下方钉着一块较新的木片，箭头指向火光，也指向你唯一能走的泥路。
+jizi_xuan: 至少箭头不需要翻译。先找到人，再弄清这里是哪。
 [signal arg="set_flag:checked_broken_sign"]
+leave jizi_xuan
 [end_timeline]

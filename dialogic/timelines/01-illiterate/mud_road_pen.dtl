@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/mud_road.png"]
-旁白: 你不记得自己什么时候握住了它。它在这个世界里像一件危险的身份证明。
+join jizi_xuan (phone) left
+旁白: 钢笔没有摔进泥里的痕迹，笔夹也干净得反常。只有你的掌心被压出一道深红印。
+jizi_xuan: 我在家里看见的是父亲留下的那支。这一支一模一样，却像一直握在我手里。
+旁白: 你试着松手，笔尖却跟着手指转向远处的火城，仿佛在替你选择方向。
+jizi_xuan: 手机上的字被抹掉，它却还认得路。无论是谁给我的，都知道我会来到这里。
 [signal arg="set_flag:checked_black_pen_again"]
+leave jizi_xuan
 [end_timeline]

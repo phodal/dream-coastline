@@ -1,4 +1,9 @@
 [background arg="res://assets/illustrations/playable/01-illiterate/mud_road.png"]
-旁白: 远处的城墙在燃烧。那不是晚霞，是一整座城正在陷落。
+join jizi_xuan (phone) left
+旁白: 城墙后接连升起三道火柱。钟声只响了半下，便像被谁从中间截断。
+jizi_xuan: 那不是晚霞。城里还有人在跑，城门却已经关了。
+旁白: 风把灰烬送到泥路上。每一片灰里都蜷着细小笔画，落地后才彻底变黑。
+jizi_xuan: 烧掉的不只是房子。这里连火都在烧字。
 [signal arg="set_flag:saw_burning_city"]
+leave jizi_xuan
 [end_timeline]

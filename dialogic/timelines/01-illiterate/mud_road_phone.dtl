@@ -2,6 +2,9 @@
 join jizi_xuan (phone) left
 jizi_xuan: ……这是哪？
 旁白: 手机屏幕显示无服务，随后爬满黑色墨痕。连系统语言都变成无法识别的方块。
+jizi_xuan: 不是没信号。日期、电量、联系人，全都像被同一种东西盖住了。
+旁白: 你凭肌肉记忆划开相册。父母的合照还在，文件名却只剩三个空框。
+jizi_xuan: 照片跟过来了，名字没有。这个世界先拿走的是文字。
 [signal arg="set_flag:checked_phone_no_service"]
 leave jizi_xuan
 [end_timeline]
