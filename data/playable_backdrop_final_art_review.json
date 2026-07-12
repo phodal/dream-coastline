@@ -549,6 +549,42 @@
         "The subdued right side preserves clear contrast and scrollable access for ten action rows."
       ],
       "human_approved": false
+    },
+    "PBG-03-OUTER_CITY": {
+      "scene_id": "03-dead-kingdom",
+      "location_id": "outer_city",
+      "target_path": "res://assets/illustrations/playable/03-dead-kingdom/outer_city.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/03-dead-kingdom/outer_city.png",
+        "res://assets/illustrations/story_review/03-dead-kingdom/dead-city-propaganda.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "Uniformly lit empty stalls, controlled rope lines, patrol silhouettes, clean intact avenue and the severe blank crown poster read as an administratively preserved dead city.",
+        "All market plaques and propaganda surfaces contain no readable generated text or pseudo-calligraphy.",
+        "The subdued right side preserves clear contrast for five action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-03-HQ": {
+      "scene_id": "03-dead-kingdom",
+      "location_id": "hq",
+      "target_path": "res://assets/illustrations/playable/03-dead-kingdom/hq.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/03-dead-kingdom/hq.png",
+        "res://assets/illustrations/story_review/03-dead-kingdom/xiali-rejects-throne.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The maintained archive wall, operational logs, transcript cylinders, empty-name slots, removed royal emblem, empty command chair and Xiali standing apart from the sealed restoration proposal read as bureaucracy surviving the kingdom.",
+        "Evidence surfaces and route networks remain abstract with no readable generated text or pseudo-calligraphy.",
+        "The subdued right side preserves clear contrast for six action rows."
+      ],
+      "human_approved": false
     }
   }
 }
