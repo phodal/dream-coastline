@@ -585,6 +585,42 @@
         "The subdued right side preserves clear contrast for six action rows."
       ],
       "human_approved": false
+    },
+    "PBG-03-LIBRARY": {
+      "scene_id": "03-dead-kingdom",
+      "location_id": "library",
+      "target_path": "res://assets/illustrations/playable/03-dead-kingdom/library.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/03-dead-kingdom/library.png",
+        "res://assets/illustrations/story_review/03-dead-kingdom/book-route-choice.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The sealed-before and handled-after comparison shelves, copying press, distribution crate, empty reformer's chair and four object-coded evidence trays read as proof of a contested literacy reform and genuine route choice.",
+        "All book, letter and record surfaces were revised to contain no readable generated text or pseudo-calligraphy.",
+        "The subdued right side preserves clear contrast and scrollable access for eleven action rows."
+      ],
+      "human_approved": false
+    },
+    "PBG-03-PALACE": {
+      "scene_id": "03-dead-kingdom",
+      "location_id": "palace",
+      "target_path": "res://assets/illustrations/playable/03-dead-kingdom/palace.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/03-dead-kingdom/palace.png",
+        "res://assets/illustrations/story_review/03-dead-kingdom/xiali-rejects-throne.png"
+      ],
+      "acceptance_observations": [
+        "1280x720 Nova route capture loaded the playable asset with no fallback, hotspot marker, or debug flag.",
+        "The scorched fall-route wall, isolated damaged throne, Xiali facing the public courtyard while looking back, blank burned plans and rebuilt bridge plank read as accountable refusal of restoration rather than simple rejection.",
+        "Wall route and paper surfaces remain abstract with no readable generated text or pseudo-calligraphy.",
+        "The subdued right side preserves clear contrast for six action rows."
+      ],
+      "human_approved": false
     }
   }
 }
