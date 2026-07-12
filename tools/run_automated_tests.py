@@ -407,6 +407,10 @@ def playable_backdrop_imagen_manifest(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/build_playable_backdrop_imagen_manifest.py", "--check")
 
 
+def playable_backdrop_final_art_review(runner: Runner, step: Step) -> int:
+    return runner.run_python(step, "tools/validate_playable_backdrop_final_art_review.py")
+
+
 def dialogic_timelines(runner: Runner, step: Step) -> int:
     return runner.run_python(step, "tools/validate_dialogic_timelines.py")
 
@@ -487,13 +491,22 @@ def cargo_release_builds(runner: Runner, step: Step) -> int:
 
 
 def desktop_release_exports(runner: Runner, step: Step) -> int:
-    outputs = [
-        ROOT / "builds" / "macos" / "Dream Coastline.zip",
-        ROOT / "builds" / "windows" / "Dream Coastline.exe",
-        ROOT / "builds" / "windows" / "Dream Coastline.pck",
-        ROOT / "builds" / "linux" / "dream-coastline.x86_64",
-        ROOT / "builds" / "linux" / "dream-coastline.pck",
-    ]
+    platform_specs = {
+        "macos": ("macOS", ROOT / "builds" / "macos" / "Dream Coastline.zip"),
+        "windows": ("Windows Desktop", ROOT / "builds" / "windows" / "Dream Coastline.exe"),
+        "linux": ("Linux/X11", ROOT / "builds" / "linux" / "dream-coastline.x86_64"),
+    }
+    selected_platforms = parse_csv([runner.args.release_platforms])
+    unknown = selected_platforms - set(platform_specs)
+    if unknown:
+        print(f"desktop-release-exports: unknown platform(s): {', '.join(sorted(unknown))}", file=sys.stderr)
+        return 2
+    outputs_by_platform = {
+        "macos": [ROOT / "builds" / "macos" / "Dream Coastline.zip"],
+        "windows": [ROOT / "builds" / "windows" / "Dream Coastline.exe", ROOT / "builds" / "windows" / "Dream Coastline.pck"],
+        "linux": [ROOT / "builds" / "linux" / "dream-coastline.x86_64", ROOT / "builds" / "linux" / "dream-coastline.pck"],
+    }
+    outputs = [path for platform in selected_platforms for path in outputs_by_platform[platform]]
     if not runner.args.dry_run:
         for path in outputs:
             try:
@@ -501,11 +514,7 @@ def desktop_release_exports(runner: Runner, step: Step) -> int:
             except FileNotFoundError:
                 pass
 
-    exports = [
-        ("macOS", ROOT / "builds" / "macos" / "Dream Coastline.zip"),
-        ("Windows Desktop", ROOT / "builds" / "windows" / "Dream Coastline.exe"),
-        ("Linux/X11", ROOT / "builds" / "linux" / "dream-coastline.x86_64"),
-    ]
+    exports = [platform_specs[platform] for platform in ("macos", "windows", "linux") if platform in selected_platforms]
     for _preset, output_path in exports:
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -520,7 +529,7 @@ def desktop_release_exports(runner: Runner, step: Step) -> int:
             return code
     if runner.args.dry_run:
         return 0
-    return validate_desktop_release_outputs()
+    return validate_desktop_release_outputs(selected_platforms)
 
 
 def run_godot_release_export(runner: Runner, step: Step, preset: str, output_path: Path) -> int:
@@ -619,13 +628,21 @@ def print_recent_output(output: str, line_count: int = 30) -> None:
         print(line, file=sys.stderr)
 
 
-def validate_desktop_release_outputs() -> int:
+def validate_desktop_release_outputs(platforms: set[str] | None = None) -> int:
+    platforms = platforms or {"macos", "windows", "linux"}
+    all_expected_files = {
+        "macos": {"macOS zip": (ROOT / "builds" / "macos" / "Dream Coastline.zip", 50 * 1024 * 1024)},
+        "windows": {
+            "Windows executable": (ROOT / "builds" / "windows" / "Dream Coastline.exe", 20 * 1024 * 1024),
+            "Windows pack": (ROOT / "builds" / "windows" / "Dream Coastline.pck", 50 * 1024 * 1024),
+        },
+        "linux": {
+            "Linux executable": (ROOT / "builds" / "linux" / "dream-coastline.x86_64", 20 * 1024 * 1024),
+            "Linux pack": (ROOT / "builds" / "linux" / "dream-coastline.pck", 50 * 1024 * 1024),
+        },
+    }
     expected_files = {
-        "macOS zip": (ROOT / "builds" / "macos" / "Dream Coastline.zip", 50 * 1024 * 1024),
-        "Windows executable": (ROOT / "builds" / "windows" / "Dream Coastline.exe", 20 * 1024 * 1024),
-        "Windows pack": (ROOT / "builds" / "windows" / "Dream Coastline.pck", 50 * 1024 * 1024),
-        "Linux executable": (ROOT / "builds" / "linux" / "dream-coastline.x86_64", 20 * 1024 * 1024),
-        "Linux pack": (ROOT / "builds" / "linux" / "dream-coastline.pck", 50 * 1024 * 1024),
+        label: spec for platform in platforms for label, spec in all_expected_files[platform].items()
     }
     failures: list[str] = []
     for label, (path, min_size) in expected_files.items():
@@ -637,7 +654,7 @@ def validate_desktop_release_outputs() -> int:
             failures.append(f"{label} too small: {path.relative_to(ROOT)} size={size}")
 
     mac_zip = ROOT / "builds" / "macos" / "Dream Coastline.zip"
-    if mac_zip.exists():
+    if "macos" in platforms and mac_zip.exists():
         try:
             with zipfile.ZipFile(mac_zip) as archive:
                 names = set(archive.namelist())
@@ -653,14 +670,14 @@ def validate_desktop_release_outputs() -> int:
                 failures.append(f"macOS zip missing {entry}")
 
     linux_binary = ROOT / "builds" / "linux" / "dream-coastline.x86_64"
-    if linux_binary.exists() and not linux_binary.stat().st_mode & 0o111:
+    if "linux" in platforms and linux_binary.exists() and not linux_binary.stat().st_mode & 0o111:
         failures.append("Linux executable is not marked executable")
 
     if failures:
         for failure in failures:
             print(f"desktop-release-exports: {failure}", file=sys.stderr)
         return 1
-    print("desktop-release-exports status=PASS artifacts=5")
+    print(f"desktop-release-exports status=PASS artifacts={len(expected_files)} platforms={','.join(sorted(platforms))}")
     return 0
 
 
@@ -807,6 +824,12 @@ STEPS: list[Step] = [
         "validate Imagen final-art prompt coverage for playable backdrops",
         playable_backdrop_imagen_manifest,
     ),
+    Step(
+        "playable-backdrop-final-art-review",
+        "quick",
+        "validate generated backdrop candidates and human-approval separation",
+        playable_backdrop_final_art_review,
+    ),
     Step("dialogic-timelines", "quick", "validate Dialogic timeline coverage and drift", dialogic_timelines),
     Step("story-movie-smoke", "quick", "validate reproducible story movie generation dependencies and output", story_movie_smoke),
     Step(
@@ -876,6 +899,18 @@ STEPS: list[Step] = [
         "quick",
         "validate Nova-native save and continue restoration",
         godot_smoke("--smoke-nova-save-continue", expected_output="nova-save-continue-smoke status=PASS"),
+    ),
+    Step(
+        "smoke-nova-combat-resources",
+        "quick",
+        "validate player/enemy combat resources and save restoration",
+        godot_smoke("--smoke-nova-combat-resources", expected_output="nova-combat-resources-smoke status=PASS"),
+    ),
+    Step(
+        "smoke-nova-settings",
+        "quick",
+        "validate accessibility settings, dialogue speed, and key remapping persistence",
+        godot_smoke("--smoke-nova-settings", expected_output="nova-settings-smoke status=PASS"),
     ),
     Step(
         "smoke-nova-gamepad-continue",
@@ -993,6 +1028,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--scene", default="all", help="Scene id for the visual screenshot step.")
     parser.add_argument("--visual-scope", choices=["starts", "locations", "route", "route-full"], default="starts")
     parser.add_argument("--visual-style", choices=["sunlit_mmo", "classic_dark"], default="sunlit_mmo")
+    parser.add_argument(
+        "--release-platforms",
+        default="macos,windows,linux",
+        help="Comma-separated desktop export platforms: macos, windows, linux.",
+    )
     return parser.parse_args()
 
 

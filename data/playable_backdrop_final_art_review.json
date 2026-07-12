@@ -1,0 +1,114 @@
+{
+  "schema": "dream-coastline.playable_backdrop_final_art_review.v1",
+  "purpose": "Track generated final-art candidates separately from the deterministic Imagen task manifest.",
+  "reviews": {
+    "PBG-04-INSTITUTE": {
+      "scene_id": "04-continuation-institute",
+      "location_id": "institute",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/institute.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/04-continuation-institute/institute.png",
+        "res://assets/illustrations/story_review/04-continuation-institute/first-members-table.png"
+      ],
+      "acceptance_observations": [
+        "Nova location capture passed at 1280x720 with asset_loaded=true and no fallback/debug markers.",
+        "The location reads as a shared industrial research, education, and engineering hall before reading the menu.",
+        "Right action menu and lower narration panel remain legible over intentionally calmer image regions.",
+        "No UI chrome, watermark, or readable generated text is visible in the backdrop."
+      ],
+      "human_approved": false
+    },
+    "PBG-04-MINE": {
+      "scene_id": "04-continuation-institute",
+      "location_id": "mine",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/mine.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/04-continuation-institute/mine.png",
+        "res://assets/illustrations/story_review/04-continuation-institute/mine-safety-board.png"
+      ],
+      "acceptance_observations": [
+        "Nova location capture passed at 1280x720 with asset_loaded=true and no fallback/debug markers.",
+        "The mine reads as hazardous but actively managed through braces, rails, carts, lamps, and worker inspection.",
+        "The safety board uses non-linguistic diagrams rather than readable generated text.",
+        "The dark right region supports the action menu without hiding the mine identity."
+      ],
+      "human_approved": false
+    },
+    "PBG-04-SCHOOL": {
+      "scene_id": "04-continuation-institute",
+      "location_id": "school",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/school.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/04-continuation-institute/school.png",
+        "res://assets/illustrations/story_review/04-continuation-institute/public-school-class.png"
+      ],
+      "acceptance_observations": [
+        "Nova location capture passed at 1280x720 with asset_loaded=true and no fallback/debug markers.",
+        "Mixed-age learners, low shared desks, repaired industrial windows, and a helping teacher read as public education rather than an elite academy.",
+        "Practice surfaces contain abstract marks and diagrams without readable generated language.",
+        "Right and lower overlay regions remain legible while the uncovered scene retains its school identity."
+      ],
+      "human_approved": false
+    },
+    "PBG-04-SEAL_TOWER": {
+      "scene_id": "04-continuation-institute",
+      "location_id": "seal_tower",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/seal_tower.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/04-continuation-institute/seal_tower.png",
+        "res://assets/illustrations/story_review/04-continuation-institute/seal-tower-forgetting.png"
+      ],
+      "acceptance_observations": [
+        "Nova location capture passed at 1280x720 with asset_loaded=true and no fallback/debug markers.",
+        "The vertical archive balconies, central preservation mechanism, blanking papers, and repair crews read as a tower resisting institutional forgetting.",
+        "The right-side darkness preserves action-menu contrast while the upper-left retains the architectural focal point.",
+        "A crowded action list exposed a combat-resource overlap; the list now lives in a focus-following scroll container and the recapture passed."
+      ],
+      "human_approved": false
+    },
+    "PBG-04-TOWER": {
+      "scene_id": "04-continuation-institute",
+      "location_id": "tower",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/tower.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/04-continuation-institute/tower.png",
+        "res://assets/illustrations/story_review/04-continuation-institute/communication-tower-array.png"
+      ],
+      "acceptance_observations": [
+        "Nova location capture passed at 1280x720 with asset_loaded=true and no fallback/debug markers.",
+        "The main relay silhouette, linked smaller towers, cables, switching benches, and collective repair crews read as distributed communication infrastructure.",
+        "The image avoids modern radio-station styling and keeps diagrams non-linguistic.",
+        "The right-side sky and shadow preserve action-menu contrast without erasing the array silhouette."
+      ],
+      "human_approved": false
+    },
+    "PBG-04-WORKSHOP": {
+      "scene_id": "04-continuation-institute",
+      "location_id": "workshop",
+      "target_path": "res://assets/illustrations/playable/04-continuation-institute/workshop.png",
+      "candidate_status": "runtime_verified_pending_human_art_approval",
+      "generated_provider": "OpenAI image generation",
+      "source_references": [
+        "res://assets/illustrations/playable/04-continuation-institute/workshop.png",
+        "res://assets/illustrations/story_review/04-continuation-institute/atang-workshop-flow.png"
+      ],
+      "acceptance_observations": [
+        "Nova location capture passed at 1280x720 with asset_loaded=true and no fallback/debug markers.",
+        "Connected benches, carts, water components, staged assemblies, and multiple craftspeople read as a repeatable collaborative workflow.",
+        "The scene avoids lone-inventor, blacksmith, modern makerspace, and assembly-line readings.",
+        "The dark right aisle preserves action-menu contrast while the central prototype remains visible."
+      ],
+      "human_approved": false
+    }
+  }
+}

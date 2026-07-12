@@ -30,20 +30,26 @@ jobs:
           unzip -q export_templates.tpz
           mv templates/* ~/.local/share/godot/export_templates/4.6.2.stable/
 
-      - name: Export — Linux/X11
+      - name: Install release build dependencies
         run: |
-          mkdir -p builds/linux
-          ./godot --path . --headless --export-release "Linux/X11" "builds/linux/dream-coastline.x86_64"
+          pipx install ziglang
+          cargo install cargo-zigbuild --locked
 
-      - name: Export — Windows Desktop
-        run: |
-          mkdir -p builds/windows
-          ./godot --path . --headless --export-release "Windows Desktop" "builds/windows/Dream Coastline.exe"
+      - name: Run headless player gate
+        run: python3 tools/run_automated_tests.py --tier headless --godot ./godot
+
+      - name: Build Linux and Windows release libraries
+        run: tools/build_release_libraries.sh
+
+      - name: Run release export gate
+        run: python3 tools/run_automated_tests.py --only smoke-export-config,audio-mix-audit,desktop-release-exports --release-platforms windows,linux --godot ./godot
 
       - name: Package artifacts
         run: |
-          cd builds/linux  && zip -q dream-coastline-linux.zip dream-coastline.x86_64 && cd -
-          cd builds/windows && zip -q "dream-coastline-windows.zip" "Dream Coastline.exe" && cd -
+          cd builds/linux && zip -q dream-coastline-linux.zip dream-coastline.x86_64 dream-coastline.pck && cd -
+          cd builds/windows && zip -q dream-coastline-windows.zip "Dream Coastline.exe" "Dream Coastline.pck" && cd -
+          unzip -l builds/linux/dream-coastline-linux.zip | grep -F dream-coastline.pck
+          unzip -l builds/windows/dream-coastline-windows.zip | grep -F "Dream Coastline.pck"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
