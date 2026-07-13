@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/store.png"]
-旁白: 店员反复问：我是谁？收银机屏幕显示未知员工。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 店员站在收银台后反复扫描同一瓶水。机器每次都能识别商品，却把员工栏打印成未知，排班系统也无法说明是谁正在值班。
+jizi_xuan: 你不必先告诉我名字。能否确认自己现在想继续工作、离开这里，还是需要我们联系某个你信任的人？
+旁白: 店员用手指敲了两下胸牌，又指向柜台下的急救药箱。她记得药箱密码和每件商品的位置，却无法读出胸牌上的空白。
+xiali: 职业技能还在，说明她不是一张等我们填写的白纸。先让她决定交流方式，别把无法说名当成无法作决定。
+jizi_xuan: 我们会把临时节点切到只读，不上传店内影像。你可以用点头、手势或纸笔拒绝任何一步。
+旁白: 店员点头同意检查工作关系，并在纸上写下一个仍记得的事实：每天凌晨有人送来第一批面包，她会留一杯热水。
+xiali: 这条关系可以用来寻找见证者，但不能反过来证明她必须继续做店员。恢复名字与恢复劳动义务是两回事。
 [signal arg="set_flag:found_faceless_clerk"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
