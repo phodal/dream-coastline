@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/seal_tower.png"]
-旁白: 学生刚学会的字开始乱码。小砚抱着字典，拼命重复自己的名字。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiaoyan (default) left
+旁白: 删除波从封字塔扩散，通信线路上的学生姓名逐个变成方框。最先消失的是刚学会不久、尚未形成多处记录的字。
+xiaoyan: 小……我叫……
+旁白: 小砚抱紧字典反复描自己的名字，第一笔却每写一次便淡去一次。其他学生开始忘记“门”为什么能通行。
+wensu: 不要只背字形。互相说出在哪里用过这个字、谁见证过、犯过什么错。让关系比删除速度更快。
+jizi_xuan: 小砚在驿站保护过名牌，在课堂改过错字，在通信塔提交过版本意见。他不是字典里孤立的两个字。
+xiaoyan: 我是小砚。我写歪过，后来自己改了。
+旁白: 名字短暂恢复。远方课堂也开始互相复述真实经历，删除波无法同时切断所有人的共同记忆。
+jizi_xuan: 先保护学生的关系记录，再保护教材。知识存在的目的不是让书活着，而是让人能继续理解和行动。
 [signal arg="set_flag:students_under_attack"]
+leave jizi_xuan
+leave wensu
+leave xiaoyan
 [end_timeline]

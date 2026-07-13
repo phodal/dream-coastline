@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/seal_tower.png"]
-旁白: 公共字典页边被擦白。如果它被删掉，所有人的学习都会断页。
+join jizi_xuan (phone) left
+join wensu (default) left
+join atang (default) left
+旁白: 公共字典并非整页消失，删除从页边来源、失败案例和异议记录开始，只保留看似干净的标准定义。
+wensu: 它不是要让所有人瞬间失明，而是先删掉知识如何形成，让剩下的答案重新只能被服从。
+atang: 工坊声纹案例没了，矿场停工记录也在褪色。字还在，现场的人却再次无法证明自己的经验。
+jizi_xuan: 优先备份版本历史、来源和失败，不只复制最终正文。否则我们会亲手制造一份封字塔喜欢的字典。
+旁白: 通信塔发来各地缓存校验值。中央本已被改写，七个地方副本却保留不同部分，没有一份单独完整。
+wensu: 用差异重建。不要选某个副本当权威，让每项恢复都能说明来自哪里、为何可信。
+旁白: 学生的错误板、工坊复盘、矿场安全板和通信冲突队列同时成为字典恢复源。
+jizi_xuan: 封字塔能攻击一本书，却很难删除已经进入生活流程的每一个解释。
 [signal arg="set_flag:dictionary_under_attack"]
+leave jizi_xuan
+leave wensu
+leave atang
 [end_timeline]

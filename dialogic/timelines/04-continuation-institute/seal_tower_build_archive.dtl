@@ -1,4 +1,22 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/seal_tower.png"]
-旁白: 封字塔被改写成公共档案塔。墨颀进入百年续页。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiali (default) left
+join atang (default) left
+join xiaoyan (default) left
+旁白: 封字塔停止攻击后，众人没有拆毁核心。阿棠移除单向删除炉，保留版本比对与异常检测结构。
+wensu: 过去它判断哪些字不该存在。现在改成报告哪些记录正在消失、冲突或失去来源，由公共复核决定如何处理。
+xiali: 旧墨律司档案也不能一把火烧掉。罪人告示、删名标准和我的审讯都应保留，执行权限则永久撤销。
+atang: 档案塔不只收文件。每条流程都附重建工具和离线副本，下一次断线不必等续文院救援。
+旁白: 小砚提交第一份公共档案：自己的名字、第一次写错、被删除波攻击、以及同伴如何帮他恢复。
+xiaoyan: 这次不是别人替我登记。我知道每一行为什么要留下。
+jizi_xuan: 档案的目的不是让过去永远不变，而是让未来改写时无法假装此前什么都没发生。
+旁白: 封字塔更名为公共档案塔，通信网络收到第一份完整版本历史。远方节点开始请求百年尺度的重建计划。
+wensu: 续文院完成的不是一套答案，而是一种能保存错误、分散权限并继续学习的制度。下一页该写得更长了。
 [signal arg="set_flag:archive_tower_built"]
+leave jizi_xuan
+leave wensu
+leave xiali
+leave atang
+leave xiaoyan
 [end_timeline]

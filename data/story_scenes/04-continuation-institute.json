@@ -482,12 +482,34 @@
           "name": "学生",
           "time_seconds": 55,
           "flags": ["students_under_attack"],
+          "characters": ["jizi_xuan", "wensu", "xiaoyan"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "删除波从封字塔扩散，通信线路上的学生姓名逐个变成方框。最先消失的是刚学会不久、尚未形成多处记录的字。"},
+            {"speaker": "xiaoyan", "text": "小……我叫……"},
+            {"speaker": "旁白", "text": "小砚抱紧字典反复描自己的名字，第一笔却每写一次便淡去一次。其他学生开始忘记“门”为什么能通行。"},
+            {"speaker": "wensu", "text": "不要只背字形。互相说出在哪里用过这个字、谁见证过、犯过什么错。让关系比删除速度更快。"},
+            {"speaker": "jizi_xuan", "text": "小砚在驿站保护过名牌，在课堂改过错字，在通信塔提交过版本意见。他不是字典里孤立的两个字。"},
+            {"speaker": "xiaoyan", "text": "我是小砚。我写歪过，后来自己改了。"},
+            {"speaker": "旁白", "text": "名字短暂恢复。远方课堂也开始互相复述真实经历，删除波无法同时切断所有人的共同记忆。"},
+            {"speaker": "jizi_xuan", "text": "先保护学生的关系记录，再保护教材。知识存在的目的不是让书活着，而是让人能继续理解和行动。"}
+          ],
           "text": "学生刚学会的字开始乱码。小砚抱着字典，拼命重复自己的名字。"
         },
         "dictionary": {
           "name": "公共字典",
           "time_seconds": 55,
           "flags": ["dictionary_under_attack"],
+          "characters": ["jizi_xuan", "wensu", "atang"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "公共字典并非整页消失，删除从页边来源、失败案例和异议记录开始，只保留看似干净的标准定义。"},
+            {"speaker": "wensu", "text": "它不是要让所有人瞬间失明，而是先删掉知识如何形成，让剩下的答案重新只能被服从。"},
+            {"speaker": "atang", "text": "工坊声纹案例没了，矿场停工记录也在褪色。字还在，现场的人却再次无法证明自己的经验。"},
+            {"speaker": "jizi_xuan", "text": "优先备份版本历史、来源和失败，不只复制最终正文。否则我们会亲手制造一份封字塔喜欢的字典。"},
+            {"speaker": "旁白", "text": "通信塔发来各地缓存校验值。中央本已被改写，七个地方副本却保留不同部分，没有一份单独完整。"},
+            {"speaker": "wensu", "text": "用差异重建。不要选某个副本当权威，让每项恢复都能说明来自哪里、为何可信。"},
+            {"speaker": "旁白", "text": "学生的错误板、工坊复盘、矿场安全板和通信冲突队列同时成为字典恢复源。"},
+            {"speaker": "jizi_xuan", "text": "封字塔能攻击一本书，却很难删除已经进入生活流程的每一个解释。"}
+          ],
           "text": "公共字典页边被擦白。如果它被删掉，所有人的学习都会断页。"
         }
       },
@@ -498,6 +520,17 @@
           "requires": ["students_under_attack", "dictionary_under_attack", "restored_communication_tower"],
           "flags": ["protected_students", "protected_dictionary"],
           "metrics": {"trust": 10, "openness": 10, "stability": 8},
+          "characters": ["jizi_xuan", "wensu", "atang", "xiaoyan"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "通信塔把备份任务拆给不同地区：学塾保存学习过程，工坊保存工程案例，矿场保存安全记录，续文院保存索引与校验。"},
+            {"speaker": "atang", "text": "不再建一份谁都想夺走的完整主本。每处保存自己能理解、能验证，也能在断线时继续使用的部分。"},
+            {"speaker": "wensu", "text": "同时保留交叉索引。分布式不是彼此隔绝，恢复时必须让多个来源互相证明。"},
+            {"speaker": "旁白", "text": "学生不做机械抄写，而是在每个条目后补上亲历例子。小砚把自己的错字与修正过程一起写入“名”。"},
+            {"speaker": "xiaoyan", "text": "如果它再删一次，别人也能从我怎么改对的地方把名字接回来。"},
+            {"speaker": "旁白", "text": "封字塔连续擦除三处副本，其他节点立即发现校验差异并补回缺页。没有任何单点拥有删除全部知识的权限。"},
+            {"speaker": "jizi_xuan", "text": "保护学生和保护字典不是两项任务。学生能理解、质疑和重建字典，才是最重要的备份。"},
+            {"speaker": "wensu", "text": "备份完成。现在可以暂停遗忘机制，但战后不能把它简单关掉，必须把删除权改造成公共档案权。"}
+          ],
           "text": "学生、工匠、教师共同抄写备份。封字塔无法一次删掉所有副本。"
         },
         "archive": {
@@ -506,6 +539,18 @@
           "requires": ["defeated_seal_tower", "protected_dictionary"],
           "flags": ["archive_tower_built"],
           "metrics": {"openness": 18, "stability": 18, "noble_resistance": -14},
+          "characters": ["jizi_xuan", "wensu", "xiali", "atang", "xiaoyan"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "封字塔停止攻击后，众人没有拆毁核心。阿棠移除单向删除炉，保留版本比对与异常检测结构。"},
+            {"speaker": "wensu", "text": "过去它判断哪些字不该存在。现在改成报告哪些记录正在消失、冲突或失去来源，由公共复核决定如何处理。"},
+            {"speaker": "xiali", "text": "旧墨律司档案也不能一把火烧掉。罪人告示、删名标准和我的审讯都应保留，执行权限则永久撤销。"},
+            {"speaker": "atang", "text": "档案塔不只收文件。每条流程都附重建工具和离线副本，下一次断线不必等续文院救援。"},
+            {"speaker": "旁白", "text": "小砚提交第一份公共档案：自己的名字、第一次写错、被删除波攻击、以及同伴如何帮他恢复。"},
+            {"speaker": "xiaoyan", "text": "这次不是别人替我登记。我知道每一行为什么要留下。"},
+            {"speaker": "jizi_xuan", "text": "档案的目的不是让过去永远不变，而是让未来改写时无法假装此前什么都没发生。"},
+            {"speaker": "旁白", "text": "封字塔更名为公共档案塔，通信网络收到第一份完整版本历史。远方节点开始请求百年尺度的重建计划。"},
+            {"speaker": "wensu", "text": "续文院完成的不是一套答案，而是一种能保存错误、分散权限并继续学习的制度。下一页该写得更长了。"}
+          ],
           "text": "封字塔被改写成公共档案塔。墨颀进入百年续页。"
         }
       },

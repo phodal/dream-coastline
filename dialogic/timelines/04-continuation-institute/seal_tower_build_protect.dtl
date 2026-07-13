@@ -1,5 +1,20 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/seal_tower.png"]
-旁白: 学生、工匠、教师共同抄写备份。封字塔无法一次删掉所有副本。
+join jizi_xuan (phone) left
+join wensu (default) left
+join atang (default) left
+join xiaoyan (default) left
+旁白: 通信塔把备份任务拆给不同地区：学塾保存学习过程，工坊保存工程案例，矿场保存安全记录，续文院保存索引与校验。
+atang: 不再建一份谁都想夺走的完整主本。每处保存自己能理解、能验证，也能在断线时继续使用的部分。
+wensu: 同时保留交叉索引。分布式不是彼此隔绝，恢复时必须让多个来源互相证明。
+旁白: 学生不做机械抄写，而是在每个条目后补上亲历例子。小砚把自己的错字与修正过程一起写入“名”。
+xiaoyan: 如果它再删一次，别人也能从我怎么改对的地方把名字接回来。
+旁白: 封字塔连续擦除三处副本，其他节点立即发现校验差异并补回缺页。没有任何单点拥有删除全部知识的权限。
+jizi_xuan: 保护学生和保护字典不是两项任务。学生能理解、质疑和重建字典，才是最重要的备份。
+wensu: 备份完成。现在可以暂停遗忘机制，但战后不能把它简单关掉，必须把删除权改造成公共档案权。
 [signal arg="set_flag:protected_students"]
 [signal arg="set_flag:protected_dictionary"]
+leave jizi_xuan
+leave wensu
+leave atang
+leave xiaoyan
 [end_timeline]
