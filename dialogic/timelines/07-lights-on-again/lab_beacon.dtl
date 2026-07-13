@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/lab.png"]
-旁白: 现代信标能给出物理坐标，墨颀国书能确认意义坐标。二者缺一不可。
+join jizi_xuan (phone) left
+join atang (default) left
+旁白: 现代信标仍能把位置计算到厘米，却把实验室称作无登记设施。它知道自己在哪里，不知道这个坐标为何值得被任何人寻找。
+atang: 物理坐标很准，校验链也完整。静默没有破坏测量，只切断了坐标与城市档案、人员和用途之间的意义关联。
+jizi_xuan: 国书不能替代测量。它只补充谁观测、谁回应、坐标与哪些公共记录相连，再把冲突留给双方复核。
+旁白: 一次测试中，信标指向实验室中央，国书却返回父母旧记录所在的墙角。两者都正确，只回答了不同层面的“这里”。
+atang: 桥必须同时保留这两个答案。若把意义坐标硬压成物理位置，我们会把一段关系误当成可以直接穿越的入口。
+jizi_xuan: 增加双重状态：可抵达与可认领。归桥只有在两项都经独立见证后才能开放载人同步。
+旁白: 现代信标接入只读通道，国书节点不改写原始定位。两套系统首次能够并列呈现差异，而不是争夺唯一正确坐标。
 [signal arg="set_flag:checked_modern_beacon"]
+leave jizi_xuan
+leave atang
 [end_timeline]

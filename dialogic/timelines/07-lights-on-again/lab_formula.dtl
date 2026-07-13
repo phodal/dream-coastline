@@ -1,6 +1,18 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/lab.png"]
-旁白: 父母留下最终提示：名，门，星，归，续。确认其名，开启其门，使星归位，令文明继续。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 玻璃上并排写着五个字：名、门、星、归、续。每个字旁都有父母失败过的参数，没有任何一行把它们称作最终咒语。
+jizi_xuan: “名”固定可复核对象，“门”建立受控接口，“星”提供物理坐标，“归”让两端互相回应，“续”保留失败后仍能重建的关系。
+xiali: 顺序也不是固定仪式。对象若未确认，开门只会放大误认；接口若无停机权，归返就会变成单向入侵。
+wensu: 最后的“续”尤其不能由执笔者独占。继续意味着别人能看见你的依据、指出错误，并在你离开后修改方法。
+旁白: 父母留下三组失败组合：先开门导致静默倒灌，只定位星却无法确认居民，强行归返则把旧备份覆盖到活人身上。
+jizi_xuan: 最终组合不是力量叠加，而是一套约束顺序。每一步都必须有证据、有同意、有撤回，也有下一人能接手的记录。
+旁白: 纪子轩没有背诵公式，而是逐项写成公开检查表。五个字从私人谜底变成两个文明都能审查的归桥协议。
 [signal arg="set_flag:learned_star"]
 [signal arg="set_flag:learned_return"]
 [signal arg="set_flag:learned_continue"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]
