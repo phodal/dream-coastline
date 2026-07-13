@@ -193,6 +193,15 @@ def validate_branch_visible_feedback(scenes_by_id: dict[str, dict[str, Any]], fa
                 f"{target_scene_id} route_texts missing branch feedback for: {', '.join(missing)}"
             )
 
+    for scene_id, scene in scenes_by_id.items():
+        if scene_id == "03-dead-kingdom":
+            continue
+        defaulted = sorted(route_flags & {str(flag) for flag in scene.get("initial_flags", [])})
+        if defaulted:
+            failures.append(
+                f"{scene_id} initial_flags must not default branch routes: {', '.join(defaulted)}"
+            )
+
 
 def validate_visual_interaction_contract(scenes: list[dict[str, Any]], failures: list[str]) -> None:
     for scene in scenes:
