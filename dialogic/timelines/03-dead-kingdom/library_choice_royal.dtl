@@ -3,6 +3,12 @@ join jizi_xuan (phone) left
 join xiali (default) left
 jizi_xuan: 先交给夏离保管，王都需要一个能压住局面的人。
 xiali: 我可以接住它，但这不是一个干净的答案。
+旁白: 王室印仍能调动旧节点和剩余守卫。由夏离接管，封锁不会立刻崩溃，城外聚落也能保持基本供给。
+jizi_xuan: 条件是保管期限、开放标准和监督名单都公开。不能用“暂时稳定”把书永远锁回王宫。
+xiali: 贵族会支持秩序，却要求恢复旧特权；公开书院会减速，归星议会也会怀疑这是复国准备。
+jizi_xuan: 这是我承担的路线风险。先阻止节点连锁崩坏，再用记录逼王权交出保管权。
+旁白: 夏离把王室印按上临时保管契约，没有写“永久”。国书节点恢复稳定，藏书楼门外却重新出现贵族侍从。
+xiali: 如果我开始用稳定拖延开放，你要第一个拿这份契约来反对我。
 [signal arg="set_flag:chose_royal_books"]
 [signal arg="set_flag:resolved_book_route"]
 leave jizi_xuan

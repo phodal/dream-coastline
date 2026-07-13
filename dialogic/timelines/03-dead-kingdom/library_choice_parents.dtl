@@ -3,6 +3,12 @@ join jizi_xuan (phone) left
 join xiali (default) left
 jizi_xuan: 我需要先找父母留下的线索。
 xiali: 墨颀不会等你慢慢选择，但我明白这个选择为什么会痛。
+旁白: 藏书中有一组以续文院通行印加密的研究卷，编号与父母影像结尾完全一致。解密需要暂缓公开分发其余书目。
+jizi_xuan: 我选择先追这组线索，但不销毁公开目录。所有人都应知道我把公共建设延后换取了什么。
+xiali: 你会更早知道归星计划，可能找到他们的位置；代价是书院启动更慢，闻素和村落对你的信任都会下降。
+jizi_xuan: 接受。我不能假装这是纯粹私事，也不能假装自己已经准备好放弃他们。
+旁白: 父母研究卷被列为优先解析，其他藏书保持封存但生成公开清单。节点支持上升，近期教学请求则进入等待。
+xiali: 至少你把自私写在记录里，而不是把它包装成所有人的利益。之后要补回欠下的建设。
 [signal arg="set_flag:chose_parent_books"]
 [signal arg="set_flag:resolved_book_route"]
 leave jizi_xuan
