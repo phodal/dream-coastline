@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/school.png"]
-旁白: 走廊没有尽头。地图上的学校轮廓被擦掉，只剩一个没有意义的方框。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 纪子轩从一班门口走向楼梯，经过七间教室后又回到同一块宣传栏。钟表正常前进，空间记录却拒绝承认他移动过。
+jizi_xuan: 不是走廊变长。每个门牌都失去了与楼层、班级和出口的关系，所以任何一扇门都可以被系统解释成同一个位置。
+xiali: 别用熟悉感选路。留下物理证据：步数、窗外角度、墙面裂纹，再让舰载地图与学校旧图互相核对。
+旁白: 第三次经过宣传栏时，纪子轩发现一枚没有姓名的值日徽章。徽章背面刻着日期，证明这段走廊曾被不同学生轮流照看。
+jizi_xuan: 学校不是几何方框。它由谁在哪间教室学习、谁负责开门、谁在放学后关灯这些关系组成。
+xiali: 那就先恢复用途，不急着恢复漂亮地图。能说清一扇门为什么存在，空间才不会继续把人送回原点。
+旁白: 国书节点写入第一组关系：宣传栏属于二楼东侧、值日徽章对应本周记录、楼梯通向仍有人回应的操场。走廊终于出现可验证的尽头。
 [signal arg="set_flag:confirmed_school_erasure"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/school.png"]
-旁白: 名牌上只剩？？？。第一幕的无名兽不再是怪物，而是现代每个人可能的未来。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 储物柜上的名牌只剩统一的问号，柜内物品却各不相同：磨损的球鞋、画满机械结构的草稿、过敏药和一封没有收件人的道歉信。
+jizi_xuan: 这些物件能证明不同的人生活过，却不能让我替他们决定姓名。恢复身份不是把性格猜谜做对。
+xiali: 先给每只柜子一个临时见证编号，保留物件原位。等本人回来，他可以拒绝公开其中任何一项私人线索。
+旁白: 一名学生从走廊尽头回应自己的柜号，却无法确认名牌上的旧字是否属于自己。纪子轩没有用系统备份强行覆盖。
+jizi_xuan: 你可以先只确认这只柜子和这些东西由你使用。名字等你找到可信的同学、家人或自己的记录后再认领。
+xiali: 第一幕的无名兽被别人夺走名字；这里的人还可能被错误名字重新占据。两种伤害都不能用好意合理化。
+旁白: 名牌仍显示问号，但柜门旁多出“本人已回应”的标记。学校开始先恢复人的决定权，再等待姓名获得足够证据。
 [signal arg="set_flag:saw_classmate_names_lost"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

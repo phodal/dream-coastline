@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/school.png"]
-旁白: 讲台上有一张点名表，班主任那一栏空着。纪子轩忽然想不起她的声音。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 讲台上的点名表保留了四十二行学生记录，最上方的班主任栏却从纸张、教务系统和所有合影中同时空缺。
+jizi_xuan: 我记得有人总在早读前推开后窗，也记得她会把迟到原因写在处分旁边。可我想不起她的声音和名字。
+xiali: 行为记忆仍在，说明关系没有完全断掉。不要为了止住难受就从教师名单里挑一个最像的名字填回去。
+旁白: 粉笔盒里有一张药店收据，日期与某次全班流感吻合；办公室钥匙上刻着两个缩写，却都不足以独立确认身份。
+jizi_xuan: 先发布缺席证据：这间教室曾有一名照看学生的人，她的记录正在被删除。让认识她的人主动提供交叉见证。
+xiali: 对。承认有人缺席，比匆忙宣布我们已经找回她更诚实。名字回来之前，她也不该被世界算成从未存在。
+旁白: 临时节点为班主任建立“待本人或双重见证确认”的位置。空栏不再表示无人任教，而成为一项全城可回应的失踪记录。
 [signal arg="set_flag:found_missing_teacher"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
