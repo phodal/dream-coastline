@@ -1,4 +1,12 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
-旁白: 你写下“止”，节点裂纹停止扩散。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 节点裂纹已穿过三条墨脉，任何直接供能都会把损坏扩散到相邻村落。
+jizi_xuan: 停止的是裂纹传播，不是节点服务。边界沿三条受损墨脉外缘闭合。
+旁白: 你写下“止”。地图上的村落连接仍保持微光，节点内部崩落声却终于安静。
+xiali: 专注消耗了一份，但没有切断下游。以前的标准封锁会让所有村落一起停摆。
+jizi_xuan: 稳定系统不该等于停止服务。边界写得够准确，代价就不必总由最远的人承担。
 [signal arg="set_flag:stabilized_first_node"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

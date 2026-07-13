@@ -1,4 +1,12 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
-旁白: 你用“止”暂停封锁条款。夏离终于能把攻击送到目标身上。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 代价回流后，执契官试图重写主体名单。每删去一个编号，村井方向便传来一次水脉震动。
+jizi_xuan: 目标是正在执行的名单修改，不是整份契约。停止这一次重写。
+旁白: “止”字压在笔尖与契页之间。条款停在未完成状态，既不能删除你们，也不能继续抽取村落资源。
+xiali: 封锁暂停，攻击终于能落到执契官本人。契纹犬也伏下了，它没有收到新的追捕对象。
+jizi_xuan: 赢下战斗以后还要修节点。破坏执行者不能替代改掉制造执行者的规则。
 [signal arg="set_flag:paused_contract"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

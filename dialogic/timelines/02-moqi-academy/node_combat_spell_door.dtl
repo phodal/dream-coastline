@@ -1,4 +1,12 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
-旁白: 你用“门”找到契约封锁里的漏洞：执契官也必须遵守他写下的规则。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 识名让执契官显形，也让他胸前的契约编号进入规则主体名单。封锁条件随之出现一处闪烁空隙。
+jizi_xuan: 契约说所有主体必须承担封锁代价。既然他是书写者，也是执行者，就不能永远站在门外。
+旁白: 你写“门”连接执契官编号与代价条款。原本只流向村落的墨线第一次折返到他脚下。
+xiali: 漏洞成立。他开始承受自己设定的抽取，契纹犬也无法再把我们单独判为入侵者。
+jizi_xuan: 不是钻规则空子，是把被故意排除的人重新放回规则里面。
 [signal arg="set_flag:found_contract_gap"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

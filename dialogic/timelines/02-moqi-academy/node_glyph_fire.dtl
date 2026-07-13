@@ -1,4 +1,20 @@
 [background arg="res://assets/illustrations/playable/02-moqi-academy/node.png"]
-旁白: 你用“火”重启墨力脉冲。国书节点亮起，基础字典开始同步。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiali (default) left
+旁白: 基础字典接入节点，修井记录、旧页边批注和母亲的教学方案同时进入待同步队列。
+wensu: 现在点火，传播的不只是能源，还有这些未经国书院批准的解释。最后一次确认。
+jizi_xuan: 确认。让每个接入村落既收到字，也收到它为什么这样写、失败时发生过什么。
+旁白: “火”字落入炉心。墨力脉冲没有冲向中央，而是沿所有边境支线同时亮起。
+xiali: 节点重启了。墨律司也会立刻知道，有人把教学权写进了公共同步。
+jizi_xuan: 那就让他们来解释，为什么会修井的人不配知道自己做对了什么。
+旁白: 节点收到第一封回执：边境村的老人已打开基础字典，并把井脉草图补进“止”字的公共案例。
+wensu: 同步不是单向授课。只要节点保持开放，村民的经验也会反过来修改书院教材。
+旁白: 第二封回执来自更远的聚落。他们用新说明修复了粮仓门，却同时报告旧官印正在尝试撤销访问。
+xiali: 改变已经传出去了，反制也开始了。我们不能留在这里等每一条封锁重新落下。
+jizi_xuan: 把回执备份进基础字典。以后谁再说平民不能承担文字代价，先让他读完这些维修记录。
 [signal arg="set_flag:repaired_first_node"]
+leave jizi_xuan
+leave wensu
+leave xiali
 [end_timeline]

@@ -511,6 +511,14 @@
           "requires": ["learned_name", "defeated_contract_officer"],
           "flags": ["named_first_node"],
           "glyph_mastery": {"name": 1},
+          "characters": ["jizi_xuan", "wensu"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "执契官退开后，节点仍显示“废弃设施”。你把手放在烧焦铭牌上，感到内部墨脉仍有微弱回流。"},
+            {"speaker": "jizi_xuan", "text": "它不是废墟。村井和契约都还连接在这里，只是维护身份被删除了。"},
+            {"speaker": "wensu", "text": "那就别替它取新名字。确认它原本承担的公共职责，也确认谁仍依赖它。"},
+            {"speaker": "旁白", "text": "“名”字沿旧铭牌亮起：边境第一公共国书节点。周围村落的暗线在地图上逐一点亮。"},
+            {"speaker": "jizi_xuan", "text": "被宣布废弃，不等于停止服务。这个名字让被藏起来的依赖关系重新可见。"}
+          ],
           "text": "你确认节点的名字。它不是废墟，而是仍在等待维护的公共系统。"
         },
         "stop": {
@@ -519,6 +527,14 @@
           "flags": ["stabilized_first_node"],
           "stat_costs": {"focus": 1},
           "glyph_mastery": {"stop": 1},
+          "characters": ["jizi_xuan", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "节点裂纹已穿过三条墨脉，任何直接供能都会把损坏扩散到相邻村落。"},
+            {"speaker": "jizi_xuan", "text": "停止的是裂纹传播，不是节点服务。边界沿三条受损墨脉外缘闭合。"},
+            {"speaker": "旁白", "text": "你写下“止”。地图上的村落连接仍保持微光，节点内部崩落声却终于安静。"},
+            {"speaker": "xiali", "text": "专注消耗了一份，但没有切断下游。以前的标准封锁会让所有村落一起停摆。"},
+            {"speaker": "jizi_xuan", "text": "稳定系统不该等于停止服务。边界写得够准确，代价就不必总由最远的人承担。"}
+          ],
           "text": "你写下“止”，节点裂纹停止扩散。"
         },
         "fire": {
@@ -527,6 +543,20 @@
           "flags": ["repaired_first_node"],
           "stats": {"ink": 1},
           "glyph_mastery": {"fire": 1},
+          "characters": ["jizi_xuan", "wensu", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "基础字典接入节点，修井记录、旧页边批注和母亲的教学方案同时进入待同步队列。"},
+            {"speaker": "wensu", "text": "现在点火，传播的不只是能源，还有这些未经国书院批准的解释。最后一次确认。"},
+            {"speaker": "jizi_xuan", "text": "确认。让每个接入村落既收到字，也收到它为什么这样写、失败时发生过什么。"},
+            {"speaker": "旁白", "text": "“火”字落入炉心。墨力脉冲没有冲向中央，而是沿所有边境支线同时亮起。"},
+            {"speaker": "xiali", "text": "节点重启了。墨律司也会立刻知道，有人把教学权写进了公共同步。"},
+            {"speaker": "jizi_xuan", "text": "那就让他们来解释，为什么会修井的人不配知道自己做对了什么。"},
+            {"speaker": "旁白", "text": "节点收到第一封回执：边境村的老人已打开基础字典，并把井脉草图补进“止”字的公共案例。"},
+            {"speaker": "wensu", "text": "同步不是单向授课。只要节点保持开放，村民的经验也会反过来修改书院教材。"},
+            {"speaker": "旁白", "text": "第二封回执来自更远的聚落。他们用新说明修复了粮仓门，却同时报告旧官印正在尝试撤销访问。"},
+            {"speaker": "xiali", "text": "改变已经传出去了，反制也开始了。我们不能留在这里等每一条封锁重新落下。"},
+            {"speaker": "jizi_xuan", "text": "把回执备份进基础字典。以后谁再说平民不能承担文字代价，先让他读完这些维修记录。"}
+          ],
           "text": "你用“火”重启墨力脉冲。国书节点亮起，基础字典开始同步。"
         }
       },
@@ -552,6 +582,14 @@
             "flags": ["found_contract_gap"],
             "stat_costs": {"ink": 1},
             "glyph_mastery": {"door": 1},
+            "characters": ["jizi_xuan", "xiali"],
+            "dialogue": [
+              {"speaker": "旁白", "text": "识名让执契官显形，也让他胸前的契约编号进入规则主体名单。封锁条件随之出现一处闪烁空隙。"},
+              {"speaker": "jizi_xuan", "text": "契约说所有主体必须承担封锁代价。既然他是书写者，也是执行者，就不能永远站在门外。"},
+              {"speaker": "旁白", "text": "你写“门”连接执契官编号与代价条款。原本只流向村落的墨线第一次折返到他脚下。"},
+              {"speaker": "xiali", "text": "漏洞成立。他开始承受自己设定的抽取，契纹犬也无法再把我们单独判为入侵者。"},
+              {"speaker": "jizi_xuan", "text": "不是钻规则空子，是把被故意排除的人重新放回规则里面。"}
+            ],
             "text": "你用“门”找到契约封锁里的漏洞：执契官也必须遵守他写下的规则。"
           },
           "stop": {
@@ -560,6 +598,14 @@
             "flags": ["paused_contract"],
             "stat_costs": {"focus": 1},
             "glyph_mastery": {"stop": 1},
+            "characters": ["jizi_xuan", "xiali"],
+            "dialogue": [
+              {"speaker": "旁白", "text": "代价回流后，执契官试图重写主体名单。每删去一个编号，村井方向便传来一次水脉震动。"},
+              {"speaker": "jizi_xuan", "text": "目标是正在执行的名单修改，不是整份契约。停止这一次重写。"},
+              {"speaker": "旁白", "text": "“止”字压在笔尖与契页之间。条款停在未完成状态，既不能删除你们，也不能继续抽取村落资源。"},
+              {"speaker": "xiali", "text": "封锁暂停，攻击终于能落到执契官本人。契纹犬也伏下了，它没有收到新的追捕对象。"},
+              {"speaker": "jizi_xuan", "text": "赢下战斗以后还要修节点。破坏执行者不能替代改掉制造执行者的规则。"}
+            ],
             "text": "你用“止”暂停封锁条款。夏离终于能把攻击送到目标身上。"
           }
         }
