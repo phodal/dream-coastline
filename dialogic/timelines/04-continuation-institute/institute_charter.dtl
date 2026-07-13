@@ -1,4 +1,19 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/institute.png"]
-旁白: 章程写明：术式必须记录、复核、公开错误。知识开放不是放任，而是共同承担。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiali (default) left
+join atang (default) left
+旁白: 旧仓库中央只放着一张长桌。闻素写“公开”，阿棠写“可维修”，夏离写“责任”，三个词很快在纸上互相挤压。
+wensu: 没有公开原理，工坊会制造新的操作员阶层；没有公开错误，教师只会复制正确答案。
+atang: 所有过程都公开会拖慢抢修。机器着火时，我不能先等全城完成复核。
+xiali: 紧急权限必须存在，也必须自动到期。王城就是把临时封锁写成永久秩序才死掉。
+jizi_xuan: 章程分三层：行动可以先执行，过程必须记录，规则必须事后公开复核。紧急不能免除解释。
+旁白: 四人逐条补上来源、版本、失败记录、异议窗口和撤销权限。每项术式都必须能追到谁改过、为何改、谁承担后果。
+wensu: 知识开放不是把所有门拆掉，而是让门的规则可见、可质疑，也允许受影响的人参与改写。
+jizi_xuan: 最后一条：没有谁的字高过复核，包括这份章程。
 [signal arg="set_flag:drafted_open_charter"]
+leave jizi_xuan
+leave wensu
+leave xiali
+leave atang
 [end_timeline]

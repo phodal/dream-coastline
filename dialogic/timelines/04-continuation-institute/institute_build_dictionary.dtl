@@ -1,4 +1,19 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/institute.png"]
-旁白: 标准字典第一版发布。字根写法第一次可以被普通人校验。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiali (default) left
+join atang (default) left
+旁白: 标准字典第一版没有烫金封面。每个字根旁都并列书院解释、工坊用法、村落案例和仍未解决的争议。
+wensu: “止”字不能只收录封锁与战斗。修井、护坡和稳定伤口的用法必须恢复来源。
+atang: “火”字旁加资源消耗和停机条件。只写启动、不写怎样安全停下，不算完整条目。
+xiali: 王族版本放在附录，不再作为默认标准。历史权限可以被研究，不能悄悄继续执行。
+旁白: 纪子轩把序幕与前三幕的错误记录加入“名”和“门”：误读、失败、被覆盖的路线都保留在版本历史。
+jizi_xuan: 字典不是宣布唯一正确写法，而是让普通人能校验当前规则从哪里来、出了错该去哪里报告。
+旁白: 第一版同步到公共节点。数十条修订意见立即返回，其中一半来自从未被旧书院登记为读者的人。
+wensu: 发布不是完成。有人能指出我们的错误，才证明字典真的离开了封存柜。
 [signal arg="set_flag:published_standard_dictionary"]
+leave jizi_xuan
+leave wensu
+leave xiali
+leave atang
 [end_timeline]

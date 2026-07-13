@@ -1,4 +1,19 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/institute.png"]
-旁白: 贵族质问：让普通人改术式，谁来负责？纪子轩把章程推过去：每一步都有记录，所以每个人都能追责。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiali (default) left
+join atang (default) left
+旁白: 贵族旁听者没有坐下。他翻到章程的公开修改条款，质问让普通人改术式后，事故究竟由谁负责。
+jizi_xuan: 先由执行者停损，再由记录确认原因，由复核者检查规则，最后由组织补偿受影响的人。责任不是找一个替罪者。
+旁白: 旁听者举出王城陷落，声称公众参与只会让错误扩散得更快。夏离把封锁日志放到他面前。
+xiali: 王城错误最快扩散时，恰恰没人能复核墨律司的命令。集中权限没有消除事故，只消除了反对证据。
+atang: 工匠也要签字。图纸若在现场不可行，发现问题的人有权停工，不必等贵族工程师批准。
+wensu: 学生的错误会公开，但身份不会成为惩罚依据。我们追踪方法，不建立新的罪人告示。
+旁白: 纪子轩把章程推过去，请旁听者在异议栏实名写下反对。对方第一次意识到，质询也会成为可复核记录。
+jizi_xuan: 你可以反对开放，也要说明风险如何验证。续文院不靠禁止质疑证明自己正确。
 [signal arg="set_flag:publicly_answered_noble_observer"]
+leave jizi_xuan
+leave wensu
+leave xiali
+leave atang
 [end_timeline]

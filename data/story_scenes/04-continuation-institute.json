@@ -79,6 +79,17 @@
           "name": "续文院章程",
           "time_seconds": 70,
           "flags": ["drafted_open_charter"],
+          "characters": ["jizi_xuan", "wensu", "xiali", "atang"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "旧仓库中央只放着一张长桌。闻素写“公开”，阿棠写“可维修”，夏离写“责任”，三个词很快在纸上互相挤压。"},
+            {"speaker": "wensu", "text": "没有公开原理，工坊会制造新的操作员阶层；没有公开错误，教师只会复制正确答案。"},
+            {"speaker": "atang", "text": "所有过程都公开会拖慢抢修。机器着火时，我不能先等全城完成复核。"},
+            {"speaker": "xiali", "text": "紧急权限必须存在，也必须自动到期。王城就是把临时封锁写成永久秩序才死掉。"},
+            {"speaker": "jizi_xuan", "text": "章程分三层：行动可以先执行，过程必须记录，规则必须事后公开复核。紧急不能免除解释。"},
+            {"speaker": "旁白", "text": "四人逐条补上来源、版本、失败记录、异议窗口和撤销权限。每项术式都必须能追到谁改过、为何改、谁承担后果。"},
+            {"speaker": "wensu", "text": "知识开放不是把所有门拆掉，而是让门的规则可见、可质疑，也允许受影响的人参与改写。"},
+            {"speaker": "jizi_xuan", "text": "最后一条：没有谁的字高过复核，包括这份章程。"}
+          ],
           "text": "章程写明：术式必须记录、复核、公开错误。知识开放不是放任，而是共同承担。"
         },
         "noble_observer": {
@@ -86,6 +97,17 @@
           "time_seconds": 80,
           "requires": ["drafted_open_charter"],
           "flags": ["publicly_answered_noble_observer"],
+          "characters": ["jizi_xuan", "wensu", "xiali", "atang"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "贵族旁听者没有坐下。他翻到章程的公开修改条款，质问让普通人改术式后，事故究竟由谁负责。"},
+            {"speaker": "jizi_xuan", "text": "先由执行者停损，再由记录确认原因，由复核者检查规则，最后由组织补偿受影响的人。责任不是找一个替罪者。"},
+            {"speaker": "旁白", "text": "旁听者举出王城陷落，声称公众参与只会让错误扩散得更快。夏离把封锁日志放到他面前。"},
+            {"speaker": "xiali", "text": "王城错误最快扩散时，恰恰没人能复核墨律司的命令。集中权限没有消除事故，只消除了反对证据。"},
+            {"speaker": "atang", "text": "工匠也要签字。图纸若在现场不可行，发现问题的人有权停工，不必等贵族工程师批准。"},
+            {"speaker": "wensu", "text": "学生的错误会公开，但身份不会成为惩罚依据。我们追踪方法，不建立新的罪人告示。"},
+            {"speaker": "旁白", "text": "纪子轩把章程推过去，请旁听者在异议栏实名写下反对。对方第一次意识到，质询也会成为可复核记录。"},
+            {"speaker": "jizi_xuan", "text": "你可以反对开放，也要说明风险如何验证。续文院不靠禁止质疑证明自己正确。"}
+          ],
           "text": "贵族质问：让普通人改术式，谁来负责？纪子轩把章程推过去：每一步都有记录，所以每个人都能追责。",
           "route_texts": {
             "chose_public_books": "贵族质问公开藏书会不会制造新的灾难。纪子轩把章程推过去：正因为每个人都能看见错误，每个人才能追责。",
@@ -102,6 +124,16 @@
           "requires": ["met_first_members", "drafted_open_charter"],
           "flags": ["founded_institute"],
           "metrics": {"trust": 8, "openness": 10, "noble_resistance": -8},
+          "characters": ["jizi_xuan", "wensu", "xiali", "atang"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "成员拆掉仓库原有的主座，把长桌分成教学、工程、档案与公共异议四个工作区。"},
+            {"speaker": "xiali", "text": "旧军地图归档为历史资料，不再自动获得调度权限。我也只保留一席和一票。"},
+            {"speaker": "atang", "text": "工坊会把每次抢修带回这里复盘。现场经验不再只留在师傅脑子里。"},
+            {"speaker": "wensu", "text": "课堂向所有年龄开放。不会写不是缺陷，是课程设计必须回应的起点。"},
+            {"speaker": "旁白", "text": "门牌挂起时没有写“皇家”或“国书院”，只写“续文院：任何结论都必须留下可续写的位置”。"},
+            {"speaker": "jizi_xuan", "text": "墨颀不再等待一位王来续命。这里也不等待一个完美创始人替所有人写完。"},
+            {"speaker": "旁白", "text": "第一批任务同时贴上墙：开设学塾、修复工坊、治理矿场、重建通信。每项都标出负责人和公开验收条件。"}
+          ],
           "text": "续文院挂牌。夏离宣布：墨颀不再等待一位王来续命。"
         },
         "dictionary": {
@@ -110,6 +142,17 @@
           "requires": ["founded_institute", "got_basic_dictionary"],
           "flags": ["published_standard_dictionary"],
           "metrics": {"literacy": 8, "stability": 8, "openness": 8},
+          "characters": ["jizi_xuan", "wensu", "xiali", "atang"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "标准字典第一版没有烫金封面。每个字根旁都并列书院解释、工坊用法、村落案例和仍未解决的争议。"},
+            {"speaker": "wensu", "text": "“止”字不能只收录封锁与战斗。修井、护坡和稳定伤口的用法必须恢复来源。"},
+            {"speaker": "atang", "text": "“火”字旁加资源消耗和停机条件。只写启动、不写怎样安全停下，不算完整条目。"},
+            {"speaker": "xiali", "text": "王族版本放在附录，不再作为默认标准。历史权限可以被研究，不能悄悄继续执行。"},
+            {"speaker": "旁白", "text": "纪子轩把序幕与前三幕的错误记录加入“名”和“门”：误读、失败、被覆盖的路线都保留在版本历史。"},
+            {"speaker": "jizi_xuan", "text": "字典不是宣布唯一正确写法，而是让普通人能校验当前规则从哪里来、出了错该去哪里报告。"},
+            {"speaker": "旁白", "text": "第一版同步到公共节点。数十条修订意见立即返回，其中一半来自从未被旧书院登记为读者的人。"},
+            {"speaker": "wensu", "text": "发布不是完成。有人能指出我们的错误，才证明字典真的离开了封存柜。"}
+          ],
           "text": "标准字典第一版发布。字根写法第一次可以被普通人校验。",
           "route_texts": {
             "chose_public_books": "标准字典第一版直接以公开藏书为底本发布。字根写法第一次可以被普通人校验。",
