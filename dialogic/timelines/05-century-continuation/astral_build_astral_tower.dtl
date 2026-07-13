@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/astral.png"]
-旁白: 星象塔竣工。墨颀终于拥有观测纪子轩世界的能力。
+join jizi_xuan (phone) left
+join xiali (default) left
+join atang (default) left
+旁白: 星象塔由二十三城共同供能，塔身每一层对应一套独立观测与校验。任何一层发现异常都能阻止跨界发射。
+atang: 结构按阿棠旧蓝图的维护原则设计：关键管路可替换，检查口向普通维修员开放，不建只有首席知道的暗道。
+xiali: 国书网络只协调时间窗口，不读取全部观测内容。地方节点保留自己的原始记录和拒绝供能权。
+旁白: 竣工验收故意注入坐标缺笔、能源延迟和星象螟样本。塔在三种故障下均停止发射并保存证据。
+jizi_xuan: 能安全停下比一次看见我的世界更重要。否则整座文明会被我的愿望绑成一枚不可取消的信标。
+旁白: 最后一块观测镜由夜校、矿场、海港和书院共同签署，没有任何创始人的名字单独刻在塔顶。
+xiali: 星象塔竣工。墨颀终于有能力看向另一世界，也有能力在看见危险时共同移开目光。
+旁白: 第一次正式观测窗口开启，现代星球方向传来比实验噪声更强的静默波形。
 [signal arg="set_flag:completed_astral_tower"]
+leave jizi_xuan
+leave xiali
+leave atang
 [end_timeline]

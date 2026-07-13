@@ -444,6 +444,17 @@
           "requires": ["built_statebook_network", "mapped_stars_as_text", "designed_cross_beacon"],
           "flags": ["completed_astral_tower"],
           "metrics": {"star_observation": 70, "engineering": 20, "energy": 12},
+          "characters": ["jizi_xuan", "xiali", "atang"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "星象塔由二十三城共同供能，塔身每一层对应一套独立观测与校验。任何一层发现异常都能阻止跨界发射。"},
+            {"speaker": "atang", "text": "结构按阿棠旧蓝图的维护原则设计：关键管路可替换，检查口向普通维修员开放，不建只有首席知道的暗道。"},
+            {"speaker": "xiali", "text": "国书网络只协调时间窗口，不读取全部观测内容。地方节点保留自己的原始记录和拒绝供能权。"},
+            {"speaker": "旁白", "text": "竣工验收故意注入坐标缺笔、能源延迟和星象螟样本。塔在三种故障下均停止发射并保存证据。"},
+            {"speaker": "jizi_xuan", "text": "能安全停下比一次看见我的世界更重要。否则整座文明会被我的愿望绑成一枚不可取消的信标。"},
+            {"speaker": "旁白", "text": "最后一块观测镜由夜校、矿场、海港和书院共同签署，没有任何创始人的名字单独刻在塔顶。"},
+            {"speaker": "xiali", "text": "星象塔竣工。墨颀终于有能力看向另一世界，也有能力在看见危险时共同移开目光。"},
+            {"speaker": "旁白", "text": "第一次正式观测窗口开启，现代星球方向传来比实验噪声更强的静默波形。"}
+          ],
           "text": "星象塔竣工。墨颀终于拥有观测纪子轩世界的能力。"
         }
       }
@@ -467,6 +478,16 @@
           "time_seconds": 85,
           "requires": ["completed_astral_tower", "stabilized_silent_interference"],
           "flags": ["saw_modern_star_darkening"],
+          "characters": ["jizi_xuan", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "干扰稳定后，观测镜终于展开完整城市。学校、街道和熟悉的住宅区不再是噪点，而是正在发生的现场。"},
+            {"speaker": "jizi_xuan", "text": "那是我上学的路。便利店招牌少了一个字，公交站名也在从末尾开始变空。"},
+            {"speaker": "旁白", "text": "远处灯光一片片熄灭，不是停电：每盏灯消失前，地图先忘记它所在街区的名称。"},
+            {"speaker": "xiali", "text": "现代星球正在经历和无名化相似的过程，但规模覆盖整座文明。静默协议先删除可描述性，再删除求助路径。"},
+            {"speaker": "jizi_xuan", "text": "我家的窗户仍是黑的。父母可能在那里，也可能早已被移动到我们无法命名的位置。"},
+            {"speaker": "旁白", "text": "一张信纸浮进画面，上面的字逐行改写，最后只剩英文：Continue failed."},
+            {"speaker": "jizi_xuan", "text": "这不是结局，是对方正在阻止两个世界继续互相书写。我们已经看见故障，下一幕要准备回应。"}
+          ],
           "text": "你看见学校、街道、家。灯一盏盏熄灭，信纸上的字变成：Continue failed."
         },
         "signal": {
@@ -474,6 +495,16 @@
           "time_seconds": 60,
           "requires": ["completed_astral_tower"],
           "flags": ["identified_silent_interference"],
+          "characters": ["jizi_xuan", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "第一轮正式观测刚对准现代坐标，结果便从中心向外擦白。能源、镜面和本地记录均无故障。"},
+            {"speaker": "jizi_xuan", "text": "如果是设备问题，不会只删坐标关系而保留无意义亮度。它在阻止我们确认那里是什么。"},
+            {"speaker": "旁白", "text": "团队切换三套地方坐标，擦白仍追随同一目标；关闭跨界发射后，删除继续在远端影像中发生。"},
+            {"speaker": "xiali", "text": "确认不是星象塔制造。远端存在一套静默协议，主动擦除现代星球被观测和命名的条件。"},
+            {"speaker": "jizi_xuan", "text": "现在还看不见执行者，只能给干扰行为识名。不要把未知敌人提前写成某种生物或政府。"},
+            {"speaker": "旁白", "text": "干扰签名被拆成频率、删改顺序和受影响字段，分散保存到国书网络，避免再次被一处擦白。"},
+            {"speaker": "xiali", "text": "先用“止”暂停坐标删除，争取一帧完整观测。看见事实后再决定如何反击。"}
+          ],
           "text": "观测结果被擦白。现在还看不见敌人，只能确认有一套远端静默协议正在擦掉现代星球坐标。"
         },
         "silent_frame": {
@@ -481,6 +512,17 @@
           "time_seconds": 120,
           "requires": ["identified_silent_interference"],
           "flags": ["saw_first_silent_frame"],
+          "characters": ["jizi_xuan", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "删除间隙里，星象塔捕获第一帧未被擦白的影像：纪子轩家的窗户仍黑着，整条街却按网格逐格熄灭。"},
+            {"speaker": "jizi_xuan", "text": "序幕只有我家没亮。现在黑暗正在复制到邻居、学校和城市中心。时间不是停在我离开的那晚。"},
+            {"speaker": "旁白", "text": "画面角落有人举起手机拍摄，和序幕寻人启事一样，取景框能看见，保存结果却只剩空街。"},
+            {"speaker": "xiali", "text": "静默协议不只阻止墨颀观测，也在现代世界内部破坏记录。普通人已经察觉，却无法留下证据。"},
+            {"speaker": "jizi_xuan", "text": "把这一帧复制到所有节点，连同捕获条件和缺失部分。不能把我的记忆当成唯一校验。"},
+            {"speaker": "旁白", "text": "二十三城分别确认影像，部分节点识别出电网、道路与文字消失的不同顺序，形成第一份跨界灾害时间线。"},
+            {"speaker": "xiali", "text": "现在墨颀看见了你的世界，也看见它正在求救。下一步不是立刻开门，而是先让观测窗口稳定到足以理解代价。"},
+            {"speaker": "jizi_xuan", "text": "继续记录。我想回家，但不能带着一个没有边界的通道把静默协议引到墨颀。"}
+          ],
           "text": "影像里，纪子轩家的窗户还是黑的。不同的是，这一次整条街的窗户都在一格一格熄灭。"
         }
       },

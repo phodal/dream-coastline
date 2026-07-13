@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/star_tower.png"]
-旁白: 观测结果被擦白。现在还看不见敌人，只能确认有一套远端静默协议正在擦掉现代星球坐标。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 第一轮正式观测刚对准现代坐标，结果便从中心向外擦白。能源、镜面和本地记录均无故障。
+jizi_xuan: 如果是设备问题，不会只删坐标关系而保留无意义亮度。它在阻止我们确认那里是什么。
+旁白: 团队切换三套地方坐标，擦白仍追随同一目标；关闭跨界发射后，删除继续在远端影像中发生。
+xiali: 确认不是星象塔制造。远端存在一套静默协议，主动擦除现代星球被观测和命名的条件。
+jizi_xuan: 现在还看不见执行者，只能给干扰行为识名。不要把未知敌人提前写成某种生物或政府。
+旁白: 干扰签名被拆成频率、删改顺序和受影响字段，分散保存到国书网络，避免再次被一处擦白。
+xiali: 先用“止”暂停坐标删除，争取一帧完整观测。看见事实后再决定如何反击。
 [signal arg="set_flag:identified_silent_interference"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/star_tower.png"]
-旁白: 你看见学校、街道、家。灯一盏盏熄灭，信纸上的字变成：Continue failed.
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 干扰稳定后，观测镜终于展开完整城市。学校、街道和熟悉的住宅区不再是噪点，而是正在发生的现场。
+jizi_xuan: 那是我上学的路。便利店招牌少了一个字，公交站名也在从末尾开始变空。
+旁白: 远处灯光一片片熄灭，不是停电：每盏灯消失前，地图先忘记它所在街区的名称。
+xiali: 现代星球正在经历和无名化相似的过程，但规模覆盖整座文明。静默协议先删除可描述性，再删除求助路径。
+jizi_xuan: 我家的窗户仍是黑的。父母可能在那里，也可能早已被移动到我们无法命名的位置。
+旁白: 一张信纸浮进画面，上面的字逐行改写，最后只剩英文：Continue failed.
+jizi_xuan: 这不是结局，是对方正在阻止两个世界继续互相书写。我们已经看见故障，下一幕要准备回应。
 [signal arg="set_flag:saw_modern_star_darkening"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/star_tower.png"]
-旁白: 影像里，纪子轩家的窗户还是黑的。不同的是，这一次整条街的窗户都在一格一格熄灭。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 删除间隙里，星象塔捕获第一帧未被擦白的影像：纪子轩家的窗户仍黑着，整条街却按网格逐格熄灭。
+jizi_xuan: 序幕只有我家没亮。现在黑暗正在复制到邻居、学校和城市中心。时间不是停在我离开的那晚。
+旁白: 画面角落有人举起手机拍摄，和序幕寻人启事一样，取景框能看见，保存结果却只剩空街。
+xiali: 静默协议不只阻止墨颀观测，也在现代世界内部破坏记录。普通人已经察觉，却无法留下证据。
+jizi_xuan: 把这一帧复制到所有节点，连同捕获条件和缺失部分。不能把我的记忆当成唯一校验。
+旁白: 二十三城分别确认影像，部分节点识别出电网、道路与文字消失的不同顺序，形成第一份跨界灾害时间线。
+xiali: 现在墨颀看见了你的世界，也看见它正在求救。下一步不是立刻开门，而是先让观测窗口稳定到足以理解代价。
+jizi_xuan: 继续记录。我想回家，但不能带着一个没有边界的通道把静默协议引到墨颀。
 [signal arg="set_flag:saw_first_silent_frame"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
