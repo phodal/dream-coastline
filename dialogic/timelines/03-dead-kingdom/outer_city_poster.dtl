@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/outer_city.png"]
-旁白: 告示宣称夏离导致王城陷落。夏离没有辩解，只把手攥得发白。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 城墙每隔十步贴着同一张告示：前国书学徒夏离，私授文字、破坏封锁、导致王城陷落。
+jizi_xuan: 画像是你，罪名日期却在王城陷落之后。有人事后把结果写回了原因。
+xiali: 告示没有全说谎。我确实打开过学徒库，也确实在封锁夜带人穿过宫门。
+旁白: 她伸手揭下一角，指节用力到发白。纸下还有更早版本，只写着“调查中”，没有任何定罪。
+jizi_xuan: 你不辩解，是因为担心否认罪名也会否认那些被你救出去的人？
+xiali: 我救了一些，也丢下了一些。墨律司把两件事压成一句罪人，反而比真正经过更容易承受。
+旁白: 巡逻符器立刻补上一张新告示，覆盖你们揭开的旧层。它只负责让最终版本始终位于最上方。
+jizi_xuan: 那就去找下面的版本。藏书楼、审讯记录、封锁日志，总有一处还留着过程。
 [signal arg="set_flag:saw_xiali_propaganda"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

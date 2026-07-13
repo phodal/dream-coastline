@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/outer_city.png"]
-旁白: 摊位摆得整齐，价格牌每天自动更新，却没有人问价。秩序还活着，生活已经死了。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 集市棚布每天自动展开，算盘自行拨动。腐烂成灰的果篮旁，价格牌仍按王都物价律上涨一格。
+jizi_xuan: 没有买主、没有货物，价格为什么还在变？
+xiali: 律文读取的是库存登记和通行税，不读取饥饿。账本说市场存在，市场就必须继续运作。
+旁白: 一枚售卖符向你递出空碗，要求支付三枚早已停发的王国铜印。拒绝后，它礼貌地登记“顾客信用不足”。
+jizi_xuan: 系统把不存在的交易维持得很完整，却把真正缺水缺粮的人挡在城外。
+xiali: 王城陷落前，外城难民也被记成扰乱市场。秩序先把他们改名成问题，才有理由不救。
+旁白: 远处响起收市铃。所有空摊同时合拢，地上的白骨被扫进“无主杂物”区域。
+jizi_xuan: 生活已经死了，制度却能用自己的记录证明一切正常。
 [signal arg="set_flag:saw_market_without_buyers"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
