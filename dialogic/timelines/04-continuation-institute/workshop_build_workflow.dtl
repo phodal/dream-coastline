@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/workshop.png"]
-旁白: 工坊建立测试流程：小样、复核、实地修复。第二次防洪符文修复成功。
+join jizi_xuan (phone) left
+join wensu (default) left
+join atang (default) left
+旁白: 新流程把工程分成桌面推演、小样压力测试、现场复核和分段实装。任何一环可以暂停，不需要最高职位批准。
+atang: 小样先按暴雨峰值的一点五倍运行。炉工听声，学生读符，住户确认真正需要保护的区域。
+旁白: 第一轮在边界处渗漏。提交问题的不是工程师，而是一名发现地面震动不同的搬运工。流程因此退回小样。
+wensu: 记录他的观察方法，也把声纹识别加入学塾课程。工程反馈必须能改变教育。
+旁白: 第二轮小样通过，实装分三段进行。每完成一段便让下游住户确认水位，没有用总指标覆盖局部回流。
+jizi_xuan: 成功不是这次没有出错，而是错误在造成更大伤害前被任何人看见并叫停。
+atang: 第二次防洪修复完成。图纸、失败、补偿和修改全部公开，下一支工队不必重新交同一笔学费。
+旁白: 工坊复盘板从“失败—修改—再测试”多出最后一格：“回到字典与课堂”。流程第一次形成闭环。
 [signal arg="set_flag:repaired_workshop_flow"]
+leave jizi_xuan
+leave wensu
+leave atang
 [end_timeline]
