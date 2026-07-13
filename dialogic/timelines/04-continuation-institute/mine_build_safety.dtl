@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/mine.png"]
-旁白: 矿场改成公开安全流程。能源提高，但每次作业都必须留下可追溯记录。
+join jizi_xuan (phone) left
+join atang (default) left
+旁白: 续文院把矿道分成可开采、待加固和禁止进入三类，分类依据由工人、工程师和附近住户共同复核。
+atang: 每个班组都有停工字根和独立通信片。发现声纹、温度或墨线异常任一项，都能先停后报。
+旁白: 新支撑结构先在废弃矿段做压力测试，故意模拟两次空响便坍塌的极端情况。第一版支撑未通过。
+jizi_xuan: 失败结果公开，产量预期下调。不能为了让能源指标好看而把测试条件改得容易。
+旁白: 第二版加入可视墨温条和分段卸压门。矿工在不读高阶律文的情况下也能判断何时撤离、为何撤离。
+atang: 能源会恢复，但每次作业都留下可追溯记录。任何新增产量必须同时写明它增加了哪些风险。
+旁白: 矿场重新开工时先响的是安全说明，不是生产号角。第一车矿石旁附着完整检查记录。
+jizi_xuan: 安全流程的成果不是矿场永不出事，而是任何人都有信息和权力在事故前停止。
 [signal arg="set_flag:solved_mine_safety"]
+leave jizi_xuan
+leave atang
 [end_timeline]

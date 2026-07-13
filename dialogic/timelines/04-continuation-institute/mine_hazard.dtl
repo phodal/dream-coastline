@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/mine.png"]
-旁白: 矿道裂纹被旧书记官标成低优先级。工人只能背口诀，没人知道为什么要停。
+join jizi_xuan (phone) left
+join atang (default) left
+旁白: 矿道入口的产量板每天更新，安全栏却停在三年前。深层裂纹被旧书记官用灰墨标成“低优先级”。
+atang: 工人背得出十二句避险口诀，却没人见过裂纹结构图。问原因会被记成拖延生产。
+旁白: 一名矿工演示口诀：听到三次空响就撤离。但今天岩壁只响两次，脚下墨力线已开始发热。
+jizi_xuan: 口诀依赖旧矿层。开采深入后，第三次空响可能在坍塌之后才出现。
+atang: 现场的人早就发现规律变了，却没有权限修改安全字，也不能用“止”暂停产线。
+旁白: 事故簿把近五次灼伤都写成个人未遵守口诀，没有记录当时温度、裂纹位置和班次压力。
+jizi_xuan: 先停裂纹、撤离，再让工人共同重写流程。安全不能继续要求受伤的人证明自己服从过。
 [signal arg="set_flag:checked_mine_hazard"]
+leave jizi_xuan
+leave atang
 [end_timeline]

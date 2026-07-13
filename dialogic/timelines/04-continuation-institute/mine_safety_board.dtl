@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/mine.png"]
-旁白: 矿场入口挂起公开安全板：今天谁检查、哪里有裂纹、为什么停工，都写给每个工人看。
+join jizi_xuan (phone) left
+join atang (default) left
+旁白: 矿场入口挂起公开安全板，第一栏不是今日产量，而是当前裂纹、墨温、支撑状态和撤离路线。
+atang: 每班检查人实名记录，但报告危险不会扣薪。隐瞒或删除报告才进入责任复核。
+旁白: 旧书记官要求把技术细节改回符号，声称普通工人看不懂会引发恐慌。矿工当场读出三处风险说明。
+jizi_xuan: 看不懂的地方应该触发解释和培训，不是成为重新隐藏信息的理由。
+旁白: 安全板另设停工记录：谁提出、依据是什么、何时复核、如何恢复。每次停工都能追踪，而非依赖管理者心情。
+atang: 今天谁检查、哪里有裂纹、为什么停工，全写给每个要走进矿道的人看。
+旁白: 第一条工人修订随即贴上：空响口诀改为声纹、温度和墨线亮度三项联合判断。
 [signal arg="set_flag:installed_safety_board"]
+leave jizi_xuan
+leave atang
 [end_timeline]

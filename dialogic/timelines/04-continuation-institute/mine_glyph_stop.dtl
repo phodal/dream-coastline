@@ -1,4 +1,13 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/mine.png"]
-旁白: 你用“止”稳定矿道裂纹，给工人争取撤离和改造时间。
+join jizi_xuan (phone) left
+join atang (default) left
+旁白: 裂纹沿主支撑柱向上爬升。产量契文仍在催促矿车入场，撤离铃因未达三次空响拒绝启动。
+jizi_xuan: “止”的目标是裂纹传播和矿车调度，不是冻结整座矿场，也不是把工人困在原地。
+旁白: 你在支撑柱与轨道分别落笔。裂纹停在安全线前，矿车轮轴锁住，人工撤离通道保持开放。
+atang: 所有人按自己确认的路线撤离，不等书记官宣布。最后一组把声纹记录和温度片一起带出来。
+旁白: 旧产量板闪烁警告：本次停工未经授权。矿工在警告下逐一签名，声明现场危险本身就是授权。
+jizi_xuan: 稳定只争取了改造时间。不能因为今天没塌，就恢复同一套流程继续赌。
 [signal arg="set_flag:stabilized_mine"]
+leave jizi_xuan
+leave atang
 [end_timeline]
