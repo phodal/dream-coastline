@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/core.png"]
-旁白: 夏离说：过去，王守国境。现在，墨颀的国境在星空之外。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 国书核心要求一名见证者确认整个墨颀共同体仍然存在。旧制度会自然地把这个位置交给王，夏离却没有走上中央刻写台。
+xiali: 过去，王守国境，也因此声称国境内的一切都由王命名。现在墨颀的国境在星空之外，我不能再独占它的定义。
+jizi_xuan: 但核心需要一个稳定锚点。你的名字跨过了旧王国、复苏和续文院，确实是目前最长的连续记录。
+xiali: 那就把我当作证据，不要当作权限。我只证明这些时代彼此相连，无权替每个城市决定它们必须成为什么。
+旁白: 夏离将王印拆成四段，分别交给学塾、工坊、档案馆和城市代表。只有四方共同回写，国书核心才承认文明状态有效。
+jizi_xuan: 这样即使静默伪造你的声音，也无法独自改写国书。稳定来自相互确认，而不是来自一个永不犯错的人。
+xiali: 把这一条也写进去：若我要求恢复王的特权，核心应当把我的命令视为损坏数据。
 [signal arg="set_flag:xiali_stabilizes_core"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

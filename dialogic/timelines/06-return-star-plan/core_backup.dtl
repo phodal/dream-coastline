@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/core.png"]
-旁白: 标准字典、公共档案馆、国书网络和学生共同书写，将成为战斗中的恢复系统。
+join jizi_xuan (phone) left
+join wensu (default) left
+join atang (default) left
+旁白: 备份链设计桌上摆着四类资料：标准字典、公共档案、居民名册和正在上课的学生记录。它们的更新速度与隐私边界完全不同。
+wensu: 字典可以全网复制，居民名册不行。若为了抵抗静默就让每个人的过去公开，我们救下的只会是另一种牢笼。
+atang: 那就分层。公共字根由所有节点保存，私人记录只保存校验指纹；恢复时必须由本人或两名指定见证者授权。
+jizi_xuan: 学生记录也不能只是答案。要保留谁教过、哪里改错、如何理解。静默留下正确结果时，我们仍能从学习过程辨认伪造。
+旁白: 四层链路采用不同节奏同步：字典实时、城市档案每日、私人指纹按授权、课堂记录在每次共同朗读后更新。
+wensu: 恢复不是把旧副本压回每个人身上。系统只能提出可核对的证据，最终由活着的人确认自己愿意认领哪一段。
+jizi_xuan: 很好。我们备份文明继续说话的条件，不把文明冻结成出发那天的样子。
 [signal arg="set_flag:designed_backup_chain"]
+leave jizi_xuan
+leave wensu
+leave atang
 [end_timeline]

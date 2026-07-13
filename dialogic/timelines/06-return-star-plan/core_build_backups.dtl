@@ -1,4 +1,18 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/core.png"]
-旁白: 备份链绑定完成。之后如果字根被删，国书网络能从多个城市共同恢复。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+join atang (default) left
+旁白: 绑定不是一次上传。四方代表依次断开本地节点，让续页舰证明它能识别缺失、请求证据，并在来源不足时保持空白。
+atang: 公共字典连接完成，延迟在许可范围。私人指纹通道默认关闭，只有明确的恢复请求才能临时开启。
+wensu: 课堂节点不提供标准答案，只提供共同学习的轨迹。现代世界的人必须自己参与朗读，不能被动接收一个完成的身份。
+xiali: 四段王印都已失效。现在任何单一节点，包括我所在的节点，都不能代表完整墨颀。
+jizi_xuan: 续页舰收到的不是文明副本，而是一组仍能互相质疑的关系。只要质疑还在，静默就很难伪装成共识。
+旁白: 最后一条连接亮起时，没有出现完成百分比。核心显示的是四个持续变化的签名，以及下一次公开复核的时间。
+xiali: 绑定完成。若我们在星空里失去名字，后来的人可以帮助我们寻找，却不能替我们宣布已经找回。
 [signal arg="set_flag:bound_civilization_backups"]
+leave jizi_xuan
+leave xiali
+leave wensu
+leave atang
 [end_timeline]

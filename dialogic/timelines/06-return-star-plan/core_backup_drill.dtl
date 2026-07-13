@@ -1,4 +1,18 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/core.png"]
-旁白: 演练中，技能名被故意擦成□□。三个城市同时回写字典，十七秒后，名字恢复。
+join jizi_xuan (phone) left
+join wensu (default) left
+join atang (default) left
+join xiali (default) left
+旁白: 演练开始后，测试员故意擦除续页舰上的三个技能名，并向城市节点注入一份字形正确、来源伪造的恢复包。
+atang: 舰载节点拒绝了最快的副本。校验能对上字形，却找不到任何教师、使用记录或公开修订历史。
+wensu: 三个城市正在共同回写。先恢复字根，再恢复课程里的用法，最后由使用者确认这个词仍表达他要做的动作。
+旁白: 第十七秒，技能名重新出现；第二十一秒，一名测试员拒绝私人记录回填，系统保留空白并标记等待本人决定。
+xiali: 拒绝恢复也被系统尊重，说明它没有把完整误认成服从。旧国书做不到这一点。
+jizi_xuan: 再切断一座城市。若只在所有节点健康时成功，这套链路到了现代世界就没有意义。
+旁白: 断联演练又持续三轮。备份链变慢，却没有接受伪造来源，也没有越过私人授权。恢复流程因此获准接入续页舰。
 [signal arg="set_flag:passed_backup_drill"]
+leave jizi_xuan
+leave wensu
+leave atang
+leave xiali
 [end_timeline]
