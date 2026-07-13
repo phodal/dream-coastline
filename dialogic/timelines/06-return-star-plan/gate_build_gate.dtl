@@ -1,4 +1,18 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/gate.png"]
-旁白: 归星门开启。纪子轩站在门前，身后不是一个人，而是一个成长起来的文明。他低声说：这一次，不是我一个人回家。
+join jizi_xuan (phone) left
+join xiali (default) left
+join atang (default) left
+join wensu (default) left
+旁白: 四座城市没有同时按下一个按钮。学塾先朗读现代坐标，工坊确认能源边界，续文院核对签名，反对席最后检查停航条件仍然有效。
+atang: 能源进入第一窗口。续页舰与城市主网已经物理隔离，后续消耗只能来自议会核定的储备。
+wensu: 共同书写开始。每个坐标后都跟着来源、见证人与允许撤回的标记，不让星门把一个世界简化成目的地。
+旁白: 门内先出现无名的灯光，随后是学校走廊、街道转角和一扇纪子轩熟悉却不敢立即认领的家门。黑色空白沿画面边缘持续啃噬。
+xiali: 停航钥匙保持有效。纪子轩，从这一刻起，你仍是任务发起人，但不再是唯一能决定继续的人。
+jizi_xuan: 确认。若任何一方叫停，我会返航；若我失去判断，续页舰按风险账本接管。
+旁白: 归星门稳定在最低安全宽度。纪子轩站在门前，身后不是一支服从命令的队伍，而是一个保留分歧、仍愿共同承担的文明。
 [signal arg="set_flag:opened_return_gate"]
+leave jizi_xuan
+leave xiali
+leave atang
+leave wensu
 [end_timeline]

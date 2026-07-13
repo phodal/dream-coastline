@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/gate.png"]
-旁白: 星门需要现代坐标、墨颀国书和续页舰三者同时稳定。任何一项乱码都会坍缩。
+join jizi_xuan (phone) left
+join atang (default) left
+join xiali (default) left
+旁白: 校准台同时显示三条曲线：不断褪色的现代坐标、四方签名的墨颀国书，以及续页舰能够承受的能源窗口。三者只有短暂的重合。
+atang: 坐标每九秒丢失一段，不能靠提高功率追赶。功率超过阈值，门会先烧掉舰载字典，再把损坏回写给城市节点。
+jizi_xuan: 那就用父母实验的十一秒停顿。国书共同写出现代坐标时，静默会短暂停止，我们只在停顿里完成一轮校验。
+xiali: 四把停航钥匙都在线。任何两方发现签名错位，都能在门完全展开前切断能源。
+旁白: 第一次试写让现代街道出现，却把门牌号与居民姓名错配。纪子轩没有接受近似结果，主动清空校准并重新请求见证。
+atang: 很好。能打开一扇错误的门不算成功。第二轮降低功率，把剩余能源留给返航和探针防御。
+jizi_xuan: 最终参数确认：坐标、国书和舰体任一项失去双重见证，立即坍缩星门。救援不能以制造另一个空白为代价。
 [signal arg="set_flag:checked_gate_calibration"]
+leave jizi_xuan
+leave atang
+leave xiali
 [end_timeline]
