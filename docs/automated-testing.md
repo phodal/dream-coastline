@@ -73,6 +73,8 @@ the repo data is structurally wrong.
 - Run the headless Godot project-load check.
 - Run `--smoke-nova-runtime` to prove the new exploration/cutscene path can
   read story and visual JSON.
+- Treat Godot crash diagnostics such as `Program crashed with signal` as a
+  failure even when a smoke printed `status=PASS` first.
 - Run `--smoke-nova-save-continue` to prove the Nova-native save payload can
   restore scene, location, and story flags without the legacy OpenRPG save path.
 - Run `--smoke-nova-gamepad-continue` to prove the title splash can restore a

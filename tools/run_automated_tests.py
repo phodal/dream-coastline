@@ -20,6 +20,10 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_GODOT = Path(os.environ.get("GODOT_PATH", "/Applications/Godot.app/Contents/MacOS/Godot"))
 RELEASE_EXPORT_LOG_DIR = ROOT / "artifacts" / "release-export-logs"
 ANSI_ESCAPE_RE = re.compile(r"\x1b\[[0-9;]*m")
+GODOT_CRASH_OUTPUT_PATTERNS = (
+    "Program crashed with signal",
+    "CrashHandlerException",
+)
 ALLOWED_RELEASE_EXPORT_GODOT_PATHS = {
     "res://.godot/global_script_class_cache.cfg",
     "res://.godot/uid_cache.bin",
@@ -133,6 +137,10 @@ class Runner:
             print(result.stdout, end="" if result.stdout.endswith("\n") else "\n")
         if "SCRIPT ERROR:" in result.stdout or "Failed to load script" in result.stdout:
             return 1
+        for crash_pattern in GODOT_CRASH_OUTPUT_PATTERNS:
+            if crash_pattern in result.stdout:
+                print(f"{step.id}: crash output present: {crash_pattern}", file=sys.stderr)
+                return 1
         for forbidden in forbidden_output:
             if forbidden in result.stdout:
                 print(f"{step.id}: forbidden output present: {forbidden}", file=sys.stderr)
