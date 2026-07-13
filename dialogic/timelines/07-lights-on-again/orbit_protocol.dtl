@@ -1,4 +1,13 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/orbit.png"]
-旁白: 协议判定：该文明不可控。该文明应静默。该文明不再续写。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 轨道层没有敌舰，只有一份不断自我执行的判定。它读取现代与墨颀全部公开错误，然后把“可能造成伤害”推导成“应停止继续存在”。
+jizi_xuan: 它不是在撒谎。我们确实会误认、越权、隐藏失败，也无法保证每个名字永远被保护。
+xiali: 问题在于它把不可保证等同于不可继续，把避免一切风险变成删除所有选择。先为这套推理命名，不把批评本身当成敌意。
+旁白: 纪子轩锁定三条执行规则：只采集失败、不承认修正；只计算传播风险、不计算静默伤害；由协议单方决定谁有资格继续。
+jizi_xuan: 我们要拒绝的不是证据，而是它声称证据只能导向一个结论。名称确认：静默协议，一套取消文明答辩权的自动判定系统。
+旁白: 两个世界共同确认对象与规则边界。协议第一次从无处不在的天命，变成可以逐条质询、暂停和留下审计记录的系统。
 [signal arg="set_flag:identified_final_protocol"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

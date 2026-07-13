@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/orbit.png"]
-旁白: 队伍栏里，夏离、工程师和父母记录全部变成□□。这一次被攻击的不是血量，而是关系本身。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+join atang (default) left
+旁白: 协议开始执行时，队伍栏没有减少生命值。夏离、闻素、阿棠和父母记录的名称依次变成空框，随后连他们为何在场也从任务说明中消失。
+jizi_xuan: 我还记得有人提醒我停机、有人教学生点名、有人留下会烧断的桥栓。先记录关系，不凭记忆硬填姓名。
+旁白: 夏离的停航钥匙仍能工作，却显示无归属权限；闻素的批注仍在，却被系统归类为匿名噪声；阿棠的桥栓只剩一段无责任人的硬件。
+jizi_xuan: 协议不是简单删字，它在把共同完成的事情改写成没有行动者、没有责任、也无法被后来者接续的偶然结果。
+旁白: 纪子轩为每段关系建立临时见证编号，并向两界请求回应。即使队友名尚未恢复，他们的行动也没有被允许退化成无主数据。
+xiali: 我的名字可以稍后再找。先保住谁有权叫停、谁应为决定负责；关系若还在，名字就仍有可以回来落下的位置。
 [signal arg="set_flag:saw_deleted_party_names"]
+leave jizi_xuan
+leave xiali
+leave wensu
+leave atang
 [end_timeline]

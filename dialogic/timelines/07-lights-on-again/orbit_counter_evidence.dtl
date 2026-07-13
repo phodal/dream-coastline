@@ -1,4 +1,20 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/orbit.png"]
-旁白: 纪子轩把反证逐条写回去：闻素的教材证明错误能公开学习，阿棠的桥栓证明工程能被后来者接手，小砚的点名证明普通人的名字值得等待，夏离和国书备份证明权力可以拆成责任。现代文明尚未合格，但它已被两个世界共同纳入可修正的下一页。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+join atang (default) left
+join xiaoyan (default) left
+旁白: 纪子轩没有提交英雄事迹，而把五份可复核记录写进答辩：闻素的公开修订、阿棠的熔断、点名中的等待、多方停航权，以及居民撤回姓名授权。
+wensu: 教材证明的不是我们总能纠正，而是错误可以被普通人看见、讨论，并由下一批学习者继续修改。
+atang: 桥栓证明系统能把失败当成设计输入。它烧毁不是工程完美，而是工程承认自己何时不该继续运行。
+xiaoyan: 点名证明没回答的人也不该被删。等待很慢，可慢不是无效；有人需要更久才能决定怎样叫自己。
+xiali: 拆开的王印证明权力可以失去特权、保留责任。制度会倒退，所以停机钥匙和反对记录必须一直存在。
+jizi_xuan: 这些反证不宣告文明已经合格，只证明它能够让被伤害者回应、让错误留下来源，并让未来的人拒绝我们的答案。
+旁白: 静默协议无法将这些记录归类为成功或失败。它们共同指向第三种状态：不完美的文明仍在公开修正，因此不应被一次判定永久终止。
 [signal arg="set_flag:answered_protocol_with_evidence"]
+leave jizi_xuan
+leave xiali
+leave wensu
+leave atang
+leave xiaoyan
 [end_timeline]

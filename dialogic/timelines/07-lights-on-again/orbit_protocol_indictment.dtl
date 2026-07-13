@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/orbit.png"]
-旁白: 静默协议展开证据：现代文明把信号送向深空，却无法证明每个名字都被保护；它能制造高速系统，却把错误藏进黑箱；它能照亮城市，却让孤立的人在灯下消失。协议据此判定：继续传播风险高于继续存在。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+join atang (default) left
+旁白: 协议没有展示虚构罪状。它调出失踪教师、错误地址、差点被纪子轩延迟的熔断，以及现代系统长期把未知联系人当成可忽略数据的记录。
+wensu: 这些都是事实。公开错误不是为了证明我们无罪，而是为了让错误不再只由受害者承担。
+atang: 它还展示桥栓烧毁和缓存丢失，却删掉了我们因此停机、隔离和修改设计的后续。它的证据完整，时间范围却被故意截断。
+xiali: 它引用我做王时的命令，证明权力终会集中，却不承认王印已经被拆开。若制度改变永远不算证据，任何文明都只能被过去定罪。
+jizi_xuan: 现代文明尚未合格，墨颀也不是纯洁反例。我们不请求协议宣告无罪，只要求继续修正的权利不能由单方判定取消。
+旁白: 静默协议仍给出结论：继续传播的风险高于继续存在。答辩面板却保留了被它省略的时间线，第一次让判定与完整证据并排出现。
 [signal arg="set_flag:heard_protocol_indictment"]
+leave jizi_xuan
+leave xiali
+leave wensu
+leave atang
 [end_timeline]

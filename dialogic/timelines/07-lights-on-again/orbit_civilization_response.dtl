@@ -1,4 +1,20 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/orbit.png"]
-旁白: 墨颀各城同时亮起：学塾、档案馆、工坊、星象塔都在回写同一句话：该文明选择继续。夏离说：墨颀各城都在回写。你不是一个人。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+join atang (default) left
+join xiaoyan (default) left
+旁白: 墨颀各城没有回写同一份口号。学塾提交课堂修订，工坊提交熔断日志，档案馆提交反对票，星象塔提交仍无法解释的误差。
+wensu: 我们选择继续学习，也选择让后来的人知道今天的答辩可能仍有盲点。
+atang: 我们选择继续建造，但任何桥、节点和武器都必须留下可被别人关闭、拆解与追责的结构。
+xiaoyan: 我们选择继续点名。答应的人、没答应的人、还不知道叫什么的人，都不会因为名单不好看就被漏掉。
+xiali: 我们选择继续，不把选择交还给王，也不交给一套声称永远正确的协议。墨颀各城正在分别回写，你不是一个人。
+jizi_xuan: 现代城市也在回应：恢复的店员、匿名邻居、学校待确认名单和仍在修复的电网。回应不同，正说明它们不是被我操纵的证词。
+旁白: 文明回声没有消除协议的控诉，而在每条控诉后补上责任人、修订记录和下一次复核。继续因此成为持续承担，而非一次胜利宣言。
 [signal arg="set_flag:heard_civilization_response"]
+leave jizi_xuan
+leave xiali
+leave wensu
+leave atang
+leave xiaoyan
 [end_timeline]

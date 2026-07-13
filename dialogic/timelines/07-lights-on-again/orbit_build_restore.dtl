@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/orbit.png"]
-旁白: 标准字典、公共档案馆、国书网络、工程师和父母信标一起恢复被删的 UI。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+join atang (default) left
+旁白: 恢复从最少信息界面开始：当前生命、可用动作、停航状态与数据来源。系统没有先恢复华丽图标，也没有隐藏仍为空白的队友姓名。
+atang: 操作按钮必须同时显示可读文字和字形，不再依赖位置或 tooltip。任何名称丢失，动作立即锁定并说明缺少哪项见证。
+wensu: 错误提示用两个世界都能理解的语言，也允许放大、高对比和减慢对话。恢复可用性本身就是文明反证的一部分。
+xiali: 停航与退出按钮优先恢复。系统若只让人继续战斗、不允许停止，它就已经在模仿静默协议的单向判定。
+jizi_xuan: 标准字典恢复名称，公共档案恢复来源，现代节点恢复本地状态；私人队友名等待本人或指定见证者回应。
+旁白: 最终界面重新出现，可读按钮、资源状态与停机入口全部通过双侧校验。仍未确认的字段明确显示等待，而不是被空白悄悄吞掉。
 [signal arg="set_flag:restored_final_ui"]
+leave jizi_xuan
+leave xiali
+leave wensu
+leave atang
 [end_timeline]
