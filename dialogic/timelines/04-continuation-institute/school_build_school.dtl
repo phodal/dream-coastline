@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/school.png"]
-旁白: 第一座公开学塾开课。任务面板里，许多□□变成了可读的名字。
+join jizi_xuan (phone) left
+join wensu (default) left
+join xiaoyan (default) left
+旁白: 学塾正式开门时没有入学考试，只登记学习目标、已有经验和需要的辅助方式。年龄从七岁到七十岁。
+wensu: 第一阶段只教能直接保护姓名、通行、能源和边界的基础字。每个字都必须在现实任务中验证。
+jizi_xuan: 维修册、事故记录和学生修改都作为教材。不能只让人背标准字典的最终版本。
+旁白: 贵族书记官要求保留结业许可权。学员把章程翻到公开复核条款，请他说明为何学习成果必须由贵族确认。
+xiaoyan: 我能写自己的名字，也能帮别人检查漏掉的笔。为什么还要等他允许我会？
+旁白: 书记官没有答案，只能把异议登记进公共档案。任务面板上，一批原本显示方框的居民逐渐出现可读姓名。
+wensu: 今天不是我们把知识送给平民，是被排除的人第一次获得参与定义知识的固定位置。
+jizi_xuan: 开课只是开始。等学生能质疑这套课程、独立开设下一所学塾，公开教育才算真正成立。
 [signal arg="set_flag:opened_first_school"]
+leave jizi_xuan
+leave wensu
+leave xiaoyan
 [end_timeline]

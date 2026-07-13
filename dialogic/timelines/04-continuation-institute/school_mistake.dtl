@@ -3,6 +3,12 @@ join wensu (default) left
 join xiaoyan (default) left
 xiaoyan: 那我名字旁边会永远有一个错字吗？
 wensu: 会有一条更长的记录：他曾经写错，后来自己改对。文明不是没有错字，是错字不再只能由少数人解释。
+旁白: 复盘板把错误分成看错对象、漏写边界、误解用途和手部动作四类，没有一栏叫“学生太笨”。
+xiaoyan: 我第一次把“名”写成了“夕”，是因为只记得天黑时有人会问名字。
+wensu: 这不是无意义的错。它说明故事帮助你记住上半部，却没有让对象关系完整。教材也要修改。
+旁白: 闻素在教师栏写下责任：例子偏重字形，缺少见证者与对象练习。学生错误第一次反向修改课程。
+xiaoyan: 所以不只有我需要改？
+wensu: 对。好的记录让学生、教师和字典一起变得更准确，而不是只留下一个被纠正的人。
 [signal arg="set_flag:logged_student_errors"]
 leave wensu
 leave xiaoyan
