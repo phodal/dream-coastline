@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/star_tower.png"]
-旁白: 你用“止”暂停坐标删除。星象塔争取到一次完整观测窗口。
+join jizi_xuan (phone) left
+join xiali (default) left
+join atang (default) left
+旁白: 坐标删除正沿观测窗口扩散。你把“止”落在删改动作与原始影像之间，而不是冻结整条跨界通道。
+jizi_xuan: 停止本窗口的自动擦除，保留噪声、缺帧和未知字段。不能为了得到清晰画面把不确定性一起删掉。
+旁白: “止”字展开成时间边界，删除在边界前暂停。星象塔获得一次长度可测、随时可关闭的完整观测窗口。
+atang: 能源消耗上升，但仍在多城上限内。任何两座供能城退出，窗口都会安全关闭。
+xiali: 暂停不是胜利。干扰仍在边界外等待，窗口越久，反向定位风险越高。
+jizi_xuan: 设定上限，只取一帧原始影像和完整删改签名。到时自动关闭，不因看见家就临时延长。
+旁白: 倒计时启动，二十三城共同见证窗口参数。第一次完整观测不再由纪子轩一人的决定维持。
 [signal arg="set_flag:paused_signal_deletion"]
+leave jizi_xuan
+leave xiali
+leave atang
 [end_timeline]
