@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/astral_tower.png"]
-旁白: 城市地图出现空白，人名从档案中消失。现代科技能发信号，却无法证明信号存在。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 星象塔把现代世界最后七十二小时的观测叠在一起。城市灯光没有逐片熄灭，而是连同地图上的街道名称一起消失。
+jizi_xuan: 这不是停电。停电之后，电网会留下故障记录；这里连负责维修的人名、地址和工单都变成了空格。
+xiali: 像静默侵入墨颀时一样。它先夺走称呼，再让无人能证明失去过什么。
+旁白: 一段求救信号穿过星空，波形完整，校验码也正确。可接收站的日志坚持声称：从未收到任何讯息。
+jizi_xuan: 现代科技还能发射、计算、备份，却无法保住这些动作的意义。机器继续运转，文明正在失去对自己的指认。
+xiali: 所以归星不是送你回家。我们要把墨颀已经学会的名字、证据和共同记忆，带给一个正在被抹除的世界。
+jizi_xuan: 也不能因为那里是我的故乡，就让墨颀替我承担代价。先把灾难证据公开，再由所有人决定是否出发。
+旁白: 纪子轩将观测原始数据、失败校验和仍可复现的空白坐标封入续文院档案。现代灾难第一次成为可供全体复核的公共事实。
 [signal arg="set_flag:confirmed_modern_disaster"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

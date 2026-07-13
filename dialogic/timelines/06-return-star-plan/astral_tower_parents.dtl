@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/astral_tower.png"]
-旁白: 父母早就知道：墨颀文字现实技术可能是唯一能抵抗静默的系统。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 父母留下的研究摘要没有写成家书。首页只列着三次实验失败、两名失踪研究员，以及一个被反复圈出的词：可证存在。
+jizi_xuan: 他们很早就发现静默。普通备份会复制内容，却复制不了内容为何属于某个人；一旦名字被抹掉，副本也会失去主人。
+xiali: 墨颀文字不同。一个字只有被人读、被人回应、被共同承认，才真正生效。它把存在系在关系上，不只系在纸上。
+旁白: 摘要末尾记录了一次未完成的跨星实验。研究者让两个相隔遥远的观察站同时书写同一个名字，空白蔓延因此停顿了十一秒。
+jizi_xuan: 父母不是偶然把我送到墨颀。他们知道这里可能保有抵抗方法，却不知道穿越会把我留在一个正在灭亡的时代。
+xiali: 知道这一点，不等于你必须原谅他们。被选择去承担危险的人，仍有权追问是谁替他作了决定。
+jizi_xuan: 我会追问。但现在更重要的是验证这十一秒能否扩大，让现代世界重新记得自己。
+旁白: 他把父母的摘要列为归星计划的证据，而不是命令。私人寻找终于与文明救援相交，却没有取代议会的公开判断。
 [signal arg="set_flag:read_parent_research_summary"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
