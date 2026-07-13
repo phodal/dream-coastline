@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/library.png"]
-旁白: 几封信写给夏离：殿下，我们已经会写自己的名字了。信末被墨律司盖上退回二字。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 一只退信箱塞满未送达书信。信封寄件人栏写着歪斜姓名，每个名字旁都画着同一盏小灯。
+旁白: 第一封写：“殿下，我们已经会写自己的名字。村里再有人失踪，就不会只剩一个空框。”
+xiali: 我从没收到这些。墨律司说试教村主动放弃，父王也拿退学人数要求我停止。
+wensu: 信不是退给学生，是直接扣在王都。让教师看不见回应，也让学生以为自己无人支持。
+旁白: 另一封附着修井图，画法与第二幕老人私藏草图一致。落款学生后来出现在“无名迁移”名册。
+jizi_xuan: 他们切断的不只是课程，是改革者与实际受益者之间的证据链。
+xiali: 我把沉默当成失败，转而用王权强推改革。现在才知道，沉默本身就是他们制造的结果。
+旁白: 夏离把退信按村落重新分类，没有带走任何一封，只在箱盖写下“待公开归还”。
 [signal arg="set_flag:found_student_letters"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]

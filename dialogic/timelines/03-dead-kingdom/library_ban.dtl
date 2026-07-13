@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/library.png"]
-旁白: 禁令没有说平民不能学，只说未授权学习会导致国书不稳定。它把恐惧写成法律。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 禁令没有写“平民不得学习”，而是把未授权学习定义为可能引发国书不稳定的高风险行为。
+jizi_xuan: 这样他们不必证明某个学生造成事故。只要风险存在，就能无限延期授权。
+wensu: 而授权标准又要求先证明能安全使用文字。没有学习机会的人永远无法满足前提。
+xiali: 我曾试图靠王令跳过这套循环。结果墨律司把我的特批本身列为制度风险。
+旁白: 抄本附录列出藏书处置方案：王室保管、工匠限用、公开教学或转入秘密研究。四条路线的代价都被写得很清楚。
+jizi_xuan: 这批书不能只证明旧制度错了。我们必须决定它接下来服务谁，并承担那个选择产生的新问题。
+wensu: 对。没有无代价的开放，也没有中立的保管。先看完证据，再亲手选一条后果。
 [signal arg="set_flag:found_knowledge_ban"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]

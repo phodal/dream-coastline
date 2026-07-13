@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/library.png"]
-旁白: 你找到夏离签过的旧令：基础字根可向平民开放试教。墨律司在旁边写了危险二字。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+旁白: 改革卷宗前半是夏离签署的试教令：开放“名、门、火、止”等基础字根，先在十二座边境村运行。
+jizi_xuan: 这些正是闻素教我的字。计划甚至要求记录失败和公开维修原因。
+wensu: 你的母亲参与过试教设计。她坚持把失败记录写入教材，夏离负责争取王室许可。
+旁白: 试教前三月，水井故障下降、平民登记名恢复。第四月，墨律司在每项成果旁写下同一个词：危险。
+xiali: 我以为有结果就能说服他们。没看见成果越明确，越证明他们失去垄断后仍有人能维护世界。
+jizi_xuan: 反对不是因为改革失败，而是因为它成功到足以改变谁有资格写字。
+旁白: 卷宗末页的终止令没有事故证据，只有一句：知识扩散速度已超过可控范围。
 [signal arg="set_flag:found_reform_records"]
+leave jizi_xuan
+leave xiali
+leave wensu
 [end_timeline]
