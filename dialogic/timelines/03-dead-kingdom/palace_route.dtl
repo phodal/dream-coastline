@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/palace.png"]
-旁白: 你用日志和文献复原路线：夏离的改革太急，墨律司的封锁更致命，两者共同撕裂王都。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 你把改革卷宗与封锁日志按时辰铺在倒塌长廊。墨迹相互响应，在地面重现陷落夜的路线。
+旁白: 第一阶段，试教村成果传回王都，夏离要求三日内扩大教学；墨律司同日开始冻结学徒库。
+xiali: 我怕窗口关闭，跳过教师培养和地方协商，直接用王令把课程推到全城。
+jizi_xuan: 这让改革依赖你的权限。一旦墨律司把你移出主体名单，所有学校同时失去合法入口。
+旁白: 第二阶段，学徒抗议封锁。夏离开放宫门，墨律司冻结国书节点，供水与医疗随即连锁崩坏。
+xiali: 我的急进暴露了单点依赖，他们的封锁把这个弱点变成全城灾难。两者不是同一种责任，但都在路线里。
+jizi_xuan: 不能用你的错误替墨律司开脱，也不能用他们的罪行假装改革设计没有问题。
+旁白: 路线最终指向主国书殿。那里同时留有夏离的强开记录和墨律司的冻结命令，因果第一次没有被压成单一罪人。
 [signal arg="set_flag:restored_fall_route"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

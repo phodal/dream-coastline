@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/palace.png"]
-旁白: 夏离说：我想救墨颀，但我以为只要我写得足够快，所有人就会跟上。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 通往王座厅的岔路仍能识别夏离的王室血印。她站在门前，却没有伸手激活它。
+xiali: 如果我重新坐上王位，最快能恢复节点、召回教师，也能让贵族停止争夺藏书。
+jizi_xuan: 也会再次让所有改革依赖一个正确的统治者。你一旦失败，整个系统仍会一起倒下。
+xiali: 我想救墨颀，却以为只要我写得足够快，所有人就会跟上。那和墨律司替别人决定承受能力，只差一个善意。
+旁白: 她摘下仍可开启王座的印戒，把它放进陷落路线证据袋，而不是戴回手上。
+xiali: 我不否认自己曾是王女，也不靠王女身份替答案加权。主殿里的残影若要王权回应，就让它听见没有王座的回答。
+jizi_xuan: 承担失败不等于永远退出决策。你仍要解释、建设，也要接受别人不再自动服从。
+xiali: 这比当罪人难多了。走吧，我欠这座城一个不能用头衔结束的答案。
 [signal arg="set_flag:xiali_faces_failure"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

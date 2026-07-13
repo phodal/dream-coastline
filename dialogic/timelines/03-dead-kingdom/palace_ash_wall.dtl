@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/palace.png"]
-旁白: 墙上还留着半行儿童练字。夏离伸手摸过灰烬，说：我以为他们只需要机会，没想到他们还需要时间。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 宫城侧廊曾是临时课堂。烧黑墙面仍留着儿童练写的“名”，每个字旁都有教师用不同颜色标出的修改。
+xiali: 这里原计划训练第一批平民教师。我把课程从半年压到六周，因为封锁消息一天比一天近。
+jizi_xuan: 他们学会写字，却还没有时间学会怎样教、怎样判断错误、怎样在你不在时继续。
+旁白: 墙角有一张撤离清单。学生全部到齐，教师栏却只完成一半；很多人仍等王宫给出下一步命令。
+xiali: 我给了机会，却把速度当成能力。以为门一打开，所有人自然会知道怎么走。
+jizi_xuan: 第二幕村民已经证明，他们需要的不只是字典，还要失败记录和本地修改权。
+旁白: 夏离把手按在灰烬上，没有擦掉墙字，而是在旁边补写：开放必须包含接管与质疑开放者的能力。
+xiali: 这句迟了很多年。但如果新书院还会读到这面墙，就不算只写给死人。
 [signal arg="set_flag:saw_burned_route_wall"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
