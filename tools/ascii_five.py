@@ -434,6 +434,16 @@ def evidence_reading_minutes(scene: dict) -> float:
                 else:
                     visible_characters += len(str(record.get("text", "")))
         combat = location.get("combat", {})
+        for spell in combat.get("spells", {}).values():
+            dialogue = spell.get("dialogue", [])
+            if dialogue:
+                visible_characters += sum(
+                    len(str(entry.get("text", "")))
+                    for entry in dialogue
+                    if isinstance(entry, dict)
+                )
+            else:
+                visible_characters += len(str(spell.get("text", "")))
         for key in (
             "identify_failure_dialogues",
             "identify_success_dialogue",
