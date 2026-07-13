@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/rift.png"]
-旁白: 标准字典、档案馆和国书网络同时回写，被删的字根恢复。
+join jizi_xuan (phone) left
+join wensu (default) left
+join atang (default) left
+join xiali (default) left
+jizi_xuan: 不要从最快的副本恢复。先检查字根来源、课堂用法和操作者本人的确认。
+wensu: 学塾节点正在回写共同学习轨迹。我们能证明这些动作曾被理解，却不会替失名者认领私人记忆。
+atang: 一座城市节点断联，链路已自动降级。其余三城仍能交叉验证，没有接受探针注入的伪造字形。
+xiali: “止”不是让世界静止，是让删除无法冒充从未发生。保留伤口，证据才不会被胜利一起抹平。
+旁白: 标准字典、档案馆与国书网络依次回写。技能名恢复可读，来源和修订记录同时亮起，攻击动作重新获得意义。
 [signal arg="set_flag:restored_deleted_glyphs"]
+leave jizi_xuan
+leave wensu
+leave atang
+leave xiali
 [end_timeline]

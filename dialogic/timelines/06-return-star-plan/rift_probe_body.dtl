@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/rift.png"]
-旁白: 探针体外壳没有眼睛，只有黑白分层的删除纹。它旁边漂着被抹掉的技能名和联系人条目，像一段拥有身体的判定。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 黑白外壳由一层层互相否定的纹路组成。每当众人确认一条边界，下一层就把那条边界改写成从未存在。
+xiali: 它看起来像身体，是因为我们的认知需要一个可以指向的对象。真正的探针也许只是穿过外壳执行的删除规则。
+jizi_xuan: 那就不要把胜负押在摧毁外壳。先为规则命名，再让国书网络共同见证这个名字指向哪些行为。
+旁白: 纪子轩标记三项重复特征：删除前出现的白噪、字根断裂的固定顺序，以及联系人关系被抹除后残留的空指针。
+xiali: 旧王国会把未知之物先叫妖魔，然后命人攻击。我们现在有能力等证据足够，再决定它是什么。
+jizi_xuan: 证据一致。外壳不是生物，探针不是名字本身；“静默探针”是我们对这套可重复删除行为的公共指称。
+旁白: 四座城市同时确认指称。探针第一次在国书核心里获得稳定轮廓，也第一次成为可以被追踪、阻断和反复验证的对象。
 [signal arg="set_flag:recognized_probe_body"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

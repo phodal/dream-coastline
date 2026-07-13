@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/rift.png"]
-旁白: 它不是怪物，而是协议实体。它让技能名称变成□□，让地图失去标记。
+join jizi_xuan (phone) left
+join xiali (default) left
+join atang (default) left
+旁白: 探针没有向任何人移动。它只向星门发送一串判定，下一刻，操作面板上的“返航”“停航”和“求援”同时变成空框。
+atang: 舰体没有遭受冲击，字典索引却在被逐项解除关联。它攻击的不是文件，而是文件为什么能被我们理解。
+jizi_xuan: 别按位置猜按钮。先让每个操作者说出自己原本想做什么，再从共同记录里找回动作名称。
+xiali: 它没有敌意，也不接受投降。对它而言，拥有名字的坐标只是需要清理的异常。
+旁白: 探针将一张现代地图处理成仍有道路却没有目的地的图像，随后删除联系人之间的关系，只留下无法归属的号码。
+jizi_xuan: 这就是入侵协议：先保留世界的外壳，再让其中所有事物无法被相互指认。我们必须锁定它每次删除留下的共同签名。
+atang: 签名已送入四城节点。它下一次擦除技能名时，备份链会保留前后差异，我们就能证明攻击发生过。
 [signal arg="set_flag:identified_invasion_probe"]
+leave jizi_xuan
+leave xiali
+leave atang
 [end_timeline]

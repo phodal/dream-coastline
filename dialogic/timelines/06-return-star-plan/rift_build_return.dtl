@@ -1,4 +1,18 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/rift.png"]
-旁白: 纪子轩跨过归星门。夏离、续文院工程师、国书核心和墨颀星火随他进入现代。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+join atang (default) left
+旁白: 续页舰没有冲向城市中心，而是在现代世界边缘停稳。第一批落地的是字典节点、环境检测器和一块允许当地人拒绝接入的公开说明牌。
+atang: 星门剩余能源足够一次紧急返航。任何人发现备份反向污染，立刻切断本地节点，不要为了维持登陆完整而拖延。
+wensu: 第一间临时课堂只教一件事：如何验证一个消失的名字曾经存在。现代人提供记忆，我们提供方法，谁也不替谁写答案。
+xiali: 墨颀代表不设王旗。每一座接受节点的城市都保留退出权，所有修复记录同时回传两边的公共档案。
+jizi_xuan: 先恢复求救站的值班名单，再恢复地图与联系人。让仍在等待回应的人知道，他们发出的信号并非从未存在。
+旁白: 第一盏现代路灯重新获得街道名时，国书核心没有宣布胜利，只记录一条新的双向见证：两个文明已经能够互相证明对方存在。
+jizi_xuan: 归星完成的不是返航，而是建立一条不会把任何一方变成工具的联系。从这里开始，我们要一起学会怎样继续。
 [signal arg="set_flag:returned_to_modern_with_moqi"]
+leave jizi_xuan
+leave xiali
+leave wensu
+leave atang
 [end_timeline]
