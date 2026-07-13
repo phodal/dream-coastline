@@ -4,6 +4,7 @@ signal inspect_requested(item_id: String)
 signal move_requested(location_id: String)
 signal choice_requested(choice_id: String)
 signal story_action_requested(action_type: String, action_id: String)
+signal accessibility_announcement_requested(text: String)
 
 const MoqiText := preload("res://src/nova/ui/moqi_text.gd")
 const HotspotMarker := preload("res://src/nova/world/hotspot_marker.gd")
@@ -235,7 +236,10 @@ func _render_choices(choices: Array[Dictionary]) -> void:
 		elif choice_type == "story_action":
 			button.pressed.connect(func() -> void: story_action_requested.emit(action_type, choice_id))
 		var index := _choice_buttons.size()
-		button.focus_entered.connect(func() -> void: _selected_choice_index = index)
+		button.focus_entered.connect(func() -> void:
+			_selected_choice_index = index
+			accessibility_announcement_requested.emit(choice_accessibility_announcement(index))
+		)
 		choice_list.add_child(button)
 		_choice_buttons.append(button)
 	if choice_list.get_child_count() > 0:
@@ -291,6 +295,15 @@ func accessibility_announcement() -> String:
 	if not enabled_labels.is_empty():
 		parts.append("可用行动，%s" % "，".join(enabled_labels))
 	return "。".join(parts)
+
+
+func choice_accessibility_announcement(index: int) -> String:
+	if index < 0 or index >= _choice_buttons.size():
+		return ""
+	var button := _choice_buttons[index]
+	var label := str(button.text).replace("  ✓", "，已完成")
+	var state := "不可用" if button.disabled else "可用"
+	return "行动 %d，共 %d。%s。%s" % [index + 1, _choice_buttons.size(), label, state]
 
 
 func choice_index_for(choice_type: String, choice_id: String, action_type: String = "") -> int:

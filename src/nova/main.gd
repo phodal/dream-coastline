@@ -65,6 +65,7 @@ func _ready() -> void:
 	exploration_view.move_requested.connect(_move_to)
 	exploration_view.choice_requested.connect(_choose_location_choice)
 	exploration_view.story_action_requested.connect(_perform_story_action)
+	exploration_view.accessibility_announcement_requested.connect(_announce_text)
 	add_child(exploration_view)
 
 	vn_layer = VNLayerScript.new()
@@ -199,9 +200,13 @@ func _present_location(scene_id: String, location_id: String, location: Dictiona
 
 
 func _announce_exploration_view() -> void:
+	_announce_text(str(exploration_view.accessibility_announcement()))
+
+
+func _announce_text(text: String) -> void:
 	if settings_repository == null or not bool(settings_repository.screen_reader) or _is_automation_run():
 		return
-	var announcement := str(exploration_view.accessibility_announcement()).strip_edges()
+	var announcement := text.strip_edges()
 	if announcement.is_empty():
 		return
 	DisplayServer.tts_speak(announcement, "", 50, 1.0, 1.0, 0, true)
@@ -546,15 +551,17 @@ func _run_settings_smoke() -> void:
 	ok = ok and bool(restored.screen_reader)
 	var announcement := str(exploration_view.accessibility_announcement())
 	ok = ok and announcement.contains("地点") and announcement.contains("可用行动")
+	var choice_announcement := str(exploration_view.choice_accessibility_announcement(0))
+	ok = ok and choice_announcement.contains("行动 1") and choice_announcement.contains("可用")
 	ok = ok and int(restored.key_bindings.get("interact", 0)) == KEY_F
 	var mapped := false
 	for event in InputMap.action_get_events("interact"):
 		if event is InputEventKey and int(event.keycode) == KEY_F:
 			mapped = true
 	ok = ok and mapped
-	print("nova-settings-smoke status=%s text_scale=%.2f contrast=%s dialogue_speed=%.2f screen_reader=%s announcement=%s interact=%s mapped=%s" % [
+	print("nova-settings-smoke status=%s text_scale=%.2f contrast=%s dialogue_speed=%.2f screen_reader=%s announcement=%s focus_announcement=%s interact=%s mapped=%s" % [
 		"PASS" if ok else "FAIL", float(restored.text_scale), str(restored.high_contrast),
-		float(restored.dialogue_speed), str(restored.screen_reader), str(not announcement.is_empty()), restored.key_label("interact"), str(mapped),
+		float(restored.dialogue_speed), str(restored.screen_reader), str(not announcement.is_empty()), str(not choice_announcement.is_empty()), restored.key_label("interact"), str(mapped),
 	])
 	restored.clear()
 	get_tree().quit(0 if ok else 1)
