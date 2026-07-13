@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/network.png"]
-旁白: 夏离的影子在三个城市的国书节点里同时出现。北境节点请他批准防灾流程，南港节点请他确认字典版本，旧书院节点却还停着他半句玩笑。他先回答公文，才想起纪子轩站在面前：我刚才是不是又把你当成节点了？
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 试运行后，夏离的影子同时出现在三个城市节点。每个节点都向她推送自己的灾害、字典冲突和权限争议。
+xiali: 北境需要确认防灾流程，南港请求协调版本，旧书院还停着我没说完的半句玩笑。
+旁白: 她先回答两份公文，再转向纪子轩。眼神停顿片刻，像在检索当前对话属于哪个节点。
+xiali: 我刚才是不是又把你当成节点了？
+jizi_xuan: 是。你问我请求编号，却忘了我只是来看你有没有吃饭。
+xiali: 国书记得我的职责比我自己更快。每次响应都很合理，合在一起却把私人时间挤成空白。
+旁白: 纪子轩暂停她的公共接口十分钟。三座节点转入轮值协调，没有一座因此停止运行。
+jizi_xuan: 系统能在你休息时继续，才证明这是职责锚点而不是换了名字的单点依赖。
 [signal arg="set_flag:saw_xiali_fading"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

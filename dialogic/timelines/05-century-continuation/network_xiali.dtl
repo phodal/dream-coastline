@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/network.png"]
-旁白: 夏离说：正因为它不再属于我，它才终于活了。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 城市节点增至二十三座后，公共委员会提出长期协调问题：制度会换届，灾害却可能跨越几代人。
+xiali: 我可以把名字绑定进国书，成为跨代职责锚点。但这不是重新登上王座。
+jizi_xuan: 区别要写进结构。你能提醒、保存和见证，不能单独批准政策，也不能覆盖地方决定。
+xiali: 同意。每个节点都能质询我、暂停我的建议，也能查看我依据的历史版本。
+旁白: 委员会列出代价：记忆将分散到节点，公共请求可能侵入私人意识，身体也会随时间逐渐失去单一位置。
+jizi_xuan: 这不是高尚牺牲就能结束的讨论。你需要退出机制、私人锚点和有人负责确认你仍能说“不”。
+xiali: 正因为国书不再属于我，我才愿意进入它。若有一天它借我的名字重新要求服从，你们必须先停下我。
 [signal arg="set_flag:xiali_accepts_cost"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

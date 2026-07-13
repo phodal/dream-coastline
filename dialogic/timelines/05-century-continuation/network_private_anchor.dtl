@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/network.png"]
-旁白: 纪子轩把旧讲堂的一把椅子编号给夏离留着，旁边贴着他们第一次争吵的日期。夏离看了很久，才低声说：国书会记住我的职责，但这把椅子记住我曾经不想负责。若有一天我只会回答墨颀，就从这里叫我。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 纪子轩把旧讲堂的一把椅子编号给夏离留着，旁边贴着他们第一次争吵的日期和当时两人都说错的话。
+xiali: 国书会记住我的职责、决定和公开解释。这把椅子为什么要记住我不想负责的时候？
+jizi_xuan: 因为你不只是最有用的那部分。私人锚点必须保存没有公共价值、甚至让你难堪的记忆。
+旁白: 椅下放着未完成的笑话、阿棠留下的坏扳手、闻素批评她语速太快的纸条，以及一份可拒绝节点请求的私人密钥。
+xiali: 如果有一天我只会回答墨颀，就从这里叫我。不要用王女、国书或协调者，只叫夏离。
+jizi_xuan: 锚点由不同朋友轮值维护，不能只靠我。否则我的离开也会让你丢掉私人入口。
+旁白: 夏离坐下，第一次主动关闭所有节点投影。十分钟里没有解决任何公共问题，椅子却记录她确实选择了休息。
+xiali: 原来“不响应”也能是一条值得保存的记录。
 [signal arg="set_flag:kept_xiali_private_anchor"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

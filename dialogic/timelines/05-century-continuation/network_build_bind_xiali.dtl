@@ -1,4 +1,19 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/network.png"]
-旁白: 夏离把名字绑定进国书。仪式完成时，所有节点同时亮起他的名字，又同时把名字拆成权限、职责和备份。纪子轩第一次听见夏离用复数说自己：我们会继续看着墨颀。夏离停了一下，补回一句：我也会。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+join atang (default) left
+旁白: 绑定仪式没有王冠。二十三座节点分别提交一份职责、限制和撤销条件，任何一份不同意都能暂停接入。
+xiali: 我接受保存历史、协调灾害和提醒长期承诺；拒绝替地方作最终决定，也拒绝永久不可退出。
+旁白: 她的名字进入国书后被拆成公开职责、权限边界、节点备份和私人锚点。没有任何单一节点拥有完整人格副本。
+jizi_xuan: 每次调用必须说明目的，私人时间默认拒绝，紧急越权会自动进入公共复核。
+旁白: 所有节点同时亮起夏离的名字。她的声音短暂重叠成复数：“我们会继续看着墨颀。”
+xiali: 我也会。别让职责语法替我吞掉单数。
+旁白: 仪式完成后，北境请求立即抵达。轮值协调者先处理，夏离没有被迫成为第一个回答的人。
+jizi_xuan: 绑定成功的证明不是你无处不在，而是世界终于能在你缺席时继续，也能在需要时把你作为一个人叫回来。
 [signal arg="set_flag:bound_xiali_to_statebook"]
+leave jizi_xuan
+leave xiali
+leave wensu
+leave atang
 [end_timeline]
