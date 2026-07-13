@@ -1,4 +1,18 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/council.png"]
-旁白: 议会通过归星授权。支持度来自前期教育、公开知识、国书稳定和工程能力。
+join jizi_xuan (phone) left
+join xiali (default) left
+join wensu (default) left
+join atang (default) left
+旁白: 表决没有用欢呼开始。每个代表先在授权书背面抄下自己最担心失去的人与事，再逐项确认风险账本中的停航条件。
+atang: 工坊赞成，但续页舰必须先完成无人校准，核心能源不得接入城市主网。任何赶工都要公开记录。
+wensu: 学塾赞成，但参与者的孩子不承担父母的选择。照护、课程和返航后的心理记录，都写进公共预算。
+xiali: 我以最后一任王的身份放弃指挥权，以一个会被归星后果波及的墨颀人身份投赞成票。
+jizi_xuan: 我接受议会的限制，也接受途中被叫停。归星计划的目标不是让我回家，而是让两个世界都保有说出自己的能力。
+旁白: 授权以多数通过，同时保留完整反对票。四把停航钥匙被分别交给学塾、工坊、续文院和反对席，没有任何一人能独自开启远征。
+wensu: 从现在起，别再说墨颀跟随纪子轩归星。应当说：墨颀经过争论，决定参与一次有边界的救援。
 [signal arg="set_flag:won_return_star_council"]
+leave jizi_xuan
+leave xiali
+leave wensu
+leave atang
 [end_timeline]
