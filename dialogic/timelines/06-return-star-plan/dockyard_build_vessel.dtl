@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/dockyard.png"]
-旁白: 续页舰完工。它携带的不是军队，而是字典、档案、教师、工程师和国书核心。
+join jizi_xuan (phone) left
+join atang (default) left
+join wensu (default) left
+旁白: 船坞没有举行下水礼。第一项完工测试，是让所有主灯熄灭，再由三个互不相连的备份节点重新说出每个舱段的名字。
+atang: 导航、档案、生活维持全部恢复。现在切断一号节点，模拟静默从舰首侵入。
+wensu: 学塾节点收到缺页请求。学生正在用共同字典补写，但他们只能恢复公共版本，不能替船员编造私人记忆。
+jizi_xuan: 这条边界要保留。救回一个人的名字，不等于有权替他决定过去。我们提供证据，让本人重新认领。
+旁白: 三轮断联、两次能源降级和一次错误坐标注入后，续页舰仍保持最低航行状态，并把每次修复责任写入公开日志。
+atang: 船完工了，但它不会因为完工就变得可信。每次出航前都要重新测试，每次返回后都要公开哪里差点失败。
+jizi_xuan: 那就让它叫续页舰：不是因为它能写下结局，而是因为任何一页断掉以后，仍有人知道怎样接下去。
 [signal arg="set_flag:built_return_vessel"]
+leave jizi_xuan
+leave atang
+leave wensu
 [end_timeline]

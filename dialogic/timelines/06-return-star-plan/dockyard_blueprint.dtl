@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/06-return-star-plan/dockyard.png"]
-旁白: 蓝图把星象塔、国书节点、移动档案和续页系统写成同一个工程。
+join jizi_xuan (phone) left
+join atang (default) left
+旁白: 蓝图铺满船坞地面，却没有传统舰船的首尾。星象塔、移动档案、国书节点和生活舱被画成一圈彼此校验的页码。
+atang: 续页舰不是把一座城塞进船壳。任何舱段被静默抹掉，左右两段都要能从共同字典恢复它的名字和用途。
+jizi_xuan: 也就是说，导航不能只保存坐标。它必须保存谁观测了坐标、用了什么仪器，以及另一人如何复核。
+atang: 对。静默最擅长留下结果、抹掉关系。我们反过来，把每个结果都绑在至少两名见证者和一条公开记录上。
+旁白: 能源舱与城市主网之间只有单向接口。续页舰可以接收议会核定的配额，却无法在紧急时绕过授权抽取更多晶能。
+jizi_xuan: 把限制直接造进船里，比写一句不得滥用可靠。即使我在星门前改变主意，也没有权限拿墨颀的灯火续航。
+atang: 这才是一艘公共工程船。它不仅载着我们的能力，也载着我们决定哪些事绝不能做。
 [signal arg="set_flag:checked_return_vessel_blueprint"]
+leave jizi_xuan
+leave atang
 [end_timeline]
