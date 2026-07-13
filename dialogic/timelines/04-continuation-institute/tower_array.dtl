@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/tower.png"]
-旁白: 符阵不是坏了，而是字典版本不一致。不同地区写同一个字，结果却略有偏差。
+join jizi_xuan (phone) left
+join wensu (default) left
+join atang (default) left
+旁白: 断塔底部仍收到远方村落的微弱信号，同一个“止”字却在不同线路上呈现三种笔画顺序。符阵因此拒绝合并。
+wensu: 旧系统把差异判成错误，只有国书院版本能通过。塔断后，各地为实际需要发展出自己的写法。
+atang: 北矿区的“止”先锁机械，南河谷的先稳水流。强行统一顺序，会让至少一边的设备错误执行。
+jizi_xuan: 标准字典应该定义共同语义和安全边界，不必抹掉所有本地实现。先建立版本映射。
+旁白: 你们逐条比对来源、用途和失败记录。三种写法共享“阻止扩张”的核心，却对执行对象有不同默认值。
+wensu: 默认值必须显式标出。跨地区传输时要求发送者写明对象，接收者可以拒绝含糊命令。
+旁白: 符阵接受映射后，三条线路不再互相覆盖，而是并列显示版本、地区和最后复核日期。
+jizi_xuan: 通信不是让所有人写成一样，而是让差异在执行前可见、可翻译、可拒绝。
 [signal arg="set_flag:checked_comm_array"]
+leave jizi_xuan
+leave wensu
+leave atang
 [end_timeline]

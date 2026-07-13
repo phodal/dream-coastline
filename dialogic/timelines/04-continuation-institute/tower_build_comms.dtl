@@ -1,4 +1,20 @@
 [background arg="res://assets/illustrations/playable/04-continuation-institute/tower.png"]
-旁白: 通信塔恢复。各地学塾第一次能同步字典修订。
+join jizi_xuan (phone) left
+join wensu (default) left
+join atang (default) left
+join xiali (default) left
+旁白: 阿棠先修复塔身供能，闻素部署版本映射，夏离把旧军用优先线路改成公共紧急频道。
+xiali: 过去军令会挤掉所有民间消息。现在灾害、医疗和安全停工按公开规则排序，任何优先级变更都有日志。
+atang: 塔必须支持离线缓存。线路一断，本地仍能读最后一版字典和提交待同步的事故记录。
+旁白: 第一次联调收到七个地区的问候，也收到十九条冲突修订。系统没有选一个胜者，而是把冲突送入公共复核队列。
+wensu: 同步不能把中央错误瞬间复制给所有人。高风险条目分阶段发布，每个地区保留暂缓采用与说明理由的权利。
+jizi_xuan: 也不能让地方差异成为永久隔离。拒绝采用后要继续交换证据，直到能说明风险如何解决。
+旁白: 通信塔点亮，各地学塾第一次看见彼此的教材修订，矿场也收到邻区两次坍塌前的声纹样本。
+atang: 这座塔不只是传消息。它让一个地方付过的事故代价，能够在另一个地方变成提前停工的理由。
+旁白: 最远线路传来异常：封字塔正在向所有字典版本发送删除指令，目标首先指向新学会写名的学生。
 [signal arg="set_flag:restored_communication_tower"]
+leave jizi_xuan
+leave wensu
+leave atang
+leave xiali
 [end_timeline]
