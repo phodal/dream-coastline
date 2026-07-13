@@ -1,6 +1,7 @@
 extends Node
 
 signal finished(payload: Dictionary)
+signal dialogue_line_started(speaker: String, text: String)
 
 const DialogicTimelineScript := preload("res://addons/dialogic/Resources/timeline.gd")
 ## Base directory for authored .dtl timeline files.
@@ -8,6 +9,7 @@ const TIMELINE_DIR := "res://dialogic/timelines"
 
 var _active_payload: Dictionary = {}
 var _dialogic_node: Node = null
+var _dialogue_index := -1
 ## Optional reference to DialogicVariableBridge for flag sync.
 var variable_bridge: Node = null
 
@@ -26,6 +28,7 @@ func _input(event: InputEvent) -> void:
 		if bool(inputs.get("action_was_consumed")):
 			inputs.set("action_was_consumed", false)
 		inputs.handle_input()
+		_emit_next_payload_dialogue_line()
 		get_viewport().set_input_as_handled()
 
 
@@ -63,6 +66,7 @@ func play_payload(payload: Dictionary, backdrop_path: String) -> bool:
 	if not can_play_runtime():
 		return false
 	_active_payload = payload.duplicate(true)
+	_dialogue_index = -1
 	if variable_bridge != null:
 		variable_bridge.sync_flags_to_dialogic()
 	if not _dialogic_node.timeline_ended.is_connected(_on_dialogic_timeline_ended):
@@ -76,12 +80,14 @@ func play_payload(payload: Dictionary, backdrop_path: String) -> bool:
 	var timeline_path: String = str(payload.get("timeline_path", ""))
 	if not timeline_path.is_empty() and (ResourceLoader.exists(timeline_path) or FileAccess.file_exists(ProjectSettings.globalize_path(timeline_path))):
 		_dialogic_node.start(timeline_path)
+		call_deferred("_emit_next_payload_dialogue_line")
 		return true
 	# Fall back to building from JSON payload.
 	var timeline = build_timeline(payload, backdrop_path)
 	if timeline == null:
 		return false
 	_dialogic_node.start(timeline)
+	call_deferred("_emit_next_payload_dialogue_line")
 	return true
 
 
@@ -172,9 +178,40 @@ func _on_dialogic_timeline_ended() -> void:
 	finished.emit(payload)
 
 
+func _emit_next_payload_dialogue_line() -> void:
+	if _active_payload.is_empty():
+		return
+	var dialogue: Array = _active_payload.get("dialogue", [])
+	if dialogue.is_empty():
+		if _dialogue_index < 0:
+			_dialogue_index = 0
+			dialogue_line_started.emit(str(_active_payload.get("speaker", "旁白")), str(_active_payload.get("text", "")))
+		return
+	var next_index := _dialogue_index + 1
+	if next_index >= dialogue.size():
+		return
+	_dialogue_index = next_index
+	var entry: Dictionary = dialogue[next_index] if typeof(dialogue[next_index]) == TYPE_DICTIONARY else {}
+	var speaker_id := str(entry.get("speaker", "旁白"))
+	dialogue_line_started.emit(_payload_speaker_name(speaker_id), str(entry.get("text", "")))
+
+
+func _payload_speaker_name(speaker_id: String) -> String:
+	if speaker_id.is_empty() or speaker_id == "旁白":
+		return "旁白"
+	for raw_character in _active_payload.get("characters", []):
+		if typeof(raw_character) != TYPE_DICTIONARY:
+			continue
+		var character: Dictionary = raw_character
+		if str(character.get("id", "")) == speaker_id or str(character.get("dialogic_id", "")) == speaker_id:
+			return str(character.get("name", speaker_id))
+	return speaker_id
+
+
 func shutdown() -> void:
 	set_process_input(false)
 	_active_payload.clear()
+	_dialogue_index = -1
 	if _dialogic_node != null and _dialogic_node.timeline_ended.is_connected(_on_dialogic_timeline_ended):
 		_dialogic_node.timeline_ended.disconnect(_on_dialogic_timeline_ended)
 	_dialogic_node = null

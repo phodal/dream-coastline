@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 signal accepted(payload: Dictionary)
+signal dialogue_line_started(speaker: String, text: String)
 
 var backdrop: TextureRect
 var title_label: Label
@@ -119,6 +120,7 @@ func show_payload(payload: Dictionary, backdrop_path: String) -> void:
 	_render_characters(payload.get("characters", []))
 	visible = true
 	accept_button.grab_focus()
+	dialogue_line_started.emit(speaker_label.text, body_label.text)
 
 
 func apply_accessibility(text_scale: float, high_contrast: bool) -> void:
@@ -149,6 +151,7 @@ func _advance_or_accept() -> void:
 		speaker_label.text = str(entry.get("speaker", "旁白"))
 		body_label.text = str(entry.get("text", ""))
 		_payload["_dialogue_index"] = next_index
+		dialogue_line_started.emit(speaker_label.text, body_label.text)
 		return
 	_accept()
 

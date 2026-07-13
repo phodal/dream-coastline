@@ -71,11 +71,13 @@ func _ready() -> void:
 	vn_layer = VNLayerScript.new()
 	vn_layer.name = "VNLayer"
 	vn_layer.accepted.connect(_finish_cutscene)
+	vn_layer.dialogue_line_started.connect(_announce_dialogue_line)
 	add_child(vn_layer)
 
 	dialogic_bridge = DialogicBridgeScript.new()
 	dialogic_bridge.name = "DialogicBridge"
 	dialogic_bridge.finished.connect(_finish_cutscene)
+	dialogic_bridge.dialogue_line_started.connect(_announce_dialogue_line)
 	add_child(dialogic_bridge)
 
 	dialogic_variable_bridge = DialogicVariableBridgeScript.new()
@@ -210,6 +212,20 @@ func _announce_text(text: String) -> void:
 	if announcement.is_empty():
 		return
 	DisplayServer.tts_speak(announcement, "", 50, 1.0, 1.0, 0, true)
+
+
+func _dialogue_announcement(speaker: String, text: String) -> String:
+	var clean_speaker := speaker.strip_edges()
+	if clean_speaker.is_empty():
+		clean_speaker = "旁白"
+	var clean_text := text.strip_edges()
+	if clean_text.is_empty():
+		return ""
+	return "%s，%s" % [clean_speaker, clean_text]
+
+
+func _announce_dialogue_line(speaker: String, text: String) -> void:
+	_announce_text(_dialogue_announcement(speaker, text))
 
 
 func _inspect_item(item_id: String) -> void:
@@ -553,15 +569,17 @@ func _run_settings_smoke() -> void:
 	ok = ok and announcement.contains("地点") and announcement.contains("可用行动")
 	var choice_announcement := str(exploration_view.choice_accessibility_announcement(0))
 	ok = ok and choice_announcement.contains("行动 1") and choice_announcement.contains("可用")
+	var dialogue_announcement := _dialogue_announcement("旁白", "灯没有亮。")
+	ok = ok and dialogue_announcement == "旁白，灯没有亮。"
 	ok = ok and int(restored.key_bindings.get("interact", 0)) == KEY_F
 	var mapped := false
 	for event in InputMap.action_get_events("interact"):
 		if event is InputEventKey and int(event.keycode) == KEY_F:
 			mapped = true
 	ok = ok and mapped
-	print("nova-settings-smoke status=%s text_scale=%.2f contrast=%s dialogue_speed=%.2f screen_reader=%s announcement=%s focus_announcement=%s interact=%s mapped=%s" % [
+	print("nova-settings-smoke status=%s text_scale=%.2f contrast=%s dialogue_speed=%.2f screen_reader=%s announcement=%s focus_announcement=%s dialogue_announcement=%s interact=%s mapped=%s" % [
 		"PASS" if ok else "FAIL", float(restored.text_scale), str(restored.high_contrast),
-		float(restored.dialogue_speed), str(restored.screen_reader), str(not announcement.is_empty()), str(not choice_announcement.is_empty()), restored.key_label("interact"), str(mapped),
+		float(restored.dialogue_speed), str(restored.screen_reader), str(not announcement.is_empty()), str(not choice_announcement.is_empty()), str(not dialogue_announcement.is_empty()), restored.key_label("interact"), str(mapped),
 	])
 	restored.clear()
 	get_tree().quit(0 if ok else 1)
@@ -910,7 +928,7 @@ func _run_player_quit_smoke() -> void:
 		GameState.current_location_id,
 		GameMode.current_mode,
 	])
-	_request_player_quit(0 if ok else 1)
+	get_tree().quit(0 if ok else 1)
 
 
 func _smoke_move(location_id: String) -> bool:
