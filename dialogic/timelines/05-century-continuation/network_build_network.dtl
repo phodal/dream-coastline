@@ -1,4 +1,19 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/network.png"]
-旁白: 国书网络接通：名册、远程教育、灾害预警和术式版本管理开始跨城同步。
+join jizi_xuan (phone) left
+join xiali (default) left
+join xiaoyan (default) left
+join atang (default) left
+旁白: 二十三座节点分批接通。名册、远程教育、灾害预警和术式版本管理分别使用独立权限，不再共享一个万能主钥匙。
+xiali: 我能看见跨城风险趋势，却不能读取每个学生的私人记录。公共协调不需要无限数据。
+atang: 每个城市保留离线运行、暂停升级和回滚版本的能力。中央故障不能一夜拖垮所有基础设施。
+旁白: 第一次全网灾害演练中，南港拒绝北境版本的防洪更新并提交潮汐证据。网络保留两版，未强制覆盖。
+jizi_xuan: 联网不是消灭分歧，而是让分歧带着证据被看见，并防止任何一方把沉默当成同意。
+xiaoyan: 点名服务发现一处村落整日无回应。系统先派维修与医疗，不把他们标成低活跃节点。
+旁白: 网络最终稳定运行，各城轮值维护，夏离只承担跨代锚点之一。没有任何名字成为不可绕过的中心。
+xiali: 国书网络活着，不是因为我们永远在线，而是每个地方都能在别人缺席时继续，也知道何时主动求助。
 [signal arg="set_flag:built_statebook_network"]
+leave jizi_xuan
+leave xiali
+leave xiaoyan
+leave atang
 [end_timeline]

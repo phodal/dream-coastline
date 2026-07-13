@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/network.png"]
-旁白: 边境孩子通过国书网络听课。屏幕上还有延迟和乱码，但他们能把同一个字写在同一套标准里。
+join jizi_xuan (phone) left
+join xiaoyan (default) left
+旁白: 边境学塾通过节点接入同一堂课，画面有延迟，声音夹着风雪和港口机械声，字形也因地区版本略有不同。
+xiaoyan: 先别要求所有屏幕同步落笔。让每个课堂报告当前版本、延迟和无法接收的部分。
+旁白: 北境学生用矿道案例解释“止”，海港学生用潮门解释“门”。中央教师原定例题反而无法覆盖两地真实用途。
+jizi_xuan: 远程教育不是把中央课堂放大，是让不同地方能互相质疑教材默认的生活。
+旁白: 线路中断三分钟，边境课堂自动切换离线缓存，继续完成本地练习；恢复后只同步差异，没有重置进度。
+xiaoyan: 不能因为孩子住得远，就让网络决定他是否算到场。离线回应也必须进入点名。
+旁白: 课程结束时，各地提交的不只是答案，还有对标准字典的地区修订和连接障碍报告。
+jizi_xuan: 他们能在共同语义里使用不同经验，也能拒绝延迟造成的错误命令。这才是网络课堂。
 [signal arg="set_flag:confirmed_remote_classrooms"]
+leave jizi_xuan
+leave xiaoyan
 [end_timeline]

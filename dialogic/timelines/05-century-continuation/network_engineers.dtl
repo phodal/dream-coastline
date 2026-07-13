@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/network.png"]
-旁白: 小砚的后人维护节点，阿棠的学生维护墨力炉。墨颀第一次不依赖单个天才。
+join jizi_xuan (phone) left
+join atang (default) left
+join xiaoyan (default) left
+旁白: 节点维护室里没有首席天才席。小砚的后人负责版本协调，阿棠的学生负责炉机，地方学塾毕业生负责现场复核。
+jizi_xuan: 如果三组意见冲突，谁有最终决定权？
+旁白: 工程师打开公共风险表：先由受影响地区暂停部署，再比较证据；仍无共识时保留多版本，不强行合并。
+atang: 别给某个专家永久终审权。设备会变、材料会老，人也会离场，决定必须能被后来证据推翻。
+xiaoyan: 维护名单每年轮换，还要检查有没有某个名字长期不可替代。不可替代本身就是风险。
+旁白: 一次模拟故障中，资深工程师误判供能波动，年轻巡检员凭矿场声纹案例提前停机。记录按证据采纳，没有按资历排序。
+jizi_xuan: 墨颀第一次不依赖单个天才，不是因为人人能力相同，而是任何人的盲点都有结构可以接住。
 [signal arg="set_flag:new_engineers_ready"]
+leave jizi_xuan
+leave atang
+leave xiaoyan
 [end_timeline]
