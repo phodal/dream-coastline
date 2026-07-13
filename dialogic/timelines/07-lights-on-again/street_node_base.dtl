@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/street.png"]
-旁白: 续文院工程师把国书核心接到路口变电箱。两个文明的接口很不稳定。
+join jizi_xuan (phone) left
+join atang (default) left
+join wensu (default) left
+旁白: 续文院工程师把节点基座放在路口，却没有直接接入电网。现代电压、网络协议和墨颀字根同步都可能把另一侧的错误放大。
+atang: 第一层只读现代状态，第二层翻译成可见证事件，第三层才允许国书回写。任何一层异常，桥栓会物理熔断。
+wensu: 节点界面也要用现代居民读得懂的语言。不能只显示墨颀符号，然后要求受灾者相信我们正在帮助。
+jizi_xuan: 增加公开说明：节点收集什么、不收集什么、怎样撤回，以及恢复建议为什么可能被拒绝。每项都要能在断网时查看。
+旁白: 一名邻居用临时手势指出基座挡住盲道。工程师停下布线，移动整套设备，第一次让现代现场反馈改变了墨颀设计。
+atang: 很好。接口稳定不只指电流不跳，也指这东西不会为了救援妨碍人继续生活。把改动记回船坞模板。
+旁白: 节点基座完成隔离、说明与无障碍检查，仍保持断电。只有居民见证、现代电网和墨颀国书三方都确认后，它才被允许首次启动。
 [signal arg="set_flag:prepared_node_base"]
+leave jizi_xuan
+leave atang
+leave wensu
 [end_timeline]
