@@ -521,6 +521,17 @@
           "time_seconds": 55,
           "requires": ["defeated_royal_shadow", "resolved_book_route"],
           "flags": ["opened_main_core"],
+          "characters": ["jizi_xuan", "xiali"],
+          "dialogue": [
+            {"speaker": "旁白", "text": "残影退去后，核心仍只显示“等待王族授权”。你将藏书路线的执行记录放到锁前。"},
+            {"speaker": "jizi_xuan", "text": "书已经由真实选择进入书院、王室、工匠或研究路线。国书必须承认王座之外也有人承担后果。"},
+            {"speaker": "旁白", "text": "你写下“门”，把核心权限连接到已生效的藏书契约，而不是夏离的血印。四种路线分别亮起不同颜色。"},
+            {"speaker": "xiali", "text": "它承认的不是某条路线永远正确，而是选择者、代价与后续责任都留下了记录。"},
+            {"speaker": "旁白", "text": "主核心缓慢开启。王座仍然空着，国书却第一次在没有王室授权的情况下继续翻页。"},
+            {"speaker": "jizi_xuan", "text": "入口已经改变。接下来读到的计划，也不能再变成少数人替所有世界决定的密令。"},
+            {"speaker": "旁白", "text": "核心自动生成访问日志，记录本次开启依赖的藏书路线、战斗代价和夏离放弃王室血印的决定。"},
+            {"speaker": "xiali", "text": "让日志保持公开。以后有人想把核心重新锁回王座，必须先留下自己删掉了哪些共同维护者。"}
+          ],
           "text": "你用“门”打开国书核心。它不再只承认王族权限，也承认藏书已经离开封闭保管。"
         }
       },
@@ -544,12 +555,26 @@
             "time_seconds": 45,
             "requires": ["learned_door", "heard_royal_question"],
             "flags": ["broken_royal_rule"],
+            "characters": ["jizi_xuan", "xiali"],
+            "dialogue": [
+              {"speaker": "旁白", "text": "你不攻击残麟，而是在四条被折回的公共通路上分别写下半个“门”。"},
+              {"speaker": "jizi_xuan", "text": "门的两侧不必是臣民与王，也可以是书院与村落、工坊与维护者。"},
+              {"speaker": "旁白", "text": "四个半字相互连接成完整入口。残麟页鳞间第一次透出王印之外的光。"},
+              {"speaker": "xiali", "text": "王权规则破开了。它仍能看见我，却不能再把所有道路解释成通往我的路。"}
+            ],
             "text": "你写下“门”，让国书看见王以外的通路：书院、工匠、村落、共同维护者。"
           },
           "stop": {
             "time_seconds": 45,
             "requires": ["learned_stop", "broken_royal_rule"],
             "flags": ["paused_royal_lock"],
+            "characters": ["jizi_xuan", "xiali"],
+            "dialogue": [
+              {"speaker": "旁白", "text": "残麟试图重新盖印，历代王令同时压向四条新通路。你把“止”落在盖印动作与公共路线之间。"},
+              {"speaker": "jizi_xuan", "text": "暂停的是强制归属，不是历史记录。旧王令可以被阅读，不能继续自动执行。"},
+              {"speaker": "旁白", "text": "金印停在半空，残麟失去王权锁提供的无限回写。夏离的影子终于离开王座台阶。"},
+              {"speaker": "xiali", "text": "现在轮到我回答，而不是让血印替我作答。若国只能靠王活着，那它早已死了。"}
+            ],
             "text": "你用“止”暂停王权锁。夏离终于回答：若国只能靠王活着，那它早已死了。"
           }
         }

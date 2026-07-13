@@ -1,4 +1,11 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/hall.png"]
-旁白: 你写下“门”，让国书看见王以外的通路：书院、工匠、村落、共同维护者。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 你不攻击残麟，而是在四条被折回的公共通路上分别写下半个“门”。
+jizi_xuan: 门的两侧不必是臣民与王，也可以是书院与村落、工坊与维护者。
+旁白: 四个半字相互连接成完整入口。残麟页鳞间第一次透出王印之外的光。
+xiali: 王权规则破开了。它仍能看见我，却不能再把所有道路解释成通往我的路。
 [signal arg="set_flag:broken_royal_rule"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

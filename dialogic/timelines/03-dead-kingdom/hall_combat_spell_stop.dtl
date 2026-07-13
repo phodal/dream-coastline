@@ -1,4 +1,11 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/hall.png"]
-旁白: 你用“止”暂停王权锁。夏离终于回答：若国只能靠王活着，那它早已死了。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 残麟试图重新盖印，历代王令同时压向四条新通路。你把“止”落在盖印动作与公共路线之间。
+jizi_xuan: 暂停的是强制归属，不是历史记录。旧王令可以被阅读，不能继续自动执行。
+旁白: 金印停在半空，残麟失去王权锁提供的无限回写。夏离的影子终于离开王座台阶。
+xiali: 现在轮到我回答，而不是让血印替我作答。若国只能靠王活着，那它早已死了。
 [signal arg="set_flag:paused_royal_lock"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
