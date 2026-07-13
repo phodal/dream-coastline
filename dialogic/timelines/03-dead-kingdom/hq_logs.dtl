@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/hq.png"]
-旁白: 日志显示：墨律司强行封锁国书后，城市符文出现连锁崩坏。王城陷落不是单一叛乱。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 总部地下仍保持干燥。封锁日志按时辰排列，每一页都盖着执行成功，却没有一页记录居民伤亡。
+jizi_xuan: 第一道封锁切断学徒库，第二道关闭城门，第三道冻结国书节点。时间都早于公开宣布叛乱。
+xiali: 他们先让城市失去自救能力，再把随后的混乱当作封锁必要的证明。
+旁白: 日志显示节点冻结后，供水、市场、医疗符和逃生门在七个时辰内依次崩坏。每次故障都被登记为民众失序。
+jizi_xuan: 王城不是被一次攻击摧毁，是被一连串“成功执行”的命令拆掉。
+xiali: 我在第五个时辰强开宫门。告示只记住这次违规，没写门外已经有人因封锁死亡。
+旁白: 最后一页写着“秩序恢复”。同一时刻，活跃居民数量从四万降为无法统计。
+jizi_xuan: 这份日志足以证明：王城陷落不是单一叛乱，而是制度把自己的破坏改名为治理。
 [signal arg="set_flag:found_lockdown_logs"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/hq.png"]
-旁白: 抄本里没有拷问夏离是否叛国，只反复问他：谁允许你把字教给无名之人？
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 审讯抄本没有刑具记录，只有同一句问题以不同措辞重复了一百二十七次：谁允许你把字教给无名之人？
+jizi_xuan: 他们没有问你是否叛国，也没问改革造成了什么具体损失。
+xiali: 因为损失可以调查，授权不能被讨论。他们要我承认，没有许可的人连学习的主体都不是。
+旁白: 夏离前十六次回答“王令允许”，之后改成“学习不需要由王室创造资格”。从那一行起，抄本把她的称谓从殿下改为罪人。
+jizi_xuan: 身份不是审判结果，而是他们在你拒绝前提后立即改写的输入。
+xiali: 我当时仍想靠王女身份保护学生。直到他们删掉称谓，我才明白那层保护也属于同一套许可。
+旁白: 抄本末尾附着未执行的认罪模板：承认平民学习导致国书崩坏，申请恢复王室监管。签名栏始终空白。
+jizi_xuan: 你没有签，所以他们只能用告示替你写答案。把这份空白也带走。
 [signal arg="set_flag:read_trial_transcripts"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
