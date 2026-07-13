@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/industry.png"]
-旁白: 当年写歪“名”的学生站上讲台。教育系统开始自我复制。
+join jizi_xuan (phone) left
+join xiaoyan (default) left
+旁白: 纪子轩再次被续笔召回时，当年挤在第一排的孩子已站上讲台。小砚负责给新教师演示如何保留错字。
+xiaoyan: 别先纠正笔画。先问学生想确认什么对象、在哪里见过这个字。
+jizi_xuan: 你以前还担心名字写歪会被收回。
+xiaoyan: 所以我知道害怕时听不进标准答案。老师先要证明课堂不会因为错误把人赶出去。
+旁白: 新教师轮流试讲，一名学生指出教材例子不适用于渔村。试讲没有判失败，而是当场登记地区修订。
+jizi_xuan: 教育开始自我复制，不是因为所有老师说得一样，而是他们都知道怎样让问题继续被提出。
+xiaoyan: 等学生能改我的课，我才算真的教完。
 [signal arg="set_flag:first_students_teach"]
+leave jizi_xuan
+leave xiaoyan
 [end_timeline]

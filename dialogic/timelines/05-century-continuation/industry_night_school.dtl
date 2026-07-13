@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/industry.png"]
-旁白: 工人下工后坐进夜校。许多人写得很慢，但他们第一次不用求书记官替自己读告示。
+join jizi_xuan (phone) left
+join xiaoyan (default) left
+旁白: 城市工厂熄火后，夜校灯光沿街区逐盏亮起。学员带着油污、鱼盐和孩子一起坐进课堂。
+jizi_xuan: 他们白天已经工作十几个时辰，为什么还要把学习安排在夜里？
+xiaoyan: 因为白天课程仍按有闲暇的人设计。开放了门，不代表时间和照护成本自动消失。
+旁白: 夜校增设轮班课程、儿童照护和口述输入。写得慢的人可以用现场经验完成同一项理解验证。
+jizi_xuan: 不能把到场困难解释成不重视教育。课程也要适应被制度挤掉的时间。
+旁白: 一名炉工第一次亲自读懂停机告示，发现工厂删掉了夜班额外风险。他把缺项提交进公共字典。
+xiaoyan: 夜校不是补白天落下的人。它正在让白天的规则第一次被夜班工人读懂和改写。
 [signal arg="set_flag:saw_night_school_expansion"]
+leave jizi_xuan
+leave xiaoyan
 [end_timeline]

@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/industry.png"]
-旁白: 墨力炉、符文车、公共照明和印刷符纸进入城市。基础设施不再只靠少数书记官。阿棠在试炉旁说：别先争它叫什么，先让我把它跑起来。
+join jizi_xuan (phone) left
+join atang (default) left
+join wensu (default) left
+旁白: 墨力炉、符文车、公共照明和印刷符纸从工坊小样进入城市。每项量产前都公开资源成本与停机条件。
+atang: 别先争它叫什么，先让我把小样跑起来；但跑起来以后，谁都能查它怎样坏、谁在维护。
+旁白: 第一批符文车提高运输，却让旧街区门符超载。产量没有继续扩张，工程队先按章程停线改造。
+jizi_xuan: 工业化不能把试验风险悄悄转给没有参与设计的人。受影响街区拥有暂停部署权。
+旁白: 印刷符纸使字典成本下降，但错误版本也传播更快。各地建立校验印与召回流程，不把规模当成可靠性。
+wensu: 基础设施不再靠少数书记官，也意味着更多人必须理解维护和拒绝错误命令。教育不能落后于机器。
+旁白: 文字工业正式运行：能源、工程和识字率上升，同时每座设备都附公共档案入口与本地停机权限。
+jizi_xuan: 文明成长不是把字写得更大，而是让更多人在大规模系统里仍能看见、质疑并修正一笔。
 [signal arg="set_flag:built_text_industry"]
+leave jizi_xuan
+leave atang
+leave wensu
 [end_timeline]

@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/industry.png"]
-旁白: 闻素的《初学墨字》被翻印到第七版。她本人离场后，书仍在教人。
+join jizi_xuan (phone) left
+join wensu (default) left
+旁白: 《初学墨字》第七版比第一版厚了一倍，闻素原文只占三分之一，其余是不同地区教师和学生的修订。
+jizi_xuan: 她会接受自己的书被改成这样吗？
+旁白: 扉页保留闻素旧批注：“如果这本书永远不需要改，说明学生已经不敢告诉你哪里没用。”
+wensu: 教材活下来，不该靠我的名字压住争论。每一版都要说明删了什么、谁反对、结果如何验证。
+旁白: 第七版新增矿场声纹、远海门符和无文字辅助教学，也公开三项尚无共识的高风险用法。
+jizi_xuan: 书保存的不是她最后一次正确，而是后来的人仍能找到她怎样面对错误。
+旁白: 翻印记录显示，这本书已进入四十七所学塾，没有一所必须等待续文院批准本地补充。
 [signal arg="set_flag:wensu_textbook_survives"]
+leave jizi_xuan
+leave wensu
 [end_timeline]
