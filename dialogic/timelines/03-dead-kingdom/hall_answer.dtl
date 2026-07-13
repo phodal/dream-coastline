@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/hall.png"]
-旁白: 夏离没有再说复国。他说：若我只是让王座重新坐满，这座城还是会死第二次。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 王权锁暂停，夏离的影子终于与王座分离。历代王残影仍等待一句能重新闭合协议的回答。
+xiali: 我曾以为复国就是让我回来完成父辈没写完的句子。现在我知道，那句话本身就把所有人写成宾语。
+旁白: 她将王室印戒放在殿心，没有摧毁，也没有戴上，只把它登记为王城陷落的历史证物。
+xiali: 若我只是让王座重新坐满，这座城还会死第二次。国不是王写出的名字，是所有承担维护、争论和失败的人。
+jizi_xuan: 这不是宣布从此没有权力，而是让每项权力都说明来源、期限和谁能撤回。
+xiali: 我愿参与重建，也接受我的提案可以被拒绝。墨颀不需要一个永远正确的夏离。
+旁白: 残影没有消失，而是分裂成许多较小印记，分别落向四条公共通路。王座第一次没有收到任何一枚。
+xiali: 无王之国，靠共同维护成为国家。这是我的回答，不是新的永久答案。
 [signal arg="set_flag:xiali_answered_without_throne"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

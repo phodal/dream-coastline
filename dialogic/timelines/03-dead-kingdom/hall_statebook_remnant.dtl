@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/hall.png"]
-旁白: 残麟的每一片页鳞都盖着旧王印。它不咆哮，只把所有通路折回王座，像在问：离开王，国还剩什么？
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 王令残页从地面卷起，折成一只盘踞核心的残麟。每片页鳞都盖着不同年代的王印。
+jizi_xuan: 它没有独立名字，身体全是历代王授权过的规则。
+旁白: 残麟不攻击你，只用尾部卷住夏离的影子，一寸寸拖向空王座。她越反抗，王室血印越亮。
+xiali: 它承认我有资格继承，所以也要求我继续承担王权接口。
+jizi_xuan: 那就别把它当怪物。它是一套拒绝在没有继承人时运行的国家协议。
+旁白: 残麟腹部露出四条未盖王印的细线，分别连接书院、工坊、村落和国书维护者。
+jizi_xuan: 系统已经存在王以外的通路，只是每一条都被强制折回王座。用“门”把它们重新展开。
 [signal arg="set_flag:met_statebook_remnant"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

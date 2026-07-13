@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/03-dead-kingdom/hall.png"]
-旁白: 残影问：无王之国，何以为国？夏离沉默得像一座快塌的城。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 历代王的残影从柱间升起，面孔各不相同，声音却由同一条王令发出：无王之国，何以为国？
+旁白: 问题落下，所有通路同时折向王座。藏书、村落和节点在殿内地图上都被改写成王室附属。
+jizi_xuan: 它不是在询问答案，而是在用问题预设只有王能组织这些关系。
+xiali: 我从小被训练回答：王是国书的执笔者。王若缺席，文字就会互相冲突。
+jizi_xuan: 可村民修好了井，书院保存了解释，工匠能恢复设备。冲突存在，不代表必须由一个人终结。
+旁白: 残影再次发问，夏离仍沉默。但这一次她没有走向王座，而是看向地面那些被折回的公共路线。
+xiali: 先把问题里的锁拆开。我不想再用一个继承来的答案回应。
 [signal arg="set_flag:heard_royal_question"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
