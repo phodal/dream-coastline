@@ -1,4 +1,18 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/street.png"]
-旁白: 现代第一座临时国书节点建立。它很粗糙，但足以承载名字样本。
+join jizi_xuan (phone) left
+join atang (default) left
+join wensu (default) left
+join xiali (default) left
+旁白: 节点启动前，公开面板先显示采集范围：路口名称、设备状态和自愿提供的关系见证；私人通讯、室内影像与未授权姓名默认拒绝接入。
+wensu: 说明不能只写给工程师。每条权限旁边都加一个生活例子，让居民知道撤回之后哪些功能会暂停，哪些权利不会受影响。
+atang: 桥栓完成第一次脉冲测试。现代侧过压被熔断，墨颀侧只收到故障摘要，没有泄漏原始居民数据。
+xiali: 四方停机权扩展到现代现场：居民代表与本地维修员各持一份。墨颀不能因为提供技术就垄断关闭或继续的决定。
+jizi_xuan: 节点只提出候选恢复，不自动改写姓名、地图或联系人。每次确认都留下来源，也允许当事人日后撤销。
+旁白: 首轮运行恢复三处路口关系，拒绝两份来源不明的姓名备份，并因一名居民撤回授权删除对应私人指纹。
+wensu: 它很粗糙，却已经做到最重要的事：帮助世界重新互相看见，同时承认自己没有资格替所有人完成答案。
 [signal arg="set_flag:temporary_node_built"]
+leave jizi_xuan
+leave atang
+leave wensu
+leave xiali
 [end_timeline]

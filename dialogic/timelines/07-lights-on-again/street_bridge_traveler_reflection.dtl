@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/street.png"]
-旁白: 橱窗里映出一个海玻璃般的人影。你用“名”确认它，系统没有给出居民姓名，只显示：归桥旅人。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 节点第一次稳定时，便利店橱窗映出一个海玻璃般的人影。街上没有对应实体，倒影却会避开路人，也会在灯光熄灭前抬头。
+jizi_xuan: 它不像静默留下的空白。空白会让关系消失，这个影子反而同时响应现代电网和墨颀国书的变化。
+xiali: 不要因为它能回应就急着叫人。先用“名”确认我们共同观察到的边界，保留它不是人类也不是墨颀人的可能。
+旁白: 纪子轩写下临时指称，节点没有返回居民姓名，只显示“归桥旅人”。它的轮廓只存在于两个文明同步误差最小的瞬间。
+jizi_xuan: 也许归桥连接的不只两个已知世界。我们刚建立的接口，可能让第三种存在第一次获得被双方看见的条件。
+xiali: 那更要谨慎。被看见不等于同意被研究。记录出现条件，不追踪它离开的方向，也不把沉默解释成许可。
+旁白: 归桥旅人将手贴向橱窗，随后在下一次电压波动中消失。节点保存见证与不确定性，没有为未知来客补写身份。
 [signal arg="set_flag:saw_return_bridge_traveler"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

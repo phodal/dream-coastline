@@ -1,4 +1,16 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/street.png"]
-旁白: 路灯和符灯同时亮起一排。城市重新获得一点可观测性。
+join jizi_xuan (phone) left
+join atang (default) left
+join xiali (default) left
+旁白: 灯网没有一次全部开启。阿棠把街区分成六段，每段先由居民确认路口名称，再用普通路灯照明、符灯验证关系。
+atang: 第一段电压稳定，但地址回报码仍指向空街区。保持熄灭，别让亮灯假装这一段已经恢复。
+jizi_xuan: 请住户从窗边确认：这盏灯照的是哪条路、谁通常经过、最近一次维修发生在什么时候。不同答案都保留。
+旁白: 绿色水壶的老人指出维修日期错了两个月，节点因此发现一份被静默篡改却格式完整的工单，没有将它写回电网。
+xiali: 亮起不是终点。若居民不能指出错误，灯光只是更明亮的假记录。把每段验证权交给实际生活在这里的人。
+旁白: 六段灯网依次通过地址、居民与维修记录交叉确认。普通路灯先亮，符灯随后只在关系出现漂移时发出低亮提示。
+jizi_xuan: 城市重新可见，不是因为墨颀文字覆盖了现代系统，而是因为两套系统和居民证词开始互相纠错。
 [signal arg="set_flag:lit_city_grid"]
+leave jizi_xuan
+leave atang
+leave xiali
 [end_timeline]
