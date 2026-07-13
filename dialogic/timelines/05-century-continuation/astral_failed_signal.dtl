@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/astral.png"]
-旁白: 第一次信标只收到一段现代噪声。纪子轩听见像是学校铃声的断片，然后整段记录被擦白。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 第一次跨界发射按计划完成三段供能。接收端只返回一片现代噪声，夹着半秒像学校铃声的断片。
+jizi_xuan: 那是我学校的铃声。我记得这个频率，再放大一次也许能听见人声。
+xiali: 先别重发。坐标尾部有一段在接收后被擦白，我们还不知道是传输损耗还是对侧干扰。
+旁白: 团队冻结原始记录，保存能源曲线、每个节点延迟和擦白发生的精确时刻，没有用滤波后的铃声覆盖失败数据。
+jizi_xuan: 我想立刻再试，但这次失败属于所有提供能源和观测的人，不能只按我的情绪决定风险。
+旁白: 复盘发现擦白并非随机：每个缺口都落在坐标笔画连接处，像有东西专门破坏可复核性。
+xiali: 记录为失败，不叫部分成功。铃声证明方向可能正确，缺字证明当前方法仍不能安全继续。
 [signal arg="set_flag:logged_failed_signal"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

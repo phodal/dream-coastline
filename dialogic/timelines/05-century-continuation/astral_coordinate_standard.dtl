@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/astral.png"]
-旁白: 星象工程师争论了三天，最后把坐标写法也纳入公共标准。纪子轩低声说：回家不再是愿望，是可以复核的工程。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 工程师争论三天：王都沿用历法原点，海港按潮汐定时，北境则以极星偏移校准。三套坐标都能在本地工作。
+jizi_xuan: 不能选政治上最有权威的一套。跨界信标需要知道每套坐标如何转换，以及误差在哪里增长。
+旁白: 团队建立公共转换层：保留地方原点，传输时附观测时刻、单位、误差范围和转换版本。
+xiali: 国书网络只验证声明是否完整，不宣布某个地区的天空更正确。
+旁白: 一次测试故意混用旧历与新历。系统拒绝生成看似精确的结果，直接标出时间基准冲突。
+jizi_xuan: 回家不再是一句愿望。坐标可以复核，错误也能在发射前被别人指出。
+旁白: 坐标书写标准通过，但附带五项未决争议和两套可回滚转换，不以“统一完成”掩盖风险。
 [signal arg="set_flag:standardized_star_coordinates"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

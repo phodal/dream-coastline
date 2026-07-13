@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/astral.png"]
-旁白: 星图不再是神话，而是可以校验的坐标文本。每一颗星都需要名、义、约和史。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 星象工程师把百年观测铺满大厅。旧星图用神话连接亮点，新星图则为每次观测保留时间、仪器和误差。
+jizi_xuan: 如果把星星写成文字，会不会又让一个标准替代真实天空？
+xiali: 所以每颗星不只需要名字，还要意义、约束和历史：谁观测、怎样校验、哪些解释曾被推翻。
+旁白: 同一颗暗星在三地记录中位置略有偏差。系统没有求平均抹平，而是保留大气、仪器和时间差。
+jizi_xuan: 星图不是天空的最终答案，是让不同观测能互相比较、发现自己哪里看错。
+旁白: 现代星球可能所在的区域仍是一片缺字，边缘坐标正随年份缓慢褪色。
+xiali: 要找到你的世界，先让墨颀学会诚实书写自己看不见什么。
 [signal arg="set_flag:mapped_stars_as_text"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

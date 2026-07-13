@@ -1,4 +1,15 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/astral.png"]
-旁白: 一只星象螟伏在失败星图上，翅膀像缩小的坐标纸。它啃掉的不是纸，是一次可复核观测。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 失败星图边缘伏着一只细小螟虫，翅膀像缩小坐标纸。它每移动一次，连接笔画便少掉一段。
+jizi_xuan: 它吃的不是纸，而是让两次观测能够互相验证的连接。
+旁白: 工程师把星象螟移到复制图上。它跳过神话注释，精准啃掉时间、误差和转换版本。
+xiali: 这不是普通害虫。可能是跨界噪声在墨颀形成的生态，也可能是某种主动干扰的前兆。
+jizi_xuan: 别消灭唯一样本。隔离观察，同时把坐标拆成多处校验，缺一笔就能从其他节点发现。
+旁白: 星象螟被放入透明观测盒。它停止啃食时，翅面浮出一帧陌生城市灯光，随即恢复坐标纹。
+xiali: 它既是风险，也是对侧信息载体。星象工程必须学会在保护记录的同时读懂这种生物。
+jizi_xuan: 把识别过程写进建塔验收。星象塔不能只看星星，也要监测谁在吃掉我们看见星星的方法。
 [signal arg="set_flag:identified_star_chart_moth"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

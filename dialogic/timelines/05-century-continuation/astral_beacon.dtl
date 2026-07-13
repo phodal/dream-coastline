@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/05-century-continuation/astral.png"]
-旁白: 信标原型能证明：墨颀写出的坐标，可以触碰另一个世界的边缘。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 信标原型由星图坐标、国书网络校验和跨界墨力脉冲组成。它无法传送人，只能先证明另一侧能留下回应。
+jizi_xuan: 第一阶段不发送完整名字，只发送可验证的时间序列。避免未知对象沿名字反向进入网络。
+xiali: 能源分三段释放，每段都能由不同城市停止。没有任何节点独自拥有完整发射权限。
+旁白: 工程师把父母研究作为假设来源，却不赋予特殊权威。所有参数重新经过公开观测验证。
+jizi_xuan: 他们可能是对的，也可能只在当时条件下对。信标不能因为我想回家就跳过复核。
+旁白: 原型在实验室边界触碰到一层陌生噪声，纸面浮出短暂电磁波形，证明墨颀文字能抵达另一世界边缘。
+xiali: 接触成立，通道尚未成立。下一次测试只增加一个变量，不把希望当成安全许可。
 [signal arg="set_flag:designed_cross_beacon"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
