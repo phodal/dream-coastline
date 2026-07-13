@@ -9,6 +9,7 @@ var volume_slider: HSlider
 var text_label: Label
 var text_slider: HSlider
 var contrast_check: CheckBox
+var screen_reader_check: CheckBox
 var fullscreen_check: CheckBox
 var speed_label: Label
 var speed_slider: HSlider
@@ -89,6 +90,11 @@ func _ready() -> void:
 	contrast_check.text = "高对比度文字与面板"
 	contrast_check.toggled.connect(_set_high_contrast)
 	rows.add_child(contrast_check)
+	screen_reader_check = CheckBox.new()
+	screen_reader_check.text = "界面朗读（系统语音）"
+	screen_reader_check.tooltip_text = "进入地点时朗读地点、说明和当前可用行动"
+	screen_reader_check.toggled.connect(_set_screen_reader)
+	rows.add_child(screen_reader_check)
 	var binding_title := Label.new()
 	binding_title.text = "键位重映射（点击后按下新按键）"
 	rows.add_child(binding_title)
@@ -133,6 +139,7 @@ func open() -> void:
 	text_slider.set_value_no_signal(float(repository.text_scale))
 	speed_slider.set_value_no_signal(float(repository.dialogue_speed))
 	contrast_check.set_pressed_no_signal(bool(repository.high_contrast))
+	screen_reader_check.set_pressed_no_signal(bool(repository.screen_reader))
 	_refresh_labels()
 	visible = true
 	fullscreen_check.grab_focus()
@@ -195,6 +202,15 @@ func _set_dialogue_speed(value: float) -> void:
 	repository.dialogue_speed = clampf(value, 0.0, 2.0)
 	_refresh_labels()
 	_save_apply()
+
+
+func _set_screen_reader(enabled: bool) -> void:
+	if repository == null:
+		return
+	repository.screen_reader = enabled
+	repository.save()
+	if enabled and not DisplayServer.get_name().to_lower().contains("headless"):
+		DisplayServer.tts_speak("界面朗读已开启", "", 50, 1.0, 1.0, 0, true)
 
 
 func _begin_binding(action: String) -> void:

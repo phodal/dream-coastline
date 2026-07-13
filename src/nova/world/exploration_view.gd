@@ -276,6 +276,23 @@ func current_choice_labels() -> Array[String]:
 	return labels
 
 
+func accessibility_announcement() -> String:
+	var parts: Array[String] = []
+	var location_name := str(_location.get("name", _location_id))
+	if not location_name.is_empty():
+		parts.append("地点，%s" % location_name)
+	var description := str(_location.get("description", "")).strip_edges()
+	if not description.is_empty():
+		parts.append(description)
+	var enabled_labels: Array[String] = []
+	for button in _choice_buttons:
+		if not button.disabled:
+			enabled_labels.append(str(button.text).replace("  ✓", "，已完成"))
+	if not enabled_labels.is_empty():
+		parts.append("可用行动，%s" % "，".join(enabled_labels))
+	return "。".join(parts)
+
+
 func choice_index_for(choice_type: String, choice_id: String, action_type: String = "") -> int:
 	for index in range(_choice_buttons.size()):
 		var button := _choice_buttons[index]

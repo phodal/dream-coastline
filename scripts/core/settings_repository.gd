@@ -24,6 +24,7 @@ var _visual_style := "classic_dark"
 var text_scale := 1.0
 var high_contrast := false
 var dialogue_speed := 1.0
+var screen_reader := false
 var key_bindings: Dictionary = DEFAULT_KEY_BINDINGS.duplicate(true)
 var _settings_path := SETTINGS_PATH
 
@@ -45,6 +46,7 @@ func load() -> void:
 	text_scale = clampf(float(parsed.get("text_scale", 1.0)), 1.0, 1.5)
 	high_contrast = bool(parsed.get("high_contrast", false))
 	dialogue_speed = clampf(float(parsed.get("dialogue_speed", 1.0)), 0.0, 2.0)
+	screen_reader = bool(parsed.get("screen_reader", false))
 	var loaded_bindings = parsed.get("key_bindings", {})
 	if loaded_bindings is Dictionary:
 		for action in DEFAULT_KEY_BINDINGS.keys():
@@ -64,6 +66,7 @@ func save() -> void:
 		"text_scale": text_scale,
 		"high_contrast": high_contrast,
 		"dialogue_speed": dialogue_speed,
+		"screen_reader": screen_reader,
 		"key_bindings": key_bindings.duplicate(true),
 	}))
 	file.close()

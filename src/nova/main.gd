@@ -193,8 +193,18 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _present_location(scene_id: String, location_id: String, location: Dictionary, visual: Dictionary) -> void:
 	exploration_view.present(scene_id, location_id, location, visual, director.build_location_choices())
+	_announce_exploration_view()
 	if audio_director != null:
 		audio_director.sync_story_context(scene_id, location_id)
+
+
+func _announce_exploration_view() -> void:
+	if settings_repository == null or not bool(settings_repository.screen_reader) or _is_automation_run():
+		return
+	var announcement := str(exploration_view.accessibility_announcement()).strip_edges()
+	if announcement.is_empty():
+		return
+	DisplayServer.tts_speak(announcement, "", 50, 1.0, 1.0, 0, true)
 
 
 func _inspect_item(item_id: String) -> void:
@@ -523,6 +533,7 @@ func _run_settings_smoke() -> void:
 	settings_repository.text_scale = 1.5
 	settings_repository.high_contrast = true
 	settings_repository.dialogue_speed = 0.5
+	settings_repository.screen_reader = true
 	var ok: bool = bool(settings_repository.set_key_binding("interact", KEY_F))
 	settings_repository.save()
 	var restored = SettingsRepositoryScript.new()
@@ -532,15 +543,18 @@ func _run_settings_smoke() -> void:
 	ok = ok and is_equal_approx(float(restored.text_scale), 1.5)
 	ok = ok and bool(restored.high_contrast)
 	ok = ok and is_equal_approx(float(restored.dialogue_speed), 0.5)
+	ok = ok and bool(restored.screen_reader)
+	var announcement := str(exploration_view.accessibility_announcement())
+	ok = ok and announcement.contains("地点") and announcement.contains("可用行动")
 	ok = ok and int(restored.key_bindings.get("interact", 0)) == KEY_F
 	var mapped := false
 	for event in InputMap.action_get_events("interact"):
 		if event is InputEventKey and int(event.keycode) == KEY_F:
 			mapped = true
 	ok = ok and mapped
-	print("nova-settings-smoke status=%s text_scale=%.2f contrast=%s dialogue_speed=%.2f interact=%s mapped=%s" % [
+	print("nova-settings-smoke status=%s text_scale=%.2f contrast=%s dialogue_speed=%.2f screen_reader=%s announcement=%s interact=%s mapped=%s" % [
 		"PASS" if ok else "FAIL", float(restored.text_scale), str(restored.high_contrast),
-		float(restored.dialogue_speed), restored.key_label("interact"), str(mapped),
+		float(restored.dialogue_speed), str(restored.screen_reader), str(not announcement.is_empty()), restored.key_label("interact"), str(mapped),
 	])
 	restored.clear()
 	get_tree().quit(0 if ok else 1)
