@@ -1,4 +1,18 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/lab.png"]
-旁白: 归桥稳定。墨颀星象塔和现代节点完成双向同步，实验室玻璃上短暂映出父母的轮廓。他们没有跨过来，只隔着桥指向窗外重新亮起的街区。纪子轩终于明白：这不是重逢的终点，是把路修到还能继续找他们。
+join jizi_xuan (phone) left
+join xiali (default) left
+join atang (default) left
+join wensu (default) left
+旁白: 第二次同步先运行无人负载。物理坐标、意义坐标和撤回状态并列显示，任一侧漂移都会让桥自动缩窄而非追加强度。
+atang: 桥栓未过热，现代地址缓存已清理。把同步提高到最低观测宽度，不开放载人通过。
+wensu: 公开答辩面板已上线。两边观察者可以查看方法与错误，私人记录仍由当事人授权，反对意见不会被完成状态隐藏。
+xiali: 四方停航钥匙有效，现代居民代表也持有本地切断权。归桥不是墨颀通往现代的领土，更不是纪子轩寻找父母的私路。
+旁白: 墨颀星象塔与现代节点完成七轮双向回应。实验室玻璃短暂映出父母轮廓，又在误差升高时主动退回两个模糊坐标。
+jizi_xuan: 不要追加强度。他们没有跨过来，但路已经能被重复观测。先让城市与墨颀都能在桥关闭后继续运行。
+旁白: 归桥在无人受困、两侧可独立断开且失败日志完整的条件下被判定稳定。它没有完成团圆，只把寻找变成可以安全继续的公共工程。
 [signal arg="set_flag:bridge_stable"]
+leave jizi_xuan
+leave xiali
+leave atang
+leave wensu
 [end_timeline]

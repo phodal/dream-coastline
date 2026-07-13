@@ -1,4 +1,18 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/lab.png"]
-旁白: 现代节点稳定。墨颀文字不再像异物，而像一层能被现代设备读取的协议。
+join jizi_xuan (phone) left
+join atang (default) left
+join wensu (default) left
+join xiali (default) left
+旁白: 现代节点的稳定测试从便利店店员的已授权姓名样本开始。系统故意注入旧员工记录，确认候选冲突不会被相似度算法自动抹平。
+atang: 协议转换正常，桥栓保持冷态。现在切断墨颀连接，检查现代侧是否还能读取来源、撤回和待确认状态。
+wensu: 断联后说明文本仍完整，居民也能撤回授权。节点没有把依赖墨颀服务伪装成永久可用的本地能力。
+xiali: 再切断现代云端。若节点只能依赖一个世界的中心服务，它只是换了一种王权。
+旁白: 双侧依次断联后，节点进入降级模式：停止新恢复、保留已确认关系、允许撤回，并公开显示哪些证据暂时无法复核。
+jizi_xuan: 稳定不是永远在线，而是在失去任一侧时仍不说谎、不越权，也知道自己何时必须停下。
+旁白: 居民代表、现代维修员、续文院与反对席分别完成停机测试。现代国书节点获准接入实验室，但仍标注为可拆除的临时设施。
 [signal arg="set_flag:modern_node_stable"]
+leave jizi_xuan
+leave atang
+leave wensu
+leave xiali
 [end_timeline]

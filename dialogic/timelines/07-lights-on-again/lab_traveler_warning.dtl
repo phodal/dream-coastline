@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/lab.png"]
-旁白: 归桥旅人没有说话，只把手按在误差最大的同步线上。纪子轩明白：先让城市被看见，父母的路才不会断。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 失败日志写完后，归桥旅人的影子再次出现在玻璃上。它没有指向父母坐标，而把手停在两套系统误差最大的一条同步线上。
+jizi_xuan: 它是在警告我们先修复城市节点，还是只因为自身也会在误差里消失？我不能把一个手势直接翻译成答案。
+xiali: 记录动作与发生条件，不记录动机。未知者的提示可以改变检查顺序，不能替代我们的验证。
+旁白: 纪子轩沿手势检查，发现误差来自城市灯网的一段旧地址缓存。旅人指出了位置，却没有证明它理解故障或站在哪一方。
+jizi_xuan: 先修复这段缓存，再做无人同步。无论它是否有意帮助，技术结论都要能在旅人不出现时独立复现。
+xiali: 也别追踪它的来源。归桥让我们看见第三种存在，不等于我们自动获得穿过桥去寻找它的权利。
+旁白: 旅人随误差下降而变淡。实验记录把这一幕标为“相关但因果未证”，同时保留它对检查顺序造成的实际影响。
 [signal arg="set_flag:read_traveler_bridge_warning"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

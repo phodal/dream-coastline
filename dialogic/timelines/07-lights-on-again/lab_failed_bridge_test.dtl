@@ -1,4 +1,17 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/lab.png"]
-旁白: 第一次归桥同步失败，实验室墙面短暂变成空白。父母的半张影像差点被擦掉，夏离用主国书压住删除，纪子轩把失败日志写在记录旁边：我不会再把他们当成答案，我要把他们也救回来。
+join jizi_xuan (phone) left
+join xiali (default) left
+join atang (default) left
+旁白: 第一次同步在百分之四十三时失去意义坐标。物理信标仍显示连接正常，实验室墙面却从边缘开始变成没有材质、用途和历史的白色平面。
+atang: 现代侧报告全绿，国书侧关系数量正在归零。切断主同步，保留只读日志；不要相信单边健康状态。
+jizi_xuan: 父母影像也在消失。如果现在停机，刚才恢复出的最后一段可能再也找不回来。
+xiali: 那正是静默给你的诱饵。风险账本没有写“私人记录重要时可以例外”。我和居民代表同时使用停机权。
+旁白: 桥栓熔断，实验室陷入黑暗。父母影像只剩半张，现代节点丢失两小时缓存，却没有把空白回写进城市与墨颀国书。
+jizi_xuan: 我刚才差点为了保住他们的影像，拿两个世界的记录冒险。把我的反对和停机经过原样写进失败日志。
+atang: 还要写明损失：一枚桥栓、两小时缓存、半张不可重建影像。失败若只剩教训，就又把真正付出的东西删掉了。
+旁白: 测试被判定失败而非部分成功。下一轮必须加入双侧意义漂移监测，并证明任何单一操作者都无法延迟熔断。
 [signal arg="set_flag:survived_failed_bridge_test"]
+leave jizi_xuan
+leave xiali
+leave atang
 [end_timeline]
