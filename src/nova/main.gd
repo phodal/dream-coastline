@@ -650,7 +650,10 @@ func _run_choice_smoke() -> void:
 		var route_payload := _latest_cutscene_payload.duplicate(true)
 		ok = ok and str(route_payload.get("text", "")) == str(members.get("route_texts", {}).get(selected_flag, ""))
 		ok = ok and str(route_payload.get("timeline_path", "")).is_empty()
-		ok = ok and route_payload.get("dialogue", []).is_empty()
+		var route_dialogue: Array = route_payload.get("dialogue", [])
+		var authored_dialogue: Array = members.get("dialogue", [])
+		ok = ok and route_dialogue.size() == authored_dialogue.size() + 1
+		ok = ok and str(route_dialogue[0].get("text", "")) == str(members.get("route_texts", {}).get(selected_flag, ""))
 		_finish_cutscene(route_payload)
 
 		director._enter_scene("06-return-star-plan", director.story_repository.get_start_location("06-return-star-plan"))

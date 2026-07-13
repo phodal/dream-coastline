@@ -83,11 +83,14 @@ func inspect_item(item_id: String) -> bool:
 		})
 		return false
 	var route_text := _active_route_text(item)
+	var dialogue: Array = item.get("dialogue", []).duplicate(true)
+	if not route_text.is_empty():
+		dialogue.push_front({"speaker": "旁白", "text": route_text})
 	start_cutscene({
 		"speaker": _speaker_for_item(item_id, item),
 		"title": str(item.get("name", item_id)),
 		"text": route_text if not route_text.is_empty() else str(item.get("text", "")),
-		"dialogue": [] if not route_text.is_empty() else item.get("dialogue", []),
+		"dialogue": dialogue,
 		"flags": item.get("flags", []),
 		"metrics": item.get("metrics", {}),
 		"time_seconds": item.get("time_seconds", 0),
@@ -496,10 +499,13 @@ func _start_record_payload(record: Dictionary, meta: Dictionary) -> bool:
 		start_cutscene(_blocked_payload(str(meta.get("title", "行动")), "前置条件不足：%s。" % _first_missing(requires)))
 		return false
 	var route_text := _active_route_text(record)
+	var dialogue: Array = record.get("dialogue", []).duplicate(true)
+	if not route_text.is_empty():
+		dialogue.push_front({"speaker": "旁白", "text": route_text})
 	return _start_synthetic_payload({
 		"title": str(meta.get("title", record.get("name", meta.get("action_id", "行动")))),
 		"text": route_text if not route_text.is_empty() else str(record.get("text", record.get("success_text", ""))),
-		"dialogue": [] if not route_text.is_empty() else record.get("dialogue", []),
+		"dialogue": dialogue,
 		"flags": record.get("flags", []),
 		"metrics": record.get("metrics", {}),
 		"time_seconds": record.get("time_seconds", 0),
