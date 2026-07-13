@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/home.png"]
-旁白: 联系人列表全是未知联系人。你必须先让城市重新被观测，名字才有地方落下。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 手机仍保留二百多个号码，姓名栏却全显示“未知联系人”。通话记录有时长、有信号塔、有录音权限，唯独没有谁与谁交谈。
+jizi_xuan: 不能直接把旧云端备份覆盖回来。备份也许已经被静默改写，而且同一个号码可能早已换了主人。
+xiali: 先找关系证据。共同照片、转账备注、学校名单、对方自己的回答——至少两条来源一致，才提出一个候选名字。
+旁白: 一条三年前的未接来电带着“到家告诉我”的短信，却无法显示发送者。纪子轩记得当时的雨，不记得是谁在等。
+jizi_xuan: 这种空白最危险。它会诱使我把最想念的人填进去。先保留短信原文，不给发送者编一个方便自己的身份。
+xiali: 等城市节点恢复，号码两端都能参与确认。名字不是你替联系人找回的标签，是双方重新承认彼此关系的结果。
+旁白: 手机被接入只读审计模式。联系人没有立刻恢复，但每段仍可验证的关系都获得了等待回应的位置，不再只是整齐的未知列表。
 [signal arg="set_flag:checked_unknown_contacts"]
+leave jizi_xuan
+leave xiali
 [end_timeline]

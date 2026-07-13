@@ -1,4 +1,14 @@
 [background arg="res://assets/illustrations/playable/07-lights-on-again/home.png"]
-旁白: 录音只剩断句：如果你回来了，不要先找我们，先让这座城重新被看见。
+join jizi_xuan (phone) left
+join xiali (default) left
+旁白: 旧录音机无法显示文件名，只在磁带末端保留一段模拟波形。纪子轩用国书节点逐层对照，没有自动填补缺失音节。
+旁白: 母亲的声音断断续续：如果你回来了……不要先找我们……先让这座城重新被看见。
+jizi_xuan: 他们预料到我会先回家，也预料到自己可能已经不在。可这句话仍像又一次替我决定应该去哪里。
+xiali: 你可以拒绝。救城市若只是服从父母最后的安排，那道旧伤仍在替你行动。先问清楚你自己愿意承担什么。
+旁白: 录音背后传来多人搬运设备的声音，还有一个陌生人反复报告学校与医院的名字正在消失。父母并非只为家人留下消息。
+jizi_xuan: 我保留这段回声作为证据，不把它当遗命。接下来先去哪里，由我依据城市正在失去什么来判断。
+旁白: 他把原始磁带封存，将修复文本标注为不完整转录。父母的声音被听见，却没有因为来自父母就获得不可质疑的权力。
 [signal arg="set_flag:heard_parent_echo"]
+leave jizi_xuan
+leave xiali
 [end_timeline]
