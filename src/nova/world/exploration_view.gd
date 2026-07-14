@@ -323,6 +323,18 @@ func selected_choice_index() -> int:
 	return _selected_choice_index
 
 
+func release_action_focus() -> void:
+	for button in _choice_buttons:
+		button.release_focus()
+
+
+func has_focused_choice() -> bool:
+	for button in _choice_buttons:
+		if button.has_focus():
+			return true
+	return false
+
+
 func hotspot_markers_visible() -> bool:
 	return _show_hotspot_markers()
 

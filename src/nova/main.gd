@@ -296,6 +296,7 @@ func _audio_event_for_story_action(action_type: String, action_id: String) -> St
 
 func _show_cutscene(payload: Dictionary) -> void:
 	_latest_cutscene_payload = payload.duplicate(true)
+	exploration_view.release_action_focus()
 	var backdrop_path: String = director.visual_repository.get_backdrop_path(GameState.current_scene_id, GameState.current_location_id)
 	if audio_director != null:
 		audio_director.play_story_voice_for_text(GameState.current_scene_id, str(payload.get("text", "")))
@@ -1941,6 +1942,7 @@ func _run_keyboard_dialogic_smoke() -> void:
 	if menu_ok:
 		exploration_view._input(_action_event("ui_accept"))
 	_dialogic_runtime_started_with_dialogic = menu_ok and not vn_layer.visible and GameMode.current_mode == GameMode.VN_CUTSCENE
+	var exploration_focus_released: bool = not bool(exploration_view.has_focused_choice())
 
 	var dialogic_node := get_node_or_null("/root/Dialogic")
 	if _dialogic_runtime_started_with_dialogic and dialogic_node != null and dialogic_node.has_subsystem("Inputs"):
@@ -1957,6 +1959,7 @@ func _run_keyboard_dialogic_smoke() -> void:
 	var menu_restored: bool = GameMode.current_mode == GameMode.EXPLORATION and exploration_view.has_enabled_choice("inspect", "poster")
 	var ok: bool = menu_ok
 	ok = ok and _dialogic_runtime_started_with_dialogic
+	ok = ok and exploration_focus_released
 	ok = ok and _dialogic_runtime_finished
 	ok = ok and StoryFlags.has_flag("noticed_dark_window")
 	ok = ok and menu_restored
@@ -1966,9 +1969,10 @@ func _run_keyboard_dialogic_smoke() -> void:
 		DirAccess.make_dir_recursive_absolute(screenshot_path.get_base_dir())
 		var image := get_viewport().get_texture().get_image()
 		ok = image != null and image.save_png(screenshot_path) == OK
-	print("nova-keyboard-dialogic-smoke status=%s started=%s finished=%s flag=%s menu=%s advance=auto_skip screenshot=%s" % [
+	print("nova-keyboard-dialogic-smoke status=%s started=%s focus_released=%s finished=%s flag=%s menu=%s advance=auto_skip screenshot=%s" % [
 		"PASS" if ok else "FAIL",
 		str(_dialogic_runtime_started_with_dialogic),
+		str(exploration_focus_released),
 		str(_dialogic_runtime_finished),
 		str(StoryFlags.has_flag("noticed_dark_window")),
 		str(menu_restored),

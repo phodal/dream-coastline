@@ -1,5 +1,23 @@
 # Nova Live QA Results
 
+## 2026-07-14 First-Act Live Route Continuation
+
+- Resumed the isolated Nova QA save at `01-illiterate/mud_road` and observed
+  walkthrough steps 1-18 in the real Godot window through the third `write
+  name` action at the abandoned station.
+- Dialogic text advanced across mud road, refugee camp, forest chase, and
+  station actions; location transitions and combat resources remained visible.
+- The final Return on a Dialogic timeline could reach the still-focused action
+  button and reopen the first action. Nova now releases exploration action
+  focus before starting a cutscene; a live replay of Xiali's eight-line
+  timeline returned to the menu without reopening `inspect soldiers`.
+- The visible keyboard/Dialogic smoke reports `focus_released=true`, but the
+  runner still correctly fails it on the known macOS Godot 4.6.2
+  `ObjectDB::cleanup()` signal 11 after `status=PASS`.
+- Remaining first-act rows are steps 19-24. Visual follow-up is also required:
+  Xiali's dialogue portrait is a full character reference sheet, and Dialogic
+  warns that Xiaoyan's `default` portrait is invalid.
+
 ## 2026-06-23 Live Window Partial QA Refresh
 
 Commands:

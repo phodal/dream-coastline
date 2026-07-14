@@ -9,7 +9,8 @@ Current entrypoint: `res://src/nova/main.tscn`
 
 Manual QA progress:
 
-- 2026-06-23 partial live-window refresh covered title entry, first action Dialogic/text playback, pause/resume, pause save, return-to-title, and keyboard continue from title. It also completed the prologue live route to `01-illiterate/mud_road`; the complete 8-scene, 257-command live route is still not checked row-by-row.
+- 2026-06-23 partial live-window refresh covered title entry, first action Dialogic/text playback, pause/resume, pause save, return-to-title, and keyboard continue from title. It also completed the prologue live route to `01-illiterate/mud_road`.
+- 2026-07-14 resumed from an isolated Nova QA save and observed `01-illiterate` steps 1-18 through the live Godot window. The pass found and fixed final-Return action-menu input leakage, then confirmed the last Xiali line returns to the menu without reopening the first action. Steps 19-24 remain unobserved; Xiali still uses a full character reference sheet in dialogue, and Dialogic reports invalid `default` portraits for Xiaoyan.
 
 Recommended setup:
 
@@ -123,24 +124,24 @@ Live-window route:
 
 | Step | Live observed | Route-full evidence key | Command | Expected live-window observation |
 | ---: | --- | --- | --- | --- |
-| 1 | [ ] | `route-full #021` | `inspect phone` | `phone` dialogue/action resolves and any flags are reflected in status |
-| 2 | [ ] | `route-full #022` | `inspect sign` | `sign` dialogue/action resolves and any flags are reflected in status |
-| 3 | [ ] | `route-full #023` | `inspect city` | `city` dialogue/action resolves and any flags are reflected in status |
-| 4 | [ ] | `route-full #024` | `inspect pen` | `pen` dialogue/action resolves and any flags are reflected in status |
-| 5 | [ ] | `route-full #025` | `go camp` | location changes to `camp` and action menu regains focus |
-| 6 | [ ] | `route-full #026` | `inspect xiaoyan` | `xiaoyan` dialogue/action resolves and any flags are reflected in status |
-| 7 | [ ] | `route-full #027` | `inspect notice` | `notice` dialogue/action resolves and any flags are reflected in status |
-| 8 | [ ] | `route-full #028` | `inspect deer_tracks` | `deer_tracks` dialogue/action resolves and any flags are reflected in status |
-| 9 | [ ] | `route-full #029` | `go chase` | location changes to `chase` and action menu regains focus |
-| 10 | [ ] | `route-full #030` | `inspect soldiers` | `soldiers` dialogue/action resolves and any flags are reflected in status |
-| 11 | [ ] | `route-full #031` | `inspect gate` | `gate` dialogue/action resolves and any flags are reflected in status |
-| 12 | [ ] | `route-full #032` | `inspect xiali` | `xiali` dialogue/action resolves and any flags are reflected in status |
-| 13 | [ ] | `route-full #033` | `go station` | location changes to `station` and action menu regains focus |
-| 14 | [ ] | `route-full #034` | `inspect strokes` | `strokes` dialogue/action resolves and any flags are reflected in status |
-| 15 | [ ] | `route-full #035` | `inspect xiaoyan` | `xiaoyan` dialogue/action resolves and any flags are reflected in status |
-| 16 | [ ] | `route-full #036` | `write name` | combat action `write name` advances without losing input focus |
-| 17 | [ ] | `route-full #037` | `write name` | combat action `write name` advances without losing input focus |
-| 18 | [ ] | `route-full #038` | `write name` | combat action `write name` advances without losing input focus |
+| 1 | [x] | `route-full #021` | `inspect phone` | `phone` dialogue/action resolves and any flags are reflected in status |
+| 2 | [x] | `route-full #022` | `inspect sign` | `sign` dialogue/action resolves and any flags are reflected in status |
+| 3 | [x] | `route-full #023` | `inspect city` | `city` dialogue/action resolves and any flags are reflected in status |
+| 4 | [x] | `route-full #024` | `inspect pen` | `pen` dialogue/action resolves and any flags are reflected in status |
+| 5 | [x] | `route-full #025` | `go camp` | location changes to `camp` and action menu regains focus |
+| 6 | [x] | `route-full #026` | `inspect xiaoyan` | `xiaoyan` dialogue/action resolves and any flags are reflected in status |
+| 7 | [x] | `route-full #027` | `inspect notice` | `notice` dialogue/action resolves and any flags are reflected in status |
+| 8 | [x] | `route-full #028` | `inspect deer_tracks` | `deer_tracks` dialogue/action resolves and any flags are reflected in status |
+| 9 | [x] | `route-full #029` | `go chase` | location changes to `chase` and action menu regains focus |
+| 10 | [x] | `route-full #030` | `inspect soldiers` | `soldiers` dialogue/action resolves and any flags are reflected in status |
+| 11 | [x] | `route-full #031` | `inspect gate` | `gate` dialogue/action resolves and any flags are reflected in status |
+| 12 | [x] | `route-full #032` | `inspect xiali` | `xiali` dialogue/action resolves and any flags are reflected in status |
+| 13 | [x] | `route-full #033` | `go station` | location changes to `station` and action menu regains focus |
+| 14 | [x] | `route-full #034` | `inspect strokes` | `strokes` dialogue/action resolves and any flags are reflected in status |
+| 15 | [x] | `route-full #035` | `inspect xiaoyan` | `xiaoyan` dialogue/action resolves and any flags are reflected in status |
+| 16 | [x] | `route-full #036` | `write name` | combat action `write name` advances without losing input focus |
+| 17 | [x] | `route-full #037` | `write name` | combat action `write name` advances without losing input focus |
+| 18 | [x] | `route-full #038` | `write name` | combat action `write name` advances without losing input focus |
 | 19 | [ ] | `route-full #039` | `attack` | screen responds without input deadlock |
 | 20 | [ ] | `route-full #040` | `attack` | screen responds without input deadlock |
 | 21 | [ ] | `route-full #041` | `write name` | combat action `write name` advances without losing input focus |
@@ -150,8 +151,8 @@ Live-window route:
 
 Scene acceptance:
 
-- [ ] Scene starts from the expected location after previous scene completion.
-- [ ] Dialogic text can be advanced with Enter/Space or click when dialogue is active.
+- [x] Scene starts from the expected location after previous scene completion.
+- [x] Dialogic text can be advanced with Enter/Space or click when dialogue is active.
 - [ ] Action menu focus returns after each dialogue/action payload.
 - [ ] Pause, resume, save, and return-to-title do not corrupt the current scene.
 - [ ] Ending flag `defeated_nameless` is reached before moving to the next scene.
