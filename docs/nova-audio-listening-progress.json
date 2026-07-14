@@ -1,0 +1,12 @@
+{
+  "progress_notes": [],
+  "global_acceptance": {
+    "game_volume": false,
+    "music_and_action_mix": false,
+    "repetition_comfort": false,
+    "voice_direction": false,
+    "all_assets_reviewed": false
+  },
+  "scene_acceptance": {},
+  "asset_observations": {}
+}

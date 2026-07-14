@@ -67,7 +67,10 @@ the repo data is structurally wrong.
   VO planning coverage aligned with story JSON.
 - Run `tools/build_audio_listening_checklist.py --check` so generated music,
   ambience, SFX, voice samples, and action VO stay aligned with the final
-  human listening checklist.
+  human listening checklist. Persist listening results in
+  `docs/nova-audio-listening-progress.json`; the generated Markdown is not the
+  progress source, and full approval requires all 151 asset observations plus
+  every scene acceptance check.
 - Run `minimax-action-voice-dry-run` to check the MiniMax generator can build a
   selected playable-action VO job without calling the provider.
 - Run the headless Godot project-load check.

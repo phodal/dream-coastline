@@ -79,3 +79,4 @@
 - Dialogic autoload 只要初始化，Godot 退出就可能打印 `ObjectDB instances leaked` / `resources still in use`；玩家退出 gate 应检查 `status=PASS` 和 `Program crashed with signal`，不要把已知 autoload warning 和真实崩溃混为一谈。
 - macOS Godot 4.6.2 完成可见 Dialogic 播放后，即使先打印 `status=PASS` 仍可能在 `ObjectDB::cleanup()` signal 11；基线也可复现，`Dialogic.clear()` 后立即 `free()` 或延迟 `queue_free()` 都不能当作修复。
 - Godot runner 要全局扫描 `Program crashed with signal` / `CrashHandlerException`；不要只在单个 smoke 里手写 forbidden_output，否则可见 Dialogic 的假绿会漏掉。
+- `docs/nova-audio-listening-qa.md` 是生成文件；真人听审要写入 `docs/nova-audio-listening-progress.json`，拒绝项必须带问题/替换备注，且 151 项逐条观察和各场景验收完成后才能勾全局通过。

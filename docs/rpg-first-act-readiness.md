@@ -66,6 +66,9 @@ the gap between the playable 8-scene route and a public release candidate.
   balance, transitions, and emotional fit. Use
   `docs/nova-audio-listening-qa.md`, which covers the current 151 generated
   listening assets and keeps planned/disabled lines out of the required pass.
+  Persist results in `docs/nova-audio-listening-progress.json`; the generated
+  checklist cannot be marked complete without all asset observations and all
+  scene acceptance checks.
 - Controller support now has automated gamepad route and pause/save/title
   smokes through joypad events, but it still needs a physical-controller
   live-window pass before claiming controller-ready release quality.
