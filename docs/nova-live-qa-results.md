@@ -1,5 +1,18 @@
 # Nova Live QA Results
 
+## 2026-07-15 Second-Act Academy Start
+
+- Loaded an isolated save at `02-moqi-academy/academy` and observed
+  walkthrough steps 1-6 in the real Godot window.
+- The Wensu introduction and the baseline, name, door, fire, and stop lessons
+  each reached their final authored line. Every action returned to the academy
+  menu, which showed all six items completed.
+- This records 6/34 second-act command rows. Scene-specific pause/save/return,
+  the remaining locations, and `viewed_parent_record` remain unobserved.
+- Terminating the visible QA process reproduced the already tracked macOS Godot
+  4.6.2 Dialogic cleanup crash in `ObjectDB::cleanup()`; no route deadlock or
+  player-facing failure occurred before termination.
+
 ## 2026-07-15 First-Act Combat Completion
 
 - Rebuilt the isolated post-step-18 state at `01-illiterate/station` and

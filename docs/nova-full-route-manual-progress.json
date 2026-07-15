@@ -3,7 +3,8 @@
     "2026-06-23 partial live-window refresh covered title entry, first action Dialogic/text playback, pause/resume, pause save, return-to-title, and keyboard continue from title. It also completed the prologue live route to `01-illiterate/mud_road`.",
     "2026-07-14 resumed from an isolated Nova QA save and observed `01-illiterate` steps 1-18 through the live Godot window. The pass found and fixed final-Return action-menu input leakage, then confirmed the last Xiali line returns to the menu without reopening the first action. Steps 19-24 remain unobserved; Xiali still uses a full character reference sheet in dialogue, and Dialogic reports invalid `default` portraits for Xiaoyan.",
     "2026-07-15 used an isolated Nova save to replay Xiaoyan and Xiali dialogue in the live Godot window. Dedicated portraits now render without the Xiaoyan invalid-portrait warning or Xiali model-sheet panels; this did not add any command-row observations, and first-act steps 19-24 remain unobserved.",
-    "2026-07-15 resumed an isolated post-identify combat save and observed `01-illiterate` steps 19-24 in the live Godot window. The route covered name-lock loss and recovery, supply restoration, victory, broken-nameplate payoff, and automatic transition to `02-moqi-academy`; first-act pause/save/return remains a separate unobserved acceptance item."
+    "2026-07-15 resumed an isolated post-identify combat save and observed `01-illiterate` steps 19-24 in the live Godot window. The route covered name-lock loss and recovery, supply restoration, victory, broken-nameplate payoff, and automatic transition to `02-moqi-academy`; first-act pause/save/return remains a separate unobserved acceptance item.",
+    "2026-07-15 loaded an isolated `02-moqi-academy/academy` save and observed steps 1-6 in the live Godot window. Wensu, baseline, name, door, fire, and stop each advanced through their final line and returned to an action menu showing the completed item; second-act pause/save/return and ending remain unobserved."
   ],
   "global_acceptance": {
     "title_entry": true,
@@ -27,6 +28,11 @@
       "dialogic_advances": true,
       "action_menu_returns": true,
       "ending_flag_reached": true
+    },
+    "02-moqi-academy": {
+      "starts_expected_location": true,
+      "dialogic_advances": true,
+      "action_menu_returns": true
     }
   },
   "command_observations": {
@@ -77,6 +83,14 @@
       22,
       23,
       24
+    ],
+    "02-moqi-academy": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
     ]
   }
 }

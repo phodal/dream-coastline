@@ -13,6 +13,7 @@ Manual QA progress:
 - 2026-07-14 resumed from an isolated Nova QA save and observed `01-illiterate` steps 1-18 through the live Godot window. The pass found and fixed final-Return action-menu input leakage, then confirmed the last Xiali line returns to the menu without reopening the first action. Steps 19-24 remain unobserved; Xiali still uses a full character reference sheet in dialogue, and Dialogic reports invalid `default` portraits for Xiaoyan.
 - 2026-07-15 used an isolated Nova save to replay Xiaoyan and Xiali dialogue in the live Godot window. Dedicated portraits now render without the Xiaoyan invalid-portrait warning or Xiali model-sheet panels; this did not add any command-row observations, and first-act steps 19-24 remain unobserved.
 - 2026-07-15 resumed an isolated post-identify combat save and observed `01-illiterate` steps 19-24 in the live Godot window. The route covered name-lock loss and recovery, supply restoration, victory, broken-nameplate payoff, and automatic transition to `02-moqi-academy`; first-act pause/save/return remains a separate unobserved acceptance item.
+- 2026-07-15 loaded an isolated `02-moqi-academy/academy` save and observed steps 1-6 in the live Godot window. Wensu, baseline, name, door, fire, and stop each advanced through their final line and returned to an action menu showing the completed item; second-act pause/save/return and ending remain unobserved.
 
 Recommended setup:
 
@@ -189,12 +190,12 @@ Live-window route:
 
 | Step | Live observed | Route-full evidence key | Command | Expected live-window observation |
 | ---: | --- | --- | --- | --- |
-| 1 | [ ] | `route-full #045` | `inspect wensu` | `wensu` dialogue/action resolves and any flags are reflected in status |
-| 2 | [ ] | `route-full #046` | `inspect baseline` | `baseline` dialogue/action resolves and any flags are reflected in status |
-| 3 | [ ] | `route-full #047` | `inspect name` | `name` dialogue/action resolves and any flags are reflected in status |
-| 4 | [ ] | `route-full #048` | `inspect door` | `door` dialogue/action resolves and any flags are reflected in status |
-| 5 | [ ] | `route-full #049` | `inspect fire` | `fire` dialogue/action resolves and any flags are reflected in status |
-| 6 | [ ] | `route-full #050` | `inspect stop` | `stop` dialogue/action resolves and any flags are reflected in status |
+| 1 | [x] | `route-full #045` | `inspect wensu` | `wensu` dialogue/action resolves and any flags are reflected in status |
+| 2 | [x] | `route-full #046` | `inspect baseline` | `baseline` dialogue/action resolves and any flags are reflected in status |
+| 3 | [x] | `route-full #047` | `inspect name` | `name` dialogue/action resolves and any flags are reflected in status |
+| 4 | [x] | `route-full #048` | `inspect door` | `door` dialogue/action resolves and any flags are reflected in status |
+| 5 | [x] | `route-full #049` | `inspect fire` | `fire` dialogue/action resolves and any flags are reflected in status |
+| 6 | [x] | `route-full #050` | `inspect stop` | `stop` dialogue/action resolves and any flags are reflected in status |
 | 7 | [ ] | `route-full #051` | `go village` | location changes to `village` and action menu regains focus |
 | 8 | [ ] | `route-full #052` | `inspect well` | `well` dialogue/action resolves and any flags are reflected in status |
 | 9 | [ ] | `route-full #053` | `inspect first_failure` | `first_failure` dialogue/action resolves and any flags are reflected in status |
@@ -226,9 +227,9 @@ Live-window route:
 
 Scene acceptance:
 
-- [ ] Scene starts from the expected location after previous scene completion.
-- [ ] Dialogic text can be advanced with Enter/Space or click when dialogue is active.
-- [ ] Action menu focus returns after each dialogue/action payload.
+- [x] Scene starts from the expected location after previous scene completion.
+- [x] Dialogic text can be advanced with Enter/Space or click when dialogue is active.
+- [x] Action menu focus returns after each dialogue/action payload.
 - [ ] Pause, resume, save, and return-to-title do not corrupt the current scene.
 - [ ] Ending flag `viewed_parent_record` is reached before moving to the next scene.
 
