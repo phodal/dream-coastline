@@ -14,6 +14,7 @@ Manual QA progress:
 - 2026-07-15 used an isolated Nova save to replay Xiaoyan and Xiali dialogue in the live Godot window. Dedicated portraits now render without the Xiaoyan invalid-portrait warning or Xiali model-sheet panels; this did not add any command-row observations, and first-act steps 19-24 remain unobserved.
 - 2026-07-15 resumed an isolated post-identify combat save and observed `01-illiterate` steps 19-24 in the live Godot window. The route covered name-lock loss and recovery, supply restoration, victory, broken-nameplate payoff, and automatic transition to `02-moqi-academy`; first-act pause/save/return remains a separate unobserved acceptance item.
 - 2026-07-15 loaded an isolated `02-moqi-academy/academy` save and observed steps 1-6 in the live Godot window. Wensu, baseline, name, door, fire, and stop each advanced through their final line and returned to an action menu showing the completed item; second-act pause/save/return and ending remain unobserved.
+- 2026-07-15 continued the isolated second-act save through `02-moqi-academy` steps 7-16 in the live Godot window. The pass covered the border-village evidence, contract patrol, ordered stop/fire/name well repair, and transition to `archive`; archive actions and later route rows remain unobserved.
 
 Recommended setup:
 
@@ -196,16 +197,16 @@ Live-window route:
 | 4 | [x] | `route-full #048` | `inspect door` | `door` dialogue/action resolves and any flags are reflected in status |
 | 5 | [x] | `route-full #049` | `inspect fire` | `fire` dialogue/action resolves and any flags are reflected in status |
 | 6 | [x] | `route-full #050` | `inspect stop` | `stop` dialogue/action resolves and any flags are reflected in status |
-| 7 | [ ] | `route-full #051` | `go village` | location changes to `village` and action menu regains focus |
-| 8 | [ ] | `route-full #052` | `inspect well` | `well` dialogue/action resolves and any flags are reflected in status |
-| 9 | [ ] | `route-full #053` | `inspect first_failure` | `first_failure` dialogue/action resolves and any flags are reflected in status |
-| 10 | [ ] | `route-full #054` | `inspect ink_well_ray` | `ink_well_ray` dialogue/action resolves and any flags are reflected in status |
-| 11 | [ ] | `route-full #055` | `inspect villagers` | `villagers` dialogue/action resolves and any flags are reflected in status |
-| 12 | [ ] | `route-full #056` | `engage contract_patrol` | encounter `contract_patrol` starts and resolves through the authored branch |
-| 13 | [ ] | `route-full #057` | `cast stop` | glyph `stop` resolves with readable feedback |
-| 14 | [ ] | `route-full #058` | `cast fire` | glyph `fire` resolves with readable feedback |
-| 15 | [ ] | `route-full #059` | `cast name` | glyph `name` resolves with readable feedback |
-| 16 | [ ] | `route-full #060` | `go archive` | location changes to `archive` and action menu regains focus |
+| 7 | [x] | `route-full #051` | `go village` | location changes to `village` and action menu regains focus |
+| 8 | [x] | `route-full #052` | `inspect well` | `well` dialogue/action resolves and any flags are reflected in status |
+| 9 | [x] | `route-full #053` | `inspect first_failure` | `first_failure` dialogue/action resolves and any flags are reflected in status |
+| 10 | [x] | `route-full #054` | `inspect ink_well_ray` | `ink_well_ray` dialogue/action resolves and any flags are reflected in status |
+| 11 | [x] | `route-full #055` | `inspect villagers` | `villagers` dialogue/action resolves and any flags are reflected in status |
+| 12 | [x] | `route-full #056` | `engage contract_patrol` | encounter `contract_patrol` starts and resolves through the authored branch |
+| 13 | [x] | `route-full #057` | `cast stop` | glyph `stop` resolves with readable feedback |
+| 14 | [x] | `route-full #058` | `cast fire` | glyph `fire` resolves with readable feedback |
+| 15 | [x] | `route-full #059` | `cast name` | glyph `name` resolves with readable feedback |
+| 16 | [x] | `route-full #060` | `go archive` | location changes to `archive` and action menu regains focus |
 | 17 | [ ] | `route-full #061` | `inspect layers` | `layers` dialogue/action resolves and any flags are reflected in status |
 | 18 | [ ] | `route-full #062` | `inspect margins` | `margins` dialogue/action resolves and any flags are reflected in status |
 | 19 | [ ] | `route-full #063` | `inspect cabinet` | `cabinet` dialogue/action resolves and any flags are reflected in status |

@@ -3,12 +3,16 @@
 ## 2026-07-15 Second-Act Academy Start
 
 - Loaded an isolated save at `02-moqi-academy/academy` and observed
-  walkthrough steps 1-6 in the real Godot window.
+  walkthrough steps 1-16 in the real Godot window.
 - The Wensu introduction and the baseline, name, door, fire, and stop lessons
   each reached their final authored line. Every action returned to the academy
   menu, which showed all six items completed.
-- This records 6/34 second-act command rows. Scene-specific pause/save/return,
-  the remaining locations, and `viewed_parent_record` remain unobserved.
+- The route then moved to the border village and completed the broken-well
+  inspection, first-failure review, ink-well-ray feedback, villagers, contract
+  patrol, and the ordered stop/fire/name repair chain. The completed village
+  menu led to `archive` with focus restored.
+- This records 16/34 second-act command rows. Scene-specific pause/save/return,
+  archive and later actions, and `viewed_parent_record` remain unobserved.
 - Terminating the visible QA process reproduced the already tracked macOS Godot
   4.6.2 Dialogic cleanup crash in `ObjectDB::cleanup()`; no route deadlock or
   player-facing failure occurred before termination.
