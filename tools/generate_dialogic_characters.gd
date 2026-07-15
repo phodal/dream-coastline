@@ -28,7 +28,7 @@ const CHARACTERS := {
 		"default_portrait": "default",
 		"portraits": {
 			"default": {
-				"image": "res://assets/characters/main/xiali/model_sheet.png",
+				"image": "res://assets/characters/main/xiali/portrait.png",
 				"offset": Vector2(0, 0),
 				"scene": DEFAULT_PORTRAIT_SCENE,
 			},
@@ -67,8 +67,14 @@ const CHARACTERS := {
 		"nicknames": ["xiaoyan"],
 		"color": Color(0.86, 0.78, 0.62, 1),
 		"description": "Border-camp child who reveals the human cost of name loss.",
-		"default_portrait": "",
-		"portraits": {},
+		"default_portrait": "default",
+		"portraits": {
+			"default": {
+				"image": "res://assets/characters/main/xiaoyan/portrait.png",
+				"offset": Vector2(0, 0),
+				"scene": DEFAULT_PORTRAIT_SCENE,
+			},
+		},
 	},
 }
 

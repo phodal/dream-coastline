@@ -81,3 +81,4 @@
 - Godot runner 要全局扫描 `Program crashed with signal` / `CrashHandlerException`；不要只在单个 smoke 里手写 forbidden_output，否则可见 Dialogic 的假绿会漏掉。
 - `docs/nova-audio-listening-qa.md` 是生成文件；真人听审要写入 `docs/nova-audio-listening-progress.json`，拒绝项必须带问题/替换备注，且 151 项逐条观察和各场景验收完成后才能勾全局通过。
 - Dialogic 最后一行的 Enter/Space 可能穿透到仍持有焦点的探索按钮并重复打开默认行动；开始 cutscene 时要释放行动菜单焦点，并用可见 Dialogic smoke 检查 `focus_released=true`。
+- Imagen 生成的“透明背景”可能只是烘进 RGB 的棋盘格；角色头像入库前要检查 `hasAlpha`，不透明时改成与 Dialogic 匹配的纯色纸纹背景，不能把棋盘格直接带进游戏。

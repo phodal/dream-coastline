@@ -12,7 +12,7 @@
 &"offset": Vector2(0, 0),
 &"portraits": {
 "default": {
-"image": "res://assets/characters/main/xiali/model_sheet.png",
+"image": "res://assets/characters/main/xiali/portrait.png",
 "offset": Vector2(0, 0),
 "scene": "res://addons/dialogic/Modules/Character/default_portrait.tscn"
 }

@@ -14,10 +14,10 @@ const MoqiText := preload("res://src/nova/ui/moqi_text.gd")
 const CHARACTER_APPEARANCES := {
 	"jizi_xuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png", "dialogic_id": "jizi_xuan", "portrait": "phone"},
 	"jizixuan": {"name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png", "dialogic_id": "jizi_xuan", "portrait": "phone"},
-	"xiali": {"name": "夏离", "path": "res://assets/characters/main/xiali/model_sheet.png", "dialogic_id": "xiali", "portrait": "default"},
+	"xiali": {"name": "夏离", "path": "res://assets/characters/main/xiali/portrait.png", "dialogic_id": "xiali", "portrait": "default"},
 	"wensu": {"name": "闻素", "path": "res://assets/characters/main/wensu/model_sheet.png", "dialogic_id": "wensu", "portrait": "default"},
 	"atang": {"name": "阿棠", "path": "res://assets/characters/main/atang/model_sheet.png", "dialogic_id": "atang", "portrait": "default"},
-	"xiaoyan": {"name": "小砚", "path": "", "dialogic_id": "xiaoyan", "portrait": "default"},
+	"xiaoyan": {"name": "小砚", "path": "res://assets/characters/main/xiaoyan/portrait.png", "dialogic_id": "xiaoyan", "portrait": "default"},
 }
 
 var story_repository = StoryRepository.new()

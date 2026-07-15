@@ -1,5 +1,16 @@
 # Nova Live QA Results
 
+## 2026-07-15 First-Act Portrait Follow-Up
+
+- Used an isolated `/tmp` Nova save to replay `inspect xiaoyan` at the refugee
+  camp and `inspect xiali` on the forest chase route in the real Godot window.
+- Xiaoyan now renders a dedicated child portrait without Dialogic's invalid
+  `default` portrait warning; Xiali now renders a dedicated portrait instead
+  of the full character model sheet. Both portraits use a dark ink-paper
+  background and remain clear of the dialogue text box.
+- This pass verifies the two portrait defects only. It does not mark remaining
+  first-act walkthrough steps 19-24 or any other command row as observed.
+
 ## 2026-07-14 First-Act Live Route Continuation
 
 - Resumed the isolated Nova QA save at `01-illiterate/mud_road` and observed

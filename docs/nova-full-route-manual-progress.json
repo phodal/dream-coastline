@@ -1,7 +1,8 @@
 {
   "progress_notes": [
     "2026-06-23 partial live-window refresh covered title entry, first action Dialogic/text playback, pause/resume, pause save, return-to-title, and keyboard continue from title. It also completed the prologue live route to `01-illiterate/mud_road`.",
-    "2026-07-14 resumed from an isolated Nova QA save and observed `01-illiterate` steps 1-18 through the live Godot window. The pass found and fixed final-Return action-menu input leakage, then confirmed the last Xiali line returns to the menu without reopening the first action. Steps 19-24 remain unobserved; Xiali still uses a full character reference sheet in dialogue, and Dialogic reports invalid `default` portraits for Xiaoyan."
+    "2026-07-14 resumed from an isolated Nova QA save and observed `01-illiterate` steps 1-18 through the live Godot window. The pass found and fixed final-Return action-menu input leakage, then confirmed the last Xiali line returns to the menu without reopening the first action. Steps 19-24 remain unobserved; Xiali still uses a full character reference sheet in dialogue, and Dialogic reports invalid `default` portraits for Xiaoyan.",
+    "2026-07-15 used an isolated Nova save to replay Xiaoyan and Xiali dialogue in the live Godot window. Dedicated portraits now render without the Xiaoyan invalid-portrait warning or Xiali model-sheet panels; this did not add any command-row observations, and first-act steps 19-24 remain unobserved."
   ],
   "global_acceptance": {
     "title_entry": true,

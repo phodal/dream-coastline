@@ -4,12 +4,18 @@
 &"_translation_id": "",
 &"color": Color(0.86, 0.78, 0.62, 1),
 &"custom_info": {},
-&"default_portrait": "",
+&"default_portrait": "default",
 &"description": "Border-camp child who reveals the human cost of name loss.",
 &"display_name": "小砚",
 &"mirror": false,
 &"nicknames": ["xiaoyan"],
 &"offset": Vector2(0, 0),
-&"portraits": {},
+&"portraits": {
+"default": {
+"image": "res://assets/characters/main/xiaoyan/portrait.png",
+"offset": Vector2(0, 0),
+"scene": "res://addons/dialogic/Modules/Character/default_portrait.tscn"
+}
+},
 &"scale": 1.0
 }

@@ -1864,7 +1864,7 @@ func _run_dialogic_bridge_smoke() -> void:
 		],
 		"characters": [
 			{"id": "jizi_xuan", "name": "纪子轩", "path": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png", "dialogic_id": "jizi_xuan", "portrait": "phone"},
-			{"id": "xiali", "name": "夏离", "path": "res://assets/characters/main/xiali/model_sheet.png", "dialogic_id": "xiali", "portrait": "default"},
+			{"id": "xiali", "name": "夏离", "path": "res://assets/characters/main/xiali/portrait.png", "dialogic_id": "xiali", "portrait": "default"},
 		],
 	}, backdrop_path)
 	ok = ok and multi_ok
@@ -2018,20 +2018,42 @@ func _run_asset_smoke() -> void:
 		"res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png",
 		"res://assets/characters/main/jizi_xuan/model_sheet.png",
 		"res://assets/characters/main/xiali/model_sheet.png",
+		"res://assets/characters/main/xiali/portrait.png",
 		"res://assets/characters/main/wensu/model_sheet.png",
 		"res://assets/characters/main/atang/model_sheet.png",
+		"res://assets/characters/main/xiaoyan/portrait.png",
 	]
 	var ok := true
 	for path in required_files:
 		ok = ok and FileAccess.file_exists(path)
+	var portrait_contracts := {
+		"jizi_xuan": {"portrait": "phone", "image": "res://assets/characters/main/jizi_xuan/portrait_xianjian_phone.png"},
+		"xiali": {"portrait": "default", "image": "res://assets/characters/main/xiali/portrait.png"},
+		"wensu": {"portrait": "default", "image": "res://assets/characters/main/wensu/model_sheet.png"},
+		"atang": {"portrait": "default", "image": "res://assets/characters/main/atang/model_sheet.png"},
+		"xiaoyan": {"portrait": "default", "image": "res://assets/characters/main/xiaoyan/portrait.png"},
+	}
+	var portrait_contracts_ok := true
+	for character_id in portrait_contracts:
+		var contract: Dictionary = portrait_contracts[character_id]
+		var character = load("res://dialogic/characters/%s.dch" % character_id)
+		var portrait_id: String = str(contract.get("portrait", ""))
+		var portraits: Dictionary = character.portraits if character != null else {}
+		var portrait: Dictionary = portraits.get(portrait_id, {})
+		portrait_contracts_ok = portrait_contracts_ok and character != null
+		portrait_contracts_ok = portrait_contracts_ok and str(character.default_portrait if character != null else "") == portrait_id
+		portrait_contracts_ok = portrait_contracts_ok and str(portrait.get("image", "")) == str(contract.get("image", ""))
+		portrait_contracts_ok = portrait_contracts_ok and FileAccess.file_exists(str(contract.get("image", "")))
+	ok = ok and portrait_contracts_ok
 	ok = ok and audio_director != null and audio_director.verify_streams()
 	var coverage: Dictionary = audio_director.runtime_audio_coverage() if audio_director != null else {}
 	ok = ok and int(coverage.get("voice_lines", 0)) >= 28
 	ok = ok and int(coverage.get("event_bindings", 0)) >= 60
 	ok = ok and int(coverage.get("music_locations", 0)) >= 3
-	print("nova-assets-smoke status=%s files=%s audio=%s voices=%d events=%d music_locations=%d" % [
+	print("nova-assets-smoke status=%s files=%s portraits=%s audio=%s voices=%d events=%d music_locations=%d" % [
 		"PASS" if ok else "FAIL",
 		required_files.size(),
+		str(portrait_contracts_ok),
 		str(audio_director != null),
 		int(coverage.get("voice_lines", 0)),
 		int(coverage.get("event_bindings", 0)),
