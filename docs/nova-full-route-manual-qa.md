@@ -12,6 +12,7 @@ Manual QA progress:
 - 2026-06-23 partial live-window refresh covered title entry, first action Dialogic/text playback, pause/resume, pause save, return-to-title, and keyboard continue from title. It also completed the prologue live route to `01-illiterate/mud_road`.
 - 2026-07-14 resumed from an isolated Nova QA save and observed `01-illiterate` steps 1-18 through the live Godot window. The pass found and fixed final-Return action-menu input leakage, then confirmed the last Xiali line returns to the menu without reopening the first action. Steps 19-24 remain unobserved; Xiali still uses a full character reference sheet in dialogue, and Dialogic reports invalid `default` portraits for Xiaoyan.
 - 2026-07-15 used an isolated Nova save to replay Xiaoyan and Xiali dialogue in the live Godot window. Dedicated portraits now render without the Xiaoyan invalid-portrait warning or Xiali model-sheet panels; this did not add any command-row observations, and first-act steps 19-24 remain unobserved.
+- 2026-07-15 resumed an isolated post-identify combat save and observed `01-illiterate` steps 19-24 in the live Godot window. The route covered name-lock loss and recovery, supply restoration, victory, broken-nameplate payoff, and automatic transition to `02-moqi-academy`; first-act pause/save/return remains a separate unobserved acceptance item.
 
 Recommended setup:
 
@@ -143,20 +144,20 @@ Live-window route:
 | 16 | [x] | `route-full #036` | `write name` | combat action `write name` advances without losing input focus |
 | 17 | [x] | `route-full #037` | `write name` | combat action `write name` advances without losing input focus |
 | 18 | [x] | `route-full #038` | `write name` | combat action `write name` advances without losing input focus |
-| 19 | [ ] | `route-full #039` | `attack` | screen responds without input deadlock |
-| 20 | [ ] | `route-full #040` | `attack` | screen responds without input deadlock |
-| 21 | [ ] | `route-full #041` | `write name` | combat action `write name` advances without losing input focus |
-| 22 | [ ] | `route-full #042` | `attack` | screen responds without input deadlock |
-| 23 | [ ] | `route-full #043` | `attack` | screen responds without input deadlock |
-| 24 | [ ] | `route-full #044` | `inspect broken_nameplate` | `broken_nameplate` dialogue/action resolves and any flags are reflected in status |
+| 19 | [x] | `route-full #039` | `attack` | screen responds without input deadlock |
+| 20 | [x] | `route-full #040` | `attack` | screen responds without input deadlock |
+| 21 | [x] | `route-full #041` | `write name` | combat action `write name` advances without losing input focus |
+| 22 | [x] | `route-full #042` | `attack` | screen responds without input deadlock |
+| 23 | [x] | `route-full #043` | `attack` | screen responds without input deadlock |
+| 24 | [x] | `route-full #044` | `inspect broken_nameplate` | `broken_nameplate` dialogue/action resolves and any flags are reflected in status |
 
 Scene acceptance:
 
 - [x] Scene starts from the expected location after previous scene completion.
 - [x] Dialogic text can be advanced with Enter/Space or click when dialogue is active.
-- [ ] Action menu focus returns after each dialogue/action payload.
+- [x] Action menu focus returns after each dialogue/action payload.
 - [ ] Pause, resume, save, and return-to-title do not corrupt the current scene.
-- [ ] Ending flag `defeated_nameless` is reached before moving to the next scene.
+- [x] Ending flag `defeated_nameless` is reached before moving to the next scene.
 
 ## 02-moqi-academy - 第二幕：墨颀书院
 

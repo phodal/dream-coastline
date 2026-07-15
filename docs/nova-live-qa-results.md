@@ -1,5 +1,19 @@
 # Nova Live QA Results
 
+## 2026-07-15 First-Act Combat Completion
+
+- Rebuilt the isolated post-step-18 state at `01-illiterate/station` and
+  observed walkthrough steps 19-24 in the real Godot window.
+- The first two attacks reduced enemy HP from 4 to 2 and removed the name lock
+  on schedule. Re-identifying restored `无名兽`; the next attack consumed one
+  supply at zero player HP and restored the player from 1/5 to 5/5.
+- The final attack reached `defeated_nameless`, unlocked the broken nameplate,
+  and returned focus after the 17-line victory timeline. Inspecting the
+  nameplate reached `inspected_broken_nameplate` and transitioned to
+  `02-moqi-academy/academy` without a deadlock.
+- First-act command rows are now 24/24 observed. The scene-specific
+  pause/save/return acceptance item remains unobserved and is not checked.
+
 ## 2026-07-15 First-Act Portrait Follow-Up
 
 - Used an isolated `/tmp` Nova save to replay `inspect xiaoyan` at the refugee
